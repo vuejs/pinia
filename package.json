@@ -6,7 +6,7 @@
   "module": "dist/pinia.esm.js",
   "unpkg": "dist/pinia.js",
   "browser": "dist/pinia.esm.js",
-  "types": "dist/pinia/src",
+  "types": "dist/src",
   "sideEffects": false,
   "author": {
     "name": "Eduardo San Martin Morote",
@@ -24,9 +24,13 @@
   },
   "files": [
     "dist",
+    "dist/src",
     "LICENSE",
     "README.md"
   ],
+  "tsd": {
+    "directory": "__tests__/dts"
+  },
   "keywords": [],
   "license": "MIT",
   "devDependencies": {
@@ -50,6 +54,7 @@
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-typescript2": "^0.25.2",
     "ts-jest": "^24.1.0",
+    "tsd": "^0.11.0",
     "typescript": "^3.6.3",
     "vue": "^2.6.10"
   },
