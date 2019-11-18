@@ -6,5 +6,4 @@ yarn-error.log
 coverage.lcov
 dist
 package-lock.json
-yarn.lock
 .DS_Store
