@@ -13,6 +13,8 @@ module.exports = {
   },
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-namespace': 'off',
+    '@typescript-eslint/ban-ts-ignore': 'off'
   },
   // "env": {
   //   "jest": true
