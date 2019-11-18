@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "noEmit": true,
+    "strict": true,
+    "composite": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+
+    "rootDir": ".",
+    "baseUrl": "."
+  },
+  "include": ["src", "__tests__"]
+}

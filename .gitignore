@@ -1,0 +1,10 @@
+node_modules
+coverage
+npm-debug.log
+yarn-error.log
+.nyc_output
+coverage.lcov
+dist
+package-lock.json
+yarn.lock
+.DS_Store

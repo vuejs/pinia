@@ -1,0 +1,29 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - dependencies-cache-v1-{{ checksum "yarn.lock" }}
+            - dependencies-cache-v1-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-cache-v1-{{ checksum "yarn.lock" }}
+
+      - run: yarn run test
+
+      - run:
+          name: Send code coverage
+          command: yarn codecov

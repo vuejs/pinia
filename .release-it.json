@@ -1,0 +1,15 @@
+{
+  "src": {
+    "tagName": "v%s",
+    "commitMessage": "chore(release): %s"
+  },
+  "github": {
+    "release": true,
+    "releaseName": "🚀 Release %s",
+    "tokenRef": "GITHUB_TOKEN"
+  },
+  "npm": {
+    "publish": true
+  },
+  "changelogCommand": "git log --pretty=format:'* %s (%h)' [REV_RANGE]"
+}
