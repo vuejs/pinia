@@ -43,11 +43,22 @@ function innerPatch<T extends StateTree>(
   return target
 }
 
-export function createStore<S extends StateTree>(
-  name: string,
+/**
+ * NOTE: by allowing users to name stores correctly, they can nest them the way
+ * they want, no? like user/cart
+ */
+
+/**
+ * Creates a store instance
+ * @param id unique identifier of the store, like a name. eg: main, cart, user
+ * @param initialState initial state applied to the store, Must be correctly typed to infer typings
+ */
+
+export function createStore<Id extends string, S extends StateTree>(
+  id: Id,
   initialState: S
   // methods: Record<string | symbol, StoreMethod>
-): Store<S> {
+): Store<Id, S> {
   const { state, replaceState } = createState(initialState)
 
   let isListening = true
@@ -58,7 +69,7 @@ export function createStore<S extends StateTree>(
     state => {
       if (isListening) {
         subscriptions.forEach(callback => {
-          callback({ storeName: name, type: '🧩 in place', payload: {} }, state)
+          callback({ storeName: id, type: '🧩 in place', payload: {} }, state)
         })
       }
     },
@@ -74,7 +85,7 @@ export function createStore<S extends StateTree>(
     isListening = true
     subscriptions.forEach(callback => {
       callback(
-        { storeName: name, type: '⤵️ patch', payload: partialState },
+        { storeName: id, type: '⤵️ patch', payload: partialState },
         state.value
       )
     })
@@ -85,8 +96,8 @@ export function createStore<S extends StateTree>(
     // TODO: return function to remove subscription
   }
 
-  const store: Store<S> = {
-    name,
+  const store: Store<Id, S> = {
+    id,
     // it is replaced below by a getter
     state: state.value,
 
@@ -108,6 +119,28 @@ export function createStore<S extends StateTree>(
   devtoolPlugin(store)
 
   return store
+}
+
+function makeStore<Id extends string, S extends StateTree>(
+  id: Id,
+  initialState: S
+) {
+  let store: Store<Id, S> | undefined
+
+  function useStore(): Store<Id, S> {
+    if (!store) store = createStore(id, initialState)
+
+    return store
+  }
+
+  function clear(): void {
+    store = undefined
+  }
+
+  return {
+    useStore,
+    clear,
+  }
 }
 
 // export const store = createStore('main', initialState)

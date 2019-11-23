@@ -29,7 +29,7 @@ interface RootState {
 
 let rootStore: RootState
 
-export function devtoolPlugin<S extends StateTree>(store: Store<S>) {
+export function devtoolPlugin(store: Store<string, StateTree>) {
   if (!devtoolHook) return
 
   if (!rootStore) {
@@ -57,26 +57,26 @@ export function devtoolPlugin<S extends StateTree>(store: Store<S>) {
     devtoolHook.emit('vuex:init', rootStore)
   }
 
-  rootStore.state[store.name] = store.state
+  rootStore.state[store.id] = store.state
 
   // tell the devtools we added a module
-  rootStore.registerModule(store.name, store)
+  rootStore.registerModule(store.id, store)
 
-  Object.defineProperty(rootStore.state, store.name, {
+  Object.defineProperty(rootStore.state, store.id, {
     get: () => store.state,
     set: state => store.replaceState(state),
   })
 
   // Vue.set(rootStore.state, store.name, store.state)
   // the trailing slash is removed by the devtools
-  rootStore._modulesNamespaceMap[store.name + '/'] = true
+  rootStore._modulesNamespaceMap[store.id + '/'] = true
 
   devtoolHook.on('vuex:travel-to-state', targetState => {
-    store.replaceState(targetState[store.name] as S)
+    store.replaceState(targetState[store.id])
   })
 
   store.subscribe((mutation, state) => {
-    rootStore.state[store.name] = state
+    rootStore.state[store.id] = state
     devtoolHook.emit(
       'vuex:mutation',
       {

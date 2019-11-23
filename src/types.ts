@@ -50,18 +50,39 @@ export type SubscriptionCallback<S> = (
   state: S
 ) => void
 
-export interface Store<S extends StateTree> {
-  name: string
+export interface Store<Id extends string, S extends StateTree> {
+  /**
+   * Unique identifier of the store
+   */
+  id: Id
 
+  /**
+   * State of the Store
+   */
   state: S
+  /**
+   * Applies a state patch to current state. Allows passing nested values
+   * @param partialState patch to apply to the state
+   */
   patch(partialState: DeepPartial<S>): void
 
+  /**
+   * Replaces current state with a completely new version.
+   * @param newState state object to replace current state
+   */
   replaceState(newState: S): void
+  /**
+   * Setups a callback to be called whenever the state changes.
+   * @param callback callback that is called whenever the state changes
+   */
   subscribe(callback: SubscriptionCallback<S>): void
 }
 
 export interface DevtoolHook {
-  on(event: string, callback: (targetState: StateTree) => void): void
+  on(
+    event: string,
+    callback: (targetState: Record<string, StateTree>) => void
+  ): void
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   emit(event: string, ...payload: any[]): void
 }
