@@ -22,21 +22,14 @@ const banner = `/*!
 
 const exportName = pascalcase(pkg.name)
 
-function createEntry(
-  {
-    format, // Rollup format (iife, umd, cjs, es)
-    external, // Rollup external option
-    input = 'src/index.ts', // entry point
-    env = 'development', // NODE_ENV variable
-    minify = false,
-    isBrowser = false, // produce a browser module version or not
-  } = {
-    input: 'src/index.ts',
-    env: 'development',
-    minify: false,
-    isBrowser: false,
-  }
-) {
+function createEntry({
+  format, // Rollup format (iife, umd, cjs, es)
+  external = ['vue', '@vue/composition-api'],
+  input = 'src/index.ts', // entry point
+  env = 'development', // NODE_ENV variable
+  minify = false,
+  isBrowser = false, // produce a browser module version or not
+}) {
   // force production mode when minifying
   if (minify) env = 'production'
 
@@ -72,6 +65,9 @@ function createEntry(
     config.plugins.push(resolve(), commonjs())
   } else {
     config.external = external
+    config.globals = {
+      '@vue/composition-api': 'VueCompositionApi',
+    }
   }
 
   config.plugins.push(

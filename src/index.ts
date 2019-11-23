@@ -109,27 +109,39 @@ export function createStore<Id extends string, S extends StateTree>(
   return store
 }
 
-function makeStore<Id extends string, S extends StateTree>(
-  id: Id,
-  buildState: () => S
-) {
-  let store: Store<Id, S> | undefined
+/**
+ * The api needs more work we must be able to use the store easily in any
+ * function by calling `useStore` to get the store Instance and we also need to
+ * be able to reset the store instance between requests on the server
+ */
 
-  function useStore(): Store<Id, S> {
-    if (!store) store = createStore(id, buildState)
+/**
+ *
+ * @param id id of the store we are creating
+ * @param buildState function that returns a state
+ */
 
-    return store
-  }
+// function makeStore<Id extends string, S extends StateTree>(
+//   id: Id,
+//   buildState: () => S
+// ) {
+//   let store: Store<Id, S> | undefined
 
-  function clear(): void {
-    store = undefined
-  }
+//   function useStore(): Store<Id, S> {
+//     if (!store) store = createStore(id, buildState)
 
-  return {
-    useStore,
-    clear,
-  }
-}
+//     return store
+//   }
+
+//   function clear(): void {
+//     store = undefined
+//   }
+
+//   return {
+//     useStore,
+//     clear,
+//   }
+// }
 
 // export const store = createStore('main', initialState)
 // export const cartStore = createStore('cart', {
