@@ -9,21 +9,6 @@ import {
 } from './types'
 import { devtoolPlugin } from './devtools'
 
-function createState<S extends StateTree>(initialState: S) {
-  const state: Ref<S> = ref(initialState)
-
-  // type State = UnwrapRef<typeof state>
-
-  function replaceState(newState: S) {
-    state.value = newState
-  }
-
-  return {
-    state,
-    replaceState,
-  }
-}
-
 function innerPatch<T extends StateTree>(
   target: T,
   patchToApply: DeepPartial<T>
@@ -56,10 +41,13 @@ function innerPatch<T extends StateTree>(
 
 export function createStore<Id extends string, S extends StateTree>(
   id: Id,
-  initialState: S
+  buildState: () => S
   // methods: Record<string | symbol, StoreMethod>
 ): Store<Id, S> {
-  const { state, replaceState } = createState(initialState)
+  const state: Ref<S> = ref(buildState())
+  function replaceState(newState: S) {
+    state.value = newState
+  }
 
   let isListening = true
   const subscriptions: SubscriptionCallback<S>[] = []
@@ -123,12 +111,12 @@ export function createStore<Id extends string, S extends StateTree>(
 
 function makeStore<Id extends string, S extends StateTree>(
   id: Id,
-  initialState: S
+  buildState: () => S
 ) {
   let store: Store<Id, S> | undefined
 
   function useStore(): Store<Id, S> {
-    if (!store) store = createStore(id, initialState)
+    if (!store) store = createStore(id, buildState)
 
     return store
   }
