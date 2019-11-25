@@ -11,6 +11,8 @@ export function createApp() {
   clear()
   const store = useStore()
 
+  store.state.counter++
+
   // create the app instance, injecting both the router and the store
   const app = new Vue({
     render: h => h(App),
