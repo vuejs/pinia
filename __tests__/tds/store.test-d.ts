@@ -1,6 +1,10 @@
 import { createStore } from '../../src'
-import { expectType } from 'tsd'
+import { expectType, expectError } from 'tsd'
 
-expectType<{ a: 'on' | 'off' }>(
-  createStore('name', { a: 'on' as 'on' | 'off' }).state
-)
+const store = createStore('name', () => ({ a: 'on' as 'on' | 'off' }), {
+  upper: state => state.a.toUpperCase(),
+})
+
+expectType<{ a: 'on' | 'off' }>(store.state)
+
+expectError(() => store.nonExistant)

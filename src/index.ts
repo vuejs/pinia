@@ -54,7 +54,8 @@ export function createStore<
 >(
   id: Id,
   buildState: () => S,
-  getters: G
+  // @ts-ignore an empty object is valid for Record
+  getters: G = {}
   // methods: Record<string | symbol, StoreMethod>
 ): CombinedStore<Id, S, G> {
   const state: Ref<S> = ref(buildState())
