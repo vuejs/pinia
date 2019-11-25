@@ -121,27 +121,27 @@ export function createStore<Id extends string, S extends StateTree>(
  * @param buildState function that returns a state
  */
 
-// function makeStore<Id extends string, S extends StateTree>(
-//   id: Id,
-//   buildState: () => S
-// ) {
-//   let store: Store<Id, S> | undefined
+export function makeStore<Id extends string, S extends StateTree>(
+  id: Id,
+  buildState: () => S
+) {
+  let store: Store<Id, S> | undefined
 
-//   function useStore(): Store<Id, S> {
-//     if (!store) store = createStore(id, buildState)
+  function useStore(): Store<Id, S> {
+    if (!store) store = createStore(id, buildState)
 
-//     return store
-//   }
+    return store
+  }
 
-//   function clear(): void {
-//     store = undefined
-//   }
+  function clear(): void {
+    store = undefined
+  }
 
-//   return {
-//     useStore,
-//     clear,
-//   }
-// }
+  return {
+    useStore,
+    clear,
+  }
+}
 
 // export const store = createStore('main', initialState)
 // export const cartStore = createStore('cart', {
