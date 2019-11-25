@@ -154,7 +154,12 @@ export function makeStore<
   Id extends string,
   S extends StateTree,
   G extends Record<string, StoreGetter<S>>
->(id: Id, buildState: () => S, getters: G) {
+>(
+  id: Id,
+  buildState: () => S,
+  // @ts-ignore
+  getters: G = {}
+) {
   let store: CombinedStore<Id, S, G> | undefined
 
   function useStore(): CombinedStore<Id, S, G> {

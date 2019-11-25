@@ -6,7 +6,6 @@ export const userStore = makeStore(
     name: 'Eduardo',
     isAdmin: true as boolean,
   }),
-  {},
   {}
 )
 

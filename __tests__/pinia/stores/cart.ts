@@ -19,8 +19,7 @@ export const cartStore = makeStore(
 
         return items
       }, [] as { name: string; amount: number }[]),
-  },
-  {}
+  }
 )
 
 export function addItem(name: string) {
