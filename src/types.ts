@@ -1,3 +1,5 @@
+import { Ref } from '@vue/composition-api'
+
 interface JSONSerializable {
   toJSON(): string
 }
@@ -40,7 +42,11 @@ export function isPlainObject(
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface StateTreeArray extends Array<StateTreeValue> {}
 
-// type TODO = any
+export interface StoreGetter<S extends StateTree, T = any> {
+  (state: S): T
+}
+
+type TODO = any
 // type StoreMethod = TODO
 export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
 // type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
@@ -49,6 +55,13 @@ export type SubscriptionCallback<S> = (
   mutation: { storeName: string; type: string; payload: DeepPartial<S> },
   state: S
 ) => void
+
+export type StoreGetters<
+  S extends StateTree,
+  G extends Record<string, StoreGetter<S>>
+> = {
+  [k in keyof G]: G[k] extends StoreGetter<S, infer V> ? Ref<V> : never
+}
 
 export interface Store<Id extends string, S extends StateTree> {
   /**
@@ -60,6 +73,7 @@ export interface Store<Id extends string, S extends StateTree> {
    * State of the Store
    */
   state: S
+
   /**
    * Applies a state patch to current state. Allows passing nested values
    * @param partialState patch to apply to the state

@@ -1,4 +1,4 @@
-import { ref, watch } from '@vue/composition-api'
+import { ref, watch, computed } from '@vue/composition-api'
 import { Ref } from '@vue/composition-api/dist/reactivity'
 import {
   StateTree,
@@ -6,6 +6,8 @@ import {
   SubscriptionCallback,
   DeepPartial,
   isPlainObject,
+  StoreGetters,
+  StoreGetter,
 } from './types'
 import { devtoolPlugin } from './devtools'
 
@@ -33,17 +35,28 @@ function innerPatch<T extends StateTree>(
  * they want, no? like user/cart
  */
 
+type CombinedStore<
+  Id extends string,
+  S extends StateTree,
+  G extends Record<string, StoreGetter<S>>
+> = Store<Id, S> & StoreGetters<S, G>
+
 /**
  * Creates a store instance
  * @param id unique identifier of the store, like a name. eg: main, cart, user
  * @param initialState initial state applied to the store, Must be correctly typed to infer typings
  */
 
-export function createStore<Id extends string, S extends StateTree>(
+export function createStore<
+  Id extends string,
+  S extends StateTree,
+  G extends Record<string, StoreGetter<S>>
+>(
   id: Id,
-  buildState: () => S
+  buildState: () => S,
+  getters: G
   // methods: Record<string | symbol, StoreMethod>
-): Store<Id, S> {
+): CombinedStore<Id, S, G> {
   const state: Ref<S> = ref(buildState())
   function replaceState(newState: S) {
     state.value = newState
@@ -84,7 +97,7 @@ export function createStore<Id extends string, S extends StateTree>(
     // TODO: return function to remove subscription
   }
 
-  const store: Store<Id, S> = {
+  const storeWithState: Store<Id, S> = {
     id,
     // it is replaced below by a getter
     state: state.value,
@@ -96,6 +109,21 @@ export function createStore<Id extends string, S extends StateTree>(
       replaceState(newState)
       isListening = true
     },
+  }
+
+  // @ts-ignore we have to build it
+  const computedGetters: StoreGetters<S, G> = {}
+  for (const getterName in getters) {
+    const method = getters[getterName]
+    // @ts-ignore
+    computedGetters[getterName] = computed<ReturnType<typeof method>>(() =>
+      getters[getterName](state.value)
+    )
+  }
+
+  const store = {
+    ...storeWithState,
+    ...computedGetters,
   }
 
   // make state access invisible
@@ -121,14 +149,15 @@ export function createStore<Id extends string, S extends StateTree>(
  * @param buildState function that returns a state
  */
 
-export function makeStore<Id extends string, S extends StateTree>(
-  id: Id,
-  buildState: () => S
-) {
-  let store: Store<Id, S> | undefined
+export function makeStore<
+  Id extends string,
+  S extends StateTree,
+  G extends Record<string, StoreGetter<S>>
+>(id: Id, buildState: () => S, getters: G) {
+  let store: CombinedStore<Id, S, G> | undefined
 
-  function useStore(): Store<Id, S> {
-    if (!store) store = createStore(id, buildState)
+  function useStore(): CombinedStore<Id, S, G> {
+    if (!store) store = createStore(id, buildState, getters)
 
     return store
   }
@@ -144,9 +173,17 @@ export function makeStore<Id extends string, S extends StateTree>(
 }
 
 // export const store = createStore('main', initialState)
-// export const cartStore = createStore('cart', {
+
+// type StateI = ReturnType<typeof buildState>
+// const buildState = () => ({
 //   items: ['thing 1'],
 // })
+// export const cartStore = createStore('cart', buildState, {
+//   amount: state => state.items.length,
+// })
+
+// cartStore.nonueo
+// cartStore.amount.value * 2
 
 // store.patch({
 //   toggle: 'off',

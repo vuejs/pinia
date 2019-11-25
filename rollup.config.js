@@ -49,6 +49,10 @@ function createEntry({
       banner,
       file: `dist/${pkg.name}.UNKNOWN.js`,
       format,
+
+      globals: {
+        '@vue/composition-api': 'VueCompositionApi',
+      },
     },
   }
 
@@ -65,9 +69,6 @@ function createEntry({
     config.plugins.push(resolve(), commonjs())
   } else {
     config.external = external
-    config.globals = {
-      '@vue/composition-api': 'VueCompositionApi',
-    }
   }
 
   config.plugins.push(
