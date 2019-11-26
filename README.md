@@ -27,9 +27,11 @@ There are the core principles that I try to achieve with this experiment:
 A few notes about the project and possible questions:
 
 **Q**: _Does this replace Vuex, is it its successor?_
+
 **A**: No, or at least that's not the main intention
 
 **Q**: _What about dynamic modules?_
+
 **A**: Dynamic modules are not type safe, so instead [we allow creating different stores](#composing-stores) that can be imported anywhere
 
 ## Roadmap / Ideas
