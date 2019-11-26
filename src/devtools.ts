@@ -64,7 +64,7 @@ export function devtoolPlugin(store: Store<string, StateTree>) {
 
   Object.defineProperty(rootStore.state, store.id, {
     get: () => store.state,
-    set: state => store.replaceState(state),
+    set: state => (store.state = state),
   })
 
   // Vue.set(rootStore.state, store.name, store.state)
@@ -72,7 +72,7 @@ export function devtoolPlugin(store: Store<string, StateTree>) {
   rootStore._modulesNamespaceMap[store.id + '/'] = true
 
   devtoolHook.on('vuex:travel-to-state', targetState => {
-    store.replaceState(targetState[store.id])
+    store.state = targetState[store.id]
   })
 
   store.subscribe((mutation, state) => {

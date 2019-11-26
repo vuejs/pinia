@@ -54,17 +54,17 @@ export function createStore<
 >(
   id: Id,
   buildState: () => S,
-  // @ts-ignore an empty object is valid for Record
-  getters: G = {}
+  getters: G = {} as G
   // methods: Record<string | symbol, StoreMethod>
 ): CombinedStore<Id, S, G> {
   const state: Ref<S> = ref(buildState())
+  // TODO: do we need this?
   function replaceState(newState: S) {
     state.value = newState
   }
 
   let isListening = true
-  const subscriptions: SubscriptionCallback<S>[] = []
+  let subscriptions: SubscriptionCallback<S>[] = []
 
   watch(
     () => state.value,
@@ -98,6 +98,11 @@ export function createStore<
     // TODO: return function to remove subscription
   }
 
+  function reset() {
+    subscriptions = []
+    state.value = buildState()
+  }
+
   const storeWithState: Store<Id, S> = {
     id,
     // it is replaced below by a getter
@@ -105,11 +110,7 @@ export function createStore<
 
     patch,
     subscribe,
-    replaceState: (newState: S) => {
-      isListening = false
-      replaceState(newState)
-      isListening = true
-    },
+    reset,
   }
 
   // @ts-ignore we have to build it
@@ -130,6 +131,11 @@ export function createStore<
   // make state access invisible
   Object.defineProperty(store, 'state', {
     get: () => state.value,
+    set: (newState: S) => {
+      isListening = false
+      state.value = newState
+      isListening = true
+    },
   })
 
   // Devtools injection hue hue
@@ -154,12 +160,7 @@ export function makeStore<
   Id extends string,
   S extends StateTree,
   G extends Record<string, StoreGetter<S>>
->(
-  id: Id,
-  buildState: () => S,
-  // @ts-ignore
-  getters: G = {}
-) {
+>(id: Id, buildState: () => S, getters: G = {} as G) {
   let store: CombinedStore<Id, S, G> | undefined
 
   function useStore(): CombinedStore<Id, S, G> {

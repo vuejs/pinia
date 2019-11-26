@@ -81,10 +81,11 @@ export interface Store<Id extends string, S extends StateTree> {
   patch(partialState: DeepPartial<S>): void
 
   /**
-   * Replaces current state with a completely new version.
-   * @param newState state object to replace current state
+   * Resets the store to its initial state by removing all subscriptions and
+   * building a new state object
    */
-  replaceState(newState: S): void
+  reset(): void
+
   /**
    * Setups a callback to be called whenever the state changes.
    * @param callback callback that is called whenever the state changes

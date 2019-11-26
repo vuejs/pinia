@@ -24,7 +24,7 @@ describe('Store', () => {
 
   it('can replace its state', () => {
     const store = buildStore()
-    store.replaceState({
+    store.state = {
       a: false,
       nested: {
         foo: 'bar',
@@ -32,7 +32,7 @@ describe('Store', () => {
           b: 'hey',
         },
       },
-    })
+    }
     expect(store.state).toEqual({
       a: false,
       nested: {
