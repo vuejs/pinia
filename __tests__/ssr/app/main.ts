@@ -8,8 +8,8 @@ import { useStore, clear } from './store'
 
 export function createApp() {
   // create router and store instances
-  clear()
   const store = useStore()
+  store.reset()
 
   store.state.counter++
 

@@ -58,10 +58,6 @@ export function createStore<
   // methods: Record<string | symbol, StoreMethod>
 ): CombinedStore<Id, S, G> {
   const state: Ref<S> = ref(buildState())
-  // TODO: do we need this?
-  function replaceState(newState: S) {
-    state.value = newState
-  }
 
   let isListening = true
   let subscriptions: SubscriptionCallback<S>[] = []
