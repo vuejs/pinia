@@ -26,7 +26,7 @@ A few notes about the project and possible questions:
 **A**: No, or at least that's not the main intention
 
 **Q**: _What about dynamic modules?_
-**A**: Dynamic modules are not type safe, so instead [we allow creating different stores](#TODO) that can be imported anywhere
+**A**: Dynamic modules are not type safe, so instead [we allow creating different stores](#composing-stores) that can be imported anywhere
 
 ## Roadmap / Ideas
 
