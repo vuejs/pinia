@@ -1,7 +1,7 @@
-import { makeStore } from '../../../src'
-import { userStore } from './user'
+import { createStore } from '../../../src'
+import { useUserStore } from './user'
 
-export const cartStore = makeStore(
+export const useCartStore = createStore(
   'cart',
   () => ({
     rawItems: [] as string[],
@@ -23,19 +23,19 @@ export const cartStore = makeStore(
 )
 
 export function addItem(name: string) {
-  const store = cartStore.useStore()
+  const store = useCartStore()
   store.state.rawItems.push(name)
 }
 
 export function removeItem(name: string) {
-  const store = cartStore.useStore()
+  const store = useCartStore()
   const i = store.state.rawItems.indexOf(name)
   if (i > -1) store.state.rawItems.splice(i, 1)
 }
 
 export async function purchaseItems() {
-  const cart = cartStore.useStore()
-  const user = userStore.useStore()
+  const cart = useCartStore()
+  const user = useUserStore()
   if (!user.state.name) return
 
   console.log('Purchasing', cart.items.value)

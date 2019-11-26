@@ -91,7 +91,10 @@ function createEntry({
       terser({
         module: format === 'es',
         output: {
-          preamble: banner,
+          // comments: false,
+          // already added by rollup
+          // only necessary if removing others
+          //   preamble: banner,
         },
       })
     )

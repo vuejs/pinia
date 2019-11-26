@@ -1,6 +1,6 @@
-import { makeStore } from '../../../src'
+import { createStore } from '../../../src'
 
-export const { useStore, clear } = makeStore('main', () => ({
+export const useStore = createStore('main', () => ({
   counter: 0,
   name: 'anon',
 }))

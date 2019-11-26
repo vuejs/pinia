@@ -1,18 +1,18 @@
 import { createStore } from '../src'
 
 describe('Store', () => {
-  function buildStore() {
-    return createStore('main', () => ({
-      a: true as boolean,
-      nested: {
-        foo: 'foo',
-        a: { b: 'string' },
-      },
-    }))
-  }
+  const useStore = createStore('main', () => ({
+    // TODO: the boolean cas shouldn't be necessary
+    // https://www.typescriptlang.org/play/#code/MYewdgzgLgBCMF4YG8CwAoGWYEMBcMUATgK4CmGAvhhiAHQ6IwBmOANhBehqJLMETI4oZJgAoAlIgB8MMclwFi5GJQk10vaDGBMBQkZI3AGTVhzJA
+    a: true as boolean,
+    nested: {
+      foo: 'foo',
+      a: { b: 'string' },
+    },
+  })).bind(null, true) // force always a fresh instance
 
   it('sets the initial state', () => {
-    const store = buildStore()
+    const store = useStore()
     expect(store.state).toEqual({
       a: true,
       nested: {
@@ -23,7 +23,7 @@ describe('Store', () => {
   })
 
   it('can replace its state', () => {
-    const store = buildStore()
+    const store = useStore()
     store.state = {
       a: false,
       nested: {
@@ -43,8 +43,8 @@ describe('Store', () => {
   })
 
   it('do not share the state between same id store', () => {
-    const store = buildStore()
-    const store2 = buildStore()
+    const store = useStore()
+    const store2 = useStore()
     expect(store.state).not.toBe(store2.state)
     store.state.nested.a.b = 'hey'
     expect(store2.state.nested.a.b).toBe('string')

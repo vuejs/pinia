@@ -1,20 +1,18 @@
 import { createStore } from '../src'
 
 describe('store.patch', () => {
-  function buildStore() {
-    return createStore('main', () => ({
-      // TODO: the boolean cas shouldn't be necessary
-      // https://www.typescriptlang.org/play/#code/MYewdgzgLgBCMF4YG8CwAoGWYEMBcMUATgK4CmGAvhhiAHQ6IwBmOANhBehqJLMETI4oZJgAoAlIgB8MMclwFi5GJQk10vaDGBMBQkZI3AGTVhzJA
-      a: true as boolean,
-      nested: {
-        foo: 'foo',
-        a: { b: 'string' },
-      },
-    }))
-  }
+  const useStore = createStore('main', () => ({
+    // TODO: the boolean cas shouldn't be necessary
+    // https://www.typescriptlang.org/play/#code/MYewdgzgLgBCMF4YG8CwAoGWYEMBcMUATgK4CmGAvhhiAHQ6IwBmOANhBehqJLMETI4oZJgAoAlIgB8MMclwFi5GJQk10vaDGBMBQkZI3AGTVhzJA
+    a: true as boolean,
+    nested: {
+      foo: 'foo',
+      a: { b: 'string' },
+    },
+  })).bind(null, true) // force always a fresh instance
 
   it('patches a property without touching the rest', () => {
-    const store = buildStore()
+    const store = useStore()
     store.patch({ a: false })
     expect(store.state).toEqual({
       a: false,
@@ -26,7 +24,7 @@ describe('store.patch', () => {
   })
 
   it('patches a nested property without touching the rest', () => {
-    const store = buildStore()
+    const store = useStore()
     store.patch({ nested: { foo: 'bar' } })
     expect(store.state).toEqual({
       a: true,
@@ -46,7 +44,7 @@ describe('store.patch', () => {
   })
 
   it('patches multiple properties at the same time', () => {
-    const store = buildStore()
+    const store = useStore()
     store.patch({ a: false, nested: { foo: 'hello' } })
     expect(store.state).toEqual({
       a: false,

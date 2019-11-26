@@ -1,14 +1,14 @@
 import Vue from 'vue'
 // import VueCompositionApi from '@vue/composition-api'
 import App from './App'
-import { useStore, clear } from './store'
+import { useStore } from './store'
 
 // Done in setup.ts
 // Vue.use(VueCompositionApi)
 
 export function createApp() {
   // create router and store instances
-  const store = useStore()
+  const store = useStore(true)
   store.reset()
 
   store.state.counter++

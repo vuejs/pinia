@@ -1,6 +1,6 @@
-import { makeStore } from '../../../src'
+import { createStore } from '../../../src'
 
-export const userStore = makeStore(
+export const useUserStore = createStore(
   'user',
   () => ({
     name: 'Eduardo',
@@ -10,7 +10,7 @@ export const userStore = makeStore(
 )
 
 export function logout() {
-  const store = userStore.useStore()
+  const store = useUserStore()
 
   store.patch({
     name: '',
@@ -26,7 +26,7 @@ function apiLogin(a: string, p: string) {
 }
 
 export async function login(user: string, password: string) {
-  const store = userStore.useStore()
+  const store = useUserStore()
   const userData = await apiLogin(user, password)
 
   store.patch({
