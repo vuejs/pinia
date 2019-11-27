@@ -8,9 +8,9 @@
 
 Demo (TODO link)
 
-⚠⚠⚠ This project is experimental, it's an exploration of whan a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works for Vue 2 by using the [official library](https://github.com/vuejs/composition-api).
+⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works for Vue 2 by using the [official library](https://github.com/vuejs/composition-api).
 
-What I want is to maybe inspire others to think about ways to improve Vuex.
+What I want is to inspire others to think about ways to improve Vuex and come up with something that works very well with the composition api but that can also be used **without it**.
 
 There are the core principles that I try to achieve with this experiment:
 
@@ -18,7 +18,7 @@ There are the core principles that I try to achieve with this experiment:
 - Light layer on top of Vue 💨 keep it under 1kg gzip
 - Only `state` and `getters` 👐 `patch` is the new _mutation_
 - Actions are just functions ⚗️ Group your business there
-- import what you need, let webpack code split 📦 And you won't need modules!
+- Import what you need, let webpack code split 📦 No need for dynamically registered modules
 - SSR support ⚙️
 - DevTools support 💻 Which is crucial to make this enjoyable
 
@@ -95,7 +95,7 @@ export default createComponent({
 })
 ```
 
-**There is one important rule for this to work**: the `useMainStore` (or any other _useStore_ function) must be called inside of deffered functions. This is to allow the Vue Composition API plugin to be installed. \*\*Never, ever call `useStore` like this:
+**There is one important rule for this to work**: the `useMainStore` (or any other _useStore_ function) must be called inside of deffered functions. This is to allow the Vue Composition API plugin to be installed. **Never, ever call `useStore`** like this:
 
 ```ts
 import { useMainStore } from '@/stores/main'
@@ -230,6 +230,34 @@ export async function orderCart() {
 
   try {
     await apiOrderCart(user.state.token, cart.state.items)
+    emptyCart()
+  } catch (err) {
+    displayError(err)
+  }
+}
+```
+
+#### Creating _Pinias_
+
+_Not implemented_. Replaces the examles above
+
+Combine multiple _stores_ (gajos) into a new one:
+
+```ts
+import { pinia } from 'pinia'
+import { useUserStore } from './user'
+import { useCartStore, emptyCart } from './cart'
+
+export const useCartUserStore = pinia([useUserStore, useCartStore], {
+  combinedGetter: state =>
+    `Hi ${user.state.name}, you have ${cart.state.list.length} items in your cart. It costs ${cart.price}.`,
+})
+
+export async function orderCart() {
+  const store = useCartUserStore()
+
+  try {
+    await apiOrderCart(store.state.user.token, store.state.cart.items)
     emptyCart()
   } catch (err) {
     displayError(err)
