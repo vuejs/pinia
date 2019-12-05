@@ -1,13 +1,9 @@
 import { createStore } from '../../../src'
 
-export const useUserStore = createStore(
-  'user',
-  () => ({
-    name: 'Eduardo',
-    isAdmin: true as boolean,
-  }),
-  {}
-)
+export const useUserStore = createStore('user', () => ({
+  name: 'Eduardo',
+  isAdmin: true as boolean,
+}))
 
 export function logout() {
   const store = useUserStore()
