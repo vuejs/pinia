@@ -29,7 +29,7 @@ interface RootState {
 
 let rootStore: RootState
 
-export function devtoolPlugin(store: Store<string, StateTree>) {
+export function useStoreDevtools(store: Store<string, StateTree>) {
   if (!devtoolHook) return
 
   if (!rootStore) {

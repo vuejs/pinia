@@ -9,7 +9,7 @@ import {
   StoreGetters,
   StoreGetter,
 } from './types'
-import { devtoolPlugin } from './devtools'
+import { useStoreDevtools } from './devtools'
 
 function innerPatch<T extends StateTree>(
   target: T,
@@ -35,7 +35,7 @@ function innerPatch<T extends StateTree>(
  * they want, no? like user/cart
  */
 
-type CombinedStore<
+export type CombinedStore<
   Id extends string,
   S extends StateTree,
   G extends Record<string, StoreGetter<S>>
@@ -134,9 +134,6 @@ export function buildStore<
     },
   })
 
-  // Devtools injection hue hue
-  devtoolPlugin(store)
-
   return store
 }
 
@@ -162,6 +159,8 @@ export function createStore<
 
   return function useStore(forceNewStore = false): CombinedStore<Id, S, G> {
     if (!store || forceNewStore) store = buildStore(id, buildState, getters)
+
+    useStoreDevtools(store)
 
     return store
   }

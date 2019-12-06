@@ -248,10 +248,16 @@ import { pinia } from 'pinia'
 import { useUserStore } from './user'
 import { useCartStore, emptyCart } from './cart'
 
-export const useCartUserStore = pinia([useUserStore, useCartStore], {
-  combinedGetter: state =>
-    `Hi ${user.state.name}, you have ${cart.state.list.length} items in your cart. It costs ${cart.price}.`,
-})
+export const useCartUserStore = pinia(
+  {
+    user: useUserStore,
+    cart: useCartStore,
+  },
+  {
+    combinedGetter: state =>
+      `Hi ${user.state.name}, you have ${cart.state.list.length} items in your cart. It costs ${cart.price}.`,
+  }
+)
 
 export async function orderCart() {
   const store = useCartUserStore()
