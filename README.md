@@ -2,9 +2,9 @@
 
 > Pronounced like the fruit, in Spanish _Piña_
 >
-> _Piña_ is also an invalid package name...
+> _Piña_ is also an invalid package name... that's why it has to be _pinia_
 
-🍍Type Safe Modular and lightweight (but **Experimental**) Store for Vue based on the composition api
+🍍Automatically Typed, Modular and lightweight (but **Experimental**) Store for Vue based on the composition api with devtools support
 
 Demo (TODO link)
 
@@ -239,7 +239,7 @@ export async function orderCart() {
 
 #### Creating _Pinias_
 
-_Not implemented_. Replaces the examles above
+_Not implemented_. Replaces the examles above about combining state and getters and about composing stores.
 
 Combine multiple _stores_ (gajos) into a new one:
 
