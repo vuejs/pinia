@@ -137,7 +137,7 @@ or call the method `patch` that allows you apply multiple changes at the same ti
 
 ```ts
 main.patch({
-  counter; -1,
+  counter: -1,
   name: 'Abalam',
 })
 ```
