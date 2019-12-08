@@ -95,7 +95,7 @@ export default createComponent({
 })
 ```
 
-**There is one important rule for this to work**: the `useMainStore` (or any other _useStore_ function) must be called inside of deffered functions. This is to allow the Vue Composition API plugin to be installed. **Never, ever call `useStore`** like this:
+**There is one important rule for this to work**: the `useMainStore` (or any other _useStore_ function) must be called inside of deferred functions. This is to allow the Vue Composition API plugin to be installed. **Never, ever call `useStore`** like this:
 
 ```ts
 import { useMainStore } from '@/stores/main'
