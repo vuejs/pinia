@@ -22,6 +22,26 @@ There are the core principles that I try to achieve with this experiment:
 - SSR support ⚙️
 - DevTools support 💻 Which is crucial to make this enjoyable
 
+**Help me keep working on Open Source in a sustainable way 🚀**. Help me with as little as \$1 a month, [sponsor me on Github](https://github.com/sponsors/posva).
+
+<h3 align="center">Silver Sponsors</h3>
+
+<p align="center">
+  <a href="https://www.vuemastery.com" title="Vue Mastery" target="_blank">
+    <img src="https://www.vuemastery.com/images/lgo-vuemastery.svg" alt="Vue Mastery logo" height="48px">
+  </a>
+</p>
+
+<h3 align="center">Bronze Sponsors</h3>
+
+<p align="center">
+  <a href="https://vuetifyjs.com" target="_blank" title="Vuetify">
+    <img src="https://vuejs.org/images/vuetify.png" height="32px">
+  </a>
+</p>
+
+---
+
 ## FAQ
 
 A few notes about the project and possible questions:
