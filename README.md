@@ -15,7 +15,7 @@ What I want is to inspire others to think about ways to improve Vuex and come up
 There are the core principles that I try to achieve with this experiment:
 
 - Flat modular structure 🍍 No nesting, only stores, compose them as needed
-- Light layer on top of Vue 💨 keep it under 1kg gzip
+- Light layer on top of Vue 💨 keep it under 1kb gzip
 - Only `state` and `getters` 👐 `patch` is the new _mutation_
 - Actions are just functions ⚗️ Group your business there
 - Import what you need, let webpack code split 📦 No need for dynamically registered modules
