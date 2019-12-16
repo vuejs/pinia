@@ -56,8 +56,8 @@
     "ts-jest": "^24.1.0",
     "tsd": "^0.11.0",
     "typescript": "^3.6.3",
-    "vue": "^2.6.10",
-    "vue-server-renderer": "^2.6.10"
+    "vue": "^2.6.11",
+    "vue-server-renderer": "^2.6.11"
   },
   "repository": {
     "type": "git",
