@@ -1,5 +1,4 @@
-import { ref, watch, computed } from '@vue/composition-api'
-import { Ref } from '@vue/composition-api/dist/reactivity'
+import { ref, watch, computed } from 'vue'
 import {
   StateTree,
   Store,
@@ -57,7 +56,7 @@ export function buildStore<
   getters: G = {} as G
   // methods: Record<string | symbol, StoreMethod>
 ): CombinedStore<Id, S, G> {
-  const state: Ref<S> = ref(buildState())
+  const state = ref<S>(buildState())
 
   let isListening = true
   let subscriptions: SubscriptionCallback<S>[] = []
@@ -67,6 +66,7 @@ export function buildStore<
     state => {
       if (isListening) {
         subscriptions.forEach(callback => {
+          // @ts-ignore FIXME: why is this even failing on TS
           callback({ storeName: id, type: '🧩 in place', payload: {} }, state)
         })
       }
@@ -79,11 +79,13 @@ export function buildStore<
 
   function patch(partialState: DeepPartial<S>): void {
     isListening = false
+    // @ts-ignore FIXME: why is this even failing on TS
     innerPatch(state.value, partialState)
     isListening = true
     subscriptions.forEach(callback => {
       callback(
         { storeName: id, type: '⤵️ patch', payload: partialState },
+        // @ts-ignore FIXME: why is this even failing on TS
         state.value
       )
     })
@@ -96,12 +98,14 @@ export function buildStore<
 
   function reset() {
     subscriptions = []
+    // @ts-ignore FIXME: why is this even failing on TS
     state.value = buildState()
   }
 
   const storeWithState: Store<Id, S> = {
     id,
     // it is replaced below by a getter
+    // @ts-ignore FIXME: why is this even failing on TS
     state: state.value,
 
     patch,
@@ -115,6 +119,7 @@ export function buildStore<
     const method = getters[getterName]
     // @ts-ignore
     computedGetters[getterName] = computed<ReturnType<typeof method>>(() =>
+      // @ts-ignore FIXME: why is this even failing on TS
       getters[getterName](state.value)
     )
   }
@@ -129,6 +134,7 @@ export function buildStore<
     get: () => state.value,
     set: (newState: S) => {
       isListening = false
+      // @ts-ignore FIXME: why is this even failing on TS
       state.value = newState
       isListening = true
     },

@@ -1,6 +1,6 @@
 {
   "name": "pinia",
-  "version": "0.0.2",
+  "version": "0.1.0-alpha.0",
   "description": "Some awesome description",
   "main": "dist/pinia.common.js",
   "module": "dist/pinia.esm.js",
@@ -31,17 +31,29 @@
   "tsd": {
     "directory": "__tests__/dts"
   },
-  "keywords": [],
+  "keywords": [
+    "vue",
+    "vuex",
+    "store",
+    "pina",
+    "composition",
+    "api",
+    "setup",
+    "typed",
+    "typescript",
+    "ts",
+    "type",
+    "safe"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-alias": "^2.2.0",
     "@rollup/plugin-replace": "^2.2.1",
-    "@types/jest": "^24.0.18",
-    "@typescript-eslint/eslint-plugin": "^2.10.0",
-    "@typescript-eslint/parser": "^2.3.1",
-    "@vue/composition-api": "^0.3.2",
+    "@types/jest": "^24.0.24",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.12.0",
     "codecov": "^3.6.1",
-    "eslint": "^6.4.0",
+    "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-prettier": "^3.1.1",
     "jest": "^24.9.0",
@@ -55,9 +67,8 @@
     "rollup-plugin-typescript2": "^0.25.2",
     "ts-jest": "^24.1.0",
     "tsd": "^0.11.0",
-    "typescript": "^3.6.3",
-    "vue": "^2.6.11",
-    "vue-server-renderer": "^2.6.11"
+    "typescript": "^3.7.4",
+    "vue": "next"
   },
   "repository": {
     "type": "git",

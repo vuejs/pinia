@@ -3,7 +3,6 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
   testMatch: ['<rootDir>/__tests__/**/*.spec.ts'],
-  setupFilesAfterEnv: ['./__tests__/setup.ts'],
   globals: {
     'ts-jest': {
       diagnostics: {

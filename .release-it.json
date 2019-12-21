@@ -9,6 +9,7 @@
     "tokenRef": "GITHUB_TOKEN"
   },
   "npm": {
+    "tag": "next",
     "publish": true
   },
   "changelogCommand": "git log --pretty=format:'* %s (%h)' [REV_RANGE]"

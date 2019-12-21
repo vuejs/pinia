@@ -3,7 +3,8 @@ import { createRenderer } from 'vue-server-renderer'
 
 const renderer = createRenderer()
 
-describe('classic vue app', () => {
+// FIXME: add when ssr is available in vue 3
+describe.skip('classic vue app', () => {
   it('renders using the store', async () => {
     const context = {
       rendered: () => {},
