@@ -24,4 +24,14 @@ describe('Subscriptions', () => {
     store.state.name = 'Cleiton'
     expect(spy).not.toHaveBeenCalled()
   })
+
+  it('listeners are not affected when unsubscribe is called multiple times', () => {
+    const func1 = () => {}
+    const func2 = () => {}
+    const unsubscribe1 = store.subscribe(func1)
+    store.subscribe(func2)
+    unsubscribe1()
+    unsubscribe1()
+    expect(store._subscriptions).toEqual([func2])
+  })
 })
