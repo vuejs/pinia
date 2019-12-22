@@ -26,12 +26,14 @@ describe('Subscriptions', () => {
   })
 
   it('listeners are not affected when unsubscribe is called multiple times', () => {
-    const func1 = () => {}
-    const func2 = () => {}
+    const func1 = jest.fn()
+    const func2 = jest.fn()
     const unsubscribe1 = store.subscribe(func1)
     store.subscribe(func2)
     unsubscribe1()
     unsubscribe1()
-    expect(store._subscriptions).toEqual([func2])
+    store.state.name = 'Cleiton'
+    expect(func1).not.toHaveBeenCalled()
+    expect(func2).toHaveBeenCalledTimes(1)
   })
 })

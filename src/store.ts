@@ -127,7 +127,6 @@ export function buildStore<
   const store = {
     ...storeWithState,
     ...computedGetters,
-    _subscriptions: subscriptions,
   }
 
   // make state access invisible
