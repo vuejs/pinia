@@ -88,9 +88,10 @@ export interface Store<Id extends string, S extends StateTree> {
 
   /**
    * Setups a callback to be called whenever the state changes.
-   * @param callback callback that is called whenever the state changes
+   * @param callback callback that is called whenever the state
+   * @returns function that removes callback from subscriptions
    */
-  subscribe(callback: SubscriptionCallback<S>): void
+  subscribe(callback: SubscriptionCallback<S>): () => void
 }
 
 export interface DevtoolHook {

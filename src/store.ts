@@ -89,9 +89,11 @@ export function buildStore<
     })
   }
 
-  function subscribe(callback: SubscriptionCallback<S>): void {
+  function subscribe(callback: SubscriptionCallback<S>) {
     subscriptions.push(callback)
-    // TODO: return function to remove subscription
+    return () => {
+      subscriptions.splice(subscriptions.indexOf(callback), 1)
+    }
   }
 
   function reset() {
