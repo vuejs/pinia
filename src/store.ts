@@ -92,7 +92,10 @@ export function buildStore<
   function subscribe(callback: SubscriptionCallback<S>) {
     subscriptions.push(callback)
     return () => {
-      subscriptions.splice(subscriptions.indexOf(callback), 1)
+      const idx = subscriptions.indexOf(callback)
+      if (idx > -1) {
+        subscriptions.splice(idx, 1)
+      }
     }
   }
 
@@ -124,6 +127,7 @@ export function buildStore<
   const store = {
     ...storeWithState,
     ...computedGetters,
+    _subscriptions: subscriptions,
   }
 
   // make state access invisible
