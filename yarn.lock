@@ -299,10 +299,10 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@rollup/plugin-alias@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-2.2.0.tgz#3ac52ece8b39583249884adb90fb316484389fe5"
-  integrity sha512-//6zmlHGbmousaatu4pBlC61gqZykLbH0c2GESBO4JgK5xFZgb/ih0zlg/5/BmTAczX5R/xsHRnsYsu4KyHV5w==
+"@rollup/plugin-alias@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-alias/-/plugin-alias-3.0.0.tgz#3ac4952d05d5a700b0d918b18f312db0aa2b006f"
+  integrity sha512-MYlgCptgl/VgyMvqkqn/XxYMph6xv83cdgj6aKQHjFnhVFXn1N/IJfrSdgQAxRFqfHUCZyTxEPlHfmlgRzTG1w==
   dependencies:
     slash "^3.0.0"
 
