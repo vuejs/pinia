@@ -58,9 +58,9 @@ A few notes about the project and possible questions:
 
 - [ ] List Getters on DevTools
 - [ ] Nuxt Module
-- [ ] Automatic fresh store on Server Side?
 - [ ] Flag to remove devtools support (for very light production apps)
-- [ ] Allow grouping stores together into a similar structure and allow defining new getters
+- [ ] Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)
+- [ ] Getter with params that act like computed properties (@ktsn)
 
 ## Installation
 
