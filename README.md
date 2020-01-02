@@ -1,8 +1,8 @@
 # Pinia [![Build Status](https://badgen.net/circleci/github/posva/pinia/master)](https://circleci.com/gh/posva/pinia) [![npm package](https://badgen.net/npm/v/pinia)](https://www.npmjs.com/package/pinia) [![coverage](https://badgen.net/codecov/c/github/posva/pinia/master)](https://codecov.io/github/posva/pinia) [![thanks](https://badgen.net/badge/thanks/♥/pink)](https://github.com/posva/thanks)
 
-> Pronounced like the fruit, in Spanish _Piña_
+> Pronounced like the fruit in Spanish, _Piña_
 >
-> _Piña_ is also an invalid package name... that's why it has to be _pinia_
+> _Piña_ is also an invalid package name... that's why it has to be _pinia_ which sounds very similar
 
 🍍Automatically Typed, Modular and lightweight (but **Experimental**) Store for Vue based on the composition api with devtools support
 
