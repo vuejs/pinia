@@ -1,24 +1,6 @@
 import { Ref } from '@vue/composition-api'
 
-interface JSONSerializable {
-  toJSON(): string
-}
-
-export type StateTreeValue =
-  | string
-  | symbol
-  | number
-  | boolean
-  | null
-  | void
-  | Function
-  | StateTree
-  | StateTreeArray
-  | JSONSerializable
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface StateTree
-  extends Record<string | number | symbol, StateTreeValue> {}
+export type StateTree = Record<string | number | symbol, any>
 
 export function isPlainObject(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,16 +13,6 @@ export function isPlainObject(
     typeof o.toJSON !== 'function'
   )
 }
-
-// symbol is not allowed yet https://github.com/Microsoft/TypeScript/issues/1863
-// export interface StateTree {
-//   [x: number]: StateTreeValue
-//   [x: symbol]: StateTreeValue
-//   [x: string]: StateTreeValue
-// }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface StateTreeArray extends Array<StateTreeValue> {}
 
 export interface StoreGetter<S extends StateTree, T = any> {
   (state: S): T

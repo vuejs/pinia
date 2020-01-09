@@ -2,7 +2,7 @@ import { createStore } from '../../../src'
 
 export const useUserStore = createStore('user', () => ({
   name: 'Eduardo',
-  isAdmin: true as boolean,
+  isAdmin: true,
 }))
 
 export function logout() {
