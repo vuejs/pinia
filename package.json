@@ -1,6 +1,6 @@
 {
   "name": "pinia",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Some awesome description",
   "main": "dist/pinia.common.js",
   "module": "dist/pinia.esm.js",
