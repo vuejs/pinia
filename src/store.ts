@@ -148,13 +148,17 @@ export function buildStore<
  * be able to reset the store instance between requests on the server
  */
 
+const storesMap = new WeakMap<
+  object,
+  Record<string, CombinedStore<any, any, any>>
+>()
+
 /**
  * Creates a `useStore` function that retrieves the store instance
  * @param id id of the store we are creating
  * @param buildState function that returns a state
  * @param getters optional object of getters
  */
-
 export function createStore<
   Id extends string,
   S extends StateTree,
@@ -162,10 +166,22 @@ export function createStore<
 >(id: Id, buildState: () => S, getters: G = {} as G) {
   let store: CombinedStore<Id, S, G> | undefined
 
-  return function useStore(forceNewStore = false): CombinedStore<Id, S, G> {
-    if (!store || forceNewStore) store = buildStore(id, buildState, getters)
-
-    useStoreDevtools(store)
+  // TODO: do we really need the boolean version for SSR? Using the request would be better
+  // as it allows async code like pending requests to use the correct store version.
+  return function useStore(
+    req?: object | boolean,
+    initialStates?: Record<Id, S>
+  ): CombinedStore<Id, S, G> {
+    if (!req || typeof req === 'boolean') {
+      if (!store || req) store = buildStore(id, buildState, getters)
+      if (initialStates && initialStates[id]) store.state = initialStates[id]
+      useStoreDevtools(store)
+    } else {
+      let stores = storesMap.get(req)
+      if (!stores) storesMap.set(req, (stores = {}))
+      store = stores[id]
+      if (!store) stores[id] = store = buildStore(id, buildState, getters)
+    }
 
     return store
   }
