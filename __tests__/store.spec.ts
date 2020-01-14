@@ -1,7 +1,7 @@
 import { createStore, setActiveReq } from '../src'
 
 describe('Store', () => {
-  const useStore = () => {
+  const useStore = (...args: any[]) => {
     // create a new store
     setActiveReq({})
     return createStore('main', () => ({
@@ -10,7 +10,7 @@ describe('Store', () => {
         foo: 'foo',
         a: { b: 'string' },
       },
-    }))()
+    }))(...args)
   }
 
   it('sets the initial state', () => {
@@ -19,6 +19,25 @@ describe('Store', () => {
       a: true,
       nested: {
         foo: 'foo',
+        a: { b: 'string' },
+      },
+    })
+  })
+
+  it('can hydrate the state', () => {
+    const store = useStore({
+      main: {
+        a: false,
+        nested: {
+          foo: 'bar',
+          a: { b: 'string' },
+        },
+      },
+    })
+    expect(store.state).toEqual({
+      a: false,
+      nested: {
+        foo: 'bar',
         a: { b: 'string' },
       },
     })

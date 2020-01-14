@@ -57,10 +57,11 @@ export function buildStore<
 >(
   id: Id,
   buildState: () => S,
-  getters: G = {} as G
+  getters: G = {} as G,
+  initialState?: S | undefined
   // methods: Record<string | symbol, StoreMethod>
 ): CombinedStore<Id, S, G> {
-  const state: Ref<S> = ref(buildState())
+  const state: Ref<S> = ref(initialState || buildState())
 
   let isListening = true
   let subscriptions: SubscriptionCallback<S>[] = []
@@ -176,11 +177,8 @@ export function createStore<
 >(id: Id, buildState: () => S, getters: G = {} as G) {
   let store: CombinedStore<Id, S, G> | undefined
 
-  // TODO: do we really need the boolean version for SSR? Using the request would be better
-  // as it allows async code like pending requests to use the correct store version.
   return function useStore(
-    force?: boolean,
-    initialStates?: Record<Id, S>
+    initialStates: Record<Id, S> = {} as Record<Id, S>
   ): CombinedStore<Id, S, G> {
     const req = getActiveReq()
     let stores = storesMap.get(req)
@@ -188,9 +186,12 @@ export function createStore<
 
     store = stores[id]
     if (!store) {
-      stores[id] = store = buildStore(id, buildState, getters)
-      // hydrate state
-      if (initialStates && initialStates[id]) store.state = initialStates[id]
+      stores[id] = store = buildStore(
+        id,
+        buildState,
+        getters,
+        initialStates[id]
+      )
       if (isClient) useStoreDevtools(store)
     }
 
