@@ -146,11 +146,15 @@ export function buildStore<
   return store
 }
 
+type NonNullObject = Record<any, any>
+
 /**
  * setActiveReq must be called to handle SSR at the top of functions like `fetch`, `setup`, `serverPrefetch` and others
  */
-export let activeReq: object = {}
-export const setActiveReq = (req: object) => (activeReq = req)
+export let activeReq: NonNullObject = {}
+export const setActiveReq = (req: NonNullObject | undefined) =>
+  req && (activeReq = req)
+
 export const getActiveReq = () => activeReq
 
 /**
@@ -160,9 +164,36 @@ export const getActiveReq = () => activeReq
  */
 
 const storesMap = new WeakMap<
-  object,
+  NonNullObject,
   Record<string, CombinedStore<any, any, any>>
 >()
+
+/**
+ * A state provider allows to set how states are stored for hydration. e.g. setting a property on a context, getting a property from window
+ */
+interface StateProvider {
+  get(): Record<string, StateTree>
+  set(store: CombinedStore<any, any, any>): any
+}
+
+/**
+ * Map of initial states used for hydration
+ */
+export const stateProviders = new WeakMap<NonNullObject, StateProvider>()
+
+export function setStateProvider(stateProvider: StateProvider) {
+  stateProviders.set(getActiveReq(), stateProvider)
+}
+
+function getInitialState(id: string): StateTree | undefined {
+  const provider = stateProviders.get(getActiveReq())
+  return provider && provider.get()[id]
+}
+
+function setInitialState(store: CombinedStore<any, any, any>): void {
+  const provider = stateProviders.get(getActiveReq())
+  if (provider) provider.set(store)
+}
 
 /**
  * Creates a `useStore` function that retrieves the store instance
@@ -175,23 +206,20 @@ export function createStore<
   S extends StateTree,
   G extends Record<string, StoreGetter<S>>
 >(id: Id, buildState: () => S, getters: G = {} as G) {
-  let store: CombinedStore<Id, S, G> | undefined
-
-  return function useStore(
-    initialStates: Record<Id, S> = {} as Record<Id, S>
-  ): CombinedStore<Id, S, G> {
+  return function useStore(): CombinedStore<Id, S, G> {
     const req = getActiveReq()
     let stores = storesMap.get(req)
     if (!stores) storesMap.set(req, (stores = {}))
 
-    store = stores[id]
+    let store = stores[id]
     if (!store) {
       stores[id] = store = buildStore(
         id,
         buildState,
         getters,
-        initialStates[id]
+        getInitialState(id)
       )
+      setInitialState(store)
       if (isClient) useStoreDevtools(store)
     }
 
