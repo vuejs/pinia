@@ -11,6 +11,8 @@ import {
 } from './types'
 import { useStoreDevtools } from './devtools'
 
+const isClient = typeof window != 'undefined'
+
 function innerPatch<T extends StateTree>(
   target: T,
   patchToApply: DeepPartial<T>
@@ -41,12 +43,13 @@ export type CombinedStore<
   G extends Record<string, StoreGetter<S>>
 > = Store<Id, S> & StoreGetters<S, G>
 
+// TODO: allow buildStore to start with an initial state for hydration
+
 /**
  * Creates a store instance
  * @param id unique identifier of the store, like a name. eg: main, cart, user
  * @param initialState initial state applied to the store, Must be correctly typed to infer typings
  */
-
 export function buildStore<
   Id extends string,
   S extends StateTree,
@@ -143,6 +146,13 @@ export function buildStore<
 }
 
 /**
+ * setActiveReq must be called to handle SSR at the top of functions like `fetch`, `setup`, `serverPrefetch` and others
+ */
+export let activeReq: object = {}
+export const setActiveReq = (req: object) => (activeReq = req)
+export const getActiveReq = () => activeReq
+
+/**
  * The api needs more work we must be able to use the store easily in any
  * function by calling `useStore` to get the store Instance and we also need to
  * be able to reset the store instance between requests on the server
@@ -169,18 +179,19 @@ export function createStore<
   // TODO: do we really need the boolean version for SSR? Using the request would be better
   // as it allows async code like pending requests to use the correct store version.
   return function useStore(
-    req?: object | boolean,
+    force?: boolean,
     initialStates?: Record<Id, S>
   ): CombinedStore<Id, S, G> {
-    if (!req || typeof req === 'boolean') {
-      if (!store || req) store = buildStore(id, buildState, getters)
+    const req = getActiveReq()
+    let stores = storesMap.get(req)
+    if (!stores) storesMap.set(req, (stores = {}))
+
+    store = stores[id]
+    if (!store) {
+      stores[id] = store = buildStore(id, buildState, getters)
+      // hydrate state
       if (initialStates && initialStates[id]) store.state = initialStates[id]
-      useStoreDevtools(store)
-    } else {
-      let stores = storesMap.get(req)
-      if (!stores) storesMap.set(req, (stores = {}))
-      store = stores[id]
-      if (!store) stores[id] = store = buildStore(id, buildState, getters)
+      if (isClient) useStoreDevtools(store)
     }
 
     return store

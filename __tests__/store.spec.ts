@@ -1,15 +1,17 @@
-import { createStore } from '../src'
+import { createStore, setActiveReq } from '../src'
 
 describe('Store', () => {
-  const useStore = createStore('main', () => ({
-    // TODO: the boolean cas shouldn't be necessary
-    // https://www.typescriptlang.org/play/#code/MYewdgzgLgBCMF4YG8CwAoGWYEMBcMUATgK4CmGAvhhiAHQ6IwBmOANhBehqJLMETI4oZJgAoAlIgB8MMclwFi5GJQk10vaDGBMBQkZI3AGTVhzJA
-    a: true as boolean,
-    nested: {
-      foo: 'foo',
-      a: { b: 'string' },
-    },
-  })).bind(null, true) // force always a fresh instance
+  const useStore = () => {
+    // create a new store
+    setActiveReq({})
+    return createStore('main', () => ({
+      a: true,
+      nested: {
+        foo: 'foo',
+        a: { b: 'string' },
+      },
+    }))()
+  }
 
   it('sets the initial state', () => {
     const store = useStore()

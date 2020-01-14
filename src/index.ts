@@ -1,2 +1,2 @@
-export { createStore, CombinedStore } from './store'
+export { createStore, CombinedStore, setActiveReq } from './store'
 export { StateTree, StoreGetter } from './types'

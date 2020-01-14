@@ -1,9 +1,13 @@
-import { createStore } from '../src'
+import { createStore, setActiveReq } from '../src'
 
 describe('Subscriptions', () => {
-  const useStore = createStore('main', () => ({
-    name: 'Eduardo',
-  })).bind(null, true)
+  const useStore = () => {
+    // create a new store
+    setActiveReq({})
+    return createStore('main', () => ({
+      name: 'Eduardo',
+    }))()
+  }
 
   let store: ReturnType<typeof useStore>
   beforeEach(() => {
