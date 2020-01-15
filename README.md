@@ -259,7 +259,7 @@ export async function orderCart() {
 
 #### Creating _Pinias_
 
-_Not implemented_. Replaces the examles above about combining state and getters and about composing stores.
+_Not implemented_. Replaces the examples above about combining state and getters and about composing stores.
 
 Combine multiple _stores_ (gajos) into a new one:
 
