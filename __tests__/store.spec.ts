@@ -1,16 +1,18 @@
-import { createStore, setActiveReq } from '../src'
+import { createStore, setActiveReq, setStateProvider } from '../src'
 
 describe('Store', () => {
-  const useStore = (...args: any[]) => {
+  let req: object
+  const useStore = () => {
     // create a new store
-    setActiveReq({})
+    req = {}
+    setActiveReq(req)
     return createStore('main', () => ({
       a: true,
       nested: {
         foo: 'foo',
         a: { b: 'string' },
       },
-    }))(...args)
+    }))()
   }
 
   it('sets the initial state', () => {
@@ -25,15 +27,30 @@ describe('Store', () => {
   })
 
   it('can hydrate the state', () => {
-    const store = useStore({
-      main: {
-        a: false,
-        nested: {
-          foo: 'bar',
-          a: { b: 'string' },
-        },
+    setActiveReq({})
+    const useStore = createStore('main', () => ({
+      a: true,
+      nested: {
+        foo: 'foo',
+        a: { b: 'string' },
       },
+    }))
+
+    setStateProvider({
+      set: () => {},
+      get: () => ({
+        main: {
+          a: false,
+          nested: {
+            foo: 'bar',
+            a: { b: 'string' },
+          },
+        },
+      }),
     })
+
+    const store = useStore()
+
     expect(store.state).toEqual({
       a: false,
       nested: {
