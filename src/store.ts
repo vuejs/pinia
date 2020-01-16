@@ -169,9 +169,10 @@ export function buildStore<
     )
   }
 
-  const store = {
+  const store: Store<Id, S, G, A> = {
     ...storeWithState,
     ...computedGetters,
+    ...((actions as unknown) as StoreWithActions<A>),
   }
 
   // make state access invisible
@@ -184,7 +185,6 @@ export function buildStore<
     },
   })
 
-  // @ts-ignore TODO: actions
   return store
 }
 
