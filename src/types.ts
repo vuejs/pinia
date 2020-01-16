@@ -14,6 +14,8 @@ export function isPlainObject(
   )
 }
 
+export type NonNullObject = Record<any, any>
+
 export interface StoreGetter<S extends StateTree, T = any> {
   (state: S): T
 }
@@ -45,6 +47,11 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
    * State of the Store
    */
   state: S
+
+  /**
+   * Private property defining the _req for this store
+   */
+  _r: NonNullObject
 
   /**
    * Applies a state patch to current state. Allows passing nested values

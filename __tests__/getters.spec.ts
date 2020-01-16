@@ -15,6 +15,22 @@ describe('Store', () => {
     })()
   }
 
+  const useB = createStore({
+    id: 'B',
+    state: () => ({ b: 'b' }),
+  })
+
+  const useA = createStore({
+    id: 'A',
+    state: () => ({ a: 'a' }),
+    getters: {
+      fromB(state) {
+        const bStore = useB()
+        return state.a + ' ' + bStore.state.b
+      },
+    },
+  })
+
   it('adds getters to the store', () => {
     const store = useStore()
     expect(store.upperCaseName.value).toBe('EDUARDO')
@@ -26,5 +42,20 @@ describe('Store', () => {
     const store = useStore()
     store.state.name = 'Ed'
     expect(store.upperCaseName.value).toBe('ED')
+  })
+
+  it('supports changing between requests', () => {
+    const req1 = {}
+    const req2 = {}
+    setActiveReq(req1)
+    const aStore = useA()
+
+    // simulate a different request
+    setActiveReq(req2)
+    const bStore = useB()
+    bStore.state.b = 'c'
+
+    aStore.state.a = 'b'
+    expect(aStore.fromB.value).toBe('b b')
   })
 })

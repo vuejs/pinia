@@ -8,6 +8,7 @@ import {
   isPlainObject,
   StoreWithGetters,
   StoreGetter,
+  NonNullObject,
 } from './types'
 import { useStoreDevtools } from './devtools'
 
@@ -31,6 +32,15 @@ function innerPatch<T extends StateTree>(
 
   return target
 }
+
+/**
+ * setActiveReq must be called to handle SSR at the top of functions like `fetch`, `setup`, `serverPrefetch` and others
+ */
+export let activeReq: NonNullObject = {}
+export const setActiveReq = (req: NonNullObject | undefined) =>
+  req && (activeReq = req)
+
+export const getActiveReq = () => activeReq
 
 export interface StoreAction {
   (...args: any[]): any
@@ -103,6 +113,7 @@ export function buildStore<
   initialState?: S | undefined
 ): Store<Id, S, G, A> {
   const state: Ref<S> = ref(initialState || buildState())
+  const _r = getActiveReq()
 
   let isListening = true
   let subscriptions: SubscriptionCallback<S>[] = []
@@ -151,6 +162,7 @@ export function buildStore<
 
   const storeWithState: StoreWithState<Id, S> = {
     id,
+    _r,
     // it is replaced below by a getter
     state: state.value,
 
@@ -159,20 +171,27 @@ export function buildStore<
     reset,
   }
 
-  // @ts-ignore we have to build it
-  const computedGetters: StoreWithGetters<S, G> = {}
+  const computedGetters: StoreWithGetters<S, G> = {} as StoreWithGetters<S, G>
   for (const getterName in getters) {
-    const method = getters[getterName]
-    // @ts-ignore
-    computedGetters[getterName] = computed<ReturnType<typeof method>>(() =>
-      getters[getterName](state.value)
-    )
+    computedGetters[getterName] = computed(() => {
+      setActiveReq(_r)
+      return getters[getterName](state.value)
+    }) as StoreWithGetters<S, G>[typeof getterName]
+  }
+
+  const wrappedActions: StoreWithActions<A> = {} as StoreWithActions<A>
+  for (const actionName in actions) {
+    wrappedActions[actionName] = function() {
+      setActiveReq(_r)
+      // eslint-disable-next-line
+      return actions[actionName].apply(this, arguments as unknown as any[])
+    } as StoreWithActions<A>[typeof actionName]
   }
 
   const store: Store<Id, S, G, A> = {
     ...storeWithState,
     ...computedGetters,
-    ...((actions as unknown) as StoreWithActions<A>),
+    ...wrappedActions,
   }
 
   // make state access invisible
@@ -187,17 +206,6 @@ export function buildStore<
 
   return store
 }
-
-type NonNullObject = Record<any, any>
-
-/**
- * setActiveReq must be called to handle SSR at the top of functions like `fetch`, `setup`, `serverPrefetch` and others
- */
-export let activeReq: NonNullObject = {}
-export const setActiveReq = (req: NonNullObject | undefined) =>
-  req && (activeReq = req)
-
-export const getActiveReq = () => activeReq
 
 /**
  * The api needs more work we must be able to use the store easily in any
