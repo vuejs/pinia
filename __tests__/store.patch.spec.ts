@@ -4,13 +4,16 @@ describe('store.patch', () => {
   const useStore = () => {
     // create a new store
     setActiveReq({})
-    return createStore('main', () => ({
-      a: true,
-      nested: {
-        foo: 'foo',
-        a: { b: 'string' },
-      },
-    }))()
+    return createStore({
+      id: 'main',
+      state: () => ({
+        a: true,
+        nested: {
+          foo: 'foo',
+          a: { b: 'string' },
+        },
+      }),
+    })()
   }
 
   it('patches a property without touching the rest', () => {

@@ -1,4 +1,4 @@
-import { Store, StoreGetter, StateTree, StoreGetters } from './types'
+import { Store, StoreGetter, StateTree, StoreWithGetters } from './types'
 import { CombinedStore, buildStore } from './store'
 
 export type CombinedState<
@@ -39,7 +39,7 @@ export type CombinedGetters<
   [k in keyof S]: S[k] extends (
     ...args: any[]
   ) => CombinedStore<string, infer State, infer Getters>
-    ? StoreGetters<State, Getters>
+    ? StoreWithGetters<State, Getters>
     : never
 }
 

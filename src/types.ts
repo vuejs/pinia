@@ -28,14 +28,14 @@ export type SubscriptionCallback<S> = (
   state: S
 ) => void
 
-export type StoreGetters<
+export type StoreWithGetters<
   S extends StateTree,
   G extends Record<string, StoreGetter<S>>
 > = {
   [k in keyof G]: G[k] extends StoreGetter<S, infer V> ? Ref<V> : never
 }
 
-export interface Store<Id extends string, S extends StateTree> {
+export interface StoreWithState<Id extends string, S extends StateTree> {
   /**
    * Unique identifier of the store
    */

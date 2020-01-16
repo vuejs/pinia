@@ -1,7 +1,2 @@
-export {
-  createStore,
-  CombinedStore,
-  setActiveReq,
-  setStateProvider,
-} from './store'
+export { createStore, Store, setActiveReq, setStateProvider } from './store'
 export { StateTree, StoreGetter } from './types'

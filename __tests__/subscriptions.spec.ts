@@ -4,9 +4,12 @@ describe('Subscriptions', () => {
   const useStore = () => {
     // create a new store
     setActiveReq({})
-    return createStore('main', () => ({
-      name: 'Eduardo',
-    }))()
+    return createStore({
+      id: 'main',
+      state: () => ({
+        name: 'Eduardo',
+      }),
+    })()
   }
 
   let store: ReturnType<typeof useStore>

@@ -1,12 +1,12 @@
 import { ref, watch, computed } from '@vue/composition-api'
-import { Ref } from '@vue/composition-api/dist/reactivity'
+import { Ref, UnwrapRef } from '@vue/composition-api/dist/reactivity'
 import {
   StateTree,
-  Store,
+  StoreWithState,
   SubscriptionCallback,
   DeepPartial,
   isPlainObject,
-  StoreGetters,
+  StoreWithGetters,
   StoreGetter,
 } from './types'
 import { useStoreDevtools } from './devtools'
@@ -32,18 +32,58 @@ function innerPatch<T extends StateTree>(
   return target
 }
 
-/**
- * NOTE: by allowing users to name stores correctly, they can nest them the way
- * they want, no? like user/cart
- */
+export interface StoreAction {
+  (...args: any[]): any
+}
 
-export type CombinedStore<
+// in this type we forget about this because otherwise the type is recursive
+type StoreWithActions<A extends Record<string, StoreAction>> = {
+  [k in keyof A]: A[k] extends (this: infer This, ...args: infer P) => infer R
+    ? (this: This, ...args: P) => R
+    : never
+}
+
+// has the actions without the context (this) for typings
+export type Store<
   Id extends string,
   S extends StateTree,
-  G extends Record<string, StoreGetter<S>>
-> = Store<Id, S> & StoreGetters<S, G>
+  G extends Record<string, StoreGetter<S>>,
+  A extends Record<string, StoreAction>
+> = StoreWithState<Id, S> & StoreWithGetters<S, G> & StoreWithActions<A>
 
-// TODO: allow buildStore to start with an initial state for hydration
+export type WrapStoreWithId<
+  S extends Store<any, any, any, any>
+> = S extends Store<infer Id, infer S, infer G, infer A>
+  ? {
+      [k in Id]: Store<Id, S, G, A>
+    }
+  : never
+
+export type ExtractGettersFromStore<S> = S extends Store<
+  any,
+  infer S,
+  infer G,
+  any
+>
+  ? {
+      [k in keyof G]: ReturnType<G[k]>
+    }
+  : never
+
+export type PiniaStore<
+  P extends Record<string, Store<any, any, any, any>>
+> = P extends Record<infer name, any>
+  ? {
+      [Id in P[name]['id']]: P[name] extends Store<
+        Id,
+        infer S,
+        infer G,
+        infer A
+      >
+        ? StoreWithGetters<S, G>
+        : never
+    }
+  : never
 
 /**
  * Creates a store instance
@@ -53,14 +93,15 @@ export type CombinedStore<
 export function buildStore<
   Id extends string,
   S extends StateTree,
-  G extends Record<string, StoreGetter<S>>
+  G extends Record<string, StoreGetter<S>>,
+  A extends Record<string, StoreAction>
 >(
   id: Id,
   buildState: () => S,
   getters: G = {} as G,
+  actions: A = {} as A,
   initialState?: S | undefined
-  // methods: Record<string | symbol, StoreMethod>
-): CombinedStore<Id, S, G> {
+): Store<Id, S, G, A> {
   const state: Ref<S> = ref(initialState || buildState())
 
   let isListening = true
@@ -108,7 +149,7 @@ export function buildStore<
     state.value = buildState()
   }
 
-  const storeWithState: Store<Id, S> = {
+  const storeWithState: StoreWithState<Id, S> = {
     id,
     // it is replaced below by a getter
     state: state.value,
@@ -119,7 +160,7 @@ export function buildStore<
   }
 
   // @ts-ignore we have to build it
-  const computedGetters: StoreGetters<S, G> = {}
+  const computedGetters: StoreWithGetters<S, G> = {}
   for (const getterName in getters) {
     const method = getters[getterName]
     // @ts-ignore
@@ -143,6 +184,7 @@ export function buildStore<
     },
   })
 
+  // @ts-ignore TODO: actions
   return store
 }
 
@@ -165,7 +207,7 @@ export const getActiveReq = () => activeReq
 
 const storesMap = new WeakMap<
   NonNullObject,
-  Record<string, CombinedStore<any, any, any>>
+  Record<string, Store<any, any, any, any>>
 >()
 
 /**
@@ -173,7 +215,7 @@ const storesMap = new WeakMap<
  */
 interface StateProvider {
   get(): Record<string, StateTree>
-  set(store: CombinedStore<any, any, any>): any
+  set(store: Store<any, any, any, any>): any
 }
 
 /**
@@ -190,23 +232,30 @@ function getInitialState(id: string): StateTree | undefined {
   return provider && provider.get()[id]
 }
 
-function setInitialState(store: CombinedStore<any, any, any>): void {
+function setInitialState(store: Store<any, any, any, any>): void {
   const provider = stateProviders.get(getActiveReq())
   if (provider) provider.set(store)
 }
 
 /**
  * Creates a `useStore` function that retrieves the store instance
- * @param id id of the store we are creating
- * @param buildState function that returns a state
- * @param getters optional object of getters
+ * @param options
  */
 export function createStore<
   Id extends string,
   S extends StateTree,
-  G extends Record<string, StoreGetter<S>>
->(id: Id, buildState: () => S, getters: G = {} as G) {
-  return function useStore(): CombinedStore<Id, S, G> {
+  G extends Record<string, StoreGetter<S>>,
+  A extends Record<string, StoreAction>
+>(options: {
+  id: Id
+  state: () => S
+  getters?: G
+  // allow actions use other actions
+  actions?: A & ThisType<A & StoreWithState<Id, S> & StoreWithGetters<S, G>>
+}) {
+  const { id, state: buildState, getters, actions } = options
+
+  return function useStore(): Store<Id, S, G, A> {
     const req = getActiveReq()
     let stores = storesMap.get(req)
     if (!stores) storesMap.set(req, (stores = {}))
@@ -217,8 +266,11 @@ export function createStore<
         id,
         buildState,
         getters,
+        actions,
         getInitialState(id)
       )
+      // save a reference to the initial state
+      // TODO: this implies that replacing the store cannot be done by the user because we are relying on the object reference
       setInitialState(store)
       if (isClient) useStoreDevtools(store)
     }

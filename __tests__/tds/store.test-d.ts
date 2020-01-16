@@ -1,8 +1,12 @@
 import { createStore } from '../../src'
 import { expectType, expectError } from 'tsd'
 
-const useStore = createStore('name', () => ({ a: 'on' as 'on' | 'off' }), {
-  upper: state => state.a.toUpperCase(),
+const useStore = createStore({
+  id: 'name',
+  state: () => ({ a: 'on' as 'on' | 'off' }),
+  getters: {
+    upper: state => state.a.toUpperCase(),
+  },
 })
 
 const store = useStore()

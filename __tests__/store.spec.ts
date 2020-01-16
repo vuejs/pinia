@@ -6,13 +6,16 @@ describe('Store', () => {
     // create a new store
     req = {}
     setActiveReq(req)
-    return createStore('main', () => ({
-      a: true,
-      nested: {
-        foo: 'foo',
-        a: { b: 'string' },
-      },
-    }))()
+    return createStore({
+      id: 'main',
+      state: () => ({
+        a: true,
+        nested: {
+          foo: 'foo',
+          a: { b: 'string' },
+        },
+      }),
+    })()
   }
 
   it('sets the initial state', () => {
@@ -28,13 +31,16 @@ describe('Store', () => {
 
   it('can hydrate the state', () => {
     setActiveReq({})
-    const useStore = createStore('main', () => ({
-      a: true,
-      nested: {
-        foo: 'foo',
-        a: { b: 'string' },
-      },
-    }))
+    const useStore = createStore({
+      id: 'main',
+      state: () => ({
+        a: true,
+        nested: {
+          foo: 'foo',
+          a: { b: 'string' },
+        },
+      }),
+    })
 
     setStateProvider({
       set: () => {},

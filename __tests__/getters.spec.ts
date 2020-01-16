@@ -1,15 +1,19 @@
-import { createStore } from '../src'
+import { createStore, setActiveReq } from '../src'
 
 describe('Store', () => {
-  const useStore = createStore(
-    'main',
-    () => ({
-      name: 'Eduardo',
-    }),
-    {
-      upperCaseName: ({ name }) => name.toUpperCase(),
-    }
-  ).bind(null, true)
+  const useStore = () => {
+    // create a new store
+    setActiveReq({})
+    return createStore({
+      id: 'main',
+      state: () => ({
+        name: 'Eduardo',
+      }),
+      getters: {
+        upperCaseName: ({ name }) => name.toUpperCase(),
+      },
+    })()
+  }
 
   it('adds getters to the store', () => {
     const store = useStore()

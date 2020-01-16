@@ -4,6 +4,7 @@
     "module": "esnext",
     "noEmit": true,
     "strict": true,
+    "noImplicitThis": true,
     "composite": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
