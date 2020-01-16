@@ -1,4 +1,4 @@
-import { DevtoolHook, StateTree, Store } from './types'
+import { DevtoolHook, StateTree, StoreWithState } from './types'
 
 const target =
   typeof window !== 'undefined'
@@ -29,7 +29,7 @@ interface RootState {
 
 let rootStore: RootState
 
-export function useStoreDevtools(store: Store<string, StateTree>) {
+export function useStoreDevtools(store: StoreWithState<string, StateTree>) {
   if (!devtoolHook) return
 
   if (!rootStore) {
