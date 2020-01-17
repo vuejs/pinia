@@ -10,7 +10,7 @@
 
 ⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works for Vue 2 by using the [official library](https://github.com/vuejs/composition-api).
 
-What I want is to inspire others to think about ways to improve Vuex and come up with something that works very well with the composition api but that can also be used **without it**.
+What I want is to inspire others to think about ways to improve Vuex and come up with something that works very well with the composition api. Ideally it could also be used without it. **@vue/composition-api is necessary**.
 
 There are the core principles that I try to achieve with this experiment:
 
@@ -67,10 +67,12 @@ A few notes about the project and possible questions:
 ## Installation
 
 ```sh
-yarn add pinia
+yarn add pinia @vue/composition-api
 # or with npm
-npm install pinia
+npm install pinia @vue/composition-api
 ```
+
+Note: **The Vue Composition API plugin must be installed for Pinia to work**
 
 ## Usage
 
@@ -204,7 +206,7 @@ When writing a Single Page Application, there always only one instance of the st
 - `setup`
 - `serverPrefetch`
 
-Meaning that you can call `useMainStore` at the top of these functions and it will retrieve the correct store.
+Meaning that you can call `useMainStore` at the top of these functions and it will retrieve the correct store. Calling it anywhere else requires you to pass the current `req` to `useMainStore`.
 
 #### Nuxt Plugin
 
@@ -229,7 +231,7 @@ export default {
 }
 ```
 
-**This is necessary in middlewares and other asyncronous methods**
+Note: **This is necessary in middlewares and other asyncronous methods**
 
 It may look like things are working even if you don't pass `req` to `useStore` **but multiple concurrent requests to the server could end up sharing state between different users**.
 
