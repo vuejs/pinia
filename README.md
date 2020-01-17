@@ -134,7 +134,7 @@ import { useMainStore } from '@/stores/main'
 // so just don't do it
 const main = useMainStore()
 
-export default createComponent({
+export default defineComponent({
   setup() {
     return {}
   },
@@ -144,7 +144,7 @@ export default createComponent({
 Once you have access to the store, you can access the `state` through `store.state` and any getter directly on the `store` itself as a _computed_ property (from `@vue/composition-api`) (meaning you need to use `.value` to read the actual value on the JavaScript but not in the template):
 
 ```ts
-export default createComponent({
+export default defineComponent({
   setup() {
     const main = useMainStore()
     const text = main.state.name
@@ -156,10 +156,10 @@ export default createComponent({
 
 `state` is the result of a `ref` while every getter is the result of a `computed`. Both from `@vue/composition-api`.
 
-Actions are called invoked like methods:
+Actions are invoked like methods:
 
 ```ts
-export default createComponent({
+export default defineComponent({
   setup() {
     const main = useMainStore()
     // call the action as a method of the store
