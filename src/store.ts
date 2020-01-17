@@ -184,7 +184,7 @@ export function buildStore<
     wrappedActions[actionName] = function() {
       setActiveReq(_r)
       // eslint-disable-next-line
-      return actions[actionName].apply(this, arguments as unknown as any[])
+      return actions[actionName].apply(store, arguments as unknown as any[])
     } as StoreWithActions<A>[typeof actionName]
   }
 
@@ -261,7 +261,7 @@ export function createStore<
   // allow actions use other actions
   actions?: A & ThisType<A & StoreWithState<Id, S> & StoreWithGetters<S, G>>
 }) {
-  const { id, state: buildState, getters, actions } = options
+  const { id, state, getters, actions } = options
 
   return function useStore(): Store<Id, S, G, A> {
     const req = getActiveReq()
@@ -272,7 +272,7 @@ export function createStore<
     if (!store) {
       stores[id] = store = buildStore(
         id,
-        buildState,
+        state,
         getters,
         actions,
         getInitialState(id)

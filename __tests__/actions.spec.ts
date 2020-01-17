@@ -55,6 +55,13 @@ describe('Store', () => {
     expect(store.state.a).toBe(false)
   })
 
+  it('store is forced as the context', () => {
+    const store = useStore()
+    expect(store.state.a).toBe(true)
+    store.toggle.call(null)
+    expect(store.state.a).toBe(false)
+  })
+
   it('can call other actions', () => {
     const store = useStore()
     expect(store.state.a).toBe(true)
