@@ -30,6 +30,13 @@ export type SubscriptionCallback<S> = (
   state: S
 ) => void
 
+export type StoreReactiveGetters<
+  S extends StateTree,
+  G extends Record<string, (state: S, getters: any) => any>
+> = {
+  [k in keyof G]: G[k] extends (state: S, getters: any) => infer V ? V : never
+}
+
 export type StoreWithGetters<
   S extends StateTree,
   G extends Record<string, StoreGetter<S>>

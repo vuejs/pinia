@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { setActiveReq, setStateProvider } from 'pinia'
+import { setActiveReq, setStateProvider, getRootState } from 'pinia'
 // import { Plugin } from '@nuxt/types'
 
 // declare module '@nuxt/types' {
@@ -58,7 +58,7 @@ Vue.mixin({
         if (context.ssrContext && context.ssrContext.req) {
           setActiveReq(context.ssrContext.req)
         }
-        setStateProvider(createStateProvider(context.ssrContext))
+        // setStateProvider(createStateProvider(context.ssrContext))
         return setup(props, context)
       }
     }
@@ -72,7 +72,7 @@ Vue.mixin({
         const original = patchedServerPrefetch[i]
         patchedServerPrefetch[i] = function() {
           setActiveReq(this.$ssrContext.req)
-          setStateProvider(createStateProvider(this.$ssrContext.req))
+          // setStateProvider(createStateProvider(this.$ssrContext.req))
           return original.call(this)
         }
       }
@@ -86,8 +86,21 @@ Vue.mixin({
 /** @type {import('@nuxt/types').Plugin} */
 const myPlugin = context => {
   // console.log('🍍 Pinia Nuxt plugin installed')
-  setActiveReq(context.req)
-  setStateProvider(createStateProvider(context.ssrContext))
+  // setActiveReq(context.req)
+  // setStateProvider(createStateProvider(context.ssrContext))
+
+  if (process.server) {
+    setActiveReq(context.req)
+    context.beforeNuxtRender(({ nuxtState }) => {
+      nuxtState.pinia = getRootState(context.req)
+    })
+  } else {
+    setStateProvider({
+      get: () => context.nuxtState.pinia,
+      // TODO: remove the setter
+      set: () => {},
+    })
+  }
 }
 
 export default myPlugin

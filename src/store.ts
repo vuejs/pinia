@@ -1,5 +1,4 @@
-import { ref, watch, computed } from '@vue/composition-api'
-import { Ref, UnwrapRef } from '@vue/composition-api/dist/reactivity'
+import { ref, watch, computed, reactive, Ref } from '@vue/composition-api'
 import {
   StateTree,
   StoreWithState,
@@ -9,6 +8,7 @@ import {
   StoreWithGetters,
   StoreGetter,
   NonNullObject,
+  StoreReactiveGetters,
 } from './types'
 import { useStoreDevtools } from './devtools'
 
@@ -62,7 +62,7 @@ export type Store<
 > = StoreWithState<Id, S> & StoreWithGetters<S, G> & StoreWithActions<A>
 
 export type WrapStoreWithId<
-  S extends Store<any, any, any, any>
+  S extends Store<string, StateTree, any, any>
 > = S extends Store<infer Id, infer S, infer G, infer A>
   ? {
       [k in Id]: Store<Id, S, G, A>
@@ -175,9 +175,12 @@ export function buildStore<
   for (const getterName in getters) {
     computedGetters[getterName] = computed(() => {
       setActiveReq(_r)
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       return getters[getterName](state.value)
     }) as StoreWithGetters<S, G>[typeof getterName]
   }
+
+  // const reactiveGetters = reactive(computedGetters)
 
   const wrappedActions: StoreWithActions<A> = {} as StoreWithActions<A>
   for (const actionName in actions) {
@@ -223,7 +226,7 @@ export const storesMap = new WeakMap<
  */
 interface StateProvider {
   get(): Record<string, StateTree>
-  set(store: Store<any, any, any, any>): any
+  set(store: Store<string, StateTree, any, any>): any
 }
 
 /**
@@ -240,9 +243,31 @@ function getInitialState(id: string): StateTree | undefined {
   return provider && provider.get()[id]
 }
 
-function setInitialState(store: Store<any, any, any, any>): void {
+function setInitialState(store: Store<string, StateTree, any, any>): void {
   const provider = stateProviders.get(getActiveReq())
   if (provider) provider.set(store)
+}
+
+type StoreGetterWithGetters<
+  G extends Record<string, StoreGetter<StateTree>>
+> = {
+  [k in keyof G]: G[k] extends StoreGetter<infer S, infer V>
+    ? (state: S, getters: G) => V
+    : never
+}
+
+export function getRootState(req: NonNullObject): Record<string, StateTree> {
+  const stores = storesMap.get(req)
+  if (!stores) return {}
+  const rootState = {} as Record<string, StateTree>
+
+  for (const store of Object.values(stores)) {
+    rootState[store.id] = store.state
+  }
+
+  console.log('global state', rootState)
+
+  return rootState
 }
 
 /**
