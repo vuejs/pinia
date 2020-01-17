@@ -213,7 +213,7 @@ export function buildStore<
  * be able to reset the store instance between requests on the server
  */
 
-const storesMap = new WeakMap<
+export const storesMap = new WeakMap<
   NonNullObject,
   Record<string, Store<any, any, any, any>>
 >()
@@ -263,7 +263,8 @@ export function createStore<
 }) {
   const { id, state, getters, actions } = options
 
-  return function useStore(): Store<Id, S, G, A> {
+  return function useStore(reqKey?: object): Store<Id, S, G, A> {
+    if (reqKey) setActiveReq(reqKey)
     const req = getActiveReq()
     let stores = storesMap.get(req)
     if (!stores) storesMap.set(req, (stores = {}))
@@ -278,7 +279,7 @@ export function createStore<
         getInitialState(id)
       )
       // save a reference to the initial state
-      // TODO: this implies that replacing the store cannot be done by the user because we are relying on the object reference
+      // TODO: this implies that replacing the store cannot be done by the user on the server
       setInitialState(store)
       if (isClient) useStoreDevtools(store)
     }

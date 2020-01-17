@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "target": "esnext",
     "module": "esnext",
     "noEmit": true,
@@ -12,5 +13,5 @@
     "rootDir": ".",
     "baseUrl": "."
   },
-  "include": ["src/**/*.ts", "__tests__/**/**.ts"]
+  "include": ["src/**/*.ts", "nuxt/*.js", "__tests__/**/**.ts"]
 }

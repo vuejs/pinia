@@ -87,4 +87,20 @@ describe('Store', () => {
     // a different instance of b store was used
     expect(bStore.state.b).toBe('c')
   })
+
+  it('can force the req', () => {
+    const req1 = {}
+    const req2 = {}
+    const aStore = useA(req1)
+
+    let bStore = useB(req2)
+    bStore.state.b = 'c'
+
+    aStore.swap()
+    expect(aStore.state.a).toBe('b')
+    // a different instance of b store was used
+    expect(bStore.state.b).toBe('c')
+    bStore = useB(req1)
+    expect(bStore.state.b).toBe('a')
+  })
 })
