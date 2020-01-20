@@ -7,11 +7,18 @@ import {
   isPlainObject,
   StoreWithGetters,
   StoreGetter,
-  NonNullObject,
   StoreAction,
+  Store,
   StoreWithActions,
 } from './types'
 import { useStoreDevtools } from './devtools'
+import {
+  getActiveReq,
+  setActiveReq,
+  storesMap,
+  getInitialState,
+  setInitialState,
+} from './rootStore'
 
 const isClient = typeof window != 'undefined'
 
@@ -33,23 +40,6 @@ function innerPatch<T extends StateTree>(
 
   return target
 }
-
-/**
- * setActiveReq must be called to handle SSR at the top of functions like `fetch`, `setup`, `serverPrefetch` and others
- */
-export let activeReq: NonNullObject = {}
-export const setActiveReq = (req: NonNullObject | undefined) =>
-  req && (activeReq = req)
-
-export const getActiveReq = () => activeReq
-
-// has the actions without the context (this) for typings
-export type Store<
-  Id extends string,
-  S extends StateTree,
-  G extends Record<string, StoreGetter<S>>,
-  A extends Record<string, StoreAction>
-> = StoreWithState<Id, S> & StoreWithGetters<S, G> & StoreWithActions<A>
 
 /**
  * Creates a store instance
@@ -167,61 +157,6 @@ export function buildStore<
 }
 
 /**
- * The api needs more work we must be able to use the store easily in any
- * function by calling `useStore` to get the store Instance and we also need to
- * be able to reset the store instance between requests on the server
- */
-
-export const storesMap = new WeakMap<
-  NonNullObject,
-  Record<string, Store<any, any, any, any>>
->()
-
-/**
- * A state provider allows to set how states are stored for hydration. e.g. setting a property on a context, getting a property from window
- */
-interface StateProvider {
-  get(): Record<string, StateTree>
-  set(store: Store<string, StateTree, any, any>): any
-}
-
-/**
- * Map of initial states used for hydration
- */
-export const stateProviders = new WeakMap<NonNullObject, StateProvider>()
-
-export function setStateProvider(stateProvider: StateProvider) {
-  stateProviders.set(getActiveReq(), stateProvider)
-}
-
-function getInitialState(id: string): StateTree | undefined {
-  const provider = stateProviders.get(getActiveReq())
-  return provider && provider.get()[id]
-}
-
-function setInitialState(store: Store<string, StateTree, any, any>): void {
-  const provider = stateProviders.get(getActiveReq())
-  if (provider) provider.set(store)
-}
-
-/**
- * Gets the root state of all active stores. This is useful when reporting an application crash by
- * retrieving the problematic state and send it to your error tracking service.
- * @param req request key
- */
-export function getRootState(req: NonNullObject): Record<string, StateTree> {
-  const stores = storesMap.get(req)
-  if (!stores) return {}
-  const rootState = {} as Record<string, StateTree>
-
-  for (const store of Object.values(stores)) {
-    rootState[store.id] = store.state
-  }
-
-  return rootState
-}
-
-/**
  * Creates a `useStore` function that retrieves the store instance
  * @param options
  */
@@ -245,7 +180,7 @@ export function createStore<
     let stores = storesMap.get(req)
     if (!stores) storesMap.set(req, (stores = {}))
 
-    let store = stores[id]
+    let store = stores[id] as Store<Id, S, G, A>
     if (!store) {
       stores[id] = store = buildStore(
         id,
@@ -254,9 +189,7 @@ export function createStore<
         actions,
         getInitialState(id)
       )
-      // save a reference to the initial state
-      // TODO: this implies that replacing the store cannot be done by the user on the server
-      setInitialState(store)
+
       if (isClient) useStoreDevtools(store)
     }
 

@@ -91,6 +91,21 @@ export type StoreWithActions<A extends Record<string, StoreAction>> = {
     : never
 }
 
+// has the actions without the context (this) for typings
+export type Store<
+  Id extends string,
+  S extends StateTree,
+  G extends Record<string, StoreGetter<S>>,
+  A extends Record<string, StoreAction>
+> = StoreWithState<Id, S> & StoreWithGetters<S, G> & StoreWithActions<A>
+
+export type GenericStore = Store<
+  string,
+  StateTree,
+  Record<string, StoreGetter<StateTree>>,
+  Record<string, StoreAction>
+>
+
 export interface DevtoolHook {
   on(
     event: string,

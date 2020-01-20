@@ -1,8 +1,3 @@
-export {
-  createStore,
-  Store,
-  setActiveReq,
-  setStateProvider,
-  getRootState,
-} from './store'
-export { StateTree, StoreGetter } from './types'
+export { createStore } from './store'
+export { setActiveReq, setStateProvider, getRootState } from './rootStore'
+export { StateTree, StoreGetter, Store } from './types'
