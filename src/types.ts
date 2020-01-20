@@ -56,7 +56,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   state: S
 
   /**
-   * Private property defining the _req for this store
+   * Private property defining the request key for this store
    */
   _r: NonNullObject
 
@@ -78,6 +78,17 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
    * @returns function that removes callback from subscriptions
    */
   subscribe(callback: SubscriptionCallback<S>): () => void
+}
+
+export interface StoreAction {
+  (...args: any[]): any
+}
+
+// in this type we forget about this because otherwise the type is recursive
+export type StoreWithActions<A extends Record<string, StoreAction>> = {
+  [k in keyof A]: A[k] extends (this: infer This, ...args: infer P) => infer R
+    ? (this: This, ...args: P) => R
+    : never
 }
 
 export interface DevtoolHook {

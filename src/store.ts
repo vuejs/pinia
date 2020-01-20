@@ -8,6 +8,8 @@ import {
   StoreWithGetters,
   StoreGetter,
   NonNullObject,
+  StoreAction,
+  StoreWithActions,
 } from './types'
 import { useStoreDevtools } from './devtools'
 
@@ -41,17 +43,6 @@ export const setActiveReq = (req: NonNullObject | undefined) =>
 
 export const getActiveReq = () => activeReq
 
-export interface StoreAction {
-  (...args: any[]): any
-}
-
-// in this type we forget about this because otherwise the type is recursive
-type StoreWithActions<A extends Record<string, StoreAction>> = {
-  [k in keyof A]: A[k] extends (this: infer This, ...args: infer P) => infer R
-    ? (this: This, ...args: P) => R
-    : never
-}
-
 // has the actions without the context (this) for typings
 export type Store<
   Id extends string,
@@ -59,21 +50,6 @@ export type Store<
   G extends Record<string, StoreGetter<S>>,
   A extends Record<string, StoreAction>
 > = StoreWithState<Id, S> & StoreWithGetters<S, G> & StoreWithActions<A>
-
-export type PiniaStore<
-  P extends Record<string, Store<any, any, any, any>>
-> = P extends Record<infer name, any>
-  ? {
-      [Id in P[name]['id']]: P[name] extends Store<
-        Id,
-        infer S,
-        infer G,
-        infer A
-      >
-        ? StoreWithGetters<S, G>
-        : never
-    }
-  : never
 
 /**
  * Creates a store instance
