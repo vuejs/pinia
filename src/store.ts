@@ -17,7 +17,6 @@ import {
   setActiveReq,
   storesMap,
   getInitialState,
-  setInitialState,
 } from './rootStore'
 
 const isClient = typeof window != 'undefined'

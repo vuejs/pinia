@@ -24,8 +24,7 @@ export const storesMap = new WeakMap<
  * A state provider allows to set how states are stored for hydration. e.g. setting a property on a context, getting a property from window
  */
 interface StateProvider {
-  get(): Record<string, StateTree>
-  set(store: GenericStore): any
+  (): Record<string, StateTree>
 }
 
 /**
@@ -39,12 +38,7 @@ export function setStateProvider(stateProvider: StateProvider) {
 
 export function getInitialState(id: string): StateTree | undefined {
   const provider = stateProviders.get(getActiveReq())
-  return provider && provider.get()[id]
-}
-
-export function setInitialState(store: GenericStore): void {
-  const provider = stateProviders.get(getActiveReq())
-  if (provider) provider.set(store)
+  return provider && provider()[id]
 }
 
 /**

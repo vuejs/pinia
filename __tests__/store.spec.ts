@@ -65,18 +65,15 @@ describe('Store', () => {
       }),
     })
 
-    setStateProvider({
-      set: () => {},
-      get: () => ({
-        main: {
-          a: false,
-          nested: {
-            foo: 'bar',
-            a: { b: 'string' },
-          },
+    setStateProvider(() => ({
+      main: {
+        a: false,
+        nested: {
+          foo: 'bar',
+          a: { b: 'string' },
         },
-      }),
-    })
+      },
+    }))
 
     const store = useStore()
 
