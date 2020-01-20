@@ -228,14 +228,11 @@ function setInitialState(store: Store<string, StateTree, any, any>): void {
   if (provider) provider.set(store)
 }
 
-type StoreGetterWithGetters<
-  G extends Record<string, StoreGetter<StateTree>>
-> = {
-  [k in keyof G]: G[k] extends StoreGetter<infer S, infer V>
-    ? (state: S, getters: G) => V
-    : never
-}
-
+/**
+ * Gets the root state of all active stores. This is useful when reporting an application crash by
+ * retrieving the problematic state and send it to your error tracking service.
+ * @param req request key
+ */
 export function getRootState(req: NonNullObject): Record<string, StateTree> {
   const stores = storesMap.get(req)
   if (!stores) return {}
@@ -244,8 +241,6 @@ export function getRootState(req: NonNullObject): Record<string, StateTree> {
   for (const store of Object.values(stores)) {
     rootState[store.id] = store.state
   }
-
-  console.log('global state', rootState)
 
   return rootState
 }
