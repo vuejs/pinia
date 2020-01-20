@@ -17,7 +17,8 @@ export function isPlainObject(
 export type NonNullObject = Record<any, any>
 
 export interface StoreGetter<S extends StateTree, T = any> {
-  (state: S): T
+  // TODO: would be nice to be able to define the getters here
+  (state: S, getters: Record<string, Ref<any>>): T
 }
 
 type TODO = any
@@ -29,13 +30,6 @@ export type SubscriptionCallback<S> = (
   mutation: { storeName: string; type: string; payload: DeepPartial<S> },
   state: S
 ) => void
-
-export type StoreReactiveGetters<
-  S extends StateTree,
-  G extends Record<string, (state: S, getters: any) => any>
-> = {
-  [k in keyof G]: G[k] extends (state: S, getters: any) => infer V ? V : never
-}
 
 export type StoreWithGetters<
   S extends StateTree,

@@ -121,7 +121,7 @@ export function buildStore<
     computedGetters[getterName] = computed(() => {
       setActiveReq(_r)
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      return getters[getterName](state.value)
+      return getters[getterName](state.value, computedGetters)
     }) as StoreWithGetters<S, G>[typeof getterName]
   }
 

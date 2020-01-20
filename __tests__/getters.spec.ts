@@ -11,6 +11,8 @@ describe('Store', () => {
       }),
       getters: {
         upperCaseName: ({ name }) => name.toUpperCase(),
+        composed: (state, { upperCaseName }) =>
+          (upperCaseName.value as string) + ': ok',
       },
     })()
   }
@@ -57,5 +59,10 @@ describe('Store', () => {
 
     aStore.state.a = 'b'
     expect(aStore.fromB.value).toBe('b b')
+  })
+
+  it('can use other getters', () => {
+    const store = useStore()
+    expect(store.composed.value).toBe('EDUARDO: ok')
   })
 })
