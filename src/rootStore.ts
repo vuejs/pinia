@@ -15,10 +15,7 @@ export const getActiveReq = () => activeReq
  * be able to reset the store instance between requests on the server
  */
 
-export const storesMap = new WeakMap<
-  NonNullObject,
-  Record<string, GenericStore>
->()
+export const storesMap = new WeakMap<NonNullObject, Map<string, GenericStore>>()
 
 /**
  * A state provider allows to set how states are stored for hydration. e.g. setting a property on a context, getting a property from window
@@ -51,9 +48,10 @@ export function getRootState(req: NonNullObject): Record<string, StateTree> {
   if (!stores) return {}
   const rootState = {} as Record<string, StateTree>
 
-  for (const store of Object.values(stores)) {
+  // forEach is the only one that also works on IE11
+  stores.forEach(store => {
     rootState[store.id] = store.state
-  }
+  })
 
   return rootState
 }

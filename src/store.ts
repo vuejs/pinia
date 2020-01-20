@@ -177,16 +177,13 @@ export function createStore<
     if (reqKey) setActiveReq(reqKey)
     const req = getActiveReq()
     let stores = storesMap.get(req)
-    if (!stores) storesMap.set(req, (stores = {}))
+    if (!stores) storesMap.set(req, (stores = new Map()))
 
-    let store = stores[id] as Store<Id, S, G, A>
+    let store = stores.get(id) as Store<Id, S, G, A>
     if (!store) {
-      stores[id] = store = buildStore(
+      stores.set(
         id,
-        state,
-        getters,
-        actions,
-        getInitialState(id)
+        (store = buildStore(id, state, getters, actions, getInitialState(id)))
       )
 
       if (isClient) useStoreDevtools(store)
