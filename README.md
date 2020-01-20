@@ -94,7 +94,9 @@ export const useMainStore = createStore({
   }),
   // optional getters
   getters: {
-    doubleCount: state => state.counter * 2,
+    doubleCount: (state, getters) => state.counter * 2,
+    // use getters in other getters
+    doubleCountPlusOne: (state, { doubleCount }) => doubleCount.value * 2,
   },
   // optional actions
   actions: {
@@ -328,7 +330,7 @@ export const useSharedStore = createStore({
 
 #### Creating _Pinias_
 
-_Not implemented_. Still under discussion, needs more feedback as this doesn't seem necessary.
+_Not implemented_. Still under discussion, needs more feedback as this doesn't seem necessary because it can be replaced by shared stores as shown above.
 
 Combine multiple _stores_ (gajos) into a new one:
 

@@ -64,5 +64,7 @@ describe('Store', () => {
   it('can use other getters', () => {
     const store = useStore()
     expect(store.composed.value).toBe('EDUARDO: ok')
+    store.state.name = 'Ed'
+    expect(store.composed.value).toBe('ED: ok')
   })
 })
