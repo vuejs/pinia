@@ -1,4 +1,6 @@
+// @ts-check
 import Vue from 'vue'
+// @ts-ignore: this must be pinia to load the local module
 import { setActiveReq, setStateProvider, getRootState } from 'pinia'
 
 Vue.mixin({
@@ -23,6 +25,9 @@ Vue.mixin({
 
       for (let i = 0; i < patchedServerPrefetch.length; i++) {
         const original = patchedServerPrefetch[i]
+        /**
+         * @type {(this: import('vue').default) => any}
+         */
         patchedServerPrefetch[i] = function() {
           setActiveReq(this.$ssrContext.req)
 
