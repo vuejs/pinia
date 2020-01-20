@@ -287,7 +287,6 @@ import { useCartStore } from './cart'
 
 export const useSharedStore = createStore({
   id: 'shared',
-  state: () => ({}),
   getters: {
     summary() {
       const user = useUserStore()

@@ -8,7 +8,6 @@ import {
   StoreWithGetters,
   StoreGetter,
   NonNullObject,
-  StoreReactiveGetters,
 } from './types'
 import { useStoreDevtools } from './devtools'
 
@@ -61,25 +60,6 @@ export type Store<
   A extends Record<string, StoreAction>
 > = StoreWithState<Id, S> & StoreWithGetters<S, G> & StoreWithActions<A>
 
-export type WrapStoreWithId<
-  S extends Store<string, StateTree, any, any>
-> = S extends Store<infer Id, infer S, infer G, infer A>
-  ? {
-      [k in Id]: Store<Id, S, G, A>
-    }
-  : never
-
-export type ExtractGettersFromStore<S> = S extends Store<
-  any,
-  infer S,
-  infer G,
-  any
->
-  ? {
-      [k in keyof G]: ReturnType<G[k]>
-    }
-  : never
-
 export type PiniaStore<
   P extends Record<string, Store<any, any, any, any>>
 > = P extends Record<infer name, any>
@@ -107,7 +87,7 @@ export function buildStore<
   A extends Record<string, StoreAction>
 >(
   id: Id,
-  buildState: () => S,
+  buildState = () => ({} as S),
   getters: G = {} as G,
   actions: A = {} as A,
   initialState?: S | undefined
@@ -281,7 +261,7 @@ export function createStore<
   A extends Record<string, StoreAction>
 >(options: {
   id: Id
-  state: () => S
+  state?: () => S
   getters?: G
   // allow actions use other actions
   actions?: A & ThisType<A & StoreWithState<Id, S> & StoreWithGetters<S, G>>
