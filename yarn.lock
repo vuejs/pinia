@@ -868,11 +868,11 @@
     "@types/yargs-parser" "*"
 
 "@typescript-eslint/eslint-plugin@^2.15.0":
-  version "2.16.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-2.16.0.tgz#bf339b7db824c7cc3fd1ebedbc88dd17016471af"
-  integrity sha512-TKWbeFAKRPrvKiR9GNxErQ8sELKqg1ZvXi6uho07mcKShBnCnqNpDQWP01FEvWKf0bxM2g7uQEI5MNjSNqvUpQ==
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-2.17.0.tgz#880435a9f9bdd50b45fa286ba63fed723d73c837"
+  integrity sha512-tg/OMOtPeXlvk0ES8mZzEZ4gd1ruSE03nsKcK+teJhxYv5CPCXK6Mb/OK6NpB4+CqGTHs4MVeoSZXNFqpT1PyQ==
   dependencies:
-    "@typescript-eslint/experimental-utils" "2.16.0"
+    "@typescript-eslint/experimental-utils" "2.17.0"
     eslint-utils "^1.4.3"
     functional-red-black-tree "^1.0.1"
     regexpp "^3.0.0"
