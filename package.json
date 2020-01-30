@@ -23,7 +23,6 @@
     "prepublishOnly": "yarn run build"
   },
   "files": [
-    "nuxt",
     "dist",
     "dist/src",
     "LICENSE",

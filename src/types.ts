@@ -17,12 +17,9 @@ export function isPlainObject(
 export type NonNullObject = Record<any, any>
 
 export interface StoreGetter<S extends StateTree, T = any> {
-  // TODO: would be nice to be able to define the getters here
   (state: S, getters: Record<string, Ref<any>>): T
 }
 
-type TODO = any
-// type StoreMethod = TODO
 export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
 // type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
 

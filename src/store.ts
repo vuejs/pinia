@@ -1,4 +1,4 @@
-import { ref, watch, computed, reactive, Ref } from 'vue'
+import { ref, watch, computed, Ref } from 'vue'
 import {
   StateTree,
   StoreWithState,
@@ -11,15 +11,12 @@ import {
   Store,
   StoreWithActions,
 } from './types'
-import { useStoreDevtools } from './devtools'
 import {
   getActiveReq,
   setActiveReq,
   storesMap,
   getInitialState,
 } from './rootStore'
-
-const isClient = typeof window != 'undefined'
 
 function innerPatch<T extends StateTree>(
   target: T,
@@ -193,7 +190,8 @@ export function createStore<
         (store = buildStore(id, state, getters, actions, getInitialState(id)))
       )
 
-      if (isClient) useStoreDevtools(store)
+      // TODO: client devtools when availables
+      // if (isClient) useStoreDevtools(store)
     }
 
     return store

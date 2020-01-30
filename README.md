@@ -1,16 +1,16 @@
-# Pinia [![Build Status](https://badgen.net/circleci/github/posva/pinia/master)](https://circleci.com/gh/posva/pinia) [![npm package](https://badgen.net/npm/v/pinia)](https://www.npmjs.com/package/pinia) [![coverage](https://badgen.net/codecov/c/github/posva/pinia/master)](https://codecov.io/github/posva/pinia) [![thanks](https://badgen.net/badge/thanks/♥/pink)](https://github.com/posva/thanks)
+# Pinia [![Build Status](https://badgen.net/circleci/github/posva/pinia/next)](https://circleci.com/gh/posva/pinia) [![npm package](https://badgen.net/npm/v/pinia/next)](https://www.npmjs.com/package/pinia) [![coverage](https://badgen.net/codecov/c/github/posva/pinia/next)](https://codecov.io/github/posva/pinia) [![thanks](https://badgen.net/badge/thanks/♥/pink)](https://github.com/posva/thanks)
 
 > Pronounced like the fruit in Spanish, _Piña_
 >
 > _Piña_ is also an invalid package name... that's why it has to be _pinia_ which sounds very similar
 
-🍍Automatically Typed, Modular and lightweight (but **Experimental**) Store for Vue based on the composition api with devtools support
+🍍Automatically Typed, Modular and lightweight (but **Experimental**) Store for Vue 3.x based on the composition api with devtools support
 
-## 👉 [Demo](https://vcuiu.csb.app/)
+## 👉 [Demo](https://github.com/posva/vue-next-pinia)
 
-⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works for Vue 2 by using the [official library](https://github.com/vuejs/composition-api).
+⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works both for Vue 2.x and Vue 3.x and you are currently on the branch that supports Vue 3.x. [Go here for the Vue 2.x compatible version](https://github.com/posva/pinia/tree/master).
 
-What I want is to inspire others to think about ways to improve Vuex and come up with something that works very well with the composition api. Ideally it could also be used without it. **@vue/composition-api is necessary**.
+What I want is to inspire others to think about ways to improve Vuex and come up with something that works very well with the composition api. Ideally it could also be used without it.
 
 There are the core principles that I try to achieve with this experiment:
 
@@ -56,10 +56,7 @@ A few notes about the project and possible questions:
 
 ## Roadmap / Ideas
 
-- [ ] List Getters on DevTools
-- [x] Nuxt Module
 - [ ] Should the state be merged at the same level as actions and getters?
-- [ ] Flag to remove devtools support (for very light production apps)
 - [ ] Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)
 - [ ] Getter with params that act like computed properties (@ktsn)
 - [ ] Passing all getters to a getter (need Typing support)
@@ -67,12 +64,10 @@ A few notes about the project and possible questions:
 ## Installation
 
 ```sh
-yarn add pinia @vue/composition-api
+yarn add pinia@next
 # or with npm
-npm install pinia @vue/composition-api
+npm install pinia@next
 ```
-
-Note: **The Vue Composition API plugin must be installed for Pinia to work**
 
 ## Usage
 
@@ -128,64 +123,9 @@ export default defineComponent({
 })
 ```
 
-**There is one important rule for this to work**: the `useMainStore` (or any other _useStore_ function) must be called inside of deferred functions. This is to allow the **Vue Composition API plugin to be installed**. **Never, ever call `useStore`** like this:
+Note: the SSR implementation is yet to be decided on Pinia, but if you intend having SSR on your application, you should avoid using `useStore` functions at the root level of a file to make sure the correct store is retrieved for your request.
 
-```ts
-import { useMainStore } from '@/stores/main'
-// ❌ Depending on where you do this it will fail
-// so just don't do it
-const main = useMainStore()
-
-export default defineComponent({
-  setup() {
-    return {}
-  },
-})
-```
-
-Or:
-
-```ts
-import Router from 'vue-router'
-const router = new Router({
-  // ...
-})
-
-// ❌ Depending on where you do this it will fail
-const main = useMainStore()
-
-router.beforeEach((to, from, next) => {
-  if (main.state.isLoggedIn) next()
-  else next('/login')
-})
-```
-
-It must be called **after the Composition API plugin is installed**. That's why calling `useStore` inside functions is usually safe, because they are called after the plugin being installed:
-
-```ts
-export default defineComponent({
-  setup() {
-    // ✅ This will work
-    const main = useMainStore()
-
-    return {}
-  },
-})
-
-// In a different file...
-
-router.beforeEach((to, from, next) => {
-  // ✅ This will work
-  const main = useMainStore()
-
-  if (main.state.isLoggedIn) next()
-  else next('/login')
-})
-```
-
-⚠️: Note that if you are developing an SSR application, [you will need to do a bit more](#ssr).
-
-Once you have access to the store, you can access the `state` through `store.state` and any getter directly on the `store` itself as a _computed_ property (from `@vue/composition-api`) (meaning you need to use `.value` to read the actual value on the JavaScript but not in the template):
+Once you have access to the store, you can access the `state` through `store.state` and any getter directly on the `store` itself as a _computed_ property (meaning you need to use `.value` to read the actual value on the JavaScript but not in the template):
 
 ```ts
 export default defineComponent({
@@ -198,7 +138,7 @@ export default defineComponent({
 })
 ```
 
-`state` is the result of a `ref` while every getter is the result of a `computed`. Both from `@vue/composition-api`.
+`state` is the result of a `ref` while every getter is the result of a `computed`.
 
 Actions are invoked like methods:
 
@@ -231,7 +171,7 @@ main.patch({
 })
 ```
 
-The main difference here is that `patch` allows you to group multiple changes into one single entry in the devtools.
+The main difference here is that `patch` allows you to group multiple changes into one single entry in the devtools (which are not yet available for Vue 3.x).
 
 ### Replacing the `state`
 
@@ -243,73 +183,7 @@ main.state = { counter: 666, name: 'Paimon' }
 
 ### SSR
 
-When writing a Single Page Application, there always only one instance of the store, but on the server, each request will create new store instances. For Pinia to track which one should be used, we rely on the _Request_ object (usually named `req`). Pinia makes this automatic in a few places:
-
-- actions
-- getters
-- `setup`
-- `serverPrefetch`
-
-Meaning that you can call `useMainStore` at the top of these functions and it will retrieve the correct store. **Calling it anywhere else requires you to pass the current `req` to `useMainStore`**.
-
-#### Nuxt Plugin
-
-SSR is much easier with Nuxt, and so is for Pinia: include the Pinia module in your `buildModules` in your `nuxt.config.js`:
-
-```js
-export default {
-  // ...
-  // rest of the nuxt config
-  // ...
-  buildModules: ['pinia/nuxt'],
-}
-```
-
-If you are dealing with SSR, in order to make sure the correct store is retrieved by `useStore` functions, pass the current `req` to `useStore`. **This is necessary anywhere not in the list above**:
-
-```js
-export default {
-  async fetch({ req }) {
-    const store = useStore(req)
-  },
-}
-```
-
-Note: **This is necessary in middlewares and other asyncronous methods**
-
-It may look like things are working even if you don't pass `req` to `useStore` **but multiple concurrent requests to the server could end up sharing state between different users**.
-
-#### Raw Vue SSR
-
-TODO: this part isn't built yet. You need to call `setActiveReq` with the _Request_ object before `useStore` is called
-
-### Accessing other Stores
-
-You can `useOtherStore` inside a store `actions` and `getters`:
-
-Actions are simply function that contain business logic. As with components, they **must call `useStore`** to retrieve the store:
-
-```ts
-createStore({
-  id: 'cart',
-  state: () => ({ items: [] }),
-  getters: {
-    message: state => {
-      const user = useUserStore()
-      return `Hi ${user.state.name}, you have ${items.length} items in the cart`
-    },
-  },
-  actions: {
-    async purchase() {
-      const user = useUserStore()
-
-      await apiBuy(user.state.token, this.state.items)
-
-      this.state.items = []
-    },
-  },
-})
-```
+To be decided once SSR is implemented on Vue 3
 
 ### Composing Stores
 
