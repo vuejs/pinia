@@ -128,7 +128,7 @@ export default defineComponent({
 })
 ```
 
-**There is one important rule for this to work**: the `useMainStore` (or any other _useStore_ function) must be called inside of deferred functions. This is to allow the Vue Composition API plugin to be installed. **Never, ever call `useStore`** like this:
+**There is one important rule for this to work**: the `useMainStore` (or any other _useStore_ function) must be called inside of deferred functions. This is to allow the **Vue Composition API plugin to be installed**. **Never, ever call `useStore`** like this:
 
 ```ts
 import { useMainStore } from '@/stores/main'
@@ -142,6 +142,48 @@ export default defineComponent({
   },
 })
 ```
+
+Or:
+
+```ts
+import Router from 'vue-router'
+const router = new Router({
+  // ...
+})
+
+// ❌ Depending on where you do this it will fail
+const main = useMainStore()
+
+router.beforeEach((to, from, next) => {
+  if (main.state.isLoggedIn) next()
+  else next('/login')
+})
+```
+
+It must be called **after the Composition API plugin is installed**. That's why calling `useStore` inside functions is usually safe, because they are called after the plugin being installed:
+
+```ts
+export default defineComponent({
+  setup() {
+    // ✅ This will work
+    const main = useMainStore()
+
+    return {}
+  },
+})
+
+// In a different file...
+
+router.beforeEach((to, from, next) => {
+  // ✅ This will work
+  const main = useMainStore()
+
+  if (main.state.isLoggedIn) next()
+  else next('/login')
+})
+```
+
+⚠️: Note that if you are developing an SSR application, [you will need to do a bit more](#ssr).
 
 Once you have access to the store, you can access the `state` through `store.state` and any getter directly on the `store` itself as a _computed_ property (from `@vue/composition-api`) (meaning you need to use `.value` to read the actual value on the JavaScript but not in the template):
 
@@ -208,7 +250,7 @@ When writing a Single Page Application, there always only one instance of the st
 - `setup`
 - `serverPrefetch`
 
-Meaning that you can call `useMainStore` at the top of these functions and it will retrieve the correct store. Calling it anywhere else requires you to pass the current `req` to `useMainStore`.
+Meaning that you can call `useMainStore` at the top of these functions and it will retrieve the correct store. **Calling it anywhere else requires you to pass the current `req` to `useMainStore`**.
 
 #### Nuxt Plugin
 
