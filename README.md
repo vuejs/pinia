@@ -10,6 +10,8 @@
 
 ⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works for Vue 2 by using the [official library](https://github.com/vuejs/composition-api).
 
+**If you are looking for the version compatible with Vue 3.x, check the [`next` branch](https://github.com/posva/pinia/tree/next)**
+
 What I want is to inspire others to think about ways to improve Vuex and come up with something that works very well with the composition api. Ideally it could also be used without it. **@vue/composition-api is necessary**.
 
 There are the core principles that I try to achieve with this experiment:
