@@ -1,14 +1,25 @@
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, reactive, Ref } from 'vue'
 import {
   StateTree,
-  Store,
+  StoreWithState,
   SubscriptionCallback,
   DeepPartial,
   isPlainObject,
-  StoreGetters,
+  StoreWithGetters,
   StoreGetter,
+  StoreAction,
+  Store,
+  StoreWithActions,
 } from './types'
 import { useStoreDevtools } from './devtools'
+import {
+  getActiveReq,
+  setActiveReq,
+  storesMap,
+  getInitialState,
+} from './rootStore'
+
+const isClient = typeof window != 'undefined'
 
 function innerPatch<T extends StateTree>(
   target: T,
@@ -30,33 +41,25 @@ function innerPatch<T extends StateTree>(
 }
 
 /**
- * NOTE: by allowing users to name stores correctly, they can nest them the way
- * they want, no? like user/cart
- */
-
-export type CombinedStore<
-  Id extends string,
-  S extends StateTree,
-  G extends Record<string, StoreGetter<S>>
-> = Store<Id, S> & StoreGetters<S, G>
-
-/**
  * Creates a store instance
  * @param id unique identifier of the store, like a name. eg: main, cart, user
  * @param initialState initial state applied to the store, Must be correctly typed to infer typings
  */
-
 export function buildStore<
   Id extends string,
   S extends StateTree,
-  G extends Record<string, StoreGetter<S>>
+  G extends Record<string, StoreGetter<S>>,
+  A extends Record<string, StoreAction>
 >(
   id: Id,
-  buildState: () => S,
-  getters: G = {} as G
-  // methods: Record<string | symbol, StoreMethod>
-): CombinedStore<Id, S, G> {
-  const state = ref<S>(buildState())
+  buildState: () => S = () => ({} as S),
+  getters: G = {} as G,
+  actions: A = {} as A,
+  initialState?: S | undefined
+): Store<Id, S, G, A> {
+  const state: Ref<S> = ref(initialState || buildState())
+  // TODO: remove req part?
+  const _r = getActiveReq()
 
   let isListening = true
   let subscriptions: SubscriptionCallback<S>[] = []
@@ -91,9 +94,14 @@ export function buildStore<
     })
   }
 
-  function subscribe(callback: SubscriptionCallback<S>): void {
+  function subscribe(callback: SubscriptionCallback<S>) {
     subscriptions.push(callback)
-    // TODO: return function to remove subscription
+    return () => {
+      const idx = subscriptions.indexOf(callback)
+      if (idx > -1) {
+        subscriptions.splice(idx, 1)
+      }
+    }
   }
 
   function reset() {
@@ -102,8 +110,9 @@ export function buildStore<
     state.value = buildState()
   }
 
-  const storeWithState: Store<Id, S> = {
+  const storeWithState: StoreWithState<Id, S> = {
     id,
+    _r,
     // it is replaced below by a getter
     // @ts-ignore FIXME: why is this even failing on TS
     state: state.value,
@@ -113,20 +122,30 @@ export function buildStore<
     reset,
   }
 
-  // @ts-ignore we have to build it
-  const computedGetters: StoreGetters<S, G> = {}
+  const computedGetters: StoreWithGetters<S, G> = {} as StoreWithGetters<S, G>
   for (const getterName in getters) {
-    const method = getters[getterName]
-    // @ts-ignore
-    computedGetters[getterName] = computed<ReturnType<typeof method>>(() =>
-      // @ts-ignore FIXME: why is this even failing on TS
-      getters[getterName](state.value)
-    )
+    computedGetters[getterName] = computed(() => {
+      setActiveReq(_r)
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      return getters[getterName](state.value as S, computedGetters)
+    }) as any
   }
 
-  const store = {
+  // const reactiveGetters = reactive(computedGetters)
+
+  const wrappedActions: StoreWithActions<A> = {} as StoreWithActions<A>
+  for (const actionName in actions) {
+    wrappedActions[actionName] = function() {
+      setActiveReq(_r)
+      // eslint-disable-next-line
+      return actions[actionName].apply(store, arguments as unknown as any[])
+    } as StoreWithActions<A>[typeof actionName]
+  }
+
+  const store: Store<Id, S, G, A> = {
     ...storeWithState,
     ...computedGetters,
+    ...wrappedActions,
   }
 
   // make state access invisible
@@ -144,29 +163,38 @@ export function buildStore<
 }
 
 /**
- * The api needs more work we must be able to use the store easily in any
- * function by calling `useStore` to get the store Instance and we also need to
- * be able to reset the store instance between requests on the server
- */
-
-/**
  * Creates a `useStore` function that retrieves the store instance
- * @param id id of the store we are creating
- * @param buildState function that returns a state
- * @param getters optional object of getters
+ * @param options
  */
-
 export function createStore<
   Id extends string,
   S extends StateTree,
-  G extends Record<string, StoreGetter<S>>
->(id: Id, buildState: () => S, getters: G = {} as G) {
-  let store: CombinedStore<Id, S, G> | undefined
+  G extends Record<string, StoreGetter<S>>,
+  A extends Record<string, StoreAction>
+>(options: {
+  id: Id
+  state?: () => S
+  getters?: G
+  // allow actions use other actions
+  actions?: A & ThisType<A & StoreWithState<Id, S> & StoreWithGetters<S, G>>
+}) {
+  const { id, state, getters, actions } = options
 
-  return function useStore(forceNewStore = false): CombinedStore<Id, S, G> {
-    if (!store || forceNewStore) store = buildStore(id, buildState, getters)
+  return function useStore(reqKey?: object): Store<Id, S, G, A> {
+    if (reqKey) setActiveReq(reqKey)
+    const req = getActiveReq()
+    let stores = storesMap.get(req)
+    if (!stores) storesMap.set(req, (stores = new Map()))
 
-    useStoreDevtools(store)
+    let store = stores.get(id) as Store<Id, S, G, A>
+    if (!store) {
+      stores.set(
+        id,
+        (store = buildStore(id, state, getters, actions, getInitialState(id)))
+      )
+
+      if (isClient) useStoreDevtools(store)
+    }
 
     return store
   }

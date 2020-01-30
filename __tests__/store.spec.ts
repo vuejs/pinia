@@ -1,15 +1,22 @@
-import { createStore } from '../src'
+import { createStore, setActiveReq, setStateProvider } from '../src'
 
 describe('Store', () => {
-  const useStore = createStore('main', () => ({
-    // TODO: the boolean cas shouldn't be necessary
-    // https://www.typescriptlang.org/play/#code/MYewdgzgLgBCMF4YG8CwAoGWYEMBcMUATgK4CmGAvhhiAHQ6IwBmOANhBehqJLMETI4oZJgAoAlIgB8MMclwFi5GJQk10vaDGBMBQkZI3AGTVhzJA
-    a: true as boolean,
-    nested: {
-      foo: 'foo',
-      a: { b: 'string' },
-    },
-  })).bind(null, true) // force always a fresh instance
+  let req: object
+  const useStore = () => {
+    // create a new store
+    req = {}
+    setActiveReq(req)
+    return createStore({
+      id: 'main',
+      state: () => ({
+        a: true,
+        nested: {
+          foo: 'foo',
+          a: { b: 'string' },
+        },
+      }),
+    })()
+  }
 
   it('sets the initial state', () => {
     const store = useStore()
@@ -17,6 +24,63 @@ describe('Store', () => {
       a: true,
       nested: {
         foo: 'foo',
+        a: { b: 'string' },
+      },
+    })
+  })
+
+  it('can be reset', () => {
+    const store = useStore()
+    store.state.a = false
+    const spy = jest.fn()
+    store.subscribe(spy)
+    store.reset()
+    store.state.nested.foo = 'bar'
+    expect(spy).not.toHaveBeenCalled()
+    expect(store.state).toEqual({
+      a: true,
+      nested: {
+        foo: 'bar',
+        a: { b: 'string' },
+      },
+    })
+  })
+
+  it('can create an empty state if no state option is provided', () => {
+    const store = createStore({ id: 'some' })()
+
+    expect(store.state).toEqual({})
+  })
+
+  it('can hydrate the state', () => {
+    setActiveReq({})
+    const useStore = createStore({
+      id: 'main',
+      state: () => ({
+        a: true,
+        nested: {
+          foo: 'foo',
+          a: { b: 'string' },
+        },
+      }),
+    })
+
+    setStateProvider(() => ({
+      main: {
+        a: false,
+        nested: {
+          foo: 'bar',
+          a: { b: 'string' },
+        },
+      },
+    }))
+
+    const store = useStore()
+
+    expect(store.state).toEqual({
+      a: false,
+      nested: {
+        foo: 'bar',
         a: { b: 'string' },
       },
     })
@@ -48,5 +112,40 @@ describe('Store', () => {
     expect(store.state).not.toBe(store2.state)
     store.state.nested.a.b = 'hey'
     expect(store2.state.nested.a.b).toBe('string')
+  })
+
+  it('subscribe to changes', () => {
+    const store = useStore()
+    const spy = jest.fn()
+    store.subscribe(spy)
+
+    store.state.a = false
+
+    expect(spy).toHaveBeenCalledWith(
+      {
+        payload: {},
+        storeName: 'main',
+        type: expect.stringContaining('in place'),
+      },
+      store.state
+    )
+  })
+
+  it('subscribe to changes done via patch', () => {
+    const store = useStore()
+    const spy = jest.fn()
+    store.subscribe(spy)
+
+    const patch = { a: false }
+    store.patch(patch)
+
+    expect(spy).toHaveBeenCalledWith(
+      {
+        payload: patch,
+        storeName: 'main',
+        type: expect.stringContaining('patch'),
+      },
+      store.state
+    )
   })
 })

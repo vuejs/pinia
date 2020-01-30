@@ -1,12 +1,13 @@
 import { createStore } from '../../../src'
-import { useUserStore } from './user'
+import { useUserStore, UserStore } from './user'
+import { PiniaStore, ExtractGettersFromStore } from 'src/store'
 
-export const useCartStore = createStore(
-  'cart',
-  () => ({
+export const useCartStore = createStore({
+  id: 'cart',
+  state: () => ({
     rawItems: [] as string[],
   }),
-  {
+  getters: {
     items: state =>
       state.rawItems.reduce((items, item) => {
         const existingItem = items.find(it => it.name === item)
@@ -19,8 +20,21 @@ export const useCartStore = createStore(
 
         return items
       }, [] as { name: string; amount: number }[]),
-  }
-)
+  },
+})
+
+export type CartStore = ReturnType<typeof useCartStore>
+
+// const a: PiniaStore<{
+//   u: UserStore
+//   c: CartStore
+// }>
+
+// a.cart
+
+// const getters: ExtractGettersFromStore<CartStore>
+
+// getters.items
 
 export function addItem(name: string) {
   const store = useCartStore()

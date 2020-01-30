@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "target": "esnext",
     "module": "esnext",
     "noEmit": true,
     "strict": true,
+    "noImplicitThis": true,
     "composite": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
@@ -11,5 +13,5 @@
     "rootDir": ".",
     "baseUrl": "."
   },
-  "include": ["src/**/*.ts", "__tests__/**/**.ts"]
+  "include": ["src/**/*.ts", "nuxt/*.js", "__tests__/**/**.ts"]
 }

@@ -1,24 +1,6 @@
 import { Ref } from 'vue'
 
-interface JSONSerializable {
-  toJSON(): string
-}
-
-export type StateTreeValue =
-  | string
-  | symbol
-  | number
-  | boolean
-  | null
-  | void
-  | Function
-  | StateTree
-  | StateTreeArray
-  | JSONSerializable
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface StateTree
-  extends Record<string | number | symbol, StateTreeValue> {}
+export type StateTree = Record<string | number | symbol, any>
 
 export function isPlainObject(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,18 +14,11 @@ export function isPlainObject(
   )
 }
 
-// symbol is not allowed yet https://github.com/Microsoft/TypeScript/issues/1863
-// export interface StateTree {
-//   [x: number]: StateTreeValue
-//   [x: symbol]: StateTreeValue
-//   [x: string]: StateTreeValue
-// }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface StateTreeArray extends Array<StateTreeValue> {}
+export type NonNullObject = Record<any, any>
 
 export interface StoreGetter<S extends StateTree, T = any> {
-  (state: S): T
+  // TODO: would be nice to be able to define the getters here
+  (state: S, getters: Record<string, Ref<any>>): T
 }
 
 type TODO = any
@@ -56,14 +31,14 @@ export type SubscriptionCallback<S> = (
   state: S
 ) => void
 
-export type StoreGetters<
+export type StoreWithGetters<
   S extends StateTree,
   G extends Record<string, StoreGetter<S>>
 > = {
   [k in keyof G]: G[k] extends StoreGetter<S, infer V> ? Ref<V> : never
 }
 
-export interface Store<Id extends string, S extends StateTree> {
+export interface StoreWithState<Id extends string, S extends StateTree> {
   /**
    * Unique identifier of the store
    */
@@ -73,6 +48,11 @@ export interface Store<Id extends string, S extends StateTree> {
    * State of the Store
    */
   state: S
+
+  /**
+   * Private property defining the request key for this store
+   */
+  _r: NonNullObject
 
   /**
    * Applies a state patch to current state. Allows passing nested values
@@ -88,10 +68,37 @@ export interface Store<Id extends string, S extends StateTree> {
 
   /**
    * Setups a callback to be called whenever the state changes.
-   * @param callback callback that is called whenever the state changes
+   * @param callback callback that is called whenever the state
+   * @returns function that removes callback from subscriptions
    */
-  subscribe(callback: SubscriptionCallback<S>): void
+  subscribe(callback: SubscriptionCallback<S>): () => void
 }
+
+export interface StoreAction {
+  (...args: any[]): any
+}
+
+// in this type we forget about this because otherwise the type is recursive
+export type StoreWithActions<A extends Record<string, StoreAction>> = {
+  [k in keyof A]: A[k] extends (this: infer This, ...args: infer P) => infer R
+    ? (this: This, ...args: P) => R
+    : never
+}
+
+// has the actions without the context (this) for typings
+export type Store<
+  Id extends string,
+  S extends StateTree,
+  G extends Record<string, StoreGetter<S>>,
+  A extends Record<string, StoreAction>
+> = StoreWithState<Id, S> & StoreWithGetters<S, G> & StoreWithActions<A>
+
+export type GenericStore = Store<
+  string,
+  StateTree,
+  Record<string, StoreGetter<StateTree>>,
+  Record<string, StoreAction>
+>
 
 export interface DevtoolHook {
   on(
