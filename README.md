@@ -6,7 +6,7 @@
 
 🍍Automatically Typed, Modular and lightweight (but **Experimental**) Store for Vue based on the composition api with devtools support
 
-[Demo](https://usq69.csb.app/)
+## 👉 [Demo](https://vcuiu.csb.app/)
 
 ⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works for Vue 2 by using the [official library](https://github.com/vuejs/composition-api).
 
