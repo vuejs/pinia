@@ -124,7 +124,8 @@ export default defineComponent({
       main,
       // gives access to the state
       state: main.state,
-      // gives access to specific getter,
+      // gives access to specific getter; like `computed` properties, do not include `.value`
+      doubleCount: main.doubleCount
     }
   },
 })
