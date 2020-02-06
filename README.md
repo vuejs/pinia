@@ -124,7 +124,8 @@ export default defineComponent({
       main,
       // gives access to the state
       state: main.state,
-      // gives access to specific getter,
+      // gives access to specific getter; no `.value` here as it's used in the template
+      doubleCount: main.doubleCount
     }
   },
 })
