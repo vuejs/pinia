@@ -35,6 +35,8 @@
   "keywords": [],
   "license": "MIT",
   "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "@nuxt/types": "^0.6.1",
     "@rollup/plugin-alias": "^3.0.0",
     "@rollup/plugin-replace": "^2.2.1",
@@ -46,6 +48,7 @@
     "eslint": "^6.4.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^4.2.3",
     "jest": "^25.1.0",
     "pascalcase": "^1.0.0",
     "prettier": "^1.18.2",
