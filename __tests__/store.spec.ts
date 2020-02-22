@@ -148,4 +148,43 @@ describe('Store', () => {
       store.state
     )
   })
+
+  describe('with State type defined', () => {
+    type MainState = {
+      a: boolean
+      nested: {
+        foo: string
+        a: {
+          b: string | number
+        }
+      }
+    }
+
+    const useTypedStore = () => {
+      // create a new store with State defined
+      req = {}
+      setActiveReq(req)
+      return createStore<MainState>({
+        id: 'main',
+        state: () => ({
+          a: true,
+          nested: {
+            foo: 'foo',
+            a: { b: 3 },
+          },
+        }),
+      })()
+    }
+
+    it('sets the initial state', () => {
+      const store = useTypedStore()
+      expect(store.state).toEqual({
+        a: true,
+        nested: {
+          foo: 'foo',
+          a: { b: 3 },
+        },
+      })
+    })
+  })
 })

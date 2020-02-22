@@ -1,4 +1,4 @@
-import { ref, watch, computed, reactive, Ref } from '@vue/composition-api'
+import { ref, watch, computed, Ref } from '@vue/composition-api'
 import {
   StateTree,
   StoreWithState,
@@ -160,10 +160,10 @@ export function buildStore<
  * @param options
  */
 export function createStore<
-  Id extends string,
   S extends StateTree,
-  G extends Record<string, StoreGetter<S>>,
-  A extends Record<string, StoreAction>
+  Id extends string = string,
+  G extends Record<string, StoreGetter<S>> = Record<string, StoreGetter<S>>,
+  A extends Record<string, StoreAction> = Record<string, StoreAction>
 >(options: {
   id: Id
   state?: () => S
