@@ -2,6 +2,11 @@ import { defineComponent, computed } from '@vue/composition-api'
 import { useStore } from './store'
 
 export default defineComponent({
+  async serverPrefetch() {
+    const store = useStore()
+    store.state.counter++
+  },
+
   setup() {
     const store = useStore()
 
