@@ -63,7 +63,7 @@ A few notes about the project and possible questions:
 - [ ] Should the state be merged at the same level as actions and getters?
 - [ ] Flag to remove devtools support (for very light production apps)
 - [ ] Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)
-- [ ] Getter with params that act like computed properties (@ktsn)
+- ~~[ ] Getter with params that act like computed properties (@ktsn)~~
 - [ ] Passing all getters to a getter (need Typing support)
 
 ## Installation
