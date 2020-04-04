@@ -6,9 +6,7 @@ it('should warn when installed in the browser', () => {
   const warnSpy = jest.spyOn(console, 'warn')
   Vue.use(PiniaSsr)
   expect(warnSpy).toHaveBeenCalledWith(
-    expect.stringMatching(
-      /PiniaSsrPlugin seems to be included in the browser bundle/i
-    )
+    expect.stringMatching(/seems to be used in the browser bundle/i)
   )
   expect(mixinSpy).not.toHaveBeenCalled()
 })
