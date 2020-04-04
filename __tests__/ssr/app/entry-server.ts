@@ -2,10 +2,6 @@ import Vue from 'vue'
 import { createApp } from './main'
 import { PiniaSsr, getRootState } from '../../../src'
 
-// simulate server-side environment
-// @ts-ignore
-delete global.window
-
 Vue.use(PiniaSsr)
 
 export default function(context: any) {

@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import renderApp from './app/entry-server'
 import { createRenderer } from 'vue-server-renderer'
 
