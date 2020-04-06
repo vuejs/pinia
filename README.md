@@ -289,7 +289,40 @@ It may look like things are working even if you don't pass `req` to `useStore` *
 
 #### Raw Vue SSR
 
-TODO: this part isn't built yet. You need to call `setActiveReq` with the _Request_ object before `useStore` is called
+In a Raw Vue SSR application you have to modify a few files to enable hydration and to tell requests apart.
+
+```js
+// entry-server.js
+import { getRootState, PiniaSsr } from "pinia";
+
+// install plugin to automatically use correct context in setup and onServerPrefetch
+Vue.use(PiniaSsr);
+
+export default context => {
+  /* ... */
+  context.rendered = () => {
+    // pass state to context
+    context.piniaState = getRootState(context.req);
+  };
+ /* ... */
+};
+```
+
+```html
+<!-- index.html -->
+<body>
+<!-- pass state from context to client -->
+{{{ renderState({ contextKey: 'piniaState', windowKey: '__PINIA_STATE__' }) }}}
+</body>
+```
+
+```js
+// entry-client.js
+import { setStateProvider } from "pinia";
+
+// inject ssr-state
+setStateProvider(() => window.__PINIA_STATE__);
+```
 
 ### Accessing other Stores
 
