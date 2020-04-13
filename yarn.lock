@@ -437,9 +437,9 @@
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
 "@nuxt/types@^0.7.0":
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-0.7.1.tgz#356ca820f8286951661a2d8252d17a4487f18e5b"
-  integrity sha512-xpdUBxFGnODwhMLHw+bkTKWHZwD0BuiLT/N/sijQqdtWtAlrrbIBdZ8R0gLwYoC1bZNCv2T/f7TKFnDA7i3f8g==
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-0.7.4.tgz#6779323a480d315cf882f1bf1dd1c8f31a652f7f"
+  integrity sha512-vqfqxkkqsk5pufCAAJiXiTEQjcDkMXqwVDU1PnnvU2amfngzbovyE/DIWSMIjjY/lpsiSnzxZh/NyXo10psZQg==
   dependencies:
     "@types/autoprefixer" "^9.7.2"
     "@types/babel__core" "^7.1.7"
@@ -449,7 +449,7 @@
     "@types/file-loader" "^4.2.0"
     "@types/html-minifier" "^3.5.3"
     "@types/less" "^3.0.1"
-    "@types/node" "^12.12.34"
+    "@types/node" "^12.12.35"
     "@types/node-sass" "^4.11.0"
     "@types/optimize-css-assets-webpack-plugin" "^5.0.1"
     "@types/pug" "^2.0.4"
@@ -458,7 +458,7 @@
     "@types/webpack" "^4.41.10"
     "@types/webpack-bundle-analyzer" "^2.13.3"
     "@types/webpack-dev-middleware" "^3.7.0"
-    "@types/webpack-hot-middleware" "^2.25.0"
+    "@types/webpack-hot-middleware" "^2.25.1"
 
 "@rollup/plugin-alias@^3.0.0":
   version "3.0.1"
@@ -710,10 +710,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.6.tgz#076028d0b0400be8105b89a0a55550c86684ffec"
   integrity sha512-Jg1F+bmxcpENHP23sVKkNuU3uaxPnsBMW0cLjleiikFKomJQbsn0Cqk2yDvQArqzZN6ABfBkZ0To7pQ8sLdWDg==
 
-"@types/node@^12.12.34":
-  version "12.12.34"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.34.tgz#0a5d6ae5d22612f0cf5f10320e1fc5d2a745dcb8"
-  integrity sha512-BneGN0J9ke24lBRn44hVHNeDlrXRYF+VRp0HbSUNnEZahXGAysHZIqnf/hER6aabdBgzM4YOV4jrR8gj4Zfi0g==
+"@types/node@^12.12.35":
+  version "12.12.35"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.35.tgz#1e61b226c14380f4384f70cfe49a65c2c553ad2b"
+  integrity sha512-ASYsaKecA7TUsDrqIGPNk3JeEox0z/0XR/WsJJ8BIX/9+SkMSImQXKWfU/yBrSyc7ZSE/NPqLu36Nur0miCFfQ==
 
 "@types/optimize-css-assets-webpack-plugin@^5.0.1":
   version "5.0.1"
@@ -804,10 +804,10 @@
     "@types/webpack" "*"
     loglevel "^1.6.2"
 
-"@types/webpack-hot-middleware@^2.25.0":
-  version "2.25.0"
-  resolved "https://registry.yarnpkg.com/@types/webpack-hot-middleware/-/webpack-hot-middleware-2.25.0.tgz#ceb1e0fb43cbb9ec79c4a856c2060f161e12bf30"
-  integrity sha512-J+Zk7c99pMnPcxWpPY7CEdc4jhPFX1SVPrqXTzinoF8ea+OmIiHa+oOdVI7leMQFGZ6G9e9Yo1uNPhLVr/R8Uw==
+"@types/webpack-hot-middleware@^2.25.1":
+  version "2.25.1"
+  resolved "https://registry.yarnpkg.com/@types/webpack-hot-middleware/-/webpack-hot-middleware-2.25.1.tgz#8d86521633c7287db39410d9ddd5f7e303bc916e"
+  integrity sha512-6BgNQLbLBIWJJ2hEOqwaaAa8XfRujonjwJI9fS8cfKCwui46D25GyFMDTAlAxc77jN+l5qoeYdu6UVI/5GrGoQ==
   dependencies:
     "@types/connect" "*"
     "@types/webpack" "*"
@@ -855,16 +855,6 @@
     regexpp "^3.0.0"
     tsutils "^3.17.1"
 
-"@typescript-eslint/experimental-utils@2.25.0":
-  version "2.25.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-2.25.0.tgz#13691c4fe368bd377b1e5b1e4ad660b220bf7714"
-  integrity sha512-0IZ4ZR5QkFYbaJk+8eJ2kYeA+1tzOE1sBjbwwtSV85oNWYUBep+EyhlZ7DLUCyhMUGuJpcCCFL0fDtYAP1zMZw==
-  dependencies:
-    "@types/json-schema" "^7.0.3"
-    "@typescript-eslint/typescript-estree" "2.25.0"
-    eslint-scope "^5.0.0"
-    eslint-utils "^2.0.0"
-
 "@typescript-eslint/experimental-utils@2.26.0":
   version "2.26.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/experimental-utils/-/experimental-utils-2.26.0.tgz#063390c404d9980767d76274df386c0aa675d91d"
@@ -884,19 +874,6 @@
     "@typescript-eslint/experimental-utils" "2.26.0"
     "@typescript-eslint/typescript-estree" "2.26.0"
     eslint-visitor-keys "^1.1.0"
-
-"@typescript-eslint/typescript-estree@2.25.0":
-  version "2.25.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-2.25.0.tgz#b790497556734b7476fa7dd3fa539955a5c79e2c"
-  integrity sha512-VUksmx5lDxSi6GfmwSK7SSoIKSw9anukWWNitQPqt58LuYrKalzsgeuignbqnB+rK/xxGlSsCy8lYnwFfB6YJg==
-  dependencies:
-    debug "^4.1.1"
-    eslint-visitor-keys "^1.1.0"
-    glob "^7.1.6"
-    is-glob "^4.0.1"
-    lodash "^4.17.15"
-    semver "^6.3.0"
-    tsutils "^3.17.1"
 
 "@typescript-eslint/typescript-estree@2.26.0":
   version "2.26.0"
