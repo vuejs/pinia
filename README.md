@@ -273,6 +273,14 @@ export default {
 }
 ```
 
+By default, it will also disable Vuex so you can directly use the `store` folder for pinia. If you want to keep using Vuex, you need to provide an option in `nuxt.config.js`:
+
+```js
+export default {
+  disableVuex: false
+}
+```
+
 If you are dealing with SSR, in order to make sure the correct store is retrieved by `useStore` functions, pass the current `req` to `useStore`. **This is necessary anywhere not in the list above**:
 
 ```js
