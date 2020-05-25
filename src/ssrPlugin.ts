@@ -1,5 +1,6 @@
 import { VueConstructor } from 'vue/types'
 import { setActiveReq } from './rootStore'
+import { SetupContext } from '@vue/composition-api'
 
 export const PiniaSsr = (vue: VueConstructor) => {
   const isServer = typeof window === 'undefined'
@@ -13,9 +14,11 @@ export const PiniaSsr = (vue: VueConstructor) => {
 
   vue.mixin({
     beforeCreate() {
+      // @ts-ignore
       const { setup, serverPrefetch } = this.$options
       if (setup) {
-        this.$options.setup = (props, context) => {
+        // @ts-ignore
+        this.$options.setup = (props: any, context: SetupContext) => {
           // @ts-ignore
           setActiveReq(context.ssrContext.req)
           return setup(props, context)
