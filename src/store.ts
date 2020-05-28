@@ -161,9 +161,9 @@ export function buildStore<
  */
 export function createStore<
   S extends StateTree,
-  Id extends string = string,
   G extends Record<string, StoreGetter<S>> = Record<string, StoreGetter<S>>,
-  A extends Record<string, StoreAction> = Record<string, StoreAction>
+  A extends Record<string, StoreAction> = Record<string, StoreAction>,
+  Id extends string = string
 >(options: {
   id: Id
   state?: () => S
