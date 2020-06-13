@@ -20,7 +20,7 @@ export const PiniaSsr = (vue: VueConstructor) => {
         // @ts-ignore
         this.$options.setup = (props: any, context: SetupContext) => {
           // @ts-ignore
-          setActiveReq(context.ssrContext.req)
+          if (context.ssrContext) setActiveReq(context.ssrContext.req)
           return setup(props, context)
         }
       }
