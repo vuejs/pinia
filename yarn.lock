@@ -538,9 +538,9 @@
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
 "@nuxt/types@^0.7.0":
-  version "0.7.8"
-  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-0.7.8.tgz#0d5ae4b6b12c7764c98588a66a603698f1ad9114"
-  integrity sha512-6N7CnrZS71nmrGO7MFTIJz+wMpTy7k5Vopm1ha4eJRmr2pdTUjUxTfaYLgAZDRBlpJ9+qIhjhJPILJEv1qGIOQ==
+  version "0.7.9"
+  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-0.7.9.tgz#a6bc6911672a812063cbb17726304cb536f58a3d"
+  integrity sha512-AsKj+iVV+XlCKKdpfYuLjUCUUNgL+7SzaQPp6/Z6WMqndIXegVMXn2Iu9Ixo+Qd7Y4U1Cvy4e3LYHMj0QNH+Lg==
   dependencies:
     "@types/autoprefixer" "^9.7.2"
     "@types/babel__core" "^7.1.8"
@@ -550,7 +550,7 @@
     "@types/file-loader" "^4.2.0"
     "@types/html-minifier" "^3.5.3"
     "@types/less" "^3.0.1"
-    "@types/node" "^12.12.44"
+    "@types/node" "^12.12.47"
     "@types/node-sass" "^4.11.1"
     "@types/optimize-css-assets-webpack-plugin" "^5.0.1"
     "@types/pug" "^2.0.4"
@@ -813,10 +813,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.1.6.tgz#076028d0b0400be8105b89a0a55550c86684ffec"
   integrity sha512-Jg1F+bmxcpENHP23sVKkNuU3uaxPnsBMW0cLjleiikFKomJQbsn0Cqk2yDvQArqzZN6ABfBkZ0To7pQ8sLdWDg==
 
-"@types/node@^12.12.44":
-  version "12.12.44"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.44.tgz#0d400a1453adcb359b133acceae4dd8bb0e0a159"
-  integrity sha512-jM6QVv0Sm5d3nW+nUD5jSzPcO6oPqboitSNcwgBay9hifVq/Rauq1PYnROnsmuw45JMBiTnsPAno0bKu2e2xrg==
+"@types/node@^12.12.47":
+  version "12.12.47"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.47.tgz#5007b8866a2f9150de82335ca7e24dd1d59bdfb5"
+  integrity sha512-yzBInQFhdY8kaZmqoL2+3U5dSTMrKaYcb561VU+lDzAYvqt+2lojvBEy+hmpSNuXnPTx7m9+04CzWYOUqWME2A==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
