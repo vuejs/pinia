@@ -35,7 +35,7 @@
   "keywords": [],
   "license": "MIT",
   "devDependencies": {
-    "@nuxt/types": "^0.7.0",
+    "@nuxt/types": "^2.13.0",
     "@rollup/plugin-alias": "^3.0.0",
     "@rollup/plugin-replace": "^2.2.1",
     "@types/jest": "^26.0.0",
