@@ -997,9 +997,9 @@
     tsutils "^3.17.1"
 
 "@vue/composition-api@^0.6.3":
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-0.6.3.tgz#e4479c58aff273d64ecf1a6604e2870f8984226d"
-  integrity sha512-BI+pldkd2sRtErhRoGzQNHe8QIAOGk4110rFEw5h0HseNupABefVwKRcnxtvz2AIhZUr/aNo8db6ikkAUtmUSg==
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-0.6.6.tgz#1859e2773ef76a0b2abef65ace460062b454d6b1"
+  integrity sha512-jSoq/fWBjWfI9yr9aT7N9OA+1F1o1mwl8LHrZj7bndHW1tdnaVud7GyYfLX9XS2XQMntD+UqPmC0dC4b5d3lDA==
   dependencies:
     tslib "^2.0.0"
 
