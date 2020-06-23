@@ -28,7 +28,7 @@ export const PiniaSsr = (vue: VueConstructor) => {
       if (serverPrefetch) {
         const patchedServerPrefetch = Array.isArray(serverPrefetch)
           ? serverPrefetch.slice()
-          : // serverPrefetch not being an array cannot be triggered due tue options merge
+          : // serverPrefetch not being an array cannot be triggered due to options merge
             // https://github.com/vuejs/vue/blob/7912f75c5eb09e0aef3e4bfd8a3bb78cad7540d7/src/core/util/options.js#L149
             /* istanbul ignore next */
             [serverPrefetch]
