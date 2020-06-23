@@ -16,11 +16,6 @@ export function isPlainObject(
 
 export type NonNullObject = Record<any, any>
 
-export interface StoreGetter<S extends StateTree, T = any> {
-  // TODO: would be nice to be able to define the getters here
-  (state: S, getters: Record<string, Ref<any>>): T
-}
-
 type TODO = any
 // type StoreMethod = TODO
 export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
@@ -31,13 +26,6 @@ export type SubscriptionCallback<S> = (
   state: S
 ) => void
 
-export type StoreWithGetters<
-  S extends StateTree,
-  G extends Record<string, StoreGetter<S>>
-> = {
-  [k in keyof G]: G[k] extends StoreGetter<S, infer V> ? Ref<V> : never
-}
-
 export interface StoreWithState<Id extends string, S extends StateTree> {
   /**
    * Unique identifier of the store
@@ -45,9 +33,8 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   id: Id
 
   /**
-   * State of the Store
+   * State of the Store. Setting it will replace the whole state.
    */
-  // TODO: remove
   state: S
 
   /**
@@ -75,14 +62,51 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   subscribe(callback: SubscriptionCallback<S>): () => void
 }
 
-export interface StoreAction {
-  (...args: any[]): any
+export type Method = (...args: any[]) => any
+// export type StoreAction<P extends any[], R> = (...args: P) => R
+// export interface StoreAction<P, R> {
+//   (...args: P[]): R
+// }
+
+// in this type we forget about this because otherwise the type is recursive
+export type StoreWithActions<A> = {
+  [k in keyof A]: A[k] extends (...args: infer P) => infer R
+    ? (...args: P) => R
+    : never
+}
+
+export interface StoreGetter<S extends StateTree, T = any> {
+  // TODO: would be nice to be able to define the getters here
+  (state: S, getters: Record<string, Ref<any>>): T
+}
+
+export type StoreWithGetters<
+  S extends StateTree,
+  G extends Record<string, StoreGetter<S>>
+> = {
+  [k in keyof G]: G[k] extends StoreGetter<S, infer V> ? Ref<V> : never
+}
+
+export interface StoreGetter<S extends StateTree, T = any> {
+  // TODO: would be nice to be able to define the getters here
+  (state: S, getters: Record<string, Ref<any>>): T
+}
+
+export interface StoreGetterThis {
+  (store?: any): any
+}
+
+export type StoreWithGettersValues<G> = {
+  [k in keyof G]: G[k] extends (this: infer This, store?: any) => infer R
+    ? R
+    : never
 }
 
 // in this type we forget about this because otherwise the type is recursive
-export type StoreWithActions<A extends Record<string, StoreAction>> = {
-  [k in keyof A]: A[k] extends (this: infer This, ...args: infer P) => infer R
-    ? (this: This, ...args: P) => R
+export type StoreWithThisGetters<G> = {
+  // TODO: does the infer this as the second argument work?
+  [k in keyof G]: G[k] extends (this: infer This, store?: any) => infer R
+    ? (this: This, store?: This) => R
     : never
 }
 
@@ -90,15 +114,19 @@ export type StoreWithActions<A extends Record<string, StoreAction>> = {
 export type Store<
   Id extends string,
   S extends StateTree,
-  G extends Record<string, StoreGetter<S>>,
-  A extends Record<string, StoreAction>
-> = StoreWithState<Id, S> & S & StoreWithGetters<S, G> & StoreWithActions<A>
+  G,
+  A
+> = StoreWithState<Id, S> &
+  S &
+  StoreWithGettersValues<G> &
+  // StoreWithGetters<S, G> &
+  StoreWithActions<A>
 
 export type GenericStore = Store<
   string,
   StateTree,
-  Record<string, StoreGetter<StateTree>>,
-  Record<string, StoreAction>
+  Record<string, Method>,
+  Record<string, Method>
 >
 
 export interface DevtoolHook {
