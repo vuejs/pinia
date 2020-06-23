@@ -1,11 +1,4 @@
-import {
-  ref,
-  watch,
-  computed,
-  reactive,
-  Ref,
-  toRefs,
-} from '@vue/composition-api'
+import { ref, watch, computed, reactive, Ref } from '@vue/composition-api'
 import {
   StateTree,
   StoreWithState,
@@ -13,11 +6,8 @@ import {
   DeepPartial,
   isPlainObject,
   StoreWithGetters,
-  StoreGetter,
   Store,
   StoreWithActions,
-  StoreGetterThis,
-  StoreWithThisGetters,
   StoreWithGettersValues,
   Method,
 } from './types'
@@ -135,8 +125,15 @@ export function buildStore<
   const storeWithState: StoreWithState<Id, S> = {
     id,
     _r,
-    // @ts-ignore it is overridden right after
-    state: {},
+    // @ts-ignore, `reactive` unwraps this making it of type S
+    state: computed<S>({
+      get: () => state.value,
+      set: newState => {
+        isListening = false
+        state.value = newState
+        isListening = true
+      },
+    }),
 
     patch,
     subscribe,
@@ -170,16 +167,6 @@ export function buildStore<
     ...computedGetters,
     ...wrappedActions,
   }) as Store<Id, S, G, A>
-
-  // make state access invisible
-  Object.defineProperty(store, 'state', {
-    get: () => state.value,
-    set: (newState: S) => {
-      isListening = false
-      state.value = newState
-      isListening = true
-    },
-  })
 
   return store
 }

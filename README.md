@@ -101,15 +101,19 @@ export const useMainStore = createStore({
   }),
   // optional getters
   getters: {
-    doubleCount: (state, getters) => state.counter * 2,
+    doubleCount() {
+      return this.counter * 2,
+    },
     // use getters in other getters
-    doubleCountPlusOne: (state, { doubleCount }) => doubleCount.value * 2,
+    doubleCountPlusOne() {
+      return this.doubleCount * 2
+    }
   },
   // optional actions
   actions: {
     reset() {
       // `this` is the store instance
-      this.state.counter = 0
+      this.counter = 0
     },
   },
 })
@@ -127,10 +131,10 @@ export default defineComponent({
     return {
       // gives access to the whole store
       main,
-      // gives access to the state
-      state: main.state,
-      // gives access to specific getter; like `computed` properties, do not include `.value`
-      doubleCount: main.doubleCount,
+      // gives access only to the state
+      state: computed(() => main.state),
+      // gives access to specific getter; like `computed` properties
+      doubleCount: computed(() => main.doubleCount),
     }
   },
 })
@@ -193,20 +197,30 @@ router.beforeEach((to, from, next) => {
 
 ⚠️: Note that if you are developing an SSR application, [you will need to do a bit more](#ssr).
 
-Once you have access to the store, you can access the `state` through `store.state` and any getter directly on the `store` itself as a _computed_ property (from `@vue/composition-api`) (meaning you need to use `.value` to read the actual value on the JavaScript but not in the template):
+You can access any property defined in `state` and `getters` directly on the store, similar to `data` and `computed` properties in a Vue component.
 
 ```ts
 export default defineComponent({
   setup() {
     const main = useMainStore()
-    const text = main.state.name
-    const doubleCount = main.doubleCount.value // notice the `.value` at the end
+    const text = main.name
+    const doubleCount = main.doubleCount
     return {}
   },
 })
 ```
 
-`state` is the result of a `ref` while every getter is the result of a `computed`. Both from `@vue/composition-api`.
+The `main` store in an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, we cannot destructure it:
+
+```ts
+export default defineComponent({
+  setup() {
+    // ❌ This won't work, it breaks reactivity
+    const { name, doubleCount } = useMainStore()
+    return { name, doubleCount }
+  },
+})
+```
 
 Actions are invoked like methods:
 
@@ -227,7 +241,7 @@ export default defineComponent({
 To mutate the state you can either directly change something:
 
 ```ts
-main.state.counter++
+main.counter++
 ```
 
 or call the method `patch` that allows you apply multiple changes at the same time with a partial `state` object:
@@ -291,7 +305,7 @@ export default {
 }
 ```
 
-Note: **This is necessary in middlewares and other asyncronous methods**
+Note: **This is necessary in middlewares and other asynchronous methods**.
 
 It may look like things are working even if you don't pass `req` to `useStore` **but multiple concurrent requests to the server could end up sharing state between different users**.
 
@@ -344,18 +358,18 @@ createStore({
   id: 'cart',
   state: () => ({ items: [] }),
   getters: {
-    message: state => {
+    message() {
       const user = useUserStore()
-      return `Hi ${user.state.name}, you have ${items.length} items in the cart`
+      return `Hi ${user.name}, you have ${this.items.length} items in the cart`
     },
   },
   actions: {
     async purchase() {
       const user = useUserStore()
 
-      await apiBuy(user.state.token, this.state.items)
+      await apiBuy(user.token, this.items)
 
-      this.state.items = []
+      this.items = []
     },
   },
 })
@@ -386,7 +400,7 @@ export const useSharedStore = createStore({
       const user = useUserStore()
       const cart = useCartStore()
 
-      return `Hi ${user.state.name}, you have ${cart.state.list.length} items in your cart. It costs ${cart.price}.`
+      return `Hi ${user.name}, you have ${cart.list.length} items in your cart. It costs ${cart.price}.`
     },
   },
 })
@@ -410,7 +424,7 @@ export const useSharedStore = createStore({
       const cart = useCartStore()
 
       try {
-        await apiOrderCart(user.state.token, cart.state.items)
+        await apiOrderCart(user.token, cart.items)
         cart.emptyCart()
       } catch (err) {
         displayError(err)
@@ -438,13 +452,14 @@ export const useCartUserStore = pinia(
   },
   {
     getters: {
-      combinedGetter: ({ user, cart }) =>
-        `Hi ${user.state.name}, you have ${cart.state.list.length} items in your cart. It costs ${cart.price}.`,
+      combinedGetter () {
+        return `Hi ${this.user.name}, you have ${this.cart.list.length} items in your cart. It costs ${this.cart.price}.`,
+      }
     },
     actions: {
       async orderCart() {
         try {
-          await apiOrderCart(this.user.state.token, this.cart.state.items)
+          await apiOrderCart(this.user.token, this.cart.items)
           this.cart.emptyCart()
         } catch (err) {
           displayError(err)
