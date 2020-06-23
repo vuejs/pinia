@@ -13,5 +13,5 @@
     "rootDir": ".",
     "baseUrl": "."
   },
-  "include": ["src/**/*.ts", "nuxt/*.js", "__tests__/**/**.ts"]
+  "include": ["src/**/*.ts", "nuxt/*.js", "__tests__/**/*.ts"]
 }

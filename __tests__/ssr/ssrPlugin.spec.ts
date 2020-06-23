@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import { PiniaSsr } from '../../src'
+import { mockWarn } from 'jest-mock-warn'
 
-it('should warn when installed in the browser', () => {
-  const mixinSpy = jest.spyOn(Vue, 'mixin')
-  const warnSpy = jest.spyOn(console, 'warn')
-  Vue.use(PiniaSsr)
-  expect(warnSpy).toHaveBeenCalledWith(
-    expect.stringMatching(/seems to be used in the browser bundle/i)
-  )
-  expect(mixinSpy).not.toHaveBeenCalled()
+describe('SSR', () => {
+  mockWarn()
+
+  it('should warn when installed in the browser', () => {
+    const mixinSpy = jest.spyOn(Vue, 'mixin')
+    Vue.use(PiniaSsr)
+    expect(/seems to be used in the client bundle/i).toHaveBeenWarned()
+    expect(mixinSpy).not.toHaveBeenCalled()
+    mixinSpy.mockRestore()
+  })
 })

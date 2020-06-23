@@ -7,7 +7,7 @@ export const PiniaSsr = (vue: VueConstructor) => {
 
   if (!isServer) {
     console.warn(
-      '`PiniaSsrPlugin` seems to be used in the browser bundle. You should only call it on the server entry: https://github.com/posva/pinia#raw-vue-ssr'
+      '`PiniaSsrPlugin` seems to be used in the client bundle. You should only call it on the server entry: https://github.com/posva/pinia#raw-vue-ssr'
     )
     return
   }

@@ -8,6 +8,7 @@ import App from './App'
 export function createApp() {
   // create the app instance, injecting both the router and the store
   const app = new Vue({
+    // @ts-ignore
     render: h => h(App),
   })
 
