@@ -1,4 +1,11 @@
-import { ref, watch, computed, reactive, Ref } from '@vue/composition-api'
+import {
+  ref,
+  watch,
+  computed,
+  reactive,
+  Ref,
+  toRefs,
+} from '@vue/composition-api'
 import {
   StateTree,
   StoreWithState,
@@ -38,6 +45,19 @@ function innerPatch<T extends StateTree>(
   }
 
   return target
+}
+
+function toComputed<T>(refObject: Ref<T>) {
+  // let asComputed = computed<T>()
+  const reactiveObject = {} as {
+    [k in keyof T]: Ref<T[k]>
+  }
+  for (const key in refObject.value) {
+    // @ts-ignore: the key matches
+    reactiveObject[key] = computed(() => refObject.value[key as keyof T])
+  }
+
+  return reactiveObject
 }
 
 /**
@@ -132,15 +152,16 @@ export function buildStore<
     wrappedActions[actionName] = function() {
       setActiveReq(_r)
       // eslint-disable-next-line
-      return actions[actionName].apply(store, arguments as unknown as any[])
+      return actions[actionName].apply(store, (arguments as unknown) as any[])
     } as StoreWithActions<A>[typeof actionName]
   }
 
-  const store: Store<Id, S, G, A> = {
+  const store: Store<Id, S, G, A> = reactive({
     ...storeWithState,
+    ...toComputed(state),
     ...computedGetters,
     ...wrappedActions,
-  }
+  }) as Store<Id, S, G, A>
 
   // make state access invisible
   Object.defineProperty(store, 'state', {

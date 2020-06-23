@@ -47,6 +47,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   /**
    * State of the Store
    */
+  // TODO: remove
   state: S
 
   /**
@@ -91,7 +92,7 @@ export type Store<
   S extends StateTree,
   G extends Record<string, StoreGetter<S>>,
   A extends Record<string, StoreAction>
-> = StoreWithState<Id, S> & StoreWithGetters<S, G> & StoreWithActions<A>
+> = StoreWithState<Id, S> & S & StoreWithGetters<S, G> & StoreWithActions<A>
 
 export type GenericStore = Store<
   string,

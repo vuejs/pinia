@@ -1,6 +1,6 @@
 import { createStore, setActiveReq } from '../src'
 
-describe('Store', () => {
+describe('Getters', () => {
   const useStore = () => {
     // create a new store
     setActiveReq({})
@@ -35,15 +35,15 @@ describe('Store', () => {
 
   it('adds getters to the store', () => {
     const store = useStore()
-    expect(store.upperCaseName.value).toBe('EDUARDO')
+    expect(store.upperCaseName).toBe('EDUARDO')
     store.state.name = 'Ed'
-    expect(store.upperCaseName.value).toBe('ED')
+    expect(store.upperCaseName).toBe('ED')
   })
 
   it('updates the value', () => {
     const store = useStore()
     store.state.name = 'Ed'
-    expect(store.upperCaseName.value).toBe('ED')
+    expect(store.upperCaseName).toBe('ED')
   })
 
   it('supports changing between requests', () => {
@@ -58,13 +58,13 @@ describe('Store', () => {
     bStore.state.b = 'c'
 
     aStore.state.a = 'b'
-    expect(aStore.fromB.value).toBe('b b')
+    expect(aStore.fromB).toBe('b b')
   })
 
   it('can use other getters', () => {
     const store = useStore()
-    expect(store.composed.value).toBe('EDUARDO: ok')
+    expect(store.composed).toBe('EDUARDO: ok')
     store.state.name = 'Ed'
-    expect(store.composed.value).toBe('ED: ok')
+    expect(store.composed).toBe('ED: ok')
   })
 })

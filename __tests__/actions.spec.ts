@@ -1,6 +1,6 @@
 import { createStore, setActiveReq } from '../src'
 
-describe('Store', () => {
+describe('Actions', () => {
   const useStore = () => {
     // create a new store
     setActiveReq({})

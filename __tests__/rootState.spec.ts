@@ -1,6 +1,6 @@
 import { createStore, getRootState } from '../src'
 
-describe('Store', () => {
+describe('Root State', () => {
   const useA = createStore({
     id: 'a',
     state: () => ({ a: 'a' }),
