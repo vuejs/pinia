@@ -8,7 +8,6 @@ import {
   StoreWithGetters,
   Store,
   StoreWithActions,
-  StoreWithGettersValues,
   Method,
 } from './types'
 import { useStoreDevtools } from './devtools'
@@ -140,13 +139,13 @@ export function buildStore<
     reset,
   }
 
-  const computedGetters: StoreWithGetters<S, G> = {} as StoreWithGetters<S, G>
+  const computedGetters: StoreWithGetters<G> = {} as StoreWithGetters<G>
   for (const getterName in getters) {
     computedGetters[getterName] = computed(() => {
       setActiveReq(_r)
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       return getters[getterName].call(store, store)
-    }) as StoreWithGetters<S, G>[typeof getterName]
+    }) as StoreWithGetters<G>[typeof getterName]
   }
 
   // const reactiveGetters = reactive(computedGetters)
@@ -183,10 +182,9 @@ export function createStore<
 >(options: {
   id: Id
   state?: () => S
-  getters?: G & ThisType<S & StoreWithGettersValues<G>>
+  getters?: G & ThisType<S & StoreWithGetters<G>>
   // allow actions use other actions
-  actions?: A &
-    ThisType<A & S & StoreWithState<Id, S> & StoreWithGettersValues<G>>
+  actions?: A & ThisType<A & S & StoreWithState<Id, S> & StoreWithGetters<G>>
 }) {
   const { id, state, getters, actions } = options
 

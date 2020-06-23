@@ -63,6 +63,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
 }
 
 export type Method = (...args: any[]) => any
+
 // export type StoreAction<P extends any[], R> = (...args: P) => R
 // export interface StoreAction<P, R> {
 //   (...args: P[]): R
@@ -75,40 +76,24 @@ export type StoreWithActions<A> = {
     : never
 }
 
-export interface StoreGetter<S extends StateTree, T = any> {
-  // TODO: would be nice to be able to define the getters here
-  (state: S, getters: Record<string, Ref<any>>): T
-}
+// export interface StoreGetter<S extends StateTree, T = any> {
+//   // TODO: would be nice to be able to define the getters here
+//   (state: S, getters: Record<string, Ref<any>>): T
+// }
 
-export type StoreWithGetters<
-  S extends StateTree,
-  G extends Record<string, StoreGetter<S>>
-> = {
-  [k in keyof G]: G[k] extends StoreGetter<S, infer V> ? Ref<V> : never
-}
-
-export interface StoreGetter<S extends StateTree, T = any> {
-  // TODO: would be nice to be able to define the getters here
-  (state: S, getters: Record<string, Ref<any>>): T
-}
-
-export interface StoreGetterThis {
-  (store?: any): any
-}
-
-export type StoreWithGettersValues<G> = {
+export type StoreWithGetters<G> = {
   [k in keyof G]: G[k] extends (this: infer This, store?: any) => infer R
     ? R
     : never
 }
 
-// in this type we forget about this because otherwise the type is recursive
-export type StoreWithThisGetters<G> = {
-  // TODO: does the infer this as the second argument work?
-  [k in keyof G]: G[k] extends (this: infer This, store?: any) => infer R
-    ? (this: This, store?: This) => R
-    : never
-}
+// // in this type we forget about this because otherwise the type is recursive
+// export type StoreWithThisGetters<G> = {
+//   // TODO: does the infer this as the second argument work?
+//   [k in keyof G]: G[k] extends (this: infer This, store?: any) => infer R
+//     ? (this: This, store?: This) => R
+//     : never
+// }
 
 // has the actions without the context (this) for typings
 export type Store<
@@ -116,11 +101,7 @@ export type Store<
   S extends StateTree,
   G,
   A
-> = StoreWithState<Id, S> &
-  S &
-  StoreWithGettersValues<G> &
-  // StoreWithGetters<S, G> &
-  StoreWithActions<A>
+> = StoreWithState<Id, S> & S & StoreWithGetters<G> & StoreWithActions<A>
 
 export type GenericStore = Store<
   string,
