@@ -1,4 +1,5 @@
 import { createStore, setActiveReq } from '../src'
+import { computed } from '@vue/composition-api'
 
 describe('State', () => {
   const useStore = () => {
@@ -16,9 +17,15 @@ describe('State', () => {
   it('can directly access state at the store level', () => {
     const store = useStore()
     expect(store.name).toBe('Eduardo')
-    store.state.name = 'Ed'
+    store.name = 'Ed'
     expect(store.name).toBe('Ed')
   })
 
-  it.todo('state is reactive')
+  it('state is reactive', () => {
+    const store = useStore()
+    const upperCased = computed(() => store.name.toUpperCase())
+    expect(upperCased.value).toBe('EDUARDO')
+    store.name = 'Ed'
+    expect(upperCased.value).toBe('ED')
+  })
 })

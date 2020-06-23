@@ -54,7 +54,10 @@ function toComputed<T>(refObject: Ref<T>) {
   }
   for (const key in refObject.value) {
     // @ts-ignore: the key matches
-    reactiveObject[key] = computed(() => refObject.value[key as keyof T])
+    reactiveObject[key] = computed({
+      get: () => refObject.value[key as keyof T],
+      set: value => (refObject.value[key as keyof T] = value),
+    })
   }
 
   return reactiveObject
