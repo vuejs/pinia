@@ -14,7 +14,7 @@ const myPlugin = context => {
   if (process.server) {
     setActiveReq(context.req)
     context.beforeNuxtRender(({ nuxtState }) => {
-      nuxtState.pinia = getRootState(context.req)
+      nuxtState.pinia = JSON.parse(JSON.stringify(getRootState(context.req)));
     })
   } else if (context.nuxtState) {
     setStateProvider(() => context.nuxtState.pinia)
