@@ -546,9 +546,9 @@
     fastq "^1.6.0"
 
 "@nuxt/types@^2.13.0":
-  version "2.13.2"
-  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-2.13.2.tgz#dbb917ca01cf0e0153c189e1e9fa0d09be4476e8"
-  integrity sha512-NX8vpcVJ7MSUUlpI7Nm950ayuFSSJGOtlFxwH2K7jOGzb1q0AcvKKA2PSjWlVVPhTA+d3+VFNBRdK7q43u7EPA==
+  version "2.13.3"
+  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-2.13.3.tgz#8d3fad5a4b83c22db34d69a266f50a6b135213ad"
+  integrity sha512-GbNr2VzjZ+ZPY6+jPGDLQRgJGYVBwsau3OoFJWbcD60PnYUyspL6yOKq1U6smRFAPyuWm2RmncBeYNtx/kJIZw==
   dependencies:
     "@types/autoprefixer" "^9.7.2"
     "@types/babel__core" "^7.1.9"
