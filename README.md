@@ -65,7 +65,7 @@ A few notes about the project and possible questions:
 
 - [ ] List Getters on DevTools
 - [x] Nuxt Module
-- [ ] Should the state be merged at the same level as actions and getters?
+- [x] Should the state be merged at the same level as actions and getters?
 - [ ] Flag to remove devtools support (for very light production apps)
 - [ ] Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)
 - ~~Getter with params that act like computed properties (@ktsn)~~
@@ -183,7 +183,7 @@ export default defineComponent({
 // In a different file...
 
 router.beforeEach((to, from, next) => {
-  // ✅ This will work
+  // ✅ This will work (requires an extra param for SSR, see below)
   const main = useMainStore()
 
   if (main.state.isLoggedIn) next()
@@ -277,7 +277,7 @@ By default, it will also disable Vuex so you can directly use the `store` folder
 
 ```js
 export default {
-  disableVuex: false
+  disableVuex: false,
 }
 ```
 
@@ -301,35 +301,36 @@ In a Raw Vue SSR application you have to modify a few files to enable hydration 
 
 ```js
 // entry-server.js
-import { getRootState, PiniaSsr } from "pinia";
+import { getRootState, PiniaSsr } from 'pinia'
 
 // install plugin to automatically use correct context in setup and onServerPrefetch
-Vue.use(PiniaSsr);
+Vue.use(PiniaSsr)
 
 export default context => {
   /* ... */
   context.rendered = () => {
     // pass state to context
-    context.piniaState = getRootState(context.req);
-  };
- /* ... */
-};
+    context.piniaState = getRootState(context.req)
+  }
+  /* ... */
+}
 ```
 
 ```html
 <!-- index.html -->
 <body>
-<!-- pass state from context to client -->
-{{{ renderState({ contextKey: 'piniaState', windowKey: '__PINIA_STATE__' }) }}}
+  <!-- pass state from context to client -->
+  {{{ renderState({ contextKey: 'piniaState', windowKey: '__PINIA_STATE__' })
+  }}}
 </body>
 ```
 
 ```js
 // entry-client.js
-import { setStateProvider } from "pinia";
+import { setStateProvider } from 'pinia'
 
 // inject ssr-state
-setStateProvider(() => window.__PINIA_STATE__);
+setStateProvider(() => window.__PINIA_STATE__)
 ```
 
 ### Accessing other Stores
@@ -454,7 +455,32 @@ export const useCartUserStore = pinia(
 )
 ```
 
+## TypeScript
+
+Pinia is conceived to make typing automatic, benefiting both, JS and, TS users. There are however different ways of handling types when using TS
+
+### Using an interface to type the `state`
+
+If you want to define your own interface to type the _state_, explicitly type the return type of the `state` function:
+
+```ts
+interface MainState {
+  counter: number
+  name: string
+}
+
+export const useMainStore = createStore({
+  id: 'main',
+  state: (): MainState => ({
+    counter: 0,
+    name: 'Paimon',
+  }),
+})
+```
+
 ## Related
+
+- Vuex 5
 
 ## License
 
