@@ -54,7 +54,7 @@
     "rollup": "^2.7.2",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^6.1.0",
+    "rollup-plugin-terser": "^7.0.0",
     "rollup-plugin-typescript2": "^0.27.0",
     "ts-jest": "^25.2.1",
     "tsd": "^0.13.1",
