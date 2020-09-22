@@ -18,7 +18,8 @@ There are the core principles that I try to achieve with this experiment:
 
 - Flat modular structure 🍍 No nesting, only stores, compose them as needed
 - Light layer on top of Vue 💨 keep it very lightweight
-- Only `state`, `getters` 👐 `patch` is the new _mutation_
+- Only `state`, `getters`
+- No more verbose mutations, 👐 `patch` is _the mutation_
 - Actions are like _methods_ ⚗️ Group your business there
 - Import what you need, let webpack code split 📦 No need for dynamically registered modules
 - SSR support ⚙️
@@ -131,8 +132,8 @@ export default defineComponent({
     return {
       // gives access to the whole store
       main,
-      // gives access only to the state
-      state: computed(() => main.state),
+      // gives access only to specific state
+      state: computed(() => main.counter),
       // gives access to specific getter; like `computed` properties
       doubleCount: computed(() => main.doubleCount),
     }
@@ -215,7 +216,8 @@ The `main` store in an object wrapped with `reactive`, meaning there is no need 
 ```ts
 export default defineComponent({
   setup() {
-    // ❌ This won't work, it breaks reactivity
+    // ❌ This won't work because it breaks reactivity
+    // it's the same as destructuring from `props`
     const { name, doubleCount } = useMainStore()
     return { name, doubleCount }
   },
