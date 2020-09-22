@@ -25,7 +25,7 @@
     "test:unit": "jest --coverage",
     "dev": "yarn run unit --watchAll",
     "pretest": "yarn run lint",
-    "test": "yarn run test:types && yarn run test:unit && yarn run build && yarn run build:dts"
+    "test": "yarn run test:types && yarn run test:unit && yarn run build && yarn run build:dts && yarn test:dts"
   },
   "files": [
     "dist/*.js",
