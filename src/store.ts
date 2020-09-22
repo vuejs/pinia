@@ -45,7 +45,7 @@ function toComputed<T>(refObject: Ref<T>) {
     // @ts-ignore: the key matches
     reactiveObject[key] = computed({
       get: () => refObject.value[key as keyof T],
-      set: value => (refObject.value[key as keyof T] = value),
+      set: (value) => (refObject.value[key as keyof T] = value),
     })
   }
 
@@ -78,9 +78,9 @@ export function buildStore<
 
   watch(
     () => state.value,
-    state => {
+    (state) => {
       if (isListening) {
-        subscriptions.forEach(callback => {
+        subscriptions.forEach((callback) => {
           callback({ storeName: id, type: '🧩 in place', payload: {} }, state)
         })
       }
@@ -96,7 +96,7 @@ export function buildStore<
     innerPatch(state.value, partialState)
     isListening = true
     // because we paused the watcher, we need to manually call the subscriptions
-    subscriptions.forEach(callback => {
+    subscriptions.forEach((callback) => {
       callback(
         { storeName: id, type: '⤵️ patch', payload: partialState },
         state.value
@@ -125,7 +125,7 @@ export function buildStore<
     // @ts-ignore, `reactive` unwraps this making it of type S
     state: computed<S>({
       get: () => state.value,
-      set: newState => {
+      set: (newState) => {
         isListening = false
         state.value = newState
         isListening = true
@@ -150,7 +150,7 @@ export function buildStore<
 
   const wrappedActions: StoreWithActions<A> = {} as StoreWithActions<A>
   for (const actionName in actions) {
-    wrappedActions[actionName] = function() {
+    wrappedActions[actionName] = function () {
       setActiveReq(_r)
       // eslint-disable-next-line
       return actions[actionName].apply(store, (arguments as unknown) as any[])

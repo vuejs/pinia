@@ -49,7 +49,7 @@ export function getRootState(req: NonNullObject): Record<string, StateTree> {
   const rootState = {} as Record<string, StateTree>
 
   // forEach is the only one that also works on IE11
-  stores.forEach(store => {
+  stores.forEach((store) => {
     rootState[store.id] = store.state
   })
 

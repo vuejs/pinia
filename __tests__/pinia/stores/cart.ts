@@ -9,7 +9,7 @@ export const useCartStore = createStore({
   getters: {
     items() {
       return this.rawItems.reduce((items, item) => {
-        const existingItem = items.find(it => it.name === item)
+        const existingItem = items.find((it) => it.name === item)
 
         if (!existingItem) {
           items.push({ name: item, amount: 1 })
