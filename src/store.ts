@@ -174,7 +174,7 @@ export function buildStore<
 
 /**
  * Creates a `useStore` function that retrieves the store instance
- * @param options
+ * @param options - options to define the store
  */
 export function createStore<
   Id extends string,

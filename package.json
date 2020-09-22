@@ -20,6 +20,7 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1",
     "lint": "prettier -c --parser typescript \"{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
     "lint:fix": "yarn run lint --write",
+    "test:dts": "tsc -p ./test-dts/tsconfig.json",
     "test:types": "tsc --build tsconfig.json",
     "test:unit": "jest --coverage",
     "dev": "yarn run unit --watchAll",

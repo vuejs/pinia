@@ -1,5 +1,5 @@
 import { createStore, setActiveReq } from '../src'
-import { computed } from '@vue/composition-api'
+import { computed } from 'vue'
 
 describe('State', () => {
   const useStore = () => {

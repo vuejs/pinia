@@ -1,7 +1,7 @@
-import { createComponent, computed } from '@vue/composition-api'
+import { defineComponent, computed } from 'vue'
 import { useStore } from './store'
 
-export default createComponent({
+export default defineComponent({
   setup() {
     const store = useStore()
 

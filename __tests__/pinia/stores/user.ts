@@ -31,7 +31,9 @@ export const useUserStore = createStore({
     },
   },
   getters: {
-    test: state => state.name.toUpperCase(),
+    test() {
+      return this.name.toUpperCase()
+    },
   },
 })
 

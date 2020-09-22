@@ -7,8 +7,8 @@ export const useCartStore = createStore({
     rawItems: [] as string[],
   }),
   getters: {
-    items: state =>
-      state.rawItems.reduce((items, item) => {
+    items() {
+      return this.rawItems.reduce((items, item) => {
         const existingItem = items.find(it => it.name === item)
 
         if (!existingItem) {
@@ -18,7 +18,8 @@ export const useCartStore = createStore({
         }
 
         return items
-      }, [] as { name: string; amount: number }[]),
+      }, [] as { name: string; amount: number }[])
+    },
   },
 })
 
@@ -40,8 +41,8 @@ export async function purchaseItems() {
   const user = useUserStore()
   if (!user.state.name) return
 
-  console.log('Purchasing', cart.items.value)
-  const n = cart.items.value.length
+  console.log('Purchasing', cart.items)
+  const n = cart.items.length
   cart.state.rawItems = []
 
   return n
