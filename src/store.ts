@@ -1,4 +1,4 @@
-import { ref, watch, computed, Ref } from 'vue'
+import { ref, watch, computed, Ref, reactive } from 'vue'
 import {
   StateTree,
   StoreWithState,
@@ -6,10 +6,9 @@ import {
   DeepPartial,
   isPlainObject,
   StoreWithGetters,
-  StoreGetter,
-  StoreAction,
   Store,
   StoreWithActions,
+  Method,
 } from './types'
 import {
   getActiveReq,
@@ -37,6 +36,22 @@ function innerPatch<T extends StateTree>(
   return target
 }
 
+function toComputed<T>(refObject: Ref<T>) {
+  // let asComputed = computed<T>()
+  const reactiveObject = {} as {
+    [k in keyof T]: Ref<T[k]>
+  }
+  for (const key in refObject.value) {
+    // @ts-ignore: the key matches
+    reactiveObject[key] = computed({
+      get: () => refObject.value[key as keyof T],
+      set: value => (refObject.value[key as keyof T] = value),
+    })
+  }
+
+  return reactiveObject
+}
+
 /**
  * Creates a store instance
  * @param id - unique identifier of the store, like a name. eg: main, cart, user
@@ -45,8 +60,8 @@ function innerPatch<T extends StateTree>(
 export function buildStore<
   Id extends string,
   S extends StateTree,
-  G extends Record<string, StoreGetter<S>>,
-  A extends Record<string, StoreAction>
+  G extends Record<string, Method>,
+  A extends Record<string, Method>
 >(
   id: Id,
   buildState: () => S = () => ({} as S),
@@ -82,6 +97,7 @@ export function buildStore<
     // @ts-ignore FIXME: why is this even failing on TS
     innerPatch(state.value, partialState)
     isListening = true
+    // because we paused the watcher, we need to manually call the subscriptions
     subscriptions.forEach(callback => {
       callback(
         { storeName: id, type: '⤵️ patch', payload: partialState },
@@ -110,22 +126,28 @@ export function buildStore<
   const storeWithState: StoreWithState<Id, S> = {
     id,
     _r,
-    // it is replaced below by a getter
-    // @ts-ignore FIXME: why is this even failing on TS
-    state: state.value,
+    // @ts-ignore, `reactive` unwraps this making it of type S
+    state: computed<S>({
+      get: () => state.value,
+      set: newState => {
+        isListening = false
+        state.value = newState
+        isListening = true
+      },
+    }),
 
     patch,
     subscribe,
     reset,
   }
 
-  const computedGetters: StoreWithGetters<S, G> = {} as StoreWithGetters<S, G>
+  const computedGetters: StoreWithGetters<G> = {} as StoreWithGetters<G>
   for (const getterName in getters) {
     computedGetters[getterName] = computed(() => {
       setActiveReq(_r)
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      return getters[getterName](state.value as S, computedGetters)
-    }) as any
+      return getters[getterName].call(store, store)
+    }) as StoreWithGetters<G>[typeof getterName]
   }
 
   // const reactiveGetters = reactive(computedGetters)
@@ -139,22 +161,13 @@ export function buildStore<
     } as StoreWithActions<A>[typeof actionName]
   }
 
-  const store: Store<Id, S, G, A> = {
+  const store: Store<Id, S, G, A> = reactive({
     ...storeWithState,
+    // using this means no new properties can be added as state
+    ...toComputed(state),
     ...computedGetters,
     ...wrappedActions,
-  }
-
-  // make state access invisible
-  Object.defineProperty(store, 'state', {
-    get: () => state.value,
-    set: (newState: S) => {
-      isListening = false
-      // @ts-ignore FIXME: why is this even failing on TS
-      state.value = newState
-      isListening = true
-    },
-  })
+  }) as Store<Id, S, G, A>
 
   return store
 }
@@ -166,14 +179,14 @@ export function buildStore<
 export function createStore<
   Id extends string,
   S extends StateTree,
-  G extends Record<string, StoreGetter<S>>,
-  A extends Record<string, StoreAction>
+  G /* extends Record<string, StoreGetterThis> */,
+  A /* extends Record<string, StoreAction> */
 >(options: {
   id: Id
   state?: () => S
-  getters?: G
+  getters?: G & ThisType<S & StoreWithGetters<G>>
   // allow actions use other actions
-  actions?: A & ThisType<A & StoreWithState<Id, S> & StoreWithGetters<S, G>>
+  actions?: A & ThisType<A & S & StoreWithState<Id, S> & StoreWithGetters<G>>
 }) {
   const { id, state, getters, actions } = options
 
@@ -187,6 +200,7 @@ export function createStore<
     if (!store) {
       stores.set(
         id,
+        // @ts-ignore
         (store = buildStore(id, state, getters, actions, getInitialState(id)))
       )
 
