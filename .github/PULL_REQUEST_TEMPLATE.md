@@ -5,6 +5,7 @@ https://github.com/vuejs/vue/blob/dev/.github/CONTRIBUTING.md#Pull-Request
 
 <!-- PULL REQUEST TEMPLATE -->
 <!-- (Update "[ ]" to "[x]" to check a box) -->
+<!-- Tip: publish the PR and check the checkboxes by simply clicking on them -->
 
 **What kind of change does this PR introduce?** (check at least one)
 
