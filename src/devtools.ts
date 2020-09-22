@@ -64,14 +64,14 @@ export function useStoreDevtools(store: StoreWithState<string, StateTree>) {
 
   Object.defineProperty(rootStore.state, store.id, {
     get: () => store.state,
-    set: state => (store.state = state),
+    set: (state) => (store.state = state),
   })
 
   // Vue.set(rootStore.state, store.name, store.state)
   // the trailing slash is removed by the devtools
   rootStore._modulesNamespaceMap[store.id + '/'] = true
 
-  devtoolHook.on('vuex:travel-to-state', targetState => {
+  devtoolHook.on('vuex:travel-to-state', (targetState) => {
     store.state = targetState[store.id]
   })
 

@@ -35,7 +35,7 @@ export const PiniaSsr = (_Vue: VueConstructor) => {
 
         for (let i = 0; i < patchedServerPrefetch.length; i++) {
           const original = patchedServerPrefetch[i]
-          patchedServerPrefetch[i] = function() {
+          patchedServerPrefetch[i] = function () {
             // @ts-ignore
             setActiveReq(this.$ssrContext.req)
 

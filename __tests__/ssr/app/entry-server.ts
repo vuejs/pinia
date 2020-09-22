@@ -4,8 +4,8 @@ import { PiniaSsr, getRootState } from '../../../src'
 
 Vue.use(PiniaSsr)
 
-export default function(context: any) {
-  return new Promise(resolve => {
+export default function (context: any) {
+  return new Promise((resolve) => {
     const { app } = createApp()
 
     // This `rendered` hook is called when the app has finished rendering

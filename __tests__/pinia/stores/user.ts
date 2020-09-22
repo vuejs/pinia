@@ -31,7 +31,7 @@ export const useUserStore = createStore({
     },
   },
   getters: {
-    test: state => state.name.toUpperCase(),
+    test: (state) => state.name.toUpperCase(),
   },
 })
 
