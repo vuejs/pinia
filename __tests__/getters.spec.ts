@@ -19,9 +19,6 @@ describe('Getters', () => {
         composed() {
           return this.upperCaseName + ': ok'
         },
-        // TODO: I can't figure out how to pass `this` as an argument. Not sure
-        // it is possible in this specific scenario
-        // upperCaseNameArrow: store => store.name,
       },
     })()
   }
