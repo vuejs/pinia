@@ -1,6 +1,6 @@
 import { createStore, setActiveReq } from '../src'
 
-describe('Store', () => {
+describe('Actions', () => {
   const useStore = () => {
     // create a new store
     setActiveReq({})
@@ -13,9 +13,20 @@ describe('Store', () => {
           a: { b: 'string' },
         },
       }),
+      getters: {
+        nonA(): boolean {
+          return !this.a
+        },
+        otherComputed() {
+          return this.nonA
+        },
+      },
       actions: {
+        async getNonA() {
+          return this.nonA
+        },
         toggle() {
-          this.state.a = !this.state.a
+          return (this.a = !this.a)
         },
 
         setFoo(foo: string) {

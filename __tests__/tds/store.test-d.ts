@@ -5,12 +5,16 @@ const useStore = createStore({
   id: 'name',
   state: () => ({ a: 'on' as 'on' | 'off' }),
   getters: {
-    upper: state => state.a.toUpperCase(),
+    upper() {
+      return this.a.toUpperCase()
+    },
   },
 })
 
 const store = useStore()
 
 expectType<{ a: 'on' | 'off' }>(store.state)
+
+expectType<{ upper: string }>(store)
 
 expectError(() => store.nonExistant)

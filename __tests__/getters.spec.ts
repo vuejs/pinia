@@ -1,6 +1,6 @@
 import { createStore, setActiveReq } from '../src'
 
-describe('Store', () => {
+describe('Getters', () => {
   const useStore = () => {
     // create a new store
     setActiveReq({})
@@ -10,9 +10,18 @@ describe('Store', () => {
         name: 'Eduardo',
       }),
       getters: {
-        upperCaseName: ({ name }) => name.toUpperCase(),
-        composed: (state, { upperCaseName }) =>
-          (upperCaseName.value as string) + ': ok',
+        upperCaseName() {
+          return this.name.toUpperCase()
+        },
+        doubleName() {
+          return this.upperCaseName
+        },
+        composed() {
+          return this.upperCaseName + ': ok'
+        },
+        // TODO: I can't figure out how to pass `this` as an argument. Not sure
+        // it is possible in this specific scenario
+        // upperCaseNameArrow: store => store.name,
       },
     })()
   }
@@ -26,24 +35,24 @@ describe('Store', () => {
     id: 'A',
     state: () => ({ a: 'a' }),
     getters: {
-      fromB(state) {
+      fromB() {
         const bStore = useB()
-        return state.a + ' ' + bStore.state.b
+        return this.a + ' ' + bStore.b
       },
     },
   })
 
   it('adds getters to the store', () => {
     const store = useStore()
-    expect(store.upperCaseName.value).toBe('EDUARDO')
-    store.state.name = 'Ed'
-    expect(store.upperCaseName.value).toBe('ED')
+    expect(store.upperCaseName).toBe('EDUARDO')
+    store.name = 'Ed'
+    expect(store.upperCaseName).toBe('ED')
   })
 
   it('updates the value', () => {
     const store = useStore()
-    store.state.name = 'Ed'
-    expect(store.upperCaseName.value).toBe('ED')
+    store.name = 'Ed'
+    expect(store.upperCaseName).toBe('ED')
   })
 
   it('supports changing between requests', () => {
@@ -55,16 +64,16 @@ describe('Store', () => {
     // simulate a different request
     setActiveReq(req2)
     const bStore = useB()
-    bStore.state.b = 'c'
+    bStore.b = 'c'
 
-    aStore.state.a = 'b'
-    expect(aStore.fromB.value).toBe('b b')
+    aStore.a = 'b'
+    expect(aStore.fromB).toBe('b b')
   })
 
   it('can use other getters', () => {
     const store = useStore()
-    expect(store.composed.value).toBe('EDUARDO: ok')
-    store.state.name = 'Ed'
-    expect(store.composed.value).toBe('ED: ok')
+    expect(store.composed).toBe('EDUARDO: ok')
+    store.name = 'Ed'
+    expect(store.composed).toBe('ED: ok')
   })
 })

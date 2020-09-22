@@ -2,7 +2,7 @@ import { VueConstructor } from 'vue/types'
 import { setActiveReq } from './rootStore'
 import { SetupContext } from '@vue/composition-api'
 
-export const PiniaSsr = (vue: VueConstructor) => {
+export const PiniaSsr = (_Vue: VueConstructor) => {
   const isServer = typeof window === 'undefined'
 
   if (!isServer) {
@@ -12,14 +12,14 @@ export const PiniaSsr = (vue: VueConstructor) => {
     return
   }
 
-  vue.mixin({
+  _Vue.mixin({
     beforeCreate() {
       // @ts-ignore
       const { setup, serverPrefetch } = this.$options
       if (setup) {
         // @ts-ignore
         this.$options.setup = (props: any, context: SetupContext) => {
-          // @ts-ignore
+          // @ts-ignore TODO: fix usage with nuxt-composition-api https://github.com/posva/pinia/issues/179
           if (context.ssrContext) setActiveReq(context.ssrContext.req)
           return setup(props, context)
         }
