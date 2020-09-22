@@ -1,4 +1,4 @@
-import { createStore, WrapStoreWithId } from 'src/store'
+import { createStore } from 'src/store'
 
 function apiLogin(a: string, p: string) {
   if (a === 'ed' && p === 'ed') return Promise.resolve({ isAdmin: true })

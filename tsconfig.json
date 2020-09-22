@@ -1,17 +1,31 @@
 {
+  "include": ["src/**/*.ts", "__tests__/**/*.ts"],
   "compilerOptions": {
-    "allowJs": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "outDir": "dist",
+    "sourceMap": false,
+    "noEmit": true,
+
     "target": "esnext",
     "module": "esnext",
-    "noEmit": true,
-    "strict": true,
-    "noImplicitThis": true,
-    "composite": true,
-    "esModuleInterop": true,
     "moduleResolution": "node",
+    "allowJs": false,
 
-    "rootDir": ".",
-    "baseUrl": "."
-  },
-  "include": ["src/**/*.ts", "nuxt/*.js", "__tests__/**/**.ts"]
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "strict": true,
+    "isolatedModules": false,
+
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "removeComments": false,
+    "jsx": "preserve",
+    "lib": ["esnext", "dom"],
+    "types": ["jest", "node"]
+  }
 }

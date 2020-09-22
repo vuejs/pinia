@@ -41,7 +41,7 @@ export function getInitialState(id: string): StateTree | undefined {
 /**
  * Gets the root state of all active stores. This is useful when reporting an application crash by
  * retrieving the problematic state and send it to your error tracking service.
- * @param req request key
+ * @param req - request key
  */
 export function getRootState(req: NonNullObject): Record<string, StateTree> {
   const stores = storesMap.get(req)

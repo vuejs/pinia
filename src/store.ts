@@ -39,8 +39,8 @@ function innerPatch<T extends StateTree>(
 
 /**
  * Creates a store instance
- * @param id unique identifier of the store, like a name. eg: main, cart, user
- * @param initialState initial state applied to the store, Must be correctly typed to infer typings
+ * @param id - unique identifier of the store, like a name. eg: main, cart, user
+ * @param initialState - initial state applied to the store, Must be correctly typed to infer typings
  */
 export function buildStore<
   Id extends string,
@@ -135,7 +135,7 @@ export function buildStore<
     wrappedActions[actionName] = function() {
       setActiveReq(_r)
       // eslint-disable-next-line
-      return actions[actionName].apply(store, arguments as unknown as any[])
+      return actions[actionName].apply(store, (arguments as unknown) as any[])
     } as StoreWithActions<A>[typeof actionName]
   }
 

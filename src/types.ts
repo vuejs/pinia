@@ -53,7 +53,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
 
   /**
    * Applies a state patch to current state. Allows passing nested values
-   * @param partialState patch to apply to the state
+   * @param partialState - patch to apply to the state
    */
   patch(partialState: DeepPartial<S>): void
 
@@ -65,7 +65,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
 
   /**
    * Setups a callback to be called whenever the state changes.
-   * @param callback callback that is called whenever the state
+   * @param callback - callback that is called whenever the state
    * @returns function that removes callback from subscriptions
    */
   subscribe(callback: SubscriptionCallback<S>): () => void

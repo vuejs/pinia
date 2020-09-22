@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:12
 
     working_directory: ~/repo
 
@@ -26,4 +26,4 @@ jobs:
 
       - run:
           name: Send code coverage
-          command: yarn codecov
+          command: yarn run codecov

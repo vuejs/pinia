@@ -1,6 +1,5 @@
 import { createStore } from '../../../src'
-import { useUserStore, UserStore } from './user'
-import { PiniaStore, ExtractGettersFromStore } from 'src/store'
+import { useUserStore } from './user'
 
 export const useCartStore = createStore({
   id: 'cart',
@@ -24,17 +23,6 @@ export const useCartStore = createStore({
 })
 
 export type CartStore = ReturnType<typeof useCartStore>
-
-// const a: PiniaStore<{
-//   u: UserStore
-//   c: CartStore
-// }>
-
-// a.cart
-
-// const getters: ExtractGettersFromStore<CartStore>
-
-// getters.items
 
 export function addItem(name: string) {
   const store = useCartStore()

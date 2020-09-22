@@ -1,3 +1,4 @@
+// @ts-nocheck TODO: implement it or do something different for combined stores
 import { useUserStore } from './user'
 import { useCartStore } from './cart'
 import { pinia, CombinedState } from '../../../src/pinia'
