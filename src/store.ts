@@ -81,7 +81,6 @@ export function buildStore<
     state => {
       if (isListening) {
         subscriptions.forEach(callback => {
-          // @ts-ignore FIXME: why is this even failing on TS
           callback({ storeName: id, type: '🧩 in place', payload: {} }, state)
         })
       }
@@ -94,14 +93,12 @@ export function buildStore<
 
   function patch(partialState: DeepPartial<S>): void {
     isListening = false
-    // @ts-ignore FIXME: why is this even failing on TS
     innerPatch(state.value, partialState)
     isListening = true
     // because we paused the watcher, we need to manually call the subscriptions
     subscriptions.forEach(callback => {
       callback(
         { storeName: id, type: '⤵️ patch', payload: partialState },
-        // @ts-ignore FIXME: why is this even failing on TS
         state.value
       )
     })
@@ -119,7 +116,6 @@ export function buildStore<
 
   function reset() {
     subscriptions = []
-    // @ts-ignore FIXME: why is this even failing on TS
     state.value = buildState()
   }
 
