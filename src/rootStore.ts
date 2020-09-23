@@ -1,3 +1,4 @@
+import { App } from 'vue'
 import { NonNullObject, StateTree, GenericStore } from './types'
 
 /**
@@ -55,3 +56,29 @@ export function getRootState(req: NonNullObject): Record<string, StateTree> {
 
   return rootState
 }
+
+/**
+ * Client-side application instance used for devtools
+ */
+export let clientApp: App | undefined
+export const setClientApp = (app: App) => (clientApp = app)
+export const getClientApp = () => clientApp
+
+export function createPinia() {
+  return {
+    install(app: App) {
+      setClientApp(app)
+    },
+  }
+}
+
+/**
+ * Registered stores
+ */
+export const stores = new Set<GenericStore>()
+
+export function registerStore(store: GenericStore) {
+  stores.add(store)
+}
+
+export const getRegisteredStores = () => stores

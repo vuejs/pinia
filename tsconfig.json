@@ -1,5 +1,9 @@
 {
-  "include": ["src/**/*.ts", "__tests__/**/*.ts"],
+  "include": [
+    "src/global.d.ts",
+    "src/**/*.ts",
+    "__tests__/**/*.ts"
+  ],
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",

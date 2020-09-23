@@ -15,7 +15,11 @@ import {
   setActiveReq,
   storesMap,
   getInitialState,
+  getClientApp,
 } from './rootStore'
+import { addDevtools } from './devtools'
+
+const IS_CLIENT = typeof window !== 'undefined'
 
 function innerPatch<T extends StateTree>(
   target: T,
@@ -200,8 +204,19 @@ export function createStore<
         (store = buildStore(id, state, getters, actions, getInitialState(id)))
       )
 
-      // TODO: client devtools when availables
-      // if (isClient) useStoreDevtools(store)
+      if (IS_CLIENT && __BROWSER__ && (__DEV__ || __FEATURE_PROD_DEVTOOLS__)) {
+        const app = getClientApp()
+        if (app) {
+          addDevtools(app, store, req)
+        } else {
+          console.warn(
+            `[🍍]: store was instantiated before calling\n` +
+              `app.use(pinia)\n` +
+              `Make sure to install pinia's plugin by using createPinia:\n` +
+              `linkto docs TODO`
+          )
+        }
+      }
     }
 
     return store
