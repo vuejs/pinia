@@ -1,4 +1,4 @@
-# Pinia [![Build Status](https://badgen.net/circleci/github/posva/pinia/master)](https://circleci.com/gh/posva/pinia) [![npm package](https://badgen.net/npm/v/pinia)](https://www.npmjs.com/package/pinia) [![coverage](https://badgen.net/codecov/c/github/posva/pinia/master)](https://codecov.io/github/posva/pinia) [![thanks](https://badgen.net/badge/thanks/♥/pink)](https://github.com/posva/thanks)
+# Pinia [![Build Status](https://badgen.net/circleci/github/posva/pinia/v1)](https://circleci.com/gh/posva/pinia) [![npm package](https://badgen.net/npm/v/pinia)](https://www.npmjs.com/package/pinia) [![coverage](https://badgen.net/codecov/c/github/posva/pinia/v1)](https://codecov.io/github/posva/pinia) [![thanks](https://badgen.net/badge/thanks/♥/pink)](https://github.com/posva/thanks)
 
 > Pronounced like the fruit in Spanish, _Piña_
 >
@@ -10,7 +10,7 @@
 
 ⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works for Vue 2 by using the [official library](https://github.com/vuejs/composition-api).
 
-**If you are looking for the version compatible with Vue 3.x, check the [`next` branch](https://github.com/posva/pinia/tree/next)**
+**If you are looking for the version compatible with Vue 3.x, check the [`v2` branch](https://github.com/posva/pinia/tree/v2)**
 
 What I want is to inspire others to think about ways to improve Vuex and come up with something that works very well with the composition api. Ideally it could also be used without it. **@vue/composition-api is necessary**.
 
@@ -322,7 +322,7 @@ import { getRootState, PiniaSsr } from 'pinia'
 // install plugin to automatically use correct context in setup and onServerPrefetch
 Vue.use(PiniaSsr)
 
-export default context => {
+export default (context) => {
   /* ... */
   context.rendered = () => {
     // pass state to context
