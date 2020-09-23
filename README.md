@@ -1,4 +1,4 @@
-# Pinia [![Build Status](https://badgen.net/circleci/github/posva/pinia/next)](https://circleci.com/gh/posva/pinia) [![npm package](https://badgen.net/npm/v/pinia/next)](https://www.npmjs.com/package/pinia) [![coverage](https://badgen.net/codecov/c/github/posva/pinia/next)](https://codecov.io/github/posva/pinia) [![thanks](https://badgen.net/badge/thanks/♥/pink)](https://github.com/posva/thanks)
+# Pinia [![Build Status](https://badgen.net/circleci/github/posva/pinia/v2)](https://circleci.com/gh/posva/pinia) [![npm package](https://badgen.net/npm/v/pinia/next)](https://www.npmjs.com/package/pinia) [![coverage](https://badgen.net/codecov/c/github/posva/pinia/next)](https://codecov.io/github/posva/pinia) [![thanks](https://badgen.net/badge/thanks/♥/pink)](https://github.com/posva/thanks)
 
 > Pronounced like the fruit in Spanish, _Piña_
 >
@@ -6,11 +6,9 @@
 
 🍍Automatically Typed, Modular and lightweight (but **Experimental**) Store for Vue 3.x based on the composition api with devtools support
 
-## 👉 [Demo](https://github.com/posva/vue-next-pinia)
+## 👉 [Demo on CodeSandbox](https://8jwbf.sse.codesandbox.io)
 
-You can also find an online playground on [CodeSandbox](https://8jwbf.sse.codesandbox.io)
-
-⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works both for Vue 2.x and Vue 3.x and you are currently on the branch that supports Vue 3.x. [Go here for the Vue 2.x compatible version](https://github.com/posva/pinia/tree/master).
+⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works both for Vue 2.x and Vue 3.x and you are currently on the branch that supports Vue 3.x. [Go here for the Vue 2.x compatible version](https://github.com/posva/pinia/tree/v1).
 
 What I want is to inspire others to think about ways to improve Vuex and come up with something that works very well with the composition api. Ideally it could also be used without it.
 
