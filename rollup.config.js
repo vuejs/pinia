@@ -13,7 +13,7 @@ function getAuthors(pkg) {
 
   const authors = new Set()
   if (contributors && contributors)
-    contributors.forEach(contributor => {
+    contributors.forEach((contributor) => {
       authors.add(contributor.name)
     })
   if (author) authors.add(author.name)
@@ -46,19 +46,19 @@ const outputConfigs = {
     format: `iife`,
   },
   esm: {
-    file: pkg.browser,
+    file: pkg.module.replace('bundler', 'browser'),
     format: `es`,
   },
 }
 
 const allFormats = Object.keys(outputConfigs)
 const packageFormats = allFormats
-const packageConfigs = packageFormats.map(format =>
+const packageConfigs = packageFormats.map((format) =>
   createConfig(format, outputConfigs[format])
 )
 
 // only add the production ready if we are bundling the options
-packageFormats.forEach(format => {
+packageFormats.forEach((format) => {
   if (format === 'cjs') {
     packageConfigs.push(createProductionConfig(format))
   } else if (format === 'global') {
@@ -165,7 +165,7 @@ function createReplacePlugin(
   }
   // allow inline overrides like
   //__RUNTIME_COMPILE__=true yarn build
-  Object.keys(replacements).forEach(key => {
+  Object.keys(replacements).forEach((key) => {
     if (key in process.env) {
       replacements[key] = process.env[key]
     }

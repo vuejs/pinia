@@ -3,7 +3,6 @@
   "version": "2.0.0-alpha.1",
   "description": "Some awesome description",
   "main": "dist/pinia.cjs.js",
-  "browser": "dist/pinia.esm-browser.js",
   "module": "dist/pinia.esm-bundler.js",
   "unpkg": "dist/pinia.global.js",
   "jsdelivr": "dist/pinia.global.js",
