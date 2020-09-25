@@ -71,6 +71,19 @@ npm install pinia@next
 
 ## Usage
 
+### Install the plugin
+
+Create a pinia (the root store) and pass it to app:
+
+```js
+import { createPinia } from 'pinia'
+
+app.use(createPinia())
+```
+
+This will also add devtools support.
+**NOTE**: this API is still experimental and is currently only used for devtools support but that might change in the future
+
 ### Creating a Store
 
 You can create as many stores as you want, and they should each exist in different files:

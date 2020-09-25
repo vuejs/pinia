@@ -172,6 +172,9 @@ export function buildStore<
   return store
 }
 
+// only warn the dev once
+let isDevWarned: boolean | undefined
+
 /**
  * Creates a `useStore` function that retrieves the store instance
  * @param options - options to define the store
@@ -208,12 +211,14 @@ export function createStore<
         const app = getClientApp()
         if (app) {
           addDevtools(app, store, req)
-        } else {
+        } else if (!isDevWarned && !__TEST__) {
+          isDevWarned = true
           console.warn(
             `[🍍]: store was instantiated before calling\n` +
               `app.use(pinia)\n` +
               `Make sure to install pinia's plugin by using createPinia:\n` +
-              `linkto docs TODO`
+              `https://github.com/posva/pinia/tree/v2#install-the-plugin\n` +
+              `It will enable devtools and overall a better developer experience.`
           )
         }
       }
