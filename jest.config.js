@@ -1,13 +1,19 @@
 module.exports = {
   preset: 'ts-jest',
-  globals: {
-    __DEV__: true,
-    __BROWSER__: true,
-  },
   collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!<rootDir>/src/devtools.ts'],
+  coverageDirectory: 'coverage',
+  coverageReporters: ['html', 'lcov', 'text'],
+  collectCoverageFrom: ['src/**/*.ts'],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    'src/index.ts',
+    'src/devtools.ts',
+  ],
   testMatch: ['<rootDir>/__tests__/**/*.spec.ts'],
   globals: {
+    __DEV__: true,
+    __TEST__: true,
+    __BROWSER__: true,
     'ts-jest': {
       diagnostics: {
         warnOnly: true,
