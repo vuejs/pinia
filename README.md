@@ -6,7 +6,7 @@
 
 🍍Automatically Typed, Modular and lightweight (but **Experimental**) Store for Vue 3.x based on the composition api with devtools support
 
-## 👉 [Demo on CodeSandbox](https://8jwbf.sse.codesandbox.io)
+## 👉 [Demo on CodeSandbox](https://j4qzw.csb.app/)
 
 ⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works both for Vue 2.x and Vue 3.x and you are currently on the branch that supports Vue 3.x. [Go here for the Vue 2.x compatible version](https://github.com/posva/pinia/tree/v1).
 
@@ -57,10 +57,9 @@ A few notes about the project and possible questions:
 
 ## Roadmap / Ideas
 
-- [ ] Should the state be merged at the same level as actions and getters?
+- [x] Should the state be merged at the same level as actions and getters?
 - [ ] Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)
 - [ ] Getter with params that act like computed properties (@ktsn)
-- [ ] Passing all getters to a getter (need Typing support)
 
 ## Installation
 

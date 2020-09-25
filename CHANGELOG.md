@@ -13,6 +13,6 @@
 
 ### BREAKING CHANGES
 
-- there is no longer a `state` property on the store,
-  you need to directly access it. `getters` no longer receive parameters,
+- `state` properties no longer need to be accessed through `store.state`
+- `getters` no longer receive parameters, access the store instance via `this`:
   directly call `this.myState` to read state and other getters.
