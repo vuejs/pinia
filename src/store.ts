@@ -1,4 +1,12 @@
-import { ref, watch, computed, Ref, reactive } from 'vue'
+import {
+  ref,
+  watch,
+  computed,
+  Ref,
+  reactive,
+  inject,
+  getCurrentInstance,
+} from 'vue'
 import {
   StateTree,
   StoreWithState,
@@ -16,6 +24,7 @@ import {
   storesMap,
   getInitialState,
   getClientApp,
+  piniaSymbol,
 } from './rootStore'
 import { addDevtools } from './devtools'
 
@@ -193,7 +202,9 @@ export function createStore<
 }) {
   const { id, state, getters, actions } = options
 
-  return function useStore(reqKey?: object): Store<Id, S, G, A> {
+  return function useStore(reqKey?: object | null): Store<Id, S, G, A> {
+    // avoid injecting if `useStore` when not possible
+    reqKey = reqKey || (getCurrentInstance() && inject(piniaSymbol))
     if (reqKey) setActiveReq(reqKey)
     const req = getActiveReq()
     let stores = storesMap.get(req)

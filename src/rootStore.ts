@@ -1,4 +1,4 @@
-import { App } from 'vue'
+import { App, InjectionKey, Plugin } from 'vue'
 import { NonNullObject, StateTree, GenericStore } from './types'
 
 /**
@@ -64,12 +64,33 @@ export let clientApp: App | undefined
 export const setClientApp = (app: App) => (clientApp = app)
 export const getClientApp = () => clientApp
 
-export function createPinia() {
-  return {
+export interface Pinia {
+  install: Exclude<Plugin['install'], undefined>
+  store<F extends (req?: NonNullObject) => GenericStore>(
+    useStore: F
+  ): ReturnType<F>
+}
+
+export const piniaSymbol = (__DEV__
+  ? Symbol('pinia')
+  : Symbol()) as InjectionKey<Pinia>
+
+export function createPinia(): Pinia {
+  const pinia: Pinia = {
     install(app: App) {
+      app.provide(piniaSymbol, pinia)
+      // TODO: strip out if no need for
       setClientApp(app)
     },
+    store<F extends (req?: NonNullObject) => GenericStore>(
+      useStore: F
+    ): ReturnType<F> {
+      const store = useStore(pinia) as ReturnType<F>
+      return store
+    },
   }
+
+  return pinia
 }
 
 /**
