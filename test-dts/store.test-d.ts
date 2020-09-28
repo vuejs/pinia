@@ -10,7 +10,7 @@ const useStore = defineStore({
   },
 })
 
-const store = useStore()
+let store = useStore()
 
 // FIXME: this should not be there anymore
 expectType<{ a: 'on' | 'off' }>(store.state)
