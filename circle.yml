@@ -12,15 +12,15 @@ jobs:
 
       - restore_cache:
           keys:
-            - dependencies-cache-v1-{{ checksum "yarn.lock" }}
-            - dependencies-cache-v1-
+            - dependencies-cache-v2-{{ checksum "yarn.lock" }}
+            - dependencies-cache-v2-
 
       - run: yarn install
 
       - save_cache:
           paths:
             - node_modules
-          key: dependencies-cache-v1-{{ checksum "yarn.lock" }}
+          key: dependencies-cache-v2-{{ checksum "yarn.lock" }}
 
       - run: yarn run test
 
