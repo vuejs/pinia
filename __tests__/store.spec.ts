@@ -1,4 +1,5 @@
 import { defineStore, setActiveReq, setStateProvider } from '../src'
+import { mount } from '@vue/test-utils'
 
 describe('Store', () => {
   let req: object
@@ -147,5 +148,34 @@ describe('Store', () => {
       },
       store.state
     )
+  })
+
+  it.skip('should outlive components', () => {
+    let store: ReturnType<typeof useStore> | undefined
+
+    const wrapper = mount({
+      setup() {
+        store = useStore()
+
+        return { store }
+      },
+
+      template: `a: {{ store.a }}`,
+    })
+
+    expect(wrapper.html()).toBe('a: true')
+
+    if (!store) throw new Error('no store')
+
+    const spy = jest.fn()
+    store.subscribe(spy)
+
+    expect(spy).toHaveBeenCalledTimes(0)
+    store.a = !store.a
+    expect(spy).toHaveBeenCalledTimes(1)
+
+    wrapper.unmount()
+    store.a = !store.a
+    expect(spy).toHaveBeenCalledTimes(2)
   })
 })
