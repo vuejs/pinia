@@ -1,3 +1,20 @@
+# [2.0.0-alpha.3](https://github.com/posva/pinia/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2020-09-28)
+
+### Code Refactoring
+
+- rename createStore to defineStore ([a9ad160](https://github.com/posva/pinia/commit/a9ad160bb38d6bfae3a52c66ae28793937af05d6))
+
+### Features
+
+- deprecation message createStore ([3054251](https://github.com/posva/pinia/commit/30542514389e4b903e7726039b98324afdafcc24))
+- **ssr:** support ssr ([59709e0](https://github.com/posva/pinia/commit/59709e0851db66d337054e3aab0db987fab20f9d))
+
+### BREAKING CHANGES
+
+- renamed `createStore` to `defineStore`. `createStore`
+  will be marked as deprecated during the alpha releases and then be
+  dropped.
+
 # [2.0.0-alpha.2](https://github.com/posva/pinia/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2020-09-25)
 
 ### Features
