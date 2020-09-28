@@ -1002,6 +1002,14 @@
     "@vue/compiler-core" "3.0.0"
     "@vue/shared" "3.0.0"
 
+"@vue/compiler-ssr@3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@vue/compiler-ssr/-/compiler-ssr-3.0.0.tgz#d717abcd23a89fb38d1497228633a21bcf9a0e28"
+  integrity sha512-Er41F9ZFyKB3YnNbE6JSTIGCVWve3NAQimgDOk4uP42OnckxBYKGBTutDeFNeqUZBMu/9vRHYrxlGFC9Z5jBVQ==
+  dependencies:
+    "@vue/compiler-dom" "3.0.0"
+    "@vue/shared" "3.0.0"
+
 "@vue/devtools-api@^6.0.0-beta.2":
   version "6.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.0-beta.2.tgz#833ad3335f97ae9439e26247d97f9baf7b5a6116"
@@ -1030,6 +1038,14 @@
     "@vue/runtime-core" "3.0.0"
     "@vue/shared" "3.0.0"
     csstype "^2.6.8"
+
+"@vue/server-renderer@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@vue/server-renderer/-/server-renderer-3.0.0.tgz#d531f62f64b67481aae32034eb003a16941b1a52"
+  integrity sha512-Ft4kiymPdI8BOYMTVSwB2bUeVH/PsnuEc6s7i9SzQxbz5JZpzzK8ugzICxtSYc8WkNaqi0J1xqdXz2df/YXAqQ==
+  dependencies:
+    "@vue/compiler-ssr" "3.0.0"
+    "@vue/shared" "3.0.0"
 
 "@vue/shared@3.0.0":
   version "3.0.0"

@@ -1,11 +1,11 @@
-import { createStore } from 'src/store'
+import { defineStore } from '../../../src'
 
 function apiLogin(a: string, p: string) {
   if (a === 'ed' && p === 'ed') return Promise.resolve({ isAdmin: true })
   return Promise.reject(new Error('invalid credentials'))
 }
 
-export const useUserStore = createStore({
+export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
     name: 'Eduardo',

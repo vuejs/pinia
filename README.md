@@ -58,7 +58,8 @@ A few notes about the project and possible questions:
 ## Roadmap / Ideas
 
 - [x] Should the state be merged at the same level as actions and getters?
-- [ ] Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)
+- [ ] ~~Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)~~
+      You can directly call `useOtherStore()` inside of a getter or action.
 - [ ] Getter with params that act like computed properties (@ktsn)
 
 ## Installation
@@ -82,16 +83,16 @@ app.use(createPinia())
 ```
 
 This will also add devtools support.
-**NOTE**: this API is still experimental and is currently only used for devtools support but that might change in the future
+**NOTE**: this API is still experimental and is currently only used for devtools and SSR but that might change in the future.
 
 ### Creating a Store
 
 You can create as many stores as you want, and they should each exist in different files:
 
 ```ts
-import { createStore } from 'pinia'
+import { defineStore } from 'pinia'
 
-export const useMainStore = createStore({
+export const useMainStore = defineStore({
   // name of the store
   // it is used in devtools and allows restoring state
   id: 'main',
@@ -120,7 +121,7 @@ export const useMainStore = createStore({
 })
 ```
 
-`createStore` returns a function that has to be called to get access to the store:
+`defineStore` returns a function that has to be called to get access to the store:
 
 ```ts
 import { useMainStore } from '@/stores/main'
@@ -141,9 +142,9 @@ export default defineComponent({
 })
 ```
 
-Note: the SSR implementation is yet to be decided on Pinia, but if you intend having SSR on your application, you should avoid using `useStore` functions at the root level of a file to make sure the correct store is retrieved for your request.
+Note: the SSR implementation is yet to be decided on Pinia, but if you intend having SSR on your application, you should avoid using `useStore` functions at the root level of a file to make sure the correct store is retrieved for your request. Here is an example:
 
-Or:
+**Avoid doing this\***:
 
 ```ts
 import { createRouter } from 'vue-router'
@@ -155,12 +156,12 @@ const router = createRouter({
 const main = useMainStore()
 
 router.beforeEach((to, from, next) => {
-  if (main.state.isLoggedIn) next()
+  if (main.isLoggedIn) next()
   else next('/login')
 })
 ```
 
-It must be called **after the Composition API plugin is installed**. That's why calling `useStore` inside functions is usually safe, because they are called after the plugin being installed:
+Instead, call `useMainStore()` at the top of `setup`, like `inject` and `provide` in Vue:
 
 ```ts
 export default defineComponent({
@@ -174,12 +175,11 @@ export default defineComponent({
 
 // In a different file...
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   // ✅ This will work (requires an extra param for SSR, see below)
   const main = useMainStore()
 
-  if (main.state.isLoggedIn) next()
-  else next('/login')
+  if (to.meta.requiresAuth && !main.isLoggedIn) return '/login'
 })
 ```
 
@@ -191,9 +191,13 @@ You can access any property defined in `state` and `getters` directly on the sto
 export default defineComponent({
   setup() {
     const main = useMainStore()
-    const text = main.name
-    const doubleCount = main.doubleCount
-    return {}
+    const text = main.name // "eduardo"
+    const doubleCount = main.doubleCount // 2
+
+    return {
+      text, // will always be "eduardo"
+      textDynamic: computed(() => main.name), // reactive value
+    }
   },
 })
 ```
@@ -242,7 +246,7 @@ main.patch({
 })
 ```
 
-The main difference here is that `patch` allows you to group multiple changes into one single entry in the devtools (which are not yet available for Vue 3.x).
+The main difference here is that `patch` allows you to group multiple changes into one single entry in the devtools.
 
 ### Replacing the `state`
 
@@ -254,7 +258,34 @@ main.state = { counter: 666, name: 'Paimon' }
 
 ### SSR
 
-To be decided once SSR is implemented on Vue 3
+Pinia should work out of the box for SSR as long as you call your `useStore()` functions at the top of `setup` functions, `getters` and `actions`:
+
+```ts
+export default defineComponent({
+  setup() {
+    // this works because pinia knows what application is running
+    const main = useMainStore()
+    return { main }
+  },
+})
+```
+
+If you need to use the store somewhere else, you need to pass the `pinia` instance [that was passed to the app](#install-the-plugin) to the `useStore()` function call:
+
+```ts
+const pinia = createPinia()
+const app = createApp(App)
+
+app.use(router)
+app.use(pinia)
+
+router.beforeEach((to) => {
+  // ✅ This will work make sure the correct store is used for the current running app
+  const main = useMainStore(pinia)
+
+  if (to.meta.requiresAuth && !main.isLoggedIn) return '/login'
+})
+```
 
 ### Composing Stores
 
@@ -264,17 +295,43 @@ If **multiple stores use each other** or you need to use **multiple stores** at 
 
 If one store uses an other store, there is no need to create a new file, you can directly import it. Think of it as nesting.
 
+You can call `useOtherStore()` at the top of any getter an action:
+
+```ts
+import { useUserStore } from './user'
+
+export const cartStore = defineStore({
+  id: 'cart',
+  getters: {
+    // ... other getters
+    summary() {
+      const user = useUserStore()
+
+      return `Hi ${user.name}, you have ${this.list.length} items in your cart. It costs ${this.price}.`
+    },
+  },
+
+  actions: {
+    purchase() {
+      const user = useUserStore()
+
+      return apiPurchase(user.id, this.list)
+    },
+  },
+})
+```
+
 #### Shared Getters
 
 If you need to compute a value based on the `state` and/or `getters` of multiple stores, you may be able to import all the stores but one into the remaining store, but depending on how your stores are used across your application, **this would hurt your code splitting** because importing the store that imports all others stores, would result in **one single big chunk** with all of your stores.
 To prevent this, **we follow the rule above** and we create a new file with a new store:
 
 ```ts
-import { createStore } from 'pinia'
+import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { useCartStore } from './cart'
 
-export const useSharedStore = createStore({
+export const useSharedStore = defineStore({
   id: 'shared',
   getters: {
     summary() {
@@ -292,11 +349,11 @@ export const useSharedStore = createStore({
 When an actions needs to use multiple stores, we do the same, we create a new file with a new store:
 
 ```ts
-import { createStore } from 'pinia'
+import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { useCartStore } from './cart'
 
-export const useSharedStore = createStore({
+export const useSharedStore = defineStore({
   id: 'shared',
   state: () => ({}),
   actions: {
@@ -313,42 +370,6 @@ export const useSharedStore = createStore({
     },
   },
 })
-```
-
-#### Creating _Pinias_
-
-_Not implemented_. Still under discussion, needs more feedback as this doesn't seem necessary because it can be replaced by shared stores as shown above.
-
-Combine multiple _stores_ (gajos) into a new one:
-
-```ts
-import { pinia } from 'pinia'
-import { useUserStore } from './user'
-import { useCartStore, emptyCart } from './cart'
-
-export const useCartUserStore = pinia(
-  {
-    user: useUserStore,
-    cart: useCartStore,
-  },
-  {
-    getters: {
-      combinedGetter () {
-        return `Hi ${this.user.name}, you have ${this.cart.list.length} items in your cart. It costs ${this.cart.price}.`,
-      }
-    },
-    actions: {
-      async orderCart() {
-        try {
-          await apiOrderCart(this.user.token, this.cart.items)
-          this.cart.emptyCart()
-        } catch (err) {
-          displayError(err)
-        }
-      },
-    },
-  }
-)
 ```
 
 ## Related

@@ -1,7 +1,7 @@
-import { createStore } from '../../../src'
+import { defineStore } from '../../../src'
 import { useUserStore } from './user'
 
-export const useCartStore = createStore({
+export const useCartStore = defineStore({
   id: 'cart',
   state: () => ({
     rawItems: [] as string[],
@@ -19,6 +19,29 @@ export const useCartStore = createStore({
 
         return items
       }, [] as { name: string; amount: number }[])
+    },
+  },
+  actions: {
+    addItem(name: string) {
+      this.rawItems.push(name)
+    },
+
+    removeItem(name: string) {
+      const i = this.rawItems.indexOf(name)
+      if (i > -1) this.rawItems.splice(i, 1)
+    },
+
+    // TODO: use multiple stores
+    // https://github.com/vuejs/vue-next-internal-discussions/issues/22
+    async purchaseItems() {
+      const user = useUserStore()
+      if (!user.name) return
+
+      // console.log('Purchasing', this.items)
+      const n = this.items.length
+      this.state.rawItems = []
+
+      return { amount: n, user: user.name }
     },
   },
 })

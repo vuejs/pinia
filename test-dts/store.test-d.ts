@@ -1,6 +1,6 @@
-import { createStore, expectType } from './'
+import { defineStore, expectType } from './'
 
-const useStore = createStore({
+const useStore = defineStore({
   id: 'name',
   state: () => ({ a: 'on' as 'on' | 'off', nested: { counter: 0 } }),
   getters: {

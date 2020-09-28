@@ -1,12 +1,12 @@
-import { createStore, getRootState } from '../src'
+import { defineStore, getRootState } from '../src'
 
 describe('Root State', () => {
-  const useA = createStore({
+  const useA = defineStore({
     id: 'a',
     state: () => ({ a: 'a' }),
   })
 
-  const useB = createStore({
+  const useB = defineStore({
     id: 'b',
     state: () => ({ b: 'b' }),
   })

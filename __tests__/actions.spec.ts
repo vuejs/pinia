@@ -1,10 +1,10 @@
-import { createStore, setActiveReq } from '../src'
+import { defineStore, setActiveReq } from '../src'
 
 describe('Actions', () => {
   const useStore = () => {
     // create a new store
     setActiveReq({})
-    return createStore({
+    return defineStore({
       id: 'main',
       state: () => ({
         a: true,
@@ -41,12 +41,12 @@ describe('Actions', () => {
     })()
   }
 
-  const useB = createStore({
+  const useB = defineStore({
     id: 'B',
     state: () => ({ b: 'b' }),
   })
 
-  const useA = createStore({
+  const useA = defineStore({
     id: 'A',
     state: () => ({ a: 'a' }),
     actions: {

@@ -1,11 +1,11 @@
-import { createStore, setActiveReq } from '../src'
+import { defineStore, setActiveReq } from '../src'
 import { computed } from 'vue'
 
 describe('State', () => {
   const useStore = () => {
     // create a new store
     setActiveReq({})
-    return createStore({
+    return defineStore({
       id: 'main',
       state: () => ({
         name: 'Eduardo',
