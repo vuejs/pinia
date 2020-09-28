@@ -188,7 +188,7 @@ let isDevWarned: boolean | undefined
  * Creates a `useStore` function that retrieves the store instance
  * @param options - options to define the store
  */
-export function createStore<
+export function defineStore<
   Id extends string,
   S extends StateTree,
   G /* extends Record<string, StoreGetterThis> */,
