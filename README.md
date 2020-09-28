@@ -82,7 +82,7 @@ import { createPinia } from 'pinia'
 app.use(createPinia())
 ```
 
-This will also add devtools support.
+This will also add devtools support. Some features like time traveling and editing are still not supported because vue-devtools doesn't expose the necessary APIs yet.
 **NOTE**: this API is still experimental and is currently only used for devtools and SSR but that might change in the future.
 
 ### Creating a Store
