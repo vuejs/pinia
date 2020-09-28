@@ -1,24 +1,14 @@
-on: pull_request
+name: auto-merge
 
-name: Auto merge Dependabot
+on:
+  pull_request:
 
 jobs:
-  automerge:
-    needs: [Test, Lint]
+  auto-merge:
     runs-on: ubuntu-latest
-    if: |
-      github.actor == 'dependabot[bot]' &&
-      github.event_name == 'pull_request' &&
-      startsWith(github.event.pull_request.title, 'chore(deps-dev):')
     steps:
-      - name: '@dependabot merge'
-        uses: actions/github-script@v2
+      - uses: actions/checkout@v2
+      - uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            await github.issues.createComment({
-              owner: context.payload.repository.owner.login,
-              repo: context.payload.repository.name,
-              issue_number: context.payload.pull_request.number,
-              body: '@dependabot merge'
-            })
+          target: minor
+          github-token: ${{ secrets.GH_TOKEN }}
