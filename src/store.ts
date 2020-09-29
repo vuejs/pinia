@@ -226,7 +226,11 @@ export function defineStore<
         ))
       )
 
-      if (IS_CLIENT && __DEV__ /*|| __FEATURE_PROD_DEVTOOLS__*/) {
+      if (
+        IS_CLIENT &&
+        __BROWSER__ &&
+        __DEV__ /*|| __FEATURE_PROD_DEVTOOLS__*/
+      ) {
         const app = getClientApp()
         if (app) {
           addDevtools(app, store, req)
