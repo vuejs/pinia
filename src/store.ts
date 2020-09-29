@@ -27,8 +27,8 @@ import {
   piniaSymbol,
 } from './rootStore'
 import { addDevtools } from './devtools'
-
-const IS_CLIENT = typeof window !== 'undefined'
+import { IS_CLIENT } from './env'
+import { withScope } from './withScope'
 
 function innerPatch<T extends StateTree>(
   target: T,
@@ -214,8 +214,16 @@ export function defineStore<
     if (!store) {
       stores.set(
         id,
-        // @ts-ignore
-        (store = buildStore(id, state, getters, actions, getInitialState(id)))
+        (store = withScope(
+          () =>
+            buildStore(
+              id,
+              state,
+              getters as Record<string, Method> | undefined,
+              actions as Record<string, Method> | undefined,
+              getInitialState(id)
+            ) as Store<Id, S, G, A>
+        ))
       )
 
       if (IS_CLIENT && __DEV__ /*|| __FEATURE_PROD_DEVTOOLS__*/) {

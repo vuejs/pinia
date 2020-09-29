@@ -1,4 +1,9 @@
-import { defineStore, setActiveReq, setStateProvider } from '../src'
+import {
+  createPinia,
+  defineStore,
+  setActiveReq,
+  setStateProvider,
+} from '../src'
 import { mount } from '@vue/test-utils'
 
 describe('Store', () => {
@@ -150,18 +155,25 @@ describe('Store', () => {
     )
   })
 
-  it.skip('should outlive components', () => {
+  it('should outlive components', () => {
     let store: ReturnType<typeof useStore> | undefined
 
-    const wrapper = mount({
-      setup() {
-        store = useStore()
+    const wrapper = mount(
+      {
+        setup() {
+          store = useStore()
 
-        return { store }
+          return { store }
+        },
+
+        template: `a: {{ store.a }}`,
       },
-
-      template: `a: {{ store.a }}`,
-    })
+      {
+        global: {
+          plugins: [createPinia()],
+        },
+      }
+    )
 
     expect(wrapper.html()).toBe('a: true')
 
