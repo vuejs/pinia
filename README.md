@@ -258,7 +258,7 @@ main.state = { counter: 666, name: 'Paimon' }
 
 ### SSR
 
-Pinia should work out of the box for SSR as long as you call your `useStore()` functions at the top of `setup` functions, `getters` and `actions`:
+Creating stores with Pinia should work out of the box for SSR as long as you call your `useStore()` functions at the top of `setup` functions, `getters` and `actions`:
 
 ```ts
 export default defineComponent({
@@ -285,6 +285,29 @@ router.beforeEach((to) => {
 
   if (to.meta.requiresAuth && !main.isLoggedIn) return '/login'
 })
+```
+
+To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on:
+
+```js
+import { createPinia, getRootState } from 'pinia'
+// retrieve the rootState server side
+const pinia = createPinia()
+const app = createApp(App)
+app.use(router)
+app.use(pinia)
+
+// after rendering the page, the root state is build and can be read
+getRootState() // serialize, escape, and place it somewhere on the page, for example, as a global variable
+```
+
+On client side, you must tell pinia how to read that variable:
+
+```js
+import { setStateProvider } from 'pinia'
+
+// if the previous step appended a script to the page that sets a global variable named `__pinia` with the rootState
+setStateProvider(() => window.__pinia)
 ```
 
 ### Composing Stores
