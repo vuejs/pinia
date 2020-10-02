@@ -16,7 +16,7 @@ const myPlugin = context => {
     context.beforeNuxtRender(({ nuxtState }) => {
       nuxtState.pinia = getRootState(context.req)
     })
-  } else if (context.nuxtState) {
+  } else if (context.nuxtState && context.nuxtState.pinia) {
     setStateProvider(() => context.nuxtState.pinia)
   }
 }
