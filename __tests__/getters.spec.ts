@@ -1,6 +1,8 @@
 import { createStore, setActiveReq } from '../src'
 
 describe('Getters', () => {
+  jest.useFakeTimers()
+
   const useStore = () => {
     // create a new store
     setActiveReq({})
@@ -8,10 +10,22 @@ describe('Getters', () => {
       id: 'main',
       state: () => ({
         name: 'Eduardo',
+        forCallCheck: 'foo',
+        callCount: 0,
       }),
       getters: {
         upperCaseName() {
           return this.name.toUpperCase()
+        },
+        // works for js users but cannot be typed at the same time as `this`
+        // so it will have to be explicitly typed by the user
+        // https://github.com/posva/pinia/issues/249
+        callCheck(state: any) {
+          setImmediate(() => {
+            // avoid getting tracked
+            state.callCount++
+          })
+          return state.forCallCheck
         },
         doubleName() {
           return this.upperCaseName
@@ -75,5 +89,23 @@ describe('Getters', () => {
     expect(store.composed).toBe('EDUARDO: ok')
     store.name = 'Ed'
     expect(store.composed).toBe('ED: ok')
+  })
+
+  it('computes getters correctly', async () => {
+    const store = useStore()
+    expect(store.callCount).toBe(0)
+    expect(store.callCheck).toBe('foo')
+    expect(store.callCount).toBe(0)
+    jest.runAllImmediates()
+    expect(store.callCount).toBe(1)
+    expect(store.callCheck).toBe('foo')
+    jest.runAllImmediates()
+    expect(store.callCount).toBe(1)
+    expect(store.callCheck).toBe('foo')
+    // changing a different value on the store
+    store.name = 'Ed'
+    jest.runAllImmediates()
+    expect(store.callCount).toBe(1)
+    expect(store.callCheck).toBe('foo')
   })
 })

@@ -143,6 +143,9 @@ export function buildStore<
   for (const getterName in getters) {
     computedGetters[getterName] = computed(() => {
       setActiveReq(_r)
+      // we could also pass state.value instead of the store as the first
+      // argument but the later is more flexible for JS users while TS users
+      // will like to use `this` to get all correct typings
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       return getters[getterName].call(store, store)
     }) as StoreWithGetters<G>[typeof getterName]
