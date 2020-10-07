@@ -12,7 +12,7 @@ const useDeprecated = createStore({
 
 const deprecatedStore = useDeprecated()
 
-expectType<{ a: 'on' | 'off' }>(deprecatedStore.state)
+expectType<{ a: 'on' | 'off' }>(deprecatedStore.$state)
 expectType<number>(deprecatedStore.nested.counter)
 expectType<'on' | 'off'>(deprecatedStore.a)
 

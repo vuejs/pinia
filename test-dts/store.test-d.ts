@@ -13,7 +13,7 @@ const useStore = defineStore({
 let store = useStore()
 
 // FIXME: this should not be there anymore
-expectType<{ a: 'on' | 'off' }>(store.state)
+expectType<{ a: 'on' | 'off' }>(store.$state)
 expectType<number>(store.nested.counter)
 expectType<'on' | 'off'>(store.a)
 
