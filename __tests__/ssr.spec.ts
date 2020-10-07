@@ -2,10 +2,10 @@
  * @jest-environment node
  */
 import { createPinia } from '../src'
-import { useCartStore } from './pinia/stores/cart'
 import { createSSRApp, inject } from 'vue'
 import { renderToString, ssrInterpolate } from '@vue/server-renderer'
 import { useUserStore } from './pinia/stores/user'
+import { useCartStore } from './pinia/stores/cart'
 
 describe('SSR', () => {
   const App = {

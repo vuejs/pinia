@@ -237,16 +237,16 @@ To mutate the state you can either directly change something:
 main.counter++
 ```
 
-or call the method `patch` that allows you apply multiple changes at the same time with a partial `state` object:
+or call the method `$patch` that allows you apply multiple changes at the same time with a partial `state` object:
 
 ```ts
-main.patch({
+main.$patch({
   counter: -1,
   name: 'Abalam',
 })
 ```
 
-The main difference here is that `patch` allows you to group multiple changes into one single entry in the devtools.
+The main difference here is that `$patch` allows you to group multiple changes into one single entry in the devtools.
 
 ### Replacing the `state`
 

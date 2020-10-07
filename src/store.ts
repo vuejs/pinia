@@ -133,10 +133,10 @@ export function buildStore<
   }
 
   const storeWithState: StoreWithState<Id, S> = {
-    id,
+    $id: id,
     _r,
     // @ts-ignore, `reactive` unwraps this making it of type S
-    state: computed<S>({
+    $state: computed<S>({
       get: () => state.value,
       set: (newState) => {
         isListening = false
@@ -145,9 +145,9 @@ export function buildStore<
       },
     }),
 
-    patch,
-    subscribe,
-    reset,
+    $patch: patch,
+    $subscribe: subscribe,
+    $reset: reset,
   }
 
   const computedGetters: StoreWithGetters<G> = {} as StoreWithGetters<G>

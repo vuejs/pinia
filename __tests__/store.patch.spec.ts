@@ -1,6 +1,6 @@
 import { defineStore, setActiveReq } from '../src'
 
-describe('store.patch', () => {
+describe('store.$patch', () => {
   const useStore = () => {
     // create a new store
     setActiveReq({})
@@ -18,8 +18,8 @@ describe('store.patch', () => {
 
   it('patches a property without touching the rest', () => {
     const store = useStore()
-    store.patch({ a: false })
-    expect(store.state).toEqual({
+    store.$patch({ a: false })
+    expect(store.$state).toEqual({
       a: false,
       nested: {
         foo: 'foo',
@@ -30,16 +30,16 @@ describe('store.patch', () => {
 
   it('patches a nested property without touching the rest', () => {
     const store = useStore()
-    store.patch({ nested: { foo: 'bar' } })
-    expect(store.state).toEqual({
+    store.$patch({ nested: { foo: 'bar' } })
+    expect(store.$state).toEqual({
       a: true,
       nested: {
         foo: 'bar',
         a: { b: 'string' },
       },
     })
-    store.patch({ nested: { a: { b: 'hello' } } })
-    expect(store.state).toEqual({
+    store.$patch({ nested: { a: { b: 'hello' } } })
+    expect(store.$state).toEqual({
       a: true,
       nested: {
         foo: 'bar',
@@ -50,8 +50,8 @@ describe('store.patch', () => {
 
   it('patches multiple properties at the same time', () => {
     const store = useStore()
-    store.patch({ a: false, nested: { foo: 'hello' } })
-    expect(store.state).toEqual({
+    store.$patch({ a: false, nested: { foo: 'hello' } })
+    expect(store.$state).toEqual({
       a: false,
       nested: {
         foo: 'hello',

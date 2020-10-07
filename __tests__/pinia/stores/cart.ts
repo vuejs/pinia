@@ -4,6 +4,7 @@ import { useUserStore } from './user'
 export const useCartStore = defineStore({
   id: 'cart',
   state: () => ({
+    id: 2,
     rawItems: [] as string[],
   }),
   getters: {
@@ -28,7 +29,7 @@ export const useCartStore = defineStore({
 
     removeItem(name: string) {
       const i = this.rawItems.indexOf(name)
-      if (i > -1) this.rawItems.splice(i, 1)
+      if (i > -1) this.$state.rawItems.splice(i, 1)
     },
 
     // TODO: use multiple stores
@@ -39,7 +40,7 @@ export const useCartStore = defineStore({
 
       // console.log('Purchasing', this.items)
       const n = this.items.length
-      this.state.rawItems = []
+      this.rawItems = []
 
       return { amount: n, user: user.name }
     },
@@ -50,23 +51,23 @@ export type CartStore = ReturnType<typeof useCartStore>
 
 export function addItem(name: string) {
   const store = useCartStore()
-  store.state.rawItems.push(name)
+  store.rawItems.push(name)
 }
 
 export function removeItem(name: string) {
   const store = useCartStore()
-  const i = store.state.rawItems.indexOf(name)
-  if (i > -1) store.state.rawItems.splice(i, 1)
+  const i = store.rawItems.indexOf(name)
+  if (i > -1) store.rawItems.splice(i, 1)
 }
 
 export async function purchaseItems() {
   const cart = useCartStore()
   const user = useUserStore()
-  if (!user.state.name) return
+  if (!user.name) return
 
   console.log('Purchasing', cart.items)
   const n = cart.items.length
-  cart.state.rawItems = []
+  cart.rawItems = []
 
   return n
 }
