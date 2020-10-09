@@ -5,6 +5,7 @@ import {
   setStateProvider,
 } from '../src'
 import { mount } from '@vue/test-utils'
+import { getCurrentInstance } from 'vue'
 
 describe('Store', () => {
   let req: object
@@ -189,5 +190,34 @@ describe('Store', () => {
     wrapper.unmount()
     store.a = !store.a
     expect(spy).toHaveBeenCalledTimes(2)
+  })
+
+  it.skip('should not break getCurrentInstance', () => {
+    let store: ReturnType<typeof useStore> | undefined
+
+    let i1: any = {}
+    let i2: any = {}
+    const wrapper = mount(
+      {
+        setup() {
+          i1 = getCurrentInstance()
+          store = useStore()
+          i2 = getCurrentInstance()
+
+          return { store }
+        },
+
+        template: `a: {{ store.a }}`,
+      },
+      {
+        global: {
+          plugins: [createPinia()],
+        },
+      }
+    )
+
+    expect(i1 === i2).toBe(true)
+
+    wrapper.unmount()
   })
 })
