@@ -29,10 +29,10 @@ export function addDevtools(app: App, store: GenericStore, req: NonNullObject) {
       api.on.inspectComponent((payload, ctx) => {
         if (payload.instanceData) {
           payload.instanceData.state.push({
-            type: '🍍 ' + store.id,
+            type: '🍍 ' + store.$id,
             key: 'state',
             editable: false,
-            value: store.state,
+            value: store.$state,
           })
         }
       })
@@ -67,7 +67,7 @@ export function addDevtools(app: App, store: GenericStore, req: NonNullObject) {
         api.sendInspectorState(piniaInspectorId)
       }
 
-      store.subscribe((mutation, state) => {
+      store.$subscribe((mutation, state) => {
         // rootStore.state[store.id] = state
         const data: Record<string, any> = {
           store: formatDisplay(mutation.storeName),
@@ -99,7 +99,7 @@ export function addDevtools(app: App, store: GenericStore, req: NonNullObject) {
 
           payload.rootNodes = (payload.filter
             ? stores.filter((store) =>
-                store.id.toLowerCase().includes(payload.filter.toLowerCase())
+                store.$id.toLowerCase().includes(payload.filter.toLowerCase())
               )
             : stores
           ).map(formatStoreForInspectorTree)
@@ -109,7 +109,7 @@ export function addDevtools(app: App, store: GenericStore, req: NonNullObject) {
       api.on.getInspectorState((payload) => {
         if (payload.app === app && payload.inspectorId === piniaInspectorId) {
           const stores = Array.from(getRegisteredStores())
-          const store = stores.find((store) => store.id === payload.nodeId)
+          const store = stores.find((store) => store.$id === payload.nodeId)
 
           if (store) {
             payload.state = {
@@ -127,15 +127,15 @@ export function addDevtools(app: App, store: GenericStore, req: NonNullObject) {
       // trigger an update so it can display new registered stores
       // @ts-ignore
       api.notifyComponentUpdate()
-      __VUE_DEVTOOLS_TOAST__(`🍍 "${store.id}" store installed`)
+      __VUE_DEVTOOLS_TOAST__(`🍍 "${store.$id}" store installed`)
     }
   )
 }
 
 function formatStoreForInspectorTree(store: GenericStore): CustomInspectorNode {
   return {
-    id: store.id,
-    label: store.id,
+    id: store.$id,
+    label: store.$id,
     tags: [],
   }
 }
@@ -144,8 +144,8 @@ function formatStoreForInspectorState(
   store: GenericStore
 ): CustomInspectorState[string] {
   const fields: CustomInspectorState[string] = [
-    { editable: false, key: 'id', value: formatDisplay(store.id) },
-    { editable: true, key: 'state', value: store.state },
+    { editable: false, key: 'id', value: formatDisplay(store.$id) },
+    { editable: true, key: 'state', value: store.$state },
   ]
 
   return fields

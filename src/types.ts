@@ -32,36 +32,40 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   /**
    * Unique identifier of the store
    */
-  id: Id
+  $id: Id
 
   /**
    * State of the Store. Setting it will replace the whole state.
    */
-  state: S
+  $state: S
 
   /**
    * Private property defining the request key for this store
+   *
+   * @internal
    */
   _r: NonNullObject
 
   /**
    * Applies a state patch to current state. Allows passing nested values
+   *
    * @param partialState - patch to apply to the state
    */
-  patch(partialState: DeepPartial<S>): void
+  $patch(partialState: DeepPartial<S>): void
 
   /**
    * Resets the store to its initial state by removing all subscriptions and
    * building a new state object
    */
-  reset(): void
+  $reset(): void
 
   /**
    * Setups a callback to be called whenever the state changes.
-   * @param callback - callback that is called whenever the state
-   * @returns function that removes callback from subscriptions
+   *
+   * @param callback - callback passed to the watcher
+   * @returns function that removes the watcher
    */
-  subscribe(callback: SubscriptionCallback<S>): () => void
+  $subscribe(callback: SubscriptionCallback<S>): () => void
 }
 
 export type Method = (...args: any[]) => any

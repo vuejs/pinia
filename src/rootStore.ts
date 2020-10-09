@@ -1,4 +1,5 @@
 import { App, InjectionKey, Plugin } from 'vue'
+import { IS_CLIENT } from './env'
 import { NonNullObject, StateTree, GenericStore } from './types'
 
 /**
@@ -51,7 +52,7 @@ export function getRootState(req: NonNullObject): Record<string, StateTree> {
 
   // forEach is the only one that also works on IE11
   stores.forEach((store) => {
-    rootState[store.id] = store.state
+    rootState[store.$id] = store.$state
   })
 
   return rootState
@@ -66,9 +67,16 @@ export const getClientApp = () => clientApp
 
 export interface Pinia {
   install: Exclude<Plugin['install'], undefined>
-  store<F extends (req?: NonNullObject) => GenericStore>(
-    useStore: F
-  ): ReturnType<F>
+  store<F extends (...args: any[]) => any>(useStore: F): ReturnType<F>
+}
+
+declare module '@vue/runtime-core' {
+  export interface ComponentCustomProperties {
+    /**
+     * Instantiate a store anywhere
+     */
+    $pinia: Pinia['store']
+  }
 }
 
 export const piniaSymbol = (__DEV__
@@ -79,14 +87,17 @@ export function createPinia(): Pinia {
   const pinia: Pinia = {
     install(app: App) {
       app.provide(piniaSymbol, pinia)
-      // TODO: strip out if no need for
-      setClientApp(app)
+      app.config.globalProperties.$pinia = pinia.store
+      // TODO: write test
+      // only set the app on client
+      if (__BROWSER__ && IS_CLIENT) {
+        setClientApp(app)
+      }
     },
     store<F extends (req?: NonNullObject) => GenericStore>(
       useStore: F
     ): ReturnType<F> {
-      const store = useStore(pinia) as ReturnType<F>
-      return store
+      return useStore(pinia) as ReturnType<F>
     },
   }
 

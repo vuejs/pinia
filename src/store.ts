@@ -76,7 +76,7 @@ export function buildStore<
   G extends Record<string, Method>,
   A extends Record<string, Method>
 >(
-  id: Id,
+  $id: Id,
   buildState: () => S = () => ({} as S),
   getters: G = {} as G,
   actions: A = {} as A,
@@ -94,7 +94,7 @@ export function buildStore<
     (state) => {
       if (isListening) {
         subscriptions.forEach((callback) => {
-          callback({ storeName: id, type: '🧩 in place', payload: {} }, state)
+          callback({ storeName: $id, type: '🧩 in place', payload: {} }, state)
         })
       }
     },
@@ -104,20 +104,20 @@ export function buildStore<
     }
   )
 
-  function patch(partialState: DeepPartial<S>): void {
+  function $patch(partialState: DeepPartial<S>): void {
     isListening = false
     innerPatch(state.value, partialState)
     isListening = true
     // because we paused the watcher, we need to manually call the subscriptions
     subscriptions.forEach((callback) => {
       callback(
-        { storeName: id, type: '⤵️ patch', payload: partialState },
+        { storeName: $id, type: '⤵️ patch', payload: partialState },
         state.value
       )
     })
   }
 
-  function subscribe(callback: SubscriptionCallback<S>) {
+  function $subscribe(callback: SubscriptionCallback<S>) {
     subscriptions.push(callback)
     return () => {
       const idx = subscriptions.indexOf(callback)
@@ -127,16 +127,16 @@ export function buildStore<
     }
   }
 
-  function reset() {
+  function $reset() {
     subscriptions = []
     state.value = buildState()
   }
 
   const storeWithState: StoreWithState<Id, S> = {
-    id,
+    $id,
     _r,
     // @ts-ignore, `reactive` unwraps this making it of type S
-    state: computed<S>({
+    $state: computed<S>({
       get: () => state.value,
       set: (newState) => {
         isListening = false
@@ -145,9 +145,9 @@ export function buildStore<
       },
     }),
 
-    patch,
-    subscribe,
-    reset,
+    $patch,
+    $subscribe,
+    $reset,
   }
 
   const computedGetters: StoreWithGetters<G> = {} as StoreWithGetters<G>
@@ -206,6 +206,7 @@ export function defineStore<
     // avoid injecting if `useStore` when not possible
     reqKey = reqKey || (getCurrentInstance() && inject(piniaSymbol))
     if (reqKey) setActiveReq(reqKey)
+    // TODO: worth warning on server if no reqKey as it can leak data
     const req = getActiveReq()
     let stores = storesMap.get(req)
     if (!stores) storesMap.set(req, (stores = new Map()))

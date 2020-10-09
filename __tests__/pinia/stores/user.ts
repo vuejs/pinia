@@ -15,7 +15,7 @@ export const useUserStore = defineStore({
     async login(user: string, password: string) {
       const userData = await apiLogin(user, password)
 
-      this.patch({
+      this.$patch({
         name: user,
         ...userData,
       })
@@ -24,7 +24,7 @@ export const useUserStore = defineStore({
     logout() {
       this.login('a', 'b').then(() => {})
 
-      this.patch({
+      this.$patch({
         name: '',
         isAdmin: false,
       })
@@ -46,7 +46,7 @@ export function logout() {
 
   store.login('e', 'e').then(() => {})
 
-  store.patch({
+  store.$patch({
     name: '',
     isAdmin: false,
   })
