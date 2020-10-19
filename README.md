@@ -4,7 +4,7 @@
 >
 > _Piña_ is also an invalid package name... that's why it has to be _pinia_ which sounds very similar
 
-🍍Automatically Typed, Modular and lightweight (but **Experimental**) Store for Vue 3.x based on the composition api with devtools support
+🍍 Automatically Typed, Modular and lightweight (but **Experimental**) Store for Vue 3.x based on the composition api with devtools support
 
 ## 👉 [Demo on CodeSandbox](https://j4qzw.csb.app/)
 
@@ -12,13 +12,14 @@
 
 What I want is to inspire others to think about ways to improve Vuex and come up with something that works very well with the composition api. Ideally it could also be used without it.
 
-There are the core principles that I try to achieve with this experiment:
+These are the core principles that I try to achieve with this experiment:
 
+- Autocompletion: even if you write your code in JavaScript!
 - Flat modular structure 🍍 No nesting, only stores, compose them as needed
 - Light layer on top of Vue 💨 keep it very lightweight
-- Only `state`, `getters`
-- No more verbose mutations, 👐 `patch` is _the mutation_
-- Actions are like _methods_ ⚗️ Group your business there
+- Only `state`, `getters` and `actions`
+- No more verbose mutations, 👐 `patch` is _**the** mutation_
+- Actions are like _methods_ ⚗️ Group your business logic there
 - Import what you need, let webpack code split 📦 No need for dynamically registered modules
 - SSR support ⚙️
 - DevTools support 💻 Which is crucial to make this enjoyable
