@@ -53,7 +53,7 @@
     "@nuxt/types": "^2.14.6",
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-commonjs": "^17.0.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-replace": "^2.3.3",
     "@types/jest": "^26.0.14",
     "@types/node": "^14.11.2",
