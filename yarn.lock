@@ -1088,9 +1088,9 @@
   integrity sha512-Swfbz31AaMX48CpFl+YmIrqOH9MgJMTrltG9e26A4ZxYx9LjGuMV+41WnxFzS3Bc9nbrc6sDPM37G6nIT8NJSg==
 
 "@vue/test-utils@^2.0.0-beta.5":
-  version "2.0.0-beta.11"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-beta.11.tgz#cf9ffdc737edc2a35f5e6797cfb98a343689b510"
-  integrity sha512-+HxBnh/BvKdSOvAg77FLHFAV6gObsgDu/b92Punlb8WlU+3rX/QxmudBT/D/qmc9SW5NOI8dALCaE5Nug6FHTQ==
+  version "2.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-beta.12.tgz#105a32f35c15cc43d470f88e0122f82bcfdf14ff"
+  integrity sha512-kRxM1IspG06i7smyVAgbN4C444ssKfnX67ETveZdb1AP7f6Kr3+bV4MmIwOsIZc6t7KK8gzx+clZd2jDeH4kMw==
 
 JSONStream@^1.0.4:
   version "1.3.5"
