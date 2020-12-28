@@ -521,9 +521,9 @@
   integrity sha512-Mfmij13RUTmHEMi9vRUhMXD7rnGR2VvxeNYtaGtaJ4redwwjT4UXYJ+nzmVJF7hhd4pn/Fx5sncDKxMVFJSWPg==
 
 "@nuxt/types@^2.14.6":
-  version "2.14.11"
-  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-2.14.11.tgz#3b22e1370874886027796ddd24721a6996c487b6"
-  integrity sha512-4lzihr0OjtD4fNFmDwpRXhx3NMXzzgjm+L6oCUIshFc08leA1Ty3se6gq5wk4eGK/WNhj08so6vBZ5o1kYS2QA==
+  version "2.14.12"
+  resolved "https://registry.yarnpkg.com/@nuxt/types/-/types-2.14.12.tgz#4e5aa642b67081890b3b7aab03db62855ef71a25"
+  integrity sha512-x58uEVygHual/kHDTrLAwXjKNYn+5udR4HJOmHd2gXgYonZu8E2UpsShIkyMRZ0nRoEAZ72i4OfcHKqGsVSI6w==
   dependencies:
     "@types/autoprefixer" "^9.7.2"
     "@types/babel__core" "^7.1.12"
