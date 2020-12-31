@@ -1,3 +1,21 @@
+# [2.0.0-alpha.6](https://github.com/posva/pinia/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2020-12-31)
+
+### Bug Fixes
+
+- correct lifespan of stores ([483335c](https://github.com/posva/pinia/commit/483335c6660d593cf33468c1ab8c95da82cc392a)), closes [#255](https://github.com/posva/pinia/issues/255)
+
+### Features
+
+- **types:** export used types ([dc56fba](https://github.com/posva/pinia/commit/dc56fbafa21d8efa2a4b61ffb464f1befa25e34c)), closes [#315](https://github.com/posva/pinia/issues/315)
+
+### BREAKING CHANGES
+
+- `setActiveReq()` has been renamed to
+  `setActivePinia()`. And now receives the application's pinia as the
+  first parameter instead of an arbitrary object (like a Node http
+  request). **This affects particularly users doing SSR** but also
+  enables them to write universal code.
+
 # [2.0.0-alpha.5](https://github.com/posva/pinia/compare/v2.0.0-alpha.4...v2.0.0-alpha.5) (2020-10-09)
 
 ### Code Refactoring
