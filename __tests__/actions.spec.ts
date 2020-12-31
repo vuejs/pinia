@@ -82,13 +82,13 @@ describe('Actions', () => {
     expect(store.$state.nested.foo).toBe('bar')
   })
 
-  it('supports being called between piniauests', () => {
+  it('supports being called between two applications', () => {
     const pinia1 = createPinia()
     const pinia2 = createPinia()
     setActivePinia(pinia1)
     const aStore = useA()
 
-    // simulate a different piniauest
+    // simulate a different application
     setActivePinia(pinia2)
     const bStore = useB()
     bStore.$state.b = 'c'

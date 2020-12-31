@@ -23,7 +23,7 @@ describe('Root State', () => {
     })
   })
 
-  it('does not mix up different piniauests', () => {
+  it('does not mix up different applications', () => {
     const pinia1 = createPinia()
     const pinia2 = createPinia()
     useA(pinia1)

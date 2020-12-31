@@ -31,7 +31,7 @@ export const getActivePinia = () => {
 /**
  * The api needs more work we must be able to use the store easily in any
  * function by calling `useStore` to get the store Instance and we also need to
- * be able to reset the store instance between piniauests on the server
+ * be able to reset the store instance between applications on the server
  */
 
 export const storesMap = new WeakMap<
@@ -63,7 +63,7 @@ export function getInitialState(id: string): StateTree | undefined {
 /**
  * Gets the root state of all active stores. This is useful when reporting an application crash by
  * retrieving the problematic state and send it to your error tracking service.
- * @param pinia - piniauest key
+ * @param pinia - application's pinia
  */
 export function getRootState(pinia: Pinia): Record<string, StateTree> {
   return pinia.state.value

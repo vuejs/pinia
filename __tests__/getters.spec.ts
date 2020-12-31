@@ -52,13 +52,13 @@ describe('Getters', () => {
     expect(store.upperCaseName).toBe('ED')
   })
 
-  it('supports changing between piniauests', () => {
+  it('supports changing between applications', () => {
     const pinia1 = createPinia()
     const pinia2 = createPinia()
     setActivePinia(pinia1)
     const aStore = useA()
 
-    // simulate a different piniauest
+    // simulate a different applications
     setActivePinia(pinia2)
     const bStore = useB()
     bStore.b = 'c'
