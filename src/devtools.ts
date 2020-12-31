@@ -5,7 +5,7 @@ import {
 } from '@vue/devtools-api'
 import { App } from 'vue'
 import { getRegisteredStores, registerStore } from './rootStore'
-import { GenericStore, NonNullObject } from './types'
+import { GenericStore } from './types'
 
 function formatDisplay(display: string) {
   return {
@@ -17,7 +17,7 @@ function formatDisplay(display: string) {
 
 let isAlreadyInstalled: boolean | undefined
 
-export function addDevtools(app: App, store: GenericStore, req: NonNullObject) {
+export function addDevtools(app: App, store: GenericStore) {
   registerStore(store)
   setupDevtoolsPlugin(
     {

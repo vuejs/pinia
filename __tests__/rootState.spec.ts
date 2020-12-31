@@ -1,4 +1,4 @@
-import { defineStore, getRootState } from '../src'
+import { createPinia, defineStore, getRootState } from '../src'
 
 describe('Root State', () => {
   const useA = defineStore({
@@ -12,35 +12,35 @@ describe('Root State', () => {
   })
 
   it('works with no stores', () => {
-    expect(getRootState({})).toEqual({})
+    expect(getRootState(createPinia())).toEqual({})
   })
 
   it('retrieves the root state of one store', () => {
-    const req = {}
-    useA(req)
-    expect(getRootState(req)).toEqual({
+    const pinia = createPinia()
+    useA(pinia)
+    expect(getRootState(pinia)).toEqual({
       a: { a: 'a' },
     })
   })
 
-  it('does not mix up different requests', () => {
-    const req1 = {}
-    const req2 = {}
-    useA(req1)
-    useB(req2)
-    expect(getRootState(req1)).toEqual({
+  it('does not mix up different piniauests', () => {
+    const pinia1 = createPinia()
+    const pinia2 = createPinia()
+    useA(pinia1)
+    useB(pinia2)
+    expect(getRootState(pinia1)).toEqual({
       a: { a: 'a' },
     })
-    expect(getRootState(req2)).toEqual({
+    expect(getRootState(pinia2)).toEqual({
       b: { b: 'b' },
     })
   })
 
   it('can hold multiple stores', () => {
-    const req1 = {}
-    useA(req1)
-    useB(req1)
-    expect(getRootState(req1)).toEqual({
+    const pinia1 = createPinia()
+    useA(pinia1)
+    useB(pinia1)
+    expect(getRootState(pinia1)).toEqual({
       a: { a: 'a' },
       b: { b: 'b' },
     })

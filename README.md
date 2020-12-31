@@ -110,7 +110,7 @@ export const useMainStore = defineStore({
     // use getters in other getters
     doubleCountPlusOne() {
       return this.doubleCount * 2
-    }
+    },
   },
   // optional actions
   actions: {
@@ -143,9 +143,9 @@ export default defineComponent({
 })
 ```
 
-Note: the SSR implementation is yet to be decided on Pinia, but if you intend having SSR on your application, you should avoid using `useStore` functions at the root level of a file to make sure the correct store is retrieved for your request. Here is an example:
+Note: the SSR implementation on Pinia might change, but if you intend having SSR on your application, you should avoid using `useStore` functions at the root level of a file to make sure the correct store is retrieved for your currently running application instance. Here is an example:
 
-**Avoid doing this\***:
+**Avoid doing this**:
 
 ```ts
 import { createRouter } from 'vue-router'
@@ -175,10 +175,13 @@ export default defineComponent({
 })
 
 // In a different file...
+const pinia = createPinia()
+app.use(pinia)
 
 router.beforeEach((to) => {
-  // ✅ This will work (requires an extra param for SSR, see below)
-  const main = useMainStore()
+  // ✅ This will work (requires pinia param when outside of setup on both
+  // Client and Server. See the SSR section below for more information)
+  const main = useMainStore(pinia)
 
   if (to.meta.requiresAuth && !main.isLoggedIn) return '/login'
 })

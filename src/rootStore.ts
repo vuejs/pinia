@@ -1,23 +1,43 @@
-import { App, InjectionKey, Plugin } from 'vue'
+import { App, InjectionKey, Plugin, Ref, ref, warn } from 'vue'
 import { IS_CLIENT } from './env'
-import { NonNullObject, StateTree, GenericStore } from './types'
+import {
+  StateTree,
+  GenericStore,
+  StoreWithState,
+  StateDescriptor,
+} from './types'
 
 /**
- * setActiveReq must be called to handle SSR at the top of functions like `fetch`, `setup`, `serverPrefetch` and others
+ * setActivePinia must be called to handle SSR at the top of functions like
+ * `fetch`, `setup`, `serverPrefetch` and others
  */
-export let activeReq: NonNullObject = {}
-export const setActiveReq = (req: NonNullObject | undefined) =>
-  req && (activeReq = req)
+export let activePinia: Pinia | undefined
+export const setActivePinia = (pinia: Pinia | undefined) =>
+  (activePinia = pinia)
 
-export const getActiveReq = () => activeReq
+export const getActivePinia = () => {
+  if (__DEV__ && !activePinia) {
+    warn(
+      `[🍍]: getActivePinia was called with no active Pinia. Did you forget to install pinia?\n\n` +
+        `const pinia = createPinia()\n` +
+        `app.use(pinia)\n\n` +
+        `This will fail in production.`
+    )
+  }
+
+  return activePinia!
+}
 
 /**
  * The api needs more work we must be able to use the store easily in any
  * function by calling `useStore` to get the store Instance and we also need to
- * be able to reset the store instance between requests on the server
+ * be able to reset the store instance between piniauests on the server
  */
 
-export const storesMap = new WeakMap<NonNullObject, Map<string, GenericStore>>()
+export const storesMap = new WeakMap<
+  Pinia,
+  Map<string, [StoreWithState<string, StateTree>, StateDescriptor<StateTree>]>
+>()
 
 /**
  * A state provider allows to set how states are stored for hydration. e.g. setting a property on a context, getting a property from window
@@ -29,33 +49,24 @@ interface StateProvider {
 /**
  * Map of initial states used for hydration
  */
-export const stateProviders = new WeakMap<NonNullObject, StateProvider>()
+export const stateProviders = new WeakMap<Pinia, StateProvider>()
 
 export function setStateProvider(stateProvider: StateProvider) {
-  stateProviders.set(getActiveReq(), stateProvider)
+  stateProviders.set(getActivePinia(), stateProvider)
 }
 
 export function getInitialState(id: string): StateTree | undefined {
-  const provider = stateProviders.get(getActiveReq())
+  const provider = stateProviders.get(getActivePinia())
   return provider && provider()[id]
 }
 
 /**
  * Gets the root state of all active stores. This is useful when reporting an application crash by
  * retrieving the problematic state and send it to your error tracking service.
- * @param req - request key
+ * @param pinia - piniauest key
  */
-export function getRootState(req: NonNullObject): Record<string, StateTree> {
-  const stores = storesMap.get(req)
-  if (!stores) return {}
-  const rootState = {} as Record<string, StateTree>
-
-  // forEach is the only one that also works on IE11
-  stores.forEach((store) => {
-    rootState[store.$id] = store.$state
-  })
-
-  return rootState
+export function getRootState(pinia: Pinia): Record<string, StateTree> {
+  return pinia.state.value
 }
 
 /**
@@ -67,15 +78,19 @@ export const getClientApp = () => clientApp
 
 export interface Pinia {
   install: Exclude<Plugin['install'], undefined>
-  store<F extends (...args: any[]) => any>(useStore: F): ReturnType<F>
+
+  /**
+   * root state
+   */
+  state: Ref<any>
 }
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {
     /**
-     * Instantiate a store anywhere
+     * Access to the application's Pinia
      */
-    $pinia: Pinia['store']
+    $pinia: Pinia
   }
 }
 
@@ -84,21 +99,20 @@ export const piniaSymbol = (__DEV__
   : Symbol()) as InjectionKey<Pinia>
 
 export function createPinia(): Pinia {
+  const state = ref({})
+
   const pinia: Pinia = {
     install(app: App) {
       app.provide(piniaSymbol, pinia)
-      app.config.globalProperties.$pinia = pinia.store
+      app.config.globalProperties.$pinia = pinia
       // TODO: write test
       // only set the app on client
       if (__BROWSER__ && IS_CLIENT) {
         setClientApp(app)
       }
     },
-    store<F extends (req?: NonNullObject) => GenericStore>(
-      useStore: F
-    ): ReturnType<F> {
-      return useStore(pinia) as ReturnType<F>
-    },
+
+    state,
   }
 
   return pinia

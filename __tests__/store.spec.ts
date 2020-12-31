@@ -1,18 +1,19 @@
 import {
   createPinia,
   defineStore,
-  setActiveReq,
+  setActivePinia,
   setStateProvider,
+  Pinia,
 } from '../src'
 import { mount } from '@vue/test-utils'
-import { getCurrentInstance } from 'vue'
+import { getCurrentInstance, nextTick, watch } from 'vue'
 
 describe('Store', () => {
-  let req: object
+  let pinia: Pinia
   const useStore = () => {
     // create a new store
-    req = {}
-    setActiveReq(req)
+    pinia = createPinia()
+    setActivePinia(pinia)
     return defineStore({
       id: 'main',
       state: () => ({
@@ -60,7 +61,7 @@ describe('Store', () => {
   })
 
   it('can hydrate the state', () => {
-    setActiveReq({})
+    setActivePinia(createPinia())
     const useStore = defineStore({
       id: 'main',
       state: () => ({
@@ -156,43 +157,50 @@ describe('Store', () => {
     )
   })
 
-  it('should outlive components', () => {
-    let store: ReturnType<typeof useStore> | undefined
+  it('should outlive components', async () => {
+    const pinia = createPinia()
+    const useStore = defineStore({
+      id: 'main',
+      state: () => ({ n: 0 }),
+    })
 
     const wrapper = mount(
       {
         setup() {
-          store = useStore()
+          const store = useStore()
 
           return { store }
         },
 
-        template: `a: {{ store.a }}`,
+        template: `n: {{ store.n }}`,
       },
       {
         global: {
-          plugins: [createPinia()],
+          plugins: [pinia],
         },
       }
     )
 
-    expect(wrapper.html()).toBe('a: true')
+    expect(wrapper.html()).toBe('n: 0')
 
-    if (!store) throw new Error('no store')
+    const store = useStore(pinia)
 
     const spy = jest.fn()
-    store.$subscribe(spy)
+    watch(() => store.n, spy)
 
     expect(spy).toHaveBeenCalledTimes(0)
-    store.a = !store.a
+    store.n++
+    await nextTick()
     expect(spy).toHaveBeenCalledTimes(1)
+    expect(wrapper.html()).toBe('n: 1')
 
-    wrapper.unmount()
-    store.a = !store.a
+    await wrapper.unmount()
+    store.n++
+    await nextTick()
     expect(spy).toHaveBeenCalledTimes(2)
   })
 
-  it.skip('should not break getCurrentInstance', () => {
+  it('should not break getCurrentInstance', () => {
     let store: ReturnType<typeof useStore> | undefined
 
     let i1: any = {}

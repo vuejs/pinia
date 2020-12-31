@@ -1,10 +1,10 @@
-import { defineStore, setActiveReq } from '../src'
-import { computed } from 'vue'
+import { createPinia, defineStore, setActivePinia } from '../src'
+import { computed, nextTick, watch } from 'vue'
 
 describe('State', () => {
   const useStore = () => {
     // create a new store
-    setActiveReq({})
+    setActivePinia(createPinia())
     return defineStore({
       id: 'main',
       state: () => ({
@@ -27,5 +27,26 @@ describe('State', () => {
     expect(upperCased.value).toBe('EDUARDO')
     store.name = 'Ed'
     expect(upperCased.value).toBe('ED')
+  })
+
+  // it('watch', () => {
+  //   setActivePinia(createPinia())
+  //   defineStore({
+  //     id: 'main',
+  //     state: () => ({
+  //       name: 'Eduardo',
+  //       counter: 0,
+  //     }),
+  //   })()
+  // })
+
+  it('state can be watched', async () => {
+    const store = useStore()
+    const spy = jest.fn()
+    watch(() => store.name, spy)
+    expect(spy).not.toHaveBeenCalled()
+    store.name = 'Ed'
+    await nextTick()
+    expect(spy).toHaveBeenCalledTimes(1)
   })
 })

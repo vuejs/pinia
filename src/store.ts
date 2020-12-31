@@ -1,12 +1,4 @@
-import {
-  ref,
-  watch,
-  computed,
-  Ref,
-  reactive,
-  inject,
-  getCurrentInstance,
-} from 'vue'
+import { watch, computed, Ref, inject, getCurrentInstance, reactive } from 'vue'
 import {
   StateTree,
   StoreWithState,
@@ -16,19 +8,20 @@ import {
   StoreWithGetters,
   Store,
   StoreWithActions,
+  StateDescriptor,
   Method,
 } from './types'
 import {
-  getActiveReq,
-  setActiveReq,
+  getActivePinia,
+  setActivePinia,
   storesMap,
   getInitialState,
   getClientApp,
   piniaSymbol,
+  Pinia,
 } from './rootStore'
 import { addDevtools } from './devtools'
 import { IS_CLIENT } from './env'
-import { withScope } from './withScope'
 
 function innerPatch<T extends StateTree>(
   target: T,
@@ -49,16 +42,26 @@ function innerPatch<T extends StateTree>(
   return target
 }
 
-function toComputed<T>(refObject: Ref<T>) {
+/**
+ * Create an object of computed properties referring to
+ *
+ * @param rootStateRef - pinia.state
+ * @param id - unique name
+ */
+function computedFromState<T, Id extends string>(
+  rootStateRef: Ref<Record<Id, T>>,
+  id: Id
+) {
   // let asComputed = computed<T>()
   const reactiveObject = {} as {
     [k in keyof T]: Ref<T[k]>
   }
-  for (const key in refObject.value) {
+  const state = rootStateRef.value[id]
+  for (const key in state) {
     // @ts-ignore: the key matches
     reactiveObject[key] = computed({
-      get: () => refObject.value[key as keyof T],
-      set: (value) => (refObject.value[key as keyof T] = value),
+      get: () => rootStateRef.value[id][key as keyof T],
+      set: (value) => (rootStateRef.value[id][key as keyof T] = value),
     })
   }
 
@@ -66,117 +69,154 @@ function toComputed<T>(refObject: Ref<T>) {
 }
 
 /**
- * Creates a store instance
+ * Creates a store with its state object. This is meant to be augmented with getters and actions
+ *
  * @param id - unique identifier of the store, like a name. eg: main, cart, user
+ * @param buildState - function to build the initial state
  * @param initialState - initial state applied to the store, Must be correctly typed to infer typings
  */
-export function buildStore<
-  Id extends string,
-  S extends StateTree,
-  G extends Record<string, Method>,
-  A extends Record<string, Method>
->(
+function initStore<Id extends string, S extends StateTree>(
   $id: Id,
   buildState: () => S = () => ({} as S),
-  getters: G = {} as G,
-  actions: A = {} as A,
   initialState?: S | undefined
-): Store<Id, S, G, A> {
-  const state: Ref<S> = ref(initialState || buildState())
-  // TODO: remove req part?
-  const _r = getActiveReq()
+): [StoreWithState<Id, S>, { get: () => S; set: (newValue: S) => void }] {
+  const _p = getActivePinia()
+  _p.state.value[$id] = initialState || buildState()
+  // const state: Ref<S> = toRef(_p.state.value, $id)
 
   let isListening = true
   let subscriptions: SubscriptionCallback<S>[] = []
 
-  watch(
-    () => state.value,
-    (state) => {
-      if (isListening) {
-        subscriptions.forEach((callback) => {
-          callback({ storeName: $id, type: '🧩 in place', payload: {} }, state)
-        })
-      }
-    },
-    {
-      deep: true,
-      flush: 'sync',
-    }
-  )
-
   function $patch(partialState: DeepPartial<S>): void {
     isListening = false
-    innerPatch(state.value, partialState)
+    innerPatch(_p.state.value[$id], partialState)
     isListening = true
     // because we paused the watcher, we need to manually call the subscriptions
     subscriptions.forEach((callback) => {
       callback(
         { storeName: $id, type: '⤵️ patch', payload: partialState },
-        state.value
+        _p.state.value[$id]
       )
     })
   }
 
   function $subscribe(callback: SubscriptionCallback<S>) {
     subscriptions.push(callback)
+
+    // watch here to link the subscription to the current active instance
+    // e.g. inside the setup of a component
+    const stopWatcher = watch(
+      () => _p.state.value[$id],
+      (state) => {
+        if (isListening) {
+          subscriptions.forEach((callback) => {
+            callback(
+              { storeName: $id, type: '🧩 in place', payload: {} },
+              state
+            )
+          })
+        }
+      },
+      {
+        deep: true,
+        flush: 'sync',
+      }
+    )
+
     return () => {
       const idx = subscriptions.indexOf(callback)
       if (idx > -1) {
         subscriptions.splice(idx, 1)
+        stopWatcher()
       }
     }
   }
 
   function $reset() {
     subscriptions = []
-    state.value = buildState()
+    _p.state.value[$id] = buildState()
   }
 
   const storeWithState: StoreWithState<Id, S> = {
     $id,
-    _r,
-    // @ts-ignore, `reactive` unwraps this making it of type S
-    $state: computed<S>({
-      get: () => state.value,
-      set: (newState) => {
-        isListening = false
-        state.value = newState
-        isListening = true
-      },
-    }),
+    _p,
+
+    // $state is added underneath
 
     $patch,
     $subscribe,
     $reset,
-  }
+  } as StoreWithState<Id, S>
+
+  return [
+    storeWithState,
+    {
+      get: () => _p.state.value[$id] as S,
+      set: (newState: S) => {
+        isListening = false
+        _p.state.value[$id] = newState
+        isListening = true
+      },
+    },
+  ]
+}
+
+/**
+ * Creates a store bound to the lifespan of where the function is called. This
+ * means creating the store inside of a component's setup will bound it to the
+ * lifespan of that component while creating it outside of a component will
+ * create an ever living store
+ *
+ * @param partialStore - store with state returned by initStore
+ * @param descriptor - descriptor to setup $state property
+ * @param $id - unique name of the store
+ * @param getters - getters of the store
+ * @param actions - actions of the store
+ */
+function buildStoreToUse<
+  Id extends string,
+  S extends StateTree,
+  G extends Record<string, Method>,
+  A extends Record<string, Method>
+>(
+  partialStore: StoreWithState<Id, S>,
+  descriptor: StateDescriptor<S>,
+  $id: Id,
+  getters: G = {} as G,
+  actions: A = {} as A
+) {
+  const _p = getActivePinia()
 
   const computedGetters: StoreWithGetters<G> = {} as StoreWithGetters<G>
   for (const getterName in getters) {
     computedGetters[getterName] = computed(() => {
-      setActiveReq(_r)
+      setActivePinia(_p)
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       return getters[getterName].call(store, store)
     }) as StoreWithGetters<G>[typeof getterName]
   }
 
-  // const reactiveGetters = reactive(computedGetters)
-
   const wrappedActions: StoreWithActions<A> = {} as StoreWithActions<A>
   for (const actionName in actions) {
     wrappedActions[actionName] = function () {
-      setActiveReq(_r)
+      setActivePinia(_p)
       // eslint-disable-next-line
       return actions[actionName].apply(store, (arguments as unknown) as any[])
     } as StoreWithActions<A>[typeof actionName]
   }
 
   const store: Store<Id, S, G, A> = reactive({
-    ...storeWithState,
+    ...partialStore,
     // using this means no new properties can be added as state
-    ...toComputed(state),
+    ...computedFromState(_p.state, $id),
     ...computedGetters,
     ...wrappedActions,
   }) as Store<Id, S, G, A>
+
+  // use this instead of a computed with setter to be able to create it anywhere
+  // without linking the computed lifespan to wherever the store is first
+  // created.
+  Object.defineProperty(store, '$state', descriptor)
 
   return store
 }
@@ -202,29 +242,29 @@ export function defineStore<
 }) {
   const { id, state, getters, actions } = options
 
-  return function useStore(reqKey?: object | null): Store<Id, S, G, A> {
+  return function useStore(pinia?: Pinia | null): Store<Id, S, G, A> {
     // avoid injecting if `useStore` when not possible
-    reqKey = reqKey || (getCurrentInstance() && inject(piniaSymbol))
-    if (reqKey) setActiveReq(reqKey)
-    // TODO: worth warning on server if no reqKey as it can leak data
-    const req = getActiveReq()
-    let stores = storesMap.get(req)
-    if (!stores) storesMap.set(req, (stores = new Map()))
+    pinia = pinia || (getCurrentInstance() && inject(piniaSymbol))
+    if (pinia) setActivePinia(pinia)
+    // TODO: worth warning on server if no piniaKey as it can leak data
+    pinia = getActivePinia()
+    let stores = storesMap.get(pinia)
+    if (!stores) storesMap.set(pinia, (stores = new Map()))
 
-    let store = stores.get(id) as Store<Id, S, G, A>
-    if (!store) {
-      stores.set(
+    let storeAndDescriptor = stores.get(id) as
+      | [StoreWithState<Id, S>, StateDescriptor<S>]
+      | undefined
+    if (!storeAndDescriptor) {
+      storeAndDescriptor = initStore(id, state, getInitialState(id))
+
+      stores.set(id, storeAndDescriptor)
+
+      const store = buildStoreToUse(
+        storeAndDescriptor[0],
+        storeAndDescriptor[1],
         id,
-        (store = withScope(
-          () =>
-            buildStore(
-              id,
-              state,
-              getters as Record<string, Method> | undefined,
-              actions as Record<string, Method> | undefined,
-              getInitialState(id)
-            ) as Store<Id, S, G, A>
-        ))
+        getters as Record<string, Method> | undefined,
+        actions as Record<string, Method> | undefined
       )
 
       if (
@@ -234,7 +274,7 @@ export function defineStore<
       ) {
         const app = getClientApp()
         if (app) {
-          addDevtools(app, store, req)
+          addDevtools(app, store)
         } else if (!isDevWarned && !__TEST__) {
           isDevWarned = true
           console.warn(
@@ -246,8 +286,16 @@ export function defineStore<
           )
         }
       }
+
+      return store
     }
 
-    return store
+    return buildStoreToUse(
+      storeAndDescriptor[0],
+      storeAndDescriptor[1],
+      id,
+      getters as Record<string, Method> | undefined,
+      actions as Record<string, Method> | undefined
+    )
   }
 }

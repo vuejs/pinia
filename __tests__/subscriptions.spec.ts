@@ -1,9 +1,9 @@
-import { defineStore, setActiveReq } from '../src'
+import { createPinia, defineStore, setActivePinia } from '../src'
 
 describe('Subscriptions', () => {
   const useStore = () => {
     // create a new store
-    setActiveReq({})
+    setActivePinia(createPinia())
     return defineStore({
       id: 'main',
       state: () => ({

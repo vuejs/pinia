@@ -3,20 +3,21 @@ import Vue from 'vue'
 import App from './App'
 import { useStore } from './store'
 import { setActiveReq } from '../../../src'
+import { createPinia } from '../../src'
 
 // Done in setup.ts
 // Vue.use(VueCompositionApi)
 
 export function createApp() {
   // create router and store instances
-  setActiveReq({})
+  setActiveReq(createPinia())
   const store = useStore()
 
   store.state.counter++
 
   // create the app instance, injecting both the router and the store
   const app = new Vue({
-    render: h => h(App),
+    render: (h) => h(App),
   })
 
   // expose the app, the router and the store.

@@ -1,9 +1,9 @@
-import { defineStore, setActiveReq } from '../src'
+import { createPinia, defineStore, setActivePinia } from '../src'
 
 describe('Getters', () => {
   const useStore = () => {
     // create a new store
-    setActiveReq({})
+    setActivePinia(createPinia())
     return defineStore({
       id: 'main',
       state: () => ({
@@ -52,14 +52,14 @@ describe('Getters', () => {
     expect(store.upperCaseName).toBe('ED')
   })
 
-  it('supports changing between requests', () => {
-    const req1 = {}
-    const req2 = {}
-    setActiveReq(req1)
+  it('supports changing between piniauests', () => {
+    const pinia1 = createPinia()
+    const pinia2 = createPinia()
+    setActivePinia(pinia1)
     const aStore = useA()
 
-    // simulate a different request
-    setActiveReq(req2)
+    // simulate a different piniauest
+    setActivePinia(pinia2)
     const bStore = useB()
     bStore.b = 'c'
 

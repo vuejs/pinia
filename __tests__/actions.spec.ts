@@ -1,9 +1,9 @@
-import { defineStore, setActiveReq } from '../src'
+import { createPinia, defineStore, setActivePinia } from '../src'
 
 describe('Actions', () => {
   const useStore = () => {
     // create a new store
-    setActiveReq({})
+    setActivePinia(createPinia())
     return defineStore({
       id: 'main',
       state: () => ({
@@ -82,14 +82,14 @@ describe('Actions', () => {
     expect(store.$state.nested.foo).toBe('bar')
   })
 
-  it('supports being called between requests', () => {
-    const req1 = {}
-    const req2 = {}
-    setActiveReq(req1)
+  it('supports being called between piniauests', () => {
+    const pinia1 = createPinia()
+    const pinia2 = createPinia()
+    setActivePinia(pinia1)
     const aStore = useA()
 
-    // simulate a different request
-    setActiveReq(req2)
+    // simulate a different piniauest
+    setActivePinia(pinia2)
     const bStore = useB()
     bStore.$state.b = 'c'
 
@@ -99,19 +99,19 @@ describe('Actions', () => {
     expect(bStore.$state.b).toBe('c')
   })
 
-  it('can force the req', () => {
-    const req1 = {}
-    const req2 = {}
-    const aStore = useA(req1)
+  it('can force the pinia', () => {
+    const pinia1 = createPinia()
+    const pinia2 = createPinia()
+    const aStore = useA(pinia1)
 
-    let bStore = useB(req2)
+    let bStore = useB(pinia2)
     bStore.$state.b = 'c'
 
     aStore.swap()
     expect(aStore.$state.a).toBe('b')
     // a different instance of b store was used
     expect(bStore.$state.b).toBe('c')
-    bStore = useB(req1)
+    bStore = useB(pinia1)
     expect(bStore.$state.b).toBe('a')
   })
 })

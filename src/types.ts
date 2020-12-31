@@ -1,6 +1,15 @@
 import { Ref } from 'vue'
+import { Pinia } from './rootStore'
 
 export type StateTree = Record<string | number | symbol, any>
+
+/**
+ * Object descriptor for Object.defineProperty
+ */
+export interface StateDescriptor<S extends StateTree> {
+  get(): S
+  set(newValue: S): void
+}
 
 export function isPlainObject(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -13,8 +22,6 @@ export function isPlainObject(
     typeof o.toJSON !== 'function'
   )
 }
-
-export type NonNullObject = Record<any, any>
 
 export interface StoreGetter<S extends StateTree, T = any> {
   (state: S, getters: Record<string, Ref<any>>): T
@@ -40,11 +47,11 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   $state: S
 
   /**
-   * Private property defining the request key for this store
+   * Private property defining the pinia the store is attached to.
    *
    * @internal
    */
-  _r: NonNullObject
+  _p: Pinia
 
   /**
    * Applies a state patch to current state. Allows passing nested values
