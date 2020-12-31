@@ -1,6 +1,9 @@
 import { Ref } from 'vue'
 import { Pinia } from './rootStore'
 
+/**
+ * Generic state of a Store
+ */
 export type StateTree = Record<string | number | symbol, any>
 
 /**
@@ -23,6 +26,10 @@ export function isPlainObject(
   )
 }
 
+/**
+ * Store Getter
+ * @internal
+ */
 export interface StoreGetter<S extends StateTree, T = any> {
   (state: S, getters: Record<string, Ref<any>>): T
 }
@@ -35,6 +42,10 @@ export type SubscriptionCallback<S> = (
   state: S
 ) => void
 
+/**
+ * Base store with state and functions
+ * @internal
+ */
 export interface StoreWithState<Id extends string, S extends StateTree> {
   /**
    * Unique identifier of the store
@@ -83,6 +94,10 @@ export type Method = (...args: any[]) => any
 // }
 
 // in this type we forget about this because otherwise the type is recursive
+/**
+ * Store augmented for actions
+ * @internal
+ */
 export type StoreWithActions<A> = {
   [k in keyof A]: A[k] extends (...args: infer P) => infer R
     ? (...args: P) => R
@@ -94,6 +109,10 @@ export type StoreWithActions<A> = {
 //   (state: S, getters: Record<string, Ref<any>>): T
 // }
 
+/**
+ * Store augmented with getters
+ * @internal
+ */
 export type StoreWithGetters<G> = {
   [k in keyof G]: G[k] extends (this: infer This, store?: any) => infer R
     ? R
@@ -109,6 +128,9 @@ export type StoreWithGetters<G> = {
 // }
 
 // has the actions without the context (this) for typings
+/**
+ * Store type to build a store
+ */
 export type Store<
   Id extends string,
   S extends StateTree,
@@ -116,6 +138,9 @@ export type Store<
   A
 > = StoreWithState<Id, S> & S & StoreWithGetters<G> & StoreWithActions<A>
 
+/**
+ * Generic store type
+ */
 export type GenericStore = Store<
   string,
   StateTree,

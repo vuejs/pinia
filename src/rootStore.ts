@@ -12,9 +12,19 @@ import {
  * `fetch`, `setup`, `serverPrefetch` and others
  */
 export let activePinia: Pinia | undefined
+
+/**
+ * Sets or unsets the active pinia. Used in SSR and internally when calling
+ * actions and getters
+ *
+ * @param pinia - Pinia instance
+ */
 export const setActivePinia = (pinia: Pinia | undefined) =>
   (activePinia = pinia)
 
+/**
+ * Get the currently active pinia
+ */
 export const getActivePinia = () => {
   if (__DEV__ && !activePinia) {
     warn(
@@ -76,6 +86,9 @@ export let clientApp: App | undefined
 export const setClientApp = (app: App) => (clientApp = app)
 export const getClientApp = () => clientApp
 
+/**
+ * Every application must own its own pinia to be able to create stores
+ */
 export interface Pinia {
   install: Exclude<Plugin['install'], undefined>
 
@@ -98,6 +111,9 @@ export const piniaSymbol = (__DEV__
   ? Symbol('pinia')
   : Symbol()) as InjectionKey<Pinia>
 
+/**
+ * Creates a Pinia instance to be used by the application
+ */
 export function createPinia(): Pinia {
   const state = ref({})
 
