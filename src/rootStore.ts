@@ -50,27 +50,6 @@ export const storesMap = new WeakMap<
 >()
 
 /**
- * A state provider allows to set how states are stored for hydration. e.g. setting a property on a context, getting a property from window
- */
-interface StateProvider {
-  (): Record<string, StateTree>
-}
-
-/**
- * Map of initial states used for hydration
- */
-export const stateProviders = new WeakMap<Pinia, StateProvider>()
-
-export function setStateProvider(stateProvider: StateProvider) {
-  stateProviders.set(getActivePinia(), stateProvider)
-}
-
-export function getInitialState(id: string): StateTree | undefined {
-  const provider = stateProviders.get(getActivePinia())
-  return provider && provider()[id]
-}
-
-/**
  * Gets the root state of all active stores. This is useful when reporting an application crash by
  * retrieving the problematic state and send it to your error tracking service.
  * @param pinia - application's pinia

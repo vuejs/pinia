@@ -1,6 +1,5 @@
 export {
   setActivePinia,
-  setStateProvider,
   getRootState,
   createPinia,
   Pinia,

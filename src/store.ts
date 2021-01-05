@@ -15,7 +15,6 @@ import {
   getActivePinia,
   setActivePinia,
   storesMap,
-  getInitialState,
   getClientApp,
   piniaSymbol,
   Pinia,
@@ -265,7 +264,7 @@ export function defineStore<
       | [StoreWithState<Id, S>, StateDescriptor<S>]
       | undefined
     if (!storeAndDescriptor) {
-      storeAndDescriptor = initStore(id, state, getInitialState(id))
+      storeAndDescriptor = initStore(id, state, pinia.state.value[id])
 
       stores.set(id, storeAndDescriptor)
 
