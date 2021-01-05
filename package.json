@@ -23,7 +23,7 @@
     "test:dts": "tsc -p ./test-dts/tsconfig.json",
     "test:types": "tsc --build tsconfig.json",
     "test:unit": "jest --coverage",
-    "dev": "yarn run unit --watchAll",
+    "dev": "yarn run test:unit --watchAll",
     "pretest": "yarn run lint",
     "test": "yarn run test:types && yarn run test:unit && yarn run build && yarn run build:dts && yarn test:dts"
   },
