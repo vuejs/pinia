@@ -19,6 +19,7 @@ import {
   getClientApp,
   piniaSymbol,
   Pinia,
+  PiniaCustomProperties,
 } from './rootStore'
 import { addDevtools } from './devtools'
 import { IS_CLIENT } from './env'
@@ -205,7 +206,16 @@ function buildStoreToUse<
     } as StoreWithActions<A>[typeof actionName]
   }
 
+  const extensions = _p._p.reduce(
+    (extended, extender) => ({
+      ...extended,
+      ...extender(),
+    }),
+    {} as PiniaCustomProperties
+  )
+
   const store: Store<Id, S, G, A> = reactive({
+    ...extensions,
     ...partialStore,
     // using this means no new properties can be added as state
     ...computedFromState(_p.state, $id),

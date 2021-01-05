@@ -1,10 +1,4 @@
-import {
-  createPinia,
-  defineStore,
-  setActivePinia,
-  setStateProvider,
-  Pinia,
-} from '../src'
+import { createPinia, defineStore, setActivePinia, Pinia } from '../src'
 import { mount } from '@vue/test-utils'
 import { getCurrentInstance, nextTick, watch } from 'vue'
 
@@ -61,7 +55,8 @@ describe('Store', () => {
   })
 
   it('can hydrate the state', () => {
-    setActivePinia(createPinia())
+    const pinia = createPinia()
+    setActivePinia(pinia)
     const useStore = defineStore({
       id: 'main',
       state: () => ({
@@ -73,15 +68,13 @@ describe('Store', () => {
       }),
     })
 
-    setStateProvider(() => ({
-      main: {
-        a: false,
-        nested: {
-          foo: 'bar',
-          a: { b: 'string' },
-        },
+    pinia.state.value.main = {
+      a: false,
+      nested: {
+        foo: 'bar',
+        a: { b: 'string' },
       },
-    }))
+    }
 
     const store = useStore()
 

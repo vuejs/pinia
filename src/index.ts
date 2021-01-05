@@ -4,6 +4,8 @@ export {
   getRootState,
   createPinia,
   Pinia,
+  PiniaStorePlugin,
+  PiniaCustomProperties,
 } from './rootStore'
 export { defineStore } from './store'
 export {
