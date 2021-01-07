@@ -1,6 +1,5 @@
 export {
   setActivePinia,
-  getRootState,
   createPinia,
   Pinia,
   PiniaStorePlugin,

@@ -1,4 +1,4 @@
-import { createPinia, defineStore, getRootState } from '../src'
+import { createPinia, defineStore } from '../src'
 
 describe('Root State', () => {
   const useA = defineStore({
@@ -12,13 +12,13 @@ describe('Root State', () => {
   })
 
   it('works with no stores', () => {
-    expect(getRootState(createPinia())).toEqual({})
+    expect(createPinia().state.value).toEqual({})
   })
 
   it('retrieves the root state of one store', () => {
     const pinia = createPinia()
     useA(pinia)
-    expect(getRootState(pinia)).toEqual({
+    expect(pinia.state.value).toEqual({
       a: { a: 'a' },
     })
   })
@@ -28,10 +28,10 @@ describe('Root State', () => {
     const pinia2 = createPinia()
     useA(pinia1)
     useB(pinia2)
-    expect(getRootState(pinia1)).toEqual({
+    expect(pinia1.state.value).toEqual({
       a: { a: 'a' },
     })
-    expect(getRootState(pinia2)).toEqual({
+    expect(pinia2.state.value).toEqual({
       b: { b: 'b' },
     })
   })
@@ -40,7 +40,7 @@ describe('Root State', () => {
     const pinia1 = createPinia()
     useA(pinia1)
     useB(pinia1)
-    expect(getRootState(pinia1)).toEqual({
+    expect(pinia1.state.value).toEqual({
       a: { a: 'a' },
       b: { b: 'b' },
     })

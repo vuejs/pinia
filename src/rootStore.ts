@@ -52,6 +52,7 @@ export const storesMap = new WeakMap<
 /**
  * Gets the root state of all active stores. This is useful when reporting an application crash by
  * retrieving the problematic state and send it to your error tracking service.
+ *
  * @param pinia - application's pinia
  */
 export function getRootState(pinia: Pinia): Record<string, StateTree> {

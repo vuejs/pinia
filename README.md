@@ -294,7 +294,7 @@ router.beforeEach((to) => {
 To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on:
 
 ```js
-import { createPinia, getRootState } from 'pinia'
+import { createPinia } from 'pinia'
 // retrieve the rootState server side
 const pinia = createPinia()
 const app = createApp(App)
@@ -302,16 +302,23 @@ app.use(router)
 app.use(pinia)
 
 // after rendering the page, the root state is build and can be read
-getRootState() // serialize, escape, and place it somewhere on the page, for example, as a global variable
+// serialize, escape (VERY important if the content of the state can be changed
+// by the user, which is almost always the case), and place it somewhere on
+// the page, for example, as a global variable.
+JSON.stringify(pinia.state.value)
 ```
 
-On client side, you must tell pinia how to read that variable:
+On client side, you must hydrate pinia's state before calling any `useStore()` function. For example, if we serialize the state into a `<script>` tag to make it accessible globally on client side through `window.__pinia`, we can write this:
 
 ```js
-import { setStateProvider } from 'pinia'
+const pinia = createPinia()
+const app = createApp(App)
+app.use(pinia)
 
-// if the previous step appended a script to the page that sets a global variable named `__pinia` with the rootState
-setStateProvider(() => window.__pinia)
+// must be set by the user
+if (isClient) {
+  pinia.state.value = JSON.parse(window.__pinia)
+}
 ```
 
 ### Composing Stores
