@@ -50,19 +50,9 @@ export const storesMap = new WeakMap<
 >()
 
 /**
- * Gets the root state of all active stores. This is useful when reporting an application crash by
- * retrieving the problematic state and send it to your error tracking service.
- *
- * @param pinia - application's pinia
- */
-export function getRootState(pinia: Pinia): Record<string, StateTree> {
-  return pinia.state.value
-}
-
-/**
  * Client-side application instance used for devtools
  */
-export let clientApp: App | undefined
+export let clientApp: App | undefined /*#__PURE__*/
 export const setClientApp = (app: App) => (clientApp = app)
 export const getClientApp = () => clientApp
 
@@ -163,7 +153,7 @@ export interface PiniaCustomProperties {}
 /**
  * Registered stores
  */
-export const stores = new Set<GenericStore>()
+export const stores = /*#__PURE__*/ new Set<GenericStore>()
 
 export function registerStore(store: GenericStore) {
   stores.add(store)
