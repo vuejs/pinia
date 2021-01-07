@@ -125,6 +125,9 @@ export function createPinia(): Pinia {
       // only set the app on client for devtools
       if (__BROWSER__ && IS_CLIENT) {
         setClientApp(app)
+        // this allows calling useStore() outside of a component setup after
+        // installing pinia's plugin
+        setActivePinia(pinia)
       }
       toBeInstalled.forEach((plugin) => _p.push(plugin.bind(null, localApp!)))
     },
