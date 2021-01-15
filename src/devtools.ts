@@ -15,6 +15,24 @@ function formatDisplay(display: string) {
   }
 }
 
+function outputMessage(
+  message: string,
+  type?: 'normal' | 'error' | 'warning' | undefined
+) {
+  if (__VUE_DEVTOOLS_TOAST__) {
+    __VUE_DEVTOOLS_TOAST__(message, type)
+    return
+  }
+
+  if (type === 'error') {
+    console.error(message)
+  } else if (type === 'warning') {
+    console.warn(message)
+  } else {
+    console.log(message)
+  }
+}
+
 let isAlreadyInstalled: boolean | undefined
 
 export function addDevtools(app: App, store: GenericStore) {
@@ -116,10 +134,7 @@ export function addDevtools(app: App, store: GenericStore) {
               options: formatStoreForInspectorState(store),
             }
           } else {
-            __VUE_DEVTOOLS_TOAST__(
-              `🍍 store "${payload.nodeId}" not found`,
-              'error'
-            )
+            outputMessage(`🍍 store "${payload.nodeId}" not found`, 'error')
           }
         }
       })
@@ -127,7 +142,7 @@ export function addDevtools(app: App, store: GenericStore) {
       // trigger an update so it can display new registered stores
       // @ts-ignore
       api.notifyComponentUpdate()
-      __VUE_DEVTOOLS_TOAST__(`🍍 "${store.$id}" store installed`)
+      outputMessage(`🍍 "${store.$id}" store installed`)
     }
   )
 }
