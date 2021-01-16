@@ -24,9 +24,7 @@ These are the core principles that I try to achieve with this experiment:
 - SSR support ⚙️
 - DevTools support 💻 Which is crucial to make this enjoyable
 
-<h2 align="center">Supporting Vue Router</h2>
-
-Vue Router is part of the Vue Ecosystem and is an MIT-licensed open source project with its ongoing development made possible entirely by the support of Sponsors. If you would like to become a sponsor, please consider:
+## Help me keep working on this project 💚
 
 - [Become a Sponsor on GitHub](https://github.com/sponsors/posva)
 - [One-time donation via PayPal](https://paypal.me/posva)
