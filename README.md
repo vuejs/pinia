@@ -24,21 +24,37 @@ These are the core principles that I try to achieve with this experiment:
 - SSR support ⚙️
 - DevTools support 💻 Which is crucial to make this enjoyable
 
-**Help me keep working on Open Source in a sustainable way 🚀**. Help me with as little as \$1 a month, [sponsor me on Github](https://github.com/sponsors/posva).
+<h2 align="center">Supporting Vue Router</h2>
 
-<h3 align="center">Silver Sponsors</h3>
+Vue Router is part of the Vue Ecosystem and is an MIT-licensed open source project with its ongoing development made possible entirely by the support of Sponsors. If you would like to become a sponsor, please consider:
+
+- [Become a Sponsor on GitHub](https://github.com/sponsors/posva)
+- [One-time donation via PayPal](https://paypal.me/posva)
+
+<!-- <h3 align="center">Special Sponsors</h3> -->
+<!--special start-->
+
+<h4 align="center">Silver Sponsors</h4>
 
 <p align="center">
-  <a href="https://www.vuemastery.com" title="Vue Mastery" target="_blank">
-    <img src="https://www.vuemastery.com/images/lgo-vuemastery.svg" alt="Vue Mastery logo" height="48px">
+  <a href="https://www.vuemastery.com" target="_blank" rel="noopener noreferrer">
+    <img src="https://www.vuemastery.com/images/vuemastery.svg" height="48px" alt="Vue Mastery">
+  </a>
+
+  <a href="https://vuetifyjs.com" target="_blank" rel="noopener noreferrer">
+    <img src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-light-text.svg" alt="Vuetify" height="48px">
   </a>
 </p>
 
-<h3 align="center">Bronze Sponsors</h3>
+<h4 align="center">Bronze Sponsors</h4>
 
 <p align="center">
-  <a href="https://vuetifyjs.com" target="_blank" title="Vuetify">
-    <img src="https://vuejs.org/images/vuetify.png" height="32px">
+  <a href="https://storyblok.com" target="_blank" rel="noopener noreferrer">
+    <img src="https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png" alt="Storyblok" height="32px">
+  </a>
+
+  <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer">
+    <img src="https://nuxtjs.org/logos/nuxtjs-typo-white.svg" alt="Storyblok" height="32px">
   </a>
 </p>
 
