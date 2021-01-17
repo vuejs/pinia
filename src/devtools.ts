@@ -15,21 +15,20 @@ function formatDisplay(display: string) {
   }
 }
 
-function outputMessage(
+function toastMessage(
   message: string,
   type?: 'normal' | 'error' | 'warning' | undefined
 ) {
-  if (__VUE_DEVTOOLS_TOAST__) {
-    __VUE_DEVTOOLS_TOAST__(message, type)
-    return
-  }
+  const piniaMessage = '🍍' + message
 
-  if (type === 'error') {
-    console.error(message)
+  if (typeof __VUE_DEVTOOLS_TOAST__ !== 'undefined') {
+    __VUE_DEVTOOLS_TOAST__(piniaMessage, type)
+  } else if (type === 'error') {
+    console.error(piniaMessage)
   } else if (type === 'warning') {
-    console.warn(message)
+    console.warn(piniaMessage)
   } else {
-    console.log(message)
+    console.log(piniaMessage)
   }
 }
 
@@ -134,7 +133,7 @@ export function addDevtools(app: App, store: GenericStore) {
               options: formatStoreForInspectorState(store),
             }
           } else {
-            outputMessage(`🍍 store "${payload.nodeId}" not found`, 'error')
+            toastMessage(`store "${payload.nodeId}" not found`, 'error')
           }
         }
       })
@@ -142,7 +141,7 @@ export function addDevtools(app: App, store: GenericStore) {
       // trigger an update so it can display new registered stores
       // @ts-ignore
       api.notifyComponentUpdate()
-      outputMessage(`🍍 "${store.$id}" store installed`)
+      toastMessage(`"${store.$id}" store installed`)
     }
   )
 }
