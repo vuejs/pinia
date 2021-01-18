@@ -19,9 +19,9 @@ function toastMessage(
   message: string,
   type?: 'normal' | 'error' | 'warning' | undefined
 ) {
-  const piniaMessage = '🍍' + message
+  const piniaMessage = '🍍 ' + message
 
-  if (typeof __VUE_DEVTOOLS_TOAST__ !== 'undefined') {
+  if (typeof __VUE_DEVTOOLS_TOAST__ === 'function') {
     __VUE_DEVTOOLS_TOAST__(piniaMessage, type)
   } else if (type === 'error') {
     console.error(piniaMessage)
