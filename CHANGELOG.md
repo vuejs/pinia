@@ -1,3 +1,14 @@
+# [2.0.0-alpha.7](https://github.com/posva/pinia/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2021-01-21)
+
+### Bug Fixes
+
+- resilient _VUE_DEVTOOLS_TOAST_ ([#334](https://github.com/posva/pinia/issues/334)) ([c0cacd2](https://github.com/posva/pinia/commit/c0cacd2631d76d9d6de2b16d4106ad7decb51217))
+
+### Features
+
+- enable calling `useStore()` in client ([c949b80](https://github.com/posva/pinia/commit/c949b80391cae322f024b8cc369be351d5d6a693))
+- store plugins ([f027bf5](https://github.com/posva/pinia/commit/f027bf587b37c7fc30eba4da5f90d52d99e6536d))
+
 # [2.0.0-alpha.6](https://github.com/posva/pinia/compare/v2.0.0-alpha.5...v2.0.0-alpha.6) (2020-12-31)
 
 ### Bug Fixes
