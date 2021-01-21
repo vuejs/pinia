@@ -31,6 +31,30 @@ describe('Store', () => {
     })
   })
 
+  it('works without setting the active pinia', async () => {
+    const pinia = createPinia()
+    const useStore = defineStore({
+      id: 'main',
+      state: () => ({ n: 0 }),
+    })
+    const TestComponent = {
+      template: `<div>{{ store. n }}</div>`,
+      setup() {
+        const store = useStore()
+        return { store }
+      },
+    }
+    const w1 = mount(TestComponent, { global: { plugins: [pinia] } })
+    const w2 = mount(TestComponent, { global: { plugins: [pinia] } })
+    expect(w1.text()).toBe('0')
+    expect(w2.text()).toBe('0')
+
+    w1.vm.store.n++
+    await w1.vm.$nextTick()
+    expect(w1.text()).toBe('1')
+    expect(w2.text()).toBe('1')
+  })
+
   it('can be reset', () => {
     const store = useStore()
     store.$state.a = false
