@@ -554,9 +554,9 @@
     resolve "^1.17.0"
 
 "@rollup/plugin-node-resolve@^11.0.0":
-  version "11.0.1"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-11.0.1.tgz#d3765eec4bccf960801439a999382aed2dca959b"
-  integrity sha512-ltlsj/4Bhwwhb+Nb5xCz/6vieuEj2/BAkkqVIKmZwC7pIdl8srmgmglE4S0jFlZa32K4qvdQ6NHdmpRKD/LwoQ==
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-11.1.1.tgz#47bc34252914794a1b06fb50371d7520a03f91f3"
+  integrity sha512-zlBXR4eRS+2m79TsUZWhsd0slrHUYdRx4JF+aVQm+MI0wsKdlpC2vlDVjmlGvtZY1vsefOT9w3JxvmWSBei+Lg==
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     "@types/resolve" "1.17.1"
