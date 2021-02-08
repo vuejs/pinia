@@ -1035,9 +1035,9 @@
     "@vue/shared" "3.0.5"
 
 "@vue/devtools-api@^6.0.0-beta.2":
-  version "6.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.0-beta.5.tgz#722296bb0b93c4d0018b6a2beda1e781a3ff8789"
-  integrity sha512-Xik8/zF+cu1lQmhJy2djGudZ2OmSGGB25mjtTIGhMsNN7jvvwnn44kD6qSN22+PdnX6sAK+2EQ51WDCXWmitwg==
+  version "6.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.0-beta.6.tgz#bceabad6631156c57bdf790bfbbd5df27545e2a2"
+  integrity sha512-BRQOUjncqTRmYRXH76TWYYzi3O+Xhto2/wD6GN30pbFoYimgJHCwfYaeL8iSZ2aBTNHgO9Rd73qXt1kn9p3S8g==
 
 "@vue/reactivity@3.0.5":
   version "3.0.5"
