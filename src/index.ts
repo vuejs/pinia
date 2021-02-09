@@ -1,4 +1,4 @@
-export { createStore } from './store'
+export { defineStore } from './store'
 export { setActiveReq, setStateProvider, getRootState } from './rootStore'
 export {
   StateTree,

@@ -1,4 +1,4 @@
-import { createStore, setActiveReq, setStateProvider } from '../src'
+import { defineStore, setActiveReq, setStateProvider } from '../src'
 
 describe('Store', () => {
   let req: object
@@ -6,7 +6,7 @@ describe('Store', () => {
     // create a new store
     req = {}
     setActiveReq(req)
-    return createStore({
+    return defineStore({
       id: 'main',
       state: () => ({
         a: true,
@@ -47,14 +47,14 @@ describe('Store', () => {
   })
 
   it('can create an empty state if no state option is provided', () => {
-    const store = createStore({ id: 'some' })()
+    const store = defineStore({ id: 'some' })()
 
     expect(store.state).toEqual({})
   })
 
   it('can hydrate the state', () => {
     setActiveReq({})
-    const useStore = createStore({
+    const useStore = defineStore({
       id: 'main',
       state: () => ({
         a: true,
