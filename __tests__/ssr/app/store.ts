@@ -1,6 +1,6 @@
-import { createStore } from '../../../src'
+import { defineStore } from '../../../src'
 
-export const useStore = createStore({
+export const useStore = defineStore({
   id: 'main',
   state: () => ({
     counter: 0,

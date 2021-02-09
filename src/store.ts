@@ -174,10 +174,12 @@ export function buildStore<
 }
 
 /**
- * Creates a `useStore` function that retrieves the store instance
+ * Defines a `useStore()` function that creates or retrieves the store instance
+ * when called.
+ *
  * @param options
  */
-export function createStore<
+export function defineStore<
   Id extends string,
   S extends StateTree,
   G /* extends Record<string, StoreGetterThis> */,

@@ -2,7 +2,6 @@ import replace from '@rollup/plugin-replace'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import ts from 'rollup-plugin-typescript2'
-import alias from '@rollup/plugin-alias'
 import { terser } from 'rollup-plugin-terser'
 import path from 'path'
 import rimraf from 'rimraf'
@@ -33,16 +32,23 @@ function createEntry({
   // force production mode when minifying
   if (minify) env = 'production'
 
+  const isBundlerESMBuild = format == 'es'
+  const isNodeBuild = format == 'cjs'
+  const isProduction = env == 'production'
+
   const config = {
     input,
     plugins: [
       replace({
         __VERSION__: pkg.version,
+        __BROWSER__: JSON.stringify(isBrowser),
         'process.env.NODE_ENV': `'${env}'`,
-      }),
-      alias({
-        resolve: ['.ts', '.js'],
-        // entries: [{ find: 'firebase', replacement: path.join(__dirname, './stub') }],
+        __DEV__:
+          isBundlerESMBuild || (isNodeBuild && !isProduction)
+            ? // preserve to be handled by bundlers
+              `(process.env.NODE_ENV !== 'production')`
+            : // hard coded dev/prod builds
+              JSON.stringify(!isProduction),
       }),
     ],
     output: {

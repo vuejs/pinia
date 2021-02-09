@@ -40,12 +40,12 @@ describe('Getters', () => {
     })()
   }
 
-  const useB = createStore({
+  const useB = defineStore({
     id: 'B',
     state: () => ({ b: 'b' }),
   })
 
-  const useA = createStore({
+  const useA = defineStore({
     id: 'A',
     state: () => ({ a: 'a' }),
     getters: {

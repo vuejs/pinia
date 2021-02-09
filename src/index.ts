@@ -8,3 +8,5 @@ export {
   StoreWithState,
 } from './types'
 export { PiniaSsr } from './ssrPlugin'
+
+export { createStore } from './deprecated'

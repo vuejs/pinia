@@ -1,7 +1,7 @@
-import { createStore } from '../../src'
+import { defineStore } from '../../src'
 import { expectType, expectError } from 'tsd'
 
-const useStore = createStore({
+const useStore = defineStore({
   id: 'name',
   state: () => ({ a: 'on' as 'on' | 'off' }),
   getters: {

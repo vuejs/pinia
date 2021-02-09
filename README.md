@@ -8,11 +8,11 @@
 
 ## 👉 [Demo](https://vcuiu.csb.app/)
 
-⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works for Vue 2 by using the [official library](https://github.com/vuejs/composition-api).
+⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works for Vue 2 by using the [official plugin](https://github.com/vuejs/composition-api) to add Composition API support to Vue 2.
 
 **If you are looking for the version compatible with Vue 3.x, check the [`v2` branch](https://github.com/posva/pinia/tree/v2)**
 
-What I want is to inspire others to think about ways to improve Vuex and come up with something that works very well with the composition api. Ideally it could also be used without it. **@vue/composition-api is necessary**.
+What I want is to inspire others to think about ways to improve Vuex and come up with something that works very well with the composition api. Ideally it could also be used without it. Note **@vue/composition-api must be installed and used by your application** for Pinia to work.
 
 There are the core principles that I try to achieve with this experiment:
 
@@ -89,9 +89,9 @@ Note: **The Vue Composition API plugin must be installed for Pinia to work**
 You can create as many stores as you want, and they should each exist in different files:
 
 ```ts
-import { createStore } from 'pinia'
+import { defineStore } from 'pinia'
 
-export const useMainStore = createStore({
+export const useMainStore = defineStore({
   // name of the store
   // it is used in devtools and allows restoring state
   id: 'main',
@@ -120,7 +120,7 @@ export const useMainStore = createStore({
 })
 ```
 
-`createStore` returns a function that has to be called to get access to the store:
+`defineStore` returns a function that has to be called to get access to the store:
 
 ```ts
 import { useMainStore } from '@/stores/main'
@@ -351,12 +351,12 @@ setStateProvider(() => window.__PINIA_STATE__)
 
 ### Accessing other Stores
 
-You can `useOtherStore` inside a store `actions` and `getters`:
+You can `useOtherStore()` inside a store `actions` and `getters`:
 
 Actions are simply function that contain business logic. As with components, they **must call `useStore`** to retrieve the store:
 
 ```ts
-createStore({
+defineStore({
   id: 'cart',
   state: () => ({ items: [] }),
   getters: {
@@ -391,11 +391,11 @@ If you need to compute a value based on the `state` and/or `getters` of multiple
 To prevent this, **we follow the rule above** and we create a new file with a new store:
 
 ```ts
-import { createStore } from 'pinia'
+import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { useCartStore } from './cart'
 
-export const useSharedStore = createStore({
+export const useSharedStore = defineStore({
   id: 'shared',
   getters: {
     summary() {
@@ -413,11 +413,11 @@ export const useSharedStore = createStore({
 When an actions needs to use multiple stores, we do the same, we create a new file with a new store:
 
 ```ts
-import { createStore } from 'pinia'
+import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { useCartStore } from './cart'
 
-export const useSharedStore = createStore({
+export const useSharedStore = defineStore({
   id: 'shared',
   state: () => ({}),
   actions: {
@@ -436,42 +436,6 @@ export const useSharedStore = createStore({
 })
 ```
 
-#### Creating _Pinias_
-
-_Not implemented_. Still under discussion, needs more feedback as this doesn't seem necessary because it can be replaced by shared stores as shown above.
-
-Combine multiple _stores_ (gajos) into a new one:
-
-```ts
-import { pinia } from 'pinia'
-import { useUserStore } from './user'
-import { useCartStore, emptyCart } from './cart'
-
-export const useCartUserStore = pinia(
-  {
-    user: useUserStore,
-    cart: useCartStore,
-  },
-  {
-    getters: {
-      combinedGetter () {
-        return `Hi ${this.user.name}, you have ${this.cart.list.length} items in your cart. It costs ${this.cart.price}.`,
-      }
-    },
-    actions: {
-      async orderCart() {
-        try {
-          await apiOrderCart(this.user.token, this.cart.items)
-          this.cart.emptyCart()
-        } catch (err) {
-          displayError(err)
-        }
-      },
-    },
-  }
-)
-```
-
 ## TypeScript
 
 Pinia is conceived to make typing automatic, benefiting both, JS and, TS users. There are however different ways of handling types when using TS
@@ -486,7 +450,7 @@ interface MainState {
   name: string
 }
 
-export const useMainStore = createStore({
+export const useMainStore = defineStore({
   id: 'main',
   state: (): MainState => ({
     counter: 0,

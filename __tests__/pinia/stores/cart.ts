@@ -1,8 +1,8 @@
-import { createStore } from '../../../src'
+import { defineStore } from '../../../src'
 import { useUserStore, UserStore } from './user'
 import { PiniaStore, ExtractGettersFromStore } from 'src/store'
 
-export const useCartStore = createStore({
+export const useCartStore = defineStore({
   id: 'cart',
   state: () => ({
     rawItems: [] as string[],

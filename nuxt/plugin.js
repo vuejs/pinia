@@ -8,7 +8,7 @@ if (process.server) {
 }
 
 /** @type {import('@nuxt/types').Plugin} */
-const myPlugin = context => {
+const myPlugin = (context) => {
   // console.log('🍍 Pinia Nuxt plugin installed')
 
   if (process.server) {
