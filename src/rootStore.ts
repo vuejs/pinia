@@ -39,9 +39,8 @@ export const getActivePinia = () => {
 }
 
 /**
- * The api needs more work we must be able to use the store easily in any
- * function by calling `useStore` to get the store Instance and we also need to
- * be able to reset the store instance between applications on the server
+ * Map of stores based on a Pinia instance. Allows setting and retrieving stores
+ * for the current running application (with its pinia).
  */
 
 export const storesMap = new WeakMap<
@@ -154,7 +153,7 @@ export function createPinia(): Pinia {
 export interface PiniaCustomProperties {}
 
 /**
- * Registered stores
+ * Registered stores used for devtools. TODO: move to devtools
  */
 export const stores = /*#__PURE__*/ new Set<GenericStore>()
 

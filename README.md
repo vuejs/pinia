@@ -318,8 +318,9 @@ app.use(pinia)
 // after rendering the page, the root state is build and can be read
 // serialize, escape (VERY important if the content of the state can be changed
 // by the user, which is almost always the case), and place it somewhere on
-// the page, for example, as a global variable.
-JSON.stringify(pinia.state.value)
+// the page, for example, as a global variable. Note you need to use your own
+// `escapeHTML()` function or use an existing package
+escapeHTML(JSON.stringify(pinia.state.value))
 ```
 
 On client side, you must hydrate pinia's state before calling any `useStore()` function. For example, if we serialize the state into a `<script>` tag to make it accessible globally on client side through `window.__pinia`, we can write this:
