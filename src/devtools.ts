@@ -57,26 +57,26 @@ export function useStoreDevtools(store: StoreWithState<string, StateTree>) {
     devtoolHook.emit('vuex:init', rootStore)
   }
 
-  rootStore.state[store.id] = store.state
+  rootStore.state[store.$id] = store.$state
 
   // tell the devtools we added a module
-  rootStore.registerModule(store.id, store)
+  rootStore.registerModule(store.$id, store)
 
-  Object.defineProperty(rootStore.state, store.id, {
-    get: () => store.state,
-    set: (state) => (store.state = state),
+  Object.defineProperty(rootStore.state, store.$id, {
+    get: () => store.$state,
+    set: (state) => (store.$state = state),
   })
 
   // Vue.set(rootStore.state, store.name, store.state)
   // the trailing slash is removed by the devtools
-  rootStore._modulesNamespaceMap[store.id + '/'] = true
+  rootStore._modulesNamespaceMap[store.$id + '/'] = true
 
   devtoolHook.on('vuex:travel-to-state', (targetState) => {
-    store.state = targetState[store.id]
+    store.$state = targetState[store.$id]
   })
 
-  store.subscribe((mutation, state) => {
-    rootStore.state[store.id] = state
+  store.$subscribe((mutation, state) => {
+    rootStore.state[store.$id] = state
     devtoolHook.emit(
       'vuex:mutation',
       {

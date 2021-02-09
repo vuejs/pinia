@@ -1,5 +1,3 @@
-import { Ref } from '@vue/composition-api'
-
 export type StateTree = Record<string | number | symbol, any>
 
 export function isPlainObject(
@@ -16,8 +14,6 @@ export function isPlainObject(
 
 export type NonNullObject = Record<any, any>
 
-type TODO = any
-// type StoreMethod = TODO
 export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
 // type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
 
@@ -30,12 +26,12 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   /**
    * Unique identifier of the store
    */
-  id: Id
+  $id: Id
 
   /**
    * State of the Store. Setting it will replace the whole state.
    */
-  state: S
+  $state: S
 
   /**
    * Private property defining the request key for this store
@@ -44,22 +40,22 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
 
   /**
    * Applies a state patch to current state. Allows passing nested values
-   * @param partialState patch to apply to the state
+   * @param partialState - patch to apply to the state
    */
-  patch(partialState: DeepPartial<S>): void
+  $patch(partialState: DeepPartial<S>): void
 
   /**
    * Resets the store to its initial state by removing all subscriptions and
    * building a new state object
    */
-  reset(): void
+  $reset(): void
 
   /**
    * Setups a callback to be called whenever the state changes.
-   * @param callback callback that is called whenever the state
+   * @param callback - callback that is called whenever the state
    * @returns function that removes callback from subscriptions
    */
-  subscribe(callback: SubscriptionCallback<S>): () => void
+  $subscribe(callback: SubscriptionCallback<S>): () => void
 }
 
 export type Method = (...args: any[]) => any

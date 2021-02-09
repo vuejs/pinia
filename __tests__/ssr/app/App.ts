@@ -4,21 +4,21 @@ import { useStore } from './store'
 export default defineComponent({
   async serverPrefetch() {
     const store = useStore()
-    store.state.counter++
+    store.$state.counter++
   },
 
   setup() {
     const store = useStore()
 
-    const doubleCount = computed(() => store.state.counter * 2)
+    const doubleCount = computed(() => store.$state.counter * 2)
     function increment() {
-      store.state.counter++
+      store.$state.counter++
     }
 
     return {
       doubleCount,
       increment,
-      state: store.state,
+      state: store.$state,
     }
   },
 

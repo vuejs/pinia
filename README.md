@@ -168,7 +168,7 @@ const router = new Router({
 const main = useMainStore()
 
 router.beforeEach((to, from, next) => {
-  if (main.state.isLoggedIn) next()
+  if (main.$state.isLoggedIn) next()
   else next('/login')
 })
 ```
@@ -191,7 +191,7 @@ router.beforeEach((to, from, next) => {
   // ✅ This will work (requires an extra param for SSR, see below)
   const main = useMainStore()
 
-  if (main.state.isLoggedIn) next()
+  if (main.$state.isLoggedIn) next()
   else next('/login')
 })
 ```
@@ -246,23 +246,23 @@ To mutate the state you can either directly change something:
 main.counter++
 ```
 
-or call the method `patch` that allows you apply multiple changes at the same time with a partial `state` object:
+or call the method `$patch` that allows you apply multiple changes at the same time with a partial `state` object:
 
 ```ts
-main.patch({
+main.$patch({
   counter: -1,
   name: 'Abalam',
 })
 ```
 
-The main difference here is that `patch` allows you to group multiple changes into one single entry in the devtools.
+The main difference here is that `$patch` allows you to group multiple changes into one single entry in the devtools.
 
 ### Replacing the `state`
 
 Simply set it to a new object;
 
 ```ts
-main.state = { counter: 666, name: 'Paimon' }
+main.$state = { counter: 666, name: 'Paimon' }
 ```
 
 ### SSR

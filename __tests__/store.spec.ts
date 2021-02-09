@@ -20,7 +20,7 @@ describe('Store', () => {
 
   it('sets the initial state', () => {
     const store = useStore()
-    expect(store.state).toEqual({
+    expect(store.$state).toEqual({
       a: true,
       nested: {
         foo: 'foo',
@@ -31,13 +31,13 @@ describe('Store', () => {
 
   it('can be reset', () => {
     const store = useStore()
-    store.state.a = false
+    store.$state.a = false
     const spy = jest.fn()
-    store.subscribe(spy)
-    store.reset()
-    store.state.nested.foo = 'bar'
+    store.$subscribe(spy)
+    store.$reset()
+    store.$state.nested.foo = 'bar'
     expect(spy).not.toHaveBeenCalled()
-    expect(store.state).toEqual({
+    expect(store.$state).toEqual({
       a: true,
       nested: {
         foo: 'bar',
@@ -49,7 +49,7 @@ describe('Store', () => {
   it('can create an empty state if no state option is provided', () => {
     const store = defineStore({ id: 'some' })()
 
-    expect(store.state).toEqual({})
+    expect(store.$state).toEqual({})
   })
 
   it('can hydrate the state', () => {
@@ -77,7 +77,7 @@ describe('Store', () => {
 
     const store = useStore()
 
-    expect(store.state).toEqual({
+    expect(store.$state).toEqual({
       a: false,
       nested: {
         foo: 'bar',
@@ -88,7 +88,7 @@ describe('Store', () => {
 
   it('can replace its state', () => {
     const store = useStore()
-    store.state = {
+    store.$state = {
       a: false,
       nested: {
         foo: 'bar',
@@ -97,7 +97,7 @@ describe('Store', () => {
         },
       },
     }
-    expect(store.state).toEqual({
+    expect(store.$state).toEqual({
       a: false,
       nested: {
         foo: 'bar',
@@ -109,17 +109,17 @@ describe('Store', () => {
   it('do not share the state between same id store', () => {
     const store = useStore()
     const store2 = useStore()
-    expect(store.state).not.toBe(store2.state)
-    store.state.nested.a.b = 'hey'
-    expect(store2.state.nested.a.b).toBe('string')
+    expect(store.$state).not.toBe(store2.$state)
+    store.$state.nested.a.b = 'hey'
+    expect(store2.$state.nested.a.b).toBe('string')
   })
 
   it('subscribe to changes', () => {
     const store = useStore()
     const spy = jest.fn()
-    store.subscribe(spy)
+    store.$subscribe(spy)
 
-    store.state.a = false
+    store.$state.a = false
 
     expect(spy).toHaveBeenCalledWith(
       {
@@ -127,17 +127,17 @@ describe('Store', () => {
         storeName: 'main',
         type: expect.stringContaining('in place'),
       },
-      store.state
+      store.$state
     )
   })
 
   it('subscribe to changes done via patch', () => {
     const store = useStore()
     const spy = jest.fn()
-    store.subscribe(spy)
+    store.$subscribe(spy)
 
     const patch = { a: false }
-    store.patch(patch)
+    store.$patch(patch)
 
     expect(spy).toHaveBeenCalledWith(
       {
@@ -145,7 +145,7 @@ describe('Store', () => {
         storeName: 'main',
         type: expect.stringContaining('patch'),
       },
-      store.state
+      store.$state
     )
   })
 })

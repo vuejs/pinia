@@ -13,7 +13,7 @@ const useStore = defineStore({
 
 const store = useStore()
 
-expectType<{ a: 'on' | 'off' }>(store.state)
+expectType<{ a: 'on' | 'off' }>(store.$state)
 
 expectType<{ upper: string }>(store)
 

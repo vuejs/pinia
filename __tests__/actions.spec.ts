@@ -30,7 +30,7 @@ describe('Actions', () => {
         },
 
         setFoo(foo: string) {
-          this.patch({ nested: { foo } })
+          this.$patch({ nested: { foo } })
         },
 
         combined() {
@@ -52,34 +52,34 @@ describe('Actions', () => {
     actions: {
       swap() {
         const bStore = useB()
-        const b = bStore.state.b
-        bStore.state.b = this.state.a
-        this.state.a = b
+        const b = bStore.$state.b
+        bStore.$state.b = this.$state.a
+        this.$state.a = b
       },
     },
   })
 
   it('can use the store as this', () => {
     const store = useStore()
-    expect(store.state.a).toBe(true)
+    expect(store.$state.a).toBe(true)
     store.toggle()
-    expect(store.state.a).toBe(false)
+    expect(store.$state.a).toBe(false)
   })
 
   it('store is forced as the context', () => {
     const store = useStore()
-    expect(store.state.a).toBe(true)
+    expect(store.$state.a).toBe(true)
     store.toggle.call(null)
-    expect(store.state.a).toBe(false)
+    expect(store.$state.a).toBe(false)
   })
 
   it('can call other actions', () => {
     const store = useStore()
-    expect(store.state.a).toBe(true)
-    expect(store.state.nested.foo).toBe('foo')
+    expect(store.$state.a).toBe(true)
+    expect(store.$state.nested.foo).toBe('foo')
     store.combined()
-    expect(store.state.a).toBe(false)
-    expect(store.state.nested.foo).toBe('bar')
+    expect(store.$state.a).toBe(false)
+    expect(store.$state.nested.foo).toBe('bar')
   })
 
   it('supports being called between requests', () => {
@@ -91,12 +91,12 @@ describe('Actions', () => {
     // simulate a different request
     setActiveReq(req2)
     const bStore = useB()
-    bStore.state.b = 'c'
+    bStore.$state.b = 'c'
 
     aStore.swap()
-    expect(aStore.state.a).toBe('b')
+    expect(aStore.$state.a).toBe('b')
     // a different instance of b store was used
-    expect(bStore.state.b).toBe('c')
+    expect(bStore.$state.b).toBe('c')
   })
 
   it('can force the req', () => {
@@ -105,13 +105,13 @@ describe('Actions', () => {
     const aStore = useA(req1)
 
     let bStore = useB(req2)
-    bStore.state.b = 'c'
+    bStore.$state.b = 'c'
 
     aStore.swap()
-    expect(aStore.state.a).toBe('b')
+    expect(aStore.$state.a).toBe('b')
     // a different instance of b store was used
-    expect(bStore.state.b).toBe('c')
+    expect(bStore.$state.b).toBe('c')
     bStore = useB(req1)
-    expect(bStore.state.b).toBe('a')
+    expect(bStore.$state.b).toBe('a')
   })
 })

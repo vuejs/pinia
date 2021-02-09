@@ -66,24 +66,24 @@ export function buildStore<
   G extends Record<string, Method>,
   A extends Record<string, Method>
 >(
-  id: Id,
+  $id: Id,
   buildState = () => ({} as S),
   getters: G = {} as G,
   actions: A = {} as A,
   initialState?: S | undefined
 ): Store<Id, S, G, A> {
-  const state: Ref<S> = ref(initialState || buildState())
+  const $state: Ref<S> = ref(initialState || buildState())
   const _r = getActiveReq()
 
   let isListening = true
   let subscriptions: SubscriptionCallback<S>[] = []
 
   watch(
-    () => state.value,
+    () => $state.value,
     (state) => {
       if (isListening) {
         subscriptions.forEach((callback) => {
-          callback({ storeName: id, type: '🧩 in place', payload: {} }, state)
+          callback({ storeName: $id, type: '🧩 in place', payload: {} }, state)
         })
       }
     },
@@ -93,20 +93,20 @@ export function buildStore<
     }
   )
 
-  function patch(partialState: DeepPartial<S>): void {
+  function $patch(partialState: DeepPartial<S>): void {
     isListening = false
-    innerPatch(state.value, partialState)
+    innerPatch($state.value, partialState)
     isListening = true
     // because we paused the watcher, we need to manually call the subscriptions
     subscriptions.forEach((callback) => {
       callback(
-        { storeName: id, type: '⤵️ patch', payload: partialState },
-        state.value
+        { storeName: $id, type: '⤵️ patch', payload: partialState },
+        $state.value
       )
     })
   }
 
-  function subscribe(callback: SubscriptionCallback<S>) {
+  function $subscribe(callback: SubscriptionCallback<S>) {
     subscriptions.push(callback)
     return () => {
       const idx = subscriptions.indexOf(callback)
@@ -116,27 +116,27 @@ export function buildStore<
     }
   }
 
-  function reset() {
+  function $reset() {
     subscriptions = []
-    state.value = buildState()
+    $state.value = buildState()
   }
 
   const storeWithState: StoreWithState<Id, S> = {
-    id,
+    $id,
     _r,
     // @ts-ignore, `reactive` unwraps this making it of type S
-    state: computed<S>({
-      get: () => state.value,
+    $state: computed<S>({
+      get: () => $state.value,
       set: (newState) => {
         isListening = false
-        state.value = newState
+        $state.value = newState
         isListening = true
       },
     }),
 
-    patch,
-    subscribe,
-    reset,
+    $patch,
+    $subscribe,
+    $reset,
   }
 
   const computedGetters: StoreWithGetters<G> = {} as StoreWithGetters<G>
@@ -165,7 +165,7 @@ export function buildStore<
   const store: Store<Id, S, G, A> = reactive({
     ...storeWithState,
     // using this means no new properties can be added as state
-    ...toComputed(state),
+    ...toComputed($state),
     ...computedGetters,
     ...wrappedActions,
   }) as Store<Id, S, G, A>
