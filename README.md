@@ -268,10 +268,10 @@ The main difference here is that `$patch` allows you to group multiple changes i
 
 ### Replacing the `state`
 
-Simply set it to a new object;
+Simply set your store `$stet` property to a new object:
 
 ```ts
-main.state = { counter: 666, name: 'Paimon' }
+main.$state = { counter: 666, name: 'Paimon' }
 ```
 
 ### SSR
@@ -420,6 +420,14 @@ export const useSharedStore = defineStore({
   },
 })
 ```
+
+## Plugins
+
+TODO: `pinia.use()` + `interface PiniaCustomProperties` for TS
+
+## Subscribing to changes
+
+TODO: `store.$subscribe()`
 
 ## Related
 
