@@ -1,4 +1,5 @@
-import { VueConstructor } from 'vue/types'
+import { VueConstructor } from 'vue'
+// FIXME: migrate to setActivePinia
 import { setActiveReq } from './rootStore'
 import { SetupContext } from '@vue/composition-api'
 
