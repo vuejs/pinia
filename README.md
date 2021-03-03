@@ -4,7 +4,7 @@
 >
 > _Piña_ is also an invalid package name... that's why it has to be _pinia_ which sounds very similar
 
-🍍Automatically Typed, Modular and lightweight (but **Experimental**) Store for Vue based on the composition api with devtools support
+🍍Automatically Typed, Modular and lightweight Store for Vue based on the composition api with devtools support
 
 ## 👉 [Demo](https://vcuiu.csb.app/)
 
