@@ -1,11 +1,15 @@
-import { defineStore, setActiveReq } from '../src'
+import Vue from 'vue'
+import { defineStore, createPinia, setActivePinia, Pinia } from '../src'
 
 describe('Getters', () => {
   jest.useFakeTimers()
 
+  let pinia: Pinia
   const useStore = () => {
     // create a new store
-    setActiveReq({})
+    pinia = createPinia()
+    pinia.Vue = Vue
+    setActivePinia(pinia)
     return defineStore({
       id: 'main',
       state: () => ({
@@ -70,13 +74,15 @@ describe('Getters', () => {
   })
 
   it('supports changing between requests', () => {
-    const req1 = {}
-    const req2 = {}
-    setActiveReq(req1)
+    const pinia1 = createPinia()
+    pinia1.Vue = Vue
+    const pinia2 = createPinia()
+    pinia2.Vue = Vue
+    setActivePinia(pinia1)
     const aStore = useA()
 
     // simulate a different request
-    setActiveReq(req2)
+    setActivePinia(pinia2)
     const bStore = useB()
     bStore.b = 'c'
 

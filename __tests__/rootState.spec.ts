@@ -1,4 +1,5 @@
-import { defineStore, getRootState } from '../src'
+import { defineStore, createPinia } from '../src'
+import Vue from 'vue'
 
 describe('Root State', () => {
   const useA = defineStore({
@@ -12,35 +13,39 @@ describe('Root State', () => {
   })
 
   it('works with no stores', () => {
-    expect(getRootState({})).toEqual({})
+    expect(createPinia().state.value).toEqual({})
   })
 
   it('retrieves the root state of one store', () => {
-    const req = {}
-    useA(req)
-    expect(getRootState(req)).toEqual({
+    const pinia = createPinia()
+    pinia.Vue = Vue
+    useA(pinia)
+    expect(pinia.state.value).toEqual({
       a: { a: 'a' },
     })
   })
 
-  it('does not mix up different requests', () => {
-    const req1 = {}
-    const req2 = {}
-    useA(req1)
-    useB(req2)
-    expect(getRootState(req1)).toEqual({
+  it('does not mix up different applications', () => {
+    const pinia1 = createPinia()
+    pinia1.Vue = Vue
+    const pinia2 = createPinia()
+    pinia2.Vue = Vue
+    useA(pinia1)
+    useB(pinia2)
+    expect(pinia1.state.value).toEqual({
       a: { a: 'a' },
     })
-    expect(getRootState(req2)).toEqual({
+    expect(pinia2.state.value).toEqual({
       b: { b: 'b' },
     })
   })
 
   it('can hold multiple stores', () => {
-    const req1 = {}
-    useA(req1)
-    useB(req1)
-    expect(getRootState(req1)).toEqual({
+    const pinia1 = createPinia()
+    pinia1.Vue = Vue
+    useA(pinia1)
+    useB(pinia1)
+    expect(pinia1.state.value).toEqual({
       a: { a: 'a' },
       b: { b: 'b' },
     })

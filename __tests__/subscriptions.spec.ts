@@ -4,9 +4,9 @@ import { defineStore, setActivePinia, createPinia, Pinia } from '../src'
 describe('Subscriptions', () => {
   let pinia: Pinia
   const useStore = () => {
+    // create a new store
     pinia = createPinia()
     pinia.Vue = Vue
-    // create a new store
     setActivePinia(pinia)
     return defineStore({
       id: 'main',
