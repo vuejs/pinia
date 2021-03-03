@@ -1,4 +1,4 @@
-import { createPinia, defineStore, setActivePinia } from '../src'
+import { createPinia, defineStore, PiniaPlugin } from '../src'
 import { createLocalVue, mount } from '@vue/test-utils'
 import VueCompositionAPI, {
   watch,
@@ -32,7 +32,7 @@ describe('Store Lifespan', () => {
   const localVue = createLocalVue()
   localVue.use(VueCompositionAPI)
   const pinia = createPinia()
-  localVue.use(pinia)
+  localVue.use(PiniaPlugin)
 
   // FIXME: https://github.com/vuejs/vue-test-utils/issues/1799
 

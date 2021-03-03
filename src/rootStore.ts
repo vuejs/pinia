@@ -1,7 +1,6 @@
 import { InjectionKey, ref, Ref } from '@vue/composition-api'
 import { StateTree, StoreWithState, StateDescriptor } from './types'
 import Vue, { PluginFunction, VueConstructor } from 'vue'
-import { IS_CLIENT } from './env'
 
 /**
  * The api needs more work we must be able to use the store easily in any
@@ -35,8 +34,6 @@ export interface PiniaStorePlugin {
  * Every application must own its own pinia to be able to create stores
  */
 export interface Pinia {
-  install: PluginFunction<void>
-
   /**
    * root state
    */
@@ -74,6 +71,36 @@ declare module 'vue/types/options' {
   }
 }
 
+export const PiniaPlugin: PluginFunction<void> = function (_Vue) {
+  // Equivalent of
+  // app.config.globalProperties.$pinia = pinia
+  Vue.mixin({
+    beforeCreate() {
+      const options = this.$options
+      if (options.pinia) {
+        options.pinia.Vue = _Vue
+        // this allows calling useStore() outside of a component setup after
+        // installing pinia's plugin
+        setActivePinia(options.pinia)
+        // HACK: taken from provide(): https://github.com/vuejs/composition-api/blob/master/src/apis/inject.ts#L25
+        if (!(this as any)._provided) {
+          const provideCache = {}
+          Object.defineProperty(this, '_provided', {
+            get: () => provideCache,
+            set: (v) => Object.assign(provideCache, v),
+          })
+        }
+        ;(this as any)._provided[piniaSymbol as any] = options.pinia
+
+        // propagate the pinia instance in an SSR friendly way
+        this.$pinia = options.pinia
+      } else if (options.parent && options.parent.$pinia) {
+        this.$pinia = options.parent.$pinia
+      }
+    },
+  })
+}
+
 /**
  * Creates a Pinia instance to be used by the application
  */
@@ -83,49 +110,13 @@ export function createPinia(): Pinia {
   const state = ref({})
 
   const _p: Pinia['_p'] = []
-  // plugins added before calling app.use(pinia)
-  const toBeInstalled: PiniaStorePlugin[] = []
 
   const pinia: Pinia = {
     // this one is set in install
     Vue: {} as any,
-    install(Vue) {
-      // localApp = app
-      this.Vue = Vue
-      Vue.prototype.$pinia = pinia
-
-      // Equivalent of
-      // app.config.globalProperties.$pinia = pinia
-      Vue.mixin({
-        beforeCreate() {
-          const options = this.$options
-          if (options.pinia) {
-            // HACK: taken from provide(): https://github.com/vuejs/composition-api/blob/master/src/apis/inject.ts#L25
-            if (!(this as any)._provided) {
-              const provideCache = {}
-              Object.defineProperty(this, '_provided', {
-                get: () => provideCache,
-                set: (v) => Object.assign(provideCache, v),
-              })
-            }
-            ;(this as any)._provided[piniaSymbol as any] = options.pinia
-          }
-        },
-      })
-
-      // this allows calling useStore() outside of a component setup after
-      // installing pinia's plugin
-      setActivePinia(pinia)
-
-      toBeInstalled.forEach((plugin) => _p.push(plugin.bind(null, pinia)))
-    },
 
     use(plugin) {
-      if (!pinia.Vue) {
-        toBeInstalled.push(plugin)
-      } else {
-        _p.push(plugin.bind(null, pinia))
-      }
+      _p.push(plugin.bind(null, pinia))
     },
 
     _p,
@@ -158,8 +149,9 @@ export const getActivePinia = () => {
   if (__DEV__ && !activePinia) {
     console.warn(
       `[🍍]: getActivePinia was called with no active Pinia. Did you forget to install pinia and inject it?\n\n` +
+        `import { PiniaPlugin, createPinia } from 'pinia'\n\n` +
+        `Vue.use(PiniaPlugin)\n` +
         `const pinia = createPinia()\n` +
-        `Vue.use(pinia)\n` +
         `new Vue({ el: '#app', pinia })\n\n` +
         `This will fail in production.`
     )

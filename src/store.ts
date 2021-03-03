@@ -28,7 +28,6 @@ import {
   PiniaCustomProperties,
   piniaSymbol,
 } from './rootStore'
-import Vue from 'vue'
 
 const isClient = typeof window != 'undefined'
 
