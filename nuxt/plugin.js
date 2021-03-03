@@ -13,7 +13,7 @@ const myPlugin = (context, inject) => {
   context.app.pinia = pinia
   setActivePinia(pinia)
 
-  inject('pinia', pinia)
+  pinia.use(() => ({ $nuxt: context }))
 
   if (process.server) {
     context.beforeNuxtRender(({ nuxtState }) => {
