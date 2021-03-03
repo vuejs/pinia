@@ -4,7 +4,7 @@ import { useStore } from './store'
 export default defineComponent({
   async serverPrefetch() {
     const store = useStore()
-    store.$state.counter++
+    store.counter++
   },
 
   setup() {
@@ -12,7 +12,7 @@ export default defineComponent({
 
     const doubleCount = computed(() => store.$state.counter * 2)
     function increment() {
-      store.$state.counter++
+      store.counter++
     }
 
     return {

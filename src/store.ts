@@ -5,6 +5,7 @@ import {
   Ref,
   getCurrentInstance,
   markRaw,
+  inject,
 } from '@vue/composition-api'
 import {
   StateTree,
@@ -25,6 +26,7 @@ import {
   setActivePinia,
   getActivePinia,
   PiniaCustomProperties,
+  piniaSymbol,
 } from './rootStore'
 import Vue from 'vue'
 
@@ -274,12 +276,14 @@ export function defineStore<
   const { id, state, getters, actions } = options
 
   return function useStore(pinia?: Pinia | null): Store<Id, S, G, A> {
-    const vm = getCurrentInstance()
-    pinia = pinia || (vm && ((vm as any).$pinia as Pinia))
+    // const vm = getCurrentInstance()
+    // pinia = pinia || (vm && ((vm as any).$pinia as Pinia))
+    pinia = pinia || (getCurrentInstance() && inject(piniaSymbol))
 
     if (pinia) setActivePinia(pinia)
 
     pinia = getActivePinia()
+
     let stores = storesMap.get(pinia)
     if (!stores) storesMap.set(pinia, (stores = new Map()))
 
