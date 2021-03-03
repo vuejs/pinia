@@ -1,6 +1,6 @@
 import { createPinia, defineStore, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
-import { watch, nextTick, ref } from 'vue'
+import { watch, nextTick, defineComponent } from 'vue'
 
 describe('Store Lifespan', () => {
   function defineMyStore() {
@@ -26,44 +26,6 @@ describe('Store Lifespan', () => {
   }
 
   const pinia = createPinia()
-  // let pinia: object
-
-  // const useStore = () => {
-  //   // create a new store
-  //   pinia = {}
-  //   setActivePinia(pinia)
-  //   return defineMyStore()()
-  // }
-
-  it('bug report', async () => {
-    const inComponentWatch = jest.fn()
-
-    const n = ref(0)
-
-    const wrapper = mount(
-      {
-        render: () => null,
-        setup() {
-          watch(() => n.value, inComponentWatch)
-          n.value++
-        },
-      },
-      {
-        global: {
-          plugins: [pinia],
-        },
-      }
-    )
-
-    await wrapper.unmount()
-
-    expect(inComponentWatch).toHaveBeenCalledTimes(1)
-
-    // store!.n++
-    n.value++
-    await nextTick()
-    expect(inComponentWatch).toHaveBeenCalledTimes(1)
-  })
 
   it('state reactivity outlives component life', async () => {
     const useStore = defineMyStore()
@@ -71,35 +33,40 @@ describe('Store Lifespan', () => {
 
     const inComponentWatch = jest.fn()
 
-    let store: ReturnType<typeof useStore>
-
-    const n = ref(0)
-
-    const wrapper = mount(
-      {
-        render: () => null,
-        setup() {
-          store = useStore()
-          // watch(() => store.n, inComponentWatch)
-          watch(() => n.value, inComponentWatch)
-          store.n++
-          n.value++
-        },
+    const Component = defineComponent({
+      render: () => null,
+      setup() {
+        const store = useStore()
+        watch(() => store.n, inComponentWatch)
+        store.n++
       },
-      {
-        global: {
-          plugins: [pinia],
-        },
-      }
-    )
+    })
+
+    const options = {
+      global: {
+        plugins: [pinia],
+      },
+    }
+
+    let wrapper = mount(Component, options)
 
     await wrapper.unmount()
 
     expect(inComponentWatch).toHaveBeenCalledTimes(1)
 
-    // store!.n++
-    n.value++
+    let store = useStore()
+    store.n++
     await nextTick()
     expect(inComponentWatch).toHaveBeenCalledTimes(1)
+
+    wrapper = mount(Component, options)
+    await wrapper.unmount()
+
+    expect(inComponentWatch).toHaveBeenCalledTimes(2)
+
+    store = useStore()
+    store.n++
+    await nextTick()
+    expect(inComponentWatch).toHaveBeenCalledTimes(2)
   })
 })
