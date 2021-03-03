@@ -1,4 +1,4 @@
-import { createPinia, defineStore, setActivePinia } from '../src'
+import { createPinia, defineStore } from '../src'
 import { mount } from '@vue/test-utils'
 import { watch, nextTick, defineComponent } from 'vue'
 
@@ -29,7 +29,6 @@ describe('Store Lifespan', () => {
 
   it('state reactivity outlives component life', async () => {
     const useStore = defineMyStore()
-    setActivePinia(createPinia())
 
     const inComponentWatch = jest.fn()
 
