@@ -137,6 +137,7 @@ export function createPinia(): Pinia {
     install(Vue) {
       // localApp = app
       this.Vue = Vue
+      Vue.prototype.$pinia = pinia
 
       // Equivalent of
       // app.config.globalProperties.$pinia = pinia
@@ -146,19 +147,15 @@ export function createPinia(): Pinia {
           // Make pinia accessible everywhere through this.$pinia
           // FIXME: typings
           if (options.pinia) {
-            ;(this as any).$pinia = options.pinia
             // HACK: taken from provide(): https://github.com/vuejs/composition-api/blob/master/src/apis/inject.ts#L25
-            // TODO: check if necessary
-            // if (!(this as any)._provided) {
-            //   const provideCache = {}
-            //   Object.defineProperty(this, '_provided', {
-            //     get: () => provideCache,
-            //     set: (v) => Object.assign(provideCache, v),
-            //   })
-            // }
-            // ;(this as any)._provided[piniaSymbol as any] = options.pinia
-          } else if (options.parent && options.parent.$pinia) {
-            ;(this as any).$pinia = options.parent.$pinia
+            if (!(this as any)._provided) {
+              const provideCache = {}
+              Object.defineProperty(this, '_provided', {
+                get: () => provideCache,
+                set: (v) => Object.assign(provideCache, v),
+              })
+            }
+            ;(this as any)._provided[piniaSymbol as any] = options.pinia
           }
         },
       })
