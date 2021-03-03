@@ -80,8 +80,8 @@ function initStore<Id extends string, S extends StateTree>(
   buildState: () => S = () => ({} as S),
   initialState?: S | undefined
 ): [StoreWithState<Id, S>, { get: () => S; set: (newValue: S) => void }] {
-  const _p = getActivePinia()
-  _p.state.value[$id] = initialState || buildState()
+  const pinia = getActivePinia()
+  pinia.state.value[$id] = initialState || buildState()
   // const state: Ref<S> = toRef(_p.state.value, $id)
 
   let isListening = true
@@ -89,13 +89,13 @@ function initStore<Id extends string, S extends StateTree>(
 
   function $patch(partialState: DeepPartial<S>): void {
     isListening = false
-    innerPatch(_p.state.value[$id], partialState)
+    innerPatch(pinia.state.value[$id], partialState)
     isListening = true
     // because we paused the watcher, we need to manually call the subscriptions
     subscriptions.forEach((callback) => {
       callback(
         { storeName: $id, type: '⤵️ patch', payload: partialState },
-        _p.state.value[$id]
+        pinia.state.value[$id]
       )
     })
   }
@@ -106,7 +106,7 @@ function initStore<Id extends string, S extends StateTree>(
     // watch here to link the subscription to the current active instance
     // e.g. inside the setup of a component
     const stopWatcher = watch(
-      () => _p.state.value[$id],
+      () => pinia.state.value[$id],
       (state) => {
         if (isListening) {
           subscriptions.forEach((callback) => {
@@ -134,12 +134,12 @@ function initStore<Id extends string, S extends StateTree>(
 
   function $reset() {
     subscriptions = []
-    _p.state.value[$id] = buildState()
+    pinia.state.value[$id] = buildState()
   }
 
   const storeWithState: StoreWithState<Id, S> = {
     $id,
-    _p,
+    _p: pinia,
 
     // $state is added underneath
 
@@ -151,10 +151,10 @@ function initStore<Id extends string, S extends StateTree>(
   return [
     storeWithState,
     {
-      get: () => _p.state.value[$id] as S,
+      get: () => pinia.state.value[$id] as S,
       set: (newState: S) => {
         isListening = false
-        _p.state.value[$id] = newState
+        pinia.state.value[$id] = newState
         isListening = true
       },
     },
@@ -185,12 +185,12 @@ function buildStoreToUse<
   getters: G = {} as G,
   actions: A = {} as A
 ) {
-  const _p = getActivePinia()
+  const pinia = getActivePinia()
 
   const computedGetters: StoreWithGetters<G> = {} as StoreWithGetters<G>
   for (const getterName in getters) {
     computedGetters[getterName] = computed(() => {
-      setActivePinia(_p)
+      setActivePinia(pinia)
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       return getters[getterName].call(store, store)
     }) as StoreWithGetters<G>[typeof getterName]
@@ -199,13 +199,13 @@ function buildStoreToUse<
   const wrappedActions: StoreWithActions<A> = {} as StoreWithActions<A>
   for (const actionName in actions) {
     wrappedActions[actionName] = function () {
-      setActivePinia(_p)
+      setActivePinia(pinia)
       // eslint-disable-next-line
       return actions[actionName].apply(store, (arguments as unknown) as any[])
     } as StoreWithActions<A>[typeof actionName]
   }
 
-  const extensions = _p._p.reduce(
+  const extensions = pinia._p.reduce(
     (extended, extender) => ({
       ...extended,
       ...extender(),
@@ -217,7 +217,7 @@ function buildStoreToUse<
     ...extensions,
     ...partialStore,
     // using this means no new properties can be added as state
-    ...computedFromState(_p.state, $id),
+    ...computedFromState(pinia.state, $id),
     ...computedGetters,
     ...wrappedActions,
   }) as Store<Id, S, G, A>
