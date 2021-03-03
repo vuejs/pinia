@@ -1,21 +1,7 @@
 import { InjectionKey, ref, Ref } from '@vue/composition-api'
-import {
-  NonNullObject,
-  StateTree,
-  GenericStore,
-  StoreWithState,
-  StateDescriptor,
-} from './types'
+import { StateTree, StoreWithState, StateDescriptor } from './types'
 import Vue, { PluginFunction, VueConstructor } from 'vue'
-
-/**
- * setActiveReq must be called to handle SSR at the top of functions like `fetch`, `setup`, `serverPrefetch` and others
- */
-export let activeReq: NonNullObject = {}
-export const setActiveReq = (req: NonNullObject | undefined) =>
-  req && (activeReq = req)
-
-export const getActiveReq = () => activeReq
+import { IS_CLIENT } from './env'
 
 /**
  * The api needs more work we must be able to use the store easily in any
@@ -27,47 +13,6 @@ export const storesMap = new WeakMap<
   Pinia,
   Map<string, [StoreWithState<string, StateTree>, StateDescriptor<StateTree>]>
 >()
-
-/**
- * A state provider allows to set how states are stored for hydration. e.g. setting a property on a context, getting a property from window
- */
-interface StateProvider {
-  (): Record<string, StateTree>
-}
-
-/**
- * Map of initial states used for hydration
- */
-export const stateProviders = new WeakMap<NonNullObject, StateProvider>()
-
-export function setStateProvider(stateProvider: StateProvider) {
-  stateProviders.set(getActiveReq(), stateProvider)
-}
-
-export function getInitialState(id: string): StateTree | undefined {
-  const provider = stateProviders.get(getActiveReq())
-  return provider && provider()[id]
-}
-
-/**
- * Gets the root state of all active stores. This is useful when reporting an application crash by
- * retrieving the problematic state and send it to your error tracking service.
- * @param req request key
- */
-export function getRootState(req: NonNullObject): Record<string, StateTree> {
-  const stores = storesMap.get(req)
-  if (!stores) return {}
-  const rootState = {} as Record<string, StateTree>
-
-  // forEach is the only one that also works on IE11
-  stores.forEach((store) => {
-    rootState[store.$id] = store.$state
-  })
-
-  return rootState
-}
-
-// ----------------------------------
 
 /**
  * Properties that are added to every store by `pinia.use()`
@@ -153,9 +98,7 @@ export function createPinia(): Pinia {
       // app.config.globalProperties.$pinia = pinia
       Vue.mixin({
         beforeCreate() {
-          const options = this.$options as any
-          // Make pinia accessible everywhere through this.$pinia
-          // FIXME: typings
+          const options = this.$options
           if (options.pinia) {
             // HACK: taken from provide(): https://github.com/vuejs/composition-api/blob/master/src/apis/inject.ts#L25
             if (!(this as any)._provided) {
@@ -170,13 +113,9 @@ export function createPinia(): Pinia {
         },
       })
 
-      // only set the app on client for devtools
-      if (__BROWSER__ && IS_CLIENT) {
-        // setClientApp(app)
-        // this allows calling useStore() outside of a component setup after
-        // installing pinia's plugin
-        setActivePinia(pinia)
-      }
+      // this allows calling useStore() outside of a component setup after
+      // installing pinia's plugin
+      setActivePinia(pinia)
 
       toBeInstalled.forEach((plugin) => _p.push(plugin.bind(null, pinia)))
     },
