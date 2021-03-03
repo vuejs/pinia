@@ -1,20 +1,26 @@
 // @ts-check
 import Vue from 'vue'
 // @ts-ignore: this must be pinia to load the local module
-import { setActiveReq, setStateProvider, getRootState } from 'pinia'
+import { setActivePinia, PiniaPlugin, createPinia } from 'pinia'
+
+Vue.use(PiniaPlugin)
 
 /** @type {import('@nuxt/types').Plugin} */
-const myPlugin = (context) => {
-  // console.log('🍍 Pinia Nuxt plugin installed')
+const myPlugin = (context, inject) => {
+  // console.log(context)
 
-  // TODO: figure this out
+  const pinia = createPinia()
+  context.app.pinia = pinia
+  setActivePinia(pinia)
+
+  inject('pinia', pinia)
+
   if (process.server) {
-    setActiveReq(context.req)
     context.beforeNuxtRender(({ nuxtState }) => {
-      nuxtState.pinia = getRootState(context.req)
+      nuxtState.pinia = pinia.state.value
     })
   } else if (context.nuxtState && context.nuxtState.pinia) {
-    setStateProvider(() => context.nuxtState.pinia)
+    pinia.state.value = context.nuxtState.pinia
   }
 }
 
