@@ -8,7 +8,7 @@
 
 ## 👉 [Demo](https://vcuiu.csb.app/)
 
-⚠️⚠️⚠️ This project is experimental, it's an exploration of what a _Store_ could be like using [the composition api](https://vue-composition-api-rfc.netlify.com). It works for Vue 2 by using the [official plugin](https://github.com/vuejs/composition-api) to add Composition API support to Vue 2.
+Pinia works for Vue 2 by using the [official plugin](https://github.com/vuejs/composition-api) to add Composition API support to Vue 2.
 
 **If you are looking for the version compatible with Vue 3.x, check the [`v2` branch](https://github.com/posva/pinia/tree/v2)**
 
