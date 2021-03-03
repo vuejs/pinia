@@ -1,11 +1,14 @@
-import { defineStore, setActiveReq, setStateProvider } from '../src'
+import Vue from 'vue'
+import { createPinia, defineStore, Pinia, setActivePinia } from '../src'
 
 describe('Store', () => {
-  let req: object
+  let pinia: Pinia
   const useStore = () => {
     // create a new store
-    req = {}
-    setActiveReq(req)
+    pinia = createPinia()
+    // this is done by Vue.install(pinia)
+    pinia.Vue = Vue
+    setActivePinia(pinia)
     return defineStore({
       id: 'main',
       state: () => ({
@@ -53,7 +56,9 @@ describe('Store', () => {
   })
 
   it('can hydrate the state', () => {
-    setActiveReq({})
+    const pinia = createPinia()
+    pinia.Vue = Vue
+    setActivePinia(pinia)
     const useStore = defineStore({
       id: 'main',
       state: () => ({
@@ -65,7 +70,7 @@ describe('Store', () => {
       }),
     })
 
-    setStateProvider(() => ({
+    pinia.state.value = {
       main: {
         a: false,
         nested: {
@@ -73,7 +78,7 @@ describe('Store', () => {
           a: { b: 'string' },
         },
       },
-    }))
+    }
 
     const store = useStore()
 

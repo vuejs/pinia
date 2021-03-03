@@ -1,5 +1,15 @@
 export { defineStore } from './store'
-export { setActiveReq, setStateProvider, getRootState } from './rootStore'
+export {
+  setActiveReq,
+  setStateProvider,
+  getRootState,
+  Pinia,
+  PiniaStorePlugin,
+  PiniaCustomProperties,
+  createPinia,
+  setActivePinia,
+  getActivePinia,
+} from './rootStore'
 export {
   StateTree,
   Store,
