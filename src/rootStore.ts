@@ -117,6 +117,17 @@ export interface Pinia {
   Vue: VueConstructor<Vue>
 }
 
+declare module 'vue/types/vue' {
+  interface Vue {
+    $pinia: Pinia
+  }
+}
+
+declare module 'vue/types/options' {
+  interface ComponentOptions<V extends Vue> {
+    pinia?: Pinia
+  }
+}
 
 /**
  * Creates a Pinia instance to be used by the application
