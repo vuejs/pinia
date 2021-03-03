@@ -117,7 +117,6 @@ export interface Pinia {
   Vue: VueConstructor<Vue>
 }
 
-export const IS_CLIENT = typeof window !== 'undefined'
 
 /**
  * Creates a Pinia instance to be used by the application
