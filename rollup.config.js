@@ -61,6 +61,7 @@ function createEntry({
 
       globals: {
         '@vue/composition-api': 'vueCompositionApi',
+        vue: 'Vue',
       },
     },
   }
