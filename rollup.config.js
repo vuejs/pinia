@@ -40,15 +40,18 @@ function createEntry({
     input,
     plugins: [
       replace({
-        __VERSION__: pkg.version,
-        __BROWSER__: JSON.stringify(isBrowser),
-        'process.env.NODE_ENV': `'${env}'`,
-        __DEV__:
-          isBundlerESMBuild || (isNodeBuild && !isProduction)
-            ? // preserve to be handled by bundlers
-              `(process.env.NODE_ENV !== 'production')`
-            : // hard coded dev/prod builds
-              JSON.stringify(!isProduction),
+        preventAssignment: true,
+        values: {
+          __VERSION__: pkg.version,
+          __BROWSER__: JSON.stringify(isBrowser),
+          'process.env.NODE_ENV': `'${env}'`,
+          __DEV__:
+            isBundlerESMBuild || (isNodeBuild && !isProduction)
+              ? // preserve to be handled by bundlers
+                `(process.env.NODE_ENV !== 'production')`
+              : // hard coded dev/prod builds
+                JSON.stringify(!isProduction),
+        },
       }),
     ],
     output: {
@@ -96,12 +99,12 @@ function createEntry({
     config.plugins.push(
       terser({
         module: format === 'es',
-        output: {
-          // comments: false,
-          // already added by rollup
-          // only necessary if removing others
-          //   preamble: banner,
-        },
+        // output: {
+        // comments: false,
+        // already added by rollup
+        // only necessary if removing others
+        //   preamble: banner,
+        // },
       })
     )
     config.output.file = config.output.file.replace(/\.js$/i, '.min.js')
