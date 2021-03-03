@@ -1,16 +1,13 @@
 // @ts-check
 import Vue from 'vue'
 // @ts-ignore: this must be pinia to load the local module
-import { setActiveReq, PiniaSsr, setStateProvider, getRootState } from 'pinia'
-
-if (process.server) {
-  Vue.use(PiniaSsr)
-}
+import { setActiveReq, setStateProvider, getRootState } from 'pinia'
 
 /** @type {import('@nuxt/types').Plugin} */
 const myPlugin = (context) => {
   // console.log('🍍 Pinia Nuxt plugin installed')
 
+  // TODO: figure this out
   if (process.server) {
     setActiveReq(context.req)
     context.beforeNuxtRender(({ nuxtState }) => {
