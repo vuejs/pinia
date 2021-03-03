@@ -1,9 +1,13 @@
-import { defineStore, setActiveReq } from '../src'
+import Vue from 'vue'
+import { defineStore, setActivePinia, createPinia, Pinia } from '../src'
 
 describe('Subscriptions', () => {
+  let pinia: Pinia
   const useStore = () => {
+    pinia = createPinia()
+    pinia.Vue = Vue
     // create a new store
-    setActiveReq({})
+    setActivePinia(pinia)
     return defineStore({
       id: 'main',
       state: () => ({

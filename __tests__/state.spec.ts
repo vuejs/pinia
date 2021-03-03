@@ -1,10 +1,14 @@
-import { defineStore, setActiveReq } from '../src'
 import { computed } from '@vue/composition-api'
+import Vue from 'vue'
+import { defineStore, setActivePinia, createPinia, Pinia } from '../src'
 
 describe('State', () => {
+  let pinia: Pinia
   const useStore = () => {
     // create a new store
-    setActiveReq({})
+    pinia = createPinia()
+    pinia.Vue = Vue
+    setActivePinia(pinia)
     return defineStore({
       id: 'main',
       state: () => ({
