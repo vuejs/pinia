@@ -4,7 +4,7 @@
 >
 > _Piña_ is also an invalid package name... that's why it has to be _pinia_ which sounds very similar
 
-🍍 Automatically Typed, Modular and lightweight (but **Experimental**) Store for Vue 3.x based on the composition api with devtools support
+🍍 Automatically Typed, Modular and lightweight Store for Vue 3.x based on the composition api with devtools support
 
 ## 👉 [Demo on CodeSandbox](https://j4qzw.csb.app/)
 
@@ -98,7 +98,6 @@ app.use(createPinia())
 ```
 
 This will also add devtools support. Some features like time traveling and editing are still not supported because vue-devtools doesn't expose the necessary APIs yet.
-**NOTE**: this API is still experimental and is currently only used for devtools and SSR but that might change in the future.
 
 ### Creating a Store
 
