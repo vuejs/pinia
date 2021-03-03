@@ -1,4 +1,5 @@
 import { DevtoolHook, StateTree, StoreWithState } from './types'
+import { assign } from './utils'
 
 const target =
   typeof window !== 'undefined'
@@ -79,10 +80,10 @@ export function useStoreDevtools(store: StoreWithState<string, StateTree>) {
     rootStore.state[store.$id] = state
     devtoolHook.emit(
       'vuex:mutation',
-      {
-        ...mutation,
-        type: `[${mutation.storeName}] ${mutation.type}`,
-      },
+      assign({},
+        mutation,
+        {type: `[${mutation.storeName}] ${mutation.type}`,
+      }),
       rootStore.state
     )
   })
