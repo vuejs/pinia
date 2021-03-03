@@ -317,16 +317,12 @@ In a Raw Vue SSR application you have to modify a few files to enable hydration 
 
 ```js
 // entry-server.js
-import { getRootState, PiniaSsr } from 'pinia'
-
-// install plugin to automatically use correct context in setup and onServerPrefetch
-Vue.use(PiniaSsr)
-
 export default (context) => {
+  const pinia = createPinia()
   /* ... */
   context.rendered = () => {
     // pass state to context
-    context.piniaState = getRootState(context.req)
+    context.piniaState = pinia.state.value
   }
   /* ... */
 }
@@ -345,8 +341,11 @@ export default (context) => {
 // entry-client.js
 import { setStateProvider } from 'pinia'
 
+const pinia = createPinia()
+// install and inject pinia...
+// ...
 // inject ssr-state
-setStateProvider(() => window.__PINIA_STATE__)
+pinia.state.value = window.__PINIA_STATE__
 ```
 
 ### Accessing other Stores
