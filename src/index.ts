@@ -2,6 +2,7 @@ export {
   setActivePinia,
   createPinia,
   Pinia,
+  PiniaPlugin,
   PiniaStorePlugin,
   PiniaCustomProperties,
 } from './rootStore'
