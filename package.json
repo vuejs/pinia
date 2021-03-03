@@ -1,7 +1,7 @@
 {
   "name": "pinia",
   "version": "0.1.0",
-  "description": "Some awesome description",
+  "description": "Intuitive, type safe and light Store for Vue",
   "main": "dist/pinia.common.js",
   "module": "dist/pinia.esm.js",
   "unpkg": "dist/pinia.js",
@@ -32,7 +32,22 @@
   "tsd": {
     "directory": "__tests__/dts"
   },
-  "keywords": [],
+  "keywords": [
+    "vue",
+    "vuex",
+    "store",
+    "pinia",
+    "piña",
+    "pigna",
+    "composition",
+    "api",
+    "setup",
+    "typed",
+    "typescript",
+    "ts",
+    "type",
+    "safe"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@nuxt/types": "^2.15.2",
@@ -42,6 +57,7 @@
     "@typescript-eslint/eslint-plugin": "^2.20.0",
     "@typescript-eslint/parser": "^2.20.0",
     "@vue/composition-api": "^1.0.0-rc.3",
+    "@vue/test-utils": "^1.1.3",
     "codecov": "^3.8.1",
     "eslint": "^6.4.0",
     "eslint-config-prettier": "^6.10.0",
@@ -60,7 +76,8 @@
     "tsd": "^0.14.0",
     "typescript": "^4.2.2",
     "vue": "^2.6.11",
-    "vue-server-renderer": "^2.6.11"
+    "vue-server-renderer": "^2.6.11",
+    "vue-template-compiler": "^2.6.12"
   },
   "repository": {
     "type": "git",
