@@ -43,6 +43,9 @@ export interface Pinia {
   /**
    * Adds a store plugin to extend every store
    *
+   * @alpha DO NOT USE, The plugin architecture will change to provide more
+   * customization options.
+   *
    * @param plugin - store plugin to add
    */
   use(plugin: PiniaStorePlugin): void
