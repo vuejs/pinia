@@ -142,7 +142,7 @@ If you are using TypeScript, you should also add the types for `context.pinia`:
 {
   "include": [
     // ...
-    "nuxt/types'"
+    "pinia/nuxt/types"
   ]
 }
 ```
