@@ -1,6 +1,7 @@
 import { InjectionKey, ref, Ref } from '@vue/composition-api'
 import { StateTree, StoreWithState, StateDescriptor } from './types'
-import Vue, { PluginFunction, VueConstructor } from 'vue'
+import { PluginFunction, VueConstructor } from 'vue'
+import type Vue from 'vue'
 
 /**
  * The api needs more work we must be able to use the store easily in any
@@ -74,7 +75,7 @@ declare module 'vue/types/options' {
 export const PiniaPlugin: PluginFunction<void> = function (_Vue) {
   // Equivalent of
   // app.config.globalProperties.$pinia = pinia
-  Vue.mixin({
+  _Vue.mixin({
     beforeCreate() {
       const options = this.$options
       if (options.pinia) {
