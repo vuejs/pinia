@@ -5,6 +5,7 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import pascalcase from 'pascalcase'
 
+// eslint-disable-next-line
 const pkg = require('./package.json')
 const name = pkg.name
 
@@ -70,7 +71,7 @@ export default packageConfigs
 
 function createConfig(format, output, plugins = []) {
   if (!output) {
-    console.log(require('chalk').yellow(`invalid format: "${format}"`))
+    console.warn(`invalid format: "${format}"`)
     process.exit(1)
   }
 
@@ -185,6 +186,7 @@ function createProductionConfig(format) {
 }
 
 function createMinifiedConfig(format) {
+  // eslint-disable-next-line
   const { terser } = require('rollup-plugin-terser')
   return createConfig(
     format,
