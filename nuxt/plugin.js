@@ -11,6 +11,7 @@ const myPlugin = (context, inject) => {
 
   const pinia = createPinia()
   context.app.pinia = pinia
+  context.pinia = pinia
   setActivePinia(pinia)
 
   pinia.use(() => ({ $nuxt: context }))
