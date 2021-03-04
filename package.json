@@ -13,7 +13,7 @@
     "email": "posva13@gmail.com"
   },
   "scripts": {
-    "build": "rollup -c rollup.config.js",
+    "build": "rimraf dist && rollup -c rollup.config.js",
     "build:dts": "api-extractor run --local --verbose",
     "size": "rollup -c size-checks/rollup.config.js && node scripts/check-size.js",
     "release": "bash scripts/release.sh",

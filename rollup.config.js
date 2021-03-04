@@ -171,7 +171,10 @@ function createReplacePlugin(
       replacements[key] = process.env[key]
     }
   })
-  return replace(replacements)
+  return replace({
+    preventAssignment: true,
+    values: replacements,
+  })
 }
 
 function createProductionConfig(format) {

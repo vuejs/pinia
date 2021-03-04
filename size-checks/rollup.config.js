@@ -15,17 +15,21 @@ const config = {
   input: path.resolve(__dirname, './small.js'),
   plugins: [
     replace({
-      __DEV__: false,
-      // this is only used during tests
-      __TEST__: false,
-      // If the build is expected to run directly in the browser (global / esm builds)
-      __BROWSER__: true,
-      // is targeting bundlers?
-      __BUNDLER__: false,
-      __GLOBAL__: false,
-      // is targeting Node (SSR)?
-      __NODE_JS__: false,
-      __VUE_PROD_DEVTOOLS__: false,
+      preventAssignment: true,
+      values: {
+        __DEV__: 'false',
+        'process.env.NODE_ENV': JSON.stringify('production'),
+        // this is only used during tests
+        __TEST__: 'false',
+        // If the build is expected to run directly in the browser (global / esm builds)
+        __BROWSER__: 'true',
+        // is targeting bundlers?
+        __BUNDLER__: 'false',
+        __GLOBAL__: 'false',
+        // is targeting Node (SSR)?
+        __NODE_JS__: 'false',
+        __VUE_PROD_DEVTOOLS__: 'false',
+      },
     }),
     ts({
       check: false,
