@@ -27,27 +27,42 @@ There are the core principles that I try to achieve with this experiment:
 
 **Help me keep working on Open Source in a sustainable way 🚀**. Help me with as little as \$1 a month, [sponsor me on Github](https://github.com/sponsors/posva).
 
-<h3 align="center">Silver Sponsors</h3>
+<h4 align="center">Gold Sponsors</h4>
 
 <p align="center">
-  <a href="https://www.vuemastery.com" title="Vue Mastery" target="_blank">
-    <img src="https://www.vuemastery.com/images/lgo-vuemastery.svg" alt="Vue Mastery logo" height="48px">
+  <a href="https://passionatepeople.io/" target="_blank" rel="noopener noreferrer">
+    <img src="https://img2.storyblok.com/0x200/filters::format(webp)/f/86387/x/4cf6a70a8c/logo-white-text.svg" height="72px" alt="Passionate People">
   </a>
 </p>
 
+<h4 align="center">Silver Sponsors</h4>
+
 <p align="center">
-  <a href="https://vuetifyjs.com" target="_blank" title="Vuetify">
-    <img src="https://vuejs.org/images/vuetify.png" alt="Vuetify logo" height="48px">
+  <a href="https://www.vuemastery.com" target="_blank" rel="noopener noreferrer">
+    <img src="https://www.vuemastery.com/images/vuemastery.svg" height="42px" alt="Vue Mastery">
+  </a>
+
+  <a href="https://vuetifyjs.com" target="_blank" rel="noopener noreferrer">
+    <img src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-light-text.svg" alt="Vuetify" height="42px">
+  </a>
+
+  <a href="https://www.codestream.com/?utm_source=github&utm_campaign=vuerouter&utm_medium=banner" target="_blank" rel="noopener noreferrer">
+    <img src="https://alt-images.codestream.com/codestream_logo_vuerouter.png" alt="CodeStream" height="42px">
   </a>
 </p>
 
-<h3 align="center">Bronze Sponsors</h3>
+<h4 align="center">Bronze Sponsors</h4>
 
 <p align="center">
-  <a href="https://www.storyblok.com" target="_blank" title="Storyblok">
-    <img src="https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png" alt="Storyblok logo" height="32px">
+  <a href="https://storyblok.com" target="_blank" rel="noopener noreferrer">
+    <img src="https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png" alt="Storyblok" height="32px">
+  </a>
+
+  <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer">
+    <img src="https://nuxtjs.org/logos/nuxtjs-typo-white.svg" alt="Storyblok" height="32px">
   </a>
 </p>
+
 ---
 
 ## FAQ
@@ -60,7 +75,7 @@ A few notes about the project and possible questions:
 
 **Q**: _What about dynamic modules?_
 
-**A**: Dynamic modules are not type safe, so instead [we allow creating different stores](#composing-stores) that can be imported anywhere
+**A**: Dynamic modules are not type safe, so instead [we allow creating different stores](#composing-stores) that can be imported anywhere **making them dynamic by default**!
 
 ## Roadmap / Ideas
 
@@ -68,11 +83,15 @@ A few notes about the project and possible questions:
 - [x] Nuxt Module
 - [x] Should the state be merged at the same level as actions and getters?
 - [ ] Flag to remove devtools support (for very light production apps)
-- [ ] Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)
+- ~~Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)~~
 - ~~Getter with params that act like computed properties (@ktsn)~~
 - [ ] Passing all getters to a getter (need Typing support)
 
-## Installation
+## Usage
+
+### Installation
+
+### Vue
 
 ```sh
 yarn add pinia @vue/composition-api
@@ -82,7 +101,51 @@ npm install pinia @vue/composition-api
 
 Note: **The Vue Composition API plugin must be installed for Pinia to work**
 
-## Usage
+```js
+import Vue from 'vue'
+import VueCompositionAPI from '@vue/composition-api'
+import { PiniaPlugin, createPinia } from 'pinia'
+
+Vue.use(VueCompositionAPI)
+Vue.use(PiniaPlugin)
+
+const pinia = createPinia()
+
+new Vue({
+  el: '#app',
+  pinia,
+  // ...
+})
+```
+
+#### Nuxt
+
+```sh
+yarn add pinia @nuxtjs/composition-api
+# or with npm
+npm install pinia @nuxtjs/composition-api
+```
+
+Add the pinia module after the composition api to `buildModules` in `nuxt.config.js`:
+
+```js
+// nuxt.config.js
+export default {
+  // ... other options
+  buildModules: ['@nuxtjs/composition-api', 'pinia/nuxt'],
+}
+```
+
+If you are using TypeScript, you should also add the types for `context.pinia`:
+
+```json
+{
+  "include": [
+    // ...
+    "nuxt/types'"
+  ]
+}
+```
 
 ### Creating a Store
 
@@ -204,8 +267,8 @@ You can access any property defined in `state` and `getters` directly on the sto
 export default defineComponent({
   setup() {
     const main = useMainStore()
-    const text = main.name
-    const doubleCount = main.doubleCount
+    main.name // 'Eduardo'
+    main.doubleCount // 2
     return {}
   },
 })
@@ -265,51 +328,56 @@ Simply set it to a new object;
 main.$state = { counter: 666, name: 'Paimon' }
 ```
 
+You can also replace all stores state by setting the state on the `pinia` object returned by `createPinia()`:
+
+```js
+pinia.state.value = {
+  main: { counter: 666, name: 'Paimon' },
+}
+```
+
+Note: _This is useful for SSR or plugins that replace the whole state_
+
 ### SSR
 
-When writing a Single Page Application, there always only one instance of the store, but on the server, each request will create new store instances. For Pinia to track which one should be used, we rely on the _Request_ object (usually named `req`). Pinia makes this automatic in a few places:
+When writing a Single Page Application, there always only one instance of the store, but on the server, each request will create new store instances. For Pinia to track which one should be used, we rely on the `pinia` object Pinia makes this automatic in a few places:
 
 - actions
 - getters
 - `setup`
 - `serverPrefetch`
 
-Meaning that you can call `useMainStore` at the top of these functions and it will retrieve the correct store. **Calling it anywhere else requires you to pass the current `req` to `useMainStore`**.
+Meaning that you can call `useMainStore()` at the top of these functions and it will retrieve the correct store. **Calling it anywhere else requires you to pass the `pinia` to `useMainStore(pinia)`**.
 
-#### Nuxt Plugin
+#### Nuxt
 
-SSR is much easier with Nuxt, and so is for Pinia: include the Pinia module in your `buildModules` in your `nuxt.config.js`:
-
-```js
-export default {
-  // ...
-  // rest of the nuxt config
-  // ...
-  buildModules: ['pinia/nuxt'],
-}
-```
+Make sure you added the module in [installation](#installation).
 
 By default, it will also disable Vuex so you can directly use the `store` folder for pinia. If you want to keep using Vuex, you need to provide an option in `nuxt.config.js`:
 
 ```js
 export default {
+  // ...
+  buildModules: [
+    // ...
+  ],
   disableVuex: false,
 }
 ```
 
-If you are dealing with SSR, in order to make sure the correct store is retrieved by `useStore` functions, pass the current `req` to `useStore`. **This is necessary anywhere not in the list above**:
+If you are dealing with SSR, in order to make sure the correct store is retrieved by `useStore` functions, pass the active `pinia` to `useStore`. **This is necessary anywhere not in the list above** but only during server side rendering. This is because on the client side there is always only one pinia instance but on the server there is one pinia instance per active application on your running server:
 
 ```js
 export default {
-  async fetch({ req }) {
-    const store = useStore(req)
+  async fetch({ pinia }) {
+    const store = useStore(pinia)
   },
 }
 ```
 
 Note: **This is necessary in middlewares and other asynchronous methods**.
 
-It may look like things are working even if you don't pass `req` to `useStore` **but multiple concurrent requests to the server could end up sharing state between different users**.
+It may look like things are working even if you don't pass `pinia` to `useStore` **but multiple concurrent requests to the server could end up sharing state between different users**.
 
 #### Raw Vue SSR
 
@@ -378,16 +446,14 @@ defineStore({
 
 ### Composing Stores
 
-Composing stores may look hard at first glance but there is only one rule to follow really:
-
 If **multiple stores use each other** or you need to use **multiple stores** at the same time, you must create a **separate file** where you import all of them.
 
-If one store uses an other store, there is no need to create a new file, you can directly import it. Think of it as nesting.
+If one store uses an other store, there is no need to create a new file, you can directly import it like in [the example above](#accessing-other-stores). Think of it as nesting.
 
 #### Shared Getters
 
 If you need to compute a value based on the `state` and/or `getters` of multiple stores, you may be able to import all the stores but one into the remaining store, but depending on how your stores are used across your application, **this would hurt your code splitting** because importing the store that imports all others stores, would result in **one single big chunk** with all of your stores.
-To prevent this, **we follow the rule above** and we create a new file with a new store:
+To prevent this, **we create a new file with a new store** that imports the other stores:
 
 ```ts
 import { defineStore } from 'pinia'
@@ -407,9 +473,11 @@ export const useSharedStore = defineStore({
 })
 ```
 
+<!-- TODO: redo this example with more stores to make sense and move to advanced -->
+
 #### Shared Actions
 
-When an actions needs to use multiple stores, we do the same, we create a new file with a new store:
+The same applies to actions:
 
 ```ts
 import { defineStore } from 'pinia'
