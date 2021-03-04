@@ -77,22 +77,6 @@ function computedFromState<T, Id extends string>(
   return reactiveObject
 }
 
-function toComputed<T>(refObject: Ref<T>) {
-  // let asComputed = computed<T>()
-  const reactiveObject = {} as {
-    [k in keyof T]: Ref<T[k]>
-  }
-  for (const key in refObject.value) {
-    // @ts-ignore: the key matches
-    reactiveObject[key] = computed({
-      get: () => refObject.value[key as keyof T],
-      set: (value) => (refObject.value[key as keyof T] = value),
-    })
-  }
-
-  return reactiveObject
-}
-
 /**
  * Creates a store with its state object. This is meant to be augmented with getters and actions
  *
