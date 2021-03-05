@@ -1,0 +1,92 @@
+.home-hero .image {
+  width: 200px;
+  height: 200px;
+}
+
+.nav-bar .logo {
+  height: 30px;
+  margin-right: 2px;
+}
+
+.action.alt .icon.outbound {
+  color: currentColor;
+}
+
+.action .item.item.item,
+.action .item.item.item:hover {
+  color: var(--c-brand-text);
+}
+
+.action.alt .item.item.item {
+  background-color: var(--c-bg);
+  color: var(--c-text);
+  border-color: var(--c-text);
+}
+
+.action.alt .item.item.item:hover {
+  background-color: var(--c-brand-light);
+  border-color: var(--c-brand-light);
+  color: var(--c-brand-text);
+  /* override the dark mode animation */
+  transition-duration: 100ms;
+}
+
+.nav-bar.nav-bar {
+  background-color: var(--c-bg);
+}
+
+.content img {
+  border-radius: 10px;
+}
+
+/* hide external links icons in menus */
+.nav-dropdown-link-item .icon {
+  display: none;
+}
+
+:root {
+  --c-brand: #ffd859;
+  --c-brand-light: #f7d336;
+  --c-brand-text: var(--c-text-light-1);
+  --c-white-dark: #f8f8f8;
+  --c-bg-accent: var(--c-white-dark);
+}
+
+.custom-block.tip {
+  border-color: var(--c-brand-light);
+}
+
+.carbon-ads,
+.bsa-cpc {
+  background-color: var(--c-bg-accent) !important;
+}
+
+.DocSearch {
+  --docsearch-primary-color: var(--c-brand) !important;
+}
+
+html.dark:root {
+  /* --c-black: #ffffff;
+  --c-white: #000000; */
+  /* --c-divider-light: rgba(60, 60, 67, 0.12);
+  --c-divider-dark: rgba(84, 84, 88, 0.48); */
+  --c-black: #111827;
+  --c-black-light: #161f32;
+  --c-text-dark-1: #d9e6eb;
+  --c-text-dark-2: #c4dde6;
+  --c-text-dark-3: #abc4cc;
+
+  --c-text: var(--c-text-dark-1);
+  --c-text-light: var(--c-text-dark-2);
+  --c-text-lighter: var(--c-text-dark-3);
+  --c-divider: var(--c-divider-dark);
+  --c-bg: var(--c-black);
+  --c-bg-accent: var(--c-black-light);
+}
+
+body,
+.nav-bar,
+.action.alt .item.item {
+  /* transition when toggling dark mode */
+  transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+}

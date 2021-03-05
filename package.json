@@ -13,6 +13,8 @@
     "email": "posva13@gmail.com"
   },
   "scripts": {
+    "docs": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
     "build": "rimraf dist && rollup -c rollup.config.js",
     "build:dts": "api-extractor run --local --verbose",
     "size": "rollup -c size-checks/rollup.config.js && node scripts/check-size.js",
@@ -75,6 +77,7 @@
     "rollup-plugin-typescript2": "^0.30.0",
     "ts-jest": "^26.4.0",
     "typescript": "^4.0.3",
+    "vitepress": "^0.12.2",
     "vue": "^3.0.0",
     "yorkie": "^2.0.0"
   },
