@@ -18,17 +18,18 @@
 }
 
 .action.alt .item.item.item {
-  background-color: var(--c-bg);
+  background-color: transparent;
   color: var(--c-text);
   border-color: var(--c-text);
+  /* transition when toggling dark mode */
+  transition: background-color 150ms ease-in-out, border-color 150ms ease-in-out,
+    color 150ms ease-in-out;
 }
 
 .action.alt .item.item.item:hover {
   background-color: var(--c-brand-light);
   border-color: var(--c-brand-light);
   color: var(--c-brand-text);
-  /* override the dark mode animation */
-  transition-duration: 100ms;
 }
 
 .nav-bar.nav-bar {
