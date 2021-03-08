@@ -84,9 +84,6 @@ export const PiniaPlugin: PluginFunction<void> = function (_Vue) {
       const options = this.$options
       if (options.pinia) {
         options.pinia.Vue = _Vue
-        // this allows calling useStore() outside of a component setup after
-        // installing pinia's plugin
-        setActivePinia(options.pinia)
         // HACK: taken from provide(): https://github.com/vuejs/composition-api/blob/master/src/apis/inject.ts#L25
         /* istanbul ignore else */
         if (!(this as any)._provided) {
@@ -135,6 +132,10 @@ export function createPinia(): Pinia {
 
     state,
   }
+
+  // this allows calling useStore() outside of a component setup after
+  // installing pinia's plugin
+  setActivePinia(pinia)
 
   return pinia
 }
