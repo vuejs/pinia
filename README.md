@@ -5,9 +5,9 @@
 </p>
 <br/>
 <p align="center">
-  <a href="https://npmjs.com/package/pinia"><img src="https://badgen.net/npm/v/pinia/next" alt="npm package"></a>
-  <a href="https://app.circleci.com/pipelines/github/posva/pinia?branch=v2"><img src="https://circleci.com/gh/posva/pinia/tree/v2.svg?style=shield" alt="build status"></a>
-  <a href="https://codecov.io/github/posva/pinia"><img src="https://badgen.net/codecov/c/github/posva/pinia/v2" alt="code coverage"></a>
+  <a href="https://npmjs.com/package/pinia"><img src="https://badgen.net/npm/v/pinia" alt="npm package"></a>
+  <a href="https://app.circleci.com/pipelines/github/posva/pinia?branch=v1"><img src="https://circleci.com/gh/posva/pinia/tree/v1.svg?style=shield" alt="build status"></a>
+  <a href="https://codecov.io/github/posva/pinia"><img src="https://badgen.net/codecov/c/github/posva/pinia/v1" alt="code coverage"></a>
 </p>
 <br/>
 
