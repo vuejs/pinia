@@ -65,13 +65,32 @@ function isDarkMode() {
   return !htmlElement.classList.contains('light')
 }
 
-const isDark = ref(isBrowser ? isDarkMode() : true)
+const storageKey = 'pinia-color-scheme'
+
+const localIsDark = ref(
+  isBrowser ? localStorage.getItem(storageKey) !== 'light' : true
+)
+
+const isDark = computed<boolean>({
+  get() {
+    return localIsDark.value
+  },
+  set(isDark) {
+    localStorage.setItem(storageKey, isDark ? 'dark' : 'light')
+    localIsDark.value = isDark
+  },
+})
 
 const label = computed(() =>
   isDark.value ? 'Switch to light mode' : 'Switch to dark mode'
 )
 
 onMounted(() => {
+  window.addEventListener('storage', () => {
+    const storedScheme = localStorage.getItem(storageKey)
+    isDark.value = storedScheme !== 'light'
+  })
+
   watchEffect(() => {
     const htmlElement = document.body.parentElement!
     if (isDark.value) {
@@ -84,7 +103,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
-button {
+.icon-button {
   display: flex;
   font-size: 1.05rem;
   border: 0;
