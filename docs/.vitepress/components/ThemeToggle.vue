@@ -60,16 +60,20 @@ import { computed, onMounted, ref, watchEffect } from 'vue'
 
 const isBrowser = typeof window !== 'undefined'
 
+const PREFERS_LIGHT = '(prefers-color-scheme: light)'
+
 function isDarkMode() {
-  const htmlElement = document.body.parentElement!
-  return !htmlElement.classList.contains('light')
+  if (!isBrowser) return true
+
+  const storedTheme = localStorage.getItem(storageKey)
+  if (storedTheme != null) return storedTheme !== 'light'
+
+  return !window.matchMedia(PREFERS_LIGHT).matches
 }
 
 const storageKey = 'pinia-color-scheme'
 
-const localIsDark = ref(
-  isBrowser ? localStorage.getItem(storageKey) !== 'light' : true
-)
+const localIsDark = ref(isDarkMode())
 
 const isDark = computed<boolean>({
   get() {
@@ -88,8 +92,16 @@ const label = computed(() =>
 onMounted(() => {
   window.addEventListener('storage', () => {
     const storedScheme = localStorage.getItem(storageKey)
-    isDark.value = storedScheme !== 'light'
+    localIsDark.value = storedScheme !== 'light'
   })
+
+  const mediaQuery = window.matchMedia(PREFERS_LIGHT)
+
+  if ('addEventListener' in mediaQuery) {
+    mediaQuery.addEventListener('change', (event) => {
+      localIsDark.value = !event.matches
+    })
+  }
 
   watchEffect(() => {
     const htmlElement = document.body.parentElement!
