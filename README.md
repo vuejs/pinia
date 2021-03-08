@@ -1,28 +1,32 @@
-# Pinia [![Build Status](https://badgen.net/circleci/github/posva/pinia/v2)](https://circleci.com/gh/posva/pinia) [![npm package](https://badgen.net/npm/v/pinia/next)](https://www.npmjs.com/package/pinia) [![coverage](https://badgen.net/codecov/c/github/posva/pinia/next)](https://codecov.io/github/posva/pinia) [![thanks](https://badgen.net/badge/thanks/♥/pink)](https://github.com/posva/thanks)
+<p align="center">
+  <a href="https://pinia.esm.dev" target="_blank" rel="noopener noreferrer">
+    <img width="180" src="https://pinia.esm.dev/logo.svg" alt="Pinia logo">
+  </a>
+</p>
+<br/>
+<p align="center">
+  <a href="https://npmjs.com/package/pinia"><img src="https://badgen.net/npm/v/pinia/next" alt="npm package"></a>
+  <a href="https://app.circleci.com/pipelines/github/posva/pinia?branch=v2"><img src="https://circleci.com/gh/posva/pinia/tree/v2.svg?style=shield" alt="build status"></a>
+  <a href="https://codecov.io/github/posva/pinia"><img src="https://badgen.net/codecov/c/github/posva/pinia/v2" alt="code coverage"></a>
+</p>
+<br/>
 
-> Pronounced like the fruit in Spanish, _Piña_
->
-> _Piña_ is also an invalid package name... that's why it has to be _pinia_ which sounds very similar
+# Pinia
 
-🍍 Automatically Typed, Modular and lightweight Store for Vue 3.x based on the composition api with devtools support
+> Intuitive, type safe and flexible Store for Vue
+
+- 💡 Intuitive
+- 🔑 Type Safe
+- ⚙️ Devtools support
+- 🔌 Extensible
+- 🏗 Modular by design
+- 📦 Extremely light
+
+Pinia is is the most similar English pronunciation of the word _pineapple_ in Spanish: _Piña_. A pineapple is in reality a group of individual of flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
 
 ## 👉 [Demo on CodeSandbox](https://j4qzw.csb.app/)
 
 Pinia works both for Vue 2.x and Vue 3.x and you are currently on the branch that supports Vue 3.x. [Go here for the Vue 2.x compatible version](https://github.com/posva/pinia/tree/v1).
-
-What I want is to inspire others to think about ways to improve Vuex and come up with something that works very well with the composition api. Ideally it could also be used without it.
-
-These are the core principles that I try to achieve with this experiment:
-
-- Autocompletion: even if you write your code in JavaScript!
-- Flat modular structure 🍍 No nesting, only stores, compose them as needed
-- Light layer on top of Vue 💨 keep it very lightweight
-- Only `state`, `getters` and `actions`
-- No more verbose mutations, 👐 `patch` is _**the** mutation_
-- Actions are like _methods_ ⚗️ Group your business logic there
-- Import what you need, let webpack code split 📦 No need for dynamically registered modules
-- SSR support ⚙️
-- DevTools support 💻 Which is crucial to make this enjoyable
 
 ## Help me keep working on this project 💚
 
