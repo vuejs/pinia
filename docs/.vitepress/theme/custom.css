@@ -12,13 +12,25 @@
   color: currentColor;
 }
 
+.action .item.item.item {
+  border-color: var(--c-yellow);
+  background-color: var(--c-yellow);
+}
+
+.action.alt .item.item.item {
+  background-color: transparent;
+}
+
+.action .item.item.item:hover {
+  background-color: var(--c-yellow-light);
+}
+
 .action .item.item.item,
 .action .item.item.item:hover {
   color: var(--c-brand-text);
 }
 
 .action.alt .item.item.item {
-  background-color: transparent;
   color: var(--c-text);
   border-color: var(--c-text);
   /* transition when toggling dark mode */
@@ -27,8 +39,8 @@
 }
 
 .action.alt .item.item.item:hover {
-  background-color: var(--c-brand-light);
-  border-color: var(--c-brand-light);
+  background-color: var(--c-yellow-light);
+  border-color: var(--c-yellow-light);
   color: var(--c-brand-text);
 }
 
@@ -46,10 +58,13 @@
 }
 
 :root {
-  --c-brand: #ffd859;
-  --c-brand-light: #f7d336;
-  --c-brand-text: var(--c-text-light-1);
+  --c-yellow: #ffd859;
+  --c-yellow-light: #f7d336;
   --c-white-dark: #f8f8f8;
+
+  --c-brand: #dc9768;
+  --c-brand-light: #a9683d;
+  --c-brand-text: var(--c-text-light-1);
   --c-bg-accent: var(--c-white-dark);
 }
 
@@ -76,6 +91,8 @@ html.dark:root {
   --c-text-dark-1: #d9e6eb;
   --c-text-dark-2: #c4dde6;
   --c-text-dark-3: #abc4cc;
+  --c-brand: var(--c-yellow);
+  --c-brand-light: var(--c-yellow-light);
 
   --c-text: var(--c-text-dark-1);
   --c-text-light: var(--c-text-dark-2);
@@ -87,7 +104,15 @@ html.dark:root {
 
 body,
 .nav-bar,
+.carbon-ads,
+.bsa-cpc,
 .action.alt .item.item {
   /* transition when toggling dark mode */
   transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+}
+
+.sidebar.sidebar.sidebar {
+  /* transition when toggling dark mode */
+  transition: transform 250ms ease, background-color 300ms ease-in-out,
+    color 300ms ease-in-out;
 }
