@@ -17,11 +17,7 @@ function formatDisplay(display: string) {
 /**
  * Registered stores used for devtools.
  */
-export const stores = /*#__PURE__*/ new Set<GenericStore>()
-
-export function registerStore(store: GenericStore) {
-  stores.add(store)
-}
+const registeredStores = /*#__PURE__*/ new Set<GenericStore>()
 
 function toastMessage(
   message: string,
@@ -43,7 +39,7 @@ function toastMessage(
 let isAlreadyInstalled: boolean | undefined
 
 export function addDevtools(app: App, store: GenericStore) {
-  registerStore(store)
+  registeredStores.add(store)
   setupDevtoolsPlugin(
     {
       id: 'pinia',
@@ -120,7 +116,7 @@ export function addDevtools(app: App, store: GenericStore) {
 
       api.on.getInspectorTree((payload) => {
         if (payload.app === app && payload.inspectorId === piniaInspectorId) {
-          const stores = Array.from(stores)
+          const stores = Array.from(registeredStores)
 
           payload.rootNodes = (payload.filter
             ? stores.filter((store) =>
@@ -133,7 +129,7 @@ export function addDevtools(app: App, store: GenericStore) {
 
       api.on.getInspectorState((payload) => {
         if (payload.app === app && payload.inspectorId === piniaInspectorId) {
-          const stores = Array.from(stores)
+          const stores = Array.from(registeredStores)
           const store = stores.find((store) => store.$id === payload.nodeId)
 
           if (store) {
