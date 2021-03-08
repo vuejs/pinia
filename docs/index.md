@@ -23,8 +23,11 @@ features:
 footer: MIT Licensed | Copyright © 2020-present Eduardo San Martin Morote
 ---
 
+<ThemeToggle/>
+
 <HomeSponsors />
 
 <script setup>
 import HomeSponsors from './.vitepress/components/HomeSponsors.vue'
+import ThemeToggle from './.vitepress/components/ThemeToggle.vue'
 </script>

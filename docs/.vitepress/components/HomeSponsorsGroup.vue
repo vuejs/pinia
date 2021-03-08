@@ -69,7 +69,7 @@ img {
   opacity: 0.66;
 }
 
-html.dark img {
+html:not(.light) img {
   filter: invert(1) grayscale(100%);
 }
 
@@ -77,8 +77,4 @@ img:hover {
   filter: none !important;
   opacity: 1;
 }
-
-/* html.dark .sponsor_wrapper:hover {
-  background-color: var(--c-text-light);
-}*/
 </style>

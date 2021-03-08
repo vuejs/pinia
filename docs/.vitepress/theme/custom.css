@@ -81,7 +81,7 @@
   --docsearch-primary-color: var(--c-brand) !important;
 }
 
-html.dark:root {
+html:not(.light):root {
   /* --c-black: #ffffff;
   --c-white: #000000; */
   /* --c-divider-light: rgba(60, 60, 67, 0.12);
