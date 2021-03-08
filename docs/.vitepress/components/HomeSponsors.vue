@@ -7,11 +7,11 @@
 
       <HomeSponsorsGroup v-if="sponsors.silver" name="Silver" size="120" />
 
-      <a
-        class="become-sponsor button white"
-        href="https://github.com/sponsors/posva"
-        >Become a Sponsor!</a
-      >
+      <div class="cta">
+        <a class="become-sponsor" href="https://github.com/sponsors/posva"
+          >Become a Sponsor!</a
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -25,14 +25,16 @@ import sponsors from './sponsors.json'
 .sponsors_outer {
   text-align: center;
   padding: 35px 40px 45px;
-  margin: 0 -2.5rem;
   background-color: var(--c-bg-accent);
   /* transition when toggling dark mode */
   transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
 }
 
+.cta {
+  margin-top: 1rem;
+}
+
 .become-sponsor {
-  margin-top: 40px;
   font-size: 0.9em;
   font-weight: 700;
   width: auto;
@@ -46,9 +48,9 @@ import sponsors from './sponsors.json'
 }
 
 .become-sponsor:hover {
-  background-color: var(--c-brand);
+  background-color: var(--c-yellow);
   text-decoration: none;
-  border-color: var(--c-brand);
-  color: var(--c-brand-text);
+  border-color: var(--c-yellow);
+  color: var(--c-text-light-1);
 }
 </style>

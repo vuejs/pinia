@@ -1,24 +1,24 @@
 <template>
   <h3>{{ name }} Sponsors</h3>
 
-  <a
-    v-for="sponsor in list"
-    :key="sponsor.href"
-    :href="sponsor.href"
-    :title="sponsor.alt"
-    target="_blank"
-    rel="sponsored noopener"
-    :style="{ width: size + 'px' }"
-    class="sponsor_wrapper"
-  >
-    <img
-      :src="sponsor.imgSrcLight"
-      :alt="sponsor.alt"
+  <p>
+    <a
+      v-for="sponsor in list"
+      :key="sponsor.href"
+      :href="sponsor.href"
+      :title="sponsor.alt"
+      target="_blank"
+      rel="sponsored noopener"
       :style="{ width: size + 'px' }"
-    />
-  </a>
-  <br />
-  <br />
+      class="sponsor_wrapper"
+    >
+      <img
+        :src="sponsor.imgSrcLight"
+        :alt="sponsor.alt"
+        :style="{ width: size + 'px' }"
+      />
+    </a>
+  </p>
 </template>
 
 <script>
@@ -57,6 +57,10 @@ export default {
   vertical-align: middle;
 
   transition: background-color 300ms ease-in-out;
+}
+
+p {
+  margin: 0;
 }
 
 h3 {
