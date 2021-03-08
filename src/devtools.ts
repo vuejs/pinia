@@ -108,8 +108,6 @@ export function addDevtools(app: App, store: GenericStore) {
           event: {
             time: Date.now(),
             data,
-            // TODO: remove when fixed
-            meta: {},
           },
         })
       })
