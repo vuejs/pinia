@@ -2,7 +2,7 @@
 home: true
 heroImage: /logo.svg
 actionText: Get Started
-actionLink: /guide/
+actionLink: /introduction.html
 
 altActionText: Demo
 altActionLink: https://esm.dev
