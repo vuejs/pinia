@@ -62,10 +62,10 @@ module.exports = {
               text: 'Getting Started',
               link: '/guide/',
             },
-            {
-              text: 'Features',
-              link: '/guide/features',
-            },
+            // {
+            //   text: 'Features',
+            //   link: '/guide/features',
+            // },
             {
               text: 'Server-Side Rendering (SSR)',
               link: '/guide/ssr',
