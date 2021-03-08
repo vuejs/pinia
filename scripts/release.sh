@@ -1,9 +1,7 @@
 set -e
 echo "Current version:" $(grep version package.json | sed -E 's/^.*"(4[^"]+)".*$/\1/')
-echo "Enter alpha version e.g., 2 will generate 2.0.0-alpha.2: "
-read ALPHA
-
-VERSION="2.0.0-alpha.$ALPHA"
+echo "Enter version e.g., 0.2.0: "
+read VERSION
 
 read -p "Releasing v$VERSION - are you sure? (y/n)" -n 1 -r
 echo    # (optional) move to a new line
@@ -33,7 +31,7 @@ then
   git tag "v$VERSION"
 
   # commit
-  yarn publish --tag next --new-version "$VERSION" --no-commit-hooks --no-git-tag-version
+  yarn publish --new-version "$VERSION" --no-commit-hooks --no-git-tag-version
 
   # publish
   git push origin refs/tags/v$VERSION
