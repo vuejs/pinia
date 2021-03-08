@@ -91,7 +91,7 @@ A few notes about the project and possible questions:
 
 ## Installation
 
-```sh
+```bash
 yarn add pinia@next
 # or with npm
 npm install pinia@next
