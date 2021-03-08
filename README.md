@@ -28,8 +28,6 @@ Pinia is is the most similar English pronunciation of the word _pineapple_ in Sp
 
 ## 👉 [Demo on CodeSandbox](https://j4qzw.csb.app/)
 
-Pinia works both for Vue 2.x and Vue 3.x and you are currently on the branch that supports Vue 3.x. [Go here for the Vue 2.x compatible version](https://github.com/posva/pinia/tree/v1).
-
 ## Help me keep working on this project 💚
 
 - [Become a Sponsor on GitHub](https://github.com/sponsors/posva)

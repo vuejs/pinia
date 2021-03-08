@@ -47,28 +47,41 @@ module.exports = {
     ],
 
     sidebar: {
-      // '/config/': 'auto',
-      // '/plugins/': 'auto',
       // catch-all fallback
       '/': [
         {
-          text: 'Guide',
+          text: 'Introduction',
           children: [
             {
-              text: 'Installation',
-              link: '/guide/installation.html',
+              text: 'What is Pinia?',
+              link: '/introduction.html',
             },
             {
               text: 'Getting Started',
-              link: '/guide/',
+              link: '/getting-started.html',
             },
-            // {
-            //   text: 'Features',
-            //   link: '/guide/features',
-            // },
+          ],
+        },
+        {
+          text: 'Core Concepts',
+          children: [
+            { text: 'Defining a Store', link: '/core-concepts/' },
+            { text: 'State', link: '/core-concepts/state.html' },
+            { text: 'Getters', link: '/core-concepts/getters.html' },
+            { text: 'Actions', link: '/core-concepts/actions.html' },
+          ],
+        },
+        {
+          text: 'Server-Side Rendering (SSR)',
+          link: '/ssr.html',
+        },
+        {
+          text: 'Cookbook',
+          link: '/cookbook/',
+          children: [
             {
-              text: 'Server-Side Rendering (SSR)',
-              link: '/guide/ssr.html',
+              text: 'Composing Stores',
+              link: '/cookbook/composing-stores.html',
             },
           ],
         },

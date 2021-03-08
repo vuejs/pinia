@@ -70,6 +70,7 @@
 
 .custom-block.tip {
   border-color: var(--c-brand-light);
+  background-color: var(--c-bg-accent);
 }
 
 .carbon-ads,
