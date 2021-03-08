@@ -1,6 +1,8 @@
 import { createPinia, defineStore } from '../src'
+import { mockWarn } from 'jest-mock-warn'
 
 describe('Root State', () => {
+  mockWarn()
   const useA = defineStore({
     id: 'a',
     state: () => ({ a: 'a' }),
@@ -9,6 +11,11 @@ describe('Root State', () => {
   const useB = defineStore({
     id: 'b',
     state: () => ({ b: 'b' }),
+  })
+
+  it('warns if creating a store without a pinia', () => {
+    expect(() => useA()).toThrow()
+    expect('with no active Pinia').toHaveBeenWarned()
   })
 
   it('works with no stores', () => {

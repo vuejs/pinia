@@ -282,6 +282,7 @@ export function defineStore<
         __DEV__ /*|| __FEATURE_PROD_DEVTOOLS__*/
       ) {
         const app = getClientApp()
+        /* istanbul ignore else */
         if (app) {
           addDevtools(app, store)
         } else if (!isDevWarned && !__TEST__) {

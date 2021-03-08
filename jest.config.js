@@ -8,6 +8,7 @@ module.exports = {
     '/node_modules/',
     'src/index.ts',
     'src/devtools.ts',
+    'src/deprecated.ts',
   ],
   testMatch: ['<rootDir>/__tests__/**/*.spec.ts'],
   globals: {

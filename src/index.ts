@@ -13,4 +13,6 @@ export {
   StoreWithActions,
   StoreWithState,
 } from './types'
+
+// TODO: remove in beta
 export { createStore } from './deprecated'

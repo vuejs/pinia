@@ -1,11 +1,6 @@
 import { App, InjectionKey, Plugin, Ref, ref, warn } from 'vue'
 import { IS_CLIENT } from './env'
-import {
-  StateTree,
-  GenericStore,
-  StoreWithState,
-  StateDescriptor,
-} from './types'
+import { StateTree, StoreWithState, StateDescriptor } from './types'
 
 /**
  * setActivePinia must be called to handle SSR at the top of functions like
@@ -99,7 +94,8 @@ declare module '@vue/runtime-core' {
 
 export const piniaSymbol = (__DEV__
   ? Symbol('pinia')
-  : Symbol()) as InjectionKey<Pinia>
+  : /* istanbul ignore next */
+    Symbol()) as InjectionKey<Pinia>
 
 /**
  * Creates a Pinia instance to be used by the application
@@ -132,6 +128,7 @@ export function createPinia(): Pinia {
     },
 
     use(plugin) {
+      /* istanbul ignore next */
       if (__DEV__) {
         console.warn(
           `[🍍]: The plugin API has plans to change to bring better extensibility. "pinia.use()" signature will change in the next release. It is recommended to avoid using this API.`
@@ -156,14 +153,3 @@ export function createPinia(): Pinia {
  * Properties that are added to every store by `pinia.use()`
  */
 export interface PiniaCustomProperties {}
-
-/**
- * Registered stores used for devtools. TODO: move to devtools
- */
-export const stores = /*#__PURE__*/ new Set<GenericStore>()
-
-export function registerStore(store: GenericStore) {
-  stores.add(store)
-}
-
-export const getRegisteredStores = () => stores

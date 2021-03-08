@@ -4,7 +4,6 @@ import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
 import { App } from 'vue'
-import { getRegisteredStores, registerStore } from './rootStore'
 import { GenericStore } from './types'
 
 function formatDisplay(display: string) {
@@ -13,6 +12,15 @@ function formatDisplay(display: string) {
       display,
     },
   }
+}
+
+/**
+ * Registered stores used for devtools.
+ */
+export const stores = /*#__PURE__*/ new Set<GenericStore>()
+
+export function registerStore(store: GenericStore) {
+  stores.add(store)
 }
 
 function toastMessage(
@@ -112,7 +120,7 @@ export function addDevtools(app: App, store: GenericStore) {
 
       api.on.getInspectorTree((payload) => {
         if (payload.app === app && payload.inspectorId === piniaInspectorId) {
-          const stores = Array.from(getRegisteredStores())
+          const stores = Array.from(stores)
 
           payload.rootNodes = (payload.filter
             ? stores.filter((store) =>
@@ -125,7 +133,7 @@ export function addDevtools(app: App, store: GenericStore) {
 
       api.on.getInspectorState((payload) => {
         if (payload.app === app && payload.inspectorId === piniaInspectorId) {
-          const stores = Array.from(getRegisteredStores())
+          const stores = Array.from(stores)
           const store = stores.find((store) => store.$id === payload.nodeId)
 
           if (store) {

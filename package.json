@@ -68,6 +68,7 @@
     "codecov": "^3.6.1",
     "conventional-changelog-cli": "^2.1.0",
     "jest": "^26.4.2",
+    "jest-mock-warn": "^1.1.0",
     "lint-staged": "^10.2.11",
     "pascalcase": "^1.0.0",
     "prettier": "^2.1.2",

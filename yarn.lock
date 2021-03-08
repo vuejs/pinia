@@ -3800,6 +3800,11 @@ jest-message-util@^26.6.2:
     slash "^3.0.0"
     stack-utils "^2.0.2"
 
+jest-mock-warn@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/jest-mock-warn/-/jest-mock-warn-1.1.0.tgz#cb1c8beaa6c6236da2be0f170fd5e6f595adb67b"
+  integrity sha512-Q0EjGIUowgcuH7K1v6KgZ/WtqQaA9kc/TxayKaZKKeTGBn9nC4uKI65nt0O3l8opaPi2VSvG18WcLPEqzowxrQ==
+
 jest-mock@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/jest-mock/-/jest-mock-26.6.2.tgz#d6cb712b041ed47fe0d9b6fc3474bc6543feb302"
