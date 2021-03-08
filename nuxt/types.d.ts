@@ -1,8 +1,16 @@
 import '@nuxt/types'
-import { Pinia } from '../dist/src'
+import 'pinia'
+import { Pinia } from 'pinia'
+import { Context } from '@nuxt/types'
 
 declare module '@nuxt/types' {
   export interface Context {
     pinia: Pinia
+  }
+}
+
+declare module 'pinia' {
+  export interface PiniaCustomProperties {
+    $nuxt: Context
   }
 }

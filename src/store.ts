@@ -80,7 +80,7 @@ function computedFromState<T, Id extends string>(
 /**
  * Creates a store with its state object. This is meant to be augmented with getters and actions
  *
- * @param id - unique identifier of the store, like a name. eg: main, cart, user
+ * @param $id - unique identifier of the store, like a name. eg: main, cart, user
  * @param buildState - function to build the initial state
  * @param initialState - initial state applied to the store, Must be correctly typed to infer typings
  */
@@ -281,6 +281,10 @@ export function defineStore<
 
       stores.set(id, storeAndDescriptor)
 
+      if (__DEV__ && isClient) {
+        useStoreDevtools(storeAndDescriptor[0], storeAndDescriptor[1])
+      }
+
       const store = buildStoreToUse(
         storeAndDescriptor[0],
         storeAndDescriptor[1],
@@ -288,8 +292,6 @@ export function defineStore<
         getters as Record<string, Method> | undefined,
         actions as Record<string, Method> | undefined
       )
-
-      if (isClient) useStoreDevtools(store)
 
       return store
     }

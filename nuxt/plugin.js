@@ -1,4 +1,5 @@
 // @ts-check
+/// <reference types="./types" />
 import Vue from 'vue'
 // @ts-ignore: this must be pinia to load the local module
 import { setActivePinia, PiniaPlugin, createPinia } from 'pinia'
@@ -9,12 +10,15 @@ Vue.use(PiniaPlugin)
 const myPlugin = (context, inject) => {
   // console.log(context)
 
+  /** @type {import('../src').Pinia} */
   const pinia = createPinia()
   context.app.pinia = pinia
   context.pinia = pinia
   setActivePinia(pinia)
 
-  pinia.use(() => ({ $nuxt: context }))
+  // we bypass warnings
+  // @ts-ignore
+  pinia._p.push(() => ({ $nuxt: context }))
 
   if (process.server) {
     context.beforeNuxtRender(({ nuxtState }) => {
