@@ -76,17 +76,16 @@ A few notes about the project and possible questions:
 
 **Q**: _What about dynamic modules?_
 
-**A**: Dynamic modules are not type safe, so instead [we allow creating different stores](#composing-stores) that can be imported anywhere **making them dynamic by default**!
+**A**: Dynamic modules are not type safe, so instead [we allow creating different stores](#composing-stores) that can be imported anywhere **making them dynamic by design**!
 
 ## Roadmap / Ideas
 
 - [ ] List Getters on DevTools
 - [x] Nuxt Module
 - [x] Should the state be merged at the same level as actions and getters?
+- [ ] Flexible plugin API
 - [ ] Flag to remove devtools support (for very light production apps)
-- ~~Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)~~
-- ~~Getter with params that act like computed properties (@ktsn)~~
-- [ ] Passing all getters to a getter (need Typing support)
+- [ ] Strict mode to disable state changes outside of actions
 
 ## Usage
 
@@ -94,13 +93,13 @@ A few notes about the project and possible questions:
 
 ### Vue
 
-```sh
+Pinia requires the Vue (or Nuxt) Composition API library.
+
+```bash
 yarn add pinia @vue/composition-api
 # or with npm
 npm install pinia @vue/composition-api
 ```
-
-Note: **The Vue Composition API plugin must be installed for Pinia to work**
 
 ```js
 import Vue from 'vue'
@@ -148,9 +147,9 @@ If you are using TypeScript, you should also add the types for `context.pinia`:
 }
 ```
 
-### Creating a Store
+### Defining a Store
 
-You can create as many stores as you want, and they should each exist in different files:
+You can define as many stores as you want, and they should each exist in different files:
 
 ```ts
 import { defineStore } from 'pinia'
@@ -205,19 +204,14 @@ export default defineComponent({
 })
 ```
 
-**There is one important rule for this to work**: the `useMainStore` (or any other _useStore_ function) must be called inside of deferred functions. This is to allow the **Vue Composition API plugin to be installed**. **Never, ever call `useStore`** like this:
+These functions should be called inside of `setup()` functions. If they are called outside, make sure the `createPinia()` has been called before:
 
 ```ts
 import { useMainStore } from '@/stores/main'
 // ❌ Depending on where you do this it will fail
 // so just don't do it
 const main = useMainStore()
-
-export default defineComponent({
-  setup() {
-    return {}
-  },
-})
+const pinia = createPinia()
 ```
 
 Or:
@@ -240,17 +234,10 @@ router.beforeEach((to, from, next) => {
 It must be called **after the Composition API plugin is installed**. That's why calling `useStore` inside functions is usually safe, because they are called after the plugin being installed:
 
 ```ts
-export default defineComponent({
-  setup() {
-    // ✅ This will work
-    const main = useMainStore()
-
-    return {}
-  },
-})
+const pinia = createPinia()
+const main = useMainStore()
 
 // In a different file...
-
 router.beforeEach((to, from, next) => {
   // ✅ This will work (requires an extra param for SSR, see below)
   const main = useMainStore()
@@ -275,7 +262,7 @@ export default defineComponent({
 })
 ```
 
-The `main` store in an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, we cannot destructure it:
+The `main` store in an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, we cannot destructure them:
 
 ```ts
 export default defineComponent({
@@ -321,6 +308,8 @@ main.$patch({
 
 The main difference here is that `$patch` allows you to group multiple changes into one single entry in the devtools.
 
+This is convenient to map a state property directly to a `v-model` without creating a computed with a setter.
+
 ### Replacing the `state`
 
 Simply set it to a new object;
@@ -346,9 +335,14 @@ When writing a Single Page Application, there always only one instance of the st
 - actions
 - getters
 - `setup`
-- `serverPrefetch`
 
-Meaning that you can call `useMainStore()` at the top of these functions and it will retrieve the correct store. **Calling it anywhere else requires you to pass the `pinia` to `useMainStore(pinia)`**.
+Meaning that you can call `useMainStore()` at the top of these functions and it will retrieve the correct store. **Calling it anywhere else requires you to pass the `pinia` to `useMainStore(pinia)`**. Pinia injects itself as `$pinia` in all components, giving you access to it in `serverPrefetch()`:
+
+```js
+function serverPrefetch() {
+  const main = useMainStore(this.$pinia)
+}
+```
 
 #### Nuxt
 
@@ -378,7 +372,7 @@ export default {
 
 Note: **This is necessary in middlewares and other asynchronous methods**.
 
-It may look like things are working even if you don't pass `pinia` to `useStore` **but multiple concurrent requests to the server could end up sharing state between different users**.
+It may look like things are working even if you don't pass `pinia` to `useStore` **but multiple concurrent requests to the server could end up sharing state between different users**. Fortunately you have access to `pinia` in the Nuxt Context.
 
 #### Raw Vue SSR
 
@@ -408,7 +402,6 @@ export default (context) => {
 
 ```js
 // entry-client.js
-import { setStateProvider } from 'pinia'
 
 const pinia = createPinia()
 // install and inject pinia...
@@ -421,7 +414,7 @@ pinia.state.value = window.__PINIA_STATE__
 
 You can `useOtherStore()` inside a store `actions` and `getters`:
 
-Actions are simply function that contain business logic. As with components, they **must call `useStore`** to retrieve the store:
+Since actions are functions that contain business logic, as in components, they **must call `useStore`** to retrieve the store:
 
 ```ts
 defineStore({
@@ -447,7 +440,7 @@ defineStore({
 
 ### Composing Stores
 
-If **multiple stores use each other** or you need to use **multiple stores** at the same time, you must create a **separate file** where you import all of them.
+If **multiple stores use each other** or you need to use **multiple stores** at the same time, you should create a **separate file** where you import all of them.
 
 If one store uses an other store, there is no need to create a new file, you can directly import it like in [the example above](#accessing-other-stores). Think of it as nesting.
 
