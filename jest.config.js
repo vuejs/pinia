@@ -1,7 +1,13 @@
 module.exports = {
   preset: 'ts-jest',
   collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!<rootDir>/src/devtools.ts'],
+  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    'src/index.ts',
+    'src/devtools.ts',
+    'src/deprecated.ts',
+  ],
   testMatch: ['<rootDir>/__tests__/**/*.spec.ts'],
   setupFilesAfterEnv: ['./__tests__/setup.ts'],
   globals: {

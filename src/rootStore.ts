@@ -22,7 +22,8 @@ export interface PiniaCustomProperties {}
 
 export const piniaSymbol = (__DEV__
   ? Symbol('pinia')
-  : Symbol()) as InjectionKey<Pinia>
+  : /* istanbul ignore next */
+    Symbol()) as InjectionKey<Pinia>
 
 /**
  * Plugin to extend every store
@@ -87,6 +88,7 @@ export const PiniaPlugin: PluginFunction<void> = function (_Vue) {
         // installing pinia's plugin
         setActivePinia(options.pinia)
         // HACK: taken from provide(): https://github.com/vuejs/composition-api/blob/master/src/apis/inject.ts#L25
+        /* istanbul ignore else */
         if (!(this as any)._provided) {
           const provideCache = {}
           Object.defineProperty(this, '_provided', {
@@ -120,6 +122,12 @@ export function createPinia(): Pinia {
     Vue: {} as any,
 
     use(plugin) {
+      /* istanbul ignore next */
+      if (__DEV__) {
+        console.warn(
+          `[🍍]: The plugin API has plans to change to bring better extensibility. "pinia.use()" signature will change in the next release. It is recommended to avoid using this API.`
+        )
+      }
       _p.push(plugin.bind(null, pinia))
     },
 
@@ -143,13 +151,14 @@ export let activePinia: Pinia | undefined
  *
  * @param pinia - Pinia instance
  */
-export const setActivePinia = (pinia: Pinia | undefined) =>
+export const setActivePinia = (pinia: Pinia | undefined): Pinia | undefined =>
   (activePinia = pinia)
 
 /**
  * Get the currently active pinia
  */
-export const getActivePinia = () => {
+export const getActivePinia = (): Pinia => {
+  /* istanbul ignore if */
   if (__DEV__ && !activePinia) {
     console.warn(
       `[🍍]: getActivePinia was called with no active Pinia. Did you forget to install pinia and inject it?\n\n` +
