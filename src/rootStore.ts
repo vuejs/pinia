@@ -132,6 +132,11 @@ export function createPinia(): Pinia {
     },
 
     use(plugin) {
+      if (__DEV__) {
+        console.warn(
+          `[🍍]: The plugin API has plans to change to bring better extensibility. "pinia.use()" signature will change in the next release. It is recommended to avoid using this API.`
+        )
+      }
       if (!localApp) {
         toBeInstalled.push(plugin)
       } else {
