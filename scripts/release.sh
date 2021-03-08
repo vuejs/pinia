@@ -16,8 +16,6 @@ then
   yarn version --no-git-tag-version --no-commit-hooks --new-version $VERSION
 
   yarn run build
-  yarn run build:dts
-  yarn run test:dts
 
   # changelog
   yarn run changelog
