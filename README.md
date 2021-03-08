@@ -22,6 +22,8 @@
 - 🏗 Modular by design
 - 📦 Extremely light
 
+Pinia works both for Vue 2.x and Vue 3.x and you are currently on the branch that supports Vue 3.x. **If you are looking for the version compatible with Vue 3.x, check the [`v2` branch](https://github.com/posva/pinia/tree/v2)**.
+
 Pinia is is the most similar English pronunciation of the word _pineapple_ in Spanish: _piña_. A pineapple is in reality a group of individual flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
 
 ## 👉 [Demo on CodeSandbox](https://j4qzw.csb.app/)
