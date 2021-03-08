@@ -1,3 +1,53 @@
+# [0.2.0](https://github.com/posva/pinia/compare/0.1.0...0.2.0) (2021-03-08)
+
+### Bug Fixes
+
+- only set state provider if a state exists ([#248](https://github.com/posva/pinia/issues/248)) ([3634847](https://github.com/posva/pinia/commit/363484735b5402b45d47ebd7dc2dfde4f00660d6))
+- outlive components lifespan ([8516c48](https://github.com/posva/pinia/commit/8516c4828415c658a1b6b7587ce9277f7b6a02a9)), closes [#370](https://github.com/posva/pinia/issues/370)
+
+### Continuous Integration
+
+- add size check ([df59e90](https://github.com/posva/pinia/commit/df59e90422243d36f33cb7cb6c13fb3d30ca0cba))
+
+### Features
+
+- **nuxt:** add buildModule ([b1566f7](https://github.com/posva/pinia/commit/b1566f7586cbd8f444fff48da4b5a8dfb5cb0951))
+- **nuxt:** expose nuxt context as $nuxt ([73c48be](https://github.com/posva/pinia/commit/73c48be04d2899ad92d0a2d8a2df210025ebd14a))
+- add PiniaPlugin ([b3db04a](https://github.com/posva/pinia/commit/b3db04a807ffdc50e53b4ee7d5a2f2a818da881a))
+- deprecate createStore in favor of defineStore ([76c3f95](https://github.com/posva/pinia/commit/76c3f9594615377dca5b5398b613e411360f6af3))
+
+### BREAKING CHANGES
+
+- files in dist folder are renamed to match official libs in the Vue ecosystem. Unless you were importing from `pinia/dist`, this won't affect you.
+- It's now necessary to create a pinia instance and
+  install it:
+
+  ```js
+  import { createPinia, PiniaPlugin } from 'pinia'
+
+  const pinia = createPinia()
+  Vue.use(PiniaPlugin)
+
+  new Vue({
+    el: '#app',
+    pinia,
+    // ...
+  })
+  ```
+
+  The `pinia` instance can be passed to `useStore(pinia)` when called
+  outside of a `setup()` function. Check the SSR section of the docs for
+  more details.
+
+- `setActiveReq()` and `getActiveReq()` have been
+  replaced with `setActivePinia()` and `getActivePinia()` respectively.
+  `setActivePinia()` can only be passed a `pinia` instance created with
+  `createPinia()`.
+- Since req as a parameter was replaced with `pinia`,
+  `getRootState` is no longer necessary. Replace it with
+  `pinia.state.value` to **read and write** the root state`.
+- `PiniaSsr` is no longer necessary and has been removed.
+
 # [0.1.0](https://github.com/posva/pinia/compare/0.0.7...0.1.0) (2020-09-22)
 
 ### Features
