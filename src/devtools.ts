@@ -77,12 +77,9 @@ export function useStoreDevtools(
 
   store.$subscribe((mutation, state) => {
     rootStore.state[store.$id] = state
-    devtoolHook.emit(
-      'vuex:mutation',
-      assign({}, mutation, {
-        type: `[${mutation.storeName}] ${mutation.type}`,
-      }),
-      rootStore.state
-    )
+    devtoolHook.emit('vuex:mutation', {
+      type: `[${mutation.storeName}] ${mutation.type}`,
+      payload: mutation.payload,
+    })
   })
 }
