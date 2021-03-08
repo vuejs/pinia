@@ -56,7 +56,7 @@ module.exports = {
           children: [
             {
               text: 'Installation',
-              link: '/guide/installation',
+              link: '/guide/installation.html',
             },
             {
               text: 'Getting Started',
@@ -68,7 +68,7 @@ module.exports = {
             // },
             {
               text: 'Server-Side Rendering (SSR)',
-              link: '/guide/ssr',
+              link: '/guide/ssr.html',
             },
           ],
         },
