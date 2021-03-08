@@ -1345,10 +1345,10 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.0.7.tgz#96d52988efc07444c108c7c6803ba7cc93e40045"
   integrity sha512-dn5FyfSc4ky424jH4FntiHno7Ss5yLkqKNmM/NXwANRnlkmqu74pnGetexDFVG5phMk9/FhwovUZCWGxsotVKg==
 
-"@vue/test-utils@^2.0.0-beta.5":
-  version "2.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-rc.2.tgz#a43cb6d1a30d16bb50fa3561397ba1e252683f9d"
-  integrity sha512-doOtnkleRTiN5rk+Losawe9/8i//8rncZ3lIhz/1vnONHDnthF1XjlI7pGZ1RV5uZJ3IUt3yVjwY7W6q9WhlRw==
+"@vue/test-utils@^2.0.0-rc.3":
+  version "2.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-rc.3.tgz#11b97d56d786bec60431b00888b3264e334b83c8"
+  integrity sha512-f2/RtXp0IZgyAL/X3N9dBlobcL3VMZ336nw/gKBIQWXPMC9dbZvC7C4F7bQNI5235fjAEO6zeMK2L7MwsHlKBw==
 
 JSONStream@^1.0.4:
   version "1.3.5"
