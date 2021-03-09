@@ -28,7 +28,7 @@ module.exports = {
     },
 
     nav: [
-      { text: 'Guide', link: '/guide/' },
+      { text: 'Guide', link: '/introduction.html' },
       // { text: 'Config', link: '/config/' },
       // { text: 'Plugins', link: '/plugins/' },
       {
