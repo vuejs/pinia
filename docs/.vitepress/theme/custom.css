@@ -79,6 +79,11 @@
   background-color: var(--c-bg-accent);
 }
 
+.carbon-ads {
+  /* display space with the background in mobile too */
+  padding: 8px;
+}
+
 .carbon-ads,
 .bsa-cpc {
   background-color: var(--c-bg-accent) !important;
