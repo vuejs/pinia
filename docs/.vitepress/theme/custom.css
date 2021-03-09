@@ -61,11 +61,14 @@
   --c-yellow: #ffd859;
   --c-yellow-light: #f7d336;
   --c-white-dark: #f8f8f8;
+  /* #f9fafb */
 
-  --c-brand: #dc9768;
-  --c-brand-light: #a9683d;
+  --c-brand: #086367;
+  --c-brand-light: #33898d;
   --c-brand-text: var(--c-text-light-1);
   --c-bg-accent: var(--c-white-dark);
+  --code-bg-color: var(--c-white-dark);
+  --code-inline-bg-color: var(--c-white-dark);
 }
 
 .custom-block.tip {
@@ -101,6 +104,8 @@ html:not(.light):root {
   --c-divider: var(--c-divider-dark);
   --c-bg: var(--c-black);
   --c-bg-accent: var(--c-black-light);
+  --code-bg-color: var(--c-black-light);
+  --code-inline-bg-color: var(--c-black-light);
 }
 
 body,
