@@ -5,8 +5,20 @@
  */
 module.exports = {
   title: 'Pinia',
+  lang: 'en',
   description: 'The Vue Store that takes care of you',
-  head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }]],
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
+    [
+      'link',
+      {
+        rel: 'preload',
+        href: '/dank-mono.css',
+        as: 'style',
+        onload: "this.onload=null;this.rel='stylesheet'",
+      },
+    ],
+  ],
   themeConfig: {
     repo: 'posva/pinia',
     logo: '/logo.svg',

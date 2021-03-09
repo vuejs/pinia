@@ -69,6 +69,9 @@
   --c-bg-accent: var(--c-white-dark);
   --code-bg-color: var(--c-white-dark);
   --code-inline-bg-color: var(--c-white-dark);
+  --code-font-family: 'dm', source-code-pro, Menlo, Monaco, Consolas,
+    'Courier New', monospace;
+  --code-font-size: 16px;
 }
 
 .custom-block.tip {
@@ -112,6 +115,8 @@ body,
 .nav-bar,
 .carbon-ads,
 .bsa-cpc,
+code,
+div[class*='language-'],
 .action.alt .item.item {
   /* transition when toggling dark mode */
   transition: background-color 300ms ease-in-out, color 300ms ease-in-out;

@@ -112,6 +112,7 @@ pre[class*='language-'] {
 }
 
 .token.selector,
+.token.function,
 .token.doctype {
   color: rgb(199, 146, 234);
   font-style: italic;
