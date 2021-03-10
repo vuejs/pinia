@@ -37,27 +37,22 @@ function toastMessage(
 }
 
 let isAlreadyInstalled: boolean | undefined
+const componentStateTypes: string[] = []
 
 export function addDevtools(app: App, store: GenericStore) {
   registeredStores.add(store)
+  componentStateTypes.push('🍍 ' + store.$id)
   setupDevtoolsPlugin(
     {
-      id: 'pinia',
+      id: 'dev.esm.pinia',
       label: 'Pinia 🍍',
+      logo: 'https://pinia.esm.dev/logo.svg',
+      packageName: 'pinia',
+      homepage: 'https://pinia.esm.dev',
+      componentStateTypes,
       app,
     },
     (api) => {
-      api.on.inspectComponent((payload, ctx) => {
-        if (payload.instanceData) {
-          payload.instanceData.state.push({
-            type: '🍍 ' + store.$id,
-            key: 'state',
-            editable: false,
-            value: store.$state,
-          })
-        }
-      })
-
       // watch(router.currentRoute, () => {
       //   // @ts-ignore
       //   api.notifyComponentUpdate()
@@ -67,6 +62,17 @@ export function addDevtools(app: App, store: GenericStore) {
       const piniaInspectorId = 'pinia'
 
       if (!isAlreadyInstalled) {
+        api.on.inspectComponent((payload, ctx) => {
+          if (payload.instanceData) {
+            payload.instanceData.state.push({
+              type: '🍍 ' + store.$id,
+              key: 'state',
+              editable: false,
+              value: store.$state,
+            })
+          }
+        })
+
         api.addTimelineLayer({
           id: mutationsLayerId,
           label: `Pinia 🍍`,
@@ -82,7 +88,6 @@ export function addDevtools(app: App, store: GenericStore) {
 
         isAlreadyInstalled = true
       } else {
-        // @ts-ignore
         api.notifyComponentUpdate()
         api.sendInspectorTree(piniaInspectorId)
         api.sendInspectorState(piniaInspectorId)
@@ -92,14 +97,13 @@ export function addDevtools(app: App, store: GenericStore) {
         // rootStore.state[store.id] = state
         const data: Record<string, any> = {
           store: formatDisplay(mutation.storeName),
-          type: formatDisplay(mutation.type),
+          // type: formatDisplay(mutation.type),
         }
 
         if (mutation.payload) {
           data.payload = mutation.payload
         }
 
-        // @ts-ignore
         api.notifyComponentUpdate()
         api.sendInspectorState(piniaInspectorId)
 
@@ -107,6 +111,7 @@ export function addDevtools(app: App, store: GenericStore) {
           layerId: mutationsLayerId,
           event: {
             time: Date.now(),
+            title: mutation.type,
             data,
           },
         })
