@@ -4,8 +4,7 @@ const META_URL = 'https://pinia.esm.dev'
 const META_TITLE = 'Pinia 🍍'
 const META_DESCRIPTION =
   'Intuitive, type safe, light and flexible Store for Vue'
-const META_IMAGE =
-  'https://repository-images.githubusercontent.com/222544417/096e7b80-832b-11eb-8452-4cfd706012cd'
+const META_IMAGE = 'https://pinia.esm.dev/social.png'
 
 /**
  * @type {import('vitepress').UserConfig}
