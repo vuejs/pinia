@@ -124,12 +124,41 @@ export type Store<
   StoreWithActions<A> &
   PiniaCustomProperties<Id, S, G, A>
 
+/**
+ * Return type of `defineStore()`. Function that allows instantiating a store.
+ */
+export interface StoreDefinition<
+  Id extends string,
+  S extends StateTree,
+  G /* extends Record<string, StoreGetterThis> */,
+  A /* extends Record<string, StoreAction> */
+> {
+  (pinia?: Pinia | null | undefined): Store<Id, S, G, A>
+  $id: Id
+}
+
+/**
+ * Generic version of Store
+ */
 export type GenericStore = Store<
   string,
   StateTree,
   Record<string, Method>,
   Record<string, Method>
 >
+
+/**
+ * Generic version of `StoreDefinition`
+ */
+export interface GenericStoreDefinition {
+  (pinia?: Pinia | null | undefined): Store<
+    string,
+    StateTree,
+    Record<string, Method>,
+    Record<string, Method>
+  >
+  $id: string
+}
 
 export interface DevtoolHook {
   on(

@@ -19,6 +19,7 @@ import {
   Method,
   StateDescriptor,
   PiniaCustomProperties,
+  StoreDefinition,
 } from './types'
 import { useStoreDevtools } from './devtools'
 import {
@@ -276,10 +277,10 @@ export function defineStore<
         StoreWithGetters<G> &
         PiniaCustomProperties
     >
-}) {
+}): StoreDefinition<Id, S, G, A> {
   const { id, state, getters, actions } = options
 
-  return function useStore(pinia?: Pinia | null): Store<Id, S, G, A> {
+  function useStore(pinia?: Pinia | null): Store<Id, S, G, A> {
     // const vm = getCurrentInstance()
     // pinia = pinia || (vm && ((vm as any).$pinia as Pinia))
     pinia = pinia || (getCurrentInstance() && inject(piniaSymbol))
@@ -324,4 +325,9 @@ export function defineStore<
       actions as Record<string, Method> | undefined
     )
   }
+
+  // used by devtools
+  useStore.$id = id
+
+  return useStore
 }
