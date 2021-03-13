@@ -12,7 +12,7 @@ const META_IMAGE = 'https://pinia.esm.dev/social.png'
 module.exports = {
   title: 'Pinia',
   lang: 'en',
-  description: 'The sweetest and most fresh Vue Store',
+  description: 'The Vue Store that you will enjoy using',
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
     [
