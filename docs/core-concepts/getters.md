@@ -16,7 +16,7 @@ export const useStore = defineStore({
 })
 ```
 
-Like [actions](./actions.md), getters get access to the _whole store instance_ through `this` with full typing (and autocompletion ✨) support.
+Like [actions](./actions.md), getters get access to the _whole store instance_ through `this` with **full typing (and autocompletion ✨) support**.
 
 Then you can access the getter directly on the store instance:
 
@@ -60,7 +60,11 @@ export const useStore = defineStore({
 
 ## Accessing other stores
 
+To access a different store, you can directly _use_ the other store inside of a `getter`
+
 ```js
+import { useOtherStore } from './other-store'
+
 export const useStore = defineStore({
   id: 'main',
   state: () => ({

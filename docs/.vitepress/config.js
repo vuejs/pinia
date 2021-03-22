@@ -162,7 +162,7 @@ module.exports = {
         },
         {
           text: 'Server-Side Rendering (SSR)',
-          link: '/ssr.html',
+          link: '/server-side-rendering.html',
         },
         {
           text: 'Cookbook',

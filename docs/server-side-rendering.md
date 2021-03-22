@@ -1,4 +1,4 @@
-# Server Side Rendering
+# Server Side Rendering (SSR)
 
 Creating stores with Pinia should work out of the box for SSR as long as you call your `useStore()` functions at the top of `setup` functions, `getters` and `actions`:
 

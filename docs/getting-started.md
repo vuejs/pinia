@@ -9,7 +9,7 @@ npm install pinia@next
 ```
 
 :::tip
-Install Pinia v2 for Vue 3 `pinia@next` and Pinia v1 `pinia@latest` for Vue 2.
+`pinia@next` install Pinia v2 for Vue 3. If your app is using Vue 2, you need to install Pinia v1: `pinia@latest`.
 :::
 
 Create a pinia (the root store) and pass it to app:
@@ -20,7 +20,7 @@ import { createPinia } from 'pinia'
 app.use(createPinia())
 ```
 
-If you are using Vue 2, do:
+If you are using Vue 2, you also need to install a plugin and inject the created `pinia` at the root of the app:
 
 ```js
 import { createPinia, PiniaPlugin } from 'pinia'
@@ -31,6 +31,9 @@ const pinia = createPinia()
 new Vue({
   el: '#app',
   // other options...
+  // ...
+  // note the same `pinia` instance can be used across multiple Vue apps on
+  // the same page
   pinia,
 })
 ```
@@ -39,7 +42,7 @@ This will also add devtools support. In Vue 3, some features like time traveling
 
 ## What is a Store?
 
-A Store (like Pinia) is an entity holding state and business logic that isn't bound to your Component tree. In other words, **it hosts global state**. It's a bit like a component that is always there and that everybody can read off and write to. It has **three concepts**, the [state](./state.md), [getters](./getters.md) and [actions](./actions.md).
+A Store (like Pinia) is an entity holding state and business logic that isn't bound to your Component tree. In other words, **it hosts global state**. It's a bit like a component that is always there and that everybody can read off and write to. It has **three concepts**, the [state](./core-concepts/state.md), [getters](./core-concepts/getters.md) and [actions](./core-concepts/actions.md) and it's safe to assume these concepts are the equivalent of `data`, `computed` and `methods` in components.
 
 ## When should I use a Store
 

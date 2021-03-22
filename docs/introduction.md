@@ -11,7 +11,11 @@ import { defineStore } from 'pinia'
 
 export const useCounter = defineStore({
   id: 'counter',
-  state: () => ({ count: 0 }),
+  state() {
+    return { count: 0 }
+  },
+  // could also be defined as
+  // state: () => ({ count: 0 })
 })
 ```
 
@@ -29,13 +33,15 @@ export default {
 }
 ```
 
+<!-- TODO: or if you prefer using the options api, use `mapStores` -->
+
 ## Why _Pinia_
 
 Pinia (pronounced like `/peenya/` in English) is is the closest word to _piña_ (_pineapple_ in Spanish) that is a valid package name. A pineapple is in reality a group of individual flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
 
 ## A more realistic example
 
-Here is a more complete example of the API you will be using with Pinia **with types** even in JavaScript:
+Here is a more complete example of the API you will be using with Pinia **with types even in JavaScript**. For some people this might be enough to get started without reading further but we still recommend checking the rest of the documentation or even skipping this example and coming back once you have read about all of the _Core Concepts_.
 
 ```js
 import { defineStore } from 'pinia'
