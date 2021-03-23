@@ -1,10 +1,10 @@
 # Composing Stores
 
-Composing stores may look hard at first glance but there is only one rule to follow really:
+Composing stores is about having stores that use each other and there is one rule to follow:
 
-If **multiple stores use each other** or you need to use **multiple stores** at the same time, you must create a **separate file** where you import all of them.
+If **two or more stores use each other**, you must create a new store in a **separate file** where you import and use all of them.
 
-If one store uses an other store, there is no need to create a new file, you can directly import it. Think of it as nesting.
+Note that if one store uses an other store, **there is no need to create a new store in a separate file**, you can directly import it. Think of it as nesting.
 
 You can call `useOtherStore()` at the top of any getter an action:
 
@@ -66,7 +66,6 @@ import { useCartStore } from './cart'
 
 export const useSharedStore = defineStore({
   id: 'shared',
-  state: () => ({}),
   actions: {
     async orderCart() {
       const user = useUserStore()

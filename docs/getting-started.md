@@ -9,7 +9,7 @@ npm install pinia@next
 ```
 
 :::tip
-`pinia@next` install Pinia v2 for Vue 3. If your app is using Vue 2, you need to install Pinia v1: `pinia@latest`.
+`pinia@next` install Pinia v2 for Vue 3. If your app is using Vue 2, you need to install Pinia v1: `pinia@latest` **and** `@vue/composition-api`. If you are using Nuxt, you should follow [these instructions](./server-side-rendering.md#nuxt-js).
 :::
 
 Create a pinia (the root store) and pass it to app:

@@ -29,6 +29,39 @@ router.beforeEach((to) => {
 })
 ```
 
+## Nuxt.js
+
+Make sure to install [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/):
+
+```bash
+yarn add pinia @nuxtjs/composition-api
+# or with npm
+npm install pinia @nuxtjs/composition-api
+```
+
+If you are using Nuxt, we supply a _module_ to handle everything for you, you only need to add it to `buildModules` in your `nuxt.config.js` file:
+
+```js
+// nuxt.config.js
+export default {
+  // ... other options
+  buildModules: ['@nuxtjs/composition-api', 'pinia/nuxt'],
+}
+```
+
+If you are using TypeScript or have a `jsconfig.json`, you should also add the types for `context.pinia`:
+
+```js
+{
+  "include": [
+    // ...
+    "pinia/nuxt/types"
+  ]
+}
+```
+
+## State hydration
+
 To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on:
 
 ```js
@@ -47,7 +80,43 @@ app.use(pinia)
 escapeHTML(JSON.stringify(pinia.state.value))
 ```
 
-On client side, you must hydrate pinia's state before calling any `useStore()` function. For example, if we serialize the state into a `<script>` tag to make it accessible globally on client side through `window.__pinia`, we can write this:
+Depending on what you are using for SSR, you will set an _initial state_ variable that will be serialized in the HTML. Example with [vite-ssr](https://github.com/frandiox/vite-ssr):
+
+```js
+export default viteSSR(App, { routes }, ({ initialState }) => {
+  // ...
+  if (import.meta.env.SSR) {
+    initialState.pinia = JSON.stringify(pinia.state.value)
+  }
+})
+```
+
+And add a _module_ to load the state on the client. It should be picked up automatically by `vite-ssr`:
+
+```ts
+// modules/pinia.ts
+import { createPinia } from 'pinia'
+import { UserModule } from '~/types'
+
+export const install: UserModule = ({ isClient, router, app }) => {
+  const pinia = createPinia()
+  app.use(pinia)
+  router.pinia = pinia
+
+  if (isClient) {
+    console.log('setting')
+    // @ts-ignore
+    if (window.__INITIAL_STATE__?.pinia) {
+      // @ts-ignore
+      pinia.state.value = JSON.parse(window.__INITIAL_STATE__.pinia)
+    }
+  }
+
+  return pinia
+}
+```
+
+Adapt this strategy to your environment. Make sure to hydrate pinia's state before calling any `useStore()` function on client side. For example, if we serialize the state into a `<script>` tag to make it accessible globally on client side through `window.__pinia`, we can write this:
 
 ```js
 const pinia = createPinia()
