@@ -3,5 +3,6 @@
     "config:base",
     "group:allNonMajor",
     ":semanticCommitTypeAll(chore)"
-  ]
+  ],
+  "rangeStrategy": "bump"
 }
