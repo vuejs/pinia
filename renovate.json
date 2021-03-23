@@ -3,6 +3,5 @@
     "config:base",
     "group:allNonMajor",
     ":semanticCommitTypeAll(chore)",
-
   ],
 }
