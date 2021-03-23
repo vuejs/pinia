@@ -133,3 +133,7 @@ div[class*='language-'],
   transition: transform 250ms ease, background-color 300ms ease-in-out,
     color 300ms ease-in-out;
 }
+
+code {
+  font-size: 0.95em;
+}
