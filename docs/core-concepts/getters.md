@@ -52,15 +52,15 @@ export const useStore = defineStore({
     },
     doubleCountPlusOne() {
       // autocompletion ✨
-      return this.doubleCount * 2
+      return this.doubleCount + 1
     },
   },
 })
 ```
 
-## Accessing other stores
+## Accessing other stores getters
 
-To access a different store, you can directly _use_ the other store inside of a `getter`
+To use another store getters, you can directly _use it_ inside of the _action_:
 
 ```js
 import { useOtherStore } from './other-store'

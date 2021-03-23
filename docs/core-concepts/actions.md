@@ -9,8 +9,8 @@ export const useStore = defineStore({
     counter: 0,
   }),
   actions: {
-    reset() {
-      this.counter = 0
+    randomizeCounter() {
+      this.counter = Math.round(100 * Math.random())
     },
   },
 })
@@ -25,9 +25,34 @@ export default defineComponent({
   setup() {
     const main = useMainStore()
     // call the action as a method of the store
-    main.reset()
+    main.randomizeCounter()
 
     return {}
+  },
+})
+```
+
+## Accessing other stores actions
+
+To use another store, you can directly _use it_ inside of the _getter_:
+
+```js
+import { useOtherStore } from './other-store'
+
+export const useSettingsStore = defineStore({
+  id: 'settings',
+  state: () => ({
+    // ...
+  }),
+  actions: {
+    async fetchUserPreferences(preferences) {
+      const auth = useAuthStore()
+      if (auth.isAuthenticated) {
+        this.preferences = await fetchPreferences()
+      } else {
+        throw new Error('User must be authenticated')
+      }
+    },
   },
 })
 ```
