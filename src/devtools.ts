@@ -1,6 +1,4 @@
-import { Pinia } from './rootStore'
 import { DevtoolHook, StateTree, StoreWithState } from './types'
-import { assign } from './utils'
 
 const target =
   typeof window !== 'undefined'
@@ -65,7 +63,10 @@ export function useStoreDevtools(
   // tell the devtools we added a module
   rootStore.registerModule(store.$id, store)
 
-  Object.defineProperty(rootStore.state, store.$id, stateDescriptor)
+  Object.defineProperty(rootStore.state, store.$id, {
+    enumerable: true,
+    ...stateDescriptor,
+  })
 
   // Vue.set(rootStore.state, store.name, store.state)
   // the trailing slash is removed by the devtools
@@ -77,9 +78,14 @@ export function useStoreDevtools(
 
   store.$subscribe((mutation, state) => {
     rootStore.state[store.$id] = state
-    devtoolHook.emit('vuex:mutation', {
-      type: `[${mutation.storeName}] ${mutation.type}`,
-      payload: mutation.payload,
-    })
+    devtoolHook.emit(
+      'vuex:mutation',
+      {
+        type: `[${mutation.storeName}] ${mutation.type}`,
+        payload: mutation.payload,
+      },
+      // this doesn't seem to be used by the devtools but it's in vuex codebase
+      rootStore.state
+    )
   })
 }
