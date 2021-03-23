@@ -1,3 +1,9 @@
+## [0.2.1](https://github.com/posva/pinia/compare/v0.2.0...v0.2.1) (2021-03-23)
+
+### Bug Fixes
+
+- **devtools:** time travel and state display ([043ae2a](https://github.com/posva/pinia/commit/043ae2ac229b55087d962432b7501483403742e2)), closes [#394](https://github.com/posva/pinia/issues/394) [#19](https://github.com/posva/pinia/issues/19)
+
 # [0.2.0](https://github.com/posva/pinia/compare/0.1.0...0.2.0) (2021-03-08)
 
 ### Bug Fixes
