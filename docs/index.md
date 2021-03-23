@@ -20,7 +20,7 @@ features:
     details: Build multiple stores and let your bundler code split them automatically.
   - title: 📦 Extremely light
     details: Pinia weights around 1kb, you will forget it's even there!
-footer: MIT Licensed | Copyright © 2020-present Eduardo San Martin Morote
+footer: MIT Licensed | Copyright © 2019-present Eduardo San Martin Morote
 ---
 
 <ThemeToggle/>
