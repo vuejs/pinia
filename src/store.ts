@@ -230,27 +230,23 @@ function buildStoreToUse<
     } as StoreWithActions<A>[typeof actionName]
   }
 
-  const extensions = pinia._p.reduce(
-    (extended, extender) => assign({}, extended, extender()),
-    {} as PiniaCustomProperties
-  )
-
-  const store: Store<Id, S, G, A> = reactive(
-    assign(
-      {},
-      extensions,
-      partialStore,
-      // using this means no new properties can be added as state
-      computedFromState(pinia.state, $id),
-      computedGetters,
-      wrappedActions
-    )
-  ) as Store<Id, S, G, A>
+  const store: Store<Id, S, G, A> = reactive({
+    ...partialStore,
+    // using this means no new properties can be added as state
+    ...computedFromState(pinia.state, $id),
+    ...computedGetters,
+    ...wrappedActions,
+  }) as Store<Id, S, G, A>
 
   // use this instead of a computed with setter to be able to create it anywhere
   // without linking the computed lifespan to wherever the store is first
   // created.
   Object.defineProperty(store, '$state', descriptor)
+
+  // apply all plugins
+  pinia._p.forEach((extender) => {
+    Object.assign(store, extender({ store, app: pinia._a }))
+  })
 
   return store
 }

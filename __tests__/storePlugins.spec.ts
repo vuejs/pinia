@@ -33,7 +33,7 @@ describe('store plugins', () => {
     mount({ template: 'none' }, { global: { plugins: [pinia] } })
 
     // must call use after installing the plugin
-    pinia.use((app) => {
+    pinia.use(({ app }) => {
       return { n: 20, uid: app._uid }
     })
 
@@ -51,7 +51,7 @@ describe('store plugins', () => {
     const pinia = createPinia()
 
     pinia.use(() => ({ n: 1 }))
-    pinia.use((app) => ({ uid: app._uid }))
+    pinia.use(({ app }) => ({ uid: app._uid }))
 
     mount({ template: 'none' }, { global: { plugins: [pinia] } })
 
