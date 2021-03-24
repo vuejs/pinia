@@ -6,6 +6,21 @@ const META_DESCRIPTION =
   'Intuitive, type safe, light and flexible Store for Vue'
 const META_IMAGE = 'https://pinia.esm.dev/social.png'
 
+const isProduction = process.env.NODE_ENV
+/**
+ * @type {import('vitepress').UserConfig['head']}
+ */
+const productionHead = [
+  [
+    'script',
+    {
+      src: 'https://unpkg.com/thesemetrics@latest',
+      async: '',
+      type: 'text/javascript',
+    },
+  ],
+]
+
 /**
  * @type {import('vitepress').UserConfig}
  */
@@ -95,6 +110,7 @@ module.exports = {
         onload: "this.onload=null;this.rel='stylesheet'",
       },
     ],
+    ...(isProduction ? productionHead : []),
   ],
   themeConfig: {
     repo: 'posva/pinia',
