@@ -37,7 +37,7 @@ export default defineComponent({
 To use another store, you can directly _use it_ inside of the _getter_:
 
 ```js
-import { useOtherStore } from './other-store'
+import { useAuthStore } from './auth-store'
 
 export const useSettingsStore = defineStore({
   id: 'settings',
