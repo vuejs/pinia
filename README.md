@@ -138,7 +138,7 @@ export const useMainStore = defineStore({
     },
     // use getters in other getters
     doubleCountPlusOne() {
-      return this.doubleCount * 2
+      return this.doubleCount * 2 + 1
     },
   },
   // optional actions
