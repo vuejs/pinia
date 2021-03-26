@@ -2,7 +2,14 @@
   "extends": [
     "config:base",
     "group:allNonMajor",
+    "schedule:earlyMondays",
     ":semanticCommitTypeAll(chore)"
   ],
-  "rangeStrategy": "bump"
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    }
+  ]
 }
