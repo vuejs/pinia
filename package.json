@@ -6,6 +6,17 @@
   "module": "dist/pinia.esm-bundler.js",
   "unpkg": "dist/pinia.global.js",
   "jsdelivr": "dist/pinia.global.js",
+  "exports": {
+    ".": {
+      "require": "./dist/pinia.cjs.js",
+      "browser": "./dist/pinia.esm-browser.js",
+      "import": "./dist/pinia.esm-bundler.js",
+      "module": "./dist/pinia.esm-bundler.js"
+    },
+    "./package.json": "./package.json",
+    "./nuxt": "./nuxt/index.js",
+    "./nuxt/*": "./nuxt/*"
+  },
   "types": "dist/src",
   "sideEffects": false,
   "author": {
@@ -55,7 +66,7 @@
   "devDependencies": {
     "@nuxt/types": "^2.15.2",
     "@rollup/plugin-alias": "^3.1.1",
-    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-commonjs": "^18.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-replace": "^2.3.3",
     "@types/jest": "^26.0.20",
