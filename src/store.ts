@@ -42,6 +42,8 @@ function innerPatch<T extends StateTree>(
   return target
 }
 
+const { assign } = Object
+
 /**
  * Create an object of computed properties referring to
  *
@@ -206,21 +208,21 @@ function buildStoreToUse<
   }
 
   const extensions = pinia._p.reduce(
-    (extended, extender) => ({
-      ...extended,
-      ...extender(),
-    }),
+    (extended, extender) => assign({}, extended, extender()),
     {} as PiniaCustomProperties
   )
 
-  const store: Store<Id, S, G, A> = reactive({
-    ...extensions,
-    ...partialStore,
-    // using this means no new properties can be added as state
-    ...computedFromState(pinia.state, $id),
-    ...computedGetters,
-    ...wrappedActions,
-  }) as Store<Id, S, G, A>
+  const store: Store<Id, S, G, A> = reactive(
+    assign(
+      {},
+      extensions,
+      partialStore,
+      // using this means no new properties can be added as state
+      computedFromState(pinia.state, $id),
+      computedGetters,
+      wrappedActions
+    )
+  ) as Store<Id, S, G, A>
 
   // use this instead of a computed with setter to be able to create it anywhere
   // without linking the computed lifespan to wherever the store is first
