@@ -7,6 +7,14 @@
   "unpkg": "dist/pinia.global.js",
   "jsdelivr": "dist/pinia.global.js",
   "types": "dist/pinia.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/pinia.cjs.js",
+      "browser": "./dist/pinia.esm-browser.js",
+      "import": "./dist/pinia.esm-bundler.js"
+    },
+    "./package.json": "./package.json"
+  },
   "sideEffects": false,
   "author": {
     "name": "Eduardo San Martin Morote",
