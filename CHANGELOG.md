@@ -1,3 +1,14 @@
+# [2.0.0-alpha.8](https://github.com/posva/pinia/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2021-03-29)
+
+### Bug Fixes
+
+- use assign instead of spread ([b2bb5ba](https://github.com/posva/pinia/commit/b2bb5ba4faf52c41479a7d77490b85016b853229))
+- **cjs:** ensure dev checks on cjs build ([a255735](https://github.com/posva/pinia/commit/a255735211b796120d5f76470ea18759f1eb5d97))
+
+### Features
+
+- **devtools:** logo and titles ([0963fd0](https://github.com/posva/pinia/commit/0963fd0b647b0e5414782f78167c770cbab24a83))
+
 # [2.0.0-alpha.7](https://github.com/posva/pinia/compare/v2.0.0-alpha.6...v2.0.0-alpha.7) (2021-01-21)
 
 ### Bug Fixes
