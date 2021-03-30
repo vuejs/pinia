@@ -120,11 +120,15 @@ module.exports = {
     editLinks: true,
     editLinkText: 'Suggest changes to this page',
 
-    // TODO: get keys once ready
-    // algolia: {
-    //   apiKey: 'b573aa848fd57fb47d693b531297403c',
-    //   indexName: 'vitejs',
-    // },
+    algolia: {
+      apiKey: 'd526df143dcebc3c6de61189345348d1',
+      indexName: 'pinia',
+      algoliaOptions: {
+        facetFilters: [
+          'tags:introduction,getting-started,core-concepts,ssr,cookbook',
+        ],
+      },
+    },
 
     carbonAds: {
       carbon: 'CEBICK3I',
