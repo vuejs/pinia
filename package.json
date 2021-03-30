@@ -11,7 +11,8 @@
     ".": {
       "require": "./dist/pinia.cjs.js",
       "browser": "./dist/pinia.esm-browser.js",
-      "import": "./dist/pinia.esm-bundler.js"
+      "import": "./dist/pinia.esm-bundler.js",
+      "module": "./dist/pinia.esm-bundler.js"
     },
     "./package.json": "./package.json"
   },
