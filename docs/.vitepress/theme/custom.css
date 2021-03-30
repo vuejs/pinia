@@ -146,10 +146,20 @@ div[class*='language-'],
   transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
 }
 
-.sidebar.sidebar.sidebar {
+.sidebar.sidebar.sidebar,
+.DocSearch,
+.DocSearch-Search-Icon,
+.DocSearch-Form {
   /* transition when toggling dark mode */
   transition: transform 250ms ease, background-color 300ms ease-in-out,
     color 300ms ease-in-out;
+}
+
+.DocSearch-Button-Key,
+.DocSearch-Footer,
+.DocSearch-Modal {
+  transition: background-color 300ms ease-in-out, color 300ms ease-in-out,
+    box-shadow 250ms ease-in-out;
 }
 
 code {
