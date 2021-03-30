@@ -67,9 +67,9 @@ export const todos = defineStore({
     filteredTodos() {
       if (this.filter === 'finished') {
         // call other getters with autocompletion ✨
-        return this.finishedTodos()
+        return this.finishedTodos
       } else if (this.filter === 'unfinished') {
-        return this.unfinishedTodos()
+        return this.unfinishedTodos
       }
       return this.todos
     },
@@ -78,7 +78,7 @@ export const todos = defineStore({
     // any amount of arguments, return a promise or not
     addTodo(text) {
       // you can directly mutate the state
-      this.todos.push({ text, id: nextId++, isFinished: false })
+      this.todos.push({ text, id: this.nextId++, isFinished: false })
     },
   },
 })
