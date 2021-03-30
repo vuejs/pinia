@@ -47,7 +47,7 @@ router.beforeEach((to) => {
 ```
 
 :::tip
-When dealing with Server Side Rendering, you will have to pass the `pinia` instance to `useStore()`. Read more about this in the [SSR guide](/server-side-rendering.md).
+When dealing with Server Side Rendering, you will have to pass the `pinia` instance to `useStore()`. Read more about this in the [SSR guide](/ssr/index.md).
 :::
 
 Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will see these in detail in the next pages but autocompletion will help you.
