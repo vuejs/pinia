@@ -1,3 +1,9 @@
+## [0.2.4](https://github.com/posva/pinia/compare/v0.2.3...v0.2.4) (2021-03-31)
+
+### Bug Fixes
+
+- **nuxt:** automatically transpile pinia ([7c03691](https://github.com/posva/pinia/commit/7c0369194f6518ab5ea221f4a260f9b4506f222b))
+
 ## [0.2.3](https://github.com/posva/pinia/compare/v0.2.2...v0.2.3) (2021-03-31)
 
 ### Bug Fixes
