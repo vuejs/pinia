@@ -3,10 +3,11 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import Vue from 'vue'
 
 declare module '../src' {
-  export interface PiniaCustomProperties {
+  export interface PiniaCustomProperties<Id> {
     n: number
     // uid: App['_uid']
     hasPinia: boolean
+    idFromPlugin: Id
   }
 }
 
@@ -44,6 +45,8 @@ describe('store plugins', () => {
     expect(store.n).toBe(20)
     // @ts-expect-error: n is a number
     store.n.notExisting
+    // @ts-expect-error: it should always be 'test'
+    store.idFromPlugin == 'hello'
   })
 
   it('can install plugins before installing pinia', () => {
