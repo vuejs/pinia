@@ -1,3 +1,10 @@
+## [0.2.3](https://github.com/posva/pinia/compare/v0.2.2...v0.2.3) (2021-03-31)
+
+### Bug Fixes
+
+- **types:** add PiniaCustomProperties to stores ([a12d96d](https://github.com/posva/pinia/commit/a12d96db6d981d4af023360018bd1c6a6658ff8e))
+- **types:** pass custom properties to actions and getters ([6a5326f](https://github.com/posva/pinia/commit/6a5326f3acd6e1244401bf276964c348e6cb8721))
+
 ## [0.2.2](https://github.com/posva/pinia/compare/v0.2.1...v0.2.2) (2021-03-31)
 
 This build exposes the `exports` option in `package.json`, please report any errors you find.
