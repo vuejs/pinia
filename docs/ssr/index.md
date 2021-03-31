@@ -49,7 +49,7 @@ export default {
 
 ## State hydration
 
-To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on:
+To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on. Depending on what you are using for SSR, you should escape the state for security reasons. We recommend using [@nuxt/devalue](https://github.com/nuxt-contrib/devalue) which is the used by Nuxt.js.
 
 ```js
 import { createPinia } from 'pinia'
