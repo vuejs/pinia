@@ -18,6 +18,7 @@ import {
   StoreWithActions,
   Method,
   StateDescriptor,
+  PiniaCustomProperties,
 } from './types'
 import { useStoreDevtools } from './devtools'
 import {
@@ -25,7 +26,6 @@ import {
   Pinia,
   setActivePinia,
   getActivePinia,
-  PiniaCustomProperties,
   piniaSymbol,
 } from './rootStore'
 import { assign } from './utils'
@@ -253,9 +253,16 @@ export function defineStore<
 >(options: {
   id: Id
   state?: () => S
-  getters?: G & ThisType<S & StoreWithGetters<G>>
+  getters?: G & ThisType<S & StoreWithGetters<G> & PiniaCustomProperties>
   // allow actions use other actions
-  actions?: A & ThisType<A & S & StoreWithState<Id, S> & StoreWithGetters<G>>
+  actions?: A &
+    ThisType<
+      A &
+        S &
+        StoreWithState<Id, S> &
+        StoreWithGetters<G> &
+        PiniaCustomProperties
+    >
 }) {
   const { id, state, getters, actions } = options
 
