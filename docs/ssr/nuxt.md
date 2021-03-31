@@ -49,11 +49,12 @@ You can also use [the context](https://nuxtjs.org/docs/2.x/internals-glossary/co
 
 ```js
 defineStore({
-  id: 'main',
+  id: 'cart',
 
   actions: {
-    login() {
-      if (!canLogin()) {
+    purchase() {
+      const user = useUserStore()
+      if (!user.isAuthenticated()) {
         this.$nuxt.redirect('/login')
       }
     },
