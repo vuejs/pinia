@@ -11,7 +11,21 @@ declare module '../src' {
 }
 
 describe('store plugins', () => {
-  const useStore = defineStore({ id: 'test' })
+  const useStore = defineStore({
+    id: 'test',
+
+    actions: {
+      incrementN() {
+        return this.n++
+      },
+    },
+
+    getters: {
+      doubleN() {
+        return this.n * 2
+      },
+    },
+  })
   it('adds properties to stores', () => {
     const pinia = createPinia()
 
@@ -26,6 +40,8 @@ describe('store plugins', () => {
 
     expect(store.n).toBe(20)
     expect(store.uid).toBeDefined()
+    // @ts-expect-error: n is a number
+    store.n.notExisting
   })
 
   it('can install plugins before installing pinia', () => {
@@ -43,5 +59,34 @@ describe('store plugins', () => {
     expect(store.n).toBe(1)
     expect(store.uid).toBeDefined()
     expect(store.hasApp).toBe(true)
+  })
+
+  it('can be used in actions', () => {
+    const pinia = createPinia()
+
+    // must call use after installing the plugin
+    pinia.use(() => {
+      return { n: 20 }
+    })
+
+    mount({ template: 'none' }, { global: { plugins: [pinia] } })
+
+    const store = useStore(pinia)
+
+    expect(store.incrementN()).toBe(20)
+  })
+
+  it('can be used in getters', () => {
+    const pinia = createPinia()
+
+    // must call use after installing the plugin
+    pinia.use(() => {
+      return { n: 20 }
+    })
+
+    mount({ template: 'none' }, { global: { plugins: [pinia] } })
+
+    const store = useStore(pinia)
+    expect(store.doubleN).toBe(40)
   })
 })

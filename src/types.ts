@@ -136,7 +136,11 @@ export type Store<
   S extends StateTree,
   G,
   A
-> = StoreWithState<Id, S> & S & StoreWithGetters<G> & StoreWithActions<A>
+> = StoreWithState<Id, S> &
+  S &
+  StoreWithGetters<G> &
+  StoreWithActions<A> &
+  PiniaCustomProperties
 
 /**
  * Generic store type
@@ -147,3 +151,8 @@ export type GenericStore = Store<
   Record<string, Method>,
   Record<string, Method>
 >
+
+/**
+ * Properties that are added to every store by `pinia.use()`
+ */
+export interface PiniaCustomProperties {}

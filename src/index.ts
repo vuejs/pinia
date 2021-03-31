@@ -3,7 +3,6 @@ export {
   createPinia,
   Pinia,
   PiniaStorePlugin,
-  PiniaCustomProperties,
 } from './rootStore'
 export { defineStore } from './store'
 export {
@@ -12,6 +11,7 @@ export {
   StoreWithGetters,
   StoreWithActions,
   StoreWithState,
+  PiniaCustomProperties,
 } from './types'
 
 // TODO: remove in beta

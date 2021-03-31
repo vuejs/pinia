@@ -83,3 +83,5 @@ export const todos = defineStore({
   },
 })
 ```
+
+## Comparison with other

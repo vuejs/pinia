@@ -1,6 +1,11 @@
 import { App, InjectionKey, Plugin, Ref, ref, warn } from 'vue'
 import { IS_CLIENT } from './env'
-import { StateTree, StoreWithState, StateDescriptor } from './types'
+import {
+  StateTree,
+  StoreWithState,
+  StateDescriptor,
+  PiniaCustomProperties,
+} from './types'
 
 /**
  * setActivePinia must be called to handle SSR at the top of functions like
@@ -148,8 +153,3 @@ export function createPinia(): Pinia {
 
   return pinia
 }
-
-/**
- * Properties that are added to every store by `pinia.use()`
- */
-export interface PiniaCustomProperties {}
