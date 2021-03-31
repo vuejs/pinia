@@ -6,6 +6,7 @@ import { Context } from '@nuxt/types'
 declare module '@nuxt/types' {
   export interface Context {
     pinia: Pinia
+    $pinia: Pinia
   }
 }
 

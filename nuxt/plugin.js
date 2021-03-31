@@ -12,7 +12,10 @@ const myPlugin = (context, inject) => {
 
   /** @type {import('../src').Pinia} */
   const pinia = createPinia()
+  inject('pinia', pinia)
+  // simulate the injection ofr `new Vue({ pinia })`
   context.app.pinia = pinia
+  // we also inject it without the $ to be able to use it without it
   context.pinia = pinia
   setActivePinia(pinia)
 
