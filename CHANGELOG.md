@@ -1,3 +1,9 @@
+# [2.0.0-alpha.9](https://github.com/posva/pinia/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2021-03-31)
+
+### Bug Fixes
+
+- **types:** pass custom properties to stores ([d26df6e](https://github.com/posva/pinia/commit/d26df6e1133fc8dff58312df36ff2af6f129a560))
+
 # [2.0.0-alpha.8](https://github.com/posva/pinia/compare/v2.0.0-alpha.7...v2.0.0-alpha.8) (2021-03-29)
 
 ### Bug Fixes
