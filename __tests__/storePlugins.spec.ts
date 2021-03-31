@@ -28,6 +28,8 @@ describe('store plugins', () => {
     const store = useStore(pinia)
 
     expect(store.n).toBe(20)
+    // @ts-expect-error: n is a number
+    store.n.notExisting
   })
 
   it('can install plugins before installing pinia', () => {

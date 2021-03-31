@@ -1,5 +1,10 @@
 import { InjectionKey, ref, Ref } from '@vue/composition-api'
-import { StateTree, StoreWithState, StateDescriptor } from './types'
+import {
+  StateTree,
+  StoreWithState,
+  StateDescriptor,
+  PiniaCustomProperties,
+} from './types'
 import { VueConstructor } from 'vue'
 import type Vue from 'vue'
 
@@ -13,12 +18,6 @@ export const storesMap = new WeakMap<
   Pinia,
   Map<string, [StoreWithState<string, StateTree>, StateDescriptor<StateTree>]>
 >()
-
-/**
- * Properties that are added to every store by `pinia.use()`
- */
-// eslint-disable-next-line
-export interface PiniaCustomProperties {}
 
 export const piniaSymbol = (__DEV__
   ? Symbol('pinia')

@@ -109,7 +109,11 @@ export type Store<
   S extends StateTree,
   G,
   A
-> = StoreWithState<Id, S> & S & StoreWithGetters<G> & StoreWithActions<A>
+> = StoreWithState<Id, S> &
+  S &
+  StoreWithGetters<G> &
+  StoreWithActions<A> &
+  PiniaCustomProperties
 
 export type GenericStore = Store<
   string,
@@ -138,3 +142,9 @@ declare global {
     }
   }
 }
+
+/**
+ * Properties that are added to every store by `pinia.use()`
+ */
+// eslint-disable-next-line
+export interface PiniaCustomProperties {}

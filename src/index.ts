@@ -3,7 +3,6 @@ export {
   createPinia,
   Pinia,
   PiniaStorePlugin,
-  PiniaCustomProperties,
 } from './rootStore'
 export { defineStore } from './store'
 export { PiniaPlugin } from './plugin'
@@ -13,5 +12,8 @@ export {
   StoreWithGetters,
   StoreWithActions,
   StoreWithState,
+  PiniaCustomProperties,
 } from './types'
+
+// TODO: remove in beta
 export { createStore } from './deprecated'
