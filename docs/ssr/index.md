@@ -1,16 +1,23 @@
 # Server Side Rendering (SSR)
 
+:::tip
+If you are using **Nuxt.js,** you need to read [**these instructions**](./nuxt.md) instead.
+:::
+
 Creating stores with Pinia should work out of the box for SSR as long as you call your `useStore()` functions at the top of `setup` functions, `getters` and `actions`:
 
 ```ts
 export default defineComponent({
   setup() {
-    // this works because pinia knows what application is running
+    // this works because pinia knows what application is running inside of
+    // `setup()`
     const main = useMainStore()
     return { main }
   },
 })
 ```
+
+## Using the store outside of `setup()`
 
 If you need to use the store somewhere else, you need to pass the `pinia` instance [that was passed to the app](#install-the-plugin) to the `useStore()` function call:
 
@@ -22,41 +29,21 @@ app.use(router)
 app.use(pinia)
 
 router.beforeEach((to) => {
-  // ✅ This will work make sure the correct store is used for the current running app
+  // ✅ This will work make sure the correct store is used for the
+  // current running app
   const main = useMainStore(pinia)
 
   if (to.meta.requiresAuth && !main.isLoggedIn) return '/login'
 })
 ```
 
-## Nuxt.js
-
-Make sure to install [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/):
-
-```bash
-yarn add pinia @nuxtjs/composition-api
-# or with npm
-npm install pinia @nuxtjs/composition-api
-```
-
-If you are using Nuxt, we supply a _module_ to handle everything for you, you only need to add it to `buildModules` in your `nuxt.config.js` file:
+Pinia conveniently adds itself as `$pinia` to your app so you can use it in functions like `serverPrefetch()`:
 
 ```js
-// nuxt.config.js
 export default {
-  // ... other options
-  buildModules: ['@nuxtjs/composition-api', 'pinia/nuxt'],
-}
-```
-
-If you are using TypeScript or have a `jsconfig.json`, you should also add the types for `context.pinia`:
-
-```js
-{
-  "include": [
-    // ...
-    "pinia/nuxt/types"
-  ]
+  serverPrefetch() {
+    const store = useStore(this.$pinia)
+  },
 }
 ```
 

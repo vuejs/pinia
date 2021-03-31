@@ -183,6 +183,16 @@ module.exports = {
         {
           text: 'Server-Side Rendering (SSR)',
           link: '/ssr/',
+          children: [
+            {
+              text: 'Vue and Vite',
+              link: '/ssr/',
+            },
+            {
+              text: 'Nuxt.js',
+              link: '/ssr/nuxt.html',
+            },
+          ],
         },
         {
           text: 'Cookbook',

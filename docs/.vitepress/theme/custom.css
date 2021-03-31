@@ -113,6 +113,14 @@ html:not(.light):root {
   --code-inline-bg-color: var(--c-black-light);
 }
 
+html:not(.light) .custom-block.warning {
+  color: var(--c-text);
+}
+
+html:not(.light) .custom-block.warning a {
+  color: var(--c-brand);
+}
+
 html:not(.light) .DocSearch {
   --docsearch-text-color: var(--c-white-dark);
   --docsearch-container-background: rgba(9, 10, 17, 0.8);
