@@ -1,6 +1,6 @@
 import { InjectionKey, ref, Ref } from '@vue/composition-api'
 import { StateTree, StoreWithState, StateDescriptor } from './types'
-import { PluginFunction, VueConstructor } from 'vue'
+import { VueConstructor } from 'vue'
 import type Vue from 'vue'
 
 /**
@@ -74,34 +74,6 @@ declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
     pinia?: Pinia
   }
-}
-
-export const PiniaPlugin: PluginFunction<void> = function (_Vue) {
-  // Equivalent of
-  // app.config.globalProperties.$pinia = pinia
-  _Vue.mixin({
-    beforeCreate() {
-      const options = this.$options
-      if (options.pinia) {
-        options.pinia.Vue = _Vue
-        // HACK: taken from provide(): https://github.com/vuejs/composition-api/blob/master/src/apis/inject.ts#L25
-        /* istanbul ignore else */
-        if (!(this as any)._provided) {
-          const provideCache = {}
-          Object.defineProperty(this, '_provided', {
-            get: () => provideCache,
-            set: (v) => Object.assign(provideCache, v),
-          })
-        }
-        ;(this as any)._provided[piniaSymbol as any] = options.pinia
-
-        // propagate the pinia instance in an SSR friendly way
-        this.$pinia = options.pinia
-      } else if (options.parent && options.parent.$pinia) {
-        this.$pinia = options.parent.$pinia
-      }
-    },
-  })
 }
 
 /**
