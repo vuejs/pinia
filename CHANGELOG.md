@@ -1,3 +1,11 @@
+## [0.2.2](https://github.com/posva/pinia/compare/v0.2.1...v0.2.2) (2021-03-31)
+
+This build exposes the `exports` option in `package.json`, please report any errors you find.
+
+### Bug Fixes
+
+- use inject in nuxt plugin ([d768a43](https://github.com/posva/pinia/commit/d768a438e99e0eb81893922c049a61b5ea077443))
+
 ## [0.2.1](https://github.com/posva/pinia/compare/v0.2.0...v0.2.1) (2021-03-23)
 
 ### Bug Fixes
