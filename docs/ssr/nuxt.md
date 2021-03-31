@@ -19,13 +19,6 @@ We supply a _module_ to handle everything for you, you only need to add it to `b
 export default {
   // ... other options
   buildModules: ['@nuxtjs/composition-api', 'pinia/nuxt'],
-
-  // there is currently a unresolved bug that requires you to add
-  // `pinia` to `build.transpile` to make it work in production:
-  // https://github.com/nuxt-community/composition-api/issues/415
-  build: {
-    transpile: ['pinia'],
-  },
 }
 ```
 
