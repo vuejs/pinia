@@ -61,6 +61,21 @@ defineStore({
 })
 ```
 
+## Using Pinia alongside Vuex
+
+It is recommended to **avoid using both Pinia and Vuex** but if you need to use both, you need to tell pinia to not disable it:
+
+```js
+// nuxt.config.js
+export default {
+  buildModules: [
+    '@nuxtjs/composition-api',
+    ['pinia/nuxt', { disableVuex: false }],
+  ],
+  // ... other options
+}
+```
+
 ## Typescript
 
 If you are using TypeScript or have a `jsconfig.json`, you should also add the types for `context.pinia`:
