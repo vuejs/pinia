@@ -76,7 +76,7 @@ If you are using TypeScript or have a `jsconfig.json`, you should also add the t
 
 ```js
 {
-  "include": [
+  "types": [
     // ...
     "pinia/nuxt/types"
   ]
