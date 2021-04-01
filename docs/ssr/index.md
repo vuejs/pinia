@@ -49,9 +49,10 @@ export default {
 
 ## State hydration
 
-To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on. Depending on what you are using for SSR, you should escape the state for security reasons. We recommend using [@nuxt/devalue](https://github.com/nuxt-contrib/devalue) which is the used by Nuxt.js.
+To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on. Depending on what you are using for SSR, **you should escape the state for security reasons**. We recommend using [@nuxt/devalue](https://github.com/nuxt-contrib/devalue) which is the one used by Nuxt.js:
 
 ```js
+import devalue from '@nuxt/devalue'
 import { createPinia } from 'pinia'
 // retrieve the rootState server side
 const pinia = createPinia()
@@ -62,9 +63,8 @@ app.use(pinia)
 // after rendering the page, the root state is build and can be read
 // serialize, escape (VERY important if the content of the state can be changed
 // by the user, which is almost always the case), and place it somewhere on
-// the page, for example, as a global variable. Note you need to use your own
-// `escapeHTML()` function or use an existing package
-escapeHTML(JSON.stringify(pinia.state.value))
+// the page, for example, as a global variable.
+devalue(pinia.state.value)
 ```
 
 Depending on what you are using for SSR, you will set an _initial state_ variable that will be serialized in the HTML. Example with [vite-ssr](https://github.com/frandiox/vite-ssr):
@@ -73,7 +73,7 @@ Depending on what you are using for SSR, you will set an _initial state_ variabl
 export default viteSSR(App, { routes }, ({ initialState }) => {
   // ...
   if (import.meta.env.SSR) {
-    initialState.pinia = JSON.stringify(pinia.state.value)
+    initialState.pinia = devalue(pinia.state.value)
   }
 })
 ```
@@ -95,7 +95,7 @@ export const install: UserModule = ({ isClient, router, app }) => {
     // @ts-ignore
     if (window.__INITIAL_STATE__?.pinia) {
       // @ts-ignore
-      pinia.state.value = JSON.parse(window.__INITIAL_STATE__.pinia)
+      pinia.state.value = window.__INITIAL_STATE__.pinia
     }
   }
 
