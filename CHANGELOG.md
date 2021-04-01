@@ -1,3 +1,10 @@
+# [2.0.0-alpha.10](https://github.com/posva/pinia/compare/v2.0.0-alpha.9...v2.0.0-alpha.10) (2021-04-01)
+
+### Features
+
+- **patch:** allow passing a function ([8d545e4](https://github.com/posva/pinia/commit/8d545e427c6415df00254eb9638116e96e64d3b5))
+- **types:** generics on PiniaCustomProperties ([36129cf](https://github.com/posva/pinia/commit/36129cf415abb8efccda859cd6b787594fe46f00))
+
 # [2.0.0-alpha.9](https://github.com/posva/pinia/compare/v2.0.0-alpha.8...v2.0.0-alpha.9) (2021-03-31)
 
 ### Bug Fixes
