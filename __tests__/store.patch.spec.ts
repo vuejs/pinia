@@ -33,6 +33,7 @@ describe('store.$patch', () => {
   it('patches using a function', () => {
     const store = useStore()
     store.$patch((state) => {
+      expect(state).toBe(store.$state)
       state.a = !state.a
       state.list.push(1)
     })
