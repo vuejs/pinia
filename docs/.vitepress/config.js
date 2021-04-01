@@ -173,6 +173,7 @@ module.exports = {
             { text: 'State', link: '/core-concepts/state.html' },
             { text: 'Getters', link: '/core-concepts/getters.html' },
             { text: 'Actions', link: '/core-concepts/actions.html' },
+            { text: 'Plugins', link: '/core-concepts/plugins.html' },
           ],
         },
         {
