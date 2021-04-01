@@ -40,6 +40,15 @@ store.$patch({
 })
 ```
 
+The `$path` method also accepts a function to group object mutations that are difficult to apply with an object, e.g. array mutations:
+
+```js
+cartStore.$patch((state) => {
+  state.items.push({ name: 'shoes', quantity: 1 })
+  state.hasChanged = true
+})
+```
+
 <!-- TODO: disable this with `strictMode`, `{ noDirectPatch: true }` -->
 
 The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note **both, direct changes to `state` and `$patch()` appear in the devtools** and can be time travelled (not yet in Vue 3).
