@@ -1,3 +1,10 @@
+## [0.2.5](https://github.com/posva/pinia/compare/v0.2.4...v0.2.5) (2021-04-01)
+
+### Features
+
+- allow passing a function to $patch ([3be1c81](https://github.com/posva/pinia/commit/3be1c81eabd726780ce6b5d1919a2f60d72b3e84))
+- **types:** generic on PiniaCustomProperties ([9fedc04](https://github.com/posva/pinia/commit/9fedc045af8d1cdb57f805a9457557fc905df8d6))
+
 ## [0.2.4](https://github.com/posva/pinia/compare/v0.2.3...v0.2.4) (2021-03-31)
 
 ### Bug Fixes
