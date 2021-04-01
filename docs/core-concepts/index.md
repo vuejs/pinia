@@ -8,7 +8,7 @@ import { defineStore } from 'pinia'
 // useStore could be anything like useUser, useCart
 export const useStore = defineStore({
   // unique id of the store across your application
-  id: 'storeName'
+  id: 'storeName',
 })
 ```
 
@@ -54,7 +54,7 @@ Once the store is instantiated, you can access any property defined in `state`, 
 
 `store` in an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, we cannot destructure it:
 
-```ts
+```js
 export default defineComponent({
   setup() {
     const store = useStore()

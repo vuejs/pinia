@@ -20,7 +20,7 @@ Like [getters](./getters.md), actions get access to the _whole store instance_ t
 
 Actions are invoked like methods:
 
-```ts
+```js
 export default defineComponent({
   setup() {
     const main = useMainStore()

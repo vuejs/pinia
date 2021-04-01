@@ -33,7 +33,7 @@ store.counter++
 
 or call the method `$patch` that allows you apply multiple changes at the same time with a partial `state` object:
 
-```ts
+```js
 store.$patch({
   counter: store.counter + 1,
   name: 'Abalam',
@@ -57,6 +57,6 @@ The main difference here is that `$patch()` allows you to group multiple changes
 
 You can replace the whole state of a store by setting its `$state` property to a new object:
 
-```ts
+```js
 store.$state = { counter: 666, name: 'Paimon' }
 ```

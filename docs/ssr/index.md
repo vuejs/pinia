@@ -6,7 +6,7 @@ If you are using **Nuxt.js,** you need to read [**these instructions**](./nuxt.m
 
 Creating stores with Pinia should work out of the box for SSR as long as you call your `useStore()` functions at the top of `setup` functions, `getters` and `actions`:
 
-```ts
+```js
 export default defineComponent({
   setup() {
     // this works because pinia knows what application is running inside of
@@ -21,7 +21,7 @@ export default defineComponent({
 
 If you need to use the store somewhere else, you need to pass the `pinia` instance [that was passed to the app](#install-the-plugin) to the `useStore()` function call:
 
-```ts
+```js
 const pinia = createPinia()
 const app = createApp(App)
 
