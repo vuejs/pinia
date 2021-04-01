@@ -57,13 +57,30 @@ export const setClientApp = (app: App) => (clientApp = app)
 export const getClientApp = () => clientApp
 
 /**
+ * Context argument passed to Pinia plugins.
+ */
+export interface PiniaPluginContext {
+  /**
+   * pinia instance.
+   */
+
+  pinia: Pinia
+  /**
+   * Current app created with `Vue.createApp()`.
+   */
+  app: App
+
+  /**
+   * Current store being extended.
+   */
+  store: GenericStore
+}
+
+/**
  * Plugin to extend every store
  */
 export interface PiniaStorePlugin {
-  (context: {
-    app: App
-    store: GenericStore
-  }): Partial<PiniaCustomProperties> | void
+  (context: PiniaPluginContext): Partial<PiniaCustomProperties> | void
 }
 
 /**
