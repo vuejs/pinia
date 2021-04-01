@@ -12,6 +12,7 @@ describe('store.$patch', () => {
           foo: 'foo',
           a: { b: 'string' },
         },
+        list: [] as number[],
       }),
     })()
   }
@@ -25,6 +26,23 @@ describe('store.$patch', () => {
         foo: 'foo',
         a: { b: 'string' },
       },
+      list: [],
+    })
+  })
+
+  it('patches using a function', () => {
+    const store = useStore()
+    store.$patch((state) => {
+      state.a = !state.a
+      state.list.push(1)
+    })
+    expect(store.$state).toEqual({
+      a: false,
+      nested: {
+        foo: 'foo',
+        a: { b: 'string' },
+      },
+      list: [1],
     })
   })
 
@@ -37,6 +55,7 @@ describe('store.$patch', () => {
         foo: 'bar',
         a: { b: 'string' },
       },
+      list: [],
     })
     store.$patch({ nested: { a: { b: 'hello' } } })
     expect(store.$state).toEqual({
@@ -45,6 +64,7 @@ describe('store.$patch', () => {
         foo: 'bar',
         a: { b: 'hello' },
       },
+      list: [],
     })
   })
 
@@ -57,6 +77,7 @@ describe('store.$patch', () => {
         foo: 'hello',
         a: { b: 'string' },
       },
+      list: [],
     })
   })
 })

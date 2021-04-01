@@ -72,6 +72,15 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   $patch(partialState: DeepPartial<S>): void
 
   /**
+   * Group multiple changes into one function. Useful when mutating objects like
+   * Sets or arrays and applying an object patch isn't practical, e.g. appending
+   * to an array.
+   *
+   * @param stateMutator - function that mutates `state`
+   */
+  $patch(stateMutator: (state: S) => void): void
+
+  /**
    * Resets the store to its initial state by removing all subscriptions and
    * building a new state object
    */

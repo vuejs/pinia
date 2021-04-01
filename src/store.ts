@@ -89,14 +89,27 @@ function initStore<Id extends string, S extends StateTree>(
   let isListening = true
   let subscriptions: SubscriptionCallback<S>[] = []
 
-  function $patch(partialState: DeepPartial<S>): void {
+  function $patch(stateMutation: (state: S) => void): void
+  function $patch(partialState: DeepPartial<S>): void
+  function $patch(
+    partialStateOrMutator: DeepPartial<S> | ((state: S) => void)
+  ): void {
+    let partialState: DeepPartial<S> = {}
+    let type: string
     isListening = false
-    innerPatch(pinia.state.value[$id], partialState)
+    if (typeof partialStateOrMutator === 'function') {
+      partialStateOrMutator(pinia.state.value[$id])
+      type = '🧩 patch'
+    } else {
+      innerPatch(pinia.state.value[$id], partialStateOrMutator)
+      partialState = partialStateOrMutator
+      type = '⤵️ patch'
+    }
     isListening = true
     // because we paused the watcher, we need to manually call the subscriptions
     subscriptions.forEach((callback) => {
       callback(
-        { storeName: $id, type: '⤵️ patch', payload: partialState },
+        { storeName: $id, type, payload: partialState },
         pinia.state.value[$id]
       )
     })
