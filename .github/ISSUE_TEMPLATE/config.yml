@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question
+    url: https://github.com/posva/pinia/discussions/new
+    about: Ask a question or discuss about Pinia
+  - name: GitHub Sponsors
+    url: https://github.com/sponsors/posva
+    about: Like this project? Please consider supporting the author.
