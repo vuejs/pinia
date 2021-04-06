@@ -54,19 +54,55 @@ export function mapStores<Stores extends unknown[]>(
 }
 
 type MapStateReturn<S extends StateTree, G> = {
-  [s in keyof S | keyof G]: () => Store<string, S, G, {}>
+  [key in keyof S | keyof G]: () => Store<string, S, G, {}>[key]
+}
+
+type MapStateObjectReturn<
+  S extends StateTree,
+  G,
+  T extends Record<string, keyof S | keyof G>
+> = {
+  [key in keyof T]: () => Store<string, S, G, {}>[T[key]]
 }
 
 export function mapState<Id extends string, S extends StateTree, G, A>(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof S | keyof G>
-): MapStateReturn<S, G> {
-  return keys.reduce((reduced, key) => {
-    reduced[key] = function () {
-      return useStore((this as any).$pinia)[key]
-    }
-    return reduced
-  }, {} as MapStateReturn<S, G>)
+): MapStateReturn<S, G>
+export function mapState<
+  Id extends string,
+  S extends StateTree,
+  G,
+  A,
+  KeyMapper extends Record<string, keyof S | keyof G>
+>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keyMapper: KeyMapper
+): MapStateObjectReturn<S, G, KeyMapper>
+export function mapState<
+  Id extends string,
+  S extends StateTree,
+  G,
+  A,
+  KeyMapper extends Record<string, keyof S | keyof G>
+>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keysOrMapper: Array<keyof S | keyof G> | KeyMapper
+): MapStateReturn<S, G> | MapStateObjectReturn<S, G, KeyMapper> {
+  return Array.isArray(keysOrMapper)
+    ? keysOrMapper.reduce((reduced, key) => {
+        // @ts-ignore: too complicated for TS
+        reduced[key] = function () {
+          return useStore((this as any).$pinia)[key]
+        }
+        return reduced
+      }, {} as MapStateReturn<S, G>)
+    : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
+        reduced[key] = function () {
+          return useStore((this as any).$pinia)[keysOrMapper[key]]
+        }
+        return reduced
+      }, {} as MapStateObjectReturn<S, G, KeyMapper>)
 }
 
 /**

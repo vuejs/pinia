@@ -135,6 +135,14 @@ describe('Map Helpers', () => {
       )
     })
 
+    it('object', async () => {
+      await testComponent(
+        mapState(useStore, { count: 'n', myA: 'a' }),
+        `{{ count }} {{ myA }}`,
+        `0 true`
+      )
+    })
+
     it('getters', async () => {
       await testComponent(
         mapState(useStore, ['double', 'notA', 'a']),
