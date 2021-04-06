@@ -1,4 +1,11 @@
-import { createPinia, defineStore, mapStores, PiniaPlugin } from '../src'
+import {
+  createPinia,
+  defineStore,
+  mapGetters,
+  mapState,
+  mapStores,
+  PiniaPlugin,
+} from '../src'
 import { createLocalVue, mount } from '@vue/test-utils'
 import VueCompositionAPI, {
   nextTick,
@@ -97,17 +104,43 @@ describe('Map Helpers', () => {
     })
   })
 
-    // mapStores(useStore).main().$patch({ n: 20 })
+  it('mapGetters', () => {
+    expect(mapGetters).toBe(mapState)
+  })
 
-    const wrapper = mount(Component, { localVue, pinia })
-    expect(wrapper.vm.main).toBeDefined()
-    const store = useStore()
-    expect(wrapper.text()).toBe('0 0')
-    expect(fromStore).toHaveBeenCalledTimes(1)
+  describe('mapState', () => {
+    async function testComponent(
+      computedProperties: any,
+      template: string,
+      expectedText: string
+    ) {
+      const pinia = createPinia()
+      const Component = defineComponent({
+        template: `<p>${template}</p>`,
+        computed: {
+          ...computedProperties,
+        },
+      })
 
-    store.n++
-    await nextTick()
-    expect(wrapper.text()).toBe('1 1')
-    expect(fromStore).toHaveBeenCalledTimes(1)
+      const wrapper = mount(Component, { localVue, pinia })
+
+      expect(wrapper.text()).toBe(expectedText)
+    }
+
+    it('array', async () => {
+      await testComponent(
+        mapState(useStore, ['n', 'a']),
+        `{{ n }} {{ a }}`,
+        `0 true`
+      )
+    })
+
+    it('getters', async () => {
+      await testComponent(
+        mapState(useStore, ['double', 'notA', 'a']),
+        `{{ a }} {{ notA }} {{ double }}`,
+        `true false 0`
+      )
+    })
   })
 })
