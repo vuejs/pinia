@@ -1,4 +1,10 @@
-import { GenericStoreDefinition, Store, StoreDefinition } from './types'
+import {
+  GenericStoreDefinition,
+  Method,
+  StateTree,
+  Store,
+  StoreDefinition,
+} from './types'
 
 type StoreObject<S> = S extends StoreDefinition<
   infer Ids,
@@ -46,3 +52,24 @@ export function mapStores<Stores extends unknown[]>(
     return reduced
   }, {} as Spread<Stores>)
 }
+
+type MapStateReturn<S extends StateTree, G> = {
+  [s in keyof S | keyof G]: () => Store<string, S, G, {}>
+}
+
+export function mapState<Id extends string, S extends StateTree, G, A>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keys: Array<keyof S | keyof G>
+): MapStateReturn<S, G> {
+  return keys.reduce((reduced, key) => {
+    reduced[key] = function () {
+      return useStore((this as any).$pinia)[key]
+    }
+    return reduced
+  }, {} as MapStateReturn<S, G>)
+}
+
+/**
+ * Alias for `mapState()`. You should use `mapState()` instead.
+ */
+export const mapGetters = mapState
