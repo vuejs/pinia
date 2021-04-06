@@ -4,6 +4,7 @@ import VueCompositionAPI, {
   watch,
   nextTick,
   defineComponent,
+  onUnmounted,
 } from '@vue/composition-api'
 
 describe('Store Lifespan', () => {
@@ -36,7 +37,7 @@ describe('Store Lifespan', () => {
 
   // FIXME: https://github.com/vuejs/vue-test-utils/issues/1799
 
-  it.only('what', async () => {
+  it.skip('what', async () => {
     const localVue = createLocalVue()
     localVue.use(VueCompositionAPI)
     const n = 0
@@ -55,23 +56,27 @@ describe('Store Lifespan', () => {
 
     const inComponentWatch = jest.fn()
 
+    // FIXME: remove when the bug is fixed in VTU
+    let setupCalled = false
+
     const Component = defineComponent({
       render: (h) => h('p'),
       setup() {
-        const store = useStore()
-        watch(
-          () => store.n,
-          (n, oldN) => {
-            console.log('watching lolo', n, oldN)
-          }
-        )
-        watch(() => store.n, inComponentWatch)
-        console.log('increement', store.n)
-        store.n++
+        // console.log('setup called')
+        if (!setupCalled) {
+          const store = useStore()
+          watch(() => store.n, inComponentWatch)
+          store.n++
+          setupCalled = true
+
+          onUnmounted(() => {
+            setupCalled = false
+          })
+        }
       },
     })
 
-    let wrapper = mount(Component, { localVue })
+    let wrapper = mount(Component, { localVue, pinia })
 
     await nextTick()
     wrapper.destroy()
@@ -86,7 +91,7 @@ describe('Store Lifespan', () => {
     // FIXME: seems to be a bug in composition api
     // expect(inComponentWatch).toHaveBeenCalledTimes(1)
 
-    wrapper = mount(Component, { localVue })
+    wrapper = mount(Component, { localVue, pinia })
     await nextTick()
     wrapper.destroy()
     await nextTick()
