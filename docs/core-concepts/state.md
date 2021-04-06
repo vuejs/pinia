@@ -40,7 +40,7 @@ store.$patch({
 })
 ```
 
-The `$path` method also accepts a function to group object mutations that are difficult to apply with an object, e.g. array mutations:
+The `$patch` method also accepts a function to group object mutations that are difficult to apply with an object, e.g. array mutations:
 
 ```js
 cartStore.$patch((state) => {
