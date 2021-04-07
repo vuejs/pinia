@@ -1,4 +1,6 @@
+import type Vue from 'vue'
 import {
+  GenericStore,
   GenericStoreDefinition,
   Method,
   StateTree,
@@ -21,8 +23,21 @@ type Spread<A extends readonly any[]> = A extends [infer L, ...infer R]
   ? StoreObject<L> & Spread<R>
   : unknown
 
+function getCachedStore<
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  G = Record<string, Method>,
+  A = Record<string, Method>
+>(vm: Vue, useStore: StoreDefinition<Id, S, G, A>): Store<Id, S, G, A> {
+  const cache = vm._pStores || (vm._pStores = {})
+  const id = useStore.$id
+  return (cache[id] || (cache[id] = useStore(vm.$pinia))) as Store<Id, S, G, A>
+}
+
 /**
- * Allows using stores without the composition API (`setup()`) by generating an object to be spread in the `computed` field of a component.
+ * Allows using stores without the composition API (`setup()`) by generating an
+ * object to be spread in the `computed` field of a component. it accepts a list
+ * of store definitions.
  *
  * @example
  * ```js
@@ -31,7 +46,7 @@ type Spread<A extends readonly any[]> = A extends [infer L, ...infer R]
  *     // other computed properties
  *     ...mapStores(useUserStore, useCartStore)
  *   },
-
+ *
  *   created() {
  *     this.userStore // store with id "user"
  *     this.cartStore // store with id "cart"
@@ -41,13 +56,13 @@ type Spread<A extends readonly any[]> = A extends [infer L, ...infer R]
  *
  * @param stores - list of stores to map to an object
  */
-export function mapStores<Stores extends unknown[]>(
+export function mapStores<Stores extends GenericStoreDefinition[]>(
   ...stores: [...Stores]
 ): Spread<Stores> {
   return stores.reduce((reduced, useStore) => {
     // @ts-ignore: $id is added by defineStore
-    reduced[useStore.$id + 'Store'] = function () {
-      return (useStore as GenericStoreDefinition)((this as any).$pinia)
+    reduced[useStore.$id + 'Store'] = function (this: Vue) {
+      return getCachedStore(this, useStore)
     }
     return reduced
   }, {} as Spread<Stores>)
@@ -91,15 +106,15 @@ export function mapState<
 ): MapStateReturn<S, G> | MapStateObjectReturn<S, G, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
-        // @ts-ignore: too complicated for TS
-        reduced[key] = function () {
-          return useStore((this as any).$pinia)[key]
+        // @ts-ignore: sorry TS
+        reduced[key] = function (this: Vue) {
+          return getCachedStore(this, useStore)[key]
         }
         return reduced
       }, {} as MapStateReturn<S, G>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
-        reduced[key] = function () {
-          return useStore((this as any).$pinia)[keysOrMapper[key]]
+        reduced[key] = function (this: Vue) {
+          return getCachedStore(this, useStore)[keysOrMapper[key]]
         }
         return reduced
       }, {} as MapStateObjectReturn<S, G, KeyMapper>)
