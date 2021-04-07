@@ -1,0 +1,17 @@
+name: test
+
+on:
+  push:
+    branches: [v1]
+  pull_request:
+    branches: [v1]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: bahmutov/npm-install@v1
+      - run: yarn run test
+      - run: yarn codecov
