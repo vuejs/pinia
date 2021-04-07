@@ -60,7 +60,9 @@ const app = createApp(App)
 app.use(router)
 app.use(pinia)
 
-// after rendering the page, the root state is build and can be read
+// after rendering the page, the root state is build and can be read directly
+// on `pinia.state.value`.
+
 // serialize, escape (VERY important if the content of the state can be changed
 // by the user, which is almost always the case), and place it somewhere on
 // the page, for example, as a global variable.
@@ -73,35 +75,35 @@ Depending on what you are using for SSR, you will set an _initial state_ variabl
 export default viteSSR(App, { routes }, ({ initialState }) => {
   // ...
   if (import.meta.env.SSR) {
-    initialState.pinia = devalue(pinia.state.value)
+    // this will be stringified and set to window.__INITIAL_STATE__
+    initialState.pinia = pinia.state.value
+  } else {
+    // on the client side, we restore the state
+    pinia.state.value = initialState.pinia
   }
 })
 ```
 
-And add a _module_ to load the state on the client. It should be picked up automatically by `vite-ssr`:
+To protect yourself from XSS attacks, you should also use the [`transformState`](https://github.com/frandiox/vite-ssr#state-serialization) option in vite-ssr. Here is an example using `@nuxt/devalue`:
 
-```ts
-// modules/pinia.ts
-import { createPinia } from 'pinia'
-import { UserModule } from '~/types'
+```js
+import devalue from '@nuxt/devalue'
 
-export const install: UserModule = ({ isClient, router, app }) => {
-  const pinia = createPinia()
-  app.use(pinia)
-  router.pinia = pinia
-
-  if (isClient) {
-    console.log('setting')
-    // @ts-ignore
-    if (window.__INITIAL_STATE__?.pinia) {
-      // @ts-ignore
-      pinia.state.value = window.__INITIAL_STATE__.pinia
-    }
+export default viteSSR(
+  App,
+  {
+    routes,
+    transformState(state) {
+      return import.meta.env.SSR ? devalue(state) : state
+    },
+  },
+  ({ initialState }) => {
+    // same code as above...
   }
-
-  return pinia
-}
+)
 ```
+
+You can use [other alternatives](https://github.com/nuxt-contrib/devalue#see-also) to `@nuxt/devalue` depending on what you need, e.g. if you can serialize and parse your state with `JSON.stringify()`/`JSON.parse()`, you could improve your performance.
 
 Adapt this strategy to your environment. Make sure to hydrate pinia's state before calling any `useStore()` function on client side. For example, if we serialize the state into a `<script>` tag to make it accessible globally on client side through `window.__pinia`, we can write this:
 
