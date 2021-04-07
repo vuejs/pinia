@@ -112,11 +112,11 @@ export type StoreWithGetters<G> = {
 //     : never
 // }
 
-// has the actions without the context (this) for typings
 export type Store<
   Id extends string,
   S extends StateTree,
   G,
+  // has the actions without the context (this) for typings
   A
 > = StoreWithState<Id, S> &
   S &
@@ -138,7 +138,7 @@ export interface StoreDefinition<
 }
 
 /**
- * Generic version of Store
+ * Generic version of Store.
  */
 export type GenericStore = Store<
   string,
@@ -148,17 +148,14 @@ export type GenericStore = Store<
 >
 
 /**
- * Generic version of `StoreDefinition`
+ * Generic version of `StoreDefinition`.
  */
-export interface GenericStoreDefinition {
-  (pinia?: Pinia | null | undefined): Store<
-    string,
-    StateTree,
-    Record<string, Method>,
-    Record<string, Method>
-  >
-  $id: string
-}
+export type GenericStoreDefinition = StoreDefinition<
+  string,
+  StateTree,
+  Record<string, Method>,
+  Record<string, Method>
+>
 
 export interface DevtoolHook {
   on(

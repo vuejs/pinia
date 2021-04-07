@@ -51,5 +51,9 @@ export const PiniaPlugin: PluginFunction<void> = function (_Vue) {
         this.$pinia = options.parent.$pinia
       }
     },
+    destroyed() {
+      // @ts-ignore: clear up the store cache
+      delete this._pStores
+    },
   })
 }

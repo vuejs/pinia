@@ -4,6 +4,7 @@ import {
   StoreWithState,
   StateDescriptor,
   PiniaCustomProperties,
+  GenericStore,
 } from './types'
 import { VueConstructor } from 'vue'
 import type Vue from 'vue'
@@ -65,12 +66,25 @@ export interface Pinia {
 
 declare module 'vue/types/vue' {
   interface Vue {
+    /**
+     * Currently installed pinia instance.
+     */
     $pinia: Pinia
+
+    /**
+     * Cache of stores instantiated by the current instance. Used by map
+     * helpers.
+     */
+    _pStores?: Record<string, GenericStore>
   }
 }
 
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
+    /**
+     * Pinia instance to install in your application. Should be passed to the
+     * root Vue.
+     */
     pinia?: Pinia
   }
 }
@@ -91,7 +105,7 @@ export function createPinia(): Pinia {
 
     use(plugin) {
       /* istanbul ignore next */
-      if (__DEV__) {
+      if (__DEV__ && !__TEST__) {
         console.warn(
           `[🍍]: The plugin API has plans to change to bring better extensibility. "pinia.use()" signature will change in the next release. It is recommended to avoid using this API.`
         )
