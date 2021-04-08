@@ -1,4 +1,4 @@
-import type Vue from 'vue'
+import { ComponentInstance } from '@vue/devtools-api'
 import {
   GenericStore,
   GenericStoreDefinition,
@@ -51,8 +51,11 @@ function getCachedStore<
   S extends StateTree = StateTree,
   G = Record<string, Method>,
   A = Record<string, Method>
->(vm: Vue, useStore: StoreDefinition<Id, S, G, A>): Store<Id, S, G, A> {
-  const cache = vm._pStores || (vm._pStores = {})
+>(
+  vm: ComponentInstance,
+  useStore: StoreDefinition<Id, S, G, A>
+): Store<Id, S, G, A> {
+  const cache = '_pStores' in vm ? vm._pStores : (vm._pStores = {})
   const id = useStore.$id
   return (cache[id] || (cache[id] = useStore(vm.$pinia))) as Store<Id, S, G, A>
 }
@@ -228,13 +231,13 @@ export function mapState<
 ): MapStateReturn<S, G> | MapStateObjectReturn<Id, S, G, A, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
-        reduced[key] = function (this: Vue) {
+        reduced[key] = function (this: ComponentInstance) {
           return getCachedStore(this, useStore)[key]
         } as () => any
         return reduced
       }, {} as MapStateReturn<S, G>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
-        reduced[key] = function (this: Vue) {
+        reduced[key] = function (this: ComponentInstance) {
           const store = getCachedStore(this, useStore)
           const storeKey = keysOrMapper[key]
           // for some reason TS is unable to infer the type of storeKey to be a
@@ -342,13 +345,13 @@ export function mapActions<
 ): MapActionsReturn<A> | MapActionsObjectReturn<A, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
-        reduced[key] = function (this: Vue, ...args: any[]) {
+        reduced[key] = function (this: ComponentInstance, ...args: any[]) {
           return (getCachedStore(this, useStore)[key] as Method)(...args)
         } as Store<string, StateTree, {}, A>[keyof A]
         return reduced
       }, {} as MapActionsReturn<A>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
-        reduced[key] = function (this: Vue, ...args: any[]) {
+        reduced[key] = function (this: ComponentInstance, ...args: any[]) {
           return getCachedStore(this, useStore)[keysOrMapper[key]](...args)
         } as Store<string, StateTree, {}, A>[keyof KeyMapper[]]
         return reduced
