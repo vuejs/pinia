@@ -357,3 +357,72 @@ export function mapActions<
         return reduced
       }, {} as MapActionsObjectReturn<A, KeyMapper>)
 }
+
+/**
+ * Same as `mapState()` but creates computed setters as well so the state can be
+ * modified. Differently from `mapState()`, only `state` properties can be
+ * added.
+ *
+ * @param useStore - store to map from
+ * @param keyMapper - object of state properties
+ */
+export function mapWritableState<
+  Id extends string,
+  S extends StateTree,
+  G,
+  A,
+  KeyMapper extends Record<string, keyof S>
+>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keyMapper: KeyMapper
+): MapStateObjectReturn<Id, S, G, A, KeyMapper>
+/**
+ * Allows using state and getters from one store without using the composition
+ * API (`setup()`) by generating an object to be spread in the `computed` field
+ * of a component.
+ *
+ * @param useStore - store to map from
+ * @param keys - array of state properties
+ */
+export function mapWritableState<Id extends string, S extends StateTree, G, A>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keys: Array<keyof S>
+): MapStateReturn<S, G>
+/**
+ * Allows using state and getters from one store without using the composition
+ * API (`setup()`) by generating an object to be spread in the `computed` field
+ * of a component.
+ *
+ * @param useStore - store to map from
+ * @param keysOrMapper - array or object
+ */
+export function mapWritableState<
+  Id extends string,
+  S extends StateTree,
+  G,
+  A,
+  KeyMapper extends Record<string, keyof S>
+>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keysOrMapper: Array<keyof S> | KeyMapper
+): MapStateReturn<S, G> | MapStateObjectReturn<Id, S, G, A, KeyMapper> {
+  return Array.isArray(keysOrMapper)
+    ? keysOrMapper.reduce((reduced, key) => {
+        reduced[key] = {
+          get(this: ComponentInstance) {
+            return getCachedStore(this, useStore)[key]
+          },
+          set() {},
+        }
+        return reduced
+      }, {} as MapStateReturn<S, G>)
+    : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
+        reduced[key] = {
+          get(this: ComponentInstance) {
+            return getCachedStore(this, useStore)[keysOrMapper[key]]
+          },
+          set() {},
+        }
+        return reduced
+      }, {} as MapStateObjectReturn<Id, S, G, A, KeyMapper>)
+}
