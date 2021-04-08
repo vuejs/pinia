@@ -354,3 +354,98 @@ export function mapActions<
         return reduced
       }, {} as MapActionsObjectReturn<A, KeyMapper>)
 }
+
+type MapWritableStateReturn<S extends StateTree> = {
+  [key in keyof S]: {
+    get: () => Store<string, S, {}, {}>[key]
+    set: (value: Store<string, S, {}, {}>[key]) => any
+  }
+}
+
+type MapWritableStateObjectReturn<
+  S extends StateTree,
+  T extends Record<string, keyof S>
+> = {
+  [key in keyof T]: {
+    get: () => Store<string, S, {}, {}>[T[key]]
+    set: (value: Store<string, S, {}, {}>[T[key]]) => any
+  }
+}
+
+/**
+ * Same as `mapState()` but creates computed setters as well so the state can be
+ * modified. Differently from `mapState()`, only `state` properties can be
+ * added.
+ *
+ * @param useStore - store to map from
+ * @param keyMapper - object of state properties
+ */
+export function mapWritableState<
+  Id extends string,
+  S extends StateTree,
+  G,
+  A,
+  KeyMapper extends Record<string, keyof S>
+>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keyMapper: KeyMapper
+): MapWritableStateObjectReturn<S, KeyMapper>
+/**
+ * Allows using state and getters from one store without using the composition
+ * API (`setup()`) by generating an object to be spread in the `computed` field
+ * of a component.
+ *
+ * @param useStore - store to map from
+ * @param keys - array of state properties
+ */
+export function mapWritableState<Id extends string, S extends StateTree, G, A>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keys: Array<keyof S>
+): MapWritableStateReturn<S>
+/**
+ * Allows using state and getters from one store without using the composition
+ * API (`setup()`) by generating an object to be spread in the `computed` field
+ * of a component.
+ *
+ * @param useStore - store to map from
+ * @param keysOrMapper - array or object
+ */
+export function mapWritableState<
+  Id extends string,
+  S extends StateTree,
+  G,
+  A,
+  KeyMapper extends Record<string, keyof S>
+>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keysOrMapper: Array<keyof S> | KeyMapper
+): MapWritableStateReturn<S> | MapWritableStateObjectReturn<S, KeyMapper> {
+  return Array.isArray(keysOrMapper)
+    ? keysOrMapper.reduce((reduced, key) => {
+        reduced[key] = {
+          get(this: Vue) {
+            return getCachedStore(this, useStore)[key]
+          },
+          set(this: Vue, value) {
+            // it's easier to type it here as any
+            return (getCachedStore(this, useStore)[key] = value as any)
+          },
+        }
+        return reduced
+      }, {} as MapWritableStateReturn<S>)
+    : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
+        // @ts-ignore
+        reduced[key] = {
+          get(this: Vue) {
+            return getCachedStore(this, useStore)[keysOrMapper[key]]
+          },
+          set(this: Vue, value) {
+            // it's easier to type it here as any
+            return (getCachedStore(this, useStore)[
+              keysOrMapper[key]
+            ] = value as any)
+          },
+        }
+        return reduced
+      }, {} as MapWritableStateObjectReturn<S, KeyMapper>)
+}

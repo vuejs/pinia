@@ -1,4 +1,11 @@
-import { defineStore, expectType, mapStores, mapActions, mapState } from '.'
+import {
+  defineStore,
+  expectType,
+  mapStores,
+  mapActions,
+  mapState,
+  mapWritableState,
+} from '.'
 
 const useStore = defineStore({
   id: 'name',
@@ -73,3 +80,22 @@ expectType<{
   newSetToggle: (a: 'on' | 'off') => 'on' | 'off'
   newToggleA: () => void
 }>(mapActions(useStore, { newSetToggle: 'setToggle', newToggleA: 'toggleA' }))
+
+expectType<{
+  a: {
+    get: () => 'on' | 'off'
+    set: (v: 'on' | 'off') => any
+  }
+}>(mapWritableState(useStore, ['a']))
+
+expectType<{
+  newA: {
+    get: () => 'on' | 'off'
+    set: (v: 'on' | 'off') => any
+  }
+}>(mapWritableState(useStore, { newA: 'a' }))
+
+// @ts-expect-error: cannot use a getter
+mapWritableState(useStore, ['upper'])
+// @ts-expect-error: cannot use a getter
+mapWritableState(useStore, { up: 'upper' })

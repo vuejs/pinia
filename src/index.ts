@@ -19,6 +19,7 @@ export {
   mapActions,
   mapStores,
   mapState,
+  mapWritableState,
   mapGetters,
   MapStoresCustomization,
   setMapStoreSuffix,
