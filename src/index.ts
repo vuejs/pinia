@@ -15,6 +15,13 @@ export {
   DefineStoreOptions,
 } from './types'
 
-export { mapActions, mapStores, mapState, mapGetters } from './mapHelpers'
+export {
+  mapActions,
+  mapStores,
+  mapState,
+  mapGetters,
+  MapStoresCustomization,
+} from './mapHelpers'
+
 // TODO: remove in beta
 export { createStore } from './deprecated'
