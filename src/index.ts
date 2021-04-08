@@ -12,6 +12,7 @@ export {
   StoreWithActions,
   StoreWithState,
   PiniaCustomProperties,
+  DefineStoreOptions,
 } from './types'
 
 // TODO: remove in beta

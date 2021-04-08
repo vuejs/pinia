@@ -170,3 +170,27 @@ export interface PiniaCustomProperties<
   G = Record<string, Method>,
   A = Record<string, Method>
 > {}
+
+/**
+ * Options parameter of `defineStore()`. Can be extended to augment stores with
+ * the plugin API.
+ */
+export interface DefineStoreOptions<
+  Id extends string,
+  S extends StateTree,
+  G /* extends Record<string, StoreGetterThis> */,
+  A /* extends Record<string, StoreAction> */
+> {
+  id: Id
+  state?: () => S
+  getters?: G & ThisType<S & StoreWithGetters<G> & PiniaCustomProperties>
+  // allow actions use other actions
+  actions?: A &
+    ThisType<
+      A &
+        S &
+        StoreWithState<Id, S> &
+        StoreWithGetters<G> &
+        PiniaCustomProperties
+    >
+}
