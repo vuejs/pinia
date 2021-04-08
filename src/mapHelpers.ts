@@ -192,33 +192,6 @@ type MapActionsObjectReturn<A, T extends Record<string, keyof A>> = {
 /**
  * Allows directly using actions from your store without using the composition
  * API (`setup()`) by generating an object to be spread in the `methods` field
- * of a component.
- *
- * @example
- * ```js
- * export default {
- *   methods: {
- *     // other methods properties
- *     ...mapActions(useCounterStore, ['increment', 'setCount'])
- *   },
- *
- *   created() {
- *     this.increment()
- *     this.setCount(2) // pass arguments as usual
- *   }
- * }
- * ```
- *
- * @param useStore - store to map from
- * @param keys - array of action names to map
- */
-export function mapActions<Id extends string, S extends StateTree, G, A>(
-  useStore: StoreDefinition<Id, S, G, A>,
-  keys: Array<keyof A>
-): MapActionsReturn<A>
-/**
- * Allows directly using actions from your store without using the composition
- * API (`setup()`) by generating an object to be spread in the `methods` field
  * of a component. The values of the object are the actions while the keys are
  * the names of the resulting methods.
  *
@@ -250,19 +223,40 @@ export function mapActions<Id extends string, S extends StateTree, G, A>(
  * API (`setup()`) by generating an object to be spread in the `methods` field
  * of a component.
  *
+ * @example
+ * ```js
+ * export default {
+ *   methods: {
+ *     // other methods properties
+ *     ...mapActions(useCounterStore, ['increment', 'setCount'])
+ *   },
+ *
+ *   created() {
+ *     this.increment()
+ *     this.setCount(2) // pass arguments as usual
+ *   }
+ * }
+ * ```
+ *
+ * @param useStore - store to map from
+ * @param keys - array of action names to map
+ */
+export function mapActions<Id extends string, S extends StateTree, G, A>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keys: Array<keyof A>
+): MapActionsReturn<A>
+/**
+ * Allows directly using actions from your store without using the composition
+ * API (`setup()`) by generating an object to be spread in the `methods` field
+ * of a component.
+ *
  * @param useStore - store to map from
  * @param keysOrMapper - array or object
  */
-export function mapActions<
-  Id extends string,
-  S extends StateTree,
-  G,
-  A,
-  KeyMapper extends Record<string, keyof A>
->(
+export function mapActions<Id extends string, S extends StateTree, G, A>(
   useStore: StoreDefinition<Id, S, G, A>,
-  keysOrMapper: Array<keyof A> | KeyMapper
-): MapActionsReturn<A> | MapActionsObjectReturn<A, KeyMapper> {
+  keysOrMapper: Array<keyof A> | Record<string, keyof A>
+): MapActionsReturn<A> | MapActionsObjectReturn<A, Record<string, keyof A>> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
         reduced[key] = function (this: Vue, ...args: any[]) {
@@ -270,10 +264,13 @@ export function mapActions<
         } as Store<string, StateTree, {}, A>[keyof A]
         return reduced
       }, {} as MapActionsReturn<A>)
-    : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
-        reduced[key] = function (this: Vue, ...args: any[]) {
-          return getCachedStore(this, useStore)[keysOrMapper[key]](...args)
-        } as Store<string, StateTree, {}, A>[keyof KeyMapper[]]
-        return reduced
-      }, {} as MapActionsObjectReturn<A, KeyMapper>)
+    : Object.keys(keysOrMapper).reduce(
+        (reduced, key: keyof Record<string, keyof A>) => {
+          reduced[key] = function (this: Vue, ...args: any[]) {
+            return getCachedStore(this, useStore)[keysOrMapper[key]](...args)
+          } as Store<string, StateTree, {}, A>[keyof Record<string, keyof A>[]]
+          return reduced
+        },
+        {} as MapActionsObjectReturn<A, Record<string, keyof A>>
+      )
 }
