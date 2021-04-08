@@ -74,6 +74,7 @@ declare module 'vue/types/vue' {
     /**
      * Cache of stores instantiated by the current instance. Used by map
      * helpers.
+     * @internal
      */
     _pStores?: Record<string, GenericStore>
   }
