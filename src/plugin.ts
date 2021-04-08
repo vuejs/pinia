@@ -44,6 +44,7 @@ export const PiniaPlugin: PluginFunction<void> = function (_Vue) {
 
         // propagate the pinia instance in an SSR friendly way
         // avoid adding it to nuxt twice
+        /* istanbul ignore else */
         if (!this.$pinia) {
           this.$pinia = options.pinia
         }
