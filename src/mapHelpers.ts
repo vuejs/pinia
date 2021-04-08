@@ -241,16 +241,10 @@ export function mapActions<Id extends string, S extends StateTree, G, A>(
  * @param useStore - store to map from
  * @param keyMapper - object to define new names for the actions
  */
-export function mapActions<
-  Id extends string,
-  S extends StateTree,
-  G,
-  A,
-  KeyMapper extends Record<string, keyof A>
->(
+export function mapActions<Id extends string, S extends StateTree, G, A>(
   useStore: StoreDefinition<Id, S, G, A>,
-  keyMapper: KeyMapper
-): MapActionsObjectReturn<A, KeyMapper>
+  keyMapper: Record<string, keyof A>
+): MapActionsObjectReturn<A, Record<string, keyof A>>
 /**
  * Allows directly using actions from your store without using the composition
  * API (`setup()`) by generating an object to be spread in the `methods` field
