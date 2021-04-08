@@ -7,8 +7,15 @@ import {
   StoreDefinition,
 } from './types'
 
+/**
+ * Interface to allow customizing map helpers. Extend this interface with the
+ * following properties:
+ *
+ * - `suffix`: string. Affects the suffix of `mapStores()`, defaults to `Store`.
+ */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface MapStoresCustomization {
+  // cannot be added or it wouldn't be able to be extended
   // suffix?: string
 }
 
@@ -49,6 +56,23 @@ function getCachedStore<
   return (cache[id] || (cache[id] = useStore(vm.$pinia))) as Store<Id, S, G, A>
 }
 
+export let mapStoreSuffix = 'Store'
+
+/**
+ * Changes the suffix added by `mapStores()`. Can be set to an empty string.
+ * Defaults to `"Store"`. Make sure to extend the MapStoresCustomization
+ * interface if you need are using TypeScript.
+ *
+ * @param suffix - new suffix
+ */
+export function setMapStoreSuffix(
+  suffix: 'suffix' extends keyof MapStoresCustomization
+    ? MapStoresCustomization['suffix']
+    : string // could be 'Store' but that would be annoying for JS
+): void {
+  mapStoreSuffix = suffix
+}
+
 /**
  * Allows using stores without the composition API (`setup()`) by generating an
  * object to be spread in the `computed` field of a component. It accepts a list
@@ -76,7 +100,7 @@ export function mapStores<Stores extends GenericStoreDefinition[]>(
 ): Spread<Stores> {
   return stores.reduce((reduced, useStore) => {
     // @ts-ignore: $id is added by defineStore
-    reduced[useStore.$id + 'Store'] = function (this: Vue) {
+    reduced[useStore.$id + mapStoreSuffix] = function (this: Vue) {
       return getCachedStore(this, useStore)
     }
     return reduced
