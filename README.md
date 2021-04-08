@@ -6,7 +6,7 @@
 <br/>
 <p align="center">
   <a href="https://npmjs.com/package/pinia"><img src="https://badgen.net/npm/v/pinia/next" alt="npm package"></a>
-  <a href="https://github.com/posva/pinia/actions/workflows/test.yml"><img src="https://github.com/posva/pinia/workflows/test/badge.svg?branch=v2" alt="build status"></a>
+  <a href="https://github.com/posva/pinia/actions/workflows/test.yml?query=branch%3Av2"><img src="https://github.com/posva/pinia/workflows/test/badge.svg?branch=v2" alt="build status"></a>
   <a href="https://codecov.io/github/posva/pinia"><img src="https://badgen.net/codecov/c/github/posva/pinia/v2" alt="code coverage"></a>
 </p>
 <br/>
