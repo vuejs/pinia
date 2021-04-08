@@ -5,14 +5,10 @@ import {
   mapGetters,
   mapState,
   mapStores,
-  PiniaPlugin,
   setMapStoreSuffix,
 } from '../src'
-import { createLocalVue, mount } from '@vue/test-utils'
-import VueCompositionAPI, {
-  nextTick,
-  defineComponent,
-} from '@vue/composition-api'
+import { mount } from '@vue/test-utils'
+import { nextTick, defineComponent } from 'vue'
 
 describe('Map Helpers', () => {
   const useCartStore = defineStore({ id: 'cart' })
@@ -41,10 +37,6 @@ describe('Map Helpers', () => {
     },
   })
 
-  const localVue = createLocalVue()
-  localVue.use(VueCompositionAPI)
-  localVue.use(PiniaPlugin)
-
   describe('mapStores', () => {
     it('mapStores computes only once when mapping one store', async () => {
       const pinia = createPinia()
@@ -60,7 +52,7 @@ describe('Map Helpers', () => {
         },
       })
 
-      const wrapper = mount(Component, { localVue, pinia })
+      const wrapper = mount(Component, { global: { plugins: [pinia] } })
       // const store = useStore()
       // const other = useCartStore()
       expect(wrapper.vm.mainStore).toBeDefined()
@@ -90,19 +82,17 @@ describe('Map Helpers', () => {
         },
       })
 
-      const wrapper = mount(Component, { localVue, pinia })
+      const wrapper = mount(Component, { global: { plugins: [pinia] } })
       expect(wrapper.text()).toBe('0 0 cart')
       await nextTick()
-      // NOTE: it seems to be the same as the number of stores, probably because
-      // we use Vue.set
-      expect(fromStore).toHaveBeenCalledTimes(2)
+      expect(fromStore).toHaveBeenCalledTimes(1)
 
       await wrapper.trigger('click')
       expect(wrapper.text()).toBe('1 1 cart')
-      expect(fromStore).toHaveBeenCalledTimes(2)
+      expect(fromStore).toHaveBeenCalledTimes(1)
       await wrapper.trigger('click')
       expect(wrapper.text()).toBe('2 2 cart')
-      expect(fromStore).toHaveBeenCalledTimes(2)
+      expect(fromStore).toHaveBeenCalledTimes(1)
     })
 
     it('can set custom suffix', async () => {
@@ -115,9 +105,10 @@ describe('Map Helpers', () => {
         },
       })
 
-      const wrapper = mount(Component, { localVue, pinia })
+      const wrapper = mount(Component, { global: { plugins: [pinia] } })
       // const store = useStore()
       // const other = useCartStore()
+      // @ts-expect-error: by default this shouldn't exist
       expect(wrapper.vm.main).toBeDefined()
       expect(wrapper.vm.mainStore).not.toBeDefined()
       expect(wrapper.text()).toBe('0')
@@ -148,7 +139,7 @@ describe('Map Helpers', () => {
         },
       })
 
-      const wrapper = mount(Component, { localVue, pinia })
+      const wrapper = mount(Component, { global: { plugins: [pinia] } })
 
       expect(wrapper.text()).toBe(expectedText)
     }
@@ -192,7 +183,7 @@ describe('Map Helpers', () => {
         },
       })
 
-      const wrapper = mount(Component, { localVue, pinia })
+      const wrapper = mount(Component, { global: { plugins: [pinia] } })
       expect(vm).toBe(wrapper.vm)
     })
 
@@ -228,7 +219,7 @@ describe('Map Helpers', () => {
         },
       })
 
-      const wrapper = mount(Component, { localVue, pinia })
+      const wrapper = mount(Component, { global: { plugins: [pinia] } })
 
       expect(wrapper.vm.increment()).toBe(undefined)
       expect(wrapper.vm.setN(4)).toBe(4)
@@ -243,7 +234,7 @@ describe('Map Helpers', () => {
         },
       })
 
-      const wrapper = mount(Component, { localVue, pinia })
+      const wrapper = mount(Component, { global: { plugins: [pinia] } })
 
       expect(wrapper.vm.inc()).toBe(undefined)
       expect(wrapper.vm.set(4)).toBe(4)
