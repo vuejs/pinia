@@ -5,6 +5,7 @@ import {
   mapGetters,
   mapState,
   mapStores,
+  mapWritableState,
   setMapStoreSuffix,
 } from '../src'
 import { mount } from '@vue/test-utils'
@@ -238,6 +239,62 @@ describe('Map Helpers', () => {
 
       expect(wrapper.vm.inc()).toBe(undefined)
       expect(wrapper.vm.set(4)).toBe(4)
+    })
+  })
+
+  describe('mapWritableState', () => {
+    async function testComponent(
+      computedProperties: any,
+      template: string,
+      expectedText: string,
+      expectedText2: string
+    ) {
+      const pinia = createPinia()
+      const Component = defineComponent({
+        template: `<p>${template}</p>`,
+        computed: {
+          ...computedProperties,
+        },
+        methods: Object.keys(computedProperties).reduce((methods, name) => {
+          // @ts-ignore
+          methods['set_' + name] = function (v: any) {
+            // @ts-ignore
+            this[name] = v
+          }
+          return methods
+        }, {}),
+      })
+
+      const wrapper = mount(Component, { global: { plugins: [pinia] } })
+
+      expect(wrapper.text()).toBe(expectedText)
+
+      for (const key in computedProperties) {
+        // @ts-ignore
+        wrapper.vm['set_' + key]('replaced')
+      }
+
+      await nextTick()
+
+      expect(wrapper.text()).toBe(expectedText2)
+    }
+
+    it('array', async () => {
+      await testComponent(
+        mapWritableState(useStore, ['n', 'a']),
+        `{{ n }} {{ a }}`,
+        `0 true`,
+        'replaced replaced'
+      )
+    })
+
+    it('object', async () => {
+      await testComponent(
+        mapWritableState(useStore, { count: 'n', myA: 'a' }),
+        `{{ count }} {{ myA }}`,
+        `0 true`,
+        'replaced replaced'
+      )
     })
   })
 })
