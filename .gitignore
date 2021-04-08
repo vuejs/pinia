@@ -8,3 +8,4 @@ dist
 package-lock.json
 .DS_Store
 temp
+test-dts/tsconfig.tsbuildinfo

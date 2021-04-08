@@ -1,5 +1,4 @@
-import { mapActions, mapState } from 'dist/src'
-import { defineStore, expectType, mapStores } from '.'
+import { defineStore, expectType, mapStores, mapActions, mapState } from '.'
 
 const useStore = defineStore({
   id: 'name',
