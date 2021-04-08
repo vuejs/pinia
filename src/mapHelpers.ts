@@ -1,12 +1,16 @@
 import type Vue from 'vue'
 import {
-  GenericStore,
   GenericStoreDefinition,
   Method,
   StateTree,
   Store,
   StoreDefinition,
 } from './types'
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface MapStoresCustomization {
+  // suffix?: string
+}
 
 type StoreObject<S> = S extends StoreDefinition<
   infer Ids,
@@ -15,8 +19,14 @@ type StoreObject<S> = S extends StoreDefinition<
   infer Actions
 >
   ? {
-      [Id in `${Ids}Store`]: () => Store<
-        Id extends `${infer RealId}Store` ? RealId : string,
+      [Id in `${Ids}${'suffix' extends keyof MapStoresCustomization
+        ? MapStoresCustomization['suffix']
+        : 'Store'}`]: () => Store<
+        Id extends `${infer RealId}${'suffix' extends keyof MapStoresCustomization
+          ? MapStoresCustomization['suffix']
+          : 'Store'}`
+          ? RealId
+          : string,
         State,
         Getters,
         Actions
