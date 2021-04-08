@@ -21,6 +21,7 @@ export {
   mapState,
   mapGetters,
   MapStoresCustomization,
+  setMapStoreSuffix,
 } from './mapHelpers'
 
 // TODO: remove in beta
