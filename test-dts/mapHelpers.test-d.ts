@@ -52,6 +52,19 @@ expectType<{
 }>(mapState(useStore, { newA: 'a', newUpper: 'upper' }))
 
 expectType<{
+  newA: () => 'on' | 'off'
+  newUpper: () => string
+}>(
+  mapState(useStore, {
+    newA: (store) => {
+      expectType<string>(store.upper)
+      return store.a
+    },
+    newUpper: 'upper',
+  })
+)
+
+expectType<{
   setToggle: (a: 'on' | 'off') => 'on' | 'off'
   toggleA: () => void
 }>(mapActions(useStore, ['setToggle', 'toggleA']))

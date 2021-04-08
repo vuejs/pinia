@@ -169,6 +169,33 @@ describe('Map Helpers', () => {
       )
     })
 
+    it('object with functions', async () => {
+      await testComponent(
+        mapState(useStore, { triple: (state) => (state.n + 1) * 3, myA: 'a' }),
+        `{{ triple }} {{ myA }}`,
+        `3 true`
+      )
+    })
+
+    it('uses component context', async () => {
+      const pinia = createPinia()
+      let vm
+      const Component = defineComponent({
+        template: `<p>{{ n }}</p>`,
+        computed: {
+          ...mapState(useStore, {
+            n(store) {
+              vm = this
+              return store.n
+            },
+          }),
+        },
+      })
+
+      const wrapper = mount(Component, { localVue, pinia })
+      expect(vm).toBe(wrapper.vm)
+    })
+
     it('getters', async () => {
       await testComponent(
         mapState(useStore, ['double', 'notA', 'a']),
