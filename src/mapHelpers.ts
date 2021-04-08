@@ -1,5 +1,6 @@
 import type Vue from 'vue'
 import {
+  GenericStore,
   GenericStoreDefinition,
   Method,
   StateTree,
@@ -112,11 +113,20 @@ type MapStateReturn<S extends StateTree, G> = {
 }
 
 type MapStateObjectReturn<
+  Id extends string,
   S extends StateTree,
   G,
-  T extends Record<string, keyof S | keyof G>
+  A,
+  T extends Record<
+    string,
+    keyof S | keyof G | ((store: Store<Id, S, G, A>) => any)
+  >
 > = {
-  [key in keyof T]: () => Store<string, S, G, {}>[T[key]]
+  [key in keyof T]: () => T[key] extends (store: GenericStore) => infer R
+    ? R
+    : T[key] extends keyof S | keyof G
+    ? Store<Id, S, G, A>[T[key]]
+    : never
 }
 
 /**
@@ -124,6 +134,9 @@ type MapStateObjectReturn<
  * API (`setup()`) by generating an object to be spread in the `computed` field
  * of a component. The values of the object are the state properties/getters
  * while the keys are the names of the resulting computed properties.
+ * Optionally, you can also pass a custom function that will receive the store
+ * as its first argument. Note that while it has access to the component
+ * instance via `this`, it won't be typed.
  *
  * @example
  * ```js
@@ -131,7 +144,15 @@ type MapStateObjectReturn<
  *   computed: {
  *     // other computed properties
  *     // useCounterStore has a state property named `count` and a getter `double`
- *     ...mapState(useCounterStore, { n: 'count', doubleN: 'double' })
+ *     ...mapState(useCounterStore, {
+ *       n: 'count',
+ *       triple: store => store.n * 3,
+ *       // note we can't use an arrow function if we want to use `this`
+ *       custom(store) {
+ *         return this.someComponentValue + store.n
+ *       },
+ *       doubleN: 'double'
+ *     })
  *   },
  *
  *   created() {
@@ -149,11 +170,14 @@ export function mapState<
   S extends StateTree,
   G,
   A,
-  KeyMapper extends Record<string, keyof S | keyof G>
+  KeyMapper extends Record<
+    string,
+    keyof S | keyof G | ((store: Store<Id, S, G, A>) => any)
+  >
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keyMapper: KeyMapper
-): MapStateObjectReturn<S, G, KeyMapper>
+): MapStateObjectReturn<Id, S, G, A, KeyMapper>
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
@@ -194,11 +218,14 @@ export function mapState<
   S extends StateTree,
   G,
   A,
-  KeyMapper extends Record<string, keyof S | keyof G>
+  KeyMapper extends Record<
+    string,
+    keyof S | keyof G | ((store: Store<Id, S, G, A>) => any)
+  >
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keysOrMapper: Array<keyof S | keyof G> | KeyMapper
-): MapStateReturn<S, G> | MapStateObjectReturn<S, G, KeyMapper> {
+): MapStateReturn<S, G> | MapStateObjectReturn<Id, S, G, A, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
         reduced[key] = function (this: Vue) {
@@ -208,10 +235,16 @@ export function mapState<
       }, {} as MapStateReturn<S, G>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
         reduced[key] = function (this: Vue) {
-          return getCachedStore(this, useStore)[keysOrMapper[key]]
+          const store = getCachedStore(this, useStore)
+          const storeKey = keysOrMapper[key]
+          // for some reason TS is unable to infer the type of storeKey to be a
+          // function
+          return typeof storeKey === 'function'
+            ? (storeKey as (store: Store<Id, S, G, A>) => any).call(this, store)
+            : store[storeKey as keyof S | keyof G]
         }
         return reduced
-      }, {} as MapStateObjectReturn<S, G, KeyMapper>)
+      }, {} as MapStateObjectReturn<Id, S, G, A, KeyMapper>)
 }
 
 /**
