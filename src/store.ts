@@ -320,7 +320,7 @@ export function defineStore<
     )
   }
 
-  // used by devtools
+  // needed by map helpers
   useStore.$id = id
 
   return useStore
