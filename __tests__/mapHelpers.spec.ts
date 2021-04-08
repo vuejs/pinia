@@ -6,6 +6,7 @@ import {
   mapState,
   mapStores,
   PiniaPlugin,
+  setMapStoreSuffix,
 } from '../src'
 import { createLocalVue, mount } from '@vue/test-utils'
 import VueCompositionAPI, {
@@ -102,6 +103,30 @@ describe('Map Helpers', () => {
       await wrapper.trigger('click')
       expect(wrapper.text()).toBe('2 2 cart')
       expect(fromStore).toHaveBeenCalledTimes(2)
+    })
+
+    it('can set custom suffix', async () => {
+      const pinia = createPinia()
+      setMapStoreSuffix('')
+      const Component = defineComponent({
+        template: `<p @click="main.n++">{{ main.n }}</p>`,
+        computed: {
+          ...mapStores(useStore),
+        },
+      })
+
+      const wrapper = mount(Component, { localVue, pinia })
+      // const store = useStore()
+      // const other = useCartStore()
+      expect(wrapper.vm.main).toBeDefined()
+      expect(wrapper.vm.mainStore).not.toBeDefined()
+      expect(wrapper.text()).toBe('0')
+      await nextTick()
+
+      await wrapper.trigger('click')
+      expect(wrapper.text()).toBe('1')
+      await wrapper.trigger('click')
+      expect(wrapper.text()).toBe('2')
     })
   })
 
