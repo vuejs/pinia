@@ -15,7 +15,12 @@ type StoreObject<S> = S extends StoreDefinition<
   infer Actions
 >
   ? {
-      [Id in `${Ids}Store`]: () => Store<Id, State, Getters, Actions>
+      [Id in `${Ids}Store`]: () => Store<
+        Id extends `${infer RealId}Store` ? RealId : string,
+        State,
+        Getters,
+        Actions
+      >
     }
   : {}
 
@@ -213,10 +218,16 @@ type MapActionsObjectReturn<A, T extends Record<string, keyof A>> = {
  * @param useStore - store to map from
  * @param keyMapper - object to define new names for the actions
  */
-export function mapActions<Id extends string, S extends StateTree, G, A>(
+export function mapActions<
+  Id extends string,
+  S extends StateTree,
+  G,
+  A,
+  KeyMapper extends Record<string, keyof A>
+>(
   useStore: StoreDefinition<Id, S, G, A>,
-  keyMapper: Record<string, keyof A>
-): MapActionsObjectReturn<A, Record<string, keyof A>>
+  keyMapper: KeyMapper
+): MapActionsObjectReturn<A, KeyMapper>
 /**
  * Allows directly using actions from your store without using the composition
  * API (`setup()`) by generating an object to be spread in the `methods` field
@@ -252,10 +263,16 @@ export function mapActions<Id extends string, S extends StateTree, G, A>(
  * @param useStore - store to map from
  * @param keysOrMapper - array or object
  */
-export function mapActions<Id extends string, S extends StateTree, G, A>(
+export function mapActions<
+  Id extends string,
+  S extends StateTree,
+  G,
+  A,
+  KeyMapper extends Record<string, keyof A>
+>(
   useStore: StoreDefinition<Id, S, G, A>,
-  keysOrMapper: Array<keyof A> | Record<string, keyof A>
-): MapActionsReturn<A> | MapActionsObjectReturn<A, Record<string, keyof A>> {
+  keysOrMapper: Array<keyof A> | KeyMapper
+): MapActionsReturn<A> | MapActionsObjectReturn<A, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
         reduced[key] = function (this: Vue, ...args: any[]) {
@@ -263,13 +280,10 @@ export function mapActions<Id extends string, S extends StateTree, G, A>(
         } as Store<string, StateTree, {}, A>[keyof A]
         return reduced
       }, {} as MapActionsReturn<A>)
-    : Object.keys(keysOrMapper).reduce(
-        (reduced, key: keyof Record<string, keyof A>) => {
-          reduced[key] = function (this: Vue, ...args: any[]) {
-            return getCachedStore(this, useStore)[keysOrMapper[key]](...args)
-          } as Store<string, StateTree, {}, A>[keyof Record<string, keyof A>[]]
-          return reduced
-        },
-        {} as MapActionsObjectReturn<A, Record<string, keyof A>>
-      )
+    : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
+        reduced[key] = function (this: Vue, ...args: any[]) {
+          return getCachedStore(this, useStore)[keysOrMapper[key]](...args)
+        } as Store<string, StateTree, {}, A>[keyof KeyMapper[]]
+        return reduced
+      }, {} as MapActionsObjectReturn<A, KeyMapper>)
 }

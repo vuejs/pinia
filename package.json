@@ -29,7 +29,8 @@
     "unit": "jest",
     "dev": "yarn run unit --watchAll",
     "pretest": "yarn run lint",
-    "test": "yarn run unit && yarn run build",
+    "test": "yarn run unit && yarn run build && yarn test:dts",
+    "test:dts": "tsc -p ./test-dts/tsconfig.json",
     "build": "rimraf dist && rollup -c rollup.config.js",
     "size": "rollup -c size-checks/rollup.config.js && node scripts/check-size.js",
     "release": "bash scripts/release.sh",
@@ -43,9 +44,6 @@
     "LICENSE",
     "README.md"
   ],
-  "tsd": {
-    "directory": "__tests__/dts"
-  },
   "keywords": [
     "vue",
     "vuex",
