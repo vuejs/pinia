@@ -36,7 +36,7 @@ function getCachedStore<
 
 /**
  * Allows using stores without the composition API (`setup()`) by generating an
- * object to be spread in the `computed` field of a component. it accepts a list
+ * object to be spread in the `computed` field of a component. It accepts a list
  * of store definitions.
  *
  * @example
@@ -80,10 +80,58 @@ type MapStateObjectReturn<
   [key in keyof T]: () => Store<string, S, G, {}>[T[key]]
 }
 
+/**
+ * Allows using state and getters from one store without using the composition
+ * API (`setup()`) by generating an object to be spread in the `computed` field
+ * of a component.
+ *
+ * @example
+ * ```js
+ * export default {
+ *   computed: {
+ *     // other computed properties
+ *     ...mapState(useCounterStore, ['count', 'double'])
+ *   },
+ *
+ *   created() {
+ *     this.count // 2
+ *     this.double // 4
+ *   }
+ * }
+ * ```
+ *
+ * @param useStore - store to map from
+ * @param keys - array of state properties or getters
+ */
 export function mapState<Id extends string, S extends StateTree, G, A>(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof S | keyof G>
 ): MapStateReturn<S, G>
+/**
+ * Allows using state and getters from one store without using the composition
+ * API (`setup()`) by generating an object to be spread in the `computed` field
+ * of a component. The values of the object are the state properties/getters
+ * while the keys are the names of the resulting computed properties.
+ *
+ * @example
+ * ```js
+ * export default {
+ *   computed: {
+ *     // other computed properties
+ *     // useCounterStore has a state property named `count` and a getter `double`
+ *     ...mapState(useCounterStore, { n: 'count', doubleN: 'double' })
+ *   },
+ *
+ *   created() {
+ *     this.n // 2
+ *     this.doubleN // 4
+ *   }
+ * }
+ * ```
+ *
+ * @param useStore - store to map from
+ * @param keyMapper - object of state properties or getters
+ */
 export function mapState<
   Id extends string,
   S extends StateTree,
@@ -94,6 +142,14 @@ export function mapState<
   useStore: StoreDefinition<Id, S, G, A>,
   keyMapper: KeyMapper
 ): MapStateObjectReturn<S, G, KeyMapper>
+/**
+ * Allows using state and getters from one store without using the composition
+ * API (`setup()`) by generating an object to be spread in the `computed` field
+ * of a component.
+ *
+ * @param useStore - store to map from
+ * @param keysOrMapper - array or object
+ */
 export function mapState<
   Id extends string,
   S extends StateTree,
