@@ -1,6 +1,6 @@
 # Introduction
 
-Pinia [started](https://github.com/posva/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e) as an experiment to redesign what a Store for Vue could look like with the [Composition API](https://github.com/vuejs/composition-api) around November 2019. Since then, the initial principles are still the same, but Pinia works for both Vue 2 and Vue 3. The API is the same for both except for _installation_ and _SSR_, and these docs are targeted to Vue 3 **with notes about Vue 2** whenever necessary so it can be used no matter if you are using Vue 2 or Vue 3!
+Pinia [started](https://github.com/posva/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e) as an experiment to redesign what a Store for Vue could look like with the [Composition API](https://github.com/vuejs/composition-api) around November 2019. Since then, the initial principles are still the same, but Pinia works for both Vue 2 and Vue 3 **and doesn't require you to use the composition API**. The API is the same for both except for _installation_ and _SSR_, and these docs are targeted to Vue 3 **with notes about Vue 2** whenever necessary so it can be used no matter if you are using Vue 2 or Vue 3!
 
 ## Basic example
 
@@ -9,7 +9,7 @@ You start by creating a store:
 ```js
 import { defineStore } from 'pinia'
 
-export const useCounter = defineStore({
+export const useCounterStore = defineStore({
   id: 'counter',
   state() {
     return { count: 0 }
@@ -24,7 +24,7 @@ And then you _use_ it in a component:
 ```js
 export default {
   setup() {
-    const counter = useCounter()
+    const counter = useCounterStore()
 
     counter.count++
     // with autocompletion ✨
@@ -33,7 +33,36 @@ export default {
 }
 ```
 
-<!-- TODO: or if you prefer using the options api, use `mapStores` -->
+If you are still not into `setup()` and Composition API, don't worry, Pinia also support a similar set of [_map helpers_ like Vuex](https://vuex.vuejs.org/guide/state.html#the-mapstate-helper). You define stores the same way but then use `mapStores()`, `mapState()`, or `mapActions()`:
+
+```js
+const useCounterStore = defineStore({
+  id: 'counter',
+  state: () => ({ count: 0 }),
+  getters: { double: state => state.count * 2 },
+  actions: {
+    increment() {
+      this.count++
+    }
+  }
+})
+const useUserStore = defineStore({ id: 'user' })
+
+export default {
+  computed: {
+    // other computed properties
+    // ...
+    // gives access to this.counterStore and this.userStore
+    ...mapStores(useCounterStore, useUserStore)
+    // gives read access to this.count and this.double
+    ...mapState(useCounterStore, ['count', 'double']),
+  },
+  methods: {
+    // gives access to this.increment()
+    ...mapActions(useCounterStore, ['increment']),
+  },
+}
+```
 
 ## Why _Pinia_
 
