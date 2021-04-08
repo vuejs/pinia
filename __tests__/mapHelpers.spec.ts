@@ -1,6 +1,7 @@
 import {
   createPinia,
   defineStore,
+  mapActions,
   mapGetters,
   mapState,
   mapStores,
@@ -149,6 +150,51 @@ describe('Map Helpers', () => {
         `{{ a }} {{ notA }} {{ double }}`,
         `true false 0`
       )
+    })
+  })
+
+  describe('mapActions', () => {
+    const useStore = defineStore({
+      id: 'main',
+      state: () => ({ n: 0 }),
+      actions: {
+        increment() {
+          this.n++
+        },
+        setN(newN: number) {
+          return (this.n = newN)
+        },
+      },
+    })
+
+    it('array', () => {
+      const pinia = createPinia()
+      const Component = defineComponent({
+        template: `<p></p>`,
+        methods: {
+          ...mapActions(useStore, ['increment', 'setN']),
+        },
+      })
+
+      const wrapper = mount(Component, { localVue, pinia })
+
+      expect(wrapper.vm.increment()).toBe(undefined)
+      expect(wrapper.vm.setN(4)).toBe(4)
+    })
+
+    it('object', () => {
+      const pinia = createPinia()
+      const Component = defineComponent({
+        template: `<p></p>`,
+        methods: {
+          ...mapActions(useStore, { inc: 'increment', set: 'setN' }),
+        },
+      })
+
+      const wrapper = mount(Component, { localVue, pinia })
+
+      expect(wrapper.vm.inc()).toBe(undefined)
+      expect(wrapper.vm.set(4)).toBe(4)
     })
   })
 })

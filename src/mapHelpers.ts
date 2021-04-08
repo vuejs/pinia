@@ -124,3 +124,106 @@ export function mapState<
  * Alias for `mapState()`. You should use `mapState()` instead.
  */
 export const mapGetters = mapState
+
+type MapActionsReturn<A> = {
+  [key in keyof A]: Store<string, StateTree, {}, A>[key]
+}
+
+type MapActionsObjectReturn<A, T extends Record<string, keyof A>> = {
+  [key in keyof T]: Store<string, StateTree, {}, A>[T[key]]
+}
+
+/**
+ * Allows directly using actions from your store without using the composition
+ * API (`setup()`) by generating an object to be spread in the `methods` field
+ * of a component.
+ *
+ * @example
+ * ```js
+ * export default {
+ *   methods: {
+ *     // other methods properties
+ *     ...mapActions(useCounterStore, ['increment', 'setCount'])
+ *   },
+ *
+ *   created() {
+ *     this.increment()
+ *     this.setCount(2) // pass arguments as usual
+ *   }
+ * }
+ * ```
+ *
+ * @param useStore - store to map from
+ * @param keys - array of action names to map
+ */
+export function mapActions<Id extends string, S extends StateTree, G, A>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keys: Array<keyof A>
+): MapActionsReturn<A>
+/**
+ * Allows directly using actions from your store without using the composition
+ * API (`setup()`) by generating an object to be spread in the `methods` field
+ * of a component. The values of the object are the actions while the keys are
+ * the names of the resulting methods.
+ *
+ * @example
+ * ```js
+ * export default {
+ *   methods: {
+ *     // other methods properties
+ *     // useCounterStore has two actions named `increment` and `setCount`
+ *     ...mapActions(useCounterStore, { moar: 'increment', setIt: 'setCount' })
+ *   },
+ *
+ *   created() {
+ *     this.moar()
+ *     this.setIt(2)
+ *   }
+ * }
+ * ```
+ *
+ * @param useStore - store to map from
+ * @param keyMapper - object to define new names for the actions
+ */
+export function mapActions<
+  Id extends string,
+  S extends StateTree,
+  G,
+  A,
+  KeyMapper extends Record<string, keyof A>
+>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keyMapper: KeyMapper
+): MapActionsObjectReturn<A, KeyMapper>
+/**
+ * Allows directly using actions from your store without using the composition
+ * API (`setup()`) by generating an object to be spread in the `methods` field
+ * of a component.
+ *
+ * @param useStore - store to map from
+ * @param keysOrMapper - array or object
+ */
+export function mapActions<
+  Id extends string,
+  S extends StateTree,
+  G,
+  A,
+  KeyMapper extends Record<string, keyof A>
+>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keysOrMapper: Array<keyof A> | KeyMapper
+): MapActionsReturn<A> | MapActionsObjectReturn<A, KeyMapper> {
+  return Array.isArray(keysOrMapper)
+    ? keysOrMapper.reduce((reduced, key) => {
+        reduced[key] = function (this: Vue, ...args: any[]) {
+          return (getCachedStore(this, useStore)[key] as Method)(...args)
+        } as Store<string, StateTree, {}, A>[keyof A]
+        return reduced
+      }, {} as MapActionsReturn<A>)
+    : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
+        reduced[key] = function (this: Vue, ...args: any[]) {
+          return getCachedStore(this, useStore)[keysOrMapper[key]](...args)
+        } as Store<string, StateTree, {}, A>[keyof KeyMapper[]]
+        return reduced
+      }, {} as MapActionsObjectReturn<A, KeyMapper>)
+}
