@@ -358,6 +358,23 @@ export function mapActions<
       }, {} as MapActionsObjectReturn<A, KeyMapper>)
 }
 
+type MapWritableStateReturn<S extends StateTree> = {
+  [key in keyof S]: {
+    get: () => Store<string, S, {}, {}>[key]
+    set: (value: Store<string, S, {}, {}>[key]) => any
+  }
+}
+
+type MapWritableStateObjectReturn<
+  S extends StateTree,
+  T extends Record<string, keyof S>
+> = {
+  [key in keyof T]: {
+    get: () => Store<string, S, {}, {}>[T[key]]
+    set: (value: Store<string, S, {}, {}>[T[key]]) => any
+  }
+}
+
 /**
  * Same as `mapState()` but creates computed setters as well so the state can be
  * modified. Differently from `mapState()`, only `state` properties can be
@@ -375,7 +392,7 @@ export function mapWritableState<
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keyMapper: KeyMapper
-): MapStateObjectReturn<Id, S, G, A, KeyMapper>
+): MapWritableStateObjectReturn<S, KeyMapper>
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
@@ -387,7 +404,7 @@ export function mapWritableState<
 export function mapWritableState<Id extends string, S extends StateTree, G, A>(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof S>
-): MapStateReturn<S, G>
+): MapWritableStateReturn<S>
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
@@ -405,24 +422,33 @@ export function mapWritableState<
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keysOrMapper: Array<keyof S> | KeyMapper
-): MapStateReturn<S, G> | MapStateObjectReturn<Id, S, G, A, KeyMapper> {
+): MapWritableStateReturn<S> | MapWritableStateObjectReturn<S, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
         reduced[key] = {
           get(this: ComponentInstance) {
             return getCachedStore(this, useStore)[key]
           },
-          set() {},
+          set(value) {
+            // it's easier to type it here as any
+            return (getCachedStore(this, useStore)[key] = value as any)
+          },
         }
         return reduced
-      }, {} as MapStateReturn<S, G>)
+      }, {} as MapWritableStateReturn<S>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
+        // @ts-ignore
         reduced[key] = {
           get(this: ComponentInstance) {
             return getCachedStore(this, useStore)[keysOrMapper[key]]
           },
-          set() {},
+          set(value) {
+            // it's easier to type it here as any
+            return (getCachedStore(this, useStore)[
+              keysOrMapper[key]
+            ] = value as any)
+          },
         }
         return reduced
-      }, {} as MapStateObjectReturn<Id, S, G, A, KeyMapper>)
+      }, {} as MapWritableStateObjectReturn<S, KeyMapper>)
 }
