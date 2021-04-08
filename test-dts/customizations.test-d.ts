@@ -1,6 +1,6 @@
 import { defineStore, expectType, mapStores } from '.'
 
-declare module '../dist/src/index' {
+declare module '../dist/pinia' {
   export interface MapStoresCustomization {
     // this is the only one that can be applied to work with other tests
     suffix: 'Store'
