@@ -83,33 +83,6 @@ type MapStateObjectReturn<
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
- * of a component.
- *
- * @example
- * ```js
- * export default {
- *   computed: {
- *     // other computed properties
- *     ...mapState(useCounterStore, ['count', 'double'])
- *   },
- *
- *   created() {
- *     this.count // 2
- *     this.double // 4
- *   }
- * }
- * ```
- *
- * @param useStore - store to map from
- * @param keys - array of state properties or getters
- */
-export function mapState<Id extends string, S extends StateTree, G, A>(
-  useStore: StoreDefinition<Id, S, G, A>,
-  keys: Array<keyof S | keyof G>
-): MapStateReturn<S, G>
-/**
- * Allows using state and getters from one store without using the composition
- * API (`setup()`) by generating an object to be spread in the `computed` field
  * of a component. The values of the object are the state properties/getters
  * while the keys are the names of the resulting computed properties.
  *
@@ -147,6 +120,33 @@ export function mapState<
  * API (`setup()`) by generating an object to be spread in the `computed` field
  * of a component.
  *
+ * @example
+ * ```js
+ * export default {
+ *   computed: {
+ *     // other computed properties
+ *     ...mapState(useCounterStore, ['count', 'double'])
+ *   },
+ *
+ *   created() {
+ *     this.count // 2
+ *     this.double // 4
+ *   }
+ * }
+ * ```
+ *
+ * @param useStore - store to map from
+ * @param keys - array of state properties or getters
+ */
+export function mapState<Id extends string, S extends StateTree, G, A>(
+  useStore: StoreDefinition<Id, S, G, A>,
+  keys: Array<keyof S | keyof G>
+): MapStateReturn<S, G>
+/**
+ * Allows using state and getters from one store without using the composition
+ * API (`setup()`) by generating an object to be spread in the `computed` field
+ * of a component.
+ *
  * @param useStore - store to map from
  * @param keysOrMapper - array or object
  */
@@ -162,10 +162,9 @@ export function mapState<
 ): MapStateReturn<S, G> | MapStateObjectReturn<S, G, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
-        // @ts-ignore: sorry TS
         reduced[key] = function (this: Vue) {
           return getCachedStore(this, useStore)[key]
-        }
+        } as () => any
         return reduced
       }, {} as MapStateReturn<S, G>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
