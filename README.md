@@ -68,7 +68,7 @@ Pinia is is the most similar English pronunciation of the word _pineapple_ in Sp
   </a>
 
   <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer">
-    <img src="https://nuxtjs.org/logos/nuxtjs-typo-white.svg" alt="Storyblok" height="32px">
+    <img src="https://nuxtjs.org/logos/nuxtjs-typo-white.svg" alt="NuxtJS" height="32px">
   </a>
 </p>
 
