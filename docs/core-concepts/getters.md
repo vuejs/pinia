@@ -94,7 +94,7 @@ export default {
 }
 ```
 
-## Options API
+## Usage with the options API
 
 You can use the same `mapState()` function used in the [previous section of state](./state.md#options-api) to map to getters:
 

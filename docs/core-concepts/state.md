@@ -29,7 +29,7 @@ const store = useStore()
 store.counter++
 ```
 
-### Options API
+### Usage with the options API
 
 If you are not using the composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
 
