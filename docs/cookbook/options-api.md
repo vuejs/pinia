@@ -44,8 +44,10 @@ By default, Pinia will add the `"Store"` suffix to the `id` of each store. You c
 ```js
 import { createPinia, setMapStoreSuffix } from 'pinia'
 
-setMapStoreSuffix('') // completely remove the suffix
-setMapStoreSuffix('_store') // user_store, cart_store (it's okay, I won't judge you)
+// completely remove the suffix: this.user, this.cart
+setMapStoreSuffix('')
+// this.user_store, this.cart_store (it's okay, I won't judge you)
+setMapStoreSuffix('_store')
 export const pinia = createPinia()
 ```
 
