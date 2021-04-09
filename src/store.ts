@@ -95,7 +95,7 @@ function initStore<Id extends string, S extends StateTree>(
   // const state: Ref<S> = toRef(_p.state.value, $id)
 
   let isListening = true
-  let subscriptions: SubscriptionCallback<S>[] = []
+  const subscriptions: SubscriptionCallback<S>[] = []
 
   function $patch(stateMutation: (state: S) => void): void
   function $patch(partialState: DeepPartial<S>): void
