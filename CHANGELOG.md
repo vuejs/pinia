@@ -1,3 +1,9 @@
+# [2.0.0-alpha.12](https://github.com/posva/pinia/compare/v2.0.0-alpha.11...v2.0.0-alpha.12) (2021-04-09)
+
+### Bug Fixes
+
+- **store:** avoid multiple subscriptions call ([71404cb](https://github.com/posva/pinia/commit/71404cb3ef6466c74b72c5fdb1075740a788a309)), closes [#429](https://github.com/posva/pinia/issues/429) [#430](https://github.com/posva/pinia/issues/430)
+
 # [2.0.0-alpha.11](https://github.com/posva/pinia/compare/v2.0.0-alpha.10...v2.0.0-alpha.11) (2021-04-09)
 
 ### Bug Fixes
