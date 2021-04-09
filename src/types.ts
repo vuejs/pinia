@@ -81,8 +81,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   $patch(stateMutator: (state: S) => void): void
 
   /**
-   * Resets the store to its initial state by removing all subscriptions and
-   * building a new state object
+   * Resets the store to its initial state by building a new state object.
    */
   $reset(): void
 

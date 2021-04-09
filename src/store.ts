@@ -126,12 +126,7 @@ function initStore<Id extends string, S extends StateTree>(
       () => pinia.state.value[$id],
       (state) => {
         if (isListening) {
-          subscriptions.forEach((callback) => {
-            callback(
-              { storeName: $id, type: '🧩 in place', payload: {} },
-              state
-            )
-          })
+          callback({ storeName: $id, type: '🧩 in place', payload: {} }, state)
         }
       },
       {
@@ -150,7 +145,6 @@ function initStore<Id extends string, S extends StateTree>(
   }
 
   function $reset() {
-    subscriptions = []
     pinia.state.value[$id] = buildState()
   }
 

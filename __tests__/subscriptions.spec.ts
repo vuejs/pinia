@@ -43,4 +43,32 @@ describe('Subscriptions', () => {
     expect(func1).not.toHaveBeenCalled()
     expect(func2).toHaveBeenCalledTimes(1)
   })
+
+  describe('multiple', () => {
+    const useStore = defineStore({
+      id: 'main',
+      state: () => ({
+        name: 'Eduardo',
+      }),
+    })
+
+    it('triggers subscribe only once', async () => {
+      const s1 = useStore()
+      const s2 = useStore()
+
+      const spy1 = jest.fn()
+      const spy2 = jest.fn()
+
+      s1.$subscribe(spy1)
+      s2.$subscribe(spy2)
+
+      expect(spy1).toHaveBeenCalledTimes(0)
+      expect(spy2).toHaveBeenCalledTimes(0)
+
+      s1.name = 'Edu'
+
+      expect(spy1).toHaveBeenCalledTimes(1)
+      expect(spy2).toHaveBeenCalledTimes(1)
+    })
+  })
 })
