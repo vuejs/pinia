@@ -37,9 +37,10 @@ describe('Store', () => {
     store.$state.a = false
     const spy = jest.fn()
     store.$subscribe(spy)
+    expect(spy).not.toHaveBeenCalled()
     store.$reset()
     store.$state.nested.foo = 'bar'
-    expect(spy).not.toHaveBeenCalled()
+    expect(spy).toHaveBeenCalledTimes(2)
     expect(store.$state).toEqual({
       a: true,
       nested: {
