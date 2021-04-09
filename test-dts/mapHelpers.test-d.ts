@@ -42,6 +42,9 @@ type CounterStore = ReturnType<typeof useCounter>
 
 const computedStores = mapStores(useStore, useStoreDos, useCounter)
 
+// @ts-expect-error: no array
+mapStores([useStore, useStoreDos, useCounter])
+
 expectType<{
   nameStore: () => MainStore
   dosStore: () => DosStore

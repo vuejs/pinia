@@ -202,6 +202,10 @@ module.exports = {
               text: 'Composing Stores',
               link: '/cookbook/composing-stores.html',
             },
+            {
+              text: 'Usage without setup()',
+              link: '/cookbook/options-api.html',
+            },
           ],
         },
       ],

@@ -78,3 +78,40 @@ export const useStore = defineStore({
   },
 })
 ```
+
+## Usage with `setup()`
+
+You can directly access any getter as a property of the store (exactly like state properties):
+
+```js
+export default {
+  setup() {
+    const store = useStore()
+
+    store.counter = 3
+    store.doubleCount // 6
+  },
+}
+```
+
+## Options API
+
+You can use the same `mapState()` function used in the [previous section of state](./state.md#options-api) to map to getters:
+
+```js
+import { mapState } from 'pinia'
+
+export default {
+  computed: {
+    // gives access to this.doubleCounter inside the component
+    // same as reading from store.doubleCounter
+    ...mapState(useStore, ['doubleCount'])
+    // same as above but registers it as this.myOwnName
+    ...mapState(useStore, {
+      myOwnName: 'doubleCounter',
+      // you can also write a function that gets access to the store
+      double: store => store.doubleCount,
+    }),
+  },
+}
+```

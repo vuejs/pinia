@@ -9,6 +9,9 @@ export const useStore = defineStore({
     counter: 0,
   }),
   actions: {
+    increment() {
+      this.counter++
+    },
     randomizeCounter() {
       this.counter = Math.round(100 * Math.random())
     },
@@ -55,4 +58,36 @@ export const useSettingsStore = defineStore({
     },
   },
 })
+```
+
+## Usage with `setup()`
+
+You can directly call any action as a method of the store:
+
+```js
+export default {
+  setup() {
+    const store = useStore()
+
+    store.randomzieCounter()
+  },
+}
+```
+
+## Usage with options API
+
+If you are not using the composition API, and you are using `computed`, `methods`, ..., you can use the `mapActions()` helper to map actions properties as methods in your component:
+
+```js
+import { mapActions } from 'pinia'
+
+export default {
+  computed: {
+    // gives access to this.increment() inside the component
+    // same as calling from store.increment()
+    ...mapActions(useStore, ['increment'])
+    // same as above but registers it as this.myOwnName()
+    ...mapActions(useStore, { myOwnName: 'doubleCounter' }),
+  },
+}
 ```

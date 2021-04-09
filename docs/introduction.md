@@ -64,6 +64,8 @@ export default {
 }
 ```
 
+You will find more information about each _map helper_ in the core concepts.
+
 ## Why _Pinia_
 
 Pinia (pronounced like `/peenya/` in English) is the closest word to _piña_ (_pineapple_ in Spanish) that is a valid package name. A pineapple is in reality a group of individual flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
