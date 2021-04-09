@@ -29,9 +29,62 @@ const store = useStore()
 store.counter++
 ```
 
+### Options API
+
+If you are not using the composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
+
+```js
+import { mapState } from 'pinia'
+
+export default {
+  computed: {
+    // gives access to this.counter inside the component
+    // same as reading from store.counter
+    ...mapState(useStore, ['counter'])
+    // same as above but registers it as this.myOwnName
+    ...mapState(useStore, {
+      myOwnName: 'counter',
+      // you can also write a function that gets access to the store
+      double: store => store.counter * 2,
+      // it can have access to `this` but it won't be typed correctly...
+      magicValue(store) {
+        return store.someGetter + this.counter + this.double
+      },
+    }),
+  },
+}
+```
+
+#### Modifiable state
+
+If you want to be able to write to these state properties (e.g. if you have a form), you can use `mapWritableState()` instead. Note you cannot pass a function like with `mapState()`:
+
+```js
+import { mapWritableState } from 'pinia'
+
+export default {
+  computed: {
+    // gives access to this.counter inside the component and allows setting it
+    // this.counter++
+    // same as reading from store.counter
+    ...mapWritableState(useStore, ['counter'])
+    // same as above but registers it as this.myOwnName
+    ...mapWritableState(useStore, {
+      myOwnName: 'counter',
+    }),
+  },
+}
+```
+
+:::tip
+You don't need `mapWritableState()` for collections like arrays unless you are replacing the whole array with `cartItems = []`, `mapState()` still allows you to call methods on your collections.
+:::
+
+## Mutating the state
+
 <!-- TODO: disable this with `strictMode` -->
 
-or call the method `$patch` that allows you apply multiple changes at the same time with a partial `state` object:
+Apart from directly changing a the store with `store.counter++`, you can also call the `$patch` method. It allows you to apply multiple changes at the same time with a partial `state` object:
 
 ```js
 store.$patch({
@@ -40,7 +93,7 @@ store.$patch({
 })
 ```
 
-The `$patch` method also accepts a function to group object mutations that are difficult to apply with an object, e.g. array mutations:
+However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the `$patch` method also accepts a function to group this kind of mutations that are difficult to apply with a patch object:
 
 ```js
 cartStore.$patch((state) => {
@@ -59,4 +112,10 @@ You can replace the whole state of a store by setting its `$state` property to a
 
 ```js
 store.$state = { counter: 666, name: 'Paimon' }
+```
+
+You can also replace the whole state of your application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](http://localhost:3000/ssr/#state-hydration).
+
+```js
+pinia.state.value = {}
 ```
