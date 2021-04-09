@@ -21,3 +21,11 @@ store.nonExistant
 
 // @ts-expect-error
 store.nonExistant.stuff
+
+// @ts-expect-error cannot return a value
+store.$patch(async () => {})
+store.$patch(() => {})
+store.$patch(() => {
+  // return earlier
+  return
+})
