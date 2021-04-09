@@ -76,9 +76,12 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
    * Sets or arrays and applying an object patch isn't practical, e.g. appending
    * to an array.
    *
-   * @param stateMutator - function that mutates `state`
+   * @param stateMutator - function that mutates `state`, cannot be async
    */
-  $patch(stateMutator: (state: S) => void): void
+  $patch<F extends (state: S) => void>(
+    // this prevents the user from using `async` which isn't allowed
+    stateMutator: ReturnType<F> extends Promise<any> ? never : F
+  ): void
 
   /**
    * Resets the store to its initial state by building a new state object.
