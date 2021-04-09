@@ -114,7 +114,7 @@ You can replace the whole state of a store by setting its `$state` property to a
 store.$state = { counter: 666, name: 'Paimon' }
 ```
 
-You can also replace the whole state of your application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](http://localhost:3000/ssr/#state-hydration).
+You can also replace the whole state of your application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).
 
 ```js
 pinia.state.value = {}
