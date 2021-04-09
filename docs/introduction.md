@@ -84,4 +84,23 @@ export const todos = defineStore({
 })
 ```
 
-## Comparison with other
+## Comparison with Vuex
+
+Pinia tries to stay as close as Vuex's philosophy as possible. It was designed to test out a proposal for the next iteration of Vuex and it was a success as we currently have an open RFC for Vuex 5 with [an API very similar](https://github.com/vuejs/rfcs/discussions/270) to the one used by Pinia. Note that I (Eduardo), the author of Pinia, am part of the Vue.js Core Team and actively participate in the design of APIs like the Router and Vuex. My personal intention with this project is to redesign the experience of using a global Store while keeping the approachable philosophy of Vue. I keep the API of Pinia as close as Vuex as it keeps moving forward to make it easy for people to migrate to Vuex or to even fusion both projects (under Vuex) in the future.
+
+### RFCs
+
+While Vuex goes through RFC to gather as much feedback from the community as possible, Pinia doesn't. I test out ideas based on my experience developing applications, reading other people's code and answering questions on Discord.
+This allows me to provide a solution that works, publish often, and make it evolve it while people use it by having breaking changes (very unlikely to have major breaking changes after its first stable release) in major releases if necessary.
+
+### Comparison with Vuex 3.x/4.x
+
+> Vuex 3.x is Vuex for Vue 2 while Vuex 4.x is for Vue 3
+
+Pinia API is very different from Vuex <=4, namely:
+
+- _mutations_ no longer exist. They were very often perceived as **_extremely_ verbose**. They initially brought devtools integration but that is not longer an issue.
+- No need to create custom complex wrappers to support TypeScript, everything is typed and the API is designed in a way to leverage TS type inference as much as possible.
+- No more magic strings to inject, import the functions, call them, enjoy autocompletion!
+- No need to dynamically add stores, they are all dynamic by default and you won't even notice. Note you can still manually use a store to register it whenever you want but because it is automatic you don't need to worry about it.
+- No more nested structuring of _modules_. You can still nest stores implicitly by importing and _using_ a store inside another but Pinia offers a flat structuring by design while still enabling ways of cross composition among stores.
