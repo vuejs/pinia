@@ -249,6 +249,7 @@ export function mapState<
 
 /**
  * Alias for `mapState()`. You should use `mapState()` instead.
+ * @deprecated
  */
 export const mapGetters = mapState
 
