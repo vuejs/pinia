@@ -1,3 +1,20 @@
+# [0.3.0](https://github.com/posva/pinia/compare/v0.2.5...v0.3.0) (2021-04-09)
+
+### Bug Fixes
+
+- **types:** enable autocomplete in object ([5012611](https://github.com/posva/pinia/commit/50126119f6672a7c0a9efdd9c2e25eb5a6427dc0))
+
+### Features
+
+- mapWritableState ([6eb04da](https://github.com/posva/pinia/commit/6eb04dae5cff92fc90a27a804c6dc54a2e25635c))
+- **mapState:** accept functions ([6e09db6](https://github.com/posva/pinia/commit/6e09db651c2674e35dfd9fb65c542a5bf147e7a6))
+- **mapStores:** allow custom suffix ([633dbb1](https://github.com/posva/pinia/commit/633dbb1de8e2ad68ef799c4d530363692e7b967b))
+- **types:** allow extending mapStores suffix ([90a0326](https://github.com/posva/pinia/commit/90a0326d0892cfda469fa524e32a6d01ebe1dd3d))
+- add mapActions ([32c28e3](https://github.com/posva/pinia/commit/32c28e33fd636712faa830f91f675aebdb4f6093))
+- add mapStores ([ac20f59](https://github.com/posva/pinia/commit/ac20f59adcd175981cbaac2aff9e08d57363adab))
+- mapState with array ([41a7ad0](https://github.com/posva/pinia/commit/41a7ad0fbcedfbe33d340a476bc15545d92c2471))
+- mapState with object ([a4eb4af](https://github.com/posva/pinia/commit/a4eb4af337d31f9d20e3c3bffc62a251b2ab644a))
+
 ## [0.2.5](https://github.com/posva/pinia/compare/v0.2.4...v0.2.5) (2021-04-01)
 
 ### Features
