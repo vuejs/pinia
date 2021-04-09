@@ -5,7 +5,21 @@ const useStore = defineStore({
   state: () => ({ a: 'on' as 'on' | 'off', nested: { counter: 0 } }),
   getters: {
     upper() {
+      expectType<'on' | 'off'>(this.a)
       return this.a.toUpperCase()
+    },
+    other() {
+      expectType<string>(this.upper)
+      return false
+    },
+  },
+  actions: {
+    doStuff() {
+      expectType<string>(this.upper)
+      expectType<false>(this.other)
+    },
+    otherOne() {
+      expectType<() => void>(this.doStuff)
     },
   },
 })
