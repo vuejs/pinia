@@ -39,7 +39,6 @@ describe('Store Lifespan', () => {
 
   it.skip('what', async () => {
     const localVue = createLocalVue()
-    localVue.use(VueCompositionAPI)
     const n = 0
     const Component = defineComponent({
       render: (h) => h('p'),

@@ -6,6 +6,7 @@ import {
   getCurrentInstance,
   markRaw,
   inject,
+  onUnmounted,
 } from '@vue/composition-api'
 import {
   StateTree,
@@ -141,13 +142,19 @@ function initStore<Id extends string, S extends StateTree>(
       }
     )
 
-    return () => {
+    const removeSubscription = () => {
       const idx = subscriptions.indexOf(callback)
       if (idx > -1) {
         subscriptions.splice(idx, 1)
         stopWatcher()
       }
     }
+
+    if (getCurrentInstance()) {
+      onUnmounted(removeSubscription)
+    }
+
+    return removeSubscription
   }
 
   function $reset() {

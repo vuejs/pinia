@@ -1,5 +1,13 @@
+import { nextTick } from '@vue/composition-api'
+import { createLocalVue, mount } from '@vue/test-utils'
 import Vue from 'vue'
-import { defineStore, setActivePinia, createPinia, Pinia } from '../src'
+import {
+  defineStore,
+  setActivePinia,
+  createPinia,
+  Pinia,
+  PiniaPlugin,
+} from '../src'
 
 describe('Subscriptions', () => {
   let pinia: Pinia
@@ -57,6 +65,9 @@ describe('Subscriptions', () => {
     })
 
     it('triggers subscribe only once', async () => {
+      const pinia = createPinia()
+      pinia.Vue = Vue
+      setActivePinia(pinia)
       const s1 = useStore()
       const s2 = useStore()
 
@@ -73,6 +84,51 @@ describe('Subscriptions', () => {
 
       expect(spy1).toHaveBeenCalledTimes(1)
       expect(spy2).toHaveBeenCalledTimes(1)
+    })
+
+    it('removes on unmount', async () => {
+      const pinia = createPinia()
+      pinia.Vue = Vue
+      const spy1 = jest.fn()
+      const spy2 = jest.fn()
+
+      const localVue = createLocalVue()
+      localVue.use(PiniaPlugin)
+
+      const wrapper = mount(
+        {
+          setup() {
+            const s1 = useStore()
+            s1.$subscribe(spy1)
+          },
+          template: `<p/>`,
+        },
+        { pinia, localVue }
+      )
+
+      const s1 = useStore()
+      const s2 = useStore()
+
+      s2.$subscribe(spy2)
+
+      expect(spy1).toHaveBeenCalledTimes(0)
+      expect(spy2).toHaveBeenCalledTimes(0)
+
+      s1.name = 'Edu'
+
+      expect(spy2).toHaveBeenCalledTimes(1)
+      expect(spy1).toHaveBeenCalledTimes(1)
+
+      s1.$patch({ name: 'a' })
+      expect(spy1).toHaveBeenCalledTimes(2)
+      expect(spy2).toHaveBeenCalledTimes(2)
+
+      wrapper.destroy()
+      await nextTick()
+
+      s1.$patch({ name: 'b' })
+      expect(spy1).toHaveBeenCalledTimes(2)
+      expect(spy2).toHaveBeenCalledTimes(3)
     })
   })
 })
