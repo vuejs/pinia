@@ -1,4 +1,12 @@
-import { watch, computed, Ref, inject, getCurrentInstance, reactive } from 'vue'
+import {
+  watch,
+  computed,
+  Ref,
+  inject,
+  getCurrentInstance,
+  reactive,
+  onUnmounted,
+} from 'vue'
 import {
   StateTree,
   StoreWithState,
@@ -135,13 +143,19 @@ function initStore<Id extends string, S extends StateTree>(
       }
     )
 
-    return () => {
+    const removeSubscription = () => {
       const idx = subscriptions.indexOf(callback)
       if (idx > -1) {
         subscriptions.splice(idx, 1)
         stopWatcher()
       }
     }
+
+    if (getCurrentInstance()) {
+      onUnmounted(removeSubscription)
+    }
+
+    return removeSubscription
   }
 
   function $reset() {

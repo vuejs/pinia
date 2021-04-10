@@ -1,4 +1,5 @@
 import { createPinia, defineStore, setActivePinia } from '../src'
+import { mount } from '@vue/test-utils'
 
 describe('Subscriptions', () => {
   const useStore = () => {
@@ -53,6 +54,7 @@ describe('Subscriptions', () => {
     })
 
     it('triggers subscribe only once', async () => {
+      setActivePinia(createPinia())
       const s1 = useStore()
       const s2 = useStore()
 
@@ -69,6 +71,46 @@ describe('Subscriptions', () => {
 
       expect(spy1).toHaveBeenCalledTimes(1)
       expect(spy2).toHaveBeenCalledTimes(1)
+    })
+
+    it('removes on unmount', async () => {
+      const pinia = createPinia()
+      const spy1 = jest.fn()
+      const spy2 = jest.fn()
+
+      const wrapper = mount(
+        {
+          setup() {
+            const s1 = useStore()
+            s1.$subscribe(spy1)
+          },
+          template: `<p/>`,
+        },
+        { global: { plugins: [pinia] } }
+      )
+
+      const s1 = useStore()
+      const s2 = useStore()
+
+      s2.$subscribe(spy2)
+
+      expect(spy1).toHaveBeenCalledTimes(0)
+      expect(spy2).toHaveBeenCalledTimes(0)
+
+      s1.name = 'Edu'
+
+      expect(spy2).toHaveBeenCalledTimes(1)
+      expect(spy1).toHaveBeenCalledTimes(1)
+
+      s1.$patch({ name: 'a' })
+      expect(spy1).toHaveBeenCalledTimes(2)
+      expect(spy2).toHaveBeenCalledTimes(2)
+
+      await wrapper.unmount()
+
+      s1.$patch({ name: 'b' })
+      expect(spy1).toHaveBeenCalledTimes(2)
+      expect(spy2).toHaveBeenCalledTimes(3)
     })
   })
 })
