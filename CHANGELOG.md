@@ -1,3 +1,10 @@
+## [0.3.1](https://github.com/posva/pinia/compare/v0.3.0...v0.3.1) (2021-04-10)
+
+### Bug Fixes
+
+- **store:** avoid multiple subscriptions call ([60df4d5](https://github.com/posva/pinia/commit/60df4d51e3c1ca7980c452d4d38eeac88b948acf)), closes [#429](https://github.com/posva/pinia/issues/429) [#430](https://github.com/posva/pinia/issues/430)
+- **subscribe:** remove subscription when unmounted ([455ad95](https://github.com/posva/pinia/commit/455ad955ea4220d8434c327c6e54521a1ca93141))
+
 # [0.3.0](https://github.com/posva/pinia/compare/v0.2.5...v0.3.0) (2021-04-09)
 
 ### Bug Fixes
