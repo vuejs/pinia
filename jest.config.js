@@ -7,6 +7,7 @@ module.exports = {
   coveragePathIgnorePatterns: [
     '/node_modules/',
     'src/index.ts',
+    '\\.d\\.ts$',
     'src/devtools.ts',
     'src/deprecated.ts',
   ],
