@@ -130,7 +130,7 @@ This allows me to provide a solution that works, publish often, and make it evol
 
 Pinia API is very different from Vuex <=4, namely:
 
-- _mutations_ no longer exist. They were very often perceived as **_extremely_ verbose**. They initially brought devtools integration but that is not longer an issue.
+- _mutations_ no longer exist. They were very often perceived as **_extremely_ verbose**. They initially brought devtools integration but that is no longer an issue.
 - No need to create custom complex wrappers to support TypeScript, everything is typed and the API is designed in a way to leverage TS type inference as much as possible.
 - No more magic strings to inject, import the functions, call them, enjoy autocompletion!
 - No need to dynamically add stores, they are all dynamic by default and you won't even notice. Note you can still manually use a store to register it whenever you want but because it is automatic you don't need to worry about it.
