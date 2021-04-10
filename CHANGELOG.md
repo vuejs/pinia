@@ -1,3 +1,13 @@
+# [2.0.0-alpha.13](https://github.com/posva/pinia/compare/v2.0.0-alpha.12...v2.0.0-alpha.13) (2021-04-10)
+
+### Bug Fixes
+
+- **subscribe:** remove subscription when unmounted ([10e1c30](https://github.com/posva/pinia/commit/10e1c3069a23f3a9c0d1e32cbc1fbb074709173e))
+
+### Features
+
+- **types:** fail on async patch ([c254a8a](https://github.com/posva/pinia/commit/c254a8abc73d7e2589acbffe432a33f985c1003d))
+
 # [2.0.0-alpha.12](https://github.com/posva/pinia/compare/v2.0.0-alpha.11...v2.0.0-alpha.12) (2021-04-09)
 
 ### Bug Fixes
