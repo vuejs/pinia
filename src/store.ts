@@ -230,13 +230,16 @@ function buildStoreToUse<
     } as StoreWithActions<A>[typeof actionName]
   }
 
-  const store: Store<Id, S, G, A> = reactive({
-    ...partialStore,
-    // using this means no new properties can be added as state
-    ...computedFromState(pinia.state, $id),
-    ...computedGetters,
-    ...wrappedActions,
-  }) as Store<Id, S, G, A>
+  const store: Store<Id, S, G, A> = reactive(
+    assign(
+      {},
+      partialStore,
+      // using this means no new properties can be added as state
+      computedFromState(pinia.state, $id),
+      computedGetters,
+      wrappedActions
+    )
+  ) as Store<Id, S, G, A>
 
   // use this instead of a computed with setter to be able to create it anywhere
   // without linking the computed lifespan to wherever the store is first
