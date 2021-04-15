@@ -207,7 +207,8 @@ function buildStoreToUse<
   descriptor: StateDescriptor<S>,
   $id: Id,
   getters: G = {} as G,
-  actions: A = {} as A
+  actions: A = {} as A,
+  options: DefineStoreOptions<Id, S, G, A>
 ) {
   const pinia = getActivePinia()
 
@@ -247,7 +248,7 @@ function buildStoreToUse<
 
   // apply all plugins
   pinia._p.forEach((extender) => {
-    Object.assign(store, extender({ store, app: pinia._a, pinia }))
+    Object.assign(store, extender({ store, app: pinia._a, pinia, options }))
   })
 
   return store
@@ -263,8 +264,9 @@ let isDevWarned: boolean | undefined
 export function defineStore<
   Id extends string,
   S extends StateTree,
-  G /* extends Record<string, StoreGetterThis> */,
-  A /* extends Record<string, StoreAction> */
+  // the omission of the extends is necessary for type inference
+  G /* extends Record<string, Method> */,
+  A /* extends Record<string, Method> */
 >(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A> {
   const { id, state, getters, actions } = options
 
@@ -290,7 +292,9 @@ export function defineStore<
         storeAndDescriptor[1],
         id,
         getters as Record<string, Method> | undefined,
-        actions as Record<string, Method> | undefined
+        actions as Record<string, Method> | undefined,
+        // @ts-ignore: because we don't have extend on G and A
+        options
       )
 
       if (
@@ -322,7 +326,9 @@ export function defineStore<
       storeAndDescriptor[1],
       id,
       getters as Record<string, Method> | undefined,
-      actions as Record<string, Method> | undefined
+      actions as Record<string, Method> | undefined,
+      // @ts-ignore: because we don't have extend on G and A
+      options
     )
   }
 

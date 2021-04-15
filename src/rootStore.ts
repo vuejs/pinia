@@ -6,6 +6,9 @@ import {
   StateDescriptor,
   GenericStore,
   PiniaCustomProperties,
+  Method,
+  DefineStoreOptions,
+  Store,
 } from './types'
 
 /**
@@ -59,12 +62,17 @@ export const getClientApp = () => clientApp
 /**
  * Context argument passed to Pinia plugins.
  */
-export interface PiniaPluginContext {
+export interface PiniaPluginContext<
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  G = Record<string, Method>,
+  A = Record<string, Method>
+> {
   /**
    * pinia instance.
    */
-
   pinia: Pinia
+
   /**
    * Current app created with `Vue.createApp()`.
    */
@@ -73,7 +81,12 @@ export interface PiniaPluginContext {
   /**
    * Current store being extended.
    */
-  store: GenericStore
+  store: Store<Id, S, G, A>
+
+  /**
+   * Current store being extended.
+   */
+  options: DefineStoreOptions<Id, S, G, A>
 }
 
 /**
