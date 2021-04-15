@@ -26,7 +26,7 @@ const productionHead = [
  */
 module.exports = {
   title: 'Pinia',
-  lang: 'en',
+  lang: 'en-US',
   description: 'The Vue Store that you will enjoy using',
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
@@ -123,11 +123,6 @@ module.exports = {
     algolia: {
       apiKey: 'd526df143dcebc3c6de61189345348d1',
       indexName: 'pinia',
-      algoliaOptions: {
-        facetFilters: [
-          'tags:introduction,getting-started,core-concepts,ssr,cookbook',
-        ],
-      },
     },
 
     carbonAds: {
