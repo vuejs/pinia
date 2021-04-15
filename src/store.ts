@@ -248,7 +248,7 @@ function buildStoreToUse<
 
   // apply all plugins
   pinia._p.forEach((extender) => {
-    Object.assign(store, extender({ store, app: pinia._a, pinia, options }))
+    assign(store, extender({ store, app: pinia._a, pinia, options }))
   })
 
   return store
