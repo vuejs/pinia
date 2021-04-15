@@ -6,7 +6,6 @@ import {
   StateDescriptor,
   GenericStore,
   PiniaCustomProperties,
-  GenericStore,
 } from './types'
 
 /**

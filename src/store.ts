@@ -18,7 +18,6 @@ import {
   StoreWithActions,
   StateDescriptor,
   Method,
-  PiniaCustomProperties,
   DefineStoreOptions,
   StoreDefinition,
 } from './types'
