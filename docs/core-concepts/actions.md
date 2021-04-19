@@ -82,7 +82,7 @@ If you are not using the composition API, and you are using `computed`, `methods
 import { mapActions } from 'pinia'
 
 export default {
-  computed: {
+  methods: {
     // gives access to this.increment() inside the component
     // same as calling from store.increment()
     ...mapActions(useStore, ['increment'])
