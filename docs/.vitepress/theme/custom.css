@@ -172,4 +172,5 @@ div[class*='language-'],
 
 code {
   font-size: 0.95em;
+  padding: 0.175em 0.35em;
 }

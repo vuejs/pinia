@@ -68,3 +68,7 @@ declare module 'pinia' {
   }
 }
 ```
+
+:::warning
+If you are using a TypeScript declaration file (like `global.d.ts`), make sure to `import 'pinia'` at the top of it to expose all existing types.
+:::
