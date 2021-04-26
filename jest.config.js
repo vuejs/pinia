@@ -1,5 +1,5 @@
 module.exports = {
-  preset: 'ts-jest',
+  testEnvironment: 'jsdom',
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['html', 'lcov', 'text'],
@@ -12,15 +12,12 @@ module.exports = {
     'src/deprecated.ts',
   ],
   testMatch: ['<rootDir>/__tests__/**/*.spec.ts'],
+  transform: {
+    '^.+\\.tsx?$': '@sucrase/jest-plugin',
+  },
   globals: {
     __DEV__: true,
     __TEST__: true,
     __BROWSER__: true,
-    'ts-jest': {
-      diagnostics: {
-        warnOnly: true,
-      },
-    },
   },
-  testURL: 'http://localhost/',
 }
