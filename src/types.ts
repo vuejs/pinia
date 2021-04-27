@@ -26,14 +26,6 @@ export function isPlainObject(
   )
 }
 
-/**
- * Store Getter
- * @internal
- */
-export interface StoreGetter<S extends StateTree, T = any> {
-  (state: S, getters: Record<string, Ref<any>>): T
-}
-
 export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
 // type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
 
@@ -129,12 +121,7 @@ export type StoreWithActions<A> = {
  * @internal
  */
 export type StoreWithGetters<G> = {
-  readonly [k in keyof G]: G[k] extends (
-    this: infer This,
-    store?: any
-  ) => infer R
-    ? R
-    : never
+  readonly [k in keyof G]: G[k] extends (...args: any[]) => infer R ? R : never
 }
 
 // // in this type we forget about this because otherwise the type is recursive
