@@ -29,7 +29,10 @@ export const piniaSymbol = (__DEV__
  * Plugin to extend every store
  */
 export interface PiniaStorePlugin {
-  (pinia: Pinia): Partial<PiniaCustomProperties>
+  (context: {
+    pinia: Pinia
+    store: GenericStore
+  }): Partial<PiniaCustomProperties> | void
 }
 
 /**
@@ -44,8 +47,7 @@ export interface Pinia {
   /**
    * Adds a store plugin to extend every store
    *
-   * @alpha DO NOT USE, The plugin architecture will change to provide more
-   * customization options.
+   * @alpha the plugin API could change in the future
    *
    * @param plugin - store plugin to add
    */
@@ -56,7 +58,7 @@ export interface Pinia {
    *
    * @internal
    */
-  _p: Array<() => Partial<PiniaCustomProperties>>
+  _p: PiniaStorePlugin[]
 
   /**
    * Vue constructor retrieved when installing the pinia.
@@ -74,6 +76,7 @@ declare module 'vue/types/vue' {
     /**
      * Cache of stores instantiated by the current instance. Used by map
      * helpers.
+     *
      * @internal
      */
     _pStores?: Record<string, GenericStore>
@@ -105,13 +108,7 @@ export function createPinia(): Pinia {
     Vue: {} as any,
 
     use(plugin) {
-      /* istanbul ignore next */
-      if (__DEV__ && !__TEST__) {
-        console.warn(
-          `[🍍]: The plugin API has plans to change to bring better extensibility. "pinia.use()" signature will change in the next release. It is recommended to avoid using this API.`
-        )
-      }
-      _p.push(plugin.bind(null, pinia))
+      _p.push(plugin)
     },
 
     _p,

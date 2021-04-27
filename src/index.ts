@@ -9,6 +9,8 @@ export { PiniaPlugin } from './plugin'
 export {
   StateTree,
   Store,
+  GenericStore,
+  GenericStoreDefinition,
   StoreWithGetters,
   StoreWithActions,
   StoreWithState,

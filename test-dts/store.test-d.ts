@@ -1,4 +1,11 @@
-import { defineStore, expectType } from './'
+import { GenericStore } from 'dist/src/types'
+import { defineStore, expectType, createPinia } from './'
+
+const pinia = createPinia()
+
+pinia.use(({ store }) => {
+  expectType<GenericStore>(store)
+})
 
 const useStore = defineStore({
   id: 'name',
@@ -10,7 +17,7 @@ const useStore = defineStore({
   },
 })
 
-let store = useStore()
+const store = useStore()
 
 expectType<{ a: 'on' | 'off' }>(store.$state)
 expectType<number>(store.nested.counter)
