@@ -16,6 +16,11 @@ const useStore = defineStore({
       expectType<string>(this.upper)
       return false
     },
+
+    doubleCounter: (state) => {
+      expectType<number>(state.nested.counter)
+      return state.nested.counter * 2
+    },
   },
   actions: {
     doStuff() {

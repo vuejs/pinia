@@ -19,6 +19,19 @@ describe('Getters', () => {
         composed(): string {
           return this.upperCaseName + ': ok'
         },
+        arrowUpper: (state) => {
+          // @ts-expect-error
+          state.nope
+          state.name.toUpperCase()
+        },
+      },
+      actions: {
+        o() {
+          // @ts-expect-error it should type getters
+          this.arrowUper.toUpperCase()
+          this.o().toUpperCase()
+          return 'a string'
+        },
       },
     })()
   }
@@ -42,6 +55,10 @@ describe('Getters', () => {
   it('adds getters to the store', () => {
     const store = useStore()
     expect(store.upperCaseName).toBe('EDUARDO')
+
+    // @ts-expect-error
+    store.nope
+
     store.name = 'Ed'
     expect(store.upperCaseName).toBe('ED')
   })
