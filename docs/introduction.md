@@ -128,7 +128,7 @@ This allows me to provide a solution that works, publish often, and make it evol
 
 > Vuex 3.x is Vuex for Vue 2 while Vuex 4.x is for Vue 3
 
-Pinia API is very different from Vuex <=4, namely:
+Pinia API is very different from Vuex ≤4, namely:
 
 - _mutations_ no longer exist. They were very often perceived as **_extremely_ verbose**. They initially brought devtools integration but that is no longer an issue.
 - No need to create custom complex wrappers to support TypeScript, everything is typed and the API is designed in a way to leverage TS type inference as much as possible.
