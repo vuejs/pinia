@@ -60,7 +60,10 @@ export const getClientApp = () => clientApp
  * Plugin to extend every store
  */
 export interface PiniaStorePlugin {
-  (context: { app: App; store: GenericStore }): Partial<PiniaCustomProperties>
+  (context: {
+    app: App
+    store: GenericStore
+  }): Partial<PiniaCustomProperties> | void
 }
 
 /**
