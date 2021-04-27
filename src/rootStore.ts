@@ -109,6 +109,7 @@ declare module '@vue/runtime-core' {
     /**
      * Cache of stores instantiated by the current instance. Used by map
      * helpers.
+     *
      * @internal
      */
     _pStores?: Record<string, GenericStore>
@@ -151,12 +152,6 @@ export function createPinia(): Pinia {
     },
 
     use(plugin) {
-      /* istanbul ignore next */
-      if (__DEV__ && !__TEST__) {
-        console.warn(
-          `[🍍]: The plugin API has plans to change to bring better extensibility. "pinia.use()" signature will change in the next release. It is recommended to avoid using this API.`
-        )
-      }
       if (!localApp) {
         toBeInstalled.push(plugin)
       } else {
