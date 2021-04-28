@@ -1,23 +1,4 @@
-import {
-  defineStore,
-  expectType,
-  mapStores,
-  createPinia,
-  GenericStore,
-} from '.'
-
-const useCounter = defineStore({
-  id: 'counter',
-  state: () => ({ n: 0 }),
-})
-
-type CounterStore = ReturnType<typeof useCounter>
-
-const computedStores = mapStores(useCounter)
-
-expectType<{
-  counterStore: () => CounterStore
-}>(computedStores)
+import { expectType, createPinia, GenericStore } from '.'
 
 const pinia = createPinia()
 

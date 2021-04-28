@@ -10,7 +10,6 @@ export {
   StateTree,
   Store,
   GenericStore,
-  GenericStoreDefinition,
   StoreDefinition,
   StoreWithGetters,
   StoreWithActions,

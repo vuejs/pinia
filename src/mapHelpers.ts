@@ -1,7 +1,6 @@
 import { ComponentInstance } from '@vue/devtools-api'
 import {
   GenericStore,
-  GenericStoreDefinition,
   Method,
   StateTree,
   Store,
@@ -99,7 +98,7 @@ export function setMapStoreSuffix(
  *
  * @param stores - list of stores to map to an object
  */
-export function mapStores<Stores extends GenericStoreDefinition[]>(
+export function mapStores<Stores extends any[]>(
   ...stores: [...Stores]
 ): Spread<Stores> {
   return stores.reduce((reduced, useStore) => {
@@ -426,6 +425,7 @@ export function mapWritableState<
 ): MapWritableStateReturn<S> | MapWritableStateObjectReturn<S, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
+        // @ts-ignore
         reduced[key] = {
           get(this: ComponentInstance) {
             return getCachedStore(this, useStore)[key]
