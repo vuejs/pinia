@@ -101,6 +101,18 @@ export function setMapStoreSuffix(
 export function mapStores<Stores extends any[]>(
   ...stores: [...Stores]
 ): Spread<Stores> {
+  if (__DEV__ && Array.isArray(stores[0])) {
+    console.warn(
+      `[🍍]: Directly pass all stores to "mapStores()" without putting them in an array:\n` +
+        `Replace\n` +
+        `\tmapStores([useAuthStore, useCartStore])\n` +
+        `with\n` +
+        `\tmapStores(useAuthStore, useCartStore)\n` +
+        `This will fail in production if not fixed.`
+    )
+    stores = stores[0]
+  }
+
   return stores.reduce((reduced, useStore) => {
     // @ts-ignore: $id is added by defineStore
     reduced[useStore.$id + mapStoreSuffix] = function (this: Vue) {
