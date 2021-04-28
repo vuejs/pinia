@@ -29,6 +29,16 @@ const store = useStore()
 store.counter++
 ```
 
+## Resetting the state
+
+You can _reset_ the state to its initial value by calling the `$reset()` method on the store:
+
+```js
+const store = useStore()
+
+store.$reset()
+```
+
 ### Usage with the options API
 
 If you are not using the composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
@@ -118,4 +128,61 @@ You can also replace the whole state of your application by changing the `state`
 
 ```js
 pinia.state.value = {}
+```
+
+## Watching the state
+
+You can watch the state, similar to Vuex's [subscribe method](https://vuex.vuejs.org/api/#subscribe) by simply watching it (since it's a reactive source). Keep in mind a watcher is cleared up when the wrapping component is unmounted so you should add the watcher in your App component or outside of it if you want it to run forever.
+
+```js
+watch(
+  pinia.state,
+  (state) => {
+    // persist the whole state to the local storage whenever it changes
+    localStorage.setItem('piniaState', JSON.stringify(state))
+  },
+  { deep: true }
+)
+```
+
+You can also observe a specific store state instead of all of them by passing a function. Here is an example to watch a store with the id `cart`:
+
+```js
+watch(
+  () => pinia.state.value.cart,
+  (cartState) => {
+    // persist the whole state to the local storage whenever it changes
+    localStorage.setItem('cart', JSON.stringify(cartState))
+  },
+  { deep: true }
+)
+```
+
+Note that depending on when you create the watcher, `pinia.state.value.cart` might be `undefined`. You can also watch a store's `$state` property (this will also make typing work):
+
+```ts
+import { defineStore } from 'pinia'
+
+const useCartStore = defineStore({
+  // ...
+})
+
+const cartStore = useCartStore()
+
+// watch the whole state of the cart
+watch(
+  () => cartStore.$state,
+  () => {
+    // do something
+  },
+  { deep: true }
+)
+
+// you can also watch a getter
+watch(
+  () => cartStore.totalAmount,
+  () => {
+    // do something
+  }
+)
 ```
