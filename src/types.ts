@@ -107,6 +107,7 @@ export type Method = (...args: any[]) => any
 // in this type we forget about this because otherwise the type is recursive
 /**
  * Store augmented for actions
+ *
  * @internal
  */
 export type StoreWithActions<A> = {
@@ -115,13 +116,9 @@ export type StoreWithActions<A> = {
     : never
 }
 
-// export interface StoreGetter<S extends StateTree, T = any> {
-//   // TODO: would be nice to be able to define the getters here
-//   (state: S, getters: Record<string, Ref<any>>): T
-// }
-
 /**
  * Store augmented with getters
+ *
  * @internal
  */
 export type StoreWithGetters<G> = {
