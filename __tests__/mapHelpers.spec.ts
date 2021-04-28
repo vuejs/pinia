@@ -10,6 +10,7 @@ import {
 } from '../src'
 import { mount } from '@vue/test-utils'
 import { nextTick, defineComponent } from 'vue'
+import { mockWarn } from 'jest-mock-warn'
 
 describe('Map Helpers', () => {
   const useCartStore = defineStore({ id: 'cart' })
@@ -39,6 +40,7 @@ describe('Map Helpers', () => {
   })
 
   describe('mapStores', () => {
+    mockWarn()
     it('mapStores computes only once when mapping one store', async () => {
       const pinia = createPinia()
       const fromStore = jest.fn(function () {
@@ -119,6 +121,11 @@ describe('Map Helpers', () => {
       expect(wrapper.text()).toBe('1')
       await wrapper.trigger('click')
       expect(wrapper.text()).toBe('2')
+    })
+
+    it('should warn when an array is passed', () => {
+      mapStores([])
+      expect('pass all stores to "mapStores()"').toHaveBeenWarned()
     })
   })
 
