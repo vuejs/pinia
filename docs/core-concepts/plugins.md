@@ -20,6 +20,8 @@ const store = useStore()
 store.secret // 'the cake is a lie'
 ```
 
+This is useful to add global objects like the router, modals, or toasts.
+
 ## Introduction
 
 A Pinia plugin is a function that optionally returns properties to be added to a store. It takes one optional argument, a _context_:
@@ -27,7 +29,7 @@ A Pinia plugin is a function that optionally returns properties to be added to a
 ```js
 export function myPiniaPlugin(context) {
   context.pinia // the pinia created with `createPinia()`
-  context.app // the current app created with `createApp()`
+  context.app // the current app created with `createApp()` (Vue 3 only)
   context.store // the store the plugin is augmenting
   context.options // the options object defining the store passed to `defineStore()`
   // ...
@@ -40,7 +42,7 @@ This function is then passed to `pinia` with `pinia.use()`:
 pinia.use(myPiniaPlugin)
 ```
 
-It will get executed **every time `useStore()`** is called to be able to extend them.
+It will get executed **every time `useStore()`** is called to be able to extend them. This is a limitation of the current implementation until [the effectScope RFC](https://github.com/vuejs/rfcs/pull/212) is merged.
 
 ## Augmenting a Store
 
@@ -100,7 +102,7 @@ declare module 'pinia' {
 pinia.use(({ options }) => ({ $options: options }))
 ```
 
-We can type this with by using the 4 generic types
+We can properly type this by using the 4 generic types of `PiniaCustomProperties`:
 
 ```ts
 import 'pinia'
@@ -110,8 +112,8 @@ declare module 'pinia' {
     $options: {
       id: Id
       state?: () => State
-      getters?: G
-      actions?: A
+      getters?: Getters
+      actions?: Actions
     }
   }
 }
