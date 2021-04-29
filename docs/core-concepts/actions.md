@@ -69,7 +69,7 @@ export default {
   setup() {
     const store = useStore()
 
-    store.randomzieCounter()
+    store.randomizeCounter()
   },
 }
 ```
