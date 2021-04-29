@@ -9,6 +9,7 @@ import {
   Method,
   DefineStoreOptions,
   Store,
+  GettersTree,
 } from './types'
 
 /**
@@ -72,7 +73,7 @@ export const getClientApp = () => clientApp
 export interface PiniaPluginContext<
   Id extends string = string,
   S extends StateTree = StateTree,
-  G = Record<string, Method>,
+  G extends GettersTree<S> = GettersTree<S>,
   A = Record<string, Method>
 > {
   /**

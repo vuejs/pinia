@@ -11,7 +11,7 @@ const useStore = defineStore({
   id: 'name',
   state: () => ({ a: 'on' as 'on' | 'off', nested: { counter: 0 } }),
   getters: {
-    upper() {
+    upper(): string {
       return this.a.toUpperCase()
     },
   },

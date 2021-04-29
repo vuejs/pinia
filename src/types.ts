@@ -144,7 +144,7 @@ export type StoreWithGetters<G> = {
 export type Store<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   // has the actions without the context (this) for typings
   A
 > = StoreWithState<Id, S> &
@@ -153,13 +153,15 @@ export type Store<
   StoreWithActions<A> &
   PiniaCustomProperties<Id, S, G, A>
 
+// TODO: check if it's possible to add = to StoreDefinition and Store and cleanup GenericStore and the other one
+
 /**
  * Return type of `defineStore()`. Function that allows instantiating a store.
  */
 export interface StoreDefinition<
   Id extends string,
   S extends StateTree,
-  G /* extends Record<string, StoreGetterThis> */,
+  G extends GettersTree<S>,
   A /* extends Record<string, StoreAction> */
 > {
   (pinia?: Pinia | null | undefined): Store<Id, S, G, A>
@@ -172,7 +174,7 @@ export interface StoreDefinition<
 export type GenericStore = Store<
   string,
   StateTree,
-  Record<string, Method>,
+  GettersTree<StateTree>,
   Record<string, Method>
 >
 
@@ -182,7 +184,7 @@ export type GenericStore = Store<
 export type GenericStoreDefinition = StoreDefinition<
   string,
   StateTree,
-  Record<string, Method>,
+  GettersTree<StateTree>,
   Record<string, Method>
 >
 
@@ -192,9 +194,14 @@ export type GenericStoreDefinition = StoreDefinition<
 export interface PiniaCustomProperties<
   Id extends string = string,
   S extends StateTree = StateTree,
-  G = Record<string, Method>,
+  G extends GettersTree<S> = GettersTree<S>,
   A = Record<string, Method>
 > {}
+
+export type GettersTree<S extends StateTree> = Record<
+  string,
+  ((state: S) => any) | (() => any)
+>
 
 /**
  * Options parameter of `defineStore()`. Can be extended to augment stores with
@@ -203,7 +210,7 @@ export interface PiniaCustomProperties<
 export interface DefineStoreOptions<
   Id extends string,
   S extends StateTree,
-  G /* extends Record<string, StoreGetterThis> */,
+  G extends GettersTree<S>,
   A /* extends Record<string, StoreAction> */
 > {
   id: Id

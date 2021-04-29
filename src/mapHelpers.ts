@@ -1,6 +1,7 @@
 import { ComponentInstance } from '@vue/devtools-api'
 import {
   GenericStore,
+  GettersTree,
   Method,
   StateTree,
   Store,
@@ -48,7 +49,7 @@ type Spread<A extends readonly any[]> = A extends [infer L, ...infer R]
 function getCachedStore<
   Id extends string = string,
   S extends StateTree = StateTree,
-  G = Record<string, Method>,
+  G extends GettersTree<S> = GettersTree<S>,
   A = Record<string, Method>
 >(
   vm: ComponentInstance,
@@ -122,14 +123,14 @@ export function mapStores<Stores extends any[]>(
   }, {} as Spread<Stores>)
 }
 
-type MapStateReturn<S extends StateTree, G> = {
+type MapStateReturn<S extends StateTree, G extends GettersTree<S>> = {
   [key in keyof S | keyof G]: () => Store<string, S, G, {}>[key]
 }
 
 type MapStateObjectReturn<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   T extends Record<
     string,
@@ -182,7 +183,7 @@ type MapStateObjectReturn<
 export function mapState<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   KeyMapper extends Record<
     string,
@@ -215,7 +216,12 @@ export function mapState<
  * @param useStore - store to map from
  * @param keys - array of state properties or getters
  */
-export function mapState<Id extends string, S extends StateTree, G, A>(
+export function mapState<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  A
+>(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof S | keyof G>
 ): MapStateReturn<S, G>
@@ -230,7 +236,7 @@ export function mapState<Id extends string, S extends StateTree, G, A>(
 export function mapState<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   KeyMapper extends Record<
     string,
@@ -303,7 +309,7 @@ type MapActionsObjectReturn<A, T extends Record<string, keyof A>> = {
 export function mapActions<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof A>
 >(
@@ -333,7 +339,12 @@ export function mapActions<
  * @param useStore - store to map from
  * @param keys - array of action names to map
  */
-export function mapActions<Id extends string, S extends StateTree, G, A>(
+export function mapActions<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  A
+>(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof A>
 ): MapActionsReturn<A>
@@ -348,7 +359,7 @@ export function mapActions<Id extends string, S extends StateTree, G, A>(
 export function mapActions<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof A>
 >(
@@ -398,7 +409,7 @@ type MapWritableStateObjectReturn<
 export function mapWritableState<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof S>
 >(
@@ -413,7 +424,12 @@ export function mapWritableState<
  * @param useStore - store to map from
  * @param keys - array of state properties
  */
-export function mapWritableState<Id extends string, S extends StateTree, G, A>(
+export function mapWritableState<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  A
+>(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof S>
 ): MapWritableStateReturn<S>
@@ -428,7 +444,7 @@ export function mapWritableState<Id extends string, S extends StateTree, G, A>(
 export function mapWritableState<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof S>
 >(

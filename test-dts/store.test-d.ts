@@ -4,11 +4,15 @@ const useStore = defineStore({
   id: 'name',
   state: () => ({ a: 'on' as 'on' | 'off', nested: { counter: 0 } }),
   getters: {
-    upper() {
-      expectType<'on' | 'off'>(this.a)
-      return this.a.toUpperCase()
+    upper: (state) => {
+      expectType<'on' | 'off'>(state.a)
+      return state.a.toUpperCase() as 'ON' | 'OFF'
     },
-    other() {
+    upperThis(): 'ON' | 'OFF' {
+      expectType<'on' | 'off'>(this.a)
+      return this.a.toUpperCase() as 'ON' | 'OFF'
+    },
+    other(): false {
       expectType<string>(this.upper)
       return false
     },

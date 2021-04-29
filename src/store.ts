@@ -23,6 +23,7 @@ import {
   DefineStoreOptions,
   StoreDefinition,
   GenericStore,
+  GettersTree,
 } from './types'
 import {
   getActivePinia,
@@ -215,7 +216,7 @@ function initStore<Id extends string, S extends StateTree>(
 function buildStoreToUse<
   Id extends string,
   S extends StateTree,
-  G extends Record<string, Method>,
+  G extends GettersTree<S>,
   A extends Record<string, Method>
 >(
   partialStore: StoreWithState<Id, S>,
@@ -233,6 +234,7 @@ function buildStoreToUse<
     computedGetters[getterName] = computed(() => {
       setActivePinia(pinia)
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      // @ts-expect-error: the argument count is correct
       return getters[getterName].call(store, store)
     }) as StoreWithGetters<G>[typeof getterName]
   }
@@ -281,7 +283,7 @@ export function defineStore<
   Id extends string,
   S extends StateTree,
   // the omission of the extends is necessary for type inference
-  G /* extends Record<string, Method> */,
+  G extends GettersTree<S>,
   A /* extends Record<string, Method> */
 >(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A> {
   const { id, state, getters, actions } = options
@@ -314,7 +316,7 @@ export function defineStore<
         storeAndDescriptor[0],
         storeAndDescriptor[1],
         id,
-        getters as Record<string, Method> | undefined,
+        getters as GettersTree<S> | undefined,
         actions as Record<string, Method> | undefined,
         // @ts-ignore: because we don't have extend on G and A
         options
@@ -357,7 +359,7 @@ export function defineStore<
         storeAndDescriptor[0],
         storeAndDescriptor[1],
         id,
-        getters as Record<string, Method> | undefined,
+        getters as GettersTree<S> | undefined,
         actions as Record<string, Method> | undefined,
         // @ts-ignore: because we don't have extend on G and A
         options

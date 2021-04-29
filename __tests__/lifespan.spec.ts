@@ -15,11 +15,11 @@ describe('Store Lifespan', () => {
         },
       }),
       getters: {
-        double() {
-          return this.n * 2
+        double(state) {
+          return state.n * 2
         },
-        notA() {
-          return !this.a
+        notA(state) {
+          return !state.a
         },
       },
     })

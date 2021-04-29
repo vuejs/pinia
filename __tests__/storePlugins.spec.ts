@@ -24,9 +24,7 @@ describe('store plugins', () => {
     },
 
     getters: {
-      doubleN() {
-        return this.n * 2
-      },
+      doubleN: (state) => state.n * 2,
     },
   })
 

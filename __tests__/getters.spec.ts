@@ -10,13 +10,13 @@ describe('Getters', () => {
         name: 'Eduardo',
       }),
       getters: {
-        upperCaseName() {
-          return this.name.toUpperCase()
+        upperCaseName(store) {
+          return store.name.toUpperCase()
         },
-        doubleName() {
+        doubleName(): string {
           return this.upperCaseName
         },
-        composed() {
+        composed(): string {
           return this.upperCaseName + ': ok'
         },
       },
@@ -32,7 +32,7 @@ describe('Getters', () => {
     id: 'A',
     state: () => ({ a: 'a' }),
     getters: {
-      fromB() {
+      fromB(): string {
         const bStore = useB()
         return this.a + ' ' + bStore.b
       },
