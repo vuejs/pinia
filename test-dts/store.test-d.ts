@@ -34,6 +34,9 @@ expectType<'on' | 'off'>(store.a)
 store.nonExistant
 
 // @ts-expect-error
+store.upper = 'thing'
+
+// @ts-expect-error
 store.nonExistant.stuff
 
 // @ts-expect-error cannot return a value

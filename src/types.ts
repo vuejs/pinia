@@ -122,7 +122,10 @@ export type StoreWithActions<A> = {
  * @internal
  */
 export type StoreWithGetters<G> = {
-  [k in keyof G]: G[k] extends (this: infer This, store?: any) => infer R
+  readonly [k in keyof G]: G[k] extends (
+    this: infer This,
+    store?: any
+  ) => infer R
     ? R
     : never
 }

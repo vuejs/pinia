@@ -229,6 +229,7 @@ function buildStoreToUse<
 
   const computedGetters: StoreWithGetters<G> = {} as StoreWithGetters<G>
   for (const getterName in getters) {
+    // @ts-ignore: it's only readonly for the users
     computedGetters[getterName] = computed(() => {
       setActivePinia(pinia)
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
