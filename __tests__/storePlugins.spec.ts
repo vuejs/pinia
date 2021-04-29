@@ -8,6 +8,8 @@ declare module '../src' {
     uid: App['_uid']
     hasApp: boolean
     idFromPlugin: Id
+    globalA: string
+    globalB: string
   }
 }
 
@@ -27,6 +29,7 @@ describe('store plugins', () => {
       },
     },
   })
+
   it('adds properties to stores', () => {
     const pinia = createPinia()
 
@@ -91,5 +94,18 @@ describe('store plugins', () => {
 
     const store = useStore(pinia)
     expect(store.doubleN).toBe(40)
+  })
+
+  it('allows chaining', () => {
+    const pinia = createPinia()
+
+    // must call use after installing the plugin
+    pinia.use(() => ({ globalA: 'a' })).use(() => ({ globalB: 'b' }))
+
+    mount({ template: 'none' }, { global: { plugins: [pinia] } })
+
+    const store = useStore(pinia)
+    expect(store.globalA).toBe('a')
+    expect(store.globalB).toBe('b')
   })
 })
