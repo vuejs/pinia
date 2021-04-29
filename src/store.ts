@@ -180,7 +180,10 @@ function initStore<Id extends string, S extends StateTree>(
     $reset,
   } as StoreWithState<Id, S>
 
-  const injectionSymbol = __DEV__ ? Symbol(`PiniaStore(${$id})`) : Symbol()
+  const injectionSymbol = __DEV__
+    ? Symbol(`PiniaStore(${$id})`)
+    : /* istanbul ignore next */
+      Symbol()
 
   // avoid warnings with injections not found
   if (pinia._a) {
