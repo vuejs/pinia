@@ -38,6 +38,7 @@ let store = useStore()
 expectType<{ a: 'on' | 'off' }>(store.$state)
 expectType<number>(store.nested.counter)
 expectType<'on' | 'off'>(store.a)
+expectType<'ON' | 'OFF'>(store.upper)
 
 // @ts-expect-error
 store.nonExistant
