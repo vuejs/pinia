@@ -1,6 +1,6 @@
 import { createPinia, defineStore, setActivePinia, Pinia } from '../src'
 import { mount } from '@vue/test-utils'
-import { getCurrentInstance, nextTick, watch } from 'vue'
+import { defineComponent, getCurrentInstance, nextTick, watch } from 'vue'
 
 describe('Store', () => {
   let pinia: Pinia
@@ -245,5 +245,33 @@ describe('Store', () => {
     expect(i1 === i2).toBe(true)
 
     wrapper.unmount()
+  })
+
+  it('reuses stores from parent components', () => {
+    let s1, s2
+    const useStore = defineStore({ id: 'one' })
+    const pinia = createPinia()
+
+    const Child = defineComponent({
+      setup() {
+        s2 = useStore()
+      },
+      template: `child`,
+    })
+
+    mount(
+      {
+        setup() {
+          s1 = useStore()
+          return { s1 }
+        },
+        components: { Child },
+        template: `<child/>`,
+      },
+      { global: { plugins: [pinia] } }
+    )
+
+    expect(s1).toBeDefined()
+    expect(s1).toBe(s2)
   })
 })

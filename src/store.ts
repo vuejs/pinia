@@ -6,6 +6,8 @@ import {
   getCurrentInstance,
   reactive,
   onUnmounted,
+  InjectionKey,
+  provide,
 } from 'vue'
 import {
   StateTree,
@@ -20,6 +22,7 @@ import {
   Method,
   DefineStoreOptions,
   StoreDefinition,
+  GenericStore,
 } from './types'
 import {
   getActivePinia,
@@ -90,7 +93,11 @@ function initStore<Id extends string, S extends StateTree>(
   $id: Id,
   buildState: () => S = () => ({} as S),
   initialState?: S | undefined
-): [StoreWithState<Id, S>, { get: () => S; set: (newValue: S) => void }] {
+): [
+  StoreWithState<Id, S>,
+  { get: () => S; set: (newValue: S) => void },
+  InjectionKey<GenericStore>
+] {
   const pinia = getActivePinia()
   pinia.state.value[$id] = initialState || buildState()
   // const state: Ref<S> = toRef(_p.state.value, $id)
@@ -172,6 +179,13 @@ function initStore<Id extends string, S extends StateTree>(
     $reset,
   } as StoreWithState<Id, S>
 
+  const injectionSymbol = __DEV__ ? Symbol(`PiniaStore(${$id})`) : Symbol()
+
+  // avoid warnings with injections not found
+  if (pinia._a) {
+    pinia._a.provide(injectionSymbol, null)
+  }
+
   return [
     storeWithState,
     {
@@ -182,6 +196,7 @@ function initStore<Id extends string, S extends StateTree>(
         isListening = true
       },
     },
+    injectionSymbol,
   ]
 }
 
@@ -271,8 +286,11 @@ export function defineStore<
   const { id, state, getters, actions } = options
 
   function useStore(pinia?: Pinia | null): Store<Id, S, G, A> {
+    const hasInstance = getCurrentInstance()
+    // only run provide when pinia hasn't been manually passed
+    const shouldProvide = hasInstance && !pinia
     // avoid injecting if `useStore` when not possible
-    pinia = pinia || (getCurrentInstance() && inject(piniaSymbol))
+    pinia = pinia || (hasInstance && inject(piniaSymbol))
     if (pinia) setActivePinia(pinia)
     // TODO: worth warning on server if no piniaKey as it can leak data
     pinia = getActivePinia()
@@ -280,7 +298,11 @@ export function defineStore<
     if (!stores) storesMap.set(pinia, (stores = new Map()))
 
     let storeAndDescriptor = stores.get(id) as
-      | [StoreWithState<Id, S>, StateDescriptor<S>]
+      | [
+          StoreWithState<Id, S>,
+          StateDescriptor<S>,
+          InjectionKey<Store<Id, S, G, A>>
+        ]
       | undefined
     if (!storeAndDescriptor) {
       storeAndDescriptor = initStore(id, state, pinia.state.value[id])
@@ -296,6 +318,12 @@ export function defineStore<
         // @ts-ignore: because we don't have extend on G and A
         options
       )
+
+      // allow children to reuse this store instance to avoid creating a new
+      // store for each child
+      if (shouldProvide) {
+        provide(storeAndDescriptor[2], store)
+      }
 
       if (
         IS_CLIENT &&
@@ -321,14 +349,18 @@ export function defineStore<
       return store
     }
 
-    return buildStoreToUse(
-      storeAndDescriptor[0],
-      storeAndDescriptor[1],
-      id,
-      getters as Record<string, Method> | undefined,
-      actions as Record<string, Method> | undefined,
-      // @ts-ignore: because we don't have extend on G and A
-      options
+    return (
+      // null avoids the warning for not found injection key
+      (hasInstance && inject(storeAndDescriptor[2], null)) ||
+      buildStoreToUse(
+        storeAndDescriptor[0],
+        storeAndDescriptor[1],
+        id,
+        getters as Record<string, Method> | undefined,
+        actions as Record<string, Method> | undefined,
+        // @ts-ignore: because we don't have extend on G and A
+        options
+      )
     )
   }
 
