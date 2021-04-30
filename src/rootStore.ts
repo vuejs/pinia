@@ -1,4 +1,4 @@
-import { App, InjectionKey, Plugin, Ref, ref, warn, watch } from 'vue'
+import { App, InjectionKey, Plugin, Ref, ref, warn } from 'vue'
 import { IS_CLIENT } from './env'
 import {
   StateTree,
@@ -53,23 +53,16 @@ export const storesMap = new WeakMap<
  * Client-side application instance used for devtools
  */
 export let clientApp: App | undefined /*#__PURE__*/
-export const isClientAppReady = ref(false)
+let promise: Promise<App> | undefined
+let resolveApp: Function | undefined
 export const setClientApp = (app: App) => {
   clientApp = app
-  isClientAppReady.value = true
+  ;(resolveApp as Function)(app)
 }
-let promise: Promise<App> | undefined
-export const getClientApp = () => {
-  promise =
-    promise ||
-    new Promise((resolve) => {
-      watch(
-        () => isClientAppReady.value,
-        (val: boolean) => val && resolve(clientApp as App)
-      )
-    })
-  return promise
-}
+export const getClientApp = () =>
+  clientApp
+    ? Promise.resolve(clientApp)
+    : promise || (promise = new Promise((resolve) => (resolveApp = resolve)))
 
 /**
  * Plugin to extend every store
