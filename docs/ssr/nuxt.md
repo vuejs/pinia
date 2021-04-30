@@ -18,7 +18,11 @@ We supply a _module_ to handle everything for you, you only need to add it to `b
 // nuxt.config.js
 export default {
   // ... other options
-  buildModules: ['@nuxtjs/composition-api', 'pinia/nuxt'],
+  buildModules: [
+    // https://composition-api.nuxtjs.org/getting-started/setup#quick-start
+    '@nuxtjs/composition-api/module',
+    'pinia/nuxt',
+  ],
 }
 ```
 
@@ -63,7 +67,7 @@ It is recommended to **avoid using both Pinia and Vuex** but if you need to use 
 // nuxt.config.js
 export default {
   buildModules: [
-    '@nuxtjs/composition-api',
+    '@nuxtjs/composition-api/module',
     ['pinia/nuxt', { disableVuex: false }],
   ],
   // ... other options
