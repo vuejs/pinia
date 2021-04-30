@@ -7,6 +7,7 @@ Pinia [started](https://github.com/posva/pinia/commit/06aeef54e2cad66696063c6282
 You start by creating a store:
 
 ```js
+// stores/counter.js
 import { defineStore } from 'pinia'
 
 export const useCounterStore = defineStore({
@@ -22,6 +23,8 @@ export const useCounterStore = defineStore({
 And then you _use_ it in a component:
 
 ```js
+import { useCounterStore } from '@/stores/counter'
+
 export default {
   setup() {
     const counter = useCounterStore()
