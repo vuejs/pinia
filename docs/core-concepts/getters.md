@@ -1,6 +1,6 @@
 # Getters
 
-Getters are exactly the equivalent of [computed values](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values) for the state of a Store. They can be defined with the `getters` property in `defineStore()`:
+Getters are exactly the equivalent of [computed values](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values) for the state of a Store. They can be defined with the `getters` property in `defineStore()`. They receive the `state` as the first parameter **to encourage** the usage of arrow function:
 
 ```js
 export const useStore = defineStore({
@@ -9,14 +9,32 @@ export const useStore = defineStore({
     counter: 0,
   }),
   getters: {
-    doubleCount() {
-      return this.counter * 2
-    },
+    doubleCount: (state) => state.counter * 2,
   },
 })
 ```
 
-Like [actions](./actions.md), getters get access to the _whole store instance_ through `this` with **full typing (and autocompletion ✨) support**.
+Most of the time, getters will only rely on the state, however, they might need to use other getters. Because of this, we can get access to the _whole store instance_ through `this` when defining a regular function **but it is necessary to define the type of the return type (in TypeScript)**. This is due to a known limitation in TypeScript and **doesn't affect getters defined with an arrow function nor getters not using `this`**:
+
+```ts
+export const useStore = defineStore({
+  id: 'main',
+  state: () => ({
+    counter: 0,
+  }),
+  getters: {
+    // automatically infers the return type as a number
+    doubleCount(state) {
+      return state.counter * 2
+    },
+    // the return type **must** be explicitly set
+    doublePlusOne(): number {
+      // autocompletion and typings for the whole store ✨
+      return this.state * 2 + 1
+    },
+  },
+})
+```
 
 Then you can access the getter directly on the store instance:
 
@@ -38,7 +56,7 @@ export default {
 
 ## Accessing other getters
 
-As with computed properties, you can combine multiple getters. Access any other getter via `this`:
+As with computed properties, you can combine multiple getters. Access any other getter via `this`. Even if you are not using TypeScript, you can hint your IDE for types with the [JSDoc](https://jsdoc.app/tags-returns.html):
 
 ```js
 export const useStore = defineStore({
@@ -47,9 +65,15 @@ export const useStore = defineStore({
     counter: 0,
   }),
   getters: {
-    doubleCount() {
-      return this.counter * 2
-    },
+    // type is automatically inferred because we are not using `this`
+    doubleCount: (state) => state.counter * 2,
+    // here we need to add the type ourselves (using JSDoc in JS). We can also
+    // use this to document the getter
+    /**
+     * Returns the counter value times two plus one.
+     *
+     * @returns {number}
+     */
     doubleCountPlusOne() {
       // autocompletion ✨
       return this.doubleCount + 1
@@ -71,9 +95,9 @@ export const useStore = defineStore({
     // ...
   }),
   getters: {
-    otherGetter() {
+    otherGetter(state) {
       const otherStore = useOtherStore()
-      return this.localData + otherStore.data
+      return state.localData + otherStore.data
     },
   },
 })

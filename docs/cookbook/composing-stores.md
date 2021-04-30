@@ -15,10 +15,10 @@ export const cartStore = defineStore({
   id: 'cart',
   getters: {
     // ... other getters
-    summary() {
+    summary(state) {
       const user = useUserStore()
 
-      return `Hi ${user.name}, you have ${this.list.length} items in your cart. It costs ${this.price}.`
+      return `Hi ${user.name}, you have ${state.list.length} items in your cart. It costs ${state.price}.`
     },
   },
 

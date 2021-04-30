@@ -42,13 +42,16 @@ If you are still not into `setup()` and Composition API, don't worry, Pinia also
 const useCounterStore = defineStore({
   id: 'counter',
   state: () => ({ count: 0 }),
-  getters: { double: state => state.count * 2 },
+  getters: {
+    double: (state) => state.count * 2,
+  },
   actions: {
     increment() {
       this.count++
     }
   }
 })
+
 const useUserStore = defineStore({ id: 'user' })
 
 export default {
@@ -91,14 +94,17 @@ export const todos = defineStore({
     nextId: 0,
   }),
   getters: {
-    finishedTodos() {
+    finishedTodos(state) {
       // autocompletion! ✨
-      return this.todos.filter((todo) => todo.isFinished)
+      return state.todos.filter((todo) => todo.isFinished)
     },
-    unfinishedTodos() {
-      return this.todos.filter((todo) => !todo.isFinished)
+    unfinishedTodos(state) {
+      return state.todos.filter((todo) => !todo.isFinished)
     },
-    filteredTodos() {
+    /**
+     * @returns {{ text: string, id: number, isFinished: boolean }[]}
+     */
+    filteredTodos(state) {
       if (this.filter === 'finished') {
         // call other getters with autocompletion ✨
         return this.finishedTodos
