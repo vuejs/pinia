@@ -50,7 +50,7 @@ export const storesMap = new WeakMap<
 >()
 
 /**
- * Client-side application instance used for devtools
+ * Expose the client-side application instance used for devtools
  */
 let promise: Promise<App> | undefined
 let resolveApp: Function | undefined
