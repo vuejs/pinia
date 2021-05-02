@@ -52,12 +52,12 @@ export const storesMap = new WeakMap<
 /**
  * Expose the client-side application instance used for devtools
  */
-let promise: Promise<App> | undefined
-let resolveApp: Function | undefined
-export const setClientApp = (app: App) =>
-  resolveApp && (resolveApp as Function)(app)
+let clientAppPromise: Promise<App> | undefined
+let resolveApp: ((app: App) => void) | undefined
+export const setClientApp = (app: App) => resolveApp && resolveApp(app)
 export const getClientApp = () =>
-  promise || (promise = new Promise((resolve) => (resolveApp = resolve)))
+  clientAppPromise ||
+  (clientAppPromise = new Promise((resolve) => (resolveApp = resolve)))
 
 /**
  * Plugin to extend every store
