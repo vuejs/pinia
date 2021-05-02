@@ -4,7 +4,7 @@ import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
 import { App } from 'vue'
-import { GenericStore } from './types'
+import { GenericStore, GettersTree, StateTree } from './types'
 
 function formatDisplay(display: string) {
   return {
@@ -167,6 +167,14 @@ function formatStoreForInspectorState(
   const fields: CustomInspectorState[string] = [
     { editable: false, key: 'id', value: formatDisplay(store.$id) },
     { editable: true, key: 'state', value: store.$state },
+    {
+      editable: false,
+      key: 'getters',
+      value: (store._getters || []).reduce((getters, key) => {
+        getters[key] = store[key]
+        return getters
+      }, {} as GettersTree<StateTree>),
+    },
   ]
 
   return fields

@@ -267,6 +267,10 @@ function buildStoreToUse<
   // created.
   Object.defineProperty(store, '$state', descriptor)
 
+  if (IS_CLIENT && __BROWSER__ && __DEV__) {
+    store._getters = Object.keys(getters)
+  }
+
   // apply all plugins
   pinia._p.forEach((extender) => {
     assign(store, extender({ store, app: pinia._a, pinia, options }))

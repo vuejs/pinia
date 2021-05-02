@@ -65,6 +65,13 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   _p: Pinia
 
   /**
+   * Used by devtools plugin to retrieve getters. Removed in production
+   *
+   * @internal
+   */
+  _getters?: string[]
+
+  /**
    * Applies a state patch to current state. Allows passing nested values
    *
    * @param partialState - patch to apply to the state
