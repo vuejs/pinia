@@ -185,11 +185,6 @@ function initStore<Id extends string, S extends StateTree>(
     : /* istanbul ignore next */
       Symbol()
 
-  // avoid warnings with injections not found
-  if (pinia._a) {
-    pinia._a.provide(injectionSymbol, null)
-  }
-
   return [
     storeWithState,
     {
