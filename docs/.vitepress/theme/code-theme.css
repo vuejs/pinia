@@ -81,7 +81,7 @@ pre[class*='language-'] {
 }
 
 .token.deleted {
-  color: rgba(239, 83, 80, 0.56);
+  color: rgb(239, 83, 80);
   font-style: italic;
 }
 
@@ -119,7 +119,8 @@ pre[class*='language-'] {
 }
 
 .token.attr-name,
-.token.inserted {
+.token.inserted,
+code .token.inserted {
   color: rgb(173, 219, 103);
   font-style: italic;
 }
@@ -233,10 +234,10 @@ html.light .namespace {
   color: rgb(12, 150, 155);
 }
 
-html.light .token.deleted {
-  color: rgba(239, 83, 80, 0.56);
+/* html.light .token.deleted {
+  color: rgb(239, 83, 80);
   font-style: italic;
-}
+} */
 
 html.light .token.symbol,
 html.light .token.operator,
