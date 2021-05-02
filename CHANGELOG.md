@@ -135,4 +135,4 @@
 
 - `state` properties no longer need to be accessed through `store.state`
 - `getters` no longer receive parameters, access the store instance via `this`:
-  directly call `this.myState` to read state and other getters.
+  directly call `this.myState` to read state and other getters. **Update 2021-04-02**: `getters` receive the state again as the first parameter
