@@ -1,0 +1,3 @@
+{
+  "extends": ["github>posva/renovate-config"]
+}
