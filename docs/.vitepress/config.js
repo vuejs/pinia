@@ -202,6 +202,10 @@ module.exports = {
               text: 'Usage without setup()',
               link: '/cookbook/options-api.html',
             },
+            {
+              text: 'Migration from 0.0.7',
+              link: '/cookbook/migration-0-0-7.html',
+            },
           ],
         },
       ],
