@@ -1,6 +1,5 @@
 import { defineStore } from '../../../src'
 import { useUserStore, UserStore } from './user'
-import { PiniaStore, ExtractGettersFromStore } from 'src/store'
 
 export const useCartStore = defineStore({
   id: 'cart',
@@ -52,8 +51,8 @@ export async function purchaseItems() {
   const user = useUserStore()
   if (!user.$state.name) return
 
-  console.log('Purchasing', cart.items.value)
-  const n = cart.items.value.length
+  console.log('Purchasing', cart.items)
+  const n = cart.items.length
   cart.$state.rawItems = []
 
   return n
