@@ -1,3 +1,60 @@
+# [0.4.0](https://github.com/posva/pinia/compare/v0.3.1...v0.4.0) (2021-05-03)
+
+### Features
+
+- **pinia:** allow chaining pinia.use ([d5e7a6e](https://github.com/posva/pinia/commit/d5e7a6ea30bc4e1b3e4aa734fa0154258c9003c7))
+- **plugins:** pass a context object to plugins instead of app ([8176db4](https://github.com/posva/pinia/commit/8176db4e7edf3e2d77738437fbab73ffea0aee30))
+- **plugins:** pass options to plugins ([4d750ad](https://github.com/posva/pinia/commit/4d750adc05a2753f4abfae112fbeb1f2bc212a23))
+- **store:** pass state to getters as first argument ([9f3132b](https://github.com/posva/pinia/commit/9f3132bd7a59c47f3bd9005695c4f1224dbaea16))
+- **types:** fail on async patch ([fe58fab](https://github.com/posva/pinia/commit/fe58fab1bdf95a4924672459aec88b1f4f87d0ba))
+
+### Performance Improvements
+
+- **store:** reuse stores from parent to children components ([fcfda41](https://github.com/posva/pinia/commit/fcfda419efb1e40d68f8c75a6f441da453b9207b))
+
+### BREAKING CHANGES
+
+- **store:** getters now receive the state as their first argument and it's properly typed so you can write getters with arrow functions:
+
+  ```js
+  defineStore({
+    state: () => ({ n: 0 }),
+    getters: {
+      double: (state) => state.n * 2,
+    },
+  })
+  ```
+
+  To access other getters, you must still use the syntax that uses `this` **but it is now necessary to explicitely type the getter return type**. The same limitation exists in Vue for computed properties and it's a known limitation in TypeScript:
+
+  ```ts
+  defineStore({
+    state: () => ({ n: 0 }),
+    getters: {
+      double: (state) => state.n * 2,
+      // the `: number` is necessary when accessing `this` inside of
+      // a getter
+      doublePlusOne(state): number {
+        return this.double + 1
+      },
+    },
+  })
+  ```
+
+  For more information, refer to [the updated documentation for getters](https://pinia.esm.dev/core-concepts/getters.html).
+
+- **plugins:** To improve the plugin api capabilities, `pinia.use()`
+  now receives a context object instead of just `pinia`:
+
+  ```js
+  // replace
+  pinia.use((pinia) => {})
+  // with
+  pinia.use(({ pinia, store }) => {})
+  ```
+
+  Check the new documentation for [Plugins](https://pinia.esm.dev/core-concepts/plugins.html)!
+
 ## [0.3.1](https://github.com/posva/pinia/compare/v0.3.0...v0.3.1) (2021-04-10)
 
 ### Bug Fixes
