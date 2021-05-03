@@ -22,7 +22,7 @@ describe('store plugins', () => {
     },
 
     getters: {
-      doubleN() {
+      doubleN(): number {
         return this.n * 2
       },
     },

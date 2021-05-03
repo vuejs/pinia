@@ -28,12 +28,8 @@ describe('Map Helpers', () => {
       },
     }),
     getters: {
-      double() {
-        return this.n * 2
-      },
-      notA() {
-        return !this.a
-      },
+      double: (state) => state.n * 2,
+      notA: (state) => !state.a,
     },
     actions: {
       doubleCount() {
@@ -64,6 +60,7 @@ describe('Map Helpers', () => {
       const wrapper = mount(Component, { localVue, pinia })
       // const store = useStore()
       // const other = useCartStore()
+      // @ts-expect-error: not handled by VTU
       expect(wrapper.vm.mainStore).toBeDefined()
       expect(wrapper.text()).toBe('0')
       await nextTick()
@@ -119,7 +116,9 @@ describe('Map Helpers', () => {
       const wrapper = mount(Component, { localVue, pinia })
       // const store = useStore()
       // const other = useCartStore()
+      // @ts-expect-error: not handled by VTU
       expect(wrapper.vm.main).toBeDefined()
+      // @ts-expect-error: not handled by VTU
       expect(wrapper.vm.mainStore).not.toBeDefined()
       expect(wrapper.text()).toBe('0')
       await nextTick()
@@ -231,7 +230,9 @@ describe('Map Helpers', () => {
 
       const wrapper = mount(Component, { localVue, pinia })
 
+      // @ts-expect-error: not handled by VTU
       expect(wrapper.vm.increment()).toBe(undefined)
+      // @ts-expect-error: not handled by VTU
       expect(wrapper.vm.setN(4)).toBe(4)
     })
 
@@ -246,7 +247,9 @@ describe('Map Helpers', () => {
 
       const wrapper = mount(Component, { localVue, pinia })
 
+      // @ts-expect-error: not handled by VTU
       expect(wrapper.vm.inc()).toBe(undefined)
+      // @ts-expect-error: not handled by VTU
       expect(wrapper.vm.set(4)).toBe(4)
     })
   })

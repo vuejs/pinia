@@ -18,7 +18,7 @@ describe('Getters', () => {
         callCount: 0,
       }),
       getters: {
-        upperCaseName() {
+        upperCaseName(): string {
           return this.name.toUpperCase()
         },
         // works for js users but cannot be typed at the same time as `this`
@@ -53,7 +53,7 @@ describe('Getters', () => {
     id: 'A',
     state: () => ({ a: 'a' }),
     getters: {
-      fromB() {
+      fromB(): string {
         const bStore = useB()
         return this.a + ' ' + bStore.b
       },
