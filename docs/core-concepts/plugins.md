@@ -3,6 +3,7 @@
 Pinia stores can be fully extended thanks to a low level API. Here is a list of things you can do:
 
 - Add new properties to stores
+- Add new options when defining stores
 - Add new methods to stores
 - Wrap existing methods
 - Change or even cancel actions
@@ -72,6 +73,47 @@ pinia.use(({ store }) => {
 
 This is why you can access all computed properties without `.value`.
 
+## Adding new options
+
+It is possible to create new options when defining stores to later on consume the options on plugins. For example, you could create a `debounce` option that allows you to debounce any action:
+
+```js
+defineStore({
+  id: 'search',
+  // ...
+  actions: {
+    searchContacts() {
+      // ...
+    },
+  },
+
+  // this will be read by a plugin later on
+  debounce: {
+    // debounce the action searchContacts by 300ms
+    searchContacts: 300,
+  },
+})
+```
+
+The plugin can then read that option to wrap actions and replace the original ones:
+
+```js
+// use any debounce library
+import debounce from 'lodash/debunce'
+
+pinia.use(({ options, store }) => {
+  if (options.debounce) {
+    return Object.keys(options.debounce).reduce((debouncedActions, action) => {
+      debouncedActions[action] = debounce(
+        store[action],
+        options.debounce[action]
+      )
+      return debouncedActions
+    }, {})
+  }
+})
+```
+
 ## TypeScript
 
 A Pinia plugin can be typed as follows:
@@ -114,6 +156,21 @@ declare module 'pinia' {
       state?: () => State
       getters?: Getters
       actions?: Actions
+    }
+  }
+}
+```
+
+When creating new options for `defineStore()`, you should extend the `DefineStoreOptions`. Like `PiniaCustomProperties`, it also exposes all the generics that define a store, allowing you to limit what can be defined. For example, you can une the names of the actions:
+
+```ts
+import 'pinia'
+
+declare module 'pinia' {
+  export interface DefineStoreOptions<Id, State, Getters, Actions> {
+    debounce?: {
+      // allow defining a number of ms for any of the actions
+      [k in keyof A]?: number
     }
   }
 }
