@@ -4,9 +4,7 @@ const useDeprecated = createStore({
   id: 'name',
   state: () => ({ a: 'on' as 'on' | 'off', nested: { counter: 0 } }),
   getters: {
-    upper() {
-      return this.a.toUpperCase()
-    },
+    upper: (state) => state.a.toUpperCase(),
   },
 })
 

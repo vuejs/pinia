@@ -1,21 +1,70 @@
-import { defineStore, expectType, mapStores } from '.'
+import { expectType, createPinia, defineStore, mapStores } from '.'
 
-declare module '../dist/src/index' {
+declare module '../dist/src' {
   export interface MapStoresCustomization {
-    // this is the only one that can be applied to work with other tests
     suffix: 'Store'
+  }
+
+  export interface PiniaCustomProperties<Id, S, G, A> {
+    $actions: Array<keyof A>
+  }
+
+  export interface DefineStoreOptions<Id, S, G, A> {
+    debounce?: {
+      // Record<keyof A, number>
+      [k in keyof A]?: number
+    }
   }
 }
 
-const useCounter = defineStore({
-  id: 'counter',
-  state: () => ({ n: 0 }),
+const pinia = createPinia()
+
+pinia.use((context) => {
+  expectType<string>(context.options.id)
+  expectType<string>(context.store.$id)
+
+  return {
+    $actions: Object.keys(context.options.actions || {}),
+  }
 })
 
-type CounterStore = ReturnType<typeof useCounter>
+const useStore = defineStore({
+  id: 'main',
+  actions: {
+    one() {},
+    two() {
+      this.one()
+    },
+    three() {
+      this.two()
+    },
+  },
 
-const computedStores = mapStores(useCounter)
+  debounce: {
+    one: 200,
+    two: 300,
+    // three: 100
+  },
+})
+
+type Procedure = (...args: any[]) => any
+
+function debounce<F extends Procedure>(fn: F, time = 200) {
+  return fn
+}
 
 expectType<{
-  counterStore: () => CounterStore
-}>(computedStores)
+  mainStore: () => ReturnType<typeof useStore>
+}>(mapStores(useStore))
+
+pinia.use(({ options, store }) => {
+  if (options.debounce) {
+    return Object.keys(options.debounce).reduce((debouncedActions, action) => {
+      debouncedActions[action] = debounce(
+        store[action],
+        options.debounce![action as keyof typeof options['actions']]
+      )
+      return debouncedActions
+    }, {} as Record<string, (...args: any[]) => any>)
+  }
+})

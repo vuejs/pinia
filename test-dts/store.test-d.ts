@@ -1,30 +1,50 @@
-import { GenericStore } from 'dist/src/types'
-import { defineStore, expectType, createPinia } from './'
-
-const pinia = createPinia()
-
-pinia.use(({ store }) => {
-  expectType<GenericStore>(store)
-})
+import { defineStore, expectType } from './'
 
 const useStore = defineStore({
   id: 'name',
   state: () => ({ a: 'on' as 'on' | 'off', nested: { counter: 0 } }),
   getters: {
-    upper() {
-      return this.a.toUpperCase()
+    upper: (state) => {
+      expectType<'on' | 'off'>(state.a)
+      return state.a.toUpperCase() as 'ON' | 'OFF'
+    },
+    upperThis(): 'ON' | 'OFF' {
+      expectType<'on' | 'off'>(this.a)
+      return this.a.toUpperCase() as 'ON' | 'OFF'
+    },
+    other(): false {
+      expectType<string>(this.upper)
+      return false
+    },
+
+    doubleCounter: (state) => {
+      expectType<number>(state.nested.counter)
+      return state.nested.counter * 2
+    },
+  },
+  actions: {
+    doStuff() {
+      expectType<string>(this.upper)
+      expectType<false>(this.other)
+    },
+    otherOne() {
+      expectType<() => void>(this.doStuff)
     },
   },
 })
 
-const store = useStore()
+let store = useStore()
 
 expectType<{ a: 'on' | 'off' }>(store.$state)
 expectType<number>(store.nested.counter)
 expectType<'on' | 'off'>(store.a)
+expectType<'ON' | 'OFF'>(store.upper)
 
 // @ts-expect-error
 store.nonExistant
+
+// @ts-expect-error
+store.upper = 'thing'
 
 // @ts-expect-error
 store.nonExistant.stuff

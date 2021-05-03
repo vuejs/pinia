@@ -21,6 +21,7 @@ import {
   StateDescriptor,
   PiniaCustomProperties,
   StoreDefinition,
+  GettersTree,
 } from './types'
 import { useStoreDevtools } from './devtools'
 import {
@@ -200,7 +201,7 @@ function initStore<Id extends string, S extends StateTree>(
 function buildStoreToUse<
   Id extends string,
   S extends StateTree,
-  G extends Record<string, Method>,
+  G extends GettersTree<S>,
   A extends Record<string, Method>
 >(
   partialStore: StoreWithState<Id, S>,
@@ -213,9 +214,11 @@ function buildStoreToUse<
 
   const computedGetters: StoreWithGetters<G> = {} as StoreWithGetters<G>
   for (const getterName in getters) {
+    // @ts-expect-error: it's only readonly for the users
     computedGetters[getterName] = computed(() => {
       setActivePinia(pinia)
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      // @ts-expect-error: the argument count is correct
       return getters[getterName].call(store, store)
     }) as StoreWithGetters<G>[typeof getterName]
   }
@@ -262,7 +265,7 @@ function buildStoreToUse<
 export function defineStore<
   Id extends string,
   S extends StateTree,
-  G /* extends Record<string, StoreGetterThis> */,
+  G extends GettersTree<S>,
   A /* extends Record<string, StoreAction> */
 >(options: {
   id: Id
@@ -310,7 +313,7 @@ export function defineStore<
         storeAndDescriptor[0],
         storeAndDescriptor[1],
         id,
-        getters as Record<string, Method> | undefined,
+        getters as GettersTree<S> | undefined,
         actions as Record<string, Method> | undefined
       )
 
@@ -321,7 +324,7 @@ export function defineStore<
       storeAndDescriptor[0],
       storeAndDescriptor[1],
       id,
-      getters as Record<string, Method> | undefined,
+      getters as GettersTree<S> | undefined,
       actions as Record<string, Method> | undefined
     )
   }

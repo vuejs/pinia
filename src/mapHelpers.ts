@@ -1,12 +1,14 @@
 import type Vue from 'vue'
 import {
   GenericStore,
-  GenericStoreDefinition,
+  GettersTree,
   Method,
   StateTree,
   Store,
   StoreDefinition,
 } from './types'
+
+type ComponentPublicInstance = Vue
 
 /**
  * Interface to allow customizing map helpers. Extend this interface with the
@@ -49,10 +51,13 @@ type Spread<A extends readonly any[]> = A extends [infer L, ...infer R]
 function getCachedStore<
   Id extends string = string,
   S extends StateTree = StateTree,
-  G = Record<string, Method>,
+  G extends GettersTree<S> = GettersTree<S>,
   A = Record<string, Method>
->(vm: Vue, useStore: StoreDefinition<Id, S, G, A>): Store<Id, S, G, A> {
-  const cache = vm._pStores || (vm._pStores = {})
+>(
+  vm: ComponentPublicInstance,
+  useStore: StoreDefinition<Id, S, G, A>
+): Store<Id, S, G, A> {
+  const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
   const id = useStore.$id
   return (cache[id] || (cache[id] = useStore(vm.$pinia))) as Store<Id, S, G, A>
 }
@@ -96,9 +101,21 @@ export function setMapStoreSuffix(
  *
  * @param stores - list of stores to map to an object
  */
-export function mapStores<Stores extends GenericStoreDefinition[]>(
+export function mapStores<Stores extends any[]>(
   ...stores: [...Stores]
 ): Spread<Stores> {
+  if (__DEV__ && Array.isArray(stores[0])) {
+    console.warn(
+      `[🍍]: Directly pass all stores to "mapStores()" without putting them in an array:\n` +
+        `Replace\n` +
+        `\tmapStores([useAuthStore, useCartStore])\n` +
+        `with\n` +
+        `\tmapStores(useAuthStore, useCartStore)\n` +
+        `This will fail in production if not fixed.`
+    )
+    stores = stores[0]
+  }
+
   return stores.reduce((reduced, useStore) => {
     // @ts-ignore: $id is added by defineStore
     reduced[useStore.$id + mapStoreSuffix] = function (this: Vue) {
@@ -108,14 +125,14 @@ export function mapStores<Stores extends GenericStoreDefinition[]>(
   }, {} as Spread<Stores>)
 }
 
-type MapStateReturn<S extends StateTree, G> = {
+type MapStateReturn<S extends StateTree, G extends GettersTree<S>> = {
   [key in keyof S | keyof G]: () => Store<string, S, G, {}>[key]
 }
 
 type MapStateObjectReturn<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   T extends Record<
     string,
@@ -168,7 +185,7 @@ type MapStateObjectReturn<
 export function mapState<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   KeyMapper extends Record<
     string,
@@ -201,7 +218,12 @@ export function mapState<
  * @param useStore - store to map from
  * @param keys - array of state properties or getters
  */
-export function mapState<Id extends string, S extends StateTree, G, A>(
+export function mapState<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  A
+>(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof S | keyof G>
 ): MapStateReturn<S, G>
@@ -216,7 +238,7 @@ export function mapState<Id extends string, S extends StateTree, G, A>(
 export function mapState<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   KeyMapper extends Record<
     string,
@@ -228,13 +250,13 @@ export function mapState<
 ): MapStateReturn<S, G> | MapStateObjectReturn<Id, S, G, A, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
-        reduced[key] = function (this: Vue) {
+        reduced[key] = function (this: ComponentPublicInstance) {
           return getCachedStore(this, useStore)[key]
         } as () => any
         return reduced
       }, {} as MapStateReturn<S, G>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
-        reduced[key] = function (this: Vue) {
+        reduced[key] = function (this: ComponentPublicInstance) {
           const store = getCachedStore(this, useStore)
           const storeKey = keysOrMapper[key]
           // for some reason TS is unable to infer the type of storeKey to be a
@@ -249,7 +271,7 @@ export function mapState<
 
 /**
  * Alias for `mapState()`. You should use `mapState()` instead.
- * @deprecated
+ * @deprecated use `mapState()` instead.
  */
 export const mapGetters = mapState
 
@@ -289,7 +311,7 @@ type MapActionsObjectReturn<A, T extends Record<string, keyof A>> = {
 export function mapActions<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof A>
 >(
@@ -319,7 +341,12 @@ export function mapActions<
  * @param useStore - store to map from
  * @param keys - array of action names to map
  */
-export function mapActions<Id extends string, S extends StateTree, G, A>(
+export function mapActions<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  A
+>(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof A>
 ): MapActionsReturn<A>
@@ -334,7 +361,7 @@ export function mapActions<Id extends string, S extends StateTree, G, A>(
 export function mapActions<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof A>
 >(
@@ -343,13 +370,19 @@ export function mapActions<
 ): MapActionsReturn<A> | MapActionsObjectReturn<A, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
-        reduced[key] = function (this: Vue, ...args: any[]) {
+        reduced[key] = function (
+          this: ComponentPublicInstance,
+          ...args: any[]
+        ) {
           return (getCachedStore(this, useStore)[key] as Method)(...args)
         } as Store<string, StateTree, {}, A>[keyof A]
         return reduced
       }, {} as MapActionsReturn<A>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
-        reduced[key] = function (this: Vue, ...args: any[]) {
+        reduced[key] = function (
+          this: ComponentPublicInstance,
+          ...args: any[]
+        ) {
           return getCachedStore(this, useStore)[keysOrMapper[key]](...args)
         } as Store<string, StateTree, {}, A>[keyof KeyMapper[]]
         return reduced
@@ -384,7 +417,7 @@ type MapWritableStateObjectReturn<
 export function mapWritableState<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof S>
 >(
@@ -399,7 +432,12 @@ export function mapWritableState<
  * @param useStore - store to map from
  * @param keys - array of state properties
  */
-export function mapWritableState<Id extends string, S extends StateTree, G, A>(
+export function mapWritableState<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  A
+>(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof S>
 ): MapWritableStateReturn<S>
@@ -414,7 +452,7 @@ export function mapWritableState<Id extends string, S extends StateTree, G, A>(
 export function mapWritableState<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof S>
 >(
@@ -423,11 +461,12 @@ export function mapWritableState<
 ): MapWritableStateReturn<S> | MapWritableStateObjectReturn<S, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
+        // @ts-ignore
         reduced[key] = {
-          get(this: Vue) {
+          get(this: ComponentPublicInstance) {
             return getCachedStore(this, useStore)[key]
           },
-          set(this: Vue, value) {
+          set(this: ComponentPublicInstance, value) {
             // it's easier to type it here as any
             return (getCachedStore(this, useStore)[key] = value as any)
           },
@@ -437,10 +476,10 @@ export function mapWritableState<
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
         // @ts-ignore
         reduced[key] = {
-          get(this: Vue) {
+          get(this: ComponentPublicInstance) {
             return getCachedStore(this, useStore)[keysOrMapper[key]]
           },
-          set(this: Vue, value) {
+          set(this: ComponentPublicInstance, value) {
             // it's easier to type it here as any
             return (getCachedStore(this, useStore)[
               keysOrMapper[key]

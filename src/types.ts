@@ -1,5 +1,8 @@
 import { Pinia } from './rootStore'
 
+/**
+ * Generic state of a Store
+ */
 export type StateTree = Record<string | number | symbol, any>
 
 /**
@@ -22,8 +25,6 @@ export function isPlainObject(
   )
 }
 
-export type NonNullObject = Record<any, any>
-
 export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
 // type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
 
@@ -32,6 +33,10 @@ export type SubscriptionCallback<S> = (
   state: S
 ) => void
 
+/**
+ * Base store with state and functions
+ * @internal
+ */
 export interface StoreWithState<Id extends string, S extends StateTree> {
   /**
    * Unique identifier of the store
@@ -75,8 +80,9 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
 
   /**
    * Setups a callback to be called whenever the state changes.
-   * @param callback - callback that is called whenever the state
-   * @returns function that removes callback from subscriptions
+   *
+   * @param callback - callback passed to the watcher
+   * @returns function that removes the watcher
    */
   $subscribe(callback: SubscriptionCallback<S>): () => void
 }
@@ -89,21 +95,24 @@ export type Method = (...args: any[]) => any
 // }
 
 // in this type we forget about this because otherwise the type is recursive
+/**
+ * Store augmented for actions
+ *
+ * @internal
+ */
 export type StoreWithActions<A> = {
   [k in keyof A]: A[k] extends (...args: infer P) => infer R
     ? (...args: P) => R
     : never
 }
 
-// export interface StoreGetter<S extends StateTree, T = any> {
-//   // TODO: would be nice to be able to define the getters here
-//   (state: S, getters: Record<string, Ref<any>>): T
-// }
-
+/**
+ * Store augmented with getters
+ *
+ * @internal
+ */
 export type StoreWithGetters<G> = {
-  [k in keyof G]: G[k] extends (this: infer This, store?: any) => infer R
-    ? R
-    : never
+  readonly [k in keyof G]: G[k] extends (...args: any[]) => infer R ? R : never
 }
 
 // // in this type we forget about this because otherwise the type is recursive
@@ -114,10 +123,13 @@ export type StoreWithGetters<G> = {
 //     : never
 // }
 
+/**
+ * Store type to build a store
+ */
 export type Store<
   Id extends string,
   S extends StateTree,
-  G,
+  G extends GettersTree<S>,
   // has the actions without the context (this) for typings
   A
 > = StoreWithState<Id, S> &
@@ -126,13 +138,15 @@ export type Store<
   StoreWithActions<A> &
   PiniaCustomProperties<Id, S, G, A>
 
+// TODO: check if it's possible to add = to StoreDefinition and Store and cleanup GenericStore and the other one
+
 /**
  * Return type of `defineStore()`. Function that allows instantiating a store.
  */
 export interface StoreDefinition<
   Id extends string,
   S extends StateTree,
-  G /* extends Record<string, StoreGetterThis> */,
+  G extends GettersTree<S>,
   A /* extends Record<string, StoreAction> */
 > {
   (pinia?: Pinia | null | undefined): Store<Id, S, G, A>
@@ -145,7 +159,7 @@ export interface StoreDefinition<
 export type GenericStore = Store<
   string,
   StateTree,
-  Record<string, Method>,
+  GettersTree<StateTree>,
   Record<string, Method>
 >
 
@@ -155,38 +169,45 @@ export type GenericStore = Store<
 export type GenericStoreDefinition = StoreDefinition<
   string,
   StateTree,
-  Record<string, Method>,
+  GettersTree<StateTree>,
   Record<string, Method>
 >
-
-export interface DevtoolHook {
-  on(
-    event: string,
-    callback: (targetState: Record<string, StateTree>) => void
-  ): void
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  emit(event: string, ...payload: any[]): void
-}
-
-// add the __VUE_DEVTOOLS_GLOBAL_HOOK__ variable to the global namespace
-declare global {
-  interface Window {
-    __VUE_DEVTOOLS_GLOBAL_HOOK__?: DevtoolHook
-  }
-  namespace NodeJS {
-    interface Global {
-      __VUE_DEVTOOLS_GLOBAL_HOOK__?: DevtoolHook
-    }
-  }
-}
 
 /**
  * Properties that are added to every store by `pinia.use()`
  */
-// eslint-disable-next-line
 export interface PiniaCustomProperties<
   Id extends string = string,
   S extends StateTree = StateTree,
-  G = Record<string, Method>,
+  G extends GettersTree<S> = GettersTree<S>,
   A = Record<string, Method>
 > {}
+
+export type GettersTree<S extends StateTree> = Record<
+  string,
+  ((state: S) => any) | (() => any)
+>
+
+/**
+ * Options parameter of `defineStore()`. Can be extended to augment stores with
+ * the plugin API.
+ */
+export interface DefineStoreOptions<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  A /* extends Record<string, StoreAction> */
+> {
+  id: Id
+  state?: () => S
+  getters?: G & ThisType<S & StoreWithGetters<G> & PiniaCustomProperties>
+  // allow actions use other actions
+  actions?: A &
+    ThisType<
+      A &
+        S &
+        StoreWithState<Id, S> &
+        StoreWithGetters<G> &
+        PiniaCustomProperties
+    >
+}
