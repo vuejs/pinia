@@ -22,6 +22,7 @@ import {
   PiniaCustomProperties,
   StoreDefinition,
   GettersTree,
+  DefineStoreOptions,
 } from './types'
 import { useStoreDevtools } from './devtools'
 import {
@@ -208,7 +209,8 @@ function buildStoreToUse<
   descriptor: StateDescriptor<S>,
   $id: Id,
   getters: G = {} as G,
-  actions: A = {} as A
+  actions: A = {} as A,
+  options: DefineStoreOptions<Id, S, G, A>
 ) {
   const pinia = getActivePinia()
 
@@ -250,7 +252,7 @@ function buildStoreToUse<
 
   // apply all plugins
   pinia._p.forEach((extender) => {
-    assign(store, extender({ store, pinia }))
+    assign(store, extender({ store, pinia, options }))
   })
 
   return store
@@ -314,7 +316,9 @@ export function defineStore<
         storeAndDescriptor[1],
         id,
         getters as GettersTree<S> | undefined,
-        actions as Record<string, Method> | undefined
+        actions as Record<string, Method> | undefined,
+        // @ts-expect-error: because of the extend on Actions
+        options
       )
 
       return store
@@ -325,7 +329,9 @@ export function defineStore<
       storeAndDescriptor[1],
       id,
       getters as GettersTree<S> | undefined,
-      actions as Record<string, Method> | undefined
+      actions as Record<string, Method> | undefined,
+      // @ts-expect-error: because of the extend on Actions
+      options
     )
   }
 

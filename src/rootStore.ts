@@ -5,6 +5,10 @@ import {
   StateDescriptor,
   PiniaCustomProperties,
   GenericStore,
+  GettersTree,
+  Method,
+  Store,
+  DefineStoreOptions,
 } from './types'
 import { VueConstructor } from 'vue'
 import type Vue from 'vue'
@@ -26,13 +30,40 @@ export const piniaSymbol = (__DEV__
     Symbol()) as InjectionKey<Pinia>
 
 /**
+ * Context argument passed to Pinia plugins.
+ */
+export interface PiniaPluginContext<
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  G extends GettersTree<S> = GettersTree<S>,
+  A = Record<string, Method>
+> {
+  /**
+   * pinia instance.
+   */
+  pinia: Pinia
+
+  /**
+   * Current app created with `Vue.createApp()`.
+   */
+  // app: App
+
+  /**
+   * Current store being extended.
+   */
+  store: Store<Id, S, G, A>
+
+  /**
+   * Current store being extended.
+   */
+  options: DefineStoreOptions<Id, S, G, A>
+}
+
+/**
  * Plugin to extend every store
  */
 export interface PiniaStorePlugin {
-  (context: {
-    pinia: Pinia
-    store: GenericStore
-  }): Partial<PiniaCustomProperties> | void
+  (context: PiniaPluginContext): Partial<PiniaCustomProperties> | void
 }
 
 /**

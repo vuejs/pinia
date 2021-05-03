@@ -3,12 +3,14 @@ export {
   createPinia,
   Pinia,
   PiniaStorePlugin,
+  PiniaPluginContext,
 } from './rootStore'
 export { defineStore } from './store'
 export { PiniaPlugin } from './plugin'
 export {
   StateTree,
   Store,
+  StoreDefinition,
   GenericStore,
   GenericStoreDefinition,
   StoreWithGetters,
