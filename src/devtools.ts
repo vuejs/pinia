@@ -1,4 +1,25 @@
-import { DevtoolHook, StateTree, StoreWithState } from './types'
+import { StateTree, StoreWithState } from './types'
+
+interface DevtoolHook {
+  on(
+    event: string,
+    callback: (targetState: Record<string, StateTree>) => void
+  ): void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  emit(event: string, ...payload: any[]): void
+}
+
+// add the __VUE_DEVTOOLS_GLOBAL_HOOK__ variable to the global namespace
+declare global {
+  interface Window {
+    __VUE_DEVTOOLS_GLOBAL_HOOK__?: DevtoolHook
+  }
+  namespace NodeJS {
+    interface Global {
+      __VUE_DEVTOOLS_GLOBAL_HOOK__?: DevtoolHook
+    }
+  }
+}
 
 const target =
   typeof window !== 'undefined'
