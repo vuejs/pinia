@@ -51,7 +51,7 @@ export interface Pinia {
    *
    * @param plugin - store plugin to add
    */
-  use(plugin: PiniaStorePlugin): void
+  use(plugin: PiniaStorePlugin): Pinia
 
   /**
    * Installed store plugins
@@ -109,6 +109,7 @@ export function createPinia(): Pinia {
 
     use(plugin) {
       _p.push(plugin)
+      return pinia
     },
 
     _p,
