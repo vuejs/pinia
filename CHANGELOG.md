@@ -1,3 +1,66 @@
+# [2.0.0-alpha.14](https://github.com/posva/pinia/compare/v2.0.0-alpha.13...v2.0.0-alpha.14) (2021-05-03)
+
+### Features
+
+- **devtools:** work with stores added before app.use ([#444](https://github.com/posva/pinia/issues/444)) ([21f917f](https://github.com/posva/pinia/commit/21f917f057522b7e2ff70fa8517c5941c644a577))
+- **devtools:** add getters to devtools ([c4bf761](https://github.com/posva/pinia/commit/c4bf761e95b79a0831061e490ba1d69802bc9d95))
+- mark getters as readonly ([fcbeb95](https://github.com/posva/pinia/commit/fcbeb95cdd7f2b7d58731392d707183b311863ff))
+- **plugins:** allow chaining ([3a49d34](https://github.com/posva/pinia/commit/3a49d34f5d30c1d346243df0d043a0709b2a4861))
+- **mapHelpers:** warn on array mapStores ([d385bd9](https://github.com/posva/pinia/commit/d385bd98b136be15b6aa3ac6c2c8ca9261af4635))
+- pass options to context in plugins ([c8ad19f](https://github.com/posva/pinia/commit/c8ad19f6a959751d456aca93cd670d6b18064d50))
+- **types:** expose PiniaPluginContext ([94d12e7](https://github.com/posva/pinia/commit/94d12e7f127125c8aa915262471e07aae9d881bf))
+- add plugin api wip ([50bc807](https://github.com/posva/pinia/commit/50bc807dce932c5cbe02612505535f05dfe6325a))
+- **plugins:** allow void return ([5ef7140](https://github.com/posva/pinia/commit/5ef71407764384bef13a4f46fd001beade387d24))
+- **plugins:** pass a context object to plugins instead of app ([bcb4ec3](https://github.com/posva/pinia/commit/bcb4ec3422635dd57f655e58f72a9a7a1c7dba0d))
+- add plugin api wip ([b5c928d](https://github.com/posva/pinia/commit/b5c928da20efc532de84d8b8498d56f306a40e03))
+
+### Performance Improvements
+
+- **store:** reuse store instances when possible ([14f5a5f](https://github.com/posva/pinia/commit/14f5a5fd21677e7e5673443c35eeadbe2bdd8f05))
+
+### BREAKING CHANGES
+
+- **store:** getters now receive the state as their first argument and it's properly typed so you can write getters with arrow functions:
+
+  ```js
+  defineStore({
+    state: () => ({ n: 0 }),
+    getters: {
+      double: (state) => state.n * 2,
+    },
+  })
+  ```
+
+  To access other getters, you must still use the syntax that uses `this` **but it is now necessary to explicitly type the getter return type**. The same limitation exists in Vue for computed properties and it's a known limitation in TypeScript:
+
+  ```ts
+  defineStore({
+    state: () => ({ n: 0 }),
+    getters: {
+      double: (state) => state.n * 2,
+      // the `: number` is necessary when accessing `this` inside of
+      // a getter
+      doublePlusOne(state): number {
+        return this.double + 1
+      },
+    },
+  })
+  ```
+
+  For more information, refer to [the updated documentation for getters](https://pinia.esm.dev/core-concepts/getters.html).
+
+- **plugins:** To improve the plugin api capabilities, `pinia.use()`
+  now receives a context object instead of just `app`:
+
+  ```js
+  // replace
+  pinia.use((app) => {})
+  // with
+  pinia.use(({ app }) => {})
+  ```
+
+  Check the new documentation for [Plugins](https://pinia.esm.dev/core-concepts/plugins.html)!
+
 # [2.0.0-alpha.13](https://github.com/posva/pinia/compare/v2.0.0-alpha.12...v2.0.0-alpha.13) (2021-04-10)
 
 ### Bug Fixes
