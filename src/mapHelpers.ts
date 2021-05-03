@@ -20,7 +20,10 @@ export interface MapStoresCustomization {
   // suffix?: string
 }
 
-type StoreObject<S> = S extends StoreDefinition<
+/**
+ * @internal
+ */
+export type _StoreObject<S> = S extends StoreDefinition<
   infer Ids,
   infer State,
   infer Getters,
@@ -46,7 +49,7 @@ type StoreObject<S> = S extends StoreDefinition<
  * @internal
  */
 export type _Spread<A extends readonly any[]> = A extends [infer L, ...infer R]
-  ? StoreObject<L> & _Spread<R>
+  ? _StoreObject<L> & _Spread<R>
   : unknown
 
 function getCachedStore<

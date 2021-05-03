@@ -35,6 +35,7 @@ export {
   _MapWritableStateObjectReturn,
   _MapWritableStateReturn,
   _Spread,
+  _StoreObject,
 } from './mapHelpers'
 
 // TODO: remove in beta
