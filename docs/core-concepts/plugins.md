@@ -121,7 +121,7 @@ A Pinia plugin can be typed as follows:
 ```ts
 import { PiniaPluginContext } from 'pinia'
 
-export myPiniaPlugin(context: PiniaPluginContext) {
+export function myPiniaPlugin(context: PiniaPluginContext) {
   // ...
 }
 ```
