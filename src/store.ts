@@ -18,8 +18,8 @@ import {
   StoreWithGetters,
   Store,
   StoreWithActions,
+  _Method,
   StateDescriptor,
-  Method,
   DefineStoreOptions,
   StoreDefinition,
   GenericStore,
@@ -215,7 +215,7 @@ function buildStoreToUse<
   Id extends string,
   S extends StateTree,
   G extends GettersTree<S>,
-  A extends Record<string, Method>
+  A extends Record<string, _Method>
 >(
   partialStore: StoreWithState<Id, S>,
   descriptor: StateDescriptor<S>,
@@ -315,8 +315,8 @@ export function defineStore<
         storeAndDescriptor[1],
         id,
         getters as GettersTree<S> | undefined,
-        actions as Record<string, Method> | undefined,
-        // @ts-ignore: because we don't have extend on G and A
+        actions as Record<string, _Method> | undefined,
+        // @ts-expect-error: because of the extend on Actions
         options
       )
 
@@ -345,8 +345,8 @@ export function defineStore<
         storeAndDescriptor[1],
         id,
         getters as GettersTree<S> | undefined,
-        actions as Record<string, Method> | undefined,
-        // @ts-ignore: because we don't have extend on G and A
+        actions as Record<string, _Method> | undefined,
+        // @ts-expect-error: because of the extend on Actions
         options
       )
     )
