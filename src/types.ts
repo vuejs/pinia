@@ -87,7 +87,12 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   $subscribe(callback: SubscriptionCallback<S>): () => void
 }
 
-export type Method = (...args: any[]) => any
+/**
+ * Generic type for a function that can infer arguments and return type
+ *
+ * @internal
+ */
+export type _Method = (...args: any[]) => any
 
 // export type StoreAction<P extends any[], R> = (...args: P) => R
 // export interface StoreAction<P, R> {
@@ -149,7 +154,16 @@ export interface StoreDefinition<
   G extends GettersTree<S>,
   A /* extends Record<string, StoreAction> */
 > {
+  /**
+   * Returns a store, creates it if necessary.
+   *
+   * @param pinia - Pinia instance to retrieve the store
+   */
   (pinia?: Pinia | null | undefined): Store<Id, S, G, A>
+
+  /**
+   * Id of the store. Used by map helpers.
+   */
   $id: Id
 }
 
@@ -160,7 +174,7 @@ export type GenericStore = Store<
   string,
   StateTree,
   GettersTree<StateTree>,
-  Record<string, Method>
+  Record<string, _Method>
 >
 
 /**
@@ -170,7 +184,7 @@ export type GenericStoreDefinition = StoreDefinition<
   string,
   StateTree,
   GettersTree<StateTree>,
-  Record<string, Method>
+  Record<string, _Method>
 >
 
 /**
@@ -180,9 +194,14 @@ export interface PiniaCustomProperties<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
-  A = Record<string, Method>
+  A = Record<string, _Method>
 > {}
 
+/**
+ * Type of an object of Getters that infers the argument
+ *
+ * @internal
+ */
 export type GettersTree<S extends StateTree> = Record<
   string,
   ((state: S) => any) | (() => any)
@@ -198,10 +217,21 @@ export interface DefineStoreOptions<
   G extends GettersTree<S>,
   A /* extends Record<string, StoreAction> */
 > {
+  /**
+   * Unique string key to identify the store across the application.
+   */
   id: Id
+  /**
+   * Function to create a fresh state.
+   */
   state?: () => S
+  /**
+   * Optional object of getters.
+   */
   getters?: G & ThisType<S & StoreWithGetters<G> & PiniaCustomProperties>
-  // allow actions use other actions
+  /**
+   * Optional object of actions.
+   */
   actions?: A &
     ThisType<
       A &

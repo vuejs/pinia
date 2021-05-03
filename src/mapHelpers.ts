@@ -2,7 +2,7 @@ import type Vue from 'vue'
 import {
   GenericStore,
   GettersTree,
-  Method,
+  _Method,
   StateTree,
   Store,
   StoreDefinition,
@@ -44,15 +44,18 @@ type StoreObject<S> = S extends StoreDefinition<
     }
   : {}
 
-type Spread<A extends readonly any[]> = A extends [infer L, ...infer R]
-  ? StoreObject<L> & Spread<R>
+/**
+ * @internal
+ */
+export type _Spread<A extends readonly any[]> = A extends [infer L, ...infer R]
+  ? StoreObject<L> & _Spread<R>
   : unknown
 
 function getCachedStore<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
-  A = Record<string, Method>
+  A = Record<string, _Method>
 >(
   vm: ComponentPublicInstance,
   useStore: StoreDefinition<Id, S, G, A>
@@ -103,7 +106,7 @@ export function setMapStoreSuffix(
  */
 export function mapStores<Stores extends any[]>(
   ...stores: [...Stores]
-): Spread<Stores> {
+): _Spread<Stores> {
   if (__DEV__ && Array.isArray(stores[0])) {
     console.warn(
       `[🍍]: Directly pass all stores to "mapStores()" without putting them in an array:\n` +
@@ -122,14 +125,20 @@ export function mapStores<Stores extends any[]>(
       return getCachedStore(this, useStore)
     }
     return reduced
-  }, {} as Spread<Stores>)
+  }, {} as _Spread<Stores>)
 }
 
-type MapStateReturn<S extends StateTree, G extends GettersTree<S>> = {
+/**
+ * @internal
+ */
+export type _MapStateReturn<S extends StateTree, G extends GettersTree<S>> = {
   [key in keyof S | keyof G]: () => Store<string, S, G, {}>[key]
 }
 
-type MapStateObjectReturn<
+/**
+ * @internal
+ */
+export type _MapStateObjectReturn<
   Id extends string,
   S extends StateTree,
   G extends GettersTree<S>,
@@ -194,7 +203,7 @@ export function mapState<
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keyMapper: KeyMapper
-): MapStateObjectReturn<Id, S, G, A, KeyMapper>
+): _MapStateObjectReturn<Id, S, G, A, KeyMapper>
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
@@ -226,7 +235,7 @@ export function mapState<
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof S | keyof G>
-): MapStateReturn<S, G>
+): _MapStateReturn<S, G>
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
@@ -247,14 +256,14 @@ export function mapState<
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keysOrMapper: Array<keyof S | keyof G> | KeyMapper
-): MapStateReturn<S, G> | MapStateObjectReturn<Id, S, G, A, KeyMapper> {
+): _MapStateReturn<S, G> | _MapStateObjectReturn<Id, S, G, A, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
         reduced[key] = function (this: ComponentPublicInstance) {
           return getCachedStore(this, useStore)[key]
         } as () => any
         return reduced
-      }, {} as MapStateReturn<S, G>)
+      }, {} as _MapStateReturn<S, G>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
         reduced[key] = function (this: ComponentPublicInstance) {
           const store = getCachedStore(this, useStore)
@@ -266,7 +275,7 @@ export function mapState<
             : store[storeKey as keyof S | keyof G]
         }
         return reduced
-      }, {} as MapStateObjectReturn<Id, S, G, A, KeyMapper>)
+      }, {} as _MapStateObjectReturn<Id, S, G, A, KeyMapper>)
 }
 
 /**
@@ -275,11 +284,17 @@ export function mapState<
  */
 export const mapGetters = mapState
 
-type MapActionsReturn<A> = {
+/**
+ * @internal
+ */
+export type _MapActionsReturn<A> = {
   [key in keyof A]: Store<string, StateTree, {}, A>[key]
 }
 
-type MapActionsObjectReturn<A, T extends Record<string, keyof A>> = {
+/**
+ * @internal
+ */
+export type _MapActionsObjectReturn<A, T extends Record<string, keyof A>> = {
   [key in keyof T]: Store<string, StateTree, {}, A>[T[key]]
 }
 
@@ -317,7 +332,7 @@ export function mapActions<
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keyMapper: KeyMapper
-): MapActionsObjectReturn<A, KeyMapper>
+): _MapActionsObjectReturn<A, KeyMapper>
 /**
  * Allows directly using actions from your store without using the composition
  * API (`setup()`) by generating an object to be spread in the `methods` field
@@ -349,7 +364,7 @@ export function mapActions<
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof A>
-): MapActionsReturn<A>
+): _MapActionsReturn<A>
 /**
  * Allows directly using actions from your store without using the composition
  * API (`setup()`) by generating an object to be spread in the `methods` field
@@ -367,17 +382,17 @@ export function mapActions<
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keysOrMapper: Array<keyof A> | KeyMapper
-): MapActionsReturn<A> | MapActionsObjectReturn<A, KeyMapper> {
+): _MapActionsReturn<A> | _MapActionsObjectReturn<A, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
         reduced[key] = function (
           this: ComponentPublicInstance,
           ...args: any[]
         ) {
-          return (getCachedStore(this, useStore)[key] as Method)(...args)
+          return (getCachedStore(this, useStore)[key] as _Method)(...args)
         } as Store<string, StateTree, {}, A>[keyof A]
         return reduced
-      }, {} as MapActionsReturn<A>)
+      }, {} as _MapActionsReturn<A>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
         reduced[key] = function (
           this: ComponentPublicInstance,
@@ -386,17 +401,23 @@ export function mapActions<
           return getCachedStore(this, useStore)[keysOrMapper[key]](...args)
         } as Store<string, StateTree, {}, A>[keyof KeyMapper[]]
         return reduced
-      }, {} as MapActionsObjectReturn<A, KeyMapper>)
+      }, {} as _MapActionsObjectReturn<A, KeyMapper>)
 }
 
-type MapWritableStateReturn<S extends StateTree> = {
+/**
+ * @internal
+ */
+export type _MapWritableStateReturn<S extends StateTree> = {
   [key in keyof S]: {
     get: () => Store<string, S, {}, {}>[key]
     set: (value: Store<string, S, {}, {}>[key]) => any
   }
 }
 
-type MapWritableStateObjectReturn<
+/**
+ * @internal
+ */
+export type _MapWritableStateObjectReturn<
   S extends StateTree,
   T extends Record<string, keyof S>
 > = {
@@ -423,7 +444,7 @@ export function mapWritableState<
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keyMapper: KeyMapper
-): MapWritableStateObjectReturn<S, KeyMapper>
+): _MapWritableStateObjectReturn<S, KeyMapper>
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
@@ -440,7 +461,7 @@ export function mapWritableState<
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof S>
-): MapWritableStateReturn<S>
+): _MapWritableStateReturn<S>
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
@@ -458,7 +479,7 @@ export function mapWritableState<
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keysOrMapper: Array<keyof S> | KeyMapper
-): MapWritableStateReturn<S> | MapWritableStateObjectReturn<S, KeyMapper> {
+): _MapWritableStateReturn<S> | _MapWritableStateObjectReturn<S, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
         // @ts-ignore
@@ -472,7 +493,7 @@ export function mapWritableState<
           },
         }
         return reduced
-      }, {} as MapWritableStateReturn<S>)
+      }, {} as _MapWritableStateReturn<S>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
         // @ts-ignore
         reduced[key] = {
@@ -487,5 +508,5 @@ export function mapWritableState<
           },
         }
         return reduced
-      }, {} as MapWritableStateObjectReturn<S, KeyMapper>)
+      }, {} as _MapWritableStateObjectReturn<S, KeyMapper>)
 }

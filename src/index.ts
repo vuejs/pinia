@@ -13,6 +13,8 @@ export {
   StoreDefinition,
   GenericStore,
   StoreWithGetters,
+  GettersTree,
+  _Method,
   StoreWithActions,
   StoreWithState,
   PiniaCustomProperties,
@@ -27,6 +29,13 @@ export {
   mapGetters,
   MapStoresCustomization,
   setMapStoreSuffix,
+  _MapActionsObjectReturn,
+  _MapActionsReturn,
+  _MapStateObjectReturn,
+  _MapStateReturn,
+  _MapWritableStateObjectReturn,
+  _MapWritableStateReturn,
+  _Spread,
 } from './mapHelpers'
 
 // TODO: remove in beta

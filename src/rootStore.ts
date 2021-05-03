@@ -6,7 +6,7 @@ import {
   PiniaCustomProperties,
   GenericStore,
   GettersTree,
-  Method,
+  _Method,
   Store,
   DefineStoreOptions,
 } from './types'
@@ -43,7 +43,7 @@ export interface PiniaPluginContext<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
-  A = Record<string, Method>
+  A = Record<string, _Method>
 > {
   /**
    * pinia instance.
@@ -70,6 +70,12 @@ export interface PiniaPluginContext<
  * Plugin to extend every store
  */
 export interface PiniaStorePlugin {
+  /**
+   * Plugin to extend every store. Returns an object to extend the store or
+   * nothing.
+   *
+   * @param context - Context
+   */
   (context: PiniaPluginContext): Partial<PiniaCustomProperties> | void
 }
 
