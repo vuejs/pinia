@@ -33,14 +33,14 @@ describe('store plugins', () => {
   it('adds properties to stores', () => {
     const pinia = createPinia()
     pinia.Vue = Vue
-    mount({ template: '<p/>' }, { localVue })
+    mount({ template: '<p/>' }, { localVue, pinia })
 
     // must call use after installing the plugin
     pinia.use(() => {
       return { n: 20 }
     })
 
-    const store = useStore(pinia)
+    const store = useStore()
 
     expect(store.n).toBe(20)
     // @ts-expect-error: n is a number
@@ -56,11 +56,11 @@ describe('store plugins', () => {
     pinia.use(() => ({ n: 1 }))
     pinia.use((pinia) => ({ hasPinia: !!pinia }))
 
-    mount({ template: '<p/>' }, { localVue })
+    mount({ template: '<p/>' }, { localVue, pinia })
 
     pinia.use((app) => ({ hasPinia: !!app }))
 
-    const store = useStore(pinia)
+    const store = useStore()
 
     expect(store.n).toBe(1)
     expect(store.hasPinia).toBe(true)
@@ -69,14 +69,14 @@ describe('store plugins', () => {
   it('can be used in actions', () => {
     const pinia = createPinia()
     pinia.Vue = Vue
-    mount({ template: '<p/>' }, { localVue })
+    mount({ template: '<p/>' }, { localVue, pinia })
 
     // must call use after installing the plugin
     pinia.use(() => {
       return { n: 20 }
     })
 
-    const store = useStore(pinia)
+    const store = useStore()
 
     expect(store.incrementN()).toBe(20)
   })
@@ -84,14 +84,14 @@ describe('store plugins', () => {
   it('can be used in getters', () => {
     const pinia = createPinia()
     pinia.Vue = Vue
-    mount({ template: '<p/>' }, { localVue })
+    mount({ template: '<p/>' }, { localVue, pinia })
 
     // must call use after installing the plugin
     pinia.use(() => {
       return { n: 20 }
     })
 
-    const store = useStore(pinia)
+    const store = useStore()
     expect(store.doubleN).toBe(40)
   })
 })
