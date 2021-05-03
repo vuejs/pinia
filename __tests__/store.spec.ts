@@ -1,5 +1,13 @@
+import { defineComponent } from '@vue/composition-api'
+import { createLocalVue, mount } from '@vue/test-utils'
 import Vue from 'vue'
-import { createPinia, defineStore, Pinia, setActivePinia } from '../src'
+import {
+  createPinia,
+  defineStore,
+  Pinia,
+  PiniaPlugin,
+  setActivePinia,
+} from '../src'
 
 describe('Store', () => {
   let pinia: Pinia
@@ -153,5 +161,36 @@ describe('Store', () => {
       },
       store.$state
     )
+  })
+
+  it('reuses stores from parent components', () => {
+    let s1, s2
+    const useStore = defineStore({ id: 'one' })
+    const pinia = createPinia()
+    pinia.Vue = Vue
+    const localVue = createLocalVue()
+    localVue.use(PiniaPlugin)
+
+    const Child = defineComponent({
+      setup() {
+        s2 = useStore()
+      },
+      template: `<p>child</p>`,
+    })
+
+    mount(
+      defineComponent({
+        setup() {
+          s1 = useStore()
+          return { s1 }
+        },
+        components: { Child },
+        template: `<child/>`,
+      }),
+      { localVue, pinia }
+    )
+
+    expect(s1).toBeDefined()
+    expect(s1).toBe(s2)
   })
 })

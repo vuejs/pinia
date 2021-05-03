@@ -21,7 +21,14 @@ import type Vue from 'vue'
 
 export const storesMap = new WeakMap<
   Pinia,
-  Map<string, [StoreWithState<string, StateTree>, StateDescriptor<StateTree>]>
+  Map<
+    string,
+    [
+      StoreWithState<string, StateTree>,
+      StateDescriptor<StateTree>,
+      InjectionKey<GenericStore>
+    ]
+  >
 >()
 
 export const piniaSymbol = (__DEV__
