@@ -37,7 +37,7 @@ export default defineComponent({
 
 ## Accessing other stores actions
 
-To use another store, you can directly _use it_ inside of the _getter_:
+To use another store, you can directly _use it_ inside of the _action_:
 
 ```js
 import { useAuthStore } from './auth-store'
