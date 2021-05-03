@@ -269,20 +269,7 @@ export function defineStore<
   S extends StateTree,
   G extends GettersTree<S>,
   A /* extends Record<string, StoreAction> */
->(options: {
-  id: Id
-  state?: () => S
-  getters?: G & ThisType<S & StoreWithGetters<G> & PiniaCustomProperties>
-  // allow actions use other actions
-  actions?: A &
-    ThisType<
-      A &
-        S &
-        StoreWithState<Id, S> &
-        StoreWithGetters<G> &
-        PiniaCustomProperties
-    >
-}): StoreDefinition<Id, S, G, A> {
+>(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A> {
   const { id, state, getters, actions } = options
 
   function useStore(pinia?: Pinia | null): Store<Id, S, G, A> {

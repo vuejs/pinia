@@ -12,11 +12,11 @@ export {
   Store,
   StoreDefinition,
   GenericStore,
-  GenericStoreDefinition,
   StoreWithGetters,
   StoreWithActions,
   StoreWithState,
   PiniaCustomProperties,
+  DefineStoreOptions,
 } from './types'
 
 export {
