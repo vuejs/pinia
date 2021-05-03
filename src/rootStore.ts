@@ -61,11 +61,14 @@ export const storesMap = new WeakMap<
 >()
 
 /**
- * Client-side application instance used for devtools
+ * Expose the client-side application instance used for devtools
  */
-export let clientApp: App | undefined /*#__PURE__*/
-export const setClientApp = (app: App) => (clientApp = app)
-export const getClientApp = () => clientApp
+let clientAppPromise: Promise<App> | undefined
+let resolveApp: ((app: App) => void) | undefined
+export const setClientApp = (app: App) => resolveApp && resolveApp(app)
+export const getClientApp = () =>
+  clientAppPromise ||
+  (clientAppPromise = new Promise((resolve) => (resolveApp = resolve)))
 
 /**
  * Context argument passed to Pinia plugins.
