@@ -69,6 +69,16 @@ export function addDevtools(app: App, store: GenericStore) {
             editable: false,
             value: store.$state,
           })
+
+          payload.instanceData.state.push({
+            type: '🍍 ' + store.$id,
+            key: 'getters',
+            editable: false,
+            value: (store._getters || []).reduce((getters, key) => {
+              getters[key] = store[key]
+              return getters
+            }, {} as GettersTree<StateTree>),
+          })
         }
       })
 
