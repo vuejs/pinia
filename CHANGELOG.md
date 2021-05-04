@@ -1,3 +1,9 @@
+# [2.0.0-alpha.15](https://github.com/posva/pinia/compare/v2.0.0-alpha.14...v2.0.0-alpha.15) (2021-05-04)
+
+### Bug Fixes
+
+- **devtools:** fix devtools attach ([017795a](https://github.com/posva/pinia/commit/017795aac3e654d6c67f99437851dcfe589d20b0))
+
 # [2.0.0-alpha.14](https://github.com/posva/pinia/compare/v2.0.0-alpha.13...v2.0.0-alpha.14) (2021-05-03)
 
 ### Features
