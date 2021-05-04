@@ -61,18 +61,18 @@ export function addDevtools(app: App, store: GenericStore) {
       const mutationsLayerId = 'pinia:mutations'
       const piniaInspectorId = 'pinia'
 
-      if (!isAlreadyInstalled) {
-        api.on.inspectComponent((payload, ctx) => {
-          if (payload.instanceData) {
-            payload.instanceData.state.push({
-              type: '🍍 ' + store.$id,
-              key: 'state',
-              editable: false,
-              value: store.$state,
-            })
-          }
-        })
+      api.on.inspectComponent((payload, ctx) => {
+        if (payload.instanceData) {
+          payload.instanceData.state.push({
+            type: '🍍 ' + store.$id,
+            key: 'state',
+            editable: false,
+            value: store.$state,
+          })
+        }
+      })
 
+      if (!isAlreadyInstalled) {
         api.addTimelineLayer({
           id: mutationsLayerId,
           label: `Pinia 🍍`,
