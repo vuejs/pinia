@@ -65,7 +65,14 @@ export const storesMap = new WeakMap<
  */
 let clientAppPromise: Promise<App> | undefined
 let resolveApp: ((app: App) => void) | undefined
-export const setClientApp = (app: App) => resolveApp && resolveApp(app)
+export const setClientApp = (app: App) => {
+  if (resolveApp) {
+    resolveApp(app)
+  } else {
+    // setClientApp might be called before getClientApp
+    clientAppPromise = Promise.resolve(app)
+  }
+}
 export const getClientApp = () =>
   clientAppPromise ||
   (clientAppPromise = new Promise((resolve) => (resolveApp = resolve)))
