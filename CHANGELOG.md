@@ -1,3 +1,13 @@
+# [2.0.0-alpha.16](https://github.com/posva/pinia/compare/v2.0.0-alpha.14...v2.0.0-alpha.16) (2021-05-04)
+
+### Bug Fixes
+
+- **devtools:** add all stores ([2a8515c](https://github.com/posva/pinia/commit/2a8515cef57dce9cb9d0d8f7a8a52bbc1d3b6082)), closes [#472](https://github.com/posva/pinia/issues/472)
+
+### Features
+
+- **devtools:** display getters in components ([810b969](https://github.com/posva/pinia/commit/810b9697fe639070c21a76119d7d7001b6db069e))
+
 # [2.0.0-alpha.15](https://github.com/posva/pinia/compare/v2.0.0-alpha.14...v2.0.0-alpha.15) (2021-05-04)
 
 ### Bug Fixes
