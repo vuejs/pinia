@@ -12,6 +12,8 @@ const myPlugin = (context, inject) => {
 
   /** @type {import('../src').Pinia} */
   const pinia = createPinia()
+  // nuxt plugins can run before Pinia has retrieved the Vue instance
+  pinia.Vue = Vue
   inject('pinia', pinia)
   // simulate the injection ofr `new Vue({ pinia })`
   context.app.pinia = pinia
