@@ -1,3 +1,9 @@
+## [0.4.1](https://github.com/posva/pinia/compare/v0.4.0...v0.4.1) (2021-05-05)
+
+### Bug Fixes
+
+- **nuxt:** inject Vue before rendering ([309bf8f](https://github.com/posva/pinia/commit/309bf8f8033bab330f9073261fc45d126fb420db)), closes [#473](https://github.com/posva/pinia/issues/473)
+
 # [0.4.0](https://github.com/posva/pinia/compare/v0.3.1...v0.4.0) (2021-05-03)
 
 ### Features
