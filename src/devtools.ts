@@ -4,6 +4,7 @@ import {
   setupDevtoolsPlugin,
 } from '@vue/devtools-api'
 import { App } from 'vue'
+import { PiniaPluginContext } from './rootStore'
 import { GenericStore, GettersTree, StateTree } from './types'
 
 function formatDisplay(display: string) {
@@ -188,4 +189,11 @@ function formatStoreForInspectorState(
   ]
 
   return fields
+}
+
+/**
+ * pinia.use(devtoolsPlugin)
+ */
+export function devtoolsPlugin({ app, store }: PiniaPluginContext) {
+  addDevtools(app, store)
 }

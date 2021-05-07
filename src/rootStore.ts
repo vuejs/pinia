@@ -1,4 +1,5 @@
 import { App, InjectionKey, Plugin, Ref, ref, warn } from 'vue'
+import { devtoolsPlugin } from './devtools'
 import { IS_CLIENT } from './env'
 import {
   StateTree,
@@ -59,23 +60,6 @@ export const storesMap = new WeakMap<
     ]
   >
 >()
-
-/**
- * Expose the client-side application instance used for devtools
- */
-let clientAppPromise: Promise<App> | undefined
-let resolveApp: ((app: App) => void) | undefined
-export const setClientApp = (app: App) => {
-  if (resolveApp) {
-    resolveApp(app)
-  } else {
-    // setClientApp might be called before getClientApp
-    clientAppPromise = Promise.resolve(app)
-  }
-}
-export const getClientApp = () =>
-  clientAppPromise ||
-  (clientAppPromise = new Promise((resolve) => (resolveApp = resolve)))
 
 /**
  * Context argument passed to Pinia plugins.
@@ -197,7 +181,6 @@ export function createPinia(): Pinia {
       // TODO: write test
       // only set the app on client for devtools
       if (__BROWSER__ && IS_CLIENT) {
-        setClientApp(app)
         // this allows calling useStore() outside of a component setup after
         // installing pinia's plugin
         setActivePinia(pinia)
@@ -219,6 +202,10 @@ export function createPinia(): Pinia {
     _a: localApp!,
 
     state,
+  }
+
+  if (IS_CLIENT && __BROWSER__ && __DEV__) {
+    pinia.use(devtoolsPlugin)
   }
 
   return pinia

@@ -29,11 +29,9 @@ import {
   getActivePinia,
   setActivePinia,
   storesMap,
-  getClientApp,
   piniaSymbol,
   Pinia,
 } from './rootStore'
-import { addDevtools } from './devtools'
 import { IS_CLIENT } from './env'
 
 function innerPatch<T extends StateTree>(
@@ -324,14 +322,6 @@ export function defineStore<
       // store for each child
       if (shouldProvide) {
         provide(storeAndDescriptor[2], store)
-      }
-
-      if (
-        IS_CLIENT &&
-        __BROWSER__ &&
-        __DEV__ /*|| __FEATURE_PROD_DEVTOOLS__*/
-      ) {
-        getClientApp().then((app) => addDevtools(app, store))
       }
 
       return store
