@@ -1,13 +1,9 @@
-export {
-  setActivePinia,
-  createPinia,
-  Pinia,
-  PiniaStorePlugin,
-  PiniaPluginContext,
-} from './rootStore'
+export { setActivePinia, createPinia } from './rootStore'
+export type { Pinia, PiniaStorePlugin, PiniaPluginContext } from './rootStore'
+
 export { defineStore } from './store'
 export { PiniaPlugin } from './plugin'
-export {
+export type {
   StateTree,
   Store,
   StoreDefinition,
@@ -27,8 +23,11 @@ export {
   mapState,
   mapWritableState,
   mapGetters,
-  MapStoresCustomization,
   setMapStoreSuffix,
+} from './mapHelpers'
+
+export type {
+  MapStoresCustomization,
   _MapActionsObjectReturn,
   _MapActionsReturn,
   _MapStateObjectReturn,
