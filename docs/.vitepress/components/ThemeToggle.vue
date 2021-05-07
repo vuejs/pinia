@@ -54,10 +54,15 @@
       <path d="M15 2.005h2v5h-2z" fill="currentColor"></path>
     </svg>
   </button>
+
+  <p>Counter :{{ counterStore.n }}</p>
+
+  <button @click="counterStore.increment">Increment</button>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watchEffect } from 'vue'
+import { useCounter } from '../stores/counter'
 
 const isBrowser = typeof window !== 'undefined'
 
@@ -71,6 +76,8 @@ function isDarkMode() {
 
   return !window.matchMedia(PREFERS_LIGHT).matches
 }
+
+const counterStore = useCounter()
 
 const storageKey = 'pinia-color-scheme'
 
