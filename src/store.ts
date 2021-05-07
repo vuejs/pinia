@@ -8,6 +8,8 @@ import {
   onUnmounted,
   InjectionKey,
   provide,
+  DebuggerEvent,
+  WatchOptions,
 } from 'vue'
 import {
   StateTree,
@@ -24,6 +26,7 @@ import {
   StoreDefinition,
   GenericStore,
   GettersTree,
+  MutationType,
 } from './types'
 import {
   getActivePinia,
@@ -103,6 +106,7 @@ function initStore<Id extends string, S extends StateTree>(
 
   let isListening = true
   let subscriptions: SubscriptionCallback<S>[] = []
+  let debuggerEvents: DebuggerEvent[] | DebuggerEvent
 
   function $patch(stateMutation: (state: S) => void): void
   function $patch(partialState: DeepPartial<S>): void
@@ -110,42 +114,72 @@ function initStore<Id extends string, S extends StateTree>(
     partialStateOrMutator: DeepPartial<S> | ((state: S) => void)
   ): void {
     let partialState: DeepPartial<S> = {}
-    let type: string
+    let type: MutationType
     isListening = false
+    // reset the debugger events since patches are sync
+    if (__DEV__) {
+      debuggerEvents = []
+    }
     if (typeof partialStateOrMutator === 'function') {
       partialStateOrMutator(pinia.state.value[$id])
-      type = '🧩 patch'
+      type = MutationType.patchFunction
     } else {
       innerPatch(pinia.state.value[$id], partialStateOrMutator)
       partialState = partialStateOrMutator
-      type = '⤵️ patch'
+      type = MutationType.patchObject
     }
     isListening = true
     // because we paused the watcher, we need to manually call the subscriptions
     subscriptions.forEach((callback) => {
       callback(
-        { storeName: $id, type, payload: partialState },
+        { storeName: $id, type, payload: partialState, events: debuggerEvents },
         pinia.state.value[$id]
       )
     })
   }
 
-  function $subscribe(callback: SubscriptionCallback<S>) {
+  function $subscribe(
+    callback: SubscriptionCallback<S>,
+    onTrigger?: (event: DebuggerEvent) => void
+  ) {
     subscriptions.push(callback)
 
     // watch here to link the subscription to the current active instance
     // e.g. inside the setup of a component
+    const options: WatchOptions = { deep: true, flush: 'sync' }
+    if (__DEV__) {
+      options.onTrigger = (event) => {
+        if (isListening) {
+          debuggerEvents = event
+        } else {
+          // let patch send all the events together later
+          if (Array.isArray(debuggerEvents)) {
+            debuggerEvents.push(event)
+          } else {
+            console.error(
+              '🍍 debuggerEvents should be an array. This is most likely an internal Pinia bug.'
+            )
+          }
+        }
+      }
+    }
     const stopWatcher = watch(
       () => pinia.state.value[$id],
-      (state) => {
+      (state, oldState) => {
         if (isListening) {
-          callback({ storeName: $id, type: '🧩 in place', payload: {} }, state)
+          // TODO: remove payload
+          callback(
+            {
+              storeName: $id,
+              type: MutationType.direct,
+              payload: {},
+              events: debuggerEvents,
+            },
+            state
+          )
         }
       },
-      {
-        deep: true,
-        flush: 'sync',
-      }
+      options
     )
 
     const removeSubscription = () => {

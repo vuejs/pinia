@@ -1,3 +1,4 @@
+import { DebuggerEvent } from 'vue'
 import { Pinia } from './rootStore'
 
 /**
@@ -28,8 +29,53 @@ export function isPlainObject(
 export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
 // type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
 
+/**
+ * Possible types for SubscriptionCallback
+ */
+export enum MutationType {
+  /**
+   * Direct mutation of the state:
+   *
+   * - `store.name = 'new name'`
+   * - `store.$state.name = 'new name'`
+   * - `store.list.push('new item')`
+   */
+  direct = 'direct',
+
+  /**
+   * Mutated the state with `$patch` and an object
+   *
+   * - `store.$patch({ name: 'newName' })`
+   */
+  patchObject = 'patch object',
+
+  /**
+   * Mutated the state with `$patch` and a function
+   *
+   * - `store.$patch(state => state.name = 'newName')`
+   */
+  patchFunction = 'patch function',
+
+  // maybe reset? for $state = {} and $reset
+}
+
+/**
+ * Callback of a subscription
+ */
 export type SubscriptionCallback<S> = (
-  mutation: { storeName: string; type: string; payload: DeepPartial<S> },
+  // TODO: make type an enumeration
+  // TODO: payload should be optional
+  mutation: {
+    storeName: string
+    type: MutationType
+
+    /**
+     * DEV ONLY. Array for patch calls and single values for direct edits
+     */
+    events?: DebuggerEvent[] | DebuggerEvent
+
+    payload: DeepPartial<S>
+  },
   state: S
 ) => void
 
@@ -90,9 +136,13 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
    * Setups a callback to be called whenever the state changes.
    *
    * @param callback - callback passed to the watcher
+   * @param onTrigger - DEV ONLY watcher debugging (https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watcher-debugging)
    * @returns function that removes the watcher
    */
-  $subscribe(callback: SubscriptionCallback<S>): () => void
+  $subscribe(
+    callback: SubscriptionCallback<S>,
+    onTrigger?: (event: DebuggerEvent) => void
+  ): () => void
 }
 
 /**

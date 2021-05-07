@@ -2,10 +2,17 @@ import {
   CustomInspectorNode,
   CustomInspectorState,
   setupDevtoolsPlugin,
+  TimelineEvent,
 } from '@vue/devtools-api'
-import { App } from 'vue'
+import { App, DebuggerEvent } from 'vue'
 import { PiniaPluginContext } from './rootStore'
-import { GenericStore, GettersTree, StateTree } from './types'
+import {
+  GenericStore,
+  GettersTree,
+  MutationType,
+  StateTree,
+  _Method,
+} from './types'
 
 function formatDisplay(display: string) {
   return {
@@ -132,27 +139,41 @@ export function addDevtools(app: App, store: GenericStore) {
         api.sendInspectorState(INSPECTOR_ID)
       }
 
-      store.$subscribe((mutation, state) => {
+      store.$subscribe(({ events, type }, state) => {
         // rootStore.state[store.id] = state
-        const data: Record<string, any> = {
-          store: formatDisplay(mutation.storeName),
-          // type: formatDisplay(mutation.type),
-        }
-
-        if (mutation.payload) {
-          data.payload = mutation.payload
-        }
+        console.log('subscribe devtools', events)
 
         api.notifyComponentUpdate()
         api.sendInspectorState(INSPECTOR_ID)
 
+        const eventData: TimelineEvent = {
+          time: Date.now(),
+          title: formatMutationType(type),
+          data: formatEventData(events),
+        }
+
+        if (type === MutationType.patchFunction) {
+          eventData.subtitle = '⤵️'
+        } else if (type === MutationType.patchObject) {
+          eventData.subtitle = '🧩'
+        } else if (events && !Array.isArray(events)) {
+          eventData.subtitle = events.type
+        }
+
+        if (events) {
+          eventData.data['rawEvent(s)'] = {
+            _custom: {
+              display: 'DebuggerEvent',
+              type: 'object',
+              tooltip: 'raw DebuggerEvent[]',
+              value: events,
+            },
+          }
+        }
+
         api.addTimelineEvent({
           layerId: MUTATIONS_LAYER_ID,
-          event: {
-            time: Date.now(),
-            title: mutation.type,
-            data,
-          },
+          event: eventData,
         })
       })
 
@@ -191,9 +212,79 @@ function formatStoreForInspectorState(
   return fields
 }
 
+function formatEventData(events: DebuggerEvent[] | DebuggerEvent | undefined) {
+  if (!events) return {}
+  if (Array.isArray(events)) {
+    // TODO: handle add and delete for arrays and objects
+    return events.reduce(
+      (data, event) => {
+        data.keys.push(event.key)
+        data.operations.push(event.type)
+        data.oldValue[event.key] = event.oldValue
+        data.newValue[event.key] = event.newValue
+        return data
+      },
+      {
+        oldValue: {} as Record<string, any>,
+        keys: [] as string[],
+        operations: [] as string[],
+        newValue: {} as Record<string, any>,
+      }
+    )
+  } else {
+    return {
+      operation: formatDisplay(events.type),
+      key: formatDisplay(events.key),
+      oldValue: events.oldValue,
+      newValue: events.newValue,
+    }
+  }
+}
+
+function formatMutationType(type: MutationType): string {
+  switch (type) {
+    case MutationType.direct:
+      return 'mutation'
+    case MutationType.patchFunction:
+      return '$patch'
+    case MutationType.patchObject:
+      return '$patch'
+    default:
+      return 'unknown'
+  }
+}
+
 /**
  * pinia.use(devtoolsPlugin)
  */
-export function devtoolsPlugin({ app, store }: PiniaPluginContext) {
+export function devtoolsPlugin<
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  G extends GettersTree<S> = GettersTree<S>,
+  A = Record<string, _Method>
+>({ app, store, options, pinia }: PiniaPluginContext<Id, S, G, A>) {
+  // const wrappedActions: StoreWithActions<A> = {} as StoreWithActions<A>
+  // const actions: A = options.actions || ({} as any)
+
+  // custom patch method
+
+  // for (const actionName in actions) {
+  //   wrappedActions[actionName] = function () {
+  //     setActivePinia(pinia)
+  //     const patchedStore = reactive({
+  //       ...toRefs(store),
+  //       $patch() {
+  //         // TODO: should call subscribe listeners with a group ID
+  //         store.$patch.apply(null, arguments as any)
+  //       },
+  //     })
+  //     // @ts-expect-error: not recognizing it's a _Method for some reason
+  //     return actions[actionName].apply(
+  //       patchedStore,
+  //       (arguments as unknown) as any[]
+  //     )
+  //   } as StoreWithActions<A>[typeof actionName]
+  // }
+
   addDevtools(app, store)
 }

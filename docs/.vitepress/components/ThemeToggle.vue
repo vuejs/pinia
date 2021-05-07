@@ -58,6 +58,7 @@
   <p>Counter :{{ counterStore.n }}</p>
 
   <button @click="counterStore.increment">Increment</button>
+  <button @click="counterStore.decrementToZero(300, true)">To ZERO</button>
 </template>
 
 <script setup lang="ts">
