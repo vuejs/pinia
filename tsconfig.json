@@ -1,9 +1,5 @@
 {
-  "include": [
-    "src/global.d.ts",
-    "src/**/*.ts",
-    "__tests__/**/*.ts"
-  ],
+  "include": ["src/global.d.ts", "src/**/*.ts", "__tests__/**/*.ts"],
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
@@ -15,6 +11,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "allowJs": false,
+    "skipLibCheck": true,
 
     "noUnusedLocals": true,
     "strictNullChecks": true,
@@ -22,7 +19,7 @@
     "noImplicitThis": true,
     "noImplicitReturns": false,
     "strict": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
 
     "experimentalDecorators": true,
     "resolveJsonModule": true,

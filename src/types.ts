@@ -56,7 +56,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   _p: Pinia
 
   /**
-   * Used by devtools plugin to retrieve getters. Removed in production
+   * Used by devtools plugin to retrieve getters. Removed in production.
    *
    * @internal
    */
