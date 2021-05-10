@@ -4,13 +4,14 @@ import {
   setupDevtoolsPlugin,
   TimelineEvent,
 } from '@vue/devtools-api'
-import { App, DebuggerEvent } from 'vue'
-import { PiniaPluginContext } from './rootStore'
+import { App, computed, DebuggerEvent, reactive, toRefs } from 'vue'
+import { PiniaPluginContext, setActivePinia } from './rootStore'
 import {
   GenericStore,
   GettersTree,
   MutationType,
   StateTree,
+  StoreWithActions,
   _Method,
 } from './types'
 
@@ -174,9 +175,24 @@ export function addDevtools(app: App, store: GenericStore) {
         api.sendInspectorState(INSPECTOR_ID)
       }
 
+      // TODO: implement
+      store.$before?.('action', ({ name, handler, args, context }) => {
+        context._actionId = actionId++
+      })
+
+      store.$after?.('patch', ({ context }) => {
+        // TODO: use context._actionId as the group
+      })
+
+      store.$after?.('action', ({ context, result }) => {
+        // TODO: use context._actionId as the group
+        // result.then.catch
+      })
+
       store.$subscribe(({ events, type }, state) => {
         // rootStore.state[store.id] = state
         console.log('subscribe devtools', events)
+        console.log('subscribe with active', activeAction)
 
         api.notifyComponentUpdate()
         api.sendInspectorState(INSPECTOR_ID)
@@ -293,6 +309,11 @@ function formatMutationType(type: MutationType): string {
   }
 }
 
+let actionId = 0
+let activeAction = -1
+
+const actionMap = new WeakMap<Promise<any>, number>()
+
 /**
  * pinia.use(devtoolsPlugin)
  */
@@ -302,28 +323,63 @@ export function devtoolsPlugin<
   G extends GettersTree<S> = GettersTree<S>,
   A = Record<string, _Method>
 >({ app, store, options, pinia }: PiniaPluginContext<Id, S, G, A>) {
-  // const wrappedActions: StoreWithActions<A> = {} as StoreWithActions<A>
-  // const actions: A = options.actions || ({} as any)
+  const wrappedActions: StoreWithActions<A> = {} as StoreWithActions<A>
+  const actions: A = options.actions || ({} as any)
 
   // custom patch method
 
-  // for (const actionName in actions) {
-  //   wrappedActions[actionName] = function () {
-  //     setActivePinia(pinia)
-  //     const patchedStore = reactive({
-  //       ...toRefs(store),
-  //       $patch() {
-  //         // TODO: should call subscribe listeners with a group ID
-  //         store.$patch.apply(null, arguments as any)
-  //       },
-  //     })
-  //     // @ts-expect-error: not recognizing it's a _Method for some reason
-  //     return actions[actionName].apply(
-  //       patchedStore,
-  //       (arguments as unknown) as any[]
-  //     )
-  //   } as StoreWithActions<A>[typeof actionName]
-  // }
+  for (const actionName in actions) {
+    wrappedActions[actionName] = function () {
+      setActivePinia(pinia)
+      const keys = Object.keys(options.state?.() || {})
+      const _actionId = actionId++
+      const patchedStore = reactive({
+        ...toRefs(store),
+        // $patch() {
+        //   // TODO: should call subscribe listeners with a group ID
+        //   store.$patch.apply(null, arguments as any)
+        // },
+        ...keys.reduce((stateProperties, stateName) => {
+          // @ts-expect-error
+          stateProperties[stateName] = computed({
+            get() {
+              activeAction = _actionId
+              return store[stateName]
+            },
+            set(value) {
+              activeAction = _actionId
+              // @ts-expect-error
+              return (store[stateName] = value)
+            },
+          })
+          return stateProperties
+        }, {}),
+        _actionId,
+      })
+      console.log('beforeAction', _actionId)
+      const promise = Promise.resolve(
+        // @ts-expect-error: not recognizing it's a _Method for some reason
+        actions[actionName].apply(patchedStore, (arguments as unknown) as any[])
+      )
+        .then(() => {
+          // TODO: finish and mark as completed
+        })
+        .catch((err) => {
+          // TODO: finish and mark as failed
+        })
+        .finally(() => {
+          activeAction = -1
+        })
+
+      return promise
+    } as StoreWithActions<A>[typeof actionName]
+  }
 
   addDevtools(app, store)
+
+  return { ...wrappedActions }
 }
+
+/**
+ * Another idea: wrap the getter/setter of all state properties to call setActiveAction. This way, we can directly use it in $subscribe to attach it to its action
+ */
