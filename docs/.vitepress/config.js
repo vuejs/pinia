@@ -30,6 +30,7 @@ module.exports = {
   description: 'The Vue Store that you will enjoy using',
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
+    ['link', { rel: 'icon', type: 'image/png', href: '/logo.png' }],
     [
       'meta',
       {
