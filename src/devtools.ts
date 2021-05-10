@@ -96,6 +96,34 @@ export function addDevtools(app: App, store: GenericStore) {
           treeFilterPlaceholder: 'Search stores',
         })
 
+        api.on.getInspectorTree((payload) => {
+          if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
+            const stores = Array.from(registeredStores)
+
+            payload.rootNodes = (payload.filter
+              ? stores.filter((store) =>
+                  store.$id.toLowerCase().includes(payload.filter.toLowerCase())
+                )
+              : stores
+            ).map(formatStoreForInspectorTree)
+          }
+        })
+
+        api.on.getInspectorState((payload) => {
+          if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
+            const stores = Array.from(registeredStores)
+            const store = stores.find((store) => store.$id === payload.nodeId)
+
+            if (store) {
+              payload.state = {
+                options: formatStoreForInspectorState(store),
+              }
+            } else {
+              toastMessage(`store "${payload.nodeId}" not found`, 'error')
+            }
+          }
+        })
+
         isAlreadyInstalled = true
       } else {
         api.notifyComponentUpdate()
@@ -125,34 +153,6 @@ export function addDevtools(app: App, store: GenericStore) {
             data,
           },
         })
-      })
-
-      api.on.getInspectorTree((payload) => {
-        if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-          const stores = Array.from(registeredStores)
-
-          payload.rootNodes = (payload.filter
-            ? stores.filter((store) =>
-                store.$id.toLowerCase().includes(payload.filter.toLowerCase())
-              )
-            : stores
-          ).map(formatStoreForInspectorTree)
-        }
-      })
-
-      api.on.getInspectorState((payload) => {
-        if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-          const stores = Array.from(registeredStores)
-          const store = stores.find((store) => store.$id === payload.nodeId)
-
-          if (store) {
-            payload.state = {
-              options: formatStoreForInspectorState(store),
-            }
-          } else {
-            toastMessage(`store "${payload.nodeId}" not found`, 'error')
-          }
-        }
       })
 
       // trigger an update so it can display new registered stores
