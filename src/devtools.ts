@@ -69,6 +69,7 @@ export function addDevtools(app: App, store: GenericStore) {
       //   api.notifyComponentUpdate()
       // })
 
+      // TODO: only load stores used by the component?
       api.on.inspectComponent((payload, ctx) => {
         if (payload.instanceData) {
           payload.instanceData.state.push({
@@ -78,15 +79,17 @@ export function addDevtools(app: App, store: GenericStore) {
             value: store.$state,
           })
 
-          payload.instanceData.state.push({
-            type: '🍍 ' + store.$id,
-            key: 'getters',
-            editable: false,
-            value: (store._getters || []).reduce((getters, key) => {
-              getters[key] = store[key]
-              return getters
-            }, {} as GettersTree<StateTree>),
-          })
+          if (store._getters?.length) {
+            payload.instanceData.state.push({
+              type: '🍍 ' + store.$id,
+              key: 'getters',
+              editable: false,
+              value: store._getters.reduce((getters, key) => {
+                getters[key] = store[key]
+                return getters
+              }, {} as GettersTree<StateTree>),
+            })
+          }
         }
       })
 
@@ -119,22 +122,54 @@ export function addDevtools(app: App, store: GenericStore) {
 
         api.on.getInspectorState((payload) => {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-            const stores = Array.from(registeredStores)
-            const store = stores.find((store) => store.$id === payload.nodeId)
+            const store = Array.from(registeredStores).find(
+              (store) => store.$id === payload.nodeId
+            )
+
+            if (!store) {
+              return toastMessage(
+                `store "${payload.nodeId}" not found`,
+                'error'
+              )
+            }
 
             if (store) {
               payload.state = {
                 options: formatStoreForInspectorState(store),
               }
-            } else {
-              toastMessage(`store "${payload.nodeId}" not found`, 'error')
             }
+          }
+        })
+
+        api.on.editInspectorState((payload) => {
+          if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
+            const store = Array.from(registeredStores).find(
+              (store) => store.$id === payload.nodeId
+            )
+
+            if (!store) {
+              return toastMessage(
+                `store "${payload.nodeId}" not found`,
+                'error'
+              )
+            }
+
+            const { path } = payload
+            if (path[0] !== 'state') {
+              return toastMessage(
+                `Invalid path for store "${payload.nodeId}":\n${path}\nOnly state can be modified.`
+              )
+            }
+
+            // rewrite the first entry to be able to directly set the state as
+            // well as any other path
+            path[0] = '$state'
+            payload.set(store, path, payload.state.value)
           }
         })
 
         isAlreadyInstalled = true
       } else {
-        api.notifyComponentUpdate()
         api.sendInspectorTree(INSPECTOR_ID)
         api.sendInspectorState(INSPECTOR_ID)
       }
@@ -199,15 +234,19 @@ function formatStoreForInspectorState(
   const fields: CustomInspectorState[string] = [
     { editable: false, key: 'id', value: formatDisplay(store.$id) },
     { editable: true, key: 'state', value: store.$state },
-    {
+  ]
+
+  // avoid adding empty getters
+  if (store._getters?.length) {
+    fields.push({
       editable: false,
       key: 'getters',
-      value: (store._getters || []).reduce((getters, key) => {
+      value: store._getters.reduce((getters, key) => {
         getters[key] = store[key]
         return getters
       }, {} as GettersTree<StateTree>),
-    },
-  ]
+    })
+  }
 
   return fields
 }
