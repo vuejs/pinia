@@ -39,6 +39,9 @@ function toastMessage(
 let isAlreadyInstalled: boolean | undefined
 const componentStateTypes: string[] = []
 
+const MUTATIONS_LAYER_ID = 'pinia:mutations'
+const INSPECTOR_ID = 'pinia'
+
 export function addDevtools(app: App, store: GenericStore) {
   registeredStores.add(store)
   componentStateTypes.push('🍍 ' + store.$id)
@@ -57,9 +60,6 @@ export function addDevtools(app: App, store: GenericStore) {
       //   // @ts-ignore
       //   api.notifyComponentUpdate()
       // })
-
-      const mutationsLayerId = 'pinia:mutations'
-      const piniaInspectorId = 'pinia'
 
       api.on.inspectComponent((payload, ctx) => {
         if (payload.instanceData) {
@@ -84,13 +84,13 @@ export function addDevtools(app: App, store: GenericStore) {
 
       if (!isAlreadyInstalled) {
         api.addTimelineLayer({
-          id: mutationsLayerId,
+          id: MUTATIONS_LAYER_ID,
           label: `Pinia 🍍`,
           color: 0xe5df88,
         })
 
         api.addInspector({
-          id: piniaInspectorId,
+          id: INSPECTOR_ID,
           label: 'Pinia 🍍',
           icon: 'storage',
           treeFilterPlaceholder: 'Search stores',
@@ -99,8 +99,8 @@ export function addDevtools(app: App, store: GenericStore) {
         isAlreadyInstalled = true
       } else {
         api.notifyComponentUpdate()
-        api.sendInspectorTree(piniaInspectorId)
-        api.sendInspectorState(piniaInspectorId)
+        api.sendInspectorTree(INSPECTOR_ID)
+        api.sendInspectorState(INSPECTOR_ID)
       }
 
       store.$subscribe((mutation, state) => {
@@ -115,10 +115,10 @@ export function addDevtools(app: App, store: GenericStore) {
         }
 
         api.notifyComponentUpdate()
-        api.sendInspectorState(piniaInspectorId)
+        api.sendInspectorState(INSPECTOR_ID)
 
         api.addTimelineEvent({
-          layerId: mutationsLayerId,
+          layerId: MUTATIONS_LAYER_ID,
           event: {
             time: Date.now(),
             title: mutation.type,
@@ -128,7 +128,7 @@ export function addDevtools(app: App, store: GenericStore) {
       })
 
       api.on.getInspectorTree((payload) => {
-        if (payload.app === app && payload.inspectorId === piniaInspectorId) {
+        if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
           const stores = Array.from(registeredStores)
 
           payload.rootNodes = (payload.filter
@@ -141,7 +141,7 @@ export function addDevtools(app: App, store: GenericStore) {
       })
 
       api.on.getInspectorState((payload) => {
-        if (payload.app === app && payload.inspectorId === piniaInspectorId) {
+        if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
           const stores = Array.from(registeredStores)
           const store = stores.find((store) => store.$id === payload.nodeId)
 
