@@ -28,6 +28,77 @@ export function isPlainObject(
 export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
 // type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
 
+/**
+ * Possible types for SubscriptionCallback
+ */
+export enum MutationType {
+  /**
+   * Direct mutation of the state:
+   *
+   * - `store.name = 'new name'`
+   * - `store.$state.name = 'new name'`
+   * - `store.list.push('new item')`
+   */
+  direct = 'direct',
+
+  /**
+   * Mutated the state with `$patch` and an object
+   *
+   * - `store.$patch({ name: 'newName' })`
+   */
+  patchObject = 'patch object',
+
+  /**
+   * Mutated the state with `$patch` and a function
+   *
+   * - `store.$patch(state => state.name = 'newName')`
+   */
+  patchFunction = 'patch function',
+
+  // maybe reset? for $state = {} and $reset
+}
+
+/**
+ * Context object passed to callbacks of `store.$onAction(context => {})`
+ */
+export interface StoreOnActionListenerContext {
+  /**
+   * Sets up a hook once the action is finished.
+   */
+  after: (callback: () => void) => void
+
+  /**
+   * Sets up a hook if the action fails.
+   */
+  onError: (callback: (error: unknown) => void) => void
+
+  // TODO: pass generics
+  /**
+   * Store that is invoking the action
+   */
+  store: GenericStore
+
+  /**
+   * Name of the action
+   */
+  name: string
+
+  /**
+   * Parameters passed to the action
+   */
+  args: any[]
+}
+
+/**
+ * Argument of `store.$onAction()`
+ */
+export type StoreOnActionListener = (
+  context: StoreOnActionListenerContext
+) => void
+
+/**
+ * Callback of a subscription
+ */
 export type SubscriptionCallback<S> = (
   mutation: { storeName: string; type: string; payload: DeepPartial<S> },
   state: S
@@ -79,12 +150,63 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   $reset(): void
 
   /**
-   * Setups a callback to be called whenever the state changes.
+   * Setups a callback to be called whenever the state changes. It also returns
+   * a function to remove the callback. Note than when calling
+   * `store.$subscribe()` inside of a component, it will be automatically
+   * cleanup up when the component gets unmounted.
    *
    * @param callback - callback passed to the watcher
+   * @param onTrigger - DEV ONLY watcher debugging
+   * (https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watcher-debugging)
    * @returns function that removes the watcher
    */
-  $subscribe(callback: SubscriptionCallback<S>): () => void
+  $subscribe(
+    callback: SubscriptionCallback<S>,
+    onTrigger?: (event: any) => void
+  ): () => void
+
+  /**
+   * Array of registered action subscriptions.
+   *
+   * @internal
+   */
+  _as: StoreOnActionListener[]
+
+  /**
+   * @alpha Please send feedback at https://github.com/posva/pinia/issues/240
+   * Setups a callback to be called every time an action is about to get
+   * invoked. The callback receives an object with all the relevant information
+   * of the invoked action:
+   * - `store`: the store it is invoked on
+   * - `name`: The name of the action
+   * - `args`: The parameters passed to the action
+   *
+   * On top of these, it receives two functions that allow setting up a callback
+   * once the action finishes or when it fails.
+   *
+   * It also returns a function to remove the callback. Note than when calling
+   * `store.$onAction()` inside of a component, it will be automatically cleanup
+   * up when the component gets unmounted.
+   *
+   * @example
+   *
+   *```js
+   *store.$onAction(({ after, onError }) => {
+   *  // Here you could share variables between all of the hooks as well as
+   *  // setting up watchers and clean them up
+   *  after(() => {
+   *    // can be used to cleanup side effects
+   *  })
+   *  onError((error) => {
+   *    // can be used to pass up errors
+   *  })
+   *})
+   *```
+   *
+   * @param callback - callback called before every action
+   * @returns function that removes the watcher
+   */
+  $onAction(callback: StoreOnActionListener): () => void
 }
 
 /**
