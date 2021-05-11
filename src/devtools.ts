@@ -11,7 +11,6 @@ import {
   GettersTree,
   MutationType,
   StateTree,
-  StoreWithActions,
   _Method,
 } from './types'
 
@@ -46,6 +45,8 @@ function toastMessage(
 }
 
 let isAlreadyInstalled: boolean | undefined
+// timeline can be paused when directly changing the state
+let isTimelineActive = true
 const componentStateTypes: string[] = []
 
 const MUTATIONS_LAYER_ID = 'pinia:mutations'
@@ -165,7 +166,9 @@ export function addDevtools(app: App, store: GenericStore) {
             // rewrite the first entry to be able to directly set the state as
             // well as any other path
             path[0] = '$state'
+            isTimelineActive = false
             payload.set(store, path, payload.state.value)
+            isTimelineActive = true
           }
         })
 
@@ -175,24 +178,51 @@ export function addDevtools(app: App, store: GenericStore) {
         api.sendInspectorState(INSPECTOR_ID)
       }
 
-      // TODO: implement
-      store.$before?.('action', ({ name, handler, args, context }) => {
-        context._actionId = actionId++
-      })
+      store.$onAction(({ after, onError, name, args, store }) => {
+        const groupId = runningActionId++
 
-      store.$after?.('patch', ({ context }) => {
-        // TODO: use context._actionId as the group
-      })
+        api.addTimelineEvent({
+          layerId: MUTATIONS_LAYER_ID,
+          event: {
+            time: Date.now(),
+            title: '🛫 ' + name,
+            data: args,
+            groupId,
+          },
+        })
 
-      store.$after?.('action', ({ context, result }) => {
-        // TODO: use context._actionId as the group
-        // result.then.catch
+        after(() => {
+          api.addTimelineEvent({
+            layerId: MUTATIONS_LAYER_ID,
+            event: {
+              time: Date.now(),
+              title: '🛬 ' + name,
+              data: args,
+              groupId,
+            },
+          })
+        })
+
+        onError((error) => {
+          api.addTimelineEvent({
+            layerId: MUTATIONS_LAYER_ID,
+            event: {
+              time: Date.now(),
+              logType: 'error',
+              title: '❌ ' + name,
+              data: {
+                args,
+                error,
+              },
+              groupId,
+            },
+          })
+        })
       })
 
       store.$subscribe(({ events, type }, state) => {
+        if (!isTimelineActive) return
         // rootStore.state[store.id] = state
-        console.log('subscribe devtools', events)
-        console.log('subscribe with active', activeAction)
 
         api.notifyComponentUpdate()
         api.sendInspectorState(INSPECTOR_ID)
@@ -201,7 +231,11 @@ export function addDevtools(app: App, store: GenericStore) {
           time: Date.now(),
           title: formatMutationType(type),
           data: formatEventData(events),
+          groupId: activeAction,
         }
+
+        // reset for the next mutation
+        activeAction = undefined
 
         if (type === MutationType.patchFunction) {
           eventData.subtitle = '⤵️'
@@ -309,10 +343,8 @@ function formatMutationType(type: MutationType): string {
   }
 }
 
-let actionId = 0
-let activeAction = -1
-
-const actionMap = new WeakMap<Promise<any>, number>()
+let runningActionId = 0
+let activeAction: number | undefined = -1
 
 /**
  * pinia.use(devtoolsPlugin)
@@ -323,22 +355,26 @@ export function devtoolsPlugin<
   G extends GettersTree<S> = GettersTree<S>,
   A = Record<string, _Method>
 >({ app, store, options, pinia }: PiniaPluginContext<Id, S, G, A>) {
-  const wrappedActions: StoreWithActions<A> = {} as StoreWithActions<A>
-  const actions: A = options.actions || ({} as any)
+  const wrappedActions = {} as Pick<typeof store, keyof A>
 
-  // custom patch method
+  // original actions of the store as they are given by pinia. We are going to override them
+  const actions = Object.keys(options.actions || ({} as A)).reduce(
+    (storeActions, actionName) => {
+      storeActions[actionName as keyof A] = store[actionName as keyof A]
+      return storeActions
+    },
+    {} as Pick<typeof store, keyof A>
+  )
 
   for (const actionName in actions) {
+    // @ts-expect-error
     wrappedActions[actionName] = function () {
       setActivePinia(pinia)
       const keys = Object.keys(options.state?.() || {})
-      const _actionId = actionId++
+      // the running action id is incremented in a before action hook
+      const _actionId = runningActionId
       const patchedStore = reactive({
         ...toRefs(store),
-        // $patch() {
-        //   // TODO: should call subscribe listeners with a group ID
-        //   store.$patch.apply(null, arguments as any)
-        // },
         ...keys.reduce((stateProperties, stateName) => {
           // @ts-expect-error
           stateProperties[stateName] = computed({
@@ -356,23 +392,11 @@ export function devtoolsPlugin<
         }, {}),
         _actionId,
       })
-      console.log('beforeAction', _actionId)
-      const promise = Promise.resolve(
-        // @ts-expect-error: not recognizing it's a _Method for some reason
-        actions[actionName].apply(patchedStore, (arguments as unknown) as any[])
+      return actions[actionName].apply(
+        patchedStore,
+        (arguments as unknown) as any[]
       )
-        .then(() => {
-          // TODO: finish and mark as completed
-        })
-        .catch((err) => {
-          // TODO: finish and mark as failed
-        })
-        .finally(() => {
-          activeAction = -1
-        })
-
-      return promise
-    } as StoreWithActions<A>[typeof actionName]
+    }
   }
 
   addDevtools(app, store)
