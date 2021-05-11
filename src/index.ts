@@ -13,6 +13,8 @@ export type {
   _Method,
   StoreWithActions,
   StoreWithState,
+  StoreOnActionListener,
+  StoreOnActionListenerContext,
   PiniaCustomProperties,
   DefineStoreOptions,
 } from './types'

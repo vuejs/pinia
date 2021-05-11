@@ -27,6 +27,7 @@ import {
   GenericStore,
   GettersTree,
   MutationType,
+  StoreOnActionListener,
 } from './types'
 import {
   getActivePinia,
@@ -106,6 +107,7 @@ function initStore<Id extends string, S extends StateTree>(
 
   let isListening = true
   let subscriptions: SubscriptionCallback<S>[] = []
+  let actionSubscriptions: StoreOnActionListener[] = []
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
 
   function $patch(stateMutation: (state: S) => void): void
@@ -197,6 +199,23 @@ function initStore<Id extends string, S extends StateTree>(
     return removeSubscription
   }
 
+  function $onAction(callback: StoreOnActionListener) {
+    actionSubscriptions.push(callback)
+
+    const removeSubscription = () => {
+      const idx = actionSubscriptions.indexOf(callback)
+      if (idx > -1) {
+        actionSubscriptions.splice(idx, 1)
+      }
+    }
+
+    if (getCurrentInstance()) {
+      onUnmounted(removeSubscription)
+    }
+
+    return removeSubscription
+  }
+
   function $reset() {
     pinia.state.value[$id] = buildState()
   }
@@ -204,11 +223,13 @@ function initStore<Id extends string, S extends StateTree>(
   const storeWithState: StoreWithState<Id, S> = {
     $id,
     _p: pinia,
+    _as: actionSubscriptions,
 
     // $state is added underneath
 
     $patch,
     $subscribe,
+    $onAction,
     $reset,
   } as StoreWithState<Id, S>
 
@@ -231,6 +252,7 @@ function initStore<Id extends string, S extends StateTree>(
   ]
 }
 
+const noop = () => {}
 /**
  * Creates a store bound to the lifespan of where the function is called. This
  * means creating the store inside of a component's setup will bound it to the
@@ -271,10 +293,34 @@ function buildStoreToUse<
 
   const wrappedActions: StoreWithActions<A> = {} as StoreWithActions<A>
   for (const actionName in actions) {
-    wrappedActions[actionName] = function () {
+    wrappedActions[actionName] = function (this: Store<Id, S, G, A>) {
       setActivePinia(pinia)
-      // eslint-disable-next-line
-      return actions[actionName].apply(store, (arguments as unknown) as any[])
+      const args = Array.from(arguments)
+      const localStore = this || store
+
+      let afterCallback: () => void = noop
+      let onErrorCallback: (error: unknown) => void = noop
+      function after(callback: () => void) {
+        afterCallback = callback
+      }
+      function onError(callback: (error: unknown) => void) {
+        onErrorCallback = callback
+      }
+
+      partialStore._as.forEach((callback) => {
+        callback({ args, name: actionName, store: localStore, after, onError })
+      })
+
+      let ret
+
+      try {
+        ret = actions[actionName].apply(localStore, (args as unknown) as any[])
+        Promise.resolve(ret).then(afterCallback).catch(onErrorCallback)
+      } catch (error) {
+        throw error
+      }
+
+      return ret
     } as StoreWithActions<A>[typeof actionName]
   }
 
