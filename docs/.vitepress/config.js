@@ -140,6 +140,14 @@ module.exports = {
         text: 'Links',
         items: [
           {
+            text: 'Discussions',
+            link: 'https://github.com/posva/pinia/discussions',
+          },
+          {
+            text: 'Chat',
+            link: 'https://chat.vuejs.org',
+          },
+          {
             text: 'Twitter',
             link: 'https://twitter.com/posva',
           },
