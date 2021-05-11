@@ -1,6 +1,4 @@
-import { App, InjectionKey, Plugin, Ref, ref, warn } from 'vue'
-import { devtoolsPlugin } from './devtools'
-import { IS_CLIENT } from './env'
+import { App, InjectionKey, Plugin, Ref, warn } from 'vue'
 import {
   StateTree,
   StoreWithState,
@@ -62,49 +60,6 @@ export const storesMap = new WeakMap<
 >()
 
 /**
- * Context argument passed to Pinia plugins.
- */
-export interface PiniaPluginContext<
-  Id extends string = string,
-  S extends StateTree = StateTree,
-  G extends GettersTree<S> = GettersTree<S>,
-  A = Record<string, _Method>
-> {
-  /**
-   * pinia instance.
-   */
-  pinia: Pinia
-
-  /**
-   * Current app created with `Vue.createApp()`.
-   */
-  app: App
-
-  /**
-   * Current store being extended.
-   */
-  store: Store<Id, S, G, A>
-
-  /**
-   * Current store being extended.
-   */
-  options: DefineStoreOptions<Id, S, G, A>
-}
-
-/**
- * Plugin to extend every store
- */
-export interface PiniaStorePlugin {
-  /**
-   * Plugin to extend every store. Returns an object to extend the store or
-   * nothing.
-   *
-   * @param context - Context
-   */
-  (context: PiniaPluginContext): Partial<PiniaCustomProperties> | void
-}
-
-/**
  * Every application must own its own pinia to be able to create stores
  */
 export interface Pinia {
@@ -160,53 +115,44 @@ export const piniaSymbol = (__DEV__
     Symbol()) as InjectionKey<Pinia>
 
 /**
- * Creates a Pinia instance to be used by the application
+ * Context argument passed to Pinia plugins.
  */
-export function createPinia(): Pinia {
-  // NOTE: here we could check the window object for a state and directly set it
-  // if there is anything like it with Vue 3 SSR
-  const state = ref({})
+export interface PiniaPluginContext<
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  G extends GettersTree<S> = GettersTree<S>,
+  A = Record<string, _Method>
+> {
+  /**
+   * pinia instance.
+   */
+  pinia: Pinia
 
-  let localApp: App | undefined
-  let _p: Pinia['_p'] = []
-  // plugins added before calling app.use(pinia)
-  const toBeInstalled: PiniaStorePlugin[] = []
+  /**
+   * Current app created with `Vue.createApp()`.
+   */
+  app: App
 
-  const pinia: Pinia = {
-    install(app: App) {
-      pinia._a = localApp = app
-      // pinia._a = app
-      app.provide(piniaSymbol, pinia)
-      app.config.globalProperties.$pinia = pinia
-      // TODO: write test
-      // only set the app on client for devtools
-      if (__BROWSER__ && IS_CLIENT) {
-        // this allows calling useStore() outside of a component setup after
-        // installing pinia's plugin
-        setActivePinia(pinia)
-      }
-      toBeInstalled.forEach((plugin) => _p.push(plugin))
-    },
+  /**
+   * Current store being extended.
+   */
+  store: Store<Id, S, G, A>
 
-    use(plugin) {
-      if (!localApp) {
-        toBeInstalled.push(plugin)
-      } else {
-        _p.push(plugin)
-      }
-      return this
-    },
+  /**
+   * Current store being extended.
+   */
+  options: DefineStoreOptions<Id, S, G, A>
+}
 
-    _p,
-    // it's actually undefined here
-    _a: localApp!,
-
-    state,
-  }
-
-  if (IS_CLIENT && __BROWSER__ && __DEV__) {
-    pinia.use(devtoolsPlugin)
-  }
-
-  return pinia
+/**
+ * Plugin to extend every store
+ */
+export interface PiniaStorePlugin {
+  /**
+   * Plugin to extend every store. Returns an object to extend the store or
+   * nothing.
+   *
+   * @param context - Context
+   */
+  (context: PiniaPluginContext): Partial<PiniaCustomProperties> | void
 }

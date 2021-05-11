@@ -1,4 +1,10 @@
-import { createPinia, defineStore, setActivePinia, Pinia } from '../src'
+import {
+  createPinia,
+  defineStore,
+  setActivePinia,
+  Pinia,
+  MutationType,
+} from '../src'
 import { mount } from '@vue/test-utils'
 import { defineComponent, getCurrentInstance, nextTick, watch } from 'vue'
 
@@ -148,11 +154,11 @@ describe('Store', () => {
     store.$state.a = false
 
     expect(spy).toHaveBeenCalledWith(
-      {
+      expect.objectContaining({
         payload: {},
         storeName: 'main',
-        type: expect.stringContaining('in place'),
-      },
+        type: MutationType.direct,
+      }),
       store.$state
     )
   })
@@ -166,11 +172,11 @@ describe('Store', () => {
     store.$patch(patch)
 
     expect(spy).toHaveBeenCalledWith(
-      {
+      expect.objectContaining({
         payload: patch,
         storeName: 'main',
-        type: expect.stringContaining('patch'),
-      },
+        type: MutationType.patchObject,
+      }),
       store.$state
     )
   })

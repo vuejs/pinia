@@ -1,48 +1,24 @@
-import {
-  CustomInspectorNode,
-  CustomInspectorState,
-  setupDevtoolsPlugin,
-  TimelineEvent,
-} from '@vue/devtools-api'
-import { App, DebuggerEvent } from 'vue'
-import { PiniaPluginContext, setActivePinia } from './rootStore'
+import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
+import { App } from 'vue'
+import { PiniaPluginContext, setActivePinia } from '../rootStore'
 import {
   GenericStore,
   GettersTree,
   MutationType,
   StateTree,
   _Method,
-} from './types'
-
-function formatDisplay(display: string) {
-  return {
-    _custom: {
-      display,
-    },
-  }
-}
+} from '../types'
+import {
+  formatEventData,
+  formatMutationType,
+  formatStoreForInspectorState,
+  formatStoreForInspectorTree,
+} from './formatting'
 
 /**
  * Registered stores used for devtools.
  */
 const registeredStores = /*#__PURE__*/ new Set<GenericStore>()
-
-function toastMessage(
-  message: string,
-  type?: 'normal' | 'error' | 'warning' | undefined
-) {
-  const piniaMessage = '🍍 ' + message
-
-  if (typeof __VUE_DEVTOOLS_TOAST__ === 'function') {
-    __VUE_DEVTOOLS_TOAST__(piniaMessage, type)
-  } else if (type === 'error') {
-    console.error(piniaMessage)
-  } else if (type === 'warning') {
-    console.warn(piniaMessage)
-  } else {
-    console.log(piniaMessage)
-  }
-}
 
 let isAlreadyInstalled: boolean | undefined
 // timeline can be paused when directly changing the state
@@ -270,79 +246,6 @@ export function addDevtools(app: App, store: GenericStore) {
   )
 }
 
-function formatStoreForInspectorTree(store: GenericStore): CustomInspectorNode {
-  return {
-    id: store.$id,
-    label: store.$id,
-    tags: [],
-  }
-}
-
-function formatStoreForInspectorState(
-  store: GenericStore
-): CustomInspectorState[string] {
-  const fields: CustomInspectorState[string] = [
-    { editable: false, key: 'id', value: formatDisplay(store.$id) },
-    { editable: true, key: 'state', value: store.$state },
-  ]
-
-  // avoid adding empty getters
-  if (store._getters?.length) {
-    fields.push({
-      editable: false,
-      key: 'getters',
-      value: store._getters.reduce((getters, key) => {
-        getters[key] = store[key]
-        return getters
-      }, {} as GettersTree<StateTree>),
-    })
-  }
-
-  return fields
-}
-
-function formatEventData(events: DebuggerEvent[] | DebuggerEvent | undefined) {
-  if (!events) return {}
-  if (Array.isArray(events)) {
-    // TODO: handle add and delete for arrays and objects
-    return events.reduce(
-      (data, event) => {
-        data.keys.push(event.key)
-        data.operations.push(event.type)
-        data.oldValue[event.key] = event.oldValue
-        data.newValue[event.key] = event.newValue
-        return data
-      },
-      {
-        oldValue: {} as Record<string, any>,
-        keys: [] as string[],
-        operations: [] as string[],
-        newValue: {} as Record<string, any>,
-      }
-    )
-  } else {
-    return {
-      operation: formatDisplay(events.type),
-      key: formatDisplay(events.key),
-      oldValue: events.oldValue,
-      newValue: events.newValue,
-    }
-  }
-}
-
-function formatMutationType(type: MutationType): string {
-  switch (type) {
-    case MutationType.direct:
-      return 'mutation'
-    case MutationType.patchFunction:
-      return '$patch'
-    case MutationType.patchObject:
-      return '$patch'
-    default:
-      return 'unknown'
-  }
-}
-
 let runningActionId = 0
 let activeAction: number | undefined
 
@@ -395,5 +298,24 @@ export function devtoolsPlugin<
 }
 
 /**
- * Another idea: wrap the getter/setter of all state properties to call setActiveAction. This way, we can directly use it in $subscribe to attach it to its action
+ * Shows a toast or console.log
+ *
+ * @param message - message to log
+ * @param type - different color of the tooltip
  */
+function toastMessage(
+  message: string,
+  type?: 'normal' | 'error' | 'warning' | undefined
+) {
+  const piniaMessage = '🍍 ' + message
+
+  if (typeof __VUE_DEVTOOLS_TOAST__ === 'function') {
+    __VUE_DEVTOOLS_TOAST__(piniaMessage, type)
+  } else if (type === 'error') {
+    console.error(piniaMessage)
+  } else if (type === 'warning') {
+    console.warn(piniaMessage)
+  } else {
+    console.log(piniaMessage)
+  }
+}

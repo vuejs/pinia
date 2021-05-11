@@ -1,0 +1,1 @@
+export { devtoolsPlugin } from './plugin'

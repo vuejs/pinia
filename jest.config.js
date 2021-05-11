@@ -8,7 +8,7 @@ module.exports = {
     '/node_modules/',
     'src/index.ts',
     '\\.d\\.ts$',
-    'src/devtools.ts',
+    'src/devtools',
     'src/deprecated.ts',
   ],
   testMatch: ['<rootDir>/__tests__/**/*.spec.ts'],

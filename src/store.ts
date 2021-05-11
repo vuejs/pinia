@@ -140,10 +140,7 @@ function initStore<Id extends string, S extends StateTree>(
     })
   }
 
-  function $subscribe(
-    callback: SubscriptionCallback<S>,
-    onTrigger?: (event: DebuggerEvent) => void
-  ) {
+  function $subscribe(callback: SubscriptionCallback<S>) {
     subscriptions.push(callback)
 
     // watch here to link the subscription to the current active instance
