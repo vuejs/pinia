@@ -4,7 +4,7 @@ import {
   setupDevtoolsPlugin,
   TimelineEvent,
 } from '@vue/devtools-api'
-import { App, computed, DebuggerEvent, reactive, toRefs } from 'vue'
+import { App, DebuggerEvent } from 'vue'
 import { PiniaPluginContext, setActivePinia } from './rootStore'
 import {
   GenericStore,
@@ -344,7 +344,7 @@ function formatMutationType(type: MutationType): string {
 }
 
 let runningActionId = 0
-let activeAction: number | undefined = -1
+let activeAction: number | undefined
 
 /**
  * pinia.use(devtoolsPlugin)
@@ -370,30 +370,20 @@ export function devtoolsPlugin<
     // @ts-expect-error
     wrappedActions[actionName] = function () {
       setActivePinia(pinia)
-      const keys = Object.keys(options.state?.() || {})
       // the running action id is incremented in a before action hook
       const _actionId = runningActionId
-      const patchedStore = reactive({
-        ...toRefs(store),
-        ...keys.reduce((stateProperties, stateName) => {
-          // @ts-expect-error
-          stateProperties[stateName] = computed({
-            get() {
-              activeAction = _actionId
-              return store[stateName]
-            },
-            set(value) {
-              activeAction = _actionId
-              // @ts-expect-error
-              return (store[stateName] = value)
-            },
-          })
-          return stateProperties
-        }, {}),
-        _actionId,
+      const trackedStore = new Proxy(store, {
+        get(...args) {
+          activeAction = _actionId
+          return Reflect.get(...args)
+        },
+        set(...args) {
+          activeAction = _actionId
+          return Reflect.set(...args)
+        },
       })
       return actions[actionName].apply(
-        patchedStore,
+        trackedStore,
         (arguments as unknown) as any[]
       )
     }
