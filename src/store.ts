@@ -380,11 +380,11 @@ export function defineStore<
   const { id, state, getters, actions } = options
 
   function useStore(pinia?: Pinia | null): Store<Id, S, G, A> {
-    const hasInstance = getCurrentInstance()
+    const currentInstance = getCurrentInstance()
     // only run provide when pinia hasn't been manually passed
-    const shouldProvide = hasInstance && !pinia
+    const shouldProvide = currentInstance && !pinia
     // avoid injecting if `useStore` when not possible
-    pinia = pinia || (hasInstance && inject(piniaSymbol))
+    pinia = pinia || (currentInstance && inject(piniaSymbol))
     if (pinia) setActivePinia(pinia)
     // TODO: worth warning on server if no piniaKey as it can leak data
     pinia = getActivePinia()
@@ -398,13 +398,16 @@ export function defineStore<
           InjectionKey<Store<Id, S, G, A>>
         ]
       | undefined
+
+    let store: Store<Id, S, G, A>
+
     if (!storeAndDescriptor) {
       storeAndDescriptor = initStore(id, state, pinia.state.value[id])
 
       // annoying to type
       stores.set(id, storeAndDescriptor as any)
 
-      const store = buildStoreToUse<
+      store = buildStoreToUse<
         Id,
         S,
         G,
@@ -424,28 +427,41 @@ export function defineStore<
       if (shouldProvide) {
         provide(storeAndDescriptor[2], store)
       }
-
-      return store
+    } else {
+      store =
+        // null avoids the warning for not found injection key
+        (currentInstance && inject(storeAndDescriptor[2], null)) ||
+        buildStoreToUse<
+          Id,
+          S,
+          G,
+          // @ts-expect-error: A without extends
+          A
+        >(
+          storeAndDescriptor[0],
+          storeAndDescriptor[1],
+          id,
+          getters as GettersTree<S> | undefined,
+          actions as A | undefined,
+          options
+        )
     }
 
-    return (
-      // null avoids the warning for not found injection key
-      (hasInstance && inject(storeAndDescriptor[2], null)) ||
-      buildStoreToUse<
-        Id,
-        S,
-        G,
-        // @ts-expect-error: A without extends
-        A
-      >(
-        storeAndDescriptor[0],
-        storeAndDescriptor[1],
-        id,
-        getters as GettersTree<S> | undefined,
-        actions as A | undefined,
-        options
-      )
-    )
+    // save stores in instances to access them devtools
+    if (
+      __DEV__ &&
+      __BROWSER__ &&
+      IS_CLIENT &&
+      currentInstance &&
+      currentInstance.proxy
+    ) {
+      const vm = currentInstance.proxy
+      const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
+      // @ts-expect-error: still can't cast Store with generics to Store
+      cache[store.$id] = store
+    }
+
+    return store
   }
 
   // needed by map helpers

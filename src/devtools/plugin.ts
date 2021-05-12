@@ -1,5 +1,5 @@
 import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
-import { App } from 'vue'
+import { App, ComponentPublicInstance } from 'vue'
 import { PiniaPluginContext, setActivePinia } from '../rootStore'
 import {
   Store,
@@ -19,7 +19,7 @@ import {
 /**
  * Registered stores used for devtools.
  */
-const registeredStores = /*#__PURE__*/ new Set<Store>()
+const registeredStores = /*#__PURE__*/ new Map<string, Store>()
 
 let isAlreadyInstalled: boolean | undefined
 // timeline can be paused when directly changing the state
@@ -30,8 +30,11 @@ const MUTATIONS_LAYER_ID = 'pinia:mutations'
 const INSPECTOR_ID = 'pinia'
 
 export function addDevtools(app: App, store: Store) {
-  registeredStores.add(store)
-  componentStateTypes.push('🍍 ' + store.$id)
+  if (!registeredStores.has(store.$id)) {
+    registeredStores.set(store.$id, store)
+    componentStateTypes.push('🍍 ' + store.$id)
+  }
+
   setupDevtoolsPlugin(
     {
       id: 'dev.esm.pinia',
@@ -43,35 +46,6 @@ export function addDevtools(app: App, store: Store) {
       app,
     },
     (api) => {
-      // watch(router.currentRoute, () => {
-      //   // @ts-ignore
-      //   api.notifyComponentUpdate()
-      // })
-
-      // TODO: only load stores used by the component?
-      api.on.inspectComponent((payload, ctx) => {
-        if (payload.instanceData) {
-          payload.instanceData.state.push({
-            type: '🍍 ' + store.$id,
-            key: 'state',
-            editable: false,
-            value: store.$state,
-          })
-
-          if (store._getters?.length) {
-            payload.instanceData.state.push({
-              type: '🍍 ' + store.$id,
-              key: 'getters',
-              editable: false,
-              value: store._getters.reduce((getters, key) => {
-                getters[key] = store[key]
-                return getters
-              }, {} as GettersTree<StateTree>),
-            })
-          }
-        }
-      })
-
       if (!isAlreadyInstalled) {
         api.addTimelineLayer({
           id: MUTATIONS_LAYER_ID,
@@ -86,9 +60,44 @@ export function addDevtools(app: App, store: Store) {
           treeFilterPlaceholder: 'Search stores',
         })
 
+        api.on.inspectComponent((payload, ctx) => {
+          if (
+            (
+              payload.componentInstance?.proxy as
+                | ComponentPublicInstance
+                | undefined
+            )?._pStores
+          ) {
+            const piniaStores = (
+              payload.componentInstance.proxy as ComponentPublicInstance
+            )._pStores!
+
+            Object.values(piniaStores).forEach((store) => {
+              payload.instanceData.state.push({
+                type: '🍍 ' + store.$id,
+                key: 'state',
+                editable: false,
+                value: store.$state,
+              })
+
+              if (store._getters?.length) {
+                payload.instanceData.state.push({
+                  type: '🍍 ' + store.$id,
+                  key: 'getters',
+                  editable: false,
+                  value: store._getters.reduce((getters, key) => {
+                    getters[key] = store[key]
+                    return getters
+                  }, {} as GettersTree<StateTree>),
+                })
+              }
+            })
+          }
+        })
+
         api.on.getInspectorTree((payload) => {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-            const stores = Array.from(registeredStores)
+            const stores = Array.from(registeredStores.values())
 
             payload.rootNodes = (
               payload.filter
@@ -104,7 +113,7 @@ export function addDevtools(app: App, store: Store) {
 
         api.on.getInspectorState((payload) => {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-            const store = Array.from(registeredStores).find(
+            const store = Array.from(registeredStores.values()).find(
               (store) => store.$id === payload.nodeId
             )
 
@@ -125,7 +134,7 @@ export function addDevtools(app: App, store: Store) {
 
         api.on.editInspectorState((payload) => {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-            const store = Array.from(registeredStores).find(
+            const store = Array.from(registeredStores.values()).find(
               (store) => store.$id === payload.nodeId
             )
 
