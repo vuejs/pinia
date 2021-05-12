@@ -1,6 +1,5 @@
 import type Vue from 'vue'
 import {
-  GenericStore,
   GettersTree,
   _Method,
   StateTree,
@@ -151,7 +150,7 @@ export type _MapStateObjectReturn<
     keyof S | keyof G | ((store: Store<Id, S, G, A>) => any)
   >
 > = {
-  [key in keyof T]: () => T[key] extends (store: GenericStore) => infer R
+  [key in keyof T]: () => T[key] extends (store: Store) => infer R
     ? R
     : T[key] extends keyof S | keyof G
     ? Store<Id, S, G, A>[T[key]]

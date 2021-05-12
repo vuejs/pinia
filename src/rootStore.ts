@@ -26,7 +26,7 @@ export const storesMap = new WeakMap<
     [
       StoreWithState<string, StateTree>,
       StateDescriptor<StateTree>,
-      InjectionKey<GenericStore>
+      InjectionKey<Store>
     ]
   >
 >()
@@ -122,7 +122,7 @@ declare module 'vue/types/vue' {
      *
      * @internal
      */
-    _pStores?: Record<string, GenericStore>
+    _pStores?: Record<string, Store>
   }
 }
 

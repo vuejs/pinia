@@ -100,7 +100,7 @@ function initStore<Id extends string, S extends StateTree>(
 ): [
   StoreWithState<Id, S>,
   { get: () => S; set: (newValue: S) => void },
-  InjectionKey<GenericStore>
+  InjectionKey<Store>
 ] {
   const pinia = getActivePinia()
   pinia.Vue.set(pinia.state.value, $id, initialState || buildState())
