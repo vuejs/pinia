@@ -4,7 +4,7 @@ import Vue from 'vue'
 
 declare module '../src' {
   export interface PiniaCustomProperties<Id> {
-    n: number
+    pluginN: number
     // uid: App['_uid']
     hasPinia: boolean
     idFromPlugin: Id
@@ -17,14 +17,12 @@ describe('store plugins', () => {
 
     actions: {
       incrementN() {
-        return this.n++
+        return this.pluginN++
       },
     },
 
     getters: {
-      doubleN(): number {
-        return this.n * 2
-      },
+      doubleN: (state) => state.pluginN * 2,
     },
   })
   const localVue = createLocalVue()
@@ -37,14 +35,14 @@ describe('store plugins', () => {
 
     // must call use after installing the plugin
     pinia.use(() => {
-      return { n: 20 }
+      return { pluginN: 20 }
     })
 
     const store = useStore()
 
-    expect(store.n).toBe(20)
+    expect(store.pluginN).toBe(20)
     // @ts-expect-error: n is a number
-    store.n.notExisting
+    store.pluginN.notExisting
     // @ts-expect-error: it should always be 'test'
     store.idFromPlugin == 'hello'
   })
@@ -53,7 +51,7 @@ describe('store plugins', () => {
     const pinia = createPinia()
     pinia.Vue = Vue
 
-    pinia.use(() => ({ n: 1 }))
+    pinia.use(() => ({ pluginN: 1 }))
     pinia.use((pinia) => ({ hasPinia: !!pinia }))
 
     mount({ template: '<p/>' }, { localVue, pinia })
@@ -62,7 +60,7 @@ describe('store plugins', () => {
 
     const store = useStore()
 
-    expect(store.n).toBe(1)
+    expect(store.pluginN).toBe(1)
     expect(store.hasPinia).toBe(true)
   })
 
@@ -73,7 +71,7 @@ describe('store plugins', () => {
 
     // must call use after installing the plugin
     pinia.use(() => {
-      return { n: 20 }
+      return { pluginN: 20 }
     })
 
     const store = useStore()
@@ -88,7 +86,7 @@ describe('store plugins', () => {
 
     // must call use after installing the plugin
     pinia.use(() => {
-      return { n: 20 }
+      return { pluginN: 20 }
     })
 
     const store = useStore()
