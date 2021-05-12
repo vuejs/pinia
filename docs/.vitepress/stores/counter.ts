@@ -9,6 +9,7 @@ export const useCounter = defineStore({
     n: 0,
     incrementedTimes: 0,
     decrementedTimes: 0,
+    numbers: [] as number[],
   }),
 
   getters: {
@@ -22,6 +23,18 @@ export const useCounter = defineStore({
       }
       this.incrementedTimes++
       this.n += amount
+    },
+
+    async fail() {
+      const n = this.n
+      await delay(1000)
+      this.numbers.push(n)
+      await delay(1000)
+      if (this.n !== n) {
+        throw new Error('Someone changed n!')
+      }
+
+      return n
     },
 
     async decrementToZero(interval: number = 300, usePatch = true) {
