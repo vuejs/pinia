@@ -77,5 +77,9 @@ describe('State', () => {
     expect(store.name).toBe('Ed')
     store.name = 'Edu'
     expect(store.name).toBe('Edu')
+
+    store.$patch({ counter: 2 })
+    expect(store.counter).toBe(2)
+    expect(counter.value).toBe(2)
   })
 })
