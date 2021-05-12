@@ -37,6 +37,14 @@ describe('Actions', () => {
           this.toggle()
           this.setFoo('bar')
         },
+
+        throws() {
+          throw new Error('fail')
+        },
+
+        async rejects() {
+          throw 'fail'
+        },
       },
     })()
   }
@@ -113,5 +121,16 @@ describe('Actions', () => {
     expect(bStore.$state.b).toBe('c')
     bStore = useB(pinia1)
     expect(bStore.$state.b).toBe('a')
+  })
+
+  it('throws errors', () => {
+    const store = useStore()
+    expect(() => store.throws()).toThrowError('fail')
+  })
+
+  it('throws async errors', async () => {
+    const store = useStore()
+    expect.assertions(1)
+    await expect(store.rejects()).rejects.toBe('fail')
   })
 })
