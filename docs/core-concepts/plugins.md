@@ -73,6 +73,24 @@ pinia.use(({ store }) => {
 
 This is why you can access all computed properties without `.value`.
 
+## `$subscribe` inside plugins
+
+Because of the limitation mentioned above about plugins being invoked **every time `useStore()` is called**, it's important to avoid _subscribing_ multiple times by keeping track of the registered subscriptions:
+
+```ts
+let isRegistered
+pinia.use({ store }) => {
+  if (!isRegistered) {
+  store.$subscribe(() => {
+    // react to store changes
+  })
+  isRegistered = true
+  }
+})
+```
+
+The same is true for `store.$onAction()`.
+
 ## Adding new options
 
 It is possible to create new options when defining stores to later on consume the options on plugins. For example, you could create a `debounce` option that allows you to debounce any action:
