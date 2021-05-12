@@ -9,6 +9,7 @@ import {
   ActionsTree,
 } from '../types'
 import {
+  formatDisplay,
   formatEventData,
   formatMutationType,
   formatStoreForInspectorState,
@@ -165,18 +166,27 @@ export function addDevtools(app: App, store: Store) {
           event: {
             time: Date.now(),
             title: '🛫 ' + name,
-            data: args,
+            subtitle: 'start',
+            data: {
+              action: formatDisplay(name),
+              args,
+            },
             groupId,
           },
         })
 
-        after(() => {
+        after((result) => {
           api.addTimelineEvent({
             layerId: MUTATIONS_LAYER_ID,
             event: {
               time: Date.now(),
               title: '🛬 ' + name,
-              data: args,
+              subtitle: 'end',
+              data: {
+                action: formatDisplay(name),
+                args,
+                result,
+              },
               groupId,
             },
           })
@@ -188,8 +198,10 @@ export function addDevtools(app: App, store: Store) {
             event: {
               time: Date.now(),
               logType: 'error',
-              title: '❌ ' + name,
+              title: '💥 ' + name,
+              subtitle: 'end',
               data: {
+                action: formatDisplay(name),
                 args,
                 error,
               },
@@ -295,8 +307,11 @@ export function devtoolsPlugin<
     }
   }
 
-  // FIXME: can this be fixed?
-  addDevtools(app, store as unknown as Store)
+  addDevtools(
+    app,
+    // @ts-expect-error: FIXME: if possible...
+    store
+  )
 
   return { ...wrappedActions }
 }
