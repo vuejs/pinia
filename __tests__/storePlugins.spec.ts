@@ -4,7 +4,7 @@ import { App } from 'vue'
 
 declare module '../src' {
   export interface PiniaCustomProperties<Id> {
-    n: number
+    pluginN: number
     uid: App['_uid']
     hasApp: boolean
     idFromPlugin: Id
@@ -19,12 +19,12 @@ describe('store plugins', () => {
 
     actions: {
       incrementN() {
-        return this.n++
+        return this.pluginN++
       },
     },
 
     getters: {
-      doubleN: (state) => state.n * 2,
+      doubleN: (state) => state.pluginN * 2,
     },
   })
 
@@ -35,15 +35,15 @@ describe('store plugins', () => {
 
     // must call use after installing the plugin
     pinia.use(({ app }) => {
-      return { n: 20, uid: app._uid }
+      return { pluginN: 20, uid: app._uid }
     })
 
     const store = useStore(pinia)
 
-    expect(store.n).toBe(20)
+    expect(store.pluginN).toBe(20)
     expect(store.uid).toBeDefined()
-    // @ts-expect-error: n is a number
-    store.n.notExisting
+    // @ts-expect-error: pluginN is a number
+    store.pluginN.notExisting
     // @ts-expect-error: it should always be 'test'
     store.idFromPlugin == 'hello'
   })
@@ -51,7 +51,7 @@ describe('store plugins', () => {
   it('can install plugins before installing pinia', () => {
     const pinia = createPinia()
 
-    pinia.use(() => ({ n: 1 }))
+    pinia.use(() => ({ pluginN: 1 }))
     pinia.use(({ app }) => ({ uid: app._uid }))
 
     mount({ template: 'none' }, { global: { plugins: [pinia] } })
@@ -60,7 +60,7 @@ describe('store plugins', () => {
 
     const store = useStore(pinia)
 
-    expect(store.n).toBe(1)
+    expect(store.pluginN).toBe(1)
     expect(store.uid).toBeDefined()
     expect(store.hasApp).toBe(true)
   })
@@ -70,7 +70,7 @@ describe('store plugins', () => {
 
     // must call use after installing the plugin
     pinia.use(() => {
-      return { n: 20 }
+      return { pluginN: 20 }
     })
 
     mount({ template: 'none' }, { global: { plugins: [pinia] } })
@@ -85,7 +85,7 @@ describe('store plugins', () => {
 
     // must call use after installing the plugin
     pinia.use(() => {
-      return { n: 20 }
+      return { pluginN: 20 }
     })
 
     mount({ template: 'none' }, { global: { plugins: [pinia] } })
