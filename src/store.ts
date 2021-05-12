@@ -28,6 +28,7 @@ import {
   DefineStoreOptions,
   GenericStore,
   StoreOnActionListener,
+  MutationType,
 } from './types'
 import { useStoreDevtools } from './devtools'
 import {
@@ -120,11 +121,11 @@ function initStore<Id extends string, S extends StateTree>(
     isListening = false
     if (typeof partialStateOrMutator === 'function') {
       partialStateOrMutator(pinia.state.value[$id])
-      type = '🧩 patch'
+      type = MutationType.patchFunction
     } else {
       innerPatch(pinia.state.value[$id], partialStateOrMutator)
       partialState = partialStateOrMutator
-      type = '⤵️ patch'
+      type = MutationType.patchObject
     }
     isListening = true
     // because we paused the watcher, we need to manually call the subscriptions
@@ -145,7 +146,10 @@ function initStore<Id extends string, S extends StateTree>(
       () => pinia.state.value[$id] as UnwrapRef<S>,
       (state) => {
         if (isListening) {
-          callback({ storeName: $id, type: '🧩 in place', payload: {} }, state)
+          callback(
+            { storeName: $id, type: MutationType.direct, payload: {} },
+            state
+          )
         }
       },
       {
