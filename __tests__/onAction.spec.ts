@@ -68,7 +68,15 @@ describe('Subscriptions', () => {
 
   it('calls after with the returned value', async () => {
     const spy = jest.fn()
-    store.$onAction(({ after }) => {
+    store.$onAction(({ after, name, store }) => {
+      name
+      if (name === 'upperName') {
+        after((ret) => {
+          // @ts-expect-error
+          ret * 2
+          ret.toUpperCase()
+        })
+      }
       after(spy)
     })
     expect(store.upperName()).toBe('EDUARDO')

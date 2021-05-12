@@ -313,23 +313,9 @@ export interface StoreDefinition<
 
 /**
  * Generic version of Store.
+ * @deprecated Use Store instead
  */
-export type GenericStore = Store<
-  string,
-  StateTree,
-  GettersTree<StateTree>,
-  Record<string, _Method>
->
-
-/**
- * Generic version of `StoreDefinition`.
- */
-export type GenericStoreDefinition = StoreDefinition<
-  string,
-  StateTree,
-  GettersTree<StateTree>,
-  Record<string, _Method>
->
+export type GenericStore = Store
 
 /**
  * Properties that are added to every store by `pinia.use()`

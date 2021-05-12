@@ -1,5 +1,5 @@
 import { CustomInspectorNode, CustomInspectorState } from '@vue/devtools-api'
-import { GenericStore, GettersTree, MutationType, StateTree } from '../types'
+import { Store, GettersTree, MutationType, StateTree } from '../types'
 import { DebuggerEvent } from 'vue'
 
 export function formatDisplay(display: string) {
@@ -10,9 +10,7 @@ export function formatDisplay(display: string) {
   }
 }
 
-export function formatStoreForInspectorTree(
-  store: GenericStore
-): CustomInspectorNode {
+export function formatStoreForInspectorTree(store: Store): CustomInspectorNode {
   return {
     id: store.$id,
     label: store.$id,
@@ -21,7 +19,7 @@ export function formatStoreForInspectorTree(
 }
 
 export function formatStoreForInspectorState(
-  store: GenericStore
+  store: Store
 ): CustomInspectorState[string] {
   const fields: CustomInspectorState[string] = [
     { editable: false, key: 'id', value: formatDisplay(store.$id) },

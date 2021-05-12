@@ -2,7 +2,7 @@ import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
 import { App } from 'vue'
 import { PiniaPluginContext, setActivePinia } from '../rootStore'
 import {
-  GenericStore,
+  Store,
   GettersTree,
   MutationType,
   StateTree,
@@ -18,7 +18,7 @@ import {
 /**
  * Registered stores used for devtools.
  */
-const registeredStores = /*#__PURE__*/ new Set<GenericStore>()
+const registeredStores = /*#__PURE__*/ new Set<Store>()
 
 let isAlreadyInstalled: boolean | undefined
 // timeline can be paused when directly changing the state
@@ -28,7 +28,7 @@ const componentStateTypes: string[] = []
 const MUTATIONS_LAYER_ID = 'pinia:mutations'
 const INSPECTOR_ID = 'pinia'
 
-export function addDevtools(app: App, store: GenericStore) {
+export function addDevtools(app: App, store: Store) {
   registeredStores.add(store)
   componentStateTypes.push('🍍 ' + store.$id)
   setupDevtoolsPlugin(

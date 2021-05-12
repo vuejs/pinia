@@ -3,7 +3,6 @@ import {
   StateTree,
   StoreWithState,
   StateDescriptor,
-  GenericStore,
   PiniaCustomProperties,
   _Method,
   DefineStoreOptions,
@@ -54,7 +53,7 @@ export const storesMap = new WeakMap<
     [
       StoreWithState<string, StateTree>,
       StateDescriptor<StateTree>,
-      InjectionKey<GenericStore>
+      InjectionKey<Store>
     ]
   >
 >()
@@ -105,7 +104,7 @@ declare module '@vue/runtime-core' {
      *
      * @internal
      */
-    _pStores?: Record<string, GenericStore>
+    _pStores?: Record<string, Store>
   }
 }
 
