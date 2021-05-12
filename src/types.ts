@@ -64,9 +64,10 @@ export enum MutationType {
  */
 export interface StoreOnActionListenerContext {
   /**
-   * Sets up a hook once the action is finished.
+   * Sets up a hook once the action is finished. It receives the return value of
+   * the action, if it's a Promise, it will be unwrapped.
    */
-  after: (callback: () => void) => void
+  after: (callback: (resolvedReturn: unknown) => void) => void
 
   /**
    * Sets up a hook if the action fails.
