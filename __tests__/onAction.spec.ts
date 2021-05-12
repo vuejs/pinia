@@ -49,7 +49,6 @@ describe('Subscriptions', () => {
   it('fires callback when action is called', () => {
     const spy = jest.fn()
     store.$onAction(spy)
-    store.$onAction(({}) => {})
     store.direct('Cleiton')
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith(
