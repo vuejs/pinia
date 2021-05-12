@@ -276,14 +276,15 @@ function buildStoreToUse<
   Id extends string,
   S extends StateTree,
   G extends GettersTree<S>,
-  A extends ActionsTree
+  A extends ActionsTree,
+  Strict extends boolean
 >(
   partialStore: StoreWithState<Id, S, G, A>,
   descriptor: StateDescriptor<S>,
   $id: Id,
   getters: G = {} as G,
   actions: A = {} as A,
-  options: DefineStoreOptions<Id, S, G, A>
+  options: DefineStoreOptions<Id, S, G, A, Strict>
 ) {
   const pinia = getActivePinia()
 
@@ -337,7 +338,7 @@ function buildStoreToUse<
     } as StoreWithActions<A>[typeof actionName]
   }
 
-  const store: Store<Id, S, G, A> = reactive(
+  const store: Store<Id, S, G, A, Strict> = reactive(
     assign(
       {},
       partialStore,
@@ -346,7 +347,7 @@ function buildStoreToUse<
       computedGetters,
       wrappedActions
     )
-  ) as Store<Id, S, G, A>
+  ) as Store<Id, S, G, A, Strict>
 
   // use this instead of a computed with setter to be able to create it anywhere
   // without linking the computed lifespan to wherever the store is first
@@ -375,11 +376,14 @@ export function defineStore<
   S extends StateTree,
   G extends GettersTree<S>,
   // cannot extends ActionsTree because we loose the typings
-  A /* extends ActionsTree */
->(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A> {
+  A /* extends ActionsTree */,
+  Strict extends boolean
+>(
+  options: DefineStoreOptions<Id, S, G, A, Strict>
+): StoreDefinition<Id, S, G, A, Strict> {
   const { id, state, getters, actions } = options
 
-  function useStore(pinia?: Pinia | null): Store<Id, S, G, A> {
+  function useStore(pinia?: Pinia | null): Store<Id, S, G, A, Strict> {
     const hasInstance = getCurrentInstance()
     // only run provide when pinia hasn't been manually passed
     const shouldProvide = hasInstance && !pinia
@@ -395,7 +399,7 @@ export function defineStore<
       | [
           StoreWithState<Id, S, G, A>,
           StateDescriptor<S>,
-          InjectionKey<Store<Id, S, G, A>>
+          InjectionKey<Store<Id, S, G, A, Strict>>
         ]
       | undefined
     if (!storeAndDescriptor) {
@@ -409,7 +413,8 @@ export function defineStore<
         S,
         G,
         // @ts-expect-error: A without extends
-        A
+        A,
+        Strict
       >(
         storeAndDescriptor[0],
         storeAndDescriptor[1],
@@ -436,7 +441,8 @@ export function defineStore<
         S,
         G,
         // @ts-expect-error: A without extends
-        A
+        A,
+        Strict
       >(
         storeAndDescriptor[0],
         storeAndDescriptor[1],
