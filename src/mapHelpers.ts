@@ -5,6 +5,7 @@ import {
   StateTree,
   Store,
   StoreDefinition,
+  ActionsTree,
 } from './types'
 
 /**
@@ -55,14 +56,20 @@ function getCachedStore<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
-  A = Record<string, _Method>
+  A /* extends ActionsTree */ = ActionsTree
 >(
   vm: ComponentPublicInstance,
   useStore: StoreDefinition<Id, S, G, A>
 ): Store<Id, S, G, A> {
   const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
   const id = useStore.$id
-  return (cache[id] || (cache[id] = useStore(vm.$pinia))) as Store<Id, S, G, A>
+  return (cache[id] ||
+    (cache[id] = useStore(vm.$pinia) as unknown as Store)) as unknown as Store<
+    Id,
+    S,
+    G,
+    A
+  >
 }
 
 export let mapStoreSuffix = 'Store'

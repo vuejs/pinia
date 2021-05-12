@@ -68,16 +68,16 @@ describe('Subscriptions', () => {
 
   it('calls after with the returned value', async () => {
     const spy = jest.fn()
-    store.$onAction(({ after, name, store }) => {
-      name
-      if (name === 'upperName') {
-        after((ret) => {
+    // Cannot destructure because of https://github.com/microsoft/TypeScript/issues/38020
+    store.$onAction((context) => {
+      if (context.name === 'upperName') {
+        context.after((ret) => {
           // @ts-expect-error
           ret * 2
           ret.toUpperCase()
         })
       }
-      after(spy)
+      context.after(spy)
     })
     expect(store.upperName()).toBe('EDUARDO')
     await nextTick()

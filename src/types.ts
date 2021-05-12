@@ -59,44 +59,59 @@ export enum MutationType {
   // maybe reset? for $state = {} and $reset
 }
 
+export type UnwrapPromise<T> = T extends Promise<infer V> ? V : T
+
 /**
  * Context object passed to callbacks of `store.$onAction(context => {})`
  */
-export interface StoreOnActionListenerContext {
-  /**
-   * Sets up a hook once the action is finished. It receives the return value of
-   * the action, if it's a Promise, it will be unwrapped.
-   */
-  after: (callback: (resolvedReturn: unknown) => void) => void
+export type StoreOnActionListenerContext<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  A /* extends ActionsTree */
+> = {
+  [Name in keyof A]: {
+    /**
+     * Name of the action
+     */
+    name: Name
 
-  /**
-   * Sets up a hook if the action fails.
-   */
-  onError: (callback: (error: unknown) => void) => void
+    /**
+     * Store that is invoking the action
+     */
+    store: Store<Id, S, G, A>
 
-  // TODO: pass generics
-  /**
-   * Store that is invoking the action
-   */
-  store: GenericStore
+    /**
+     * Parameters passed to the action
+     */
+    args: A[Name] extends _Method ? Parameters<A[Name]> : unknown[]
 
-  /**
-   * Name of the action
-   */
-  name: string
+    /**
+     * Sets up a hook once the action is finished. It receives the return value of
+     * the action, if it's a Promise, it will be unwrapped.
+     */
+    after: (
+      callback: A[Name] extends _Method
+        ? (resolvedReturn: UnwrapPromise<ReturnType<A[Name]>>) => void
+        : () => void
+    ) => void
 
-  /**
-   * Parameters passed to the action
-   */
-  args: any[]
-}
+    /**
+     * Sets up a hook if the action fails.
+     */
+    onError: (callback: (error: unknown) => void) => void
+  }
+}[keyof A]
 
 /**
  * Argument of `store.$onAction()`
  */
-export type StoreOnActionListener = (
-  context: StoreOnActionListenerContext
-) => void
+export type StoreOnActionListener<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  A /* extends ActionsTree */
+> = (context: StoreOnActionListenerContext<Id, S, G, A>) => void
 
 /**
  * Callback of a subscription
@@ -122,7 +137,12 @@ export type SubscriptionCallback<S> = (
  * Base store with state and functions
  * @internal
  */
-export interface StoreWithState<Id extends string, S extends StateTree> {
+export interface StoreWithState<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S> = GettersTree<S>,
+  A /* extends ActionsTree */ = ActionsTree
+> {
   /**
    * Unique identifier of the store
    */
@@ -192,7 +212,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
    *
    * @internal
    */
-  _as: StoreOnActionListener[]
+  _as: StoreOnActionListener<Id, S, G, A>[]
 
   /**
    * @alpha Please send feedback at https://github.com/posva/pinia/issues/240
@@ -228,7 +248,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
    * @param callback - callback called before every action
    * @returns function that removes the watcher
    */
-  $onAction(callback: StoreOnActionListener): () => void
+  $onAction(callback: StoreOnActionListener<Id, S, G, A>): () => void
 }
 
 /**
@@ -276,27 +296,25 @@ export type StoreWithGetters<G> = {
  * Store type to build a store
  */
 export type Store<
-  Id extends string,
-  S extends StateTree,
-  G extends GettersTree<S>,
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  G extends GettersTree<S> = GettersTree<S>,
   // has the actions without the context (this) for typings
-  A
-> = StoreWithState<Id, S> &
+  A /* extends ActionsTree */ = ActionsTree
+> = StoreWithState<Id, S, G, A> &
   UnwrapRef<S> &
   StoreWithGetters<G> &
   StoreWithActions<A> &
   PiniaCustomProperties<Id, S, G, A>
 
-// TODO: check if it's possible to add = to StoreDefinition and Store and cleanup GenericStore and the other one
-
 /**
  * Return type of `defineStore()`. Function that allows instantiating a store.
  */
 export interface StoreDefinition<
-  Id extends string,
-  S extends StateTree,
-  G extends GettersTree<S>,
-  A /* extends Record<string, StoreAction> */
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  G extends GettersTree<S> = GettersTree<S>,
+  A /* extends ActionsTree */ = ActionsTree
 > {
   /**
    * Returns a store, creates it if necessary.
@@ -324,7 +342,7 @@ export interface PiniaCustomProperties<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
-  A = Record<string, _Method>
+  A /* extends ActionsTree */ = ActionsTree
 > {}
 
 /**
@@ -336,6 +354,13 @@ export type GettersTree<S extends StateTree> = Record<
   string,
   ((state: UnwrapRef<S>) => any) | (() => any)
 >
+
+/**
+ * Type of an object of Actions
+ *
+ * @internal
+ */
+export type ActionsTree = Record<string, _Method>
 
 /**
  * Options parameter of `defineStore()`. Can be extended to augment stores with
@@ -367,7 +392,7 @@ export interface DefineStoreOptions<
     ThisType<
       A &
         UnwrapRef<S> &
-        StoreWithState<Id, S> &
+        StoreWithState<Id, S, G, A> &
         StoreWithGetters<G> &
         PiniaCustomProperties
     >

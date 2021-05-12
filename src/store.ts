@@ -28,6 +28,8 @@ import {
   GettersTree,
   MutationType,
   StoreOnActionListener,
+  UnwrapPromise,
+  ActionsTree,
 } from './types'
 import {
   getActivePinia,
@@ -92,12 +94,17 @@ function computedFromState<T, Id extends string>(
  * @param buildState - function to build the initial state
  * @param initialState - initial state applied to the store, Must be correctly typed to infer typings
  */
-function initStore<Id extends string, S extends StateTree>(
+function initStore<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  A /* extends ActionsTree */
+>(
   $id: Id,
   buildState: () => S = () => ({} as S),
   initialState?: S | undefined
 ): [
-  StoreWithState<Id, S>,
+  StoreWithState<Id, S, G, A>,
   { get: () => S; set: (newValue: S) => void },
   InjectionKey<Store>
 ] {
@@ -107,7 +114,7 @@ function initStore<Id extends string, S extends StateTree>(
 
   let isListening = true
   let subscriptions: SubscriptionCallback<S>[] = []
-  let actionSubscriptions: StoreOnActionListener[] = []
+  let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = []
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
 
   function $patch(stateMutation: (state: S) => void): void
@@ -199,7 +206,7 @@ function initStore<Id extends string, S extends StateTree>(
     return removeSubscription
   }
 
-  function $onAction(callback: StoreOnActionListener) {
+  function $onAction(callback: StoreOnActionListener<Id, S, G, A>) {
     actionSubscriptions.push(callback)
 
     const removeSubscription = () => {
@@ -220,7 +227,7 @@ function initStore<Id extends string, S extends StateTree>(
     pinia.state.value[$id] = buildState()
   }
 
-  const storeWithState: StoreWithState<Id, S> = {
+  const storeWithState: StoreWithState<Id, S, G, A> = {
     $id,
     _p: pinia,
     _as: actionSubscriptions,
@@ -231,7 +238,7 @@ function initStore<Id extends string, S extends StateTree>(
     $subscribe,
     $onAction,
     $reset,
-  } as StoreWithState<Id, S>
+  } as StoreWithState<Id, S, G, A>
 
   const injectionSymbol = __DEV__
     ? Symbol(`PiniaStore(${$id})`)
@@ -269,9 +276,9 @@ function buildStoreToUse<
   Id extends string,
   S extends StateTree,
   G extends GettersTree<S>,
-  A extends Record<string, _Method>
+  A extends ActionsTree
 >(
-  partialStore: StoreWithState<Id, S>,
+  partialStore: StoreWithState<Id, S, G, A>,
   descriptor: StateDescriptor<S>,
   $id: Id,
   getters: G = {} as G,
@@ -295,11 +302,11 @@ function buildStoreToUse<
   for (const actionName in actions) {
     wrappedActions[actionName] = function (this: Store<Id, S, G, A>) {
       setActivePinia(pinia)
-      const args = Array.from(arguments)
+      const args = Array.from(arguments) as Parameters<A[typeof actionName]>
       const localStore = this || store
 
       let afterCallback: (
-        resolvedReturn: ReturnType<typeof actions[typeof actionName]>
+        resolvedReturn: UnwrapPromise<ReturnType<A[typeof actionName]>>
       ) => void = noop
       let onErrorCallback: (error: unknown) => void = noop
       function after(callback: typeof afterCallback) {
@@ -310,13 +317,17 @@ function buildStoreToUse<
       }
 
       partialStore._as.forEach((callback) => {
+        // @ts-expect-error
         callback({ args, name: actionName, store: localStore, after, onError })
       })
 
-      let ret: ReturnType<typeof actions[typeof actionName]>
+      let ret: ReturnType<A[typeof actionName]>
       try {
         ret = actions[actionName].apply(localStore, args as unknown as any[])
-        Promise.resolve(ret).then(afterCallback).catch(onErrorCallback)
+        Promise.resolve(ret)
+          // @ts-expect-error: can't work this out
+          .then(afterCallback)
+          .catch(onErrorCallback)
       } catch (error) {
         onErrorCallback(error)
         throw error
@@ -348,6 +359,7 @@ function buildStoreToUse<
 
   // apply all plugins
   pinia._p.forEach((extender) => {
+    // @ts-expect-error: conflict between A and ActionsTree
     assign(store, extender({ store, app: pinia._a, pinia, options }))
   })
 
@@ -362,7 +374,8 @@ export function defineStore<
   Id extends string,
   S extends StateTree,
   G extends GettersTree<S>,
-  A /* extends Record<string, StoreAction> */
+  // cannot extends ActionsTree because we loose the typings
+  A /* extends ActionsTree */
 >(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A> {
   const { id, state, getters, actions } = options
 
@@ -380,7 +393,7 @@ export function defineStore<
 
     let storeAndDescriptor = stores.get(id) as
       | [
-          StoreWithState<Id, S>,
+          StoreWithState<Id, S, G, A>,
           StateDescriptor<S>,
           InjectionKey<Store<Id, S, G, A>>
         ]
@@ -388,15 +401,21 @@ export function defineStore<
     if (!storeAndDescriptor) {
       storeAndDescriptor = initStore(id, state, pinia.state.value[id])
 
-      stores.set(id, storeAndDescriptor)
+      // annoying to type
+      stores.set(id, storeAndDescriptor as any)
 
-      const store = buildStoreToUse(
+      const store = buildStoreToUse<
+        Id,
+        S,
+        G,
+        // @ts-expect-error: A without extends
+        A
+      >(
         storeAndDescriptor[0],
         storeAndDescriptor[1],
         id,
         getters as GettersTree<S> | undefined,
-        actions as Record<string, _Method> | undefined,
-        // @ts-expect-error: because of the extend on Actions
+        actions as A | undefined,
         options
       )
 
@@ -412,13 +431,18 @@ export function defineStore<
     return (
       // null avoids the warning for not found injection key
       (hasInstance && inject(storeAndDescriptor[2], null)) ||
-      buildStoreToUse(
+      buildStoreToUse<
+        Id,
+        S,
+        G,
+        // @ts-expect-error: A without extends
+        A
+      >(
         storeAndDescriptor[0],
         storeAndDescriptor[1],
         id,
         getters as GettersTree<S> | undefined,
-        actions as Record<string, _Method> | undefined,
-        // @ts-expect-error: because of the extend on Actions
+        actions as A | undefined,
         options
       )
     )

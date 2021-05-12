@@ -6,7 +6,7 @@ import {
   GettersTree,
   MutationType,
   StateTree,
-  _Method,
+  ActionsTree,
 } from '../types'
 import {
   formatEventData,
@@ -259,7 +259,7 @@ export function devtoolsPlugin<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
-  A = Record<string, _Method>
+  A /* extends ActionsTree */ = ActionsTree
 >({ app, store, options, pinia }: PiniaPluginContext<Id, S, G, A>) {
   const wrappedActions = {} as Pick<typeof store, keyof A>
 
@@ -295,7 +295,8 @@ export function devtoolsPlugin<
     }
   }
 
-  addDevtools(app, store)
+  // FIXME: can this be fixed?
+  addDevtools(app, store as unknown as Store)
 
   return { ...wrappedActions }
 }

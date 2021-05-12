@@ -8,6 +8,7 @@ import {
   DefineStoreOptions,
   Store,
   GettersTree,
+  ActionsTree,
 } from './types'
 
 /**
@@ -119,7 +120,7 @@ export interface PiniaPluginContext<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
-  A = Record<string, _Method>
+  A /* extends ActionsTree */ = ActionsTree
 > {
   /**
    * pinia instance.
