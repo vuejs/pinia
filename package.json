@@ -63,7 +63,6 @@
   "license": "MIT",
   "devDependencies": {
     "@microsoft/api-extractor": "7.15.1",
-    "@nuxt/types": "^2.15.4",
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
@@ -81,7 +80,7 @@
     "jest-mock-warn": "^1.1.0",
     "lint-staged": "^11.0.0",
     "pascalcase": "^1.0.0",
-    "prettier": "^2.2.1",
+    "prettier": "^2.3.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.47.0",
     "rollup-plugin-terser": "^7.0.2",
