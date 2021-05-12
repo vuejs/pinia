@@ -296,12 +296,14 @@ function buildStoreToUse<
       const args = Array.from(arguments)
       const localStore = this || store
 
-      let afterCallback: () => void = noop
+      let afterCallback: (
+        resolvedReturn: ReturnType<typeof actions[typeof actionName]>
+      ) => void = noop
       let onErrorCallback: (error: unknown) => void = noop
-      function after(callback: () => void) {
+      function after(callback: typeof afterCallback) {
         afterCallback = callback
       }
-      function onError(callback: (error: unknown) => void) {
+      function onError(callback: typeof onErrorCallback) {
         onErrorCallback = callback
       }
 
@@ -309,12 +311,12 @@ function buildStoreToUse<
         callback({ args, name: actionName, store: localStore, after, onError })
       })
 
-      let ret
-
+      let ret: ReturnType<typeof actions[typeof actionName]>
       try {
         ret = actions[actionName].apply(localStore, args as unknown as any[])
         Promise.resolve(ret).then(afterCallback).catch(onErrorCallback)
       } catch (error) {
+        onErrorCallback(error)
         throw error
       }
 
