@@ -120,7 +120,8 @@ export interface PiniaPluginContext<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
-  A /* extends ActionsTree */ = ActionsTree
+  A /* extends ActionsTree */ = ActionsTree,
+  Strict extends boolean = false
 > {
   /**
    * pinia instance.
@@ -140,7 +141,7 @@ export interface PiniaPluginContext<
   /**
    * Current store being extended.
    */
-  options: DefineStoreOptions<Id, S, G, A>
+  options: DefineStoreOptions<Id, S, G, A, Strict>
 }
 
 /**

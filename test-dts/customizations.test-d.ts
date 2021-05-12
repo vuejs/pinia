@@ -7,11 +7,11 @@ declare module '../dist/pinia' {
     suffix: 'Store'
   }
 
-  export interface PiniaCustomProperties<Id, S, G, A> {
+  export interface PiniaCustomProperties<Id, S, G, A, Strict> {
     $actions: Array<keyof A>
   }
 
-  export interface DefineStoreOptions<Id, S, G, A> {
+  export interface DefineStoreOptions<Id, S, G, A, Strict> {
     debounce?: {
       // Record<keyof A, number>
       [k in keyof A]?: number

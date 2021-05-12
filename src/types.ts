@@ -26,8 +26,15 @@ export function isPlainObject(
   )
 }
 
+/**
+ * @internal
+ */
 export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
-// type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
+
+/**
+ * @internal
+ */
+export type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
 
 /**
  * Possible types for SubscriptionCallback
@@ -142,6 +149,7 @@ export interface StoreWithState<
   S extends StateTree,
   G extends GettersTree<S> = GettersTree<S>,
   A /* extends ActionsTree */ = ActionsTree
+  // Strict extends boolean = false
 > {
   /**
    * Unique identifier of the store
@@ -300,9 +308,10 @@ export type Store<
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
   // has the actions without the context (this) for typings
-  A /* extends ActionsTree */ = ActionsTree
+  A /* extends ActionsTree */ = ActionsTree,
+  Strict extends boolean = false
 > = StoreWithState<Id, S, G, A> &
-  UnwrapRef<S> &
+  (false extends Strict ? UnwrapRef<S> : DeepReadonly<UnwrapRef<S>>) &
   StoreWithGetters<G> &
   StoreWithActions<A> &
   PiniaCustomProperties<Id, S, G, A>
@@ -314,14 +323,15 @@ export interface StoreDefinition<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
-  A /* extends ActionsTree */ = ActionsTree
+  A /* extends ActionsTree */ = ActionsTree,
+  Strict extends boolean = false
 > {
   /**
    * Returns a store, creates it if necessary.
    *
    * @param pinia - Pinia instance to retrieve the store
    */
-  (pinia?: Pinia | null | undefined): Store<Id, S, G, A>
+  (pinia?: Pinia | null | undefined): Store<Id, S, G, A, Strict>
 
   /**
    * Id of the store. Used by map helpers.
@@ -342,7 +352,8 @@ export interface PiniaCustomProperties<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
-  A /* extends ActionsTree */ = ActionsTree
+  A /* extends ActionsTree */ = ActionsTree,
+  Strict extends boolean = false
 > {}
 
 /**
@@ -370,21 +381,29 @@ export interface DefineStoreOptions<
   Id extends string,
   S extends StateTree,
   G extends GettersTree<S>,
-  A /* extends Record<string, StoreAction> */
+  A /* extends Record<string, StoreAction> */,
+  Strict extends boolean
 > {
   /**
    * Unique string key to identify the store across the application.
    */
   id: Id
+
+  strict?: Strict
+
   /**
    * Function to create a fresh state.
    */
   state?: () => S
+
   /**
    * Optional object of getters.
    */
   getters?: G &
-    ThisType<UnwrapRef<S> & StoreWithGetters<G> & PiniaCustomProperties>
+    ThisType<
+      DeepReadonly<UnwrapRef<S>> & StoreWithGetters<G> & PiniaCustomProperties
+    >
+
   /**
    * Optional object of actions.
    */
