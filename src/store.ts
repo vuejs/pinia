@@ -120,6 +120,7 @@ function initStore<Id extends string, S extends StateTree>(
     let type: MutationType
     isListening = false
     // reset the debugger events since patches are sync
+    /* istanbul ignore else */
     if (__DEV__) {
       debuggerEvents = []
     }
@@ -147,12 +148,14 @@ function initStore<Id extends string, S extends StateTree>(
     // watch here to link the subscription to the current active instance
     // e.g. inside the setup of a component
     const options: WatchOptions = { deep: true, flush: 'sync' }
+    /* istanbul ignore else */
     if (__DEV__) {
       options.onTrigger = (event) => {
         if (isListening) {
           debuggerEvents = event
         } else {
           // let patch send all the events together later
+          /* istanbul ignore else */
           if (Array.isArray(debuggerEvents)) {
             debuggerEvents.push(event)
           } else {
