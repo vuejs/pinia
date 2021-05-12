@@ -1,5 +1,5 @@
 import { createPinia, defineStore, setActivePinia } from '../src'
-import { computed, nextTick, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 
 describe('State', () => {
   const useStore = () => {
@@ -48,5 +48,34 @@ describe('State', () => {
     store.name = 'Ed'
     await nextTick()
     expect(spy).toHaveBeenCalledTimes(1)
+  })
+
+  it('unwraps refs', () => {
+    const name = ref('Eduardo')
+    const counter = ref(0)
+    const double = computed({
+      get: () => counter.value * 2,
+      set(val) {
+        counter.value = val / 2
+      },
+    })
+
+    setActivePinia(createPinia())
+    const useStore = defineStore({
+      id: 'main',
+      state: () => ({
+        name,
+        counter,
+        double,
+      }),
+    })
+
+    const store = useStore()
+
+    expect(store.name).toBe('Eduardo')
+    name.value = 'Ed'
+    expect(store.name).toBe('Ed')
+    store.name = 'Edu'
+    expect(store.name).toBe('Edu')
   })
 })

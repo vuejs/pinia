@@ -10,6 +10,7 @@ import {
   provide,
   DebuggerEvent,
   WatchOptions,
+  UnwrapRef,
 } from 'vue'
 import {
   StateTree,
@@ -135,7 +136,7 @@ function initStore<Id extends string, S extends StateTree>(
     subscriptions.forEach((callback) => {
       callback(
         { storeName: $id, type, payload: partialState, events: debuggerEvents },
-        pinia.state.value[$id]
+        pinia.state.value[$id] as UnwrapRef<S>
       )
     })
   }
@@ -163,7 +164,7 @@ function initStore<Id extends string, S extends StateTree>(
       }
     }
     const stopWatcher = watch(
-      () => pinia.state.value[$id],
+      () => pinia.state.value[$id] as UnwrapRef<S>,
       (state, oldState) => {
         if (isListening) {
           // TODO: remove payload
