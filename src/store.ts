@@ -311,7 +311,7 @@ function buildStoreToUse<
       let ret
 
       try {
-        ret = actions[actionName].apply(localStore, (args as unknown) as any[])
+        ret = actions[actionName].apply(localStore, args as unknown as any[])
         Promise.resolve(ret).then(afterCallback).catch(onErrorCallback)
       } catch (error) {
         throw error

@@ -89,11 +89,14 @@ export function addDevtools(app: App, store: GenericStore) {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
             const stores = Array.from(registeredStores)
 
-            payload.rootNodes = (payload.filter
-              ? stores.filter((store) =>
-                  store.$id.toLowerCase().includes(payload.filter.toLowerCase())
-                )
-              : stores
+            payload.rootNodes = (
+              payload.filter
+                ? stores.filter((store) =>
+                    store.$id
+                      .toLowerCase()
+                      .includes(payload.filter.toLowerCase())
+                  )
+                : stores
             ).map(formatStoreForInspectorTree)
           }
         })
@@ -287,7 +290,7 @@ export function devtoolsPlugin<
       })
       return actions[actionName].apply(
         trackedStore,
-        (arguments as unknown) as any[]
+        arguments as unknown as any[]
       )
     }
   }

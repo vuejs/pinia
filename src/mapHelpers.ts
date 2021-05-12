@@ -503,9 +503,8 @@ export function mapWritableState<
           },
           set(this: ComponentPublicInstance, value) {
             // it's easier to type it here as any
-            return (getCachedStore(this, useStore)[
-              keysOrMapper[key]
-            ] = value as any)
+            return (getCachedStore(this, useStore)[keysOrMapper[key]] =
+              value as any)
           },
         }
         return reduced
