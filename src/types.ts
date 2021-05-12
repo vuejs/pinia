@@ -151,7 +151,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
    *
    * @param partialState - patch to apply to the state
    */
-  $patch(partialState: DeepPartial<S>): void
+  $patch(partialState: DeepPartial<UnwrapRef<S>>): void
 
   /**
    * Group multiple changes into one function. Useful when mutating objects like
@@ -160,7 +160,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
    *
    * @param stateMutator - function that mutates `state`, cannot be async
    */
-  $patch<F extends (state: S) => void>(
+  $patch<F extends (state: UnwrapRef<S>) => void>(
     // this prevents the user from using `async` which isn't allowed
     stateMutator: ReturnType<F> extends Promise<any> ? never : F
   ): void

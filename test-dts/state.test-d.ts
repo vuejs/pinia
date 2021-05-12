@@ -38,6 +38,11 @@ const useStore = defineStore({
       expectType<number>(this.$state.counter)
       expectType<number>(this.double)
       expectType<number>(this.counter)
+
+      this.$patch({ counter: 2 })
+      this.$patch((state) => {
+        expectType<number>(state.counter)
+      })
     },
   },
 })
