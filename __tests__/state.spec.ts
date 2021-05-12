@@ -1,4 +1,4 @@
-import { computed } from '@vue/composition-api'
+import { computed, nextTick, ref, watch } from '@vue/composition-api'
 import Vue from 'vue'
 import { defineStore, setActivePinia, createPinia, Pinia } from '../src'
 
@@ -31,5 +31,55 @@ describe('State', () => {
     expect(upperCased.value).toBe('EDUARDO')
     store.name = 'Ed'
     expect(upperCased.value).toBe('ED')
+  })
+
+  // it('watch', () => {
+  //   setActivePinia(createPinia())
+  //   defineStore({
+  //     id: 'main',
+  //     state: () => ({
+  //       name: 'Eduardo',
+  //       counter: 0,
+  //     }),
+  //   })()
+  // })
+
+  it('state can be watched', async () => {
+    const store = useStore()
+    const spy = jest.fn()
+    watch(() => store.name, spy)
+    expect(spy).not.toHaveBeenCalled()
+    store.name = 'Ed'
+    await nextTick()
+    expect(spy).toHaveBeenCalledTimes(1)
+  })
+
+  it('unwraps refs', () => {
+    const name = ref('Eduardo')
+    const counter = ref(0)
+    const double = computed({
+      get: () => counter.value * 2,
+      set(val) {
+        counter.value = val / 2
+      },
+    })
+
+    setActivePinia(createPinia())
+    const useStore = defineStore({
+      id: 'main',
+      state: () => ({
+        name,
+        counter,
+        double,
+      }),
+    })
+
+    const store = useStore()
+
+    expect(store.name).toBe('Eduardo')
+    name.value = 'Ed'
+    expect(store.name).toBe('Ed')
+    store.name = 'Edu'
+    expect(store.name).toBe('Edu')
   })
 })

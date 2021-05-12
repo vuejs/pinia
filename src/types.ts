@@ -1,3 +1,4 @@
+import { UnwrapRef } from '@vue/composition-api'
 import { Pinia } from './rootStore'
 
 /**
@@ -100,8 +101,15 @@ export type StoreOnActionListener = (
  * Callback of a subscription
  */
 export type SubscriptionCallback<S> = (
-  mutation: { storeName: string; type: string; payload: DeepPartial<S> },
-  state: S
+  // TODO: make type an enumeration
+  // TODO: payload should be optional
+  mutation: {
+    storeName: string
+    type: MutationType
+
+    payload: DeepPartial<UnwrapRef<S>>
+  },
+  state: UnwrapRef<S>
 ) => void
 
 /**
@@ -117,7 +125,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   /**
    * State of the Store. Setting it will replace the whole state.
    */
-  $state: S
+  $state: UnwrapRef<S>
 
   /**
    * Private property defining the pinia the store is attached to.
@@ -260,7 +268,7 @@ export type Store<
   // has the actions without the context (this) for typings
   A
 > = StoreWithState<Id, S> &
-  S &
+  UnwrapRef<S> &
   StoreWithGetters<G> &
   StoreWithActions<A> &
   PiniaCustomProperties<Id, S, G, A>
@@ -326,7 +334,7 @@ export interface PiniaCustomProperties<
  */
 export type GettersTree<S extends StateTree> = Record<
   string,
-  ((state: S) => any) | (() => any)
+  ((state: UnwrapRef<S>) => any) | (() => any)
 >
 
 /**
@@ -350,14 +358,15 @@ export interface DefineStoreOptions<
   /**
    * Optional object of getters.
    */
-  getters?: G & ThisType<S & StoreWithGetters<G> & PiniaCustomProperties>
+  getters?: G &
+    ThisType<UnwrapRef<S> & StoreWithGetters<G> & PiniaCustomProperties>
   /**
    * Optional object of actions.
    */
   actions?: A &
     ThisType<
       A &
-        S &
+        UnwrapRef<S> &
         StoreWithState<Id, S> &
         StoreWithGetters<G> &
         PiniaCustomProperties

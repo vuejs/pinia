@@ -9,6 +9,8 @@ import {
   onUnmounted,
   InjectionKey,
   provide,
+  WatchOptions,
+  UnwrapRef,
 } from '@vue/composition-api'
 import {
   StateTree,
@@ -129,7 +131,7 @@ function initStore<Id extends string, S extends StateTree>(
     subscriptions.forEach((callback) => {
       callback(
         { storeName: $id, type, payload: partialState },
-        pinia.state.value[$id]
+        pinia.state.value[$id] as UnwrapRef<S>
       )
     })
   }
@@ -140,7 +142,7 @@ function initStore<Id extends string, S extends StateTree>(
     // watch here to link the subscription to the current active instance
     // e.g. inside the setup of a component
     const stopWatcher = watch(
-      () => pinia.state.value[$id],
+      () => pinia.state.value[$id] as UnwrapRef<S>,
       (state) => {
         if (isListening) {
           callback({ storeName: $id, type: '🧩 in place', payload: {} }, state)
