@@ -75,7 +75,6 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watchEffect } from 'vue'
-import { useUserStore } from '../stores/user'
 import { useCartStore } from '../stores/cart'
 import { useCounter } from '../stores/counter'
 
@@ -93,7 +92,6 @@ function isDarkMode() {
 }
 
 const counterStore = useCounter()
-const userStore = useUserStore()
 const cartStore = useCartStore()
 
 const storageKey = 'pinia-color-scheme'
