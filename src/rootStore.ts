@@ -31,10 +31,9 @@ export const storesMap = new WeakMap<
   >
 >()
 
-export const piniaSymbol = (__DEV__
-  ? Symbol('pinia')
-  : /* istanbul ignore next */
-    Symbol()) as InjectionKey<Pinia>
+export const piniaSymbol = (
+  __DEV__ ? Symbol('pinia') : /* istanbul ignore next */ Symbol()
+) as InjectionKey<Pinia>
 
 /**
  * Context argument passed to Pinia plugins.
