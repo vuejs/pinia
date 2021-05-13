@@ -9,7 +9,6 @@ import {
   onUnmounted,
   InjectionKey,
   provide,
-  WatchOptions,
   UnwrapRef,
 } from '@vue/composition-api'
 import {
@@ -117,7 +116,7 @@ function initStore<Id extends string, S extends StateTree>(
     partialStateOrMutator: DeepPartial<S> | ((state: S) => void)
   ): void {
     let partialState: DeepPartial<S> = {}
-    let type: string
+    let type: MutationType
     isListening = false
     if (typeof partialStateOrMutator === 'function') {
       partialStateOrMutator(pinia.state.value[$id])

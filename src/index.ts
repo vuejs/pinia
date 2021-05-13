@@ -18,6 +18,7 @@ export type {
   PiniaCustomProperties,
   DefineStoreOptions,
 } from './types'
+export { MutationType } from './types'
 
 export {
   mapActions,

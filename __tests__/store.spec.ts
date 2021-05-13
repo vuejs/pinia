@@ -1,5 +1,6 @@
 import { defineComponent } from '@vue/composition-api'
 import { createLocalVue, mount } from '@vue/test-utils'
+import { MutationType } from '../src'
 import Vue from 'vue'
 import {
   createPinia,
@@ -139,7 +140,7 @@ describe('Store', () => {
       {
         payload: {},
         storeName: 'main',
-        type: expect.stringContaining('in place'),
+        type: MutationType.direct,
       },
       store.$state
     )
@@ -157,7 +158,7 @@ describe('Store', () => {
       {
         payload: patch,
         storeName: 'main',
-        type: expect.stringContaining('patch'),
+        type: MutationType.patchObject,
       },
       store.$state
     )

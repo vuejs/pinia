@@ -1,11 +1,13 @@
-import { createPinia, defineStore, setActivePinia } from '../src'
-import { mount } from '@vue/test-utils'
-import { nextTick } from 'vue'
+import { createPinia, defineStore, PiniaPlugin, setActivePinia } from '../src'
+import { createLocalVue, mount } from '@vue/test-utils'
+import Vue from 'vue'
 
 describe('Subscriptions', () => {
   const useStore = () => {
     // create a new store
-    setActivePinia(createPinia())
+    const pinia = createPinia()
+    pinia.Vue = Vue
+    setActivePinia(pinia)
     return defineStore({
       id: 'main',
       state: () => ({
@@ -73,7 +75,7 @@ describe('Subscriptions', () => {
       after(spy)
     })
     expect(store.upperName()).toBe('EDUARDO')
-    await nextTick()
+    await Vue.nextTick()
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('EDUARDO')
   })
@@ -136,7 +138,9 @@ describe('Subscriptions', () => {
     })
 
     it('triggers subscribe only once', async () => {
-      setActivePinia(createPinia())
+      const pinia = createPinia()
+      pinia.Vue = Vue
+      setActivePinia(pinia)
       const s1 = useStore()
       const s2 = useStore()
 
@@ -159,6 +163,10 @@ describe('Subscriptions', () => {
 
     it('removes on unmount', async () => {
       const pinia = createPinia()
+      pinia.Vue = Vue
+      setActivePinia(pinia)
+      const localVue = createLocalVue()
+      localVue.use(PiniaPlugin)
       const spy1 = jest.fn()
       const spy2 = jest.fn()
 
@@ -170,7 +178,7 @@ describe('Subscriptions', () => {
           },
           template: `<p/>`,
         },
-        { global: { plugins: [pinia] } }
+        { localVue, pinia }
       )
 
       const s1 = useStore()
@@ -190,7 +198,7 @@ describe('Subscriptions', () => {
       expect(spy1).toHaveBeenCalledTimes(2)
       expect(spy2).toHaveBeenCalledTimes(2)
 
-      await wrapper.unmount()
+      await wrapper.destroy()
 
       s1.changeName('again')
       expect(spy1).toHaveBeenCalledTimes(2)
