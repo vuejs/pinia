@@ -108,6 +108,9 @@ function createConfig(format, output, plugins = []) {
   hasTSChecked = true
 
   const external = ['vue', '@vue/composition-api']
+  if (!isGlobalBuild) {
+    external.push('@vue/devtools-api')
+  }
 
   const nodePlugins = [resolve(), commonjs()]
 

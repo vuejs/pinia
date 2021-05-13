@@ -353,7 +353,8 @@ function buildStoreToUse<
   // created.
   Object.defineProperty(store, '$state', descriptor)
 
-  if (IS_CLIENT && __BROWSER__ && __DEV__) {
+  // add getters for devtools
+  if (__DEV__ && IS_CLIENT) {
     store._getters = Object.keys(getters)
   }
 
@@ -448,13 +449,7 @@ export function defineStore<
     }
 
     // save stores in instances to access them devtools
-    if (
-      __DEV__ &&
-      __BROWSER__ &&
-      IS_CLIENT &&
-      currentInstance &&
-      currentInstance.proxy
-    ) {
+    if (__DEV__ && IS_CLIENT && currentInstance && currentInstance.proxy) {
       const vm = currentInstance.proxy
       const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
       // @ts-expect-error: still can't cast Store with generics to Store

@@ -24,12 +24,9 @@ export function createPinia(): Pinia {
   const pinia: Pinia = {
     install(app: App) {
       pinia._a = localApp = app
-      // pinia._a = app
       app.provide(piniaSymbol, pinia)
       app.config.globalProperties.$pinia = pinia
-      // TODO: write test
-      // only set the app on client for devtools
-      if (__BROWSER__ && IS_CLIENT) {
+      if (IS_CLIENT) {
         // this allows calling useStore() outside of a component setup after
         // installing pinia's plugin
         setActivePinia(pinia)
@@ -53,7 +50,9 @@ export function createPinia(): Pinia {
     state,
   }
 
-  if (IS_CLIENT && __BROWSER__ && __DEV__) {
+  // pinia devtools rely on dev only features so they cannot be forced unless
+  // the dev build of Vue is used
+  if (__DEV__ && IS_CLIENT) {
     pinia.use(devtoolsPlugin)
   }
 

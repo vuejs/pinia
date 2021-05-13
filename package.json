@@ -70,7 +70,6 @@
     "@sucrase/jest-plugin": "^2.1.0",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.0.2",
-    "@vue/devtools-api": "^6.0.0-beta.9",
     "@vue/server-renderer": "^3.0.11",
     "@vue/test-utils": "^2.0.0-rc.6",
     "brotli": "^1.3.2",
@@ -89,6 +88,9 @@
     "vitepress": "^0.13.2",
     "vue": "^3.0.11",
     "yorkie": "^2.0.0"
+  },
+  "dependencies": {
+    "@vue/devtools-api": "^6.0.0-beta.10"
   },
   "gitHooks": {
     "pre-commit": "lint-staged",
