@@ -113,9 +113,7 @@ export function addDevtools(app: App, store: Store) {
 
         api.on.getInspectorState((payload) => {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-            const store = Array.from(registeredStores.values()).find(
-              (store) => store.$id === payload.nodeId
-            )
+            const store = registeredStores.get(payload.nodeId)
 
             if (!store) {
               return toastMessage(
@@ -134,9 +132,7 @@ export function addDevtools(app: App, store: Store) {
 
         api.on.editInspectorState((payload) => {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-            const store = Array.from(registeredStores.values()).find(
-              (store) => store.$id === payload.nodeId
-            )
+            const store = registeredStores.get(payload.nodeId)
 
             if (!store) {
               return toastMessage(
