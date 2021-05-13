@@ -16,6 +16,7 @@ export type {
   StoreWithState,
   StoreOnActionListener,
   StoreOnActionListenerContext,
+  SubscriptionCallback,
   PiniaCustomProperties,
   DefineStoreOptions,
 } from './types'

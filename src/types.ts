@@ -59,7 +59,107 @@ export enum MutationType {
   // maybe reset? for $state = {} and $reset
 }
 
+/**
+ * Base type for the context passed to a subscription callback.
+ *
+ * @internal
+ */
+export interface _SubscriptionCallbackMutationBase {
+  /**
+   * Type of the mutation.
+   */
+  type: MutationType
+
+  /**
+   * @deprecated use `storeId` instead.
+   */
+  storeName: string
+
+  /**
+   * `id` of the store doing the mutation.
+   */
+  storeId: string
+}
+
+/**
+ * Context passed to a subscription callback when directly mutating the state of
+ * a store with `store.someState = newValue` or `store.$state.someState =
+ * newValue`.
+ */
+export interface SubscriptionCallbackMutationDirect
+  extends _SubscriptionCallbackMutationBase {
+  type: MutationType.direct
+
+  /**
+   * DEV ONLY. Different mutation calls.
+   */
+  events: DebuggerEvent
+}
+
+/**
+ * Context passed to a subscription callback when `store.$patch()` is called
+ * with an object.
+ */
+export interface SubscriptionCallbackMutationPatchObject<S>
+  extends _SubscriptionCallbackMutationBase {
+  type: MutationType.patchObject
+
+  /**
+   * DEV ONLY. Array for patch calls.
+   */
+  events: DebuggerEvent[]
+
+  /**
+   * Object passed to `store.$patch()`.
+   */
+  payload: DeepPartial<S>
+}
+
+/**
+ * Context passed to a subscription callback when `store.$patch()` is called
+ * with a function.
+ */
+export interface SubscriptionCallbackMutationPatchFunction
+  extends _SubscriptionCallbackMutationBase {
+  type: MutationType.patchFunction
+
+  /**
+   * DEV ONLY. Array of all the mutations done inside of the callback.
+   */
+  events: DebuggerEvent[]
+
+  /**
+   * Object passed to `store.$patch()`.
+   */
+  // payload: DeepPartial<UnwrapRef<S>>
+}
+
+/**
+ * Context object passed to a subscription callback.
+ */
+export type SubscriptionCallbackMutation<S> =
+  | SubscriptionCallbackMutationDirect
+  | SubscriptionCallbackMutationPatchObject<S>
+  | SubscriptionCallbackMutationPatchFunction
+
 export type UnwrapPromise<T> = T extends Promise<infer V> ? V : T
+
+/**
+ * Callback of a subscription
+ */
+export type SubscriptionCallback<S> = (
+  /**
+   * Object with information relative to the store mutation that triggered the
+   * subscription.
+   */
+  mutation: SubscriptionCallbackMutation<S>,
+
+  /**
+   * State of the store when the subscription is triggered. Same as
+   * `store.$state`.
+   */
+  state: UnwrapRef<S>
+) => void
 
 /**
  * Context object passed to callbacks of `store.$onAction(context => {})`
@@ -112,26 +212,6 @@ export type StoreOnActionListener<
   G extends GettersTree<S>,
   A /* extends ActionsTree */
 > = (context: StoreOnActionListenerContext<Id, S, G, A>) => void
-
-/**
- * Callback of a subscription
- */
-export type SubscriptionCallback<S> = (
-  // TODO: make type an enumeration
-  // TODO: payload should be optional
-  mutation: {
-    storeName: string
-    type: MutationType
-
-    /**
-     * DEV ONLY. Array for patch calls and single values for direct edits
-     */
-    events?: DebuggerEvent[] | DebuggerEvent
-
-    payload: DeepPartial<UnwrapRef<S>>
-  },
-  state: UnwrapRef<S>
-) => void
 
 /**
  * Base store with state and functions
@@ -198,14 +278,9 @@ export interface StoreWithState<
    * cleanup up when the component gets unmounted.
    *
    * @param callback - callback passed to the watcher
-   * @param onTrigger - DEV ONLY watcher debugging
-   * (https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watcher-debugging)
    * @returns function that removes the watcher
    */
-  $subscribe(
-    callback: SubscriptionCallback<S>,
-    onTrigger?: (event: DebuggerEvent) => void
-  ): () => void
+  $subscribe(callback: SubscriptionCallback<S>): () => void
 
   /**
    * Array of registered action subscriptions.

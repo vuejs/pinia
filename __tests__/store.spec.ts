@@ -1,10 +1,4 @@
-import {
-  createPinia,
-  defineStore,
-  setActivePinia,
-  Pinia,
-  MutationType,
-} from '../src'
+import { createPinia, defineStore, setActivePinia, Pinia } from '../src'
 import { mount } from '@vue/test-utils'
 import { defineComponent, getCurrentInstance, nextTick, watch } from 'vue'
 
@@ -144,41 +138,6 @@ describe('Store', () => {
     expect(store.$state).not.toBe(store2.$state)
     store.$state.nested.a.b = 'hey'
     expect(store2.$state.nested.a.b).toBe('string')
-  })
-
-  it('subscribe to changes', () => {
-    const store = useStore()
-    const spy = jest.fn()
-    store.$subscribe(spy)
-
-    store.$state.a = false
-
-    expect(spy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        payload: {},
-        storeName: 'main',
-        type: MutationType.direct,
-      }),
-      store.$state
-    )
-  })
-
-  it('subscribe to changes done via patch', () => {
-    const store = useStore()
-    const spy = jest.fn()
-    store.$subscribe(spy)
-
-    const patch = { a: false }
-    store.$patch(patch)
-
-    expect(spy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        payload: patch,
-        storeName: 'main',
-        type: MutationType.patchObject,
-      }),
-      store.$state
-    )
   })
 
   it('should outlive components', async () => {

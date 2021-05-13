@@ -30,6 +30,7 @@ import {
   StoreOnActionListener,
   UnwrapPromise,
   ActionsTree,
+  SubscriptionCallbackMutation,
 } from './types'
 import {
   getActivePinia,
@@ -122,8 +123,7 @@ function initStore<
   function $patch(
     partialStateOrMutator: DeepPartial<S> | ((state: S) => void)
   ): void {
-    let partialState: DeepPartial<S> = {}
-    let type: MutationType
+    let subscriptionMutation: SubscriptionCallbackMutation<S>
     isListening = false
     // reset the debugger events since patches are sync
     /* istanbul ignore else */
@@ -132,19 +132,26 @@ function initStore<
     }
     if (typeof partialStateOrMutator === 'function') {
       partialStateOrMutator(pinia.state.value[$id])
-      type = MutationType.patchFunction
+      subscriptionMutation = {
+        type: MutationType.patchFunction,
+        storeName: $id,
+        storeId: $id,
+        events: debuggerEvents as DebuggerEvent[],
+      }
     } else {
       innerPatch(pinia.state.value[$id], partialStateOrMutator)
-      partialState = partialStateOrMutator
-      type = MutationType.patchObject
+      subscriptionMutation = {
+        type: MutationType.patchObject,
+        payload: partialStateOrMutator,
+        storeName: $id,
+        storeId: $id,
+        events: debuggerEvents as DebuggerEvent[],
+      }
     }
     isListening = true
     // because we paused the watcher, we need to manually call the subscriptions
     subscriptions.forEach((callback) => {
-      callback(
-        { storeName: $id, type, payload: partialState, events: debuggerEvents },
-        pinia.state.value[$id] as UnwrapRef<S>
-      )
+      callback(subscriptionMutation, pinia.state.value[$id] as UnwrapRef<S>)
     })
   }
 
@@ -180,9 +187,9 @@ function initStore<
           callback(
             {
               storeName: $id,
+              storeId: $id,
               type: MutationType.direct,
-              payload: {},
-              events: debuggerEvents,
+              events: debuggerEvents as DebuggerEvent,
             },
             state
           )

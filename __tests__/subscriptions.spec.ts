@@ -1,4 +1,4 @@
-import { createPinia, defineStore, setActivePinia } from '../src'
+import { createPinia, defineStore, MutationType, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
 
 describe('Subscriptions', () => {
@@ -23,6 +23,33 @@ describe('Subscriptions', () => {
     store.$subscribe(spy)
     store.$state.name = 'Cleiton'
     expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        storeName: 'main',
+        storeId: 'main',
+        type: MutationType.direct,
+      }),
+      store.$state
+    )
+  })
+
+  it('subscribe to changes done via patch', () => {
+    const store = useStore()
+    const spy = jest.fn()
+    store.$subscribe(spy)
+
+    const patch = { name: 'Cleiton' }
+    store.$patch(patch)
+
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        payload: patch,
+        storeName: 'main',
+        storeId: 'main',
+        type: MutationType.patchObject,
+      }),
+      store.$state
+    )
   })
 
   it('unsubscribes callback when unsubscribe is called', () => {
