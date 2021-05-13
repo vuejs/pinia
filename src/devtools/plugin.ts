@@ -76,7 +76,7 @@ export function addDevtools(app: App, store: Store) {
               payload.instanceData.state.push({
                 type: '🍍 ' + store.$id,
                 key: 'state',
-                editable: false,
+                editable: true,
                 value: store.$state,
               })
 
@@ -149,6 +149,31 @@ export function addDevtools(app: App, store: Store) {
             if (path[0] !== 'state') {
               return toastMessage(
                 `Invalid path for store "${payload.nodeId}":\n${path}\nOnly state can be modified.`
+              )
+            }
+
+            // rewrite the first entry to be able to directly set the state as
+            // well as any other path
+            path[0] = '$state'
+            isTimelineActive = false
+            payload.set(store, path, payload.state.value)
+            isTimelineActive = true
+          }
+        })
+
+        api.on.editComponentState((payload) => {
+          if (payload.type.startsWith('🍍')) {
+            const storeId = payload.type.replace(/^🍍\s*/, '')
+            const store = registeredStores.get(storeId)
+
+            if (!store) {
+              return toastMessage(`store "${storeId}" not found`, 'error')
+            }
+
+            const { path } = payload
+            if (path[0] !== 'state') {
+              return toastMessage(
+                `Invalid path for store "${storeId}":\n${path}\nOnly state can be modified.`
               )
             }
 
