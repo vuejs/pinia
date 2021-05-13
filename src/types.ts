@@ -60,6 +60,93 @@ export enum MutationType {
 }
 
 /**
+ * Base type for the context passed to a subscription callback.
+ *
+ * @internal
+ */
+export interface _SubscriptionCallbackMutationBase {
+  /**
+   * Type of the mutation.
+   */
+  type: MutationType
+
+  /**
+   * @deprecated use `storeId` instead.
+   */
+  storeName: string
+
+  /**
+   * `id` of the store doing the mutation.
+   */
+  storeId: string
+}
+
+/**
+ * Context passed to a subscription callback when directly mutating the state of
+ * a store with `store.someState = newValue` or `store.$state.someState =
+ * newValue`.
+ */
+export interface SubscriptionCallbackMutationDirect
+  extends _SubscriptionCallbackMutationBase {
+  type: MutationType.direct
+}
+
+/**
+ * Context passed to a subscription callback when `store.$patch()` is called
+ * with an object.
+ */
+export interface SubscriptionCallbackMutationPatchObject<S>
+  extends _SubscriptionCallbackMutationBase {
+  type: MutationType.patchObject
+
+  /**
+   * Object passed to `store.$patch()`.
+   */
+  payload: DeepPartial<S>
+}
+
+/**
+ * Context passed to a subscription callback when `store.$patch()` is called
+ * with a function.
+ */
+export interface SubscriptionCallbackMutationPatchFunction
+  extends _SubscriptionCallbackMutationBase {
+  type: MutationType.patchFunction
+
+  /**
+   * Object passed to `store.$patch()`.
+   */
+  // payload: DeepPartial<UnwrapRef<S>>
+}
+
+/**
+ * Context object passed to a subscription callback.
+ */
+export type SubscriptionCallbackMutation<S> =
+  | SubscriptionCallbackMutationDirect
+  | SubscriptionCallbackMutationPatchObject<S>
+  | SubscriptionCallbackMutationPatchFunction
+
+export type UnwrapPromise<T> = T extends Promise<infer V> ? V : T
+
+/**
+ * Callback of a subscription
+ */
+export type SubscriptionCallback<S> = (
+  /**
+   * Object with information relative to the store mutation that triggered the
+   * subscription.
+   */
+  mutation: SubscriptionCallbackMutation<S>,
+
+  /**
+   * State of the store when the subscription is triggered. Same as
+   * `store.$state`.
+   */
+  state: UnwrapRef<S>
+) => void
+
+/**
  * Context object passed to callbacks of `store.$onAction(context => {})`
  */
 export interface StoreOnActionListenerContext {
@@ -96,21 +183,6 @@ export interface StoreOnActionListenerContext {
  */
 export type StoreOnActionListener = (
   context: StoreOnActionListenerContext
-) => void
-
-/**
- * Callback of a subscription
- */
-export type SubscriptionCallback<S> = (
-  // TODO: make type an enumeration
-  // TODO: payload should be optional
-  mutation: {
-    storeName: string
-    type: MutationType
-
-    payload: DeepPartial<UnwrapRef<S>>
-  },
-  state: UnwrapRef<S>
 ) => void
 
 /**
@@ -165,14 +237,9 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
    * cleanup up when the component gets unmounted.
    *
    * @param callback - callback passed to the watcher
-   * @param onTrigger - DEV ONLY watcher debugging
-   * (https://v3.vuejs.org/guide/reactivity-computed-watchers.html#watcher-debugging)
    * @returns function that removes the watcher
    */
-  $subscribe(
-    callback: SubscriptionCallback<S>,
-    onTrigger?: (event: any) => void
-  ): () => void
+  $subscribe(callback: SubscriptionCallback<S>): () => void
 
   /**
    * Array of registered action subscriptions.
@@ -263,11 +330,11 @@ export type StoreWithGetters<G> = {
  * Store type to build a store
  */
 export type Store<
-  Id extends string,
-  S extends StateTree,
-  G extends GettersTree<S>,
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  G extends GettersTree<S> = GettersTree<S>,
   // has the actions without the context (this) for typings
-  A
+  A = ActionsTree
 > = StoreWithState<Id, S> &
   UnwrapRef<S> &
   StoreWithGetters<G> &
@@ -323,6 +390,11 @@ export type GettersTree<S extends StateTree> = Record<
   string,
   ((state: UnwrapRef<S>) => any) | (() => any)
 >
+
+/**
+ * @internal
+ */
+export type ActionsTree = Record<string, _Method>
 
 /**
  * Options parameter of `defineStore()`. Can be extended to augment stores with

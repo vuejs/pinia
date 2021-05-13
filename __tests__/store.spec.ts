@@ -1,6 +1,9 @@
-import { defineComponent } from '@vue/composition-api'
+import {
+  defineComponent,
+  getCurrentInstance,
+  watch,
+} from '@vue/composition-api'
 import { createLocalVue, mount } from '@vue/test-utils'
-import { MutationType } from '../src'
 import Vue from 'vue'
 import {
   createPinia,
@@ -129,39 +132,80 @@ describe('Store', () => {
     expect(store2.$state.nested.a.b).toBe('string')
   })
 
-  it('subscribe to changes', () => {
-    const store = useStore()
-    const spy = jest.fn()
-    store.$subscribe(spy)
+  it('should outlive components', async () => {
+    const pinia = createPinia()
+    pinia.Vue = Vue
+    const localVue = createLocalVue()
+    localVue.use(PiniaPlugin)
+    const useStore = defineStore({
+      id: 'main',
+      state: () => ({ n: 0 }),
+    })
 
-    store.$state.a = false
-
-    expect(spy).toHaveBeenCalledWith(
+    const wrapper = mount(
       {
-        payload: {},
-        storeName: 'main',
-        type: MutationType.direct,
+        setup() {
+          const store = useStore()
+
+          return { store }
+        },
+
+        template: `<p>n: {{ store.n }}</p>`,
       },
-      store.$state
+      {
+        pinia,
+        localVue,
+      }
     )
+
+    expect(wrapper.text()).toBe('n: 0')
+
+    const store = useStore(pinia)
+
+    const spy = jest.fn()
+    watch(() => store.n, spy)
+
+    expect(spy).toHaveBeenCalledTimes(0)
+    store.n++
+    await wrapper.vm.$nextTick()
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(wrapper.text()).toBe('n: 1')
+
+    await wrapper.destroy()
+    store.n++
+    await wrapper.vm.$nextTick()
+    expect(spy).toHaveBeenCalledTimes(2)
   })
 
-  it('subscribe to changes done via patch', () => {
-    const store = useStore()
-    const spy = jest.fn()
-    store.$subscribe(spy)
+  it('should not break getCurrentInstance', () => {
+    const pinia = createPinia()
+    pinia.Vue = Vue
+    const localVue = createLocalVue()
+    localVue.use(PiniaPlugin)
+    const useStore = defineStore({
+      id: 'other',
+      state: () => ({ a: true }),
+    })
+    let store: ReturnType<typeof useStore> | undefined
 
-    const patch = { a: false }
-    store.$patch(patch)
-
-    expect(spy).toHaveBeenCalledWith(
+    let i1: any = {}
+    let i2: any = {}
+    const wrapper = mount(
       {
-        payload: patch,
-        storeName: 'main',
-        type: MutationType.patchObject,
+        setup() {
+          i1 = getCurrentInstance()
+          store = useStore()
+          i2 = getCurrentInstance()
+
+          return { store }
+        },
+
+        template: `<p>a: {{ store.a }}</p>`,
       },
-      store.$state
+      { pinia, localVue }
     )
+
+    expect(i1).toBe(i2)
   })
 
   it('reuses stores from parent components', () => {

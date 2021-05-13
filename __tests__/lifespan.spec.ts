@@ -107,7 +107,8 @@ describe('Store Lifespan', () => {
     expect(inComponentWatch).toHaveBeenCalledTimes(2)
   })
 
-  it('ref in state reactivity outlives component life', async () => {
+  // FIXME: same limitation as above
+  it.skip('ref in state reactivity outlives component life', async () => {
     let n: Ref<number>
     const globalWatch = jest.fn()
     const destroy = watch(() => pinia.state.value.a?.n, globalWatch)
