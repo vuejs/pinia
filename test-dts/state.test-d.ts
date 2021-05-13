@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, ref } from '@vue/composition-api'
 import { defineStore, expectType } from './'
 
 const name = ref('Eduardo')

@@ -5,6 +5,7 @@ import {
   StateTree,
   Store,
   StoreDefinition,
+  ActionsTree,
 } from './types'
 
 type ComponentPublicInstance = Vue
@@ -57,7 +58,7 @@ function getCachedStore<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
-  A = Record<string, _Method>
+  A = ActionsTree
 >(
   vm: ComponentPublicInstance,
   useStore: StoreDefinition<Id, S, G, A>

@@ -1,4 +1,4 @@
-import { PluginFunction } from 'vue'
+import type { PluginFunction } from 'vue'
 import { piniaSymbol } from './rootStore'
 
 /**

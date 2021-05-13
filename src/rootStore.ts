@@ -4,13 +4,12 @@ import {
   StoreWithState,
   StateDescriptor,
   PiniaCustomProperties,
-  GenericStore,
   GettersTree,
-  _Method,
   Store,
   DefineStoreOptions,
+  ActionsTree,
 } from './types'
-import { VueConstructor } from 'vue'
+import type { VueConstructor } from 'vue'
 import type Vue from 'vue'
 
 /**
@@ -42,7 +41,7 @@ export interface PiniaPluginContext<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
-  A = Record<string, _Method>
+  A = ActionsTree
 > {
   /**
    * pinia instance.
