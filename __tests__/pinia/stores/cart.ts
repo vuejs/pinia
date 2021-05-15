@@ -1,24 +1,31 @@
 import { defineStore } from '../../../src'
-import { useUserStore, UserStore } from './user'
+import { useUserStore } from './user'
+
+export interface CartItem {
+  name: string
+  price: number
+}
 
 export const useCartStore = defineStore({
   id: 'cart',
   state: () => ({
-    rawItems: [] as string[],
+    rawItems: [] as CartItem[],
   }),
   getters: {
     items: (state) =>
       state.rawItems.reduce((items, item) => {
-        const existingItem = items.find((it) => it.name === item)
+        const existingItem = items.find((it) => it.item.name === item.name)
 
         if (!existingItem) {
-          items.push({ name: item, amount: 1 })
+          items.push({ item, amount: 1 })
         } else {
           existingItem.amount++
         }
 
         return items
-      }, [] as { name: string; amount: number }[]),
+      }, [] as { item: CartItem; amount: number }[]),
+    price: (state) =>
+      state.rawItems.reduce((total, item) => total + item.price, 0),
   },
 })
 
@@ -35,21 +42,21 @@ export type CartStore = ReturnType<typeof useCartStore>
 
 // getters.items
 
-export function addItem(name: string) {
+export function addItem(name: string, price: number): void {
   const store = useCartStore()
-  store.$state.rawItems.push(name)
+  store.$state.rawItems.push({ name, price })
 }
 
-export function removeItem(name: string) {
+export function removeItem(name: string): void {
   const store = useCartStore()
-  const i = store.$state.rawItems.indexOf(name)
+  const i = store.$state.rawItems.findIndex((item) => item.name === name)
   if (i > -1) store.$state.rawItems.splice(i, 1)
 }
 
-export async function purchaseItems() {
+export async function purchaseItems(): Promise<number> {
   const cart = useCartStore()
   const user = useUserStore()
-  if (!user.$state.name) return
+  if (!user.$state.name) return 0
 
   console.log('Purchasing', cart.items)
   const n = cart.items.length

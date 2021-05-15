@@ -39,7 +39,7 @@ export type UserStore = ReturnType<typeof useUserStore>
 
 // let a: WrapStoreWithId<UserStore>
 
-export function logout() {
+export function logout(): void {
   const store = useUserStore()
 
   store.login('e', 'e').then(() => {})
