@@ -30,9 +30,14 @@ const MUTATIONS_LAYER_ID = 'pinia:mutations'
 const INSPECTOR_ID = 'pinia'
 
 export function addDevtools(app: App, store: Store) {
+  // TODO: we probably need to ensure the latest version of the store is kept:
+  // without effectScope, multiple stores will be created and will have a
+  // limited lifespan for getters.
+  let hasSubscribed = true
   if (!registeredStores.has(store.$id)) {
     registeredStores.set(store.$id, store)
     componentStateTypes.push('🍍 ' + store.$id)
+    hasSubscribed = true
   }
 
   setupDevtoolsPlugin(
@@ -187,6 +192,9 @@ export function addDevtools(app: App, store: Store) {
         api.sendInspectorTree(INSPECTOR_ID)
         api.sendInspectorState(INSPECTOR_ID)
       }
+
+      // avoid subscribing to mutations and actions twice
+      if (hasSubscribed) return
 
       store.$onAction(({ after, onError, name, args, store }) => {
         const groupId = runningActionId++
