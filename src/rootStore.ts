@@ -8,6 +8,7 @@ import {
   Store,
   DefineStoreOptions,
   ActionsTree,
+  PiniaCustomStateProperties,
 } from './types'
 import type Vue from 'vue'
 
@@ -68,7 +69,9 @@ export interface PiniaStorePlugin {
    *
    * @param context - Context
    */
-  (context: PiniaPluginContext): Partial<PiniaCustomProperties> | void
+  (context: PiniaPluginContext): Partial<
+    PiniaCustomProperties & PiniaCustomStateProperties
+  > | void
 }
 
 /**

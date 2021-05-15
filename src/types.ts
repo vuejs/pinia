@@ -198,7 +198,7 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   /**
    * State of the Store. Setting it will replace the whole state.
    */
-  $state: UnwrapRef<S>
+  $state: UnwrapRef<S> & PiniaCustomStateProperties<S>
 
   /**
    * Private property defining the pinia the store is attached to.
@@ -339,7 +339,8 @@ export type Store<
   UnwrapRef<S> &
   StoreWithGetters<G> &
   StoreWithActions<A> &
-  PiniaCustomProperties<Id, S, G, A>
+  PiniaCustomProperties<Id, S, G, A> &
+  PiniaCustomStateProperties<S>
 
 // TODO: check if it's possible to add = to StoreDefinition and Store and cleanup GenericStore and the other one
 
@@ -382,13 +383,18 @@ export interface PiniaCustomProperties<
 > {}
 
 /**
+ * Properties that are added to every `store.$state` by `pinia.use()`
+ */
+export interface PiniaCustomStateProperties<S extends StateTree = StateTree> {}
+
+/**
  * Type of an object of Getters that infers the argument
  *
  * @internal
  */
 export type GettersTree<S extends StateTree> = Record<
   string,
-  ((state: UnwrapRef<S>) => any) | (() => any)
+  ((state: UnwrapRef<S & PiniaCustomStateProperties<S>>) => any) | (() => any)
 >
 
 /**
@@ -418,7 +424,12 @@ export interface DefineStoreOptions<
    * Optional object of getters.
    */
   getters?: G &
-    ThisType<UnwrapRef<S> & StoreWithGetters<G> & PiniaCustomProperties>
+    ThisType<
+      UnwrapRef<S> &
+        StoreWithGetters<G> &
+        PiniaCustomProperties &
+        PiniaCustomStateProperties
+    >
   /**
    * Optional object of actions.
    */
@@ -428,6 +439,7 @@ export interface DefineStoreOptions<
         UnwrapRef<S> &
         StoreWithState<Id, S> &
         StoreWithGetters<G> &
-        PiniaCustomProperties
+        PiniaCustomProperties &
+        PiniaCustomStateProperties
     >
 }

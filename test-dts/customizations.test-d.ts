@@ -9,6 +9,10 @@ declare module '../dist/src' {
     $actions: Array<keyof A>
   }
 
+  export interface PiniaCustomStateProperties<S> {
+    myState: number
+  }
+
   export interface DefineStoreOptions<Id, S, G, A> {
     debounce?: {
       // Record<keyof A, number>
@@ -23,6 +27,9 @@ pinia.use((context) => {
   expectType<string>(context.options.id)
   expectType<string>(context.store.$id)
 
+  expectType<number>(context.store.$state.myState)
+  expectType<number>(context.store.myState)
+
   return {
     $actions: Object.keys(context.options.actions || {}),
   }
@@ -30,10 +37,13 @@ pinia.use((context) => {
 
 const useStore = defineStore({
   id: 'main',
+  state: () => ({}),
   actions: {
     one() {},
     two() {
       this.one()
+      expectType<number>(this.$state.myState)
+      expectType<number>(this.myState)
     },
     three() {
       this.two()
@@ -46,6 +56,8 @@ const useStore = defineStore({
     // three: 100
   },
 })
+
+expectType<{ myState: number }>(useStore().$state)
 
 type Procedure = (...args: any[]) => any
 
