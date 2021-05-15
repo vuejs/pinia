@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { defineStore, createPinia, setActivePinia, Pinia } from '../src'
 
 describe('Actions', () => {
@@ -6,7 +5,6 @@ describe('Actions', () => {
   const useStore = () => {
     // create a new store
     pinia = createPinia()
-    pinia.Vue = Vue
     setActivePinia(pinia)
     return defineStore({
       id: 'main',
@@ -96,9 +94,7 @@ describe('Actions', () => {
 
   it('supports being called between requests', () => {
     const pinia1 = createPinia()
-    pinia1.Vue = Vue
     const pinia2 = createPinia()
-    pinia2.Vue = Vue
     setActivePinia(pinia1)
     const aStore = useA()
 
@@ -115,9 +111,7 @@ describe('Actions', () => {
 
   it('can force the req', () => {
     const pinia1 = createPinia()
-    pinia1.Vue = Vue
     const pinia2 = createPinia()
-    pinia2.Vue = Vue
     const aStore = useA(pinia1)
 
     let bStore = useB(pinia2)

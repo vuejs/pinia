@@ -1,5 +1,4 @@
 import { computed, nextTick, ref, watch } from '@vue/composition-api'
-import Vue from 'vue'
 import { defineStore, setActivePinia, createPinia, Pinia } from '../src'
 
 describe('State', () => {
@@ -7,7 +6,6 @@ describe('State', () => {
   const useStore = () => {
     // create a new store
     pinia = createPinia()
-    pinia.Vue = Vue
     setActivePinia(pinia)
     return defineStore({
       id: 'main',
@@ -66,7 +64,6 @@ describe('State', () => {
     })
 
     const pinia = createPinia()
-    pinia.Vue = Vue
     setActivePinia(pinia)
     const useStore = defineStore({
       id: 'main',

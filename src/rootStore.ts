@@ -9,7 +9,6 @@ import {
   DefineStoreOptions,
   ActionsTree,
 } from './types'
-import type { VueConstructor } from 'vue'
 import type Vue from 'vue'
 
 /**
@@ -47,11 +46,6 @@ export interface PiniaPluginContext<
    * pinia instance.
    */
   pinia: Pinia
-
-  /**
-   * Current app created with `Vue.createApp()`.
-   */
-  // app: App
 
   /**
    * Current store being extended.
@@ -101,11 +95,6 @@ export interface Pinia {
    * @internal
    */
   _p: PiniaStorePlugin[]
-
-  /**
-   * Vue constructor retrieved when installing the pinia.
-   */
-  Vue: VueConstructor<Vue>
 }
 
 declare module 'vue/types/vue' {
@@ -146,9 +135,6 @@ export function createPinia(): Pinia {
   const _p: Pinia['_p'] = []
 
   const pinia: Pinia = {
-    // this one is set in install
-    Vue: {} as any,
-
     use(plugin) {
       _p.push(plugin)
       return pinia

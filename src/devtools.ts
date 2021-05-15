@@ -102,7 +102,8 @@ export function useStoreDevtools(
     devtoolHook.emit(
       'vuex:mutation',
       {
-        type: `[${mutation.storeName}] ${mutation.type}`,
+        type: `[${mutation.storeId}] ${mutation.type}`,
+        // @ts-expect-error: will be undefined in worst case
         payload: mutation.payload,
       },
       // this doesn't seem to be used by the devtools but it's in vuex codebase

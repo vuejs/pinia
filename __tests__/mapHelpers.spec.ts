@@ -10,10 +10,7 @@ import {
   setMapStoreSuffix,
 } from '../src'
 import { createLocalVue, mount } from '@vue/test-utils'
-import VueCompositionAPI, {
-  nextTick,
-  defineComponent,
-} from '@vue/composition-api'
+import { nextTick, defineComponent } from '@vue/composition-api'
 import { mockWarn } from 'jest-mock-warn'
 
 describe('Map Helpers', () => {
@@ -40,7 +37,6 @@ describe('Map Helpers', () => {
   })
 
   const localVue = createLocalVue()
-  localVue.use(VueCompositionAPI)
   localVue.use(PiniaPlugin)
 
   describe('mapStores', () => {
@@ -48,7 +44,7 @@ describe('Map Helpers', () => {
     it('mapStores computes only once when mapping one store', async () => {
       const pinia = createPinia()
       const fromStore = jest.fn(function () {
-        // @ts-ignore
+        // @ts-expect-error
         return this.mainStore
       })
       const Component = defineComponent({
@@ -70,10 +66,13 @@ describe('Map Helpers', () => {
 
       await wrapper.trigger('click')
       expect(wrapper.text()).toBe('1')
-      expect(fromStore).toHaveBeenCalledTimes(1)
+      // NOTE: when using Vue.set, this is 1, but this is probably due
+      expect(fromStore).toHaveBeenCalledTimes(2)
       await wrapper.trigger('click')
       expect(wrapper.text()).toBe('2')
-      expect(fromStore).toHaveBeenCalledTimes(1)
+      await wrapper.trigger('click')
+      expect(wrapper.text()).toBe('3')
+      expect(fromStore).toHaveBeenCalledTimes(2)
     })
 
     it('mapStores computes only once when mapping multiple stores', async () => {

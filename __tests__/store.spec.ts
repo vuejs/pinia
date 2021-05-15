@@ -4,7 +4,6 @@ import {
   watch,
 } from '@vue/composition-api'
 import { createLocalVue, mount } from '@vue/test-utils'
-import Vue from 'vue'
 import {
   createPinia,
   defineStore,
@@ -19,7 +18,6 @@ describe('Store', () => {
     // create a new store
     pinia = createPinia()
     // this is done by Vue.install(pinia)
-    pinia.Vue = Vue
     setActivePinia(pinia)
     return defineStore({
       id: 'main',
@@ -70,7 +68,6 @@ describe('Store', () => {
 
   it('can hydrate the state', () => {
     const pinia = createPinia()
-    pinia.Vue = Vue
     setActivePinia(pinia)
     const useStore = defineStore({
       id: 'main',
@@ -134,7 +131,6 @@ describe('Store', () => {
 
   it('should outlive components', async () => {
     const pinia = createPinia()
-    pinia.Vue = Vue
     const localVue = createLocalVue()
     localVue.use(PiniaPlugin)
     const useStore = defineStore({
@@ -179,7 +175,6 @@ describe('Store', () => {
 
   it('should not break getCurrentInstance', () => {
     const pinia = createPinia()
-    pinia.Vue = Vue
     const localVue = createLocalVue()
     localVue.use(PiniaPlugin)
     const useStore = defineStore({
@@ -212,7 +207,6 @@ describe('Store', () => {
     let s1, s2
     const useStore = defineStore({ id: 'one' })
     const pinia = createPinia()
-    pinia.Vue = Vue
     const localVue = createLocalVue()
     localVue.use(PiniaPlugin)
 

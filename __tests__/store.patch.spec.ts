@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { defineStore, setActivePinia, createPinia, Pinia } from '../src'
 
 describe('store.patch', () => {
@@ -7,7 +6,6 @@ describe('store.patch', () => {
     // create a new store
     pinia = createPinia()
     // this is done by Vue.install(pinia)
-    pinia.Vue = Vue
     setActivePinia(pinia)
     return defineStore({
       id: 'main',

@@ -30,7 +30,6 @@ export const PiniaPlugin: PluginFunction<void> = function (_Vue) {
     beforeCreate() {
       const options = this.$options
       if (options.pinia) {
-        options.pinia.Vue = _Vue
         // HACK: taken from provide(): https://github.com/vuejs/composition-api/blob/master/src/apis/inject.ts#L25
         /* istanbul ignore else */
         if (!(this as any)._provided) {
@@ -53,7 +52,7 @@ export const PiniaPlugin: PluginFunction<void> = function (_Vue) {
       }
     },
     destroyed() {
-      // @ts-ignore: clear up the store cache
+      // @ts-expect-error: clear up the store cache
       delete this._pStores
     },
   })

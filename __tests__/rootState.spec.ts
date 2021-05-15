@@ -1,5 +1,4 @@
 import { defineStore, createPinia } from '../src'
-import Vue from 'vue'
 
 describe('Root State', () => {
   const useA = defineStore({
@@ -18,7 +17,6 @@ describe('Root State', () => {
 
   it('retrieves the root state of one store', () => {
     const pinia = createPinia()
-    pinia.Vue = Vue
     useA(pinia)
     expect(pinia.state.value).toEqual({
       a: { a: 'a' },
@@ -27,9 +25,7 @@ describe('Root State', () => {
 
   it('does not mix up different applications', () => {
     const pinia1 = createPinia()
-    pinia1.Vue = Vue
     const pinia2 = createPinia()
-    pinia2.Vue = Vue
     useA(pinia1)
     useB(pinia2)
     expect(pinia1.state.value).toEqual({
@@ -42,7 +38,6 @@ describe('Root State', () => {
 
   it('can hold multiple stores', () => {
     const pinia1 = createPinia()
-    pinia1.Vue = Vue
     useA(pinia1)
     useB(pinia1)
     expect(pinia1.state.value).toEqual({

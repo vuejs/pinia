@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { defineStore, createPinia, setActivePinia, Pinia } from '../src'
 
 describe('Getters', () => {
@@ -8,7 +7,6 @@ describe('Getters', () => {
   const useStore = () => {
     // create a new store
     pinia = createPinia()
-    pinia.Vue = Vue
     setActivePinia(pinia)
     return defineStore({
       id: 'main',
@@ -75,9 +73,7 @@ describe('Getters', () => {
 
   it('supports changing between requests', () => {
     const pinia1 = createPinia()
-    pinia1.Vue = Vue
     const pinia2 = createPinia()
-    pinia2.Vue = Vue
     setActivePinia(pinia1)
     const aStore = useA()
 

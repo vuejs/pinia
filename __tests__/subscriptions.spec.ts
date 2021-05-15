@@ -1,6 +1,5 @@
 import { nextTick } from '@vue/composition-api'
 import { createLocalVue, mount } from '@vue/test-utils'
-import Vue from 'vue'
 import {
   defineStore,
   setActivePinia,
@@ -15,7 +14,6 @@ describe('Subscriptions', () => {
   const useStore = () => {
     // create a new store
     pinia = createPinia()
-    pinia.Vue = Vue
     setActivePinia(pinia)
     return defineStore({
       id: 'main',
@@ -94,7 +92,6 @@ describe('Subscriptions', () => {
 
     it('triggers subscribe only once', async () => {
       const pinia = createPinia()
-      pinia.Vue = Vue
       setActivePinia(pinia)
       const s1 = useStore()
       const s2 = useStore()
@@ -116,7 +113,6 @@ describe('Subscriptions', () => {
 
     it('removes on unmount', async () => {
       const pinia = createPinia()
-      pinia.Vue = Vue
       const spy1 = jest.fn()
       const spy2 = jest.fn()
 

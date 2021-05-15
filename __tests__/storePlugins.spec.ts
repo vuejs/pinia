@@ -1,6 +1,5 @@
 import { createPinia, defineStore, PiniaPlugin } from '../src'
 import { createLocalVue, mount } from '@vue/test-utils'
-import Vue from 'vue'
 
 declare module '../src' {
   export interface PiniaCustomProperties<Id> {
@@ -30,7 +29,6 @@ describe('store plugins', () => {
 
   it('adds properties to stores', () => {
     const pinia = createPinia()
-    pinia.Vue = Vue
     mount({ template: '<p/>' }, { localVue, pinia })
 
     // must call use after installing the plugin
@@ -49,7 +47,6 @@ describe('store plugins', () => {
 
   it('can install plugins before installing pinia', () => {
     const pinia = createPinia()
-    pinia.Vue = Vue
 
     pinia.use(() => ({ pluginN: 1 }))
     pinia.use((pinia) => ({ hasPinia: !!pinia }))
@@ -66,7 +63,6 @@ describe('store plugins', () => {
 
   it('can be used in actions', () => {
     const pinia = createPinia()
-    pinia.Vue = Vue
     mount({ template: '<p/>' }, { localVue, pinia })
 
     // must call use after installing the plugin
@@ -81,7 +77,6 @@ describe('store plugins', () => {
 
   it('can be used in getters', () => {
     const pinia = createPinia()
-    pinia.Vue = Vue
     mount({ template: '<p/>' }, { localVue, pinia })
 
     // must call use after installing the plugin

@@ -1,12 +1,11 @@
 import { createPinia, defineStore, PiniaPlugin, setActivePinia } from '../src'
 import { createLocalVue, mount } from '@vue/test-utils'
-import Vue from 'vue'
+import { nextTick } from '@vue/composition-api'
 
 describe('Subscriptions', () => {
   const useStore = () => {
     // create a new store
     const pinia = createPinia()
-    pinia.Vue = Vue
     setActivePinia(pinia)
     return defineStore({
       id: 'main',
@@ -82,7 +81,7 @@ describe('Subscriptions', () => {
       after(spy)
     })
     expect(store.upperName()).toBe('EDUARDO')
-    await Vue.nextTick()
+    await nextTick()
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('EDUARDO')
   })
@@ -146,7 +145,6 @@ describe('Subscriptions', () => {
 
     it('triggers subscribe only once', async () => {
       const pinia = createPinia()
-      pinia.Vue = Vue
       setActivePinia(pinia)
       const s1 = useStore()
       const s2 = useStore()
@@ -170,7 +168,6 @@ describe('Subscriptions', () => {
 
     it('removes on unmount', async () => {
       const pinia = createPinia()
-      pinia.Vue = Vue
       setActivePinia(pinia)
       const localVue = createLocalVue()
       localVue.use(PiniaPlugin)

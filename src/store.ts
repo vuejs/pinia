@@ -10,6 +10,7 @@ import {
   InjectionKey,
   provide,
   UnwrapRef,
+  set,
 } from '@vue/composition-api'
 import {
   StateTree,
@@ -20,7 +21,6 @@ import {
   StoreWithGetters,
   Store,
   StoreWithActions,
-  _Method,
   StateDescriptor,
   StoreDefinition,
   GettersTree,
@@ -104,7 +104,7 @@ function initStore<Id extends string, S extends StateTree>(
   InjectionKey<Store>
 ] {
   const pinia = getActivePinia()
-  pinia.Vue.set(pinia.state.value, $id, initialState || buildState())
+  set(pinia.state.value, $id, initialState || buildState())
   // const state: Ref<S> = toRef(_p.state.value, $id)
 
   let isListening = true
