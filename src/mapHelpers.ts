@@ -139,7 +139,14 @@ export function mapStores<Stores extends any[]>(
  * @internal
  */
 export type _MapStateReturn<S extends StateTree, G extends GettersTree<S>> = {
-  [key in keyof S | keyof G]: () => Store<string, S, G, {}>[key]
+  // [key in keyof S | keyof G]: () => key extends keyof S
+  //   ? S[key]
+  //   : key extends keyof G
+  //   ? G[key]
+  //   : never
+  [key in keyof S | keyof G]: () => key extends keyof Store<string, S, G, {}>
+    ? Store<string, S, G, {}>[key]
+    : never
 }
 
 /**
@@ -157,7 +164,7 @@ export type _MapStateObjectReturn<
 > = {
   [key in keyof T]: () => T[key] extends (store: Store) => infer R
     ? R
-    : T[key] extends keyof S | keyof G
+    : T[key] extends keyof Store<Id, S, G, A>
     ? Store<Id, S, G, A>[T[key]]
     : never
 }
@@ -267,6 +274,7 @@ export function mapState<
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
         reduced[key] = function (this: ComponentPublicInstance) {
+          // @ts-expect-error
           return getCachedStore(this, useStore)[key]
         } as () => any
         return reduced
@@ -279,7 +287,7 @@ export function mapState<
           // function
           return typeof storeKey === 'function'
             ? (storeKey as (store: Store<Id, S, G, A>) => any).call(this, store)
-            : store[storeKey as keyof S | keyof G]
+            : store[storeKey as keyof typeof store]
         }
         return reduced
       }, {} as _MapStateObjectReturn<Id, S, G, A, KeyMapper>)
@@ -295,14 +303,14 @@ export const mapGetters = mapState
  * @internal
  */
 export type _MapActionsReturn<A> = {
-  [key in keyof A]: Store<string, StateTree, {}, A>[key]
+  [key in keyof A]: A[key]
 }
 
 /**
  * @internal
  */
 export type _MapActionsObjectReturn<A, T extends Record<string, keyof A>> = {
-  [key in keyof T]: Store<string, StateTree, {}, A>[T[key]]
+  [key in keyof T]: A[T[key]]
 }
 
 /**
@@ -392,21 +400,25 @@ export function mapActions<
 ): _MapActionsReturn<A> | _MapActionsObjectReturn<A, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
+        // @ts-expect-error
         reduced[key] = function (
           this: ComponentPublicInstance,
           ...args: any[]
         ) {
+          // @ts-expect-error
           return (getCachedStore(this, useStore)[key] as _Method)(...args)
-        } as Store<string, StateTree, {}, A>[keyof A]
+        }
         return reduced
       }, {} as _MapActionsReturn<A>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
+        // @ts-expect-error
         reduced[key] = function (
           this: ComponentPublicInstance,
           ...args: any[]
         ) {
+          // @ts-expect-error
           return getCachedStore(this, useStore)[keysOrMapper[key]](...args)
-        } as Store<string, StateTree, {}, A>[keyof KeyMapper[]]
+        }
         return reduced
       }, {} as _MapActionsObjectReturn<A, KeyMapper>)
 }
@@ -416,8 +428,8 @@ export function mapActions<
  */
 export type _MapWritableStateReturn<S extends StateTree> = {
   [key in keyof S]: {
-    get: () => Store<string, S, {}, {}>[key]
-    set: (value: Store<string, S, {}, {}>[key]) => any
+    get: () => S[key]
+    set: (value: S[key]) => any
   }
 }
 
@@ -429,8 +441,8 @@ export type _MapWritableStateObjectReturn<
   T extends Record<string, keyof S>
 > = {
   [key in keyof T]: {
-    get: () => Store<string, S, {}, {}>[T[key]]
-    set: (value: Store<string, S, {}, {}>[T[key]]) => any
+    get: () => S[T[key]]
+    set: (value: S[T[key]]) => any
   }
 }
 
@@ -492,10 +504,12 @@ export function mapWritableState<
         // @ts-ignore
         reduced[key] = {
           get(this: ComponentPublicInstance) {
+            // @ts-expect-error
             return getCachedStore(this, useStore)[key]
           },
           set(this: ComponentPublicInstance, value) {
             // it's easier to type it here as any
+            // @ts-expect-error
             return (getCachedStore(this, useStore)[key] = value as any)
           },
         }
@@ -505,10 +519,12 @@ export function mapWritableState<
         // @ts-ignore
         reduced[key] = {
           get(this: ComponentPublicInstance) {
+            // @ts-expect-error
             return getCachedStore(this, useStore)[keysOrMapper[key]]
           },
           set(this: ComponentPublicInstance, value) {
             // it's easier to type it here as any
+            // @ts-expect-error
             return (getCachedStore(this, useStore)[keysOrMapper[key]] =
               value as any)
           },

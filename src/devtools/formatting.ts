@@ -32,6 +32,7 @@ export function formatStoreForInspectorState(
       editable: false,
       key: 'getters',
       value: store._getters.reduce((getters, key) => {
+        // @ts-expect-error
         getters[key] = store[key]
         return getters
       }, {} as GettersTree<StateTree>),

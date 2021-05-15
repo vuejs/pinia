@@ -1,6 +1,5 @@
-import { mapStores } from 'dist/pinia'
+import { expectType, createPinia, defineStore, mapStores } from './'
 import { App } from 'vue'
-import { expectType, createPinia, defineStore } from '.'
 
 declare module '../dist/pinia' {
   export interface MapStoresCustomization {
@@ -40,7 +39,6 @@ pinia.use((context) => {
 
 const useStore = defineStore({
   id: 'main',
-  state: () => ({}),
   actions: {
     one() {},
     two() {
@@ -74,6 +72,7 @@ pinia.use(({ options, store }) => {
   if (options.debounce) {
     return Object.keys(options.debounce).reduce((debouncedActions, action) => {
       debouncedActions[action] = debounce(
+        // @ts-expect-error: cannot be inferred
         store[action],
         options.debounce![action as keyof typeof options['actions']]
       )

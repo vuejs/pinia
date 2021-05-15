@@ -425,8 +425,8 @@ export function defineStore<
         storeAndDescriptor[0],
         storeAndDescriptor[1],
         id,
-        getters as GettersTree<S> | undefined,
-        actions as A | undefined,
+        getters,
+        actions,
         options
       )
 
@@ -437,20 +437,19 @@ export function defineStore<
       }
     } else {
       store =
-        // null avoids the warning for not found injection key
         (currentInstance && inject(storeAndDescriptor[2], null)) ||
         buildStoreToUse<
           Id,
           S,
           G,
-          // @ts-expect-error: A without extends
+          // @ts-expect-error: cannot extends ActionsTree
           A
         >(
           storeAndDescriptor[0],
           storeAndDescriptor[1],
           id,
-          getters as GettersTree<S> | undefined,
-          actions as A | undefined,
+          getters,
+          actions,
           options
         )
     }

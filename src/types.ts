@@ -231,7 +231,8 @@ export interface StoreWithState<
   /**
    * State of the Store. Setting it will replace the whole state.
    */
-  $state: UnwrapRef<S> & PiniaCustomStateProperties<S>
+  $state: (StateTree extends S ? {} : UnwrapRef<S>) &
+    PiniaCustomStateProperties<S>
 
   /**
    * Private property defining the pinia the store is attached to.
@@ -377,11 +378,28 @@ export type Store<
   // has the actions without the context (this) for typings
   A /* extends ActionsTree */ = ActionsTree
 > = StoreWithState<Id, S, G, A> &
-  UnwrapRef<S> &
-  StoreWithGetters<G> &
-  StoreWithActions<A> &
+  (StateTree extends S ? {} : UnwrapRef<S>) &
+  (GettersTree<S> extends G ? {} : StoreWithGetters<G>) &
+  (ActionsTree extends A ? {} : StoreWithActions<A>) &
   PiniaCustomProperties<Id, S, G, A> &
   PiniaCustomStateProperties<S>
+
+/**
+ * Generic version of Store. Doesn't fail on access with strings
+ */
+export type GenericStore = StoreWithState<
+  string,
+  StateTree,
+  GettersTree<StateTree>,
+  ActionsTree
+> &
+  PiniaCustomProperties<
+    string,
+    StateTree,
+    GettersTree<StateTree>,
+    ActionsTree
+  > &
+  PiniaCustomStateProperties<StateTree>
 
 /**
  * Return type of `defineStore()`. Function that allows instantiating a store.
@@ -404,12 +422,6 @@ export interface StoreDefinition<
    */
   $id: Id
 }
-
-/**
- * Generic version of Store.
- * @deprecated Use Store instead
- */
-export type GenericStore = Store
 
 /**
  * Properties that are added to every store by `pinia.use()`

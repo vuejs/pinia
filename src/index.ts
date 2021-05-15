@@ -11,6 +11,7 @@ export type {
   StoreDefinition,
   StoreWithGetters,
   GettersTree,
+  ActionsTree,
   _Method,
   StoreWithActions,
   StoreWithState,

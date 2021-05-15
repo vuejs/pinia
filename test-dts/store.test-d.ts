@@ -33,7 +33,7 @@ const useStore = defineStore({
   },
 })
 
-let store = useStore()
+const store = useStore()
 
 expectType<{ a: 'on' | 'off' }>(store.$state)
 expectType<number>(store.nested.counter)
@@ -56,3 +56,65 @@ store.$patch(() => {
   // return earlier
   return
 })
+
+const useNoSAG = defineStore({
+  id: 'noSAG',
+})
+const useNoAG = defineStore({
+  id: 'noAG',
+  state: () => ({}),
+})
+const useNoSG = defineStore({
+  id: 'noAG',
+  actions: {},
+})
+const useNoSA = defineStore({
+  id: 'noAG',
+  getters: {},
+})
+const useNoS = defineStore({
+  id: 'noAG',
+  actions: {},
+  getters: {},
+})
+const useNoA = defineStore({
+  id: 'noAG',
+  state: () => ({}),
+  getters: {},
+})
+const useNoG = defineStore({
+  id: 'noAG',
+  state: () => ({}),
+  actions: {},
+})
+
+const noSAG = useNoSAG()
+const noSA = useNoSA()
+const noAG = useNoAG()
+const noSG = useNoSG()
+const noS = useNoS()
+const noA = useNoA()
+const noG = useNoG()
+
+// @ts-expect-error
+store.notExisting
+
+// @ts-expect-error
+noSAG.notExisting
+// @ts-expect-error
+noSAG.$state.hey
+
+// @ts-expect-error
+noSA.notExisting
+// @ts-expect-error
+noSA.notExisting
+// @ts-expect-error
+noAG.notExisting
+// @ts-expect-error
+noSG.notExisting
+// @ts-expect-error
+noS.notExisting
+// @ts-expect-error
+noA.notExisting
+// @ts-expect-error
+noG.notExisting
