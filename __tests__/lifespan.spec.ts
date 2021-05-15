@@ -38,27 +38,13 @@ describe('Store Lifespan', () => {
   const pinia = createPinia()
   localVue.use(PiniaPlugin)
 
-  // FIXME: https://github.com/vuejs/vue-test-utils/issues/1799
-
-  it.skip('what', async () => {
-    const localVue = createLocalVue()
-    const n = 0
-    const Component = defineComponent({
-      render: (h) => h('p'),
-      setup() {
-        // console.log('setup', n++)
-      },
-    })
-
-    mount(Component, { localVue })
-  })
-
   it('state reactivity outlives component life', async () => {
     const useStore = defineMyStore()
 
     const inComponentWatch = jest.fn()
 
     // FIXME: remove when the bug is fixed in VTU
+    // https://github.com/vuejs/vue-test-utils/issues/1799
     let setupCalled = false
 
     const Component = defineComponent({
@@ -90,8 +76,7 @@ describe('Store Lifespan', () => {
 
     store.n++
     await nextTick()
-    // FIXME: seems to be a bug in composition api
-    // expect(inComponentWatch).toHaveBeenCalledTimes(1)
+    expect(inComponentWatch).toHaveBeenCalledTimes(1)
 
     wrapper = mount(Component, { localVue, pinia })
     await nextTick()
@@ -107,8 +92,7 @@ describe('Store Lifespan', () => {
     expect(inComponentWatch).toHaveBeenCalledTimes(2)
   })
 
-  // FIXME: same limitation as above
-  it.skip('ref in state reactivity outlives component life', async () => {
+  it('ref in state reactivity outlives component life', async () => {
     let n: Ref<number>
     const globalWatch = jest.fn()
     const destroy = watch(() => pinia.state.value.a?.n, globalWatch)

@@ -19,20 +19,18 @@ describe('Getters', () => {
         upperCaseName(): string {
           return this.name.toUpperCase()
         },
-        // works for js users but cannot be typed at the same time as `this`
-        // so it will have to be explicitly typed by the user
-        // https://github.com/posva/pinia/issues/249
-        callCheck(state: any) {
+        callCheck(state) {
           setImmediate(() => {
             // avoid getting tracked
+            // toRaw(state).callCount++
             state.callCount++
           })
           return state.forCallCheck
         },
-        doubleName() {
+        doubleName(): string {
           return this.upperCaseName
         },
-        composed() {
+        composed(): string {
           return this.upperCaseName + ': ok'
         },
         // TODO: I can't figure out how to pass `this` as an argument. Not sure

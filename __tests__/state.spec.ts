@@ -1,4 +1,4 @@
-import { computed, nextTick, ref, watch } from '@vue/composition-api'
+import { computed, nextTick, reactive, ref, watch } from '@vue/composition-api'
 import { defineStore, setActivePinia, createPinia, Pinia } from '../src'
 
 describe('State', () => {
@@ -52,8 +52,29 @@ describe('State', () => {
     expect(spy).toHaveBeenCalledTimes(1)
   })
 
-  // FIXME: check why unwrapping is different with composition api
-  it.skip('unwraps refs', () => {
+  it('unwraps', () => {
+    const name = ref('Eduardo')
+    const counter = ref(0)
+    const double = computed({
+      get: () => counter.value * 2,
+      set(val) {
+        counter.value = val / 2
+      },
+    })
+
+    const store = reactive({ name, counter, double })
+    expect(store.name).toBe('Eduardo')
+    name.value = 'Ed'
+    expect(store.name).toBe('Ed')
+    store.name = 'Edu'
+    expect(store.name).toBe('Edu')
+
+    double.value = 4
+    expect(store.counter).toBe(2)
+    expect(counter.value).toBe(2)
+  })
+
+  it('unwraps refs', () => {
     const name = ref('Eduardo')
     const counter = ref(0)
     const double = computed({
