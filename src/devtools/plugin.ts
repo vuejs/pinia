@@ -91,6 +91,7 @@ export function addDevtools(app: App, store: Store) {
                   key: 'getters',
                   editable: false,
                   value: store._getters.reduce((getters, key) => {
+                    // @ts-expect-error
                     getters[key] = store[key]
                     return getters
                   }, {} as GettersTree<StateTree>),
@@ -311,15 +312,16 @@ export function devtoolsPlugin<
   G extends GettersTree<S> = GettersTree<S>,
   A /* extends ActionsTree */ = ActionsTree
 >({ app, store, options, pinia }: PiniaPluginContext<Id, S, G, A>) {
-  const wrappedActions = {} as Pick<typeof store, keyof A>
+  const wrappedActions = {} as A
 
   // original actions of the store as they are given by pinia. We are going to override them
   const actions = Object.keys(options.actions || ({} as A)).reduce(
     (storeActions, actionName) => {
-      storeActions[actionName as keyof A] = store[actionName as keyof A]
+      // @ts-expect-error
+      storeActions[actionName] = store[actionName]
       return storeActions
     },
-    {} as Pick<typeof store, keyof A>
+    {} as ActionsTree
   )
 
   for (const actionName in actions) {
