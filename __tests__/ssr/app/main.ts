@@ -11,7 +11,6 @@ export function createApp() {
   const pinia = createPinia()
   Vue.use(PiniaPlugin)
   const app = new Vue({
-    // @ts-ignore
     pinia,
     render: (h) => h(App),
   })

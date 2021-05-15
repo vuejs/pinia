@@ -1,7 +1,7 @@
 import { createApp } from './main'
 
 export default function (context: any) {
-  return new Promise((resolve) => {
+  return new Promise<ReturnType<typeof createApp>['app']>((resolve) => {
     const { app, pinia } = createApp()
 
     // This `rendered` hook is called when the app has finished rendering

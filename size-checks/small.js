@@ -8,5 +8,5 @@ import {
 PiniaPlugin()
 
 createPinia()
-// @ts-ignore
+// @ts-expect-error
 export default defineStore()

@@ -78,7 +78,7 @@ describe('Map Helpers', () => {
     it('mapStores computes only once when mapping multiple stores', async () => {
       const pinia = createPinia()
       const fromStore = jest.fn(function () {
-        // @ts-ignore
+        // @ts-expect-error
         return this.mainStore
       })
       const Component = defineComponent({
@@ -274,9 +274,9 @@ describe('Map Helpers', () => {
           ...computedProperties,
         },
         methods: Object.keys(computedProperties).reduce((methods, name) => {
-          // @ts-ignore
+          // @ts-expect-error
           methods['set_' + name] = function (v: any) {
-            // @ts-ignore
+            // @ts-expect-error
             this[name] = v
           }
           return methods
@@ -288,7 +288,7 @@ describe('Map Helpers', () => {
       expect(wrapper.text()).toBe(expectedText)
 
       for (const key in computedProperties) {
-        // @ts-ignore
+        // @ts-expect-error
         wrapper.vm['set_' + key]('replaced')
       }
 

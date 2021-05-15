@@ -19,7 +19,6 @@ describe('classic vue app', () => {
     const context = createContext()
     const app = await renderApp(context)
 
-    // @ts-ignore
     const html = await renderer.renderToString(app, context)
     expect(html).toMatchInlineSnapshot(
       `"<div data-server-rendered=\\"true\\"><h2>Hi anon</h2> <p>Count: 1 x 2 = 2</p> <button>Increment</button></div>"`
@@ -30,7 +29,6 @@ describe('classic vue app', () => {
     let context = createContext()
     let app = await renderApp(context)
 
-    // @ts-ignore
     let html = await renderer.renderToString(app, context)
     expect(html).toMatchInlineSnapshot(
       `"<div data-server-rendered=\\"true\\"><h2>Hi anon</h2> <p>Count: 1 x 2 = 2</p> <button>Increment</button></div>"`
@@ -40,7 +38,6 @@ describe('classic vue app', () => {
     context = createContext()
     app = await renderApp(context)
 
-    // @ts-ignore
     html = await renderer.renderToString(app, context)
     expect(html).toMatchInlineSnapshot(
       `"<div data-server-rendered=\\"true\\"><h2>Hi anon</h2> <p>Count: 1 x 2 = 2</p> <button>Increment</button></div>"`

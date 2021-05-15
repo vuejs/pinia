@@ -123,7 +123,7 @@ export function mapStores<Stores extends any[]>(
   }
 
   return stores.reduce((reduced, useStore) => {
-    // @ts-ignore: $id is added by defineStore
+    // @ts-expect-error: $id is added by defineStore
     reduced[useStore.$id + mapStoreSuffix] = function (this: Vue) {
       return getCachedStore(this, useStore)
     }
@@ -485,7 +485,6 @@ export function mapWritableState<
 ): _MapWritableStateReturn<S> | _MapWritableStateObjectReturn<S, KeyMapper> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
-        // @ts-ignore
         reduced[key] = {
           get(this: ComponentPublicInstance) {
             return getCachedStore(this, useStore)[key]
@@ -498,7 +497,6 @@ export function mapWritableState<
         return reduced
       }, {} as _MapWritableStateReturn<S>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
-        // @ts-ignore
         reduced[key] = {
           get(this: ComponentPublicInstance) {
             return getCachedStore(this, useStore)[keysOrMapper[key]]

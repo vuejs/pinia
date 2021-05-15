@@ -53,7 +53,7 @@ function innerPatch<T extends StateTree>(
     if (isPlainObject(targetValue) && isPlainObject(subPatch)) {
       target[key] = innerPatch(targetValue, subPatch)
     } else {
-      // @ts-ignore
+      // @ts-expect-error
       target[key] = subPatch
     }
   }
@@ -77,7 +77,7 @@ function computedFromState<T, Id extends string>(
   }
   const state = rootStateRef.value[id]
   for (const key in state) {
-    // @ts-ignore: the key matches
+    // @ts-expect-error: the key matches
     reactiveObject[key] = computed({
       get: () => rootStateRef.value[id][key as keyof T],
       set: (value) => (rootStateRef.value[id][key as keyof T] = value),

@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference types="./types" />
 import Vue from 'vue'
-// @ts-ignore: this must be pinia to load the local module
+// @ts-expect-error: this must be pinia to load the local module
 import { setActivePinia, PiniaPlugin, createPinia } from 'pinia'
 
 Vue.use(PiniaPlugin)
@@ -20,7 +20,7 @@ const myPlugin = (context, inject) => {
   setActivePinia(pinia)
 
   // we bypass warnings
-  // @ts-ignore
+  // @ts-expect-error
   pinia._p.push(() => ({ $nuxt: context }))
 
   if (process.server) {
