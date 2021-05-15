@@ -264,6 +264,22 @@ declare module 'pinia' {
 }
 ```
 
+### Typing new state
+
+When adding new state properties (to both, the `store` and `store.$state`), you need to add the type to `PiniaCustomStateProperties` instead. Differently from `PiniaCustomProperties`, it only receives the `State` generic:
+
+```ts
+import 'pinia'
+
+declare module 'pinia' {
+  export interface PiniaCustomStateProperties<State> {
+    hello: string
+  }
+}
+```
+
+### Typing new creation options
+
 When creating new options for `defineStore()`, you should extend the `DefineStoreOptions`. Like `PiniaCustomProperties`, it also exposes all the generics that define a store, allowing you to limit what can be defined. For example, you can une the names of the actions:
 
 ```ts
