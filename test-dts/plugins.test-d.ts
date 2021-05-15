@@ -5,7 +5,7 @@ import {
   Pinia,
   StateTree,
   DefineStoreOptions,
-} from '.'
+} from './'
 
 const pinia = createPinia()
 

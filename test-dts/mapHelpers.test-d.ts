@@ -5,7 +5,7 @@ import {
   mapActions,
   mapState,
   mapWritableState,
-} from '.'
+} from './'
 
 const useStore = defineStore({
   id: 'name',

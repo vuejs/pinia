@@ -10,6 +10,7 @@ export type {
   GenericStore,
   StoreWithGetters,
   GettersTree,
+  ActionsTree,
   _Method,
   StoreWithActions,
   StoreWithState,

@@ -1,4 +1,4 @@
-import { expectType, createPinia, defineStore, mapStores } from '.'
+import { expectType, createPinia, defineStore, mapStores } from './'
 
 declare module '../dist/src' {
   export interface MapStoresCustomization {
@@ -37,7 +37,6 @@ pinia.use((context) => {
 
 const useStore = defineStore({
   id: 'main',
-  state: () => ({}),
   actions: {
     one() {},
     two() {
@@ -73,6 +72,7 @@ pinia.use(({ options, store }) => {
   if (options.debounce) {
     return Object.keys(options.debounce).reduce((debouncedActions, action) => {
       debouncedActions[action] = debounce(
+        // @ts-expect-error: cannot be inferred
         store[action],
         options.debounce![action as keyof typeof options['actions']]
       )

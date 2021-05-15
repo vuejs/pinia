@@ -198,7 +198,8 @@ export interface StoreWithState<Id extends string, S extends StateTree> {
   /**
    * State of the Store. Setting it will replace the whole state.
    */
-  $state: UnwrapRef<S> & PiniaCustomStateProperties<S>
+  $state: (StateTree extends S ? {} : UnwrapRef<S>) &
+    PiniaCustomStateProperties<S>
 
   /**
    * Private property defining the pinia the store is attached to.
@@ -336,9 +337,9 @@ export type Store<
   // has the actions without the context (this) for typings
   A = ActionsTree
 > = StoreWithState<Id, S> &
-  UnwrapRef<S> &
-  StoreWithGetters<G> &
-  StoreWithActions<A> &
+  (StateTree extends S ? {} : UnwrapRef<S>) &
+  (GettersTree<S> extends G ? {} : StoreWithGetters<G>) &
+  (ActionsTree extends A ? {} : StoreWithActions<A>) &
   PiniaCustomProperties<Id, S, G, A> &
   PiniaCustomStateProperties<S>
 

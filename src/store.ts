@@ -343,7 +343,7 @@ export function defineStore<
   Id extends string,
   S extends StateTree,
   G extends GettersTree<S>,
-  A /* extends Record<string, StoreAction> */
+  A /* extends ActionsTree */
 >(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A> {
   const { id, state, getters, actions } = options
 
@@ -383,9 +383,9 @@ export function defineStore<
         storeAndDescriptor[0],
         storeAndDescriptor[1],
         id,
-        getters as GettersTree<S> | undefined,
-        actions as ActionsTree | undefined,
-        // @ts-expect-error: because of the extend on Actions
+        getters,
+        // @ts-expect-error: all good
+        actions,
         options
       )
 
@@ -395,20 +395,20 @@ export function defineStore<
         provide(storeAndDescriptor[2], store)
       }
 
-      return store
+      return store as Store<Id, S, G, A>
     }
 
     return (
       (hasInstance && inject(storeAndDescriptor[2], null)) ||
-      buildStoreToUse(
+      (buildStoreToUse(
         storeAndDescriptor[0],
         storeAndDescriptor[1],
         id,
-        getters as GettersTree<S> | undefined,
-        actions as ActionsTree | undefined,
-        // @ts-expect-error: because of the extend on Actions
+        getters,
+        // @ts-expect-error: all good
+        actions,
         options
-      )
+      ) as Store<Id, S, G, A>)
     )
   }
 
