@@ -9,6 +9,7 @@ import {
   Store,
   GettersTree,
   ActionsTree,
+  PiniaCustomStateProperties,
 } from './types'
 
 /**
@@ -153,5 +154,7 @@ export interface PiniaStorePlugin {
    *
    * @param context - Context
    */
-  (context: PiniaPluginContext): Partial<PiniaCustomProperties> | void
+  (context: PiniaPluginContext): Partial<
+    PiniaCustomProperties & PiniaCustomStateProperties
+  > | void
 }

@@ -231,7 +231,7 @@ export interface StoreWithState<
   /**
    * State of the Store. Setting it will replace the whole state.
    */
-  $state: UnwrapRef<S>
+  $state: UnwrapRef<S> & PiniaCustomStateProperties<S>
 
   /**
    * Private property defining the pinia the store is attached to.
@@ -380,7 +380,8 @@ export type Store<
   UnwrapRef<S> &
   StoreWithGetters<G> &
   StoreWithActions<A> &
-  PiniaCustomProperties<Id, S, G, A>
+  PiniaCustomProperties<Id, S, G, A> &
+  PiniaCustomStateProperties<S>
 
 /**
  * Return type of `defineStore()`. Function that allows instantiating a store.
@@ -421,13 +422,18 @@ export interface PiniaCustomProperties<
 > {}
 
 /**
+ * Properties that are added to every `store.$state` by `pinia.use()`
+ */
+export interface PiniaCustomStateProperties<S extends StateTree = StateTree> {}
+
+/**
  * Type of an object of Getters that infers the argument
  *
  * @internal
  */
 export type GettersTree<S extends StateTree> = Record<
   string,
-  ((state: UnwrapRef<S>) => any) | (() => any)
+  ((state: UnwrapRef<S & PiniaCustomStateProperties<S>>) => any) | (() => any)
 >
 
 /**

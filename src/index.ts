@@ -18,6 +18,7 @@ export type {
   StoreOnActionListenerContext,
   SubscriptionCallback,
   PiniaCustomProperties,
+  PiniaCustomStateProperties,
   DefineStoreOptions,
 } from './types'
 export { MutationType } from './types'
