@@ -237,6 +237,6 @@ describe('Store', () => {
     )
 
     expect(s1).toBeDefined()
-    expect(s1).toBe(s2)
+    expect(s1 === s2).toBe(true)
   })
 })
