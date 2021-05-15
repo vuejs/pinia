@@ -64,16 +64,87 @@ pinia.use(({ store }) => {
 Note that every store is wrapped with [`reactive`](https://v3.vuejs.org/api/basic-reactivity.html#reactive), automatically unwrapping any Ref (`ref()`, `computed()`, ...) it contains:
 
 ```js
+const sharedRef = ref('shared')
 pinia.use(({ store }) => {
+  // each store has its individual `hello` property
   store.hello = ref('secret')
   // it gets automatically unwrapped
   store.hello // 'secret'
+
+  // all stores are sharing the value `shared` property
+  store.shared = sharedRef
+  store.shared // 'shared'
 })
 ```
 
-This is why you can access all computed properties without `.value`.
+This is why you can access all computed properties without `.value` and why they are reactive.
 
-## `$subscribe` inside plugins
+### Adding new state
+
+If you want to add new state properties to a store or properties that are meant to be used during hydration, **you will have to add it in two places**:
+
+- On the `store` so you can access it with `store.myState`
+- On `store.$state` so it can be used in devtools and, **be serialized during SSR**.
+
+Note that this allows you to share a `ref` or `computed` property:
+
+```js
+const globalSecret = ref('secret')
+pinia.use(({ store }) => {
+  // `secret` is shared among all stores
+  store.$state.secret = globalSecret
+  store.secret = globalSecret
+  // it gets automatically unwrapped
+  store.secret // 'secret'
+
+  // we need to check if the state has been added yet because of
+  // the limitation mentioned during the introduction
+  if (!Object.hasOwnProperty(store.$state, 'hasError')) {
+    // Each store has its own `hasError`
+    const hasError = ref(false)
+    store.$state.hasError = hasError
+    store.hasError = hasError
+  }
+})
+```
+
+:::warning
+If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats) as Vue. You will need to use `set` from `@vue/composition-api`:
+
+```js
+import { set } from '@vue/composition-api'
+pinia.use(({ store }) => {
+  if (!Object.hasOwnProperty(store.$state, 'hello')) {
+    const secretRef = ref('secret')
+    // If the data is meant to be used during SSR, you should
+    // set it on the `$state` property so it is serialized and
+    // picked up during hydration
+    set(store.$state, 'hello', secretRef)
+    // set it directly on the store too so you can access it
+    // both ways: `store.$state.hello` / `store.hello`
+    set(store, 'hello', secretRef)
+    store.hello // 'secret'
+  }
+})
+```
+
+:::
+
+## Adding new external properties
+
+When adding external properties, class instances that come from other libraries, or simply things that are not reactive, you should wrap the object with `markRaw()` before passing it to pinia. Here is an example adding the router to every store:
+
+```js
+import { markRaw } from 'vue'
+// adapt this based on where your router isj
+import { router } from './router'
+
+pinia.use(({ store }) => {
+  store.router = markRaw(router)
+})
+```
+
+## Calling `$subscribe` inside plugins
 
 Because of the limitation mentioned above about plugins being invoked **every time `useStore()` is called**, it's important to avoid _subscribing_ multiple times by keeping track of the registered subscriptions:
 
@@ -134,6 +205,8 @@ pinia.use(({ options, store }) => {
 
 ## TypeScript
 
+### Typing plugins
+
 A Pinia plugin can be typed as follows:
 
 ```ts
@@ -143,6 +216,8 @@ export function myPiniaPlugin(context: PiniaPluginContext) {
   // ...
 }
 ```
+
+### Typing new store properties
 
 When adding new properties to stores, you should also extend the `PiniaCustomProperties` interface.
 
@@ -154,6 +229,16 @@ declare module 'pinia' {
     hello: string
   }
 }
+```
+
+It can then be written and read safely:
+
+```ts
+pinia.use(({ store }) => {
+  store.hello = 'Hola'
+  // @ts-expect-error: this will still add a string because refs get unwrapped
+  store.hello = ref('Hola')
+})
 ```
 
 `PiniaCustomProperties` is a generic type that allows you to reference properties of a store. Imagine the following example where we copy over the initial options as `$options`:
