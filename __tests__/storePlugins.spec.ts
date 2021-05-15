@@ -1,5 +1,6 @@
 import { createPinia, defineStore, PiniaPlugin } from '../src'
 import { createLocalVue, mount } from '@vue/test-utils'
+import { ref, set } from '@vue/composition-api'
 
 declare module '../src' {
   export interface PiniaCustomProperties<Id> {
@@ -7,6 +8,7 @@ declare module '../src' {
     // uid: App['_uid']
     hasPinia: boolean
     idFromPlugin: Id
+    someRef: number
   }
 }
 
@@ -86,5 +88,28 @@ describe('store plugins', () => {
 
     const store = useStore()
     expect(store.doubleN).toBe(40)
+  })
+
+  it('can add refs to state', () => {
+    const pinia = createPinia()
+    const someRef = ref(0)
+    pinia.use(({ store }) => {
+      set(store, 'someRef', someRef)
+      set(store.$state, 'someRef', someRef)
+    })
+
+    mount({ template: '<p/>' }, { localVue, pinia })
+
+    const store = useStore()
+
+    expect(store.someRef).toBe(0)
+    expect(store.$state.someRef).toBe(0)
+    someRef.value++
+    expect(store.someRef).toBe(1)
+    expect(store.$state.someRef).toBe(1)
+    store.someRef++
+    expect(store.someRef).toBe(2)
+    expect(store.$state.someRef).toBe(2)
+    expect(someRef.value).toBe(2)
   })
 })
