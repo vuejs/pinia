@@ -1,3 +1,10 @@
+## [0.5.1](https://github.com/posva/pinia/compare/v0.5.0...v0.5.1) (2021-05-17)
+
+### Bug Fixes
+
+- **type:** export forgotten types ([b3909c7](https://github.com/posva/pinia/commit/b3909c739263ce3b1f57d4af6b9a398e7db67ef8))
+- **types:** correct subtype Store ([65d4ab3](https://github.com/posva/pinia/commit/65d4ab325ea20311bdcb41bd2e16ab873ae8a2dc)), closes [#500](https://github.com/posva/pinia/issues/500)
+
 # [0.5.0](https://github.com/posva/pinia/compare/v0.4.1...v0.5.0) (2021-05-17)
 
 ### Bug Fixes
