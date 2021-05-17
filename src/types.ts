@@ -360,14 +360,6 @@ export type StoreWithGetters<G> = {
   readonly [k in keyof G]: G[k] extends (...args: any[]) => infer R ? R : never
 }
 
-// // in this type we forget about this because otherwise the type is recursive
-// export type StoreWithThisGetters<G> = {
-//   // TODO: does the infer this as the second argument work?
-//   [k in keyof G]: G[k] extends (this: infer This, store?: any) => infer R
-//     ? (this: This, store?: This) => R
-//     : never
-// }
-
 /**
  * Store type to build a store
  */

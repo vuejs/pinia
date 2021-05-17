@@ -183,7 +183,6 @@ function initStore<
       () => pinia.state.value[$id] as UnwrapRef<S>,
       (state, oldState) => {
         if (isListening) {
-          // TODO: remove payload
           callback(
             {
               storeName: $id,
