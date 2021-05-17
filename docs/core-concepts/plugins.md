@@ -150,12 +150,12 @@ Because of the limitation mentioned above about plugins being invoked **every ti
 
 ```ts
 let isRegistered
-pinia.use({ store }) => {
+pinia.use(({ store }) => {
   if (!isRegistered) {
-  store.$subscribe(() => {
-    // react to store changes
-  })
-  isRegistered = true
+    store.$subscribe(() => {
+      // react to store changes
+    })
+    isRegistered = true
   }
 })
 ```
