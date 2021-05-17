@@ -42,6 +42,10 @@ Pinia is is the most similar English pronunciation of the word _pineapple_ in Sp
   <a href="https://passionatepeople.io/" target="_blank" rel="noopener noreferrer">
     <img src="https://img2.storyblok.com/0x200/filters::format(webp)/f/86387/x/4cf6a70a8c/logo-white-text.svg" height="72px" alt="Passionate People">
   </a>
+
+  <a href="https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor" target="_blank" rel="noopener noreferrer">
+    <img src="docs/public/sponsors/vuejobs.png" height="72px" alt="VueJobs">
+  </a>
 </p>
 
 <h4 align="center">Silver Sponsors</h4>
