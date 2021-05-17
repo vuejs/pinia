@@ -94,12 +94,17 @@ function computedFromState<T, Id extends string>(
  * @param buildState - function to build the initial state
  * @param initialState - initial state applied to the store, Must be correctly typed to infer typings
  */
-function initStore<Id extends string, S extends StateTree>(
+function initStore<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  A /* extends ActionsTree */
+>(
   $id: Id,
   buildState: () => S = () => ({} as S),
   initialState?: S | undefined
 ): [
-  StoreWithState<Id, S>,
+  StoreWithState<Id, S, G, A>,
   { get: () => S; set: (newValue: S) => void },
   InjectionKey<Store>
 ] {
@@ -109,7 +114,7 @@ function initStore<Id extends string, S extends StateTree>(
 
   let isListening = true
   const subscriptions: SubscriptionCallback<S>[] = []
-  const actionSubscriptions: StoreOnActionListener[] = []
+  const actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = []
 
   function $patch(stateMutation: (state: S) => void): void
   function $patch(partialState: DeepPartial<S>): void
@@ -181,7 +186,7 @@ function initStore<Id extends string, S extends StateTree>(
     return removeSubscription
   }
 
-  function $onAction(callback: StoreOnActionListener) {
+  function $onAction(callback: StoreOnActionListener<Id, S, G, A>) {
     actionSubscriptions.push(callback)
 
     const removeSubscription = () => {
@@ -202,10 +207,10 @@ function initStore<Id extends string, S extends StateTree>(
     pinia.state.value[$id] = buildState()
   }
 
-  const storeWithState: StoreWithState<Id, S> = {
+  const storeWithState: StoreWithState<Id, S, G, A> = {
     $id,
     _p: markRaw(pinia),
-    _as: actionSubscriptions,
+    _as: markRaw(actionSubscriptions as unknown as StoreOnActionListener[]),
 
     // $state is added underneath
 
@@ -213,7 +218,7 @@ function initStore<Id extends string, S extends StateTree>(
     $subscribe,
     $onAction,
     $reset,
-  } as StoreWithState<Id, S>
+  } as StoreWithState<Id, S, G, A>
 
   const injectionSymbol = __DEV__
     ? Symbol(`PiniaStore(${$id})`)
@@ -253,7 +258,7 @@ function buildStoreToUse<
   G extends GettersTree<S>,
   A extends ActionsTree
 >(
-  partialStore: StoreWithState<Id, S>,
+  partialStore: StoreWithState<Id, S, G, A>,
   descriptor: StateDescriptor<S>,
   $id: Id,
   getters: G = {} as G,
@@ -293,7 +298,14 @@ function buildStoreToUse<
       }
 
       partialStore._as.forEach((callback) => {
-        callback({ args, name: actionName, store: localStore, after, onError })
+        callback({
+          args,
+          name: actionName,
+          // @ts-expect-error
+          store: localStore,
+          after,
+          onError,
+        })
       })
 
       let ret: ReturnType<typeof actions[typeof actionName]>
@@ -327,6 +339,7 @@ function buildStoreToUse<
 
   // apply all plugins
   pinia._p.forEach((extender) => {
+    // @ts-expect-error: conflict between A and ActionsTree
     assign(store, extender({ store, pinia, options }))
   })
 
@@ -364,7 +377,7 @@ export function defineStore<
     // let store = stores.get(id) as Store<Id, S, G, A>
     let storeAndDescriptor = stores.get(id) as
       | [
-          StoreWithState<Id, S>,
+          StoreWithState<Id, S, G, A>,
           StateDescriptor<S>,
           InjectionKey<Store<Id, S, G, A>>
         ]
@@ -373,18 +386,25 @@ export function defineStore<
     if (!storeAndDescriptor) {
       storeAndDescriptor = initStore(id, state, pinia.state.value[id])
 
+      // @ts-expect-error: annoying to type
       stores.set(id, storeAndDescriptor)
 
       if (__DEV__ && isClient) {
+        // @ts-expect-error: annoying to type
         useStoreDevtools(storeAndDescriptor[0], storeAndDescriptor[1])
       }
 
-      const store = buildStoreToUse(
+      const store = buildStoreToUse<
+        Id,
+        S,
+        G,
+        // @ts-expect-error: cannot extends ActionsTree
+        A
+      >(
         storeAndDescriptor[0],
         storeAndDescriptor[1],
         id,
         getters,
-        // @ts-expect-error: all good
         actions,
         options
       )
@@ -400,12 +420,17 @@ export function defineStore<
 
     return (
       (hasInstance && inject(storeAndDescriptor[2], null)) ||
-      (buildStoreToUse(
+      (buildStoreToUse<
+        Id,
+        S,
+        G,
+        // @ts-expect-error: cannot extends ActionsTree
+        A
+      >(
         storeAndDescriptor[0],
         storeAndDescriptor[1],
         id,
         getters,
-        // @ts-expect-error: all good
         actions,
         options
       ) as Store<Id, S, G, A>)

@@ -1,7 +1,7 @@
 import {
   expectType,
   createPinia,
-  GenericStore,
+  Store,
   Pinia,
   StateTree,
   DefineStoreOptions,
@@ -10,7 +10,7 @@ import {
 const pinia = createPinia()
 
 pinia.use(({ store, options, pinia }) => {
-  expectType<GenericStore>(store)
+  expectType<Store>(store)
   expectType<Pinia>(pinia)
   expectType<
     DefineStoreOptions<
