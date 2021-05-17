@@ -65,6 +65,7 @@ function getCachedStore<
 ): Store<Id, S, G, A> {
   const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
   const id = useStore.$id
+  // @ts-expect-error: again the Id to string fail
   return (cache[id] || (cache[id] = useStore(vm.$pinia))) as Store<Id, S, G, A>
 }
 
