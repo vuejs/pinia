@@ -54,29 +54,10 @@
       <path d="M15 2.005h2v5h-2z" fill="currentColor"></path>
     </svg>
   </button>
-
-  <p>Counter :{{ counterStore.n }}</p>
-
-  <button @click="counterStore.increment">Increment</button>
-  <button @click="counterStore.n++">Direct Increment</button>
-  <button
-    @click="
-      counterStore.$patch((state) => {
-        state.n++
-        state.incrementedTimes++
-      })
-    "
-  >
-    Direct patch
-  </button>
-  <button @click="counterStore.fail">Fail</button>
-  <button @click="counterStore.decrementToZero(300, true)">To ZERO</button>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watchEffect } from 'vue'
-import { useCartStore } from '../stores/cart'
-import { useCounter } from '../stores/counter'
 
 const isBrowser = typeof window !== 'undefined'
 
@@ -90,9 +71,6 @@ function isDarkMode() {
 
   return !window.matchMedia(PREFERS_LIGHT).matches
 }
-
-const counterStore = useCounter()
-const cartStore = useCartStore()
 
 const storageKey = 'pinia-color-scheme'
 

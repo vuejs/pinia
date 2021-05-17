@@ -1,7 +1,7 @@
 import Theme from 'vitepress/theme'
 import './custom.css'
 import './code-theme.css'
-import { createPinia } from '../../../src'
+// import { createPinia } from '../../../src'
 
 const { Layout } = Theme
 
@@ -23,7 +23,7 @@ Layout.mounted = function () {
 const config = {
   ...Theme,
   enhanceApp({ app }) {
-    app.use(createPinia())
+    // app.use(createPinia())
   },
 }
 
