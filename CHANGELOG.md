@@ -1,3 +1,32 @@
+# [2.0.0-alpha.17](https://github.com/posva/pinia/compare/v2.0.0-alpha.16...v2.0.0-alpha.17) (2021-05-17)
+
+### Bug Fixes
+
+- **types:** forbid non existent keys on store ([e747cba](https://github.com/posva/pinia/commit/e747cba7d90ebd9ef29a379d441744aecc31db80))
+- **types:** patch should unwrap refs ([b82eafc](https://github.com/posva/pinia/commit/b82eafc9e11ae820d5185359526d19dbbff0fa75))
+- **types:** unwrap refs passed to state ([b2d3ac9](https://github.com/posva/pinia/commit/b2d3ac994f0d1778d82fd0e5b14915fee4c5cb2b)), closes [#491](https://github.com/posva/pinia/issues/491)
+
+### Features
+
+- **devtools:** add more data to actions ([e8f4b0e](https://github.com/posva/pinia/commit/e8f4b0e95192ec7d10d380776e7e9e703fe31261))
+- **devtools:** allow editing state ([0bbbd69](https://github.com/posva/pinia/commit/0bbbd69db467d168770571ec0452630ff6409741))
+- **devtools:** allow editing stores from components ([b808fbc](https://github.com/posva/pinia/commit/b808fbcac9915d11f5979e1781ce125327a0e6ab))
+- **devtools:** display only relevant stores ([58f0af6](https://github.com/posva/pinia/commit/58f0af617b6516f69024cecb95ef8e0dd665104f))
+- **devtools:** group action and their changes ([ecd993a](https://github.com/posva/pinia/commit/ecd993abfcec2e95d63fe5ccfd64080d5c89cc0b))
+- **types:** allow defining custom state properties ([17fcbca](https://github.com/posva/pinia/commit/17fcbcafd30eec3af609bcc4549eee08968ea1a2))
+- **types:** infer args and returned value for onAction ([f3b3bcf](https://github.com/posva/pinia/commit/f3b3bcf52a8ba86bc0927f98f53045842905c216))
+- subscribe to actions with `$onAction` ([c9ce6ea](https://github.com/posva/pinia/commit/c9ce6ea55f225351bb95a47890f791134b233aad)), closes [#240](https://github.com/posva/pinia/issues/240)
+
+### Performance Improvements
+
+- **devtools:** avoid multiple subscriptions ([ea62f1d](https://github.com/posva/pinia/commit/ea62f1db8d82224ea0226fa5ec90da410ff31bda))
+
+### BREAKING CHANGES
+
+- The `type` property of the first parameter of `store.$subscribe()` has slightly changed. **In most scenarios this shouldn't affect you** as the possible values for `type` were including emojis (a bad decision...) and they are now using an enum without emojis. Emojis are used only in devtools to give a mental hint regarding the nature and origin of different events in the timeline.
+
+- In `store.$subscribe()`'s first argument, the `storeName` property has been deprecated in favor of `storeId`.
+
 # [2.0.0-alpha.16](https://github.com/posva/pinia/compare/v2.0.0-alpha.14...v2.0.0-alpha.16) (2021-05-04)
 
 ### Bug Fixes
