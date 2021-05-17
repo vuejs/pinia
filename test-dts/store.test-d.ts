@@ -1,4 +1,5 @@
-import { defineStore, expectType } from './'
+import { watch } from '@vue/runtime-core'
+import { defineStore, expectType, Store, GenericStore } from './'
 
 const useStore = defineStore({
   id: 'name',
@@ -118,3 +119,56 @@ noS.notExisting
 noA.notExisting
 // @ts-expect-error
 noG.notExisting
+
+function takeStore<TStore extends Store>(store: TStore): TStore['$id'] {
+  return store.$id
+}
+
+export const useSyncValueToStore = <
+  TStore extends Store,
+  TKey extends keyof TStore['$state']
+>(
+  propGetter: () => TStore[TKey],
+  store: TStore,
+  key: TKey
+): void => {
+  watch(
+    propGetter,
+    (propValue) => {
+      store[key] = propValue
+    },
+    {
+      immediate: true,
+    }
+  )
+}
+
+useSyncValueToStore(() => 'on' as const, store, 'a')
+// @ts-expect-error
+useSyncValueToStore(() => true, store, 'a')
+takeStore(store)
+takeStore(noSAG)
+// @ts-expect-error
+useSyncValueToStore(() => 2, noSAG, 'nope')
+// @ts-expect-error
+useSyncValueToStore(() => null, noSAG, 'myState')
+takeStore(noSA)
+takeStore(noAG)
+useSyncValueToStore(() => 2, noAG, 'myState')
+takeStore(noSG)
+takeStore(noS)
+takeStore(noA)
+useSyncValueToStore(() => 2, noA, 'myState')
+takeStore(noG)
+useSyncValueToStore(() => 2, noG, 'myState')
+
+declare var genericStore: GenericStore
+
+// should not fail like it does with Store
+expectType<any>(genericStore.thing)
+expectType<any>(genericStore.$state.thing)
+takeStore(genericStore)
+useSyncValueToStore(() => 2, genericStore, 'myState')
+useSyncValueToStore(() => 2, genericStore, 'random')
+// @ts-expect-error
+useSyncValueToStore(() => false, genericStore, 'myState')

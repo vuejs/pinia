@@ -236,7 +236,7 @@ function initStore<
   const storeWithState: StoreWithState<Id, S, G, A> = {
     $id,
     _p: pinia,
-    _as: actionSubscriptions,
+    _as: actionSubscriptions as unknown as StoreOnActionListener[],
 
     // $state is added underneath
 

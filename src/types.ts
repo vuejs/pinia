@@ -207,10 +207,10 @@ export type StoreOnActionListenerContext<
  * Argument of `store.$onAction()`
  */
 export type StoreOnActionListener<
-  Id extends string,
-  S extends StateTree,
-  G extends GettersTree<S>,
-  A /* extends ActionsTree */
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  G extends GettersTree<S> = GettersTree<S>,
+  A /* extends ActionsTree */ = ActionsTree
 > = (context: StoreOnActionListenerContext<Id, S, G, A>) => void
 
 /**
@@ -220,7 +220,7 @@ export type StoreOnActionListener<
 export interface StoreWithState<
   Id extends string,
   S extends StateTree,
-  G extends GettersTree<S> = GettersTree<S>,
+  G extends GettersTree<StateTree> = GettersTree<S>,
   A /* extends ActionsTree */ = ActionsTree
 > {
   /**
@@ -231,8 +231,7 @@ export interface StoreWithState<
   /**
    * State of the Store. Setting it will replace the whole state.
    */
-  $state: (StateTree extends S ? {} : UnwrapRef<S>) &
-    PiniaCustomStateProperties<S>
+  $state: UnwrapRef<S> & PiniaCustomStateProperties<S>
 
   /**
    * Private property defining the pinia the store is attached to.
@@ -284,11 +283,12 @@ export interface StoreWithState<
   $subscribe(callback: SubscriptionCallback<S>): () => void
 
   /**
-   * Array of registered action subscriptions.
+   * Array of registered action subscriptions.Set without the generics to avoid
+   * errors between the generic version of Store and specific stores.
    *
    * @internal
    */
-  _as: StoreOnActionListener<Id, S, G, A>[]
+  _as: StoreOnActionListener[]
 
   /**
    * @alpha Please send feedback at https://github.com/posva/pinia/issues/240
@@ -371,7 +371,7 @@ export type Store<
   G extends GettersTree<S> = GettersTree<S>,
   // has the actions without the context (this) for typings
   A /* extends ActionsTree */ = ActionsTree
-> = StoreWithState<Id, S, G, A> &
+> = StoreWithState<Id, StateTree extends S ? {} : S, G, A> &
   (StateTree extends S ? {} : UnwrapRef<S>) &
   (GettersTree<S> extends G ? {} : StoreWithGetters<G>) &
   (ActionsTree extends A ? {} : StoreWithActions<A>) &
@@ -379,21 +379,22 @@ export type Store<
   PiniaCustomStateProperties<S>
 
 /**
- * Generic version of Store. Doesn't fail on access with strings
+ * Generic and type-unsafe version of Store. Doesn't fail on access with
+ * strings, making it much easier to write generic functions that do not care
+ * about the kind of store that is passed.
  */
-export type GenericStore = StoreWithState<
-  string,
-  StateTree,
-  GettersTree<StateTree>,
-  ActionsTree
-> &
-  PiniaCustomProperties<
-    string,
-    StateTree,
-    GettersTree<StateTree>,
-    ActionsTree
-  > &
-  PiniaCustomStateProperties<StateTree>
+export type GenericStore<
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  G extends GettersTree<S> = GettersTree<S>,
+  // has the actions without the context (this) for typings
+  A /* extends ActionsTree */ = ActionsTree
+> = StoreWithState<Id, S, G, A> &
+  UnwrapRef<S> &
+  StoreWithGetters<G> &
+  StoreWithActions<A> &
+  PiniaCustomProperties<Id, S, G, A> &
+  PiniaCustomStateProperties<S>
 
 /**
  * Return type of `defineStore()`. Function that allows instantiating a store.
