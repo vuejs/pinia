@@ -1,3 +1,10 @@
+# [2.0.0-alpha.18](https://github.com/posva/pinia/compare/v2.0.0-alpha.17...v2.0.0-alpha.18) (2021-05-17)
+
+### Bug Fixes
+
+- **types:** correct subtype Store ([48523da](https://github.com/posva/pinia/commit/48523da371ac291689b7a62b9ec433894a595827)), closes [#500](https://github.com/posva/pinia/issues/500)
+- **types:** export types ([befc132](https://github.com/posva/pinia/commit/befc132bace0b6fdc063d25db20549faa51e50b7))
+
 # [2.0.0-alpha.17](https://github.com/posva/pinia/compare/v2.0.0-alpha.16...v2.0.0-alpha.17) (2021-05-17)
 
 ### Bug Fixes
