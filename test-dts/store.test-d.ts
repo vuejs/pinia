@@ -1,4 +1,4 @@
-import { watch } from '@vue/runtime-core'
+import { watch } from 'vue'
 import { defineStore, expectType, Store, GenericStore } from './'
 
 const useStore = defineStore({
