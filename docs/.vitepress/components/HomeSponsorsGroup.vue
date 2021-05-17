@@ -13,7 +13,8 @@
       class="sponsor_wrapper"
     >
       <img
-        :src="sponsor.imgSrcLight"
+        :src="sponsor.imgSrc"
+        :class="sponsor.imgSrcLight === imgSrcDark && 'invert-colors'"
         :alt="sponsor.alt"
         :style="{ width: size + 'px' }"
       />
@@ -21,29 +22,29 @@
   </p>
 </template>
 
-<script>
+<script setup lang="ts">
 import sponsors from './sponsors.json'
+import { isDark } from '../theme/dark-theme'
+import { computed, defineProps } from 'vue'
+import type { PropType } from 'vue'
 
-export default {
-  name: 'HomeSponsorsGroup',
-
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    size: {
-      type: [Number, String],
-      default: 140,
-    },
+const props = defineProps({
+  name: {
+    type: String as PropType<'gold' | 'platinum' | 'silver' | 'bronze'>,
+    required: true,
   },
-
-  computed: {
-    list() {
-      return sponsors[this.name.toLowerCase()]
-    },
+  size: {
+    type: [Number, String],
+    default: 140,
   },
-}
+})
+
+const list = computed(() =>
+  sponsors[props.name.toLowerCase()].map((sponsor) => ({
+    ...sponsor,
+    imgSrc: isDark.value ? sponsor.imgSrcDark : sponsor.imgSrcLight,
+  }))
+)
 </script>
 
 <style scoped>
@@ -73,7 +74,7 @@ img {
   opacity: 0.66;
 }
 
-html:not(.light) img {
+html:not(.light) img.invert-colors {
   filter: invert(1) grayscale(100%);
 }
 

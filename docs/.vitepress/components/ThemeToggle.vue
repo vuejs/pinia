@@ -56,63 +56,13 @@
   </button>
 </template>
 
-<script setup lang="ts">
-import { computed, onMounted, ref, watchEffect } from 'vue'
-
-const isBrowser = typeof window !== 'undefined'
-
-const PREFERS_LIGHT = '(prefers-color-scheme: light)'
-
-function isDarkMode() {
-  if (!isBrowser) return true
-
-  const storedTheme = localStorage.getItem(storageKey)
-  if (storedTheme != null) return storedTheme !== 'light'
-
-  return !window.matchMedia(PREFERS_LIGHT).matches
-}
-
-const storageKey = 'pinia-color-scheme'
-
-const localIsDark = ref(isDarkMode())
-
-const isDark = computed<boolean>({
-  get() {
-    return localIsDark.value
-  },
-  set(isDark) {
-    localStorage.setItem(storageKey, isDark ? 'dark' : 'light')
-    localIsDark.value = isDark
-  },
-})
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { isDark } from '../theme/dark-theme'
 
 const label = computed(() =>
   isDark.value ? 'Switch to light mode' : 'Switch to dark mode'
 )
-
-onMounted(() => {
-  window.addEventListener('storage', () => {
-    const storedScheme = localStorage.getItem(storageKey)
-    localIsDark.value = storedScheme !== 'light'
-  })
-
-  const mediaQuery = window.matchMedia(PREFERS_LIGHT)
-
-  if ('addEventListener' in mediaQuery) {
-    mediaQuery.addEventListener('change', (event) => {
-      localIsDark.value = !event.matches
-    })
-  }
-
-  watchEffect(() => {
-    const htmlElement = document.body.parentElement!
-    if (isDark.value) {
-      htmlElement.classList.remove('light')
-    } else {
-      htmlElement.classList.add('light')
-    }
-  })
-})
 </script>
 
 <style scoped>
