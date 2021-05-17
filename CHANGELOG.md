@@ -1,3 +1,22 @@
+# [0.5.0](https://github.com/posva/pinia/compare/v0.4.1...v0.5.0) (2021-05-17)
+
+### Bug Fixes
+
+- **types:** forbid non existent keys on store ([9513d1a](https://github.com/posva/pinia/commit/9513d1a2eeb2e03bb76bc295aec7bc70fdece3a6))
+- **types:** patch should unwrap refs ([9668167](https://github.com/posva/pinia/commit/9668167fcdff2da2733fef92c941b1eedf13233a))
+- **types:** unwrap refs passed to state ([c29b1e0](https://github.com/posva/pinia/commit/c29b1e082c8b76800089f9ded47e7c84a8471799)), closes [#491](https://github.com/posva/pinia/issues/491)
+
+### Features
+
+- **types:** allow defining custom state properties ([34cef9b](https://github.com/posva/pinia/commit/34cef9b9b223a9132e5a1745bc858a19d91af130))
+- subscribe to actions with `$onAction` ([57d8503](https://github.com/posva/pinia/commit/57d8503d31df7b54438c5b79b987f99b15e72a79)), closes [#240](https://github.com/posva/pinia/issues/240)
+
+### BREAKING CHANGES
+
+- The `type` property of the first parameter of `store.$subscribe()` has slightly changed. **In most scenarios this shouldn't affect you** as the possible values for `type` were including emojis (a bad decision...) and they are now using an enum without emojis. Emojis are used only in devtools to give a mental hint regarding the nature and origin of different events in the timeline.
+
+- In `store.$subscribe()`'s first argument, the `storeName` property has been deprecated in favor of `storeId` (This is not really a breaking change _yet_).
+
 ## [0.4.1](https://github.com/posva/pinia/compare/v0.4.0...v0.4.1) (2021-05-05)
 
 ### Bug Fixes
