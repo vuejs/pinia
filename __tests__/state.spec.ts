@@ -60,7 +60,8 @@ describe('State', () => {
       },
     })
 
-    setActivePinia(createPinia())
+    const pinia = createPinia()
+    setActivePinia(pinia)
     const useStore = defineStore({
       id: 'main',
       state: () => ({
@@ -73,8 +74,18 @@ describe('State', () => {
     const store = useStore()
 
     expect(store.name).toBe('Eduardo')
+    expect(store.$state.name).toBe('Eduardo')
+    expect(pinia.state.value.main).toEqual({
+      name: 'Eduardo',
+      counter: 0,
+      double: 0,
+    })
+
     name.value = 'Ed'
     expect(store.name).toBe('Ed')
+    expect(store.$state.name).toBe('Ed')
+    expect(pinia.state.value.main.name).toBe('Ed')
+
     store.name = 'Edu'
     expect(store.name).toBe('Edu')
 
