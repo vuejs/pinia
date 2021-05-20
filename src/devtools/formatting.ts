@@ -27,7 +27,7 @@ export function formatStoreForInspectorState(
   ]
 
   // avoid adding empty getters
-  if (store._getters?.length) {
+  if (store._getters && store._getters.length) {
     fields.push({
       editable: false,
       key: 'getters',

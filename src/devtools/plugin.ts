@@ -66,13 +66,11 @@ export function addDevtools(app: App, store: Store) {
         })
 
         api.on.inspectComponent((payload, ctx) => {
-          if (
-            (
-              payload.componentInstance?.proxy as
-                | ComponentPublicInstance
-                | undefined
-            )?._pStores
-          ) {
+          const proxy = (payload.componentInstance &&
+            payload.componentInstance.proxy) as
+            | ComponentPublicInstance
+            | undefined
+          if (proxy && proxy._pStores) {
             const piniaStores = (
               payload.componentInstance.proxy as ComponentPublicInstance
             )._pStores!
@@ -85,7 +83,7 @@ export function addDevtools(app: App, store: Store) {
                 value: store.$state,
               })
 
-              if (store._getters?.length) {
+              if (store._getters && store._getters.length) {
                 payload.instanceData.state.push({
                   type: '🍍 ' + store.$id,
                   key: 'getters',
