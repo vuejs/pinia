@@ -1,3 +1,9 @@
+# [2.0.0-alpha.19](https://github.com/posva/pinia/compare/v2.0.0-alpha.18...v2.0.0-alpha.19) (2021-05-20)
+
+### Bug Fixes
+
+- **devtools:** use older js ([e35da3b](https://github.com/posva/pinia/commit/e35da3be7a753ab5e4b1692395cf86cf0c314ba9))
+
 # [2.0.0-alpha.18](https://github.com/posva/pinia/compare/v2.0.0-alpha.17...v2.0.0-alpha.18) (2021-05-17)
 
 ### Bug Fixes
