@@ -411,8 +411,8 @@ export function defineStore<
     if (!storeAndDescriptor) {
       storeAndDescriptor = initStore(id, state, pinia.state.value[id])
 
-      // annoying to type
-      stores.set(id, storeAndDescriptor as any)
+      // @ts-expect-error: annoying to type
+      stores.set(id, storeAndDescriptor)
 
       store = buildStoreToUse<
         Id,
