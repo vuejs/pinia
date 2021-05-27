@@ -11,10 +11,17 @@
       rel="sponsored noopener"
       :style="{ width: size + 'px' }"
       class="sponsor_wrapper"
+      :class="
+        isDark && sponsor.imgSrcLight === sponsor.imgSrcDark && 'apply-bg'
+      "
     >
       <img
         :src="sponsor.imgSrc"
-        :class="sponsor.imgSrcLight === imgSrcDark && 'invert-colors'"
+        :class="
+          isDark &&
+          sponsor.imgSrcLight === sponsor.imgSrcDark &&
+          'invert-colors'
+        "
         :alt="sponsor.alt"
         :style="{ width: size + 'px' }"
       />
@@ -52,6 +59,8 @@ const list = computed(() =>
   padding: 5px;
   margin: 0 3px;
 
+  border-radius: 5px;
+
   width: 100px;
   display: inline-block;
   text-decoration: none;
@@ -76,9 +85,14 @@ img {
 
 html:not(.light) img.invert-colors {
   filter: invert(1) grayscale(100%);
+  background-color: transparent;
 }
 
-img:hover {
+.sponsor_wrapper.apply-bg:hover {
+  background-color: var(--c-text);
+}
+
+.sponsor_wrapper:hover img {
   filter: none !important;
   opacity: 1;
 }
