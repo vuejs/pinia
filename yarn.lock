@@ -1043,10 +1043,10 @@
     "@vue/compiler-dom" "3.0.11"
     "@vue/shared" "3.0.11"
 
-"@vue/devtools-api@^6.0.0-beta.11":
-  version "6.0.0-beta.11"
-  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.0-beta.11.tgz#4fb4161ee41ba75f3f5198d4bfd80e4ffb7f2462"
-  integrity sha512-vpw61AkW9U8c2upjJCljHq9eh1KkD4FJ7DYbRzIETpj9WAw2VESudJZosAk4M+7npBo1Zu1jNQY03HUMVO/czQ==
+"@vue/devtools-api@^6.0.0-beta.12":
+  version "6.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.0-beta.12.tgz#693ffc77bfb66b080e5c9576abb5786c85470a32"
+  integrity sha512-PtHmAxFmCyCElV7uTWMrXj+fefwn4lCfTtPo9fPw0SK8/7e3UaFl8IL7lnugJmNFfeKQyuTkSoGvTq1uDaRF6Q==
 
 "@vue/reactivity@3.0.11":
   version "3.0.11"
@@ -5162,10 +5162,10 @@ rollup@^2.38.5:
   optionalDependencies:
     fsevents "~2.3.1"
 
-rollup@^2.50.2:
-  version "2.50.2"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.50.2.tgz#640c500c68c698f62efb01857e0ff06fcd18181f"
-  integrity sha512-Ra5JkxSiZPZZFnvE68KWtlrLnZGg5LNaV1n1esq4ch69P7ReeoRVlrTuL/k+L/GJfcowA5An0BEhEq2Hfzwl6w==
+rollup@^2.50.4:
+  version "2.50.4"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.50.4.tgz#5a53e4294296dfee2a83b0ec0d0536984b98de71"
+  integrity sha512-mBQa9O6bdqur7a6R+TXcbdYgfO2arXlDG+rSrWfwAvsiumpJjD4OS23R9QuhItuz8ysWb8mZ91CFFDQUhJY+8Q==
   optionalDependencies:
     fsevents "~2.3.1"
 
