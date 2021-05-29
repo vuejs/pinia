@@ -1,6 +1,6 @@
 import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
 import { App, ComponentPublicInstance } from 'vue'
-import { PiniaPluginContext, setActivePinia } from '../rootStore'
+import { Pinia, PiniaPluginContext, setActivePinia } from '../rootStore'
 import {
   Store,
   GettersTree,
@@ -28,6 +28,41 @@ const componentStateTypes: string[] = []
 
 const MUTATIONS_LAYER_ID = 'pinia:mutations'
 const INSPECTOR_ID = 'pinia'
+
+function checkClipboardAccess() {
+  if (!('clipboard' in navigator)) {
+    toastMessage(`Your browser doesn't support the Clipboard API`, 'error')
+    return true
+  }
+}
+
+async function actionGlobalCopyState(pinia: Pinia) {
+  if (checkClipboardAccess()) return
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(pinia.state.value))
+    toastMessage('Global state copied to clipboard.')
+  } catch (error) {
+    toastMessage(
+      `Failed to serialize the state. Check the console for more details.`,
+      'error'
+    )
+    console.error(error)
+  }
+}
+
+async function actionGlobalPasteState(pinia: Pinia) {
+  if (checkClipboardAccess()) return
+  try {
+    pinia.state.value = JSON.parse(await navigator.clipboard.readText())
+    toastMessage('Global state pasted from clipboard.')
+  } catch (error) {
+    toastMessage(
+      `Failed to deserialize the state from clipboard. Check the console for more details.`,
+      'error'
+    )
+    console.error(error)
+  }
+}
 
 export function addDevtools(app: App, store: Store) {
   // TODO: we probably need to ensure the latest version of the store is kept:
@@ -63,6 +98,22 @@ export function addDevtools(app: App, store: Store) {
           label: 'Pinia 🍍',
           icon: 'storage',
           treeFilterPlaceholder: 'Search stores',
+          actions: [
+            {
+              icon: 'content-copy',
+              action: () => {
+                actionGlobalCopyState(store._p)
+              },
+              tooltip: 'Serialize and copy the state',
+            },
+            {
+              icon: 'content-paste',
+              action: () => {
+                actionGlobalPasteState(store._p)
+              },
+              tooltip: 'Replace the state with the content of your clipboard',
+            },
+          ],
         })
 
         api.on.inspectComponent((payload, ctx) => {
