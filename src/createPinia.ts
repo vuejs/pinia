@@ -4,7 +4,7 @@ import {
   setActivePinia,
   piniaSymbol,
 } from './rootStore'
-import { ref, App } from 'vue'
+import { ref, App, markRaw } from 'vue'
 import { devtoolsPlugin } from './devtools'
 import { IS_CLIENT } from './env'
 
@@ -21,7 +21,7 @@ export function createPinia(): Pinia {
   // plugins added before calling app.use(pinia)
   const toBeInstalled: PiniaStorePlugin[] = []
 
-  const pinia: Pinia = {
+  const pinia: Pinia = markRaw({
     install(app: App) {
       pinia._a = localApp = app
       app.provide(piniaSymbol, pinia)
@@ -48,7 +48,7 @@ export function createPinia(): Pinia {
     _a: localApp!,
 
     state,
-  }
+  })
 
   // pinia devtools rely on dev only features so they cannot be forced unless
   // the dev build of Vue is used

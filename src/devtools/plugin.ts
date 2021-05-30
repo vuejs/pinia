@@ -15,6 +15,7 @@ import {
   formatStoreForInspectorState,
   formatStoreForInspectorTree,
 } from './formatting'
+import { saveAs } from 'file-saver'
 
 /**
  * Registered stores used for devtools.
@@ -36,12 +37,23 @@ function checkClipboardAccess() {
   }
 }
 
+function checkNotFocusedError(error: Error) {
+  if (error.message.toLowerCase().includes('document is not focused')) {
+    toastMessage(
+      'You need to activate the "Emulate a focused page" setting in the "Rendering" panel of devtools.',
+      'warn'
+    )
+    return true
+  }
+}
+
 async function actionGlobalCopyState(pinia: Pinia) {
   if (checkClipboardAccess()) return
   try {
     await navigator.clipboard.writeText(JSON.stringify(pinia.state.value))
     toastMessage('Global state copied to clipboard.')
   } catch (error) {
+    if (checkNotFocusedError(error)) return
     toastMessage(
       `Failed to serialize the state. Check the console for more details.`,
       'error'
@@ -56,8 +68,67 @@ async function actionGlobalPasteState(pinia: Pinia) {
     pinia.state.value = JSON.parse(await navigator.clipboard.readText())
     toastMessage('Global state pasted from clipboard.')
   } catch (error) {
+    if (checkNotFocusedError(error)) return
     toastMessage(
       `Failed to deserialize the state from clipboard. Check the console for more details.`,
+      'error'
+    )
+    console.error(error)
+  }
+}
+
+async function actionGlobalSaveState(pinia: Pinia) {
+  try {
+    saveAs(
+      new Blob([JSON.stringify(pinia.state.value)], {
+        type: 'text/plain;charset=utf-8',
+      }),
+      'pinia-state.json'
+    )
+  } catch (error) {
+    toastMessage(
+      `Failed to export the state as JSON. Check the console for more details.`,
+      'error'
+    )
+    console.error(error)
+  }
+}
+
+let fileInput: HTMLInputElement | undefined
+function getFileOpener() {
+  if (!fileInput) {
+    fileInput = document.createElement('input')
+    fileInput.type = 'file'
+    fileInput.accept = '.json'
+  }
+
+  function openFile(): Promise<null | { text: string; file: File }> {
+    return new Promise((resolve, reject) => {
+      fileInput!.onchange = async () => {
+        const files = fileInput!.files
+        if (!files) return resolve(null)
+        const file = files.item(0)
+        if (!file) return resolve(null)
+        return resolve({ text: await file.text(), file })
+      }
+      fileInput!.oncancel = () => resolve(null)
+      fileInput!.click()
+    })
+  }
+  return openFile
+}
+
+async function actionGlobalOpenStateFile(pinia: Pinia) {
+  try {
+    const open = await getFileOpener()
+    const result = await open()
+    if (!result) return
+    const { text, file } = result
+    pinia.state.value = JSON.parse(text)
+    toastMessage(`Global state imported from "${file.name}".`)
+  } catch (error) {
+    toastMessage(
+      `Failed to export the state as JSON. Check the console for more details.`,
       'error'
     )
     console.error(error)
@@ -100,18 +171,36 @@ export function addDevtools(app: App, store: Store) {
           treeFilterPlaceholder: 'Search stores',
           actions: [
             {
-              icon: 'content-copy',
+              icon: 'content_copy',
               action: () => {
                 actionGlobalCopyState(store._p)
               },
               tooltip: 'Serialize and copy the state',
             },
             {
-              icon: 'content-paste',
-              action: () => {
-                actionGlobalPasteState(store._p)
+              icon: 'content_paste',
+              action: async () => {
+                await actionGlobalPasteState(store._p)
+                api.sendInspectorTree(INSPECTOR_ID)
+                api.sendInspectorState(INSPECTOR_ID)
               },
               tooltip: 'Replace the state with the content of your clipboard',
+            },
+            {
+              icon: 'save',
+              action: () => {
+                actionGlobalSaveState(store._p)
+              },
+              tooltip: 'Save the state as a JSON file',
+            },
+            {
+              icon: 'folder_open',
+              action: async () => {
+                await actionGlobalOpenStateFile(store._p)
+                api.sendInspectorTree(INSPECTOR_ID)
+                api.sendInspectorState(INSPECTOR_ID)
+              },
+              tooltip: 'Import the state from a JSON file',
             },
           ],
         })
@@ -413,7 +502,7 @@ export function devtoolsPlugin<
  */
 function toastMessage(
   message: string,
-  type?: 'normal' | 'error' | 'warning' | undefined
+  type?: 'normal' | 'error' | 'warn' | undefined
 ) {
   const piniaMessage = '🍍 ' + message
 
@@ -421,7 +510,7 @@ function toastMessage(
     __VUE_DEVTOOLS_TOAST__(piniaMessage, type)
   } else if (type === 'error') {
     console.error(piniaMessage)
-  } else if (type === 'warning') {
+  } else if (type === 'warn') {
     console.warn(piniaMessage)
   } else {
     console.log(piniaMessage)
