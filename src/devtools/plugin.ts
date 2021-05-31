@@ -1,6 +1,6 @@
 import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
 import { App, ComponentPublicInstance } from 'vue'
-import { Pinia, PiniaPluginContext, setActivePinia } from '../rootStore'
+import { PiniaPluginContext, setActivePinia } from '../rootStore'
 import {
   Store,
   GettersTree,
@@ -9,13 +9,19 @@ import {
   ActionsTree,
 } from '../types'
 import {
+  actionGlobalCopyState,
+  actionGlobalPasteState,
+  actionGlobalSaveState,
+  actionGlobalOpenStateFile,
+} from './actions'
+import {
   formatDisplay,
   formatEventData,
   formatMutationType,
   formatStoreForInspectorState,
   formatStoreForInspectorTree,
 } from './formatting'
-import { saveAs } from 'file-saver'
+import { toastMessage } from './utils'
 
 /**
  * Registered stores used for devtools.
@@ -30,112 +36,7 @@ const componentStateTypes: string[] = []
 const MUTATIONS_LAYER_ID = 'pinia:mutations'
 const INSPECTOR_ID = 'pinia'
 
-function checkClipboardAccess() {
-  if (!('clipboard' in navigator)) {
-    toastMessage(`Your browser doesn't support the Clipboard API`, 'error')
-    return true
-  }
-}
-
-function checkNotFocusedError(error: Error) {
-  if (error.message.toLowerCase().includes('document is not focused')) {
-    toastMessage(
-      'You need to activate the "Emulate a focused page" setting in the "Rendering" panel of devtools.',
-      'warn'
-    )
-    return true
-  }
-}
-
-async function actionGlobalCopyState(pinia: Pinia) {
-  if (checkClipboardAccess()) return
-  try {
-    await navigator.clipboard.writeText(JSON.stringify(pinia.state.value))
-    toastMessage('Global state copied to clipboard.')
-  } catch (error) {
-    if (checkNotFocusedError(error)) return
-    toastMessage(
-      `Failed to serialize the state. Check the console for more details.`,
-      'error'
-    )
-    console.error(error)
-  }
-}
-
-async function actionGlobalPasteState(pinia: Pinia) {
-  if (checkClipboardAccess()) return
-  try {
-    pinia.state.value = JSON.parse(await navigator.clipboard.readText())
-    toastMessage('Global state pasted from clipboard.')
-  } catch (error) {
-    if (checkNotFocusedError(error)) return
-    toastMessage(
-      `Failed to deserialize the state from clipboard. Check the console for more details.`,
-      'error'
-    )
-    console.error(error)
-  }
-}
-
-async function actionGlobalSaveState(pinia: Pinia) {
-  try {
-    saveAs(
-      new Blob([JSON.stringify(pinia.state.value)], {
-        type: 'text/plain;charset=utf-8',
-      }),
-      'pinia-state.json'
-    )
-  } catch (error) {
-    toastMessage(
-      `Failed to export the state as JSON. Check the console for more details.`,
-      'error'
-    )
-    console.error(error)
-  }
-}
-
-let fileInput: HTMLInputElement | undefined
-function getFileOpener() {
-  if (!fileInput) {
-    fileInput = document.createElement('input')
-    fileInput.type = 'file'
-    fileInput.accept = '.json'
-  }
-
-  function openFile(): Promise<null | { text: string; file: File }> {
-    return new Promise((resolve, reject) => {
-      fileInput!.onchange = async () => {
-        const files = fileInput!.files
-        if (!files) return resolve(null)
-        const file = files.item(0)
-        if (!file) return resolve(null)
-        return resolve({ text: await file.text(), file })
-      }
-      fileInput!.oncancel = () => resolve(null)
-      fileInput!.click()
-    })
-  }
-  return openFile
-}
-
-async function actionGlobalOpenStateFile(pinia: Pinia) {
-  try {
-    const open = await getFileOpener()
-    const result = await open()
-    if (!result) return
-    const { text, file } = result
-    pinia.state.value = JSON.parse(text)
-    toastMessage(`Global state imported from "${file.name}".`)
-  } catch (error) {
-    toastMessage(
-      `Failed to export the state as JSON. Check the console for more details.`,
-      'error'
-    )
-    console.error(error)
-  }
-}
-
-export function addDevtools(app: App, store: Store) {
+function addDevtools(app: App, store: Store) {
   // TODO: we probably need to ensure the latest version of the store is kept:
   // without effectScope, multiple stores will be created and will have a
   // limited lifespan for getters.
@@ -492,27 +393,4 @@ export function devtoolsPlugin<
   )
 
   return { ...wrappedActions }
-}
-
-/**
- * Shows a toast or console.log
- *
- * @param message - message to log
- * @param type - different color of the tooltip
- */
-function toastMessage(
-  message: string,
-  type?: 'normal' | 'error' | 'warn' | undefined
-) {
-  const piniaMessage = '🍍 ' + message
-
-  if (typeof __VUE_DEVTOOLS_TOAST__ === 'function') {
-    __VUE_DEVTOOLS_TOAST__(piniaMessage, type)
-  } else if (type === 'error') {
-    console.error(piniaMessage)
-  } else if (type === 'warn') {
-    console.warn(piniaMessage)
-  } else {
-    console.log(piniaMessage)
-  }
 }
