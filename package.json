@@ -87,7 +87,7 @@
     "rollup": "^2.50.4",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
-    "typescript": "^4.2.4",
+    "typescript": "~4.2.4",
     "vitepress": "^0.14.0",
     "vue": "^3.0.11",
     "yorkie": "^2.0.0"
