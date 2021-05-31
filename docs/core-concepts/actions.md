@@ -91,3 +91,50 @@ export default {
   },
 }
 ```
+
+## Watching actions
+
+> [Give feedback about `$onAction()`](https://github.com/posva/pinia/issues/240)
+
+It is possible to observe actions and their outcome with `store.$onAction()`. This
+
+Here is an example that logs before running actions and after they resolve/reject.
+
+```js
+const unsubscribe = someStore.$onAction(
+  ({
+    name, // name of the action
+    store, // store instance, same as `someStore`
+    args, // array of parameters passed to the action
+    after, // hook after the action returns or resolves
+    onError, // hook if the action throws or rejects
+  }) => {
+    // a shared variable for this specific action call
+    const startTime = Date.now()
+    // this will trigger before an action on `store` is executed
+    console.log(`Start "${name}" with params [${args.join(', ')}].`)
+
+    // this will trigger if the action succeeds and after it has fully run.
+    // it waits for any returned promised
+    after((result) => {
+      console.log(
+        `Finished "${name}" after ${
+          Date.now() - startTime
+        }ms.\nResult: ${result}.`
+      )
+    })
+
+    // this will trigger if the action throws or returns a promise that rejects
+    onError((error) => {
+      console.warn(
+        `Failed "${name}" after ${Date.now() - startTime}ms.\nError: ${error}.`
+      )
+    })
+  }
+)
+
+// manually remove the listener
+unsubscribe()
+```
+
+By default, action listeners are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted.
