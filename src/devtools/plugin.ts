@@ -1,6 +1,6 @@
 import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
 import { App, ComponentPublicInstance } from 'vue'
-import { PiniaPluginContext, setActivePinia } from '../rootStore'
+import { Pinia, PiniaPluginContext, setActivePinia } from '../rootStore'
 import {
   Store,
   GettersTree,
@@ -20,6 +20,8 @@ import {
   formatMutationType,
   formatStoreForInspectorState,
   formatStoreForInspectorTree,
+  PINIA_ROOT_ID,
+  PINIA_ROOT_LABEL,
 } from './formatting'
 import { toastMessage } from './utils'
 
@@ -142,14 +144,19 @@ function addDevtools(app: App, store: Store) {
 
         api.on.getInspectorTree((payload) => {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-            const stores = Array.from(registeredStores.values())
+            let stores: Array<Store | Pinia> = [store._p]
+            stores = stores.concat(Array.from(registeredStores.values()))
 
             payload.rootNodes = (
               payload.filter
                 ? stores.filter((store) =>
-                    store.$id
-                      .toLowerCase()
-                      .includes(payload.filter.toLowerCase())
+                    '$id' in store
+                      ? store.$id
+                          .toLowerCase()
+                          .includes(payload.filter.toLowerCase())
+                      : PINIA_ROOT_LABEL.toLowerCase().includes(
+                          payload.filter.toLowerCase()
+                        )
                   )
                 : stores
             ).map(formatStoreForInspectorTree)
@@ -158,28 +165,32 @@ function addDevtools(app: App, store: Store) {
 
         api.on.getInspectorState((payload) => {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-            const store = registeredStores.get(payload.nodeId)
+            const inspectedStore =
+              payload.nodeId === PINIA_ROOT_ID
+                ? store._p
+                : registeredStores.get(payload.nodeId)
 
-            if (!store) {
+            if (!inspectedStore) {
               return toastMessage(
                 `store "${payload.nodeId}" not found`,
                 'error'
               )
             }
 
-            if (store) {
-              payload.state = {
-                options: formatStoreForInspectorState(store),
-              }
+            if (inspectedStore) {
+              payload.state = formatStoreForInspectorState(inspectedStore)
             }
           }
         })
 
-        api.on.editInspectorState((payload) => {
+        api.on.editInspectorState((payload, ctx) => {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-            const store = registeredStores.get(payload.nodeId)
+            const inspectedStore =
+              payload.nodeId === PINIA_ROOT_ID
+                ? store._p
+                : registeredStores.get(payload.nodeId)
 
-            if (!store) {
+            if (!inspectedStore) {
               return toastMessage(
                 `store "${payload.nodeId}" not found`,
                 'error'
@@ -187,17 +198,15 @@ function addDevtools(app: App, store: Store) {
             }
 
             const { path } = payload
-            if (path[0] !== 'state') {
-              return toastMessage(
-                `Invalid path for store "${payload.nodeId}":\n${path}\nOnly state can be modified.`
-              )
-            }
 
-            // rewrite the first entry to be able to directly set the state as
-            // well as any other path
-            path[0] = '$state'
+            if ('$id' in inspectedStore) {
+              // access only the state
+              path.unshift('$state')
+            } else {
+              path.unshift('state', 'value')
+            }
             isTimelineActive = false
-            payload.set(store, path, payload.state.value)
+            payload.set(inspectedStore, path, payload.state.value)
             isTimelineActive = true
           }
         })

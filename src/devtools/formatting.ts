@@ -1,6 +1,7 @@
 import { CustomInspectorNode, CustomInspectorState } from '@vue/devtools-api'
-import { Store, GettersTree, MutationType, StateTree } from '../types'
+import { Store, MutationType } from '../types'
 import { DebuggerEvent } from 'vue'
+import { Pinia } from '../rootStore'
 
 export function formatDisplay(display: string) {
   return {
@@ -10,36 +11,69 @@ export function formatDisplay(display: string) {
   }
 }
 
-export function formatStoreForInspectorTree(store: Store): CustomInspectorNode {
-  return {
-    id: store.$id,
-    label: store.$id,
-    tags: [],
-  }
+export const PINIA_ROOT_LABEL = '🍍 Pinia (root)'
+export const PINIA_ROOT_ID = '_root'
+
+export function formatStoreForInspectorTree(
+  store: Store | Pinia
+): CustomInspectorNode {
+  return '$id' in store
+    ? {
+        id: store.$id,
+        label: store.$id,
+      }
+    : {
+        id: PINIA_ROOT_ID,
+        label: PINIA_ROOT_LABEL,
+      }
 }
 
 export function formatStoreForInspectorState(
-  store: Store
-): CustomInspectorState[string] {
-  const fields: CustomInspectorState[string] = [
-    { editable: false, key: 'id', value: formatDisplay(store.$id) },
-    { editable: true, key: 'state', value: store.$state },
-  ]
+  store: Store | Pinia
+): CustomInspectorState {
+  if (!('$id' in store)) {
+    const state: CustomInspectorState = {
+      state: Object.keys(store.state.value).map((storeId) => ({
+        editable: true,
+        key: storeId,
+        value: store.state.value[storeId],
+      })),
+    }
+    // TODO: use this version when possible
+    // Object.keys(store.state.value).forEach((storeId) => {
+    //   const currentState = store.state.value[storeId]
+    //   state[storeId] = Object.keys(currentState).map((key) => ({
+    //     // is not possible to made editable because no way to get the storeId in
+    //     // edit inspector state callback
+    //     editable: false,
+    //     key,
+    //     value: currentState[key],
+    //   }))
+    // })
+
+    return state
+  }
+
+  const state: CustomInspectorState = {
+    state: Object.keys(store.$state).map((key) => ({
+      editable: true,
+      key,
+      // @ts-expect-error
+      value: store.$state[key],
+    })),
+  }
 
   // avoid adding empty getters
   if (store._getters && store._getters.length) {
-    fields.push({
+    state.getters = store._getters.map((getterName) => ({
       editable: false,
-      key: 'getters',
-      value: store._getters.reduce((getters, key) => {
-        // @ts-expect-error
-        getters[key] = store[key]
-        return getters
-      }, {} as GettersTree<StateTree>),
-    })
+      key: getterName,
+      // @ts-expect-error
+      value: store[getterName],
+    }))
   }
 
-  return fields
+  return state
 }
 
 export function formatEventData(
