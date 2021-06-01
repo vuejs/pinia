@@ -11,6 +11,7 @@ import {
   DebuggerEvent,
   WatchOptions,
   UnwrapRef,
+  markRaw,
 } from 'vue'
 import {
   StateTree,
@@ -114,14 +115,16 @@ function initStore<
   // const state: Ref<S> = toRef(_p.state.value, $id)
 
   let isListening = true
-  let subscriptions: SubscriptionCallback<S>[] = []
-  let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = []
+  let subscriptions: SubscriptionCallback<S>[] = markRaw([])
+  let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = markRaw([])
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
 
-  function $patch(stateMutation: (state: S) => void): void
-  function $patch(partialState: DeepPartial<S>): void
+  function $patch(stateMutation: (state: UnwrapRef<S>) => void): void
+  function $patch(partialState: DeepPartial<UnwrapRef<S>>): void
   function $patch(
-    partialStateOrMutator: DeepPartial<S> | ((state: S) => void)
+    partialStateOrMutator:
+      | DeepPartial<UnwrapRef<S>>
+      | ((state: UnwrapRef<S>) => void)
   ): void {
     let subscriptionMutation: SubscriptionCallbackMutation<S>
     isListening = false
@@ -131,7 +134,7 @@ function initStore<
       debuggerEvents = []
     }
     if (typeof partialStateOrMutator === 'function') {
-      partialStateOrMutator(pinia.state.value[$id])
+      partialStateOrMutator(pinia.state.value[$id] as UnwrapRef<S>)
       subscriptionMutation = {
         type: MutationType.patchFunction,
         storeName: $id,
@@ -361,7 +364,7 @@ function buildStoreToUse<
 
   // add getters for devtools
   if (__DEV__ && IS_CLIENT) {
-    store._getters = Object.keys(getters)
+    store._getters = markRaw(Object.keys(getters))
   }
 
   // apply all plugins
