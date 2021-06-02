@@ -19,6 +19,18 @@
 <script setup>
 import HomeSponsorsGroup from './HomeSponsorsGroup.vue'
 import sponsors from './sponsors.json'
+import { nextTick, onMounted } from 'vue'
+import { isDark } from '../theme/dark-theme'
+
+onMounted(() => {
+  // wait to ticks to fix the problem of SSR with no color scheme
+  nextTick(() => {
+    isDark.value = !isDark.value
+    return nextTick()
+  }).then(() => {
+    isDark.value = !isDark.value
+  })
+})
 </script>
 
 <style scoped>
