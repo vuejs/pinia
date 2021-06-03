@@ -1,3 +1,16 @@
+# [2.0.0-beta.1](https://github.com/posva/pinia/compare/v2.0.0-alpha.19...v2.0.0-beta.1) (2021-06-03)
+
+### Bug Fixes
+
+- **types:** fix extension for TS 4.3 ([aff5c1e](https://github.com/posva/pinia/commit/aff5c1e6fb5c559d3cae103a3049046ee97ce3c0))
+
+### Features
+
+- remove deprecated APIs ([239aec5](https://github.com/posva/pinia/commit/239aec50f270bc9025b1c28490dbdfbc720ab9d5))
+- **devtools:** add root state ([a75be78](https://github.com/posva/pinia/commit/a75be78e0d189d324c5f30ececb27cd1a61e7e77))
+- **devtools:** import/export global state ([b969f2a](https://github.com/posva/pinia/commit/b969f2a9884d0794733aea1162e0c154b34dee26))
+- **devtools:** load/save state ([9b503d6](https://github.com/posva/pinia/commit/9b503d6c81f45864eba299a20cfd2ec957c6884b))
+
 # [2.0.0-alpha.19](https://github.com/posva/pinia/compare/v2.0.0-alpha.18...v2.0.0-alpha.19) (2021-05-20)
 
 ### Bug Fixes
