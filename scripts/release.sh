@@ -1,9 +1,9 @@
 set -e
 echo "Current version:" $(grep version package.json | sed -E 's/^.*"(4[^"]+)".*$/\1/')
-echo "Enter alpha version e.g., 2 will generate 2.0.0-alpha.2: "
-read ALPHA
+echo "Enter beta version e.g., 2 will generate 2.0.0-beta.2: "
+read BETA
 
-VERSION="2.0.0-alpha.$ALPHA"
+VERSION="2.0.0-beta.$BETA"
 
 read -p "Releasing v$VERSION - are you sure? (y/n)" -n 1 -r
 echo    # (optional) move to a new line
