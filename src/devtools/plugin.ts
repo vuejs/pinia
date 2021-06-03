@@ -42,11 +42,13 @@ function addDevtools(app: App, store: Store) {
   // TODO: we probably need to ensure the latest version of the store is kept:
   // without effectScope, multiple stores will be created and will have a
   // limited lifespan for getters.
+  // add a dev only variable that is removed in unmounted and replace the store
   let hasSubscribed = true
   if (!registeredStores.has(store.$id)) {
     registeredStores.set(store.$id, store)
     componentStateTypes.push('🍍 ' + store.$id)
-    hasSubscribed = true
+    hasSubscribed = false
+    console.log('registing for the first time')
   }
 
   setupDevtoolsPlugin(
