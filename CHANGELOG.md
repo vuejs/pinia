@@ -1,3 +1,9 @@
+# [2.0.0-beta.2](https://github.com/posva/pinia/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2021-06-03)
+
+### Bug Fixes
+
+- **devtools:** register stores ([5fcca78](https://github.com/posva/pinia/commit/5fcca788c1da61f2a406e2924fca3a8bed51b667))
+
 # [2.0.0-beta.1](https://github.com/posva/pinia/compare/v2.0.0-alpha.19...v2.0.0-beta.1) (2021-06-03)
 
 ### Bug Fixes
