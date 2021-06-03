@@ -71,11 +71,6 @@ export interface _SubscriptionCallbackMutationBase {
   type: MutationType
 
   /**
-   * @deprecated use `storeId` instead.
-   */
-  storeName: string
-
-  /**
    * `id` of the store doing the mutation.
    */
   storeId: string

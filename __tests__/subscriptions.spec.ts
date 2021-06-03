@@ -25,7 +25,6 @@ describe('Subscriptions', () => {
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith(
       expect.objectContaining({
-        storeName: 'main',
         storeId: 'main',
         type: MutationType.direct,
       }),
@@ -44,7 +43,6 @@ describe('Subscriptions', () => {
     expect(spy).toHaveBeenCalledWith(
       expect.objectContaining({
         payload: patch,
-        storeName: 'main',
         storeId: 'main',
         type: MutationType.patchObject,
       }),

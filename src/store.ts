@@ -137,7 +137,6 @@ function initStore<
       partialStateOrMutator(pinia.state.value[$id] as UnwrapRef<S>)
       subscriptionMutation = {
         type: MutationType.patchFunction,
-        storeName: $id,
         storeId: $id,
         events: debuggerEvents as DebuggerEvent[],
       }
@@ -146,7 +145,6 @@ function initStore<
       subscriptionMutation = {
         type: MutationType.patchObject,
         payload: partialStateOrMutator,
-        storeName: $id,
         storeId: $id,
         events: debuggerEvents as DebuggerEvent[],
       }
@@ -188,7 +186,6 @@ function initStore<
         if (isListening) {
           callback(
             {
-              storeName: $id,
               storeId: $id,
               type: MutationType.direct,
               events: debuggerEvents as DebuggerEvent,

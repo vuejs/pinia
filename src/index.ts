@@ -49,6 +49,3 @@ export type {
   _Spread,
   _StoreObject,
 } from './mapHelpers'
-
-// TODO: remove in beta
-export { createStore } from './deprecated'

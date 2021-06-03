@@ -6,7 +6,7 @@ The state is, most of the time, the central part of your store. People often sta
 import { defineStore } from 'pinia'
 
 const useStore = defineStore({
-  id: 'storeName',
+  id: 'storeId',
   // can also be defined with an arrow function if you prefer that syntax
   state() {
     return {
