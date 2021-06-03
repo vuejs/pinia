@@ -1,3 +1,9 @@
+## [0.5.2](https://github.com/posva/pinia/compare/v0.5.1...v0.5.2) (2021-06-03)
+
+### Bug Fixes
+
+- **types:** fix extension for TS 4.3 ([e46f4b8](https://github.com/posva/pinia/commit/e46f4b877687cab18377622dee2560e8fa295e39))
+
 ## [0.5.1](https://github.com/posva/pinia/compare/v0.5.0...v0.5.1) (2021-05-17)
 
 ### Bug Fixes
