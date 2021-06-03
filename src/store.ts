@@ -333,10 +333,7 @@ function buildStoreToUse<
       let ret: ReturnType<A[typeof actionName]>
       try {
         ret = actions[actionName].apply(localStore, args as unknown as any[])
-        Promise.resolve(ret)
-          // @ts-expect-error: can't work this out
-          .then(afterCallback)
-          .catch(onErrorCallback)
+        Promise.resolve(ret).then(afterCallback).catch(onErrorCallback)
       } catch (error) {
         onErrorCallback(error)
         throw error
