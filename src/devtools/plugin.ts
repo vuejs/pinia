@@ -48,7 +48,6 @@ function addDevtools(app: App, store: Store) {
     registeredStores.set(store.$id, store)
     componentStateTypes.push('🍍 ' + store.$id)
     hasSubscribed = false
-    console.log('registing for the first time')
   }
 
   setupDevtoolsPlugin(
