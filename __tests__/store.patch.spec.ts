@@ -1,3 +1,4 @@
+import { reactive, ref } from 'vue'
 import { createPinia, defineStore, setActivePinia } from '../src'
 
 describe('store.$patch', () => {
@@ -79,6 +80,57 @@ describe('store.$patch', () => {
         a: { b: 'string' },
       },
       list: [],
+    })
+  })
+
+  describe('skipping nested objects', () => {
+    const useStore = () => {
+      // create a new store
+      setActivePinia(createPinia())
+      return defineStore({
+        id: 'main',
+        state: () => ({
+          arr: [] as any[],
+          item: { a: 0, b: 0 } as null | { a: number; b?: number },
+        }),
+      })()
+    }
+
+    it('ref', () => {
+      const store = useStore()
+      const item = ref({ a: 1, b: 1 })
+      const oldItem = store.item
+      // @ts-expect-error: because it's a ref
+      store.$patch({ item })
+      expect(oldItem).toEqual({ a: 0, b: 0 })
+      expect(store.item).toEqual({ a: 1, b: 1 })
+    })
+
+    it('nested ref', () => {
+      const store = useStore()
+      const item = ref({ nested: { a: 1, b: 1 } })
+      const oldItem = store.item
+      store.$patch({ item: item.value.nested })
+      expect(oldItem).toEqual({ a: 0, b: 0 })
+      expect(store.item).toEqual({ a: 1, b: 1 })
+    })
+
+    it('reactive', () => {
+      const store = useStore()
+      const item = reactive({ a: 1, b: 1 })
+      const oldItem = store.item
+      store.$patch({ item })
+      expect(oldItem).toEqual({ a: 0, b: 0 })
+      expect(store.item).toEqual({ a: 1, b: 1 })
+    })
+
+    it('from store', () => {
+      const store = useStore()
+      store.arr.push({ a: 1, b: 1 })
+      const oldItem = store.item
+      store.$patch({ item: store.arr[0] })
+      expect(oldItem).toEqual({ a: 0, b: 0 })
+      expect(store.item).toEqual({ a: 1, b: 1 })
     })
   })
 })
