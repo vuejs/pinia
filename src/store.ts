@@ -11,6 +11,8 @@ import {
   provide,
   UnwrapRef,
   set,
+  isRef,
+  isReactive,
 } from '@vue/composition-api'
 import {
   StateTree,
@@ -50,7 +52,12 @@ function innerPatch<T extends StateTree>(
   for (const key in patchToApply) {
     const subPatch = patchToApply[key]
     const targetValue = target[key]
-    if (isPlainObject(targetValue) && isPlainObject(subPatch)) {
+    if (
+      isPlainObject(targetValue) &&
+      isPlainObject(subPatch) &&
+      !isRef(subPatch) &&
+      !isReactive(subPatch)
+    ) {
       target[key] = innerPatch(targetValue, subPatch)
     } else {
       // @ts-expect-error
