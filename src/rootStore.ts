@@ -1,4 +1,4 @@
-import { InjectionKey, ref, Ref } from '@vue/composition-api'
+import { InjectionKey, markRaw, ref, Ref } from '@vue/composition-api'
 import {
   StateTree,
   StoreWithState,
@@ -137,7 +137,7 @@ export function createPinia(): Pinia {
 
   const _p: Pinia['_p'] = []
 
-  const pinia: Pinia = {
+  const pinia: Pinia = markRaw({
     use(plugin) {
       _p.push(plugin)
       return pinia
@@ -146,7 +146,7 @@ export function createPinia(): Pinia {
     _p,
 
     state,
-  }
+  })
 
   // this allows calling useStore() outside of a component setup after
   // installing pinia's plugin
