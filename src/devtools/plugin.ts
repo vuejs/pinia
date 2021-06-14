@@ -44,9 +44,10 @@ function addDevtools(app: App, store: Store) {
   // limited lifespan for getters.
   // add a dev only variable that is removed in unmounted and replace the store
   let hasSubscribed = true
+  const storeType = '🍍 ' + store.$id
   if (!registeredStores.has(store.$id)) {
     registeredStores.set(store.$id, store)
-    componentStateTypes.push('🍍 ' + store.$id)
+    componentStateTypes.push(storeType)
     hasSubscribed = false
   }
 
@@ -121,7 +122,7 @@ function addDevtools(app: App, store: Store) {
 
             Object.values(piniaStores).forEach((store) => {
               payload.instanceData.state.push({
-                type: '🍍 ' + store.$id,
+                type: storeType,
                 key: 'state',
                 editable: true,
                 value: store.$state,
@@ -129,7 +130,7 @@ function addDevtools(app: App, store: Store) {
 
               if (store._getters && store._getters.length) {
                 payload.instanceData.state.push({
-                  type: '🍍 ' + store.$id,
+                  type: storeType,
                   key: 'getters',
                   editable: false,
                   value: store._getters.reduce((getters, key) => {
