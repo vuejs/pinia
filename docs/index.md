@@ -5,7 +5,7 @@ actionText: Get Started
 actionLink: /introduction.html
 
 altActionText: Demo
-altActionLink: https://j4qzw.csb.app/
+altActionLink: https://y4dfi.csb.app
 
 features:
   - title: 💡 Intuitive
