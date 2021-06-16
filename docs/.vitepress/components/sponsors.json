@@ -9,8 +9,8 @@
     {
       "href": "https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor",
       "alt": "VueJobs",
-      "imgSrcLight": "/sponsors/vuejobs.png",
-      "imgSrcDark": "/sponsors/vuejobs.png"
+      "imgSrcLight": "/sponsors/vuejobs.svg",
+      "imgSrcDark": "/sponsors/vuejobs.svg"
     },
     {
       "href": "https://www.vuetifyjs.com/",
