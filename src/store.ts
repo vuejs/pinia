@@ -349,7 +349,12 @@ function buildStoreToUse<
 
   const store: Store<Id, S, G, A> = reactive(
     assign(
-      {},
+      __DEV__ && IS_CLIENT
+        ? // devtools custom properties
+          {
+            _customProperties: markRaw(new Set<string>()),
+          }
+        : {},
       partialStore,
       // using this means no new properties can be added as state
       computedFromState(pinia.state, $id),
@@ -370,8 +375,17 @@ function buildStoreToUse<
 
   // apply all plugins
   pinia._p.forEach((extender) => {
-    // @ts-expect-error: conflict between A and ActionsTree
-    assign(store, extender({ store, app: pinia._a, pinia, options }))
+    if (__DEV__ && IS_CLIENT) {
+      // @ts-expect-error: conflict between A and ActionsTree
+      const extensions = extender({ store, app: pinia._a, pinia, options })
+      Object.keys(extensions || {}).forEach((key) =>
+        store._customProperties.add(key)
+      )
+      assign(store, extensions)
+    } else {
+      // @ts-expect-error: conflict between A and ActionsTree
+      assign(store, extender({ store, app: pinia._a, pinia, options }))
+    }
   })
 
   return store

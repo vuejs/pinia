@@ -23,7 +23,7 @@ import {
   PINIA_ROOT_ID,
   PINIA_ROOT_LABEL,
 } from './formatting'
-import { toastMessage } from './utils'
+import { isPinia, toastMessage } from './utils'
 
 /**
  * Registered stores used for devtools.
@@ -201,9 +201,15 @@ function addDevtools(app: App, store: Store) {
 
             const { path } = payload
 
-            if ('$id' in inspectedStore) {
+            if (!isPinia(store)) {
               // access only the state
-              path.unshift('$state')
+              if (
+                path.length !== 1 ||
+                !store._customProperties.has(path[0]) ||
+                path[0] in store.$state
+              ) {
+                path.unshift('$state')
+              }
             } else {
               path.unshift('state', 'value')
             }
@@ -403,5 +409,6 @@ export function devtoolsPlugin<
     store
   )
 
-  return { ...wrappedActions }
+  // avoid returning to not display them in devtools
+  Object.assign(store, wrappedActions)
 }

@@ -1,3 +1,5 @@
+import { Pinia } from '../rootStore'
+
 /**
  * Shows a toast or console.log
  *
@@ -19,4 +21,8 @@ export function toastMessage(
   } else {
     console.log(piniaMessage)
   }
+}
+
+export function isPinia(o: any): o is Pinia {
+  return '_a' in o && 'install' in o
 }

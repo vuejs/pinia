@@ -243,6 +243,13 @@ export interface StoreWithState<
   _getters?: string[]
 
   /**
+   * Used by devtools plugin to retrieve properties added with plugins. Removed in production.
+   *
+   * @internal
+   */
+  _customProperties: Set<string>
+
+  /**
    * Applies a state patch to current state. Allows passing nested values
    *
    * @param partialState - patch to apply to the state
