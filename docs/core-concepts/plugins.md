@@ -53,7 +53,7 @@ You can add properties to every store by simply returning an object of them in a
 pinia.use(() => ({ hello: 'world' }))
 ```
 
-You can also set the property directly on the `store`:
+You can also set the property directly on the `store` but **if possible use the return version so they can be automatically tracked by devtools**:
 
 ```js
 pinia.use(({ store }) => {
@@ -105,6 +105,17 @@ pinia.use(({ store }) => {
     store.$state.hasError = hasError
     store.hasError = hasError
   }
+})
+```
+
+Any property _returned_ by a plugin will be automatically tracked by devtools so in order to make `hasError` visible in devtools, make sure to add it to `store._customProperties` **in dev mode only** if you want to debug it in devtools:
+
+```js
+// from the example above
+pinia.use(({ store }) => {
+  store.$state.secret = globalSecret
+  store.secret = globalSecret
+  store._customProperties.add('secret')
 })
 ```
 
