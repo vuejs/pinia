@@ -1,3 +1,13 @@
+# [2.0.0-beta.3](https://github.com/posva/pinia/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2021-06-18)
+
+### Bug Fixes
+
+- **patch:** avoid merging reactive objects ([a6a75e8](https://github.com/posva/pinia/commit/a6a75e891d3fc4a7ec2c5dea3ac8081cf460c4d2)), closes [#528](https://github.com/posva/pinia/issues/528)
+
+### Features
+
+- **devtools:** display custom properties ([fd901cd](https://github.com/posva/pinia/commit/fd901cdf34d035289067a189a874b7e2df1cbe3e))
+
 # [2.0.0-beta.2](https://github.com/posva/pinia/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2021-06-03)
 
 ### Bug Fixes
