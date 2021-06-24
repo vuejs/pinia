@@ -114,6 +114,8 @@ describe('Store', () => {
 
   it('can replace its state', () => {
     const store = useStore()
+    // TODO: remove once plugin state achieve generics
+    // @ts-expect-error
     store.$state = {
       a: false,
       nested: {

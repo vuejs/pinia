@@ -8,6 +8,7 @@ declare module '../dist/pinia' {
 
   export interface PiniaCustomProperties<Id, S, G, A> {
     $actions: Array<keyof A>
+    myState: number
   }
 
   export interface PiniaCustomStateProperties<S> {
