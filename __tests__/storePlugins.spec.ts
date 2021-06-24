@@ -1,6 +1,6 @@
 import { createPinia, defineStore } from '../src'
 import { mount } from '@vue/test-utils'
-import { App } from 'vue'
+import { App, ref, toRef } from 'vue'
 
 declare module '../src' {
   export interface PiniaCustomProperties<Id> {
@@ -10,6 +10,11 @@ declare module '../src' {
     idFromPlugin: Id
     globalA: string
     globalB: string
+  }
+
+  export interface PiniaCustomStateProperties<S> {
+    // pluginN: 'test' extends Id ? number : never | undefined
+    pluginN: number
   }
 }
 
@@ -34,8 +39,15 @@ describe('store plugins', () => {
     mount({ template: 'none' }, { global: { plugins: [pinia] } })
 
     // must call use after installing the plugin
-    pinia.use(({ app }) => {
-      return { pluginN: 20, uid: app._uid }
+    pinia.use(({ app, store }) => {
+      if (!('pluginN' in store.$state)) {
+        // @ts-expect-error: the check above makes this impossible
+        // but in practice we need this until effectScope is released
+        store.$state.pluginN = ref(20)
+      }
+      // @ts-expect-error: TODO: allow setting refs
+      store.pluginN = toRef(store.$state, 'pluginN')
+      return { uid: app._uid }
     })
 
     const store = useStore(pinia)
