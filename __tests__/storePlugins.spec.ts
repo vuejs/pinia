@@ -10,11 +10,14 @@ declare module '../src' {
     idFromPlugin: Id
     globalA: string
     globalB: string
+    notShared: number
+    shared: number
   }
 
   export interface PiniaCustomStateProperties<S> {
     // pluginN: 'test' extends Id ? number : never | undefined
     pluginN: number
+    shared: number
   }
 }
 
@@ -40,9 +43,8 @@ describe('store plugins', () => {
 
     // must call use after installing the plugin
     pinia.use(({ app, store }) => {
-      if (!('pluginN' in store.$state)) {
-        // @ts-expect-error: the check above makes this impossible
-        // but in practice we need this until effectScope is released
+      if (!store.$state.hasOwnProperty('pluginN')) {
+        // @ts-expect-error: cannot be a ref yet
         store.$state.pluginN = ref(20)
       }
       // @ts-expect-error: TODO: allow setting refs
@@ -52,6 +54,7 @@ describe('store plugins', () => {
 
     const store = useStore(pinia)
 
+    expect(store.$state.pluginN).toBe(20)
     expect(store.pluginN).toBe(20)
     expect(store.uid).toBeDefined()
     // @ts-expect-error: pluginN is a number
@@ -117,5 +120,49 @@ describe('store plugins', () => {
     const store = useStore(pinia)
     expect(store.globalA).toBe('a')
     expect(store.globalB).toBe('b')
+  })
+
+  it('shares the same ref among stores', () => {
+    const pinia = createPinia()
+
+    mount({ template: 'none' }, { global: { plugins: [pinia] } })
+
+    // must call use after installing the plugin
+    pinia.use(({ app, store }) => {
+      if (!store.$state.hasOwnProperty('shared')) {
+        // @ts-expect-error: cannot be a ref yet
+        store.$state.shared = ref(20)
+      }
+      // @ts-expect-error: TODO: allow setting refs
+      store.notShared = ref(10)
+      // @ts-expect-error: TODO: allow setting refs
+      store.shared = toRef(store.$state, 'shared')
+    })
+
+    const store = useStore(pinia)
+    const store2 = useStore(pinia)
+
+    expect(store.$state.shared).toBe(20)
+    expect(store.shared).toBe(20)
+    expect(store2.$state.shared).toBe(20)
+    expect(store2.shared).toBe(20)
+
+    store.$state.shared = 10
+    expect(store.$state.shared).toBe(10)
+    expect(store.shared).toBe(10)
+    expect(store2.$state.shared).toBe(10)
+    expect(store2.shared).toBe(10)
+
+    store.shared = 1
+    expect(store.$state.shared).toBe(1)
+    expect(store.shared).toBe(1)
+    expect(store2.$state.shared).toBe(1)
+    expect(store2.shared).toBe(1)
+
+    store.notShared = 5
+    expect(store.$state).not.toHaveProperty('notShared')
+    expect(store.notShared).toBe(5)
+    expect(store2.$state).not.toHaveProperty('notShared')
+    expect(store2.notShared).toBe(10)
   })
 })
