@@ -377,12 +377,10 @@ export function defineStore<
     if (pinia) setActivePinia(pinia)
 
     pinia = getActivePinia()
+    let storeCache = storesMap.get(pinia)
+    if (!storeCache) storesMap.set(pinia, (storeCache = new Map()))
 
-    let stores = storesMap.get(pinia)
-    if (!stores) storesMap.set(pinia, (stores = new Map()))
-
-    // let store = stores.get(id) as Store<Id, S, G, A>
-    let storeAndDescriptor = stores.get(id) as
+    let storeAndDescriptor = storeCache.get(id) as
       | [
           StoreWithState<Id, S, G, A>,
           StateDescriptor<S>,
@@ -394,7 +392,7 @@ export function defineStore<
       storeAndDescriptor = initStore(id, state, pinia.state.value[id])
 
       // @ts-expect-error: annoying to type
-      stores.set(id, storeAndDescriptor)
+      storeCache.set(id, storeAndDescriptor)
 
       if (__DEV__ && isClient) {
         // @ts-expect-error: annoying to type
