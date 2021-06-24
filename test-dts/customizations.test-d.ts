@@ -12,6 +12,7 @@ declare module '../dist/src' {
 
   export interface PiniaCustomStateProperties<S> {
     myState: number
+    stateOnly: number
   }
 
   export interface DefineStoreOptions<Id, S, G, A> {
@@ -47,6 +48,19 @@ const useStore = defineStore({
     },
     three() {
       this.two()
+    },
+  },
+
+  getters: {
+    two(state): boolean {
+      expectType<number>(this.myState)
+      expectType<number>(state.myState)
+      expectType<number>(state.stateOnly)
+
+      // @ts-expect-error
+      this.stateOnly
+
+      return true
     },
   },
 
