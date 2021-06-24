@@ -1,5 +1,5 @@
 import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
-import { App, ComponentPublicInstance } from 'vue'
+import { App, ComponentPublicInstance, toRaw } from 'vue'
 import { Pinia, PiniaPluginContext, setActivePinia } from '../rootStore'
 import {
   Store,
@@ -368,13 +368,12 @@ export function devtoolsPlugin<
   G extends GettersTree<S> = GettersTree<S>,
   A /* extends ActionsTree */ = ActionsTree
 >({ app, store, options, pinia }: PiniaPluginContext<Id, S, G, A>) {
-  const wrappedActions = {} as A
-
   // original actions of the store as they are given by pinia. We are going to override them
   const actions = Object.keys(options.actions || ({} as A)).reduce(
     (storeActions, actionName) => {
       // @ts-expect-error
-      storeActions[actionName] = store[actionName]
+      // use toRaw to avoid tracking #541
+      storeActions[actionName] = toRaw(store)[actionName]
       return storeActions
     },
     {} as ActionsTree
@@ -382,7 +381,7 @@ export function devtoolsPlugin<
 
   for (const actionName in actions) {
     // @ts-expect-error
-    wrappedActions[actionName] = function () {
+    store[actionName] = function () {
       setActivePinia(pinia)
       // the running action id is incremented in a before action hook
       const _actionId = runningActionId
@@ -408,7 +407,4 @@ export function devtoolsPlugin<
     // @ts-expect-error: FIXME: if possible...
     store
   )
-
-  // avoid returning to not display them in devtools
-  Object.assign(store, wrappedActions)
 }
