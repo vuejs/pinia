@@ -173,10 +173,9 @@ function addDevtools(app: App, store: Store) {
                 : registeredStores.get(payload.nodeId)
 
             if (!inspectedStore) {
-              return toastMessage(
-                `store "${payload.nodeId}" not found`,
-                'error'
-              )
+              // this could be the selected store restored for a different project
+              // so it's better not to say anything here
+              return
             }
 
             if (inspectedStore) {
