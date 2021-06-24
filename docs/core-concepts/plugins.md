@@ -99,14 +99,16 @@ pinia.use(({ store }) => {
 
   // we need to check if the state has been added yet because of
   // the limitation mentioned during the introduction
-  if (!Object.hasOwnProperty(store.$state, 'hasError')) {
+  if (!store.$state.hasOwnProperty('hasError')) {
     // Each store has its own `hasError`
-    const hasError = ref(false)
-    store.$state.hasError = hasError
-    store.hasError = hasError
+    store.$state.hasError = ref(false)
   }
+  // this one must always be set
+  store.hasError = toRef(store.$state, 'hasError')
 })
 ```
+
+**Note**: If you are using Vue 2, make sure to use `set` (from `@vue/composition-api`) or `Vue.set` as mentioned in the [State page](./state.md#state) when creating new properties like `secret` and `hasError` in the example above.
 
 Any property _returned_ by a plugin will be automatically tracked by devtools so in order to make `hasError` visible in devtools, make sure to add it to `store._customProperties` **in dev mode only** if you want to debug it in devtools:
 
@@ -115,7 +117,10 @@ Any property _returned_ by a plugin will be automatically tracked by devtools so
 pinia.use(({ store }) => {
   store.$state.secret = globalSecret
   store.secret = globalSecret
-  store._customProperties.add('secret')
+  // make sure your bundler handle this. webpack and vite should do it by default
+  if (process.env.NODE_ENV === 'development') {
+    store._customProperties.add('secret')
+  }
 })
 ```
 
@@ -125,7 +130,7 @@ If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](ht
 ```js
 import { set } from '@vue/composition-api'
 pinia.use(({ store }) => {
-  if (!Object.hasOwnProperty(store.$state, 'hello')) {
+  if (!store.$state.hasOwnProperty('hello')) {
     const secretRef = ref('secret')
     // If the data is meant to be used during SSR, you should
     // set it on the `$state` property so it is serialized and
