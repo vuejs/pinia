@@ -464,8 +464,7 @@ export interface DefineStoreOptions<
     ThisType<
       UnwrapRef<StateTree extends S ? {} : S> &
         StoreWithGetters<G> &
-        PiniaCustomProperties &
-        PiniaCustomStateProperties
+        PiniaCustomProperties
     >
   /**
    * Optional object of actions.
@@ -476,7 +475,6 @@ export interface DefineStoreOptions<
         UnwrapRef<StateTree extends S ? {} : S> &
         StoreWithState<Id, S, G, A> &
         StoreWithGetters<GettersTree<S> extends G ? {} : G> &
-        PiniaCustomProperties &
-        PiniaCustomStateProperties
+        PiniaCustomProperties
     >
 }
