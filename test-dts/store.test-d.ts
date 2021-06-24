@@ -25,11 +25,80 @@ const useStore = defineStore({
   },
   actions: {
     doStuff() {
+      // @ts-expect-error
+      this.notExisting
       expectType<string>(this.upper)
       expectType<false>(this.other)
     },
     otherOne() {
       expectType<() => void>(this.doStuff)
+    },
+  },
+})
+
+// actions on not existing properties
+defineStore({
+  id: '',
+  actions: {
+    a() {
+      // @ts-expect-error
+      this.notExisting
+    },
+  },
+})
+
+defineStore({
+  id: '',
+  state: () => ({}),
+  actions: {
+    a() {
+      // @ts-expect-error
+      this.notExisting
+    },
+  },
+})
+
+defineStore({
+  id: '',
+  getters: {},
+  actions: {
+    a() {
+      // @ts-expect-error
+      this.notExisting
+    },
+  },
+})
+
+// getters on not existing properties
+defineStore({
+  id: '',
+  getters: {
+    a(): number {
+      // @ts-expect-error
+      this.notExisting
+      return 2
+    },
+    b: (state) => {
+      // @ts-expect-error
+      state.notExisting
+      return
+    },
+  },
+})
+
+defineStore({
+  id: '',
+  state: () => ({}),
+  getters: {
+    a(): number {
+      // @ts-expect-error
+      this.notExisting
+      return 2
+    },
+    b: (state) => {
+      // @ts-expect-error
+      state.notExisting
+      return
     },
   },
 })
@@ -169,6 +238,5 @@ expectType<any>(genericStore.thing)
 expectType<any>(genericStore.$state.thing)
 takeStore(genericStore)
 useSyncValueToStore(() => 2, genericStore, 'myState')
-useSyncValueToStore(() => 2, genericStore, 'random')
-// @ts-expect-error
 useSyncValueToStore(() => false, genericStore, 'myState')
+useSyncValueToStore(() => 2, genericStore, 'random')

@@ -413,10 +413,10 @@ export function defineStore<
     if (pinia) setActivePinia(pinia)
     // TODO: worth warning on server if no piniaKey as it can leak data
     pinia = getActivePinia()
-    let stores = storesMap.get(pinia)
-    if (!stores) storesMap.set(pinia, (stores = new Map()))
+    let storeCache = storesMap.get(pinia)
+    if (!storeCache) storesMap.set(pinia, (storeCache = new Map()))
 
-    let storeAndDescriptor = stores.get(id) as
+    let storeAndDescriptor = storeCache.get(id) as
       | [
           StoreWithState<Id, S, G, A>,
           StateDescriptor<S>,
@@ -430,7 +430,7 @@ export function defineStore<
       storeAndDescriptor = initStore(id, state, pinia.state.value[id])
 
       // @ts-expect-error: annoying to type
-      stores.set(id, storeAndDescriptor)
+      storeCache.set(id, storeAndDescriptor)
 
       store = buildStoreToUse<
         Id,
