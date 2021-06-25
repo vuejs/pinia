@@ -50,5 +50,5 @@ export type {
   _StoreObject,
 } from './mapHelpers'
 
-export { createTestingPinia, getMockedStore } from './testing'
+export { createTestingPinia } from './testing'
 export type { TestingOptions } from './testing'

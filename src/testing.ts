@@ -69,31 +69,3 @@ export function createTestingPinia({
 
   return pinia
 }
-
-type StoreWithMockedActions<Spy, S extends Store> = S extends Store<
-  string,
-  StateTree,
-  GettersTree<StateTree>,
-  infer A
->
-  ? {
-      [K in keyof A]: Spy
-    }
-  : {}
-
-/**
- * Returns a type safe store that has mocks instead of actions. Requires a Mock type as a generic
- *
- * @example
- * ```ts
- * const pinia = createTestingPinia({ createSpy: jest.fn })
- * ```
- *
- * @param store - store created with a testing pinia
- * @returns a type safe store
- */
-export function getMockedStore<Spy, S extends Store>(
-  store: S
-): S & StoreWithMockedActions<Spy, S> {
-  return store as S & StoreWithMockedActions<Spy, S>
-}
