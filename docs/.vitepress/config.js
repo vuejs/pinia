@@ -204,12 +204,16 @@ module.exports = {
           link: '/cookbook/',
           children: [
             {
-              text: 'Composing Stores',
-              link: '/cookbook/composing-stores.html',
+              text: 'Testing',
+              link: '/cookbook/testing.html',
             },
             {
               text: 'Usage without setup()',
               link: '/cookbook/options-api.html',
+            },
+            {
+              text: 'Composing Stores',
+              link: '/cookbook/composing-stores.html',
             },
             {
               text: 'Migration from 0.0.7',
