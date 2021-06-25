@@ -90,13 +90,16 @@ function click(node: Element) {
   }
 }
 
+const _navigator =
+  /*#__PURE__*/ typeof navigator === 'object' ? navigator : { userAgent: '' }
+
 // Detect WebView inside a native macOS app by ruling out all browsers
 // We just need to check for 'Safari' because all other browsers (besides Firefox) include that too
 // https://www.whatismybrowser.com/guides/the-latest-user-agent/macos
 const isMacOSWebView = /*#__PURE__*/ (() =>
-  /Macintosh/.test(navigator.userAgent) &&
-  /AppleWebKit/.test(navigator.userAgent) &&
-  !/Safari/.test(navigator.userAgent))()
+  /Macintosh/.test(_navigator.userAgent) &&
+  /AppleWebKit/.test(_navigator.userAgent) &&
+  !/Safari/.test(_navigator.userAgent))()
 
 export type SaveAs =
   | ((blob: Blob, name?: string, opts?: Options) => void)
@@ -113,7 +116,7 @@ export const saveAs: SaveAs = !IS_CLIENT
   'download' in HTMLAnchorElement.prototype && !isMacOSWebView
   ? downloadSaveAs
   : // Use msSaveOrOpenBlob as a second approach
-  'msSaveOrOpenBlob' in navigator
+  'msSaveOrOpenBlob' in _navigator
   ? msSaveAs
   : // Fallback to using FileReader and a popup
     fileSaverSaveAs
