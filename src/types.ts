@@ -29,6 +29,7 @@ export function isPlainObject(
 export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
 // type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
 
+// TODO: can we change these to numbers?
 /**
  * Possible types for SubscriptionCallback
  */
