@@ -7,6 +7,7 @@ const META_DESCRIPTION =
 const META_IMAGE = 'https://pinia.esm.dev/social.png'
 
 const isProduction = process.env.NODE_ENV
+
 /**
  * @type {import('vitepress').UserConfig['head']}
  */
@@ -20,6 +21,11 @@ const productionHead = [
     },
   ],
 ]
+
+const darkModeFix = require('fs').readFileSync(
+  require('path').resolve(__dirname, './darkModeFix.js'),
+  'utf-8'
+)
 
 /**
  * @type {import('vitepress').UserConfig}
@@ -111,6 +117,8 @@ module.exports = {
         onload: "this.onload=null;this.rel='stylesheet'",
       },
     ],
+
+    ['script', {}, darkModeFix],
     ...(isProduction ? productionHead : []),
   ],
   themeConfig: {
