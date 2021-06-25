@@ -95,6 +95,14 @@
   "dependencies": {
     "@vue/devtools-api": "^6.0.0-beta.14"
   },
+  "peerDependencies": {
+    "typescript": "^4.3.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
   "gitHooks": {
     "pre-commit": "lint-staged",
     "commit-msg": "node scripts/verifyCommit.js"
