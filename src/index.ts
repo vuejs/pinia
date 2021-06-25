@@ -49,3 +49,6 @@ export type {
   _Spread,
   _StoreObject,
 } from './mapHelpers'
+
+export { createTestingPinia, getMockedStore } from './testing'
+export type { TestingOptions } from './testing'
