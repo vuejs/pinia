@@ -1,6 +1,5 @@
 import { createPinia } from './createPinia'
-import { PiniaStorePlugin, setActivePinia } from './rootStore'
-import { GettersTree, StateTree, Store } from './types'
+import { Pinia, PiniaStorePlugin, setActivePinia } from './rootStore'
 
 export interface TestingOptions {
   /**
@@ -18,6 +17,13 @@ export interface TestingOptions {
   createSpy?: (fn?: (...args: any[]) => any) => (...args: any[]) => any
 }
 
+export interface TestingPinia extends Pinia {
+  /**
+   * Clears the cache of spies used for actions.
+   */
+  resetSpyCache(): void
+}
+
 /**
  * Creates a pinia instance designed for unit tests that **requires mocking**
  * the stores. By default, **all actions are mocked** and therefore not
@@ -33,7 +39,7 @@ export function createTestingPinia({
   plugins = [],
   bypassActions = true,
   createSpy,
-}: TestingOptions = {}) {
+}: TestingOptions = {}): TestingPinia {
   const pinia = createPinia()
 
   plugins.forEach((plugin) => pinia.use(plugin))
@@ -67,5 +73,12 @@ export function createTestingPinia({
 
   setActivePinia(pinia)
 
-  return pinia
+  return Object.assign(
+    {
+      resetSpyCache() {
+        spiedActions.clear()
+      },
+    },
+    pinia
+  )
 }
