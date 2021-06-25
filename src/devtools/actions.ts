@@ -84,6 +84,7 @@ function getFileOpener() {
         return resolve({ text: await file.text(), file })
       }
       fileInput!.oncancel = () => resolve(null)
+      fileInput!.onerror = reject
       fileInput!.click()
     })
   }
