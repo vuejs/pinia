@@ -1,5 +1,9 @@
 # Testing stores
 
+:::warning
+This code is still not released.
+::::
+
 Stores will, by design, be used at many places and can make testing much harder than it should be. Fortunately, this doesn't have to be the case. We need to take care of three things when testing stores:
 
 - The `pinia` instance: Stores cannot work without it

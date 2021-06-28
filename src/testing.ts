@@ -12,13 +12,16 @@ export interface TestingOptions {
   /**
    * When set to false, actions are only spied, they still get executed. When
    * set to true, actions will be replaced with spies, resulting in their code
-   * not being executed. Defaults to true.
+   * not being executed. Defaults to true. NOTE: when providing `createSpy()`,
+   * it will **only** make the `fn` argument `undefined`. You still have to
+   * handle this in `createSpy()`.
    */
   stubActions?: boolean
 
   /**
    * When set to true, calls to `$patch()` won't change the state. Defaults to
-   * false.
+   * false. NOTE: when providing `createSpy()`, it will **only** make the `fn`
+   * argument `undefined`. You still have to handle this in `createSpy()`.
    */
   stubPatch?: boolean
 
