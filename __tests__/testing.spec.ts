@@ -1,4 +1,9 @@
-import { createTestingPinia, defineStore, TestingOptions } from '../src'
+import {
+  createPinia,
+  createTestingPinia,
+  defineStore,
+  TestingOptions,
+} from '../src'
 import { mount } from '@vue/test-utils'
 import { defineComponent } from 'vue'
 
@@ -137,5 +142,18 @@ describe('Testing', () => {
 
     expect(counter.pluginN).toBe(0)
     expect(pinia.app).toHaveProperty('mount', expect.any(Function))
+  })
+
+  it('bypass useStore(pinia)', () => {
+    const realPinia = createPinia()
+    const { counter } = factory()
+
+    const counterWithRealPinia = useCounter(realPinia)
+
+    expect(counter.n).toBe(0)
+    expect(counterWithRealPinia.n).toBe(0)
+    counter.n++
+    expect(counter.n).toBe(1)
+    expect(counterWithRealPinia.n).toBe(1)
   })
 })

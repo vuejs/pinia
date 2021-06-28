@@ -41,6 +41,7 @@ import {
   storesMap,
   piniaSymbol,
   Pinia,
+  activePinia,
 } from './rootStore'
 import { IS_CLIENT } from './env'
 
@@ -409,7 +410,11 @@ export function defineStore<
     // only run provide when pinia hasn't been manually passed
     const shouldProvide = currentInstance && !pinia
     // avoid injecting if `useStore` when not possible
-    pinia = pinia || (currentInstance && inject(piniaSymbol))
+    pinia =
+      // in test mode, ignore the argument provided as we can always retrieve a
+      // pinia instance with getActivePinia()
+      (__TEST__ && activePinia && activePinia._testing ? null : pinia) ||
+      (currentInstance && inject(piniaSymbol))
     if (pinia) setActivePinia(pinia)
     // TODO: worth warning on server if no piniaKey as it can leak data
     pinia = getActivePinia()

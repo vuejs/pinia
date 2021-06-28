@@ -103,6 +103,8 @@ export function createTestingPinia({
     app.use(pinia)
   }
 
+  pinia._testing = true
+
   setActivePinia(pinia)
 
   return Object.assign(
@@ -111,7 +113,7 @@ export function createTestingPinia({
         spiedActions.clear()
       },
       get app() {
-        return this._a as App
+        return (this as TestingPinia)._a
       },
     },
     pinia

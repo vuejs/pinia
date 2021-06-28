@@ -158,7 +158,10 @@ function createReplacePlugin(
         : // hard coded dev/prod builds
           JSON.stringify(!isProduction),
     // this is only used during tests
-    __TEST__: isBundlerESMBuild ? `(process.env.NODE_ENV === 'test')` : 'false',
+    __TEST__:
+      isBundlerESMBuild || isNodeBuild
+        ? `(process.env.NODE_ENV === 'test')`
+        : 'false',
     // If the build is expected to run directly in the browser (global / esm builds)
     __BROWSER__: JSON.stringify(isBrowserBuild),
     // is targeting bundlers?

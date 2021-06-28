@@ -91,6 +91,13 @@ export interface Pinia {
    * @internal
    */
   _a: App
+
+  /**
+   * Added by `createTestingPinia()` to bypass `useStore(pinia)`.
+   *
+   * @internal
+   */
+  _testing?: boolean
 }
 
 declare module '@vue/runtime-core' {
