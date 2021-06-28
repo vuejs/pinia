@@ -12,7 +12,13 @@ export interface TestingOptions {
    * set to true, actions will be replaced with spies, resulting in their code
    * not being executed. Defaults to true.
    */
-  bypassActions?: boolean
+  stubActions?: boolean
+
+  /**
+   * When set to true, calls to `$patch()` won't change the state. Defaults to
+   * false.
+   */
+  stubPatch?: boolean
 
   createSpy?: (fn?: (...args: any[]) => any) => (...args: any[]) => any
 }
@@ -28,7 +34,7 @@ export interface TestingPinia extends Pinia {
  * Creates a pinia instance designed for unit tests that **requires mocking**
  * the stores. By default, **all actions are mocked** and therefore not
  * executed. This allows you to unit test your store and components separately.
- * You can change this with the `bypassActions` option. If you are using jest,
+ * You can change this with the `stubActions` option. If you are using jest,
  * they are replaced with `jest.fn()`, otherwise, you must provide your own
  * `createSpy` option.
  *
@@ -37,7 +43,8 @@ export interface TestingPinia extends Pinia {
  */
 export function createTestingPinia({
   plugins = [],
-  bypassActions = true,
+  stubActions = true,
+  stubPatch = false,
   createSpy,
 }: TestingOptions = {}): TestingPinia {
   const pinia = createPinia()
@@ -62,13 +69,15 @@ export function createTestingPinia({
     Object.keys(options.actions || {}).forEach((action) => {
       actionsCache[action] =
         actionsCache[action] ||
-        (bypassActions
+        (stubActions
           ? createSpy!()
           : // @ts-expect-error:
             createSpy!(store[action]))
       // @ts-expect-error:
       store[action] = actionsCache[action]
     })
+
+    store.$patch = stubPatch ? createSpy!() : createSpy!(store.$patch)
   })
 
   setActivePinia(pinia)

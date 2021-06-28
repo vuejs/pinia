@@ -62,7 +62,7 @@ describe('Testing', () => {
   })
 
   it('can execute actions', () => {
-    const { counter, wrapper } = factory({ bypassActions: false })
+    const { counter, wrapper } = factory({ stubActions: false })
 
     counter.increment()
     expect(counter.n).toBe(1)
@@ -83,5 +83,38 @@ describe('Testing', () => {
     expect(counter.n).toBe(17)
     expect(counter.increment).toHaveBeenCalledTimes(4)
     expect(counter.increment).toHaveBeenLastCalledWith(10)
+  })
+
+  it('spies $patch calls', () => {
+    const { counter } = factory()
+
+    expect(counter.n).toBe(0)
+    expect(counter.$patch).toHaveBeenCalledTimes(0)
+    counter.$patch({ n: 1 })
+    expect(counter.$patch).toHaveBeenCalledTimes(1)
+    expect(counter.$patch).toHaveBeenLastCalledWith({ n: 1 })
+    expect(counter.n).toBe(1)
+  })
+
+  it('can stub $patch calls', () => {
+    const { counter } = factory({ stubPatch: true })
+
+    expect(counter.n).toBe(0)
+    expect(counter.$patch).toHaveBeenCalledTimes(0)
+    counter.$patch({ n: 1 })
+    expect(counter.$patch).toHaveBeenCalledTimes(1)
+    expect(counter.$patch).toHaveBeenLastCalledWith({ n: 1 })
+    expect(counter.n).toBe(0)
+  })
+
+  it('can stub $patch calls', () => {
+    const { counter } = factory({ stubPatch: true })
+
+    expect(counter.n).toBe(0)
+    expect(counter.$patch).toHaveBeenCalledTimes(0)
+    counter.$patch({ n: 1 })
+    expect(counter.$patch).toHaveBeenCalledTimes(1)
+    expect(counter.$patch).toHaveBeenLastCalledWith({ n: 1 })
+    expect(counter.n).toBe(0)
   })
 })
