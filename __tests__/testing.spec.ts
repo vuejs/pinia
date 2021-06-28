@@ -117,4 +117,25 @@ describe('Testing', () => {
     expect(counter.$patch).toHaveBeenLastCalledWith({ n: 1 })
     expect(counter.n).toBe(0)
   })
+
+  it('executes plugins', () => {
+    const { counter, wrapper } = factory({
+      plugins: [() => ({ pluginN: 0 })],
+    })
+
+    expect(counter.pluginN).toBe(0)
+    expect(wrapper.vm.counter.pluginN).toBe(0)
+  })
+
+  it('executes plugins with fakeApp', () => {
+    const pinia = createTestingPinia({
+      plugins: [() => ({ pluginN: 0 })],
+      fakeApp: true,
+    })
+
+    const counter = useCounter(pinia)
+
+    expect(counter.pluginN).toBe(0)
+    expect(pinia.app).toHaveProperty('mount', expect.any(Function))
+  })
 })

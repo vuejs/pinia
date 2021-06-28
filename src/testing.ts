@@ -1,9 +1,11 @@
+import { App, createApp } from 'vue'
 import { createPinia } from './createPinia'
 import { Pinia, PiniaStorePlugin, setActivePinia } from './rootStore'
 
 export interface TestingOptions {
   /**
-   * Plugins to be installed before the testing plugin.
+   * Plugins to be installed before the testing plugin. Add any plugins used in
+   * your application that will be used while testing.
    */
   plugins?: PiniaStorePlugin[]
 
@@ -20,6 +22,18 @@ export interface TestingOptions {
    */
   stubPatch?: boolean
 
+  /**
+   * Creates an empty App and calls `app.use(pinia)` with the created testing
+   * pinia. This is allows you to use plugins while unit testing stores as
+   * plugins **will wait for pinia to be installed in order to be executed**.
+   * Defaults to false.
+   */
+  fakeApp?: boolean
+
+  /**
+   * Function used to create a spy for actions and `$patch()`. Pre-configured
+   * with `jest.fn()` in jest projects.
+   */
   createSpy?: (fn?: (...args: any[]) => any) => (...args: any[]) => any
 }
 
@@ -28,6 +42,9 @@ export interface TestingPinia extends Pinia {
    * Clears the cache of spies used for actions.
    */
   resetSpyCache(): void
+
+  /** App used by Pinia */
+  app: App
 }
 
 /**
@@ -45,6 +62,7 @@ export function createTestingPinia({
   plugins = [],
   stubActions = true,
   stubPatch = false,
+  fakeApp = false,
   createSpy,
 }: TestingOptions = {}): TestingPinia {
   const pinia = createPinia()
@@ -80,12 +98,20 @@ export function createTestingPinia({
     store.$patch = stubPatch ? createSpy!() : createSpy!(store.$patch)
   })
 
+  if (fakeApp) {
+    const app = createApp({})
+    app.use(pinia)
+  }
+
   setActivePinia(pinia)
 
   return Object.assign(
     {
       resetSpyCache() {
         spiedActions.clear()
+      },
+      get app() {
+        return this._a as App
       },
     },
     pinia
