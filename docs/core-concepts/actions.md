@@ -1,6 +1,6 @@
 # Actions
 
-Actions are the equivalent of [methods](https://v3.vuejs.org/guide/data-methods.html#methods) in components. They can be defined with the `actions` property in `defineStore()` and they are perfect to define business logic:
+Actions are the equivalent of [methods](https://v3.vuejs.org/guide/data-methods.html#methods) in components. They can be defined with the `actions` property in `defineStore()` and **they are perfect to define business logic**:
 
 ```js
 export const useStore = defineStore({
@@ -19,7 +19,36 @@ export const useStore = defineStore({
 })
 ```
 
-Like [getters](./getters.md), actions get access to the _whole store instance_ through `this` with **full typing (and autocompletion ✨) support**.
+Like [getters](./getters.md), actions get access to the _whole store instance_ through `this` with **full typing (and autocompletion ✨) support**. **Unlike them, `actions` can be asynchronous**, you can `await` inside of them any API call or even other actions! Here is an examlpe using [Mande](https://github.com/posva/mande). Note the library you use doesn't matter as long as you get a `Promise`, you could even use the native `fetch` function (browser only):
+
+```js
+import { mande } from 'mande'
+
+const api = mande('/api/users')
+
+export const useUsers = defineStore({
+  id: 'users',
+  state: () => ({
+    data: userData,
+    // ...
+  }),
+
+  actions: {
+    async registerUser(login, password) {
+      try {
+        this.userData = await api.post({ login, password })
+        showTooltip(`Welcome back ${this.userData.name}!`)
+      } catch (error) {
+        showTooltip(error)
+        // let the form component display the error
+        return error
+      }
+    },
+  },
+})
+```
+
+You are also completely free to set whatever arguments you want and return anything. When calling actions, everything will be automatically inferred!
 
 Actions are invoked like methods:
 
