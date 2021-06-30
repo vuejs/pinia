@@ -10,11 +10,20 @@ Pinia stores can be fully extended thanks to a low level API. Here is a list of 
 - Implement side effects like local storage
 - Apply **only** to specific stores
 
-Plugins are added to pinia with `pinia.use()`. The simplest example is adding a property to all stores by returning an object:
+Plugins are added to the pinia instance with `pinia.use()`. The simplest example is adding a static property to all stores by returning an object:
 
 ```js
+import { createPinia } from 'pinia'
+
 // add a property named `secret` to every store that is created after this plugin is installed
-pinia.use(() => ({ secret: 'the cake is a lie' }))
+// this could be in a different file
+function SecretPiniaPlugin() {
+  return { secret: 'the cake is a lie' }
+}
+
+const pinia = createPinia()
+// give the plugin to pinia
+pinia.use(SecretPiniaPlugin)
 
 // in another file
 const store = useStore()
@@ -180,7 +189,7 @@ The same is true for `store.$onAction()`.
 
 ## Adding new options
 
-It is possible to create new options when defining stores to later on consume the options on plugins. For example, you could create a `debounce` option that allows you to debounce any action:
+It is possible to create new options when defining stores to later on consume them from plugins. For example, you could create a `debounce` option that allows you to debounce any action:
 
 ```js
 defineStore({
