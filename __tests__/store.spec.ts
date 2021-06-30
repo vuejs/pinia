@@ -241,4 +241,40 @@ describe('Store', () => {
     expect(s1).toBeDefined()
     expect(s1 === s2).toBe(true)
   })
+
+  it('can share the same pinia in two completely different instances', async () => {
+    const useStore = defineStore({ id: 'one', state: () => ({ n: 0 }) })
+    const pinia = createPinia()
+
+    const Comp = defineComponent({
+      setup() {
+        const store = useStore()
+        return { store }
+      },
+      template: `{{ store.n }}`,
+    })
+
+    const One = mount(Comp, {
+      global: {
+        plugins: [pinia],
+      },
+    })
+
+    const Two = mount(Comp, {
+      global: {
+        plugins: [pinia],
+      },
+    })
+
+    const store = useStore(pinia)
+
+    expect(One.text()).toBe('0')
+    expect(Two.text()).toBe('0')
+
+    store.n++
+    await nextTick()
+
+    expect(One.text()).toBe('1')
+    expect(Two.text()).toBe('1')
+  })
 })
