@@ -62,7 +62,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@microsoft/api-extractor": "7.16.1",
+    "@microsoft/api-extractor": "7.17.1",
     "@rollup/plugin-alias": "^3.1.2",
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
@@ -70,7 +70,7 @@
     "@sucrase/jest-plugin": "^2.1.0",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.9.0",
-    "@vue/server-renderer": "^3.1.2",
+    "@vue/server-renderer": "^3.1.4",
     "@vue/test-utils": "^2.0.0-rc.9",
     "@vueuse/core": "^5.0.3",
     "brotli": "^1.3.2",
@@ -82,19 +82,19 @@
     "pascalcase": "^1.0.0",
     "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
-    "rollup": "^2.52.3",
+    "rollup": "^2.52.7",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
-    "typescript": "~4.3.4",
-    "vitepress": "^0.15.5",
-    "vue": "^3.1.2",
+    "typescript": "~4.3.5",
+    "vitepress": "^0.15.6",
+    "vue": "^3.1.4",
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@vue/devtools-api": "^6.0.0-beta.14"
+    "@vue/devtools-api": "^6.0.0-beta.15"
   },
   "peerDependencies": {
-    "typescript": "^4.3.4"
+    "typescript": "^4.3.5"
   },
   "peerDependenciesMeta": {
     "typescript": {
