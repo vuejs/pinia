@@ -221,6 +221,7 @@ export function mapState<
   useStore: StoreDefinition<Id, S, G, A>,
   keyMapper: KeyMapper
 ): _MapStateObjectReturn<Id, S, G, A, KeyMapper>
+
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
@@ -253,6 +254,7 @@ export function mapState<
   useStore: StoreDefinition<Id, S, G, A>,
   keys: Array<keyof S | keyof G>
 ): _MapStateReturn<S, G>
+
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field

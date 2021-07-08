@@ -1,4 +1,4 @@
-import { App, InjectionKey, Plugin, Ref, warn } from 'vue'
+import { App, EffectScope, InjectionKey, Plugin, Ref, warn } from 'vue'
 import {
   StateTree,
   StoreWithState,
@@ -10,6 +10,7 @@ import {
   GettersTree,
   ActionsTree,
   PiniaCustomStateProperties,
+  GenericStore,
 } from './types'
 
 /**
@@ -91,6 +92,19 @@ export interface Pinia {
    * @internal
    */
   _a: App
+
+  /**
+   * Effect scope the pinia is attached to
+   *
+   * @internal
+   */
+  _e: EffectScope
+
+  /**
+   *
+   * @internal
+   */
+  _s: Map<string, GenericStore>
 
   /**
    * Added by `createTestingPinia()` to bypass `useStore(pinia)`.
