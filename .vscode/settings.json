@@ -7,5 +7,5 @@
   },
   "volar.tsPlugin": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "jest.jestCommandLine": "yarn jest --watch",
+  "jest.jestCommandLine": "yarn jest --watchAll"
 }
