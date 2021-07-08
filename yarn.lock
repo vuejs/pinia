@@ -646,10 +646,10 @@
     "@microsoft/tsdoc-config" "~0.15.2"
     "@rushstack/node-core-library" "3.39.0"
 
-"@microsoft/api-extractor@7.17.1":
-  version "7.17.1"
-  resolved "https://registry.yarnpkg.com/@microsoft/api-extractor/-/api-extractor-7.17.1.tgz#df6b7aa7cadcb35e2483048ebe5dbaf7af932446"
-  integrity sha512-NqdN627QoDdDtvfqEoX+Z6WbF2yid5URUZVYefC9KuisgwrsfvbSj5QwzOZlMYcufoafTq9jfeVyFAXr4PqGig==
+"@microsoft/api-extractor@7.18.0":
+  version "7.18.0"
+  resolved "https://registry.yarnpkg.com/@microsoft/api-extractor/-/api-extractor-7.18.0.tgz#a39ad351269696736737557b839be1eb4b4f6941"
+  integrity sha512-n9vrK5t7ycaO3NSfQFae5resy555b1jBiTN+E4XMpCbuvIz5x0UX5xzIX7xs8Q4F7YmTV3QRe15wpa/gwbyyrA==
   dependencies:
     "@microsoft/api-extractor-model" "7.13.3"
     "@microsoft/tsdoc" "0.13.2"
@@ -905,10 +905,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^26.0.23":
-  version "26.0.23"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.23.tgz#a1b7eab3c503b80451d019efb588ec63522ee4e7"
-  integrity sha512-ZHLmWMJ9jJ9PTiT58juykZpL7KjwJywFN3Rr2pTSkyQfydf/rk22yS7W8p5DaVUMQ2BQC7oYiU3FjbTM/mYrOA==
+"@types/jest@^26.0.24":
+  version "26.0.24"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.24.tgz#943d11976b16739185913a1936e0de0c4a7d595a"
+  integrity sha512-E/X5Vib8BWqZNRlDxj9vYXhsDwPYbPINqKF9BsnSoon4RQ0D9moEuLD8txgyypFLH7J4+Lho9Nr/c8H0Fi+17w==
   dependencies:
     jest-diff "^26.0.0"
     pretty-format "^26.0.0"
@@ -947,10 +947,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.13.tgz#ccebcdb990bd6139cd16e84c39dc2fb1023ca90c"
   integrity sha512-pMCcqU2zT4TjqYFrWtYHKal7Sl30Ims6ulZ4UFXxI4xbtQqK/qqKwkDoBFCfooRqqmRu9vY3xaJRwxSh673aYg==
 
-"@types/node@^15.9.0":
-  version "15.12.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.12.4.tgz#e1cf817d70a1e118e81922c4ff6683ce9d422e26"
-  integrity sha512-zrNj1+yqYF4WskCMOHwN+w9iuD12+dGm0rQ35HLl9/Ouuq52cEtd0CH9qMgrdNmi5ejC1/V7vKEXYubB+65DkA==
+"@types/node@^16.0.1":
+  version "16.0.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.0.1.tgz#70cedfda26af7a2ca073fdcc9beb2fff4aa693f8"
+  integrity sha512-hBOx4SUlEPKwRi6PrXuTGw1z6lz0fjsibcWCM378YxsSu/6+C30L6CR49zIBKHiwNWCYIcOLjg4OHKZaFeLAug==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -1184,22 +1184,22 @@
   integrity sha512-6O45kZAmkLvzGLToBxEz4lR2W6kXohCtebV2UxjH9GXjd8X9AhEn68FN9eNanFtWNzvgw1hqd6HkPRVQalqf7Q==
 
 "@vue/test-utils@^2.0.0-rc.9":
-  version "2.0.0-rc.9"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-rc.9.tgz#b3f817d710a1d0ae2084143520c9d8d3c552bfa6"
-  integrity sha512-iJNAAfXTTSd2/5vUZpFbUwUwC8w3hbFu8s9ptKkZGsiw6pO6mFsaLs2rzI3Ea/8hwqcF3K7Wp2diKOdzqmb6qg==
+  version "2.0.0-rc.10"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-rc.10.tgz#9ed689cd7d5a1c9ef6693806010e464d2ecc13b2"
+  integrity sha512-Z8jY+askU08svsI37NcJSLmWrfkZ/1ATA1DENWezRUX2uv3QyEj7idwx+rfeNSOrlNNBh4NTzypBKOUOklxBRA==
 
-"@vueuse/core@^5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-5.0.3.tgz#8f3170e2a51ae62fb1725c84d4cc02a7552aad0b"
-  integrity sha512-TMCL11EVMaj2Y5qdYosvuwA+i1aKrerFXs7fhNZiQiLCWxF8XsrNdxzoiaI2n12UcmSOXvd1xdyWs7Nss+p/Hg==
+"@vueuse/core@^5.1.3":
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-5.1.3.tgz#a9edda9202513423a27fbac896dd7bc918d1ac6c"
+  integrity sha512-5CmF/epSo9L1Obz3A37UJOpDdno0BDw46zyXq0DHgvzEwL6gPb9GgJZcy4Hm5YSjQYIeQPo35uO8qsZyIjEZog==
   dependencies:
-    "@vueuse/shared" "5.0.3"
+    "@vueuse/shared" "5.1.3"
     vue-demi "*"
 
-"@vueuse/shared@5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-5.0.3.tgz#31613951d5036459650ad8d47a9185e8950ea3c9"
-  integrity sha512-aY93WPygr8H/4RB8YuOmAD83Y+faq7zwW10Kd9i0kD9zf5ysVP+32j09rF/mZVtGCa0CSM8ambPZMsEhCkRbwQ==
+"@vueuse/shared@5.1.3":
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-5.1.3.tgz#11faa3a1a2b4d3dc41eac7a825900a8894efe95e"
+  integrity sha512-p8n/69QMtSsLN5rri9c3sN5QJJXWA7cm9chgo3DowTBRYLBni1I9kGY2nz299Tur6XEFuf+63E5TvMTJVJeHHw==
   dependencies:
     vue-demi "*"
 
@@ -5130,10 +5130,10 @@ rollup@^2.38.5:
   optionalDependencies:
     fsevents "~2.3.1"
 
-rollup@^2.52.7:
-  version "2.52.7"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.52.7.tgz#e15a8bf734f6e4c204b7cdf33521151310250cb2"
-  integrity sha512-55cSH4CCU6MaPr9TAOyrIC+7qFCHscL7tkNsm1MBfIJRRqRbCEY0mmeFn4Wg8FKsHtEH8r389Fz38r/o+kgXLg==
+rollup@^2.52.8:
+  version "2.52.8"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.52.8.tgz#b6462f9c16ffe8995b9a2b313f2e4247fa75e4d9"
+  integrity sha512-IjAB0C6KK5/lvqzJWAzsvOik+jV5Bt907QdkQ/gDP4j+R9KYNI1tjqdxiPitGPVrWC21Mf/ucXgowUjN/VemaQ==
   optionalDependencies:
     fsevents "~2.3.2"
 
