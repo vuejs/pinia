@@ -1,6 +1,6 @@
 import { createPinia, defineStore, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
-import { watch, nextTick, defineComponent, ref, Ref } from 'vue'
+import { watch, nextTick, defineComponent, ref, Ref, onMounted } from 'vue'
 
 describe('Store Lifespan', () => {
   function defineMyStore() {
@@ -38,7 +38,9 @@ describe('Store Lifespan', () => {
       setup() {
         const store = useStore()
         watch(() => store.n, inComponentWatch)
-        store.n++
+        onMounted(() => {
+          store.n++
+        })
       },
     })
 
@@ -49,6 +51,7 @@ describe('Store Lifespan', () => {
     }
 
     let wrapper = mount(Component, options)
+    await nextTick()
 
     await wrapper.unmount()
 
@@ -60,6 +63,7 @@ describe('Store Lifespan', () => {
     expect(inComponentWatch).toHaveBeenCalledTimes(1)
 
     wrapper = mount(Component, options)
+    await nextTick()
     await wrapper.unmount()
 
     expect(inComponentWatch).toHaveBeenCalledTimes(2)
