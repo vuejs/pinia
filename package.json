@@ -93,6 +93,12 @@
   "dependencies": {
     "@vue/devtools-api": "^6.0.0-beta.15"
   },
+  "resolutions": {
+    "vue": "npm:@knightly/vue@3-2",
+    "@vue/runtime-dom": "npm:@knightly/vue__runtime-dom@3-2",
+    "@vue/compiler-sfc": "npm:@knightly/vue__compiler-sfc@3-2",
+    "@vue/server-renderer": "npm:@knightly/vue__server-renderer@3-2"
+  },
   "peerDependencies": {
     "typescript": "^4.3.5"
   },
