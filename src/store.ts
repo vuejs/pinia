@@ -32,7 +32,6 @@ import {
   ActionsTree,
   SubscriptionCallbackMutation,
   _UnionToTuple,
-  DefineOptionStoreOptions,
   DefineSetupStoreOptions,
   DefineStoreOptionsInPlugin,
 } from './types'
@@ -80,10 +79,7 @@ function createOptionsStore<
   S extends StateTree,
   G extends GettersTree<S>,
   A extends ActionsTree
->(
-  options: DefineOptionStoreOptions<Id, S, G, A>,
-  pinia: Pinia
-): Store<Id, S, G, A> {
+>(options: DefineStoreOptions<Id, S, G, A>, pinia: Pinia): Store<Id, S, G, A> {
   const { id, state, actions, getters } = options
   function $reset() {
     pinia.state.value[id] = state ? state() : {}
@@ -125,11 +121,13 @@ function createSetupStore<
 >(
   $id: Id,
   setup: () => SS,
-  options: DefineStoreOptions<Id, S, G, A> = {}
+  options:
+    | DefineSetupStoreOptions<Id, S, G, A>
+    | DefineStoreOptions<Id, S, G, A> = {}
 ): Store<Id, S, G, A> {
   const pinia = getActivePinia()
   let scope!: EffectScope
-  const buildState = (options as DefineOptionStoreOptions<Id, S, G, A>).state
+  const buildState = (options as DefineStoreOptions<Id, S, G, A>).state
 
   const optionsForPlugin: DefineStoreOptionsInPlugin<Id, S, G, A> = {
     actions: {} as A,
@@ -560,9 +558,7 @@ export function defineStore<
   G extends GettersTree<S>,
   // cannot extends ActionsTree because we loose the typings
   A /* extends ActionsTree */
->(
-  options: DefineOptionStoreOptions<Id, S, G, A>
-): StoreDefinition<Id, S, G, A> {
+>(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A> {
   const { id } = options
 
   function useStore(pinia?: Pinia | null) {

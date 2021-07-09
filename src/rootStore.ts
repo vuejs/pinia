@@ -5,7 +5,6 @@ import {
   StateDescriptor,
   PiniaCustomProperties,
   _Method,
-  DefineStoreOptions,
   Store,
   GettersTree,
   ActionsTree,
