@@ -455,7 +455,7 @@ export type ActionsTree = Record<string, _Method>
  * Options parameter of `defineStore()`. Can be extended to augment stores with
  * the plugin API.
  */
-export interface DefineOptionStoreOptions<
+export interface DefineStoreOptions<
   Id extends string,
   S extends StateTree,
   G extends GettersTree<S>,
@@ -508,7 +508,10 @@ export interface DefineSetupStoreOptions<
   S extends StateTree,
   G extends ActionsTree, // TODO: naming
   A /* extends ActionsTree */
-> extends Pick<DefineOptionStoreOptions<Id, S, G, A>, 'hydrate'> {
+> extends Omit<
+    DefineStoreOptions<Id, S, G, A>,
+    'actions' | 'id' | 'state' | 'getters'
+  > {
   /**
    * Extracted actions. Added by useStore(). SHOULD NOT be added by the user when
    * creating the store. Can be used in plugins to get the list of actions in a
@@ -525,7 +528,7 @@ export interface DefineStoreOptionsInPlugin<
   S extends StateTree,
   G extends ActionsTree, // TODO: naming
   A /* extends ActionsTree */
-> extends Omit<DefineOptionStoreOptions<Id, S, G, A>, 'id'> {
+> extends Omit<DefineStoreOptions<Id, S, G, A>, 'id'> {
   /**
    * Extracted object of actions. Added by useStore() when the store is built
    * using the setup API, otherwise uses the one passed to `defineStore()`.
@@ -540,13 +543,6 @@ export interface DefineStoreOptionsInPlugin<
    */
   id?: Id
 }
-
-export type DefineStoreOptions<
-  Id extends string,
-  S extends StateTree,
-  G extends GettersTree<S>,
-  A /* extends ActionsTree */
-> = DefineOptionStoreOptions<Id, S, G, A> | DefineSetupStoreOptions<Id, S, G, A>
 
 export type _UnionToTuple<U> = _UnionToTupleRecursively<[], U>
 
