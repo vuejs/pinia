@@ -32,6 +32,9 @@ import {
   ActionsTree,
   SubscriptionCallbackMutation,
   _UnionToTuple,
+  DefineOptionStoreOptions,
+  DefineSetupStoreOptions,
+  DefineStoreOptionsInPlugin,
 } from './types'
 import {
   getActivePinia,
@@ -68,15 +71,6 @@ function innerPatch<T extends StateTree>(
 
 const { assign } = Object
 
-export interface DefineSetupStoreOptions<
-  Id extends string,
-  S extends StateTree,
-  G extends ActionsTree, // TODO: naming
-  A extends ActionsTree
-> {
-  hydrate?(store: Store<Id, S, G, A>, initialState: S | undefined): void
-}
-
 function isComputed(o: any): o is ComputedRef {
   return o && o.effect && o.effect.computed
 }
@@ -86,7 +80,10 @@ function createOptionsStore<
   S extends StateTree,
   G extends GettersTree<S>,
   A extends ActionsTree
->(options: DefineStoreOptions<Id, S, G, A>, pinia: Pinia): Store<Id, S, G, A> {
+>(
+  options: DefineOptionStoreOptions<Id, S, G, A>,
+  pinia: Pinia
+): Store<Id, S, G, A> {
   const { id, state, actions, getters } = options
   function $reset() {
     pinia.state.value[id] = state ? state() : {}
@@ -110,13 +107,7 @@ function createOptionsStore<
     )
   }
 
-  const store = createSetupStore(
-    id,
-    setup,
-    // TODO: actual hydrate option to be added to options store
-    // @ts-expect-error: fixme
-    options
-  )
+  const store = createSetupStore(id, setup, options)
 
   store.$reset = $reset
 
@@ -134,13 +125,16 @@ function createSetupStore<
 >(
   $id: Id,
   setup: () => SS,
-  options: DefineSetupStoreOptions<Id, S, G, A> = {}
+  options: DefineStoreOptions<Id, S, G, A> = {}
 ): Store<Id, S, G, A> {
   const pinia = getActivePinia()
   let scope!: EffectScope
-  const hydrate = options.hydrate || innerPatch
-  // @ts-expect-error
-  const state = options.state
+  const buildState = (options as DefineOptionStoreOptions<Id, S, G, A>).state
+
+  const optionsForPlugin: DefineStoreOptionsInPlugin<Id, S, G, A> = {
+    actions: {} as A,
+    ...options,
+  }
 
   // watcher options for $subscribe
   const $subscribeOptions: WatchOptions = { deep: true, flush: 'sync' }
@@ -168,7 +162,7 @@ function createSetupStore<
   let subscriptions: SubscriptionCallback<S>[] = markRaw([])
   let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = markRaw([])
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
-  const initialState = pinia.state.value[$id] as S | undefined
+  const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
 
   if (!initialState) {
     // should be set in Vue 2
@@ -187,6 +181,7 @@ function createSetupStore<
   }
 
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
+  // TODO: store the scope somewhere
   const setupStore = pinia._e.run(() => {
     scope = effectScope()
     return scope.run(() => {
@@ -291,8 +286,14 @@ function createSetupStore<
 
   function $reset() {
     // TODO: is it worth? probably should be removed
-    // maybe it can stop the effect and create it again
-    // pinia.state.value[$id] = buildState()
+    // maybe it can stop the effect and create it again but should be a plugin
+    if (buildState) {
+      pinia.state.value[$id] = buildState()
+    } else if (__DEV__) {
+      throw new Error(
+        `🍍: Store "${$id}" is build using the setup syntax and does not implement $reset().`
+      )
+    }
   }
 
   // overwrite existing actions to support $onAction
@@ -300,8 +301,8 @@ function createSetupStore<
     const prop = setupStore[key]
 
     if ((isRef(prop) && !isComputed(prop)) || isReactive(prop)) {
-      // @ts-expect-error: fixme
-      if (!options.state) {
+      // createOptionStore already did this
+      if (!buildState) {
         // mark it as a piece of state to be serialized
         pinia.state.value[$id][key] = toRef(setupStore as any, key)
       }
@@ -343,6 +344,9 @@ function createSetupStore<
 
         return ret
       }
+      // list actions so they can be used in plugins
+      // @ts-expect-error
+      optionsForPlugin.actions[key] = prop
     } else if (__DEV__ && IS_CLIENT) {
       // add getters for devtools
       if (isComputed(prop)) {
@@ -391,22 +395,30 @@ function createSetupStore<
         store,
         app: pinia._a,
         pinia,
-        // TODO: completely different options...
         // @ts-expect-error
-        options,
+        options: optionsForPlugin,
       })
       Object.keys(extensions || {}).forEach((key) =>
         store._customProperties.add(key)
       )
       assign(store, extensions)
     } else {
-      // @ts-expect-error: conflict between A and ActionsTree
-      assign(store, extender({ store, app: pinia._a, pinia, options }))
+      assign(
+        store,
+        extender({
+          // @ts-expect-error: conflict between A and ActionsTree
+          store,
+          app: pinia._a,
+          pinia,
+          // @ts-expect-error
+          options: optionsForPlugin,
+        })
+      )
     }
   })
 
   if (initialState) {
-    hydrate(store, initialState)
+    ;(options.hydrate || innerPatch)(store, initialState)
   }
 
   return store
@@ -548,7 +560,9 @@ export function defineStore<
   G extends GettersTree<S>,
   // cannot extends ActionsTree because we loose the typings
   A /* extends ActionsTree */
->(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A> {
+>(
+  options: DefineOptionStoreOptions<Id, S, G, A>
+): StoreDefinition<Id, S, G, A> {
   const { id } = options
 
   function useStore(pinia?: Pinia | null) {
