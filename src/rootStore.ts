@@ -122,8 +122,8 @@ declare module '@vue/runtime-core' {
     $pinia: Pinia
 
     /**
-     * Cache of stores instantiated by the current instance. Used by map
-     * helpers.
+     * Cache of stores instantiated by the current instance. Used by devtools to
+     * list currently used stores.
      *
      * @internal
      */

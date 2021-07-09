@@ -287,14 +287,6 @@ export interface StoreWithState<
   $subscribe(callback: SubscriptionCallback<S>): () => void
 
   /**
-   * Array of registered action subscriptions.Set without the generics to avoid
-   * errors between the generic version of Store and specific stores.
-   *
-   * @internal
-   */
-  _as: StoreOnActionListener[]
-
-  /**
    * @alpha Please send feedback at https://github.com/posva/pinia/issues/240
    * Setups a callback to be called every time an action is about to get
    * invoked. The callback receives an object with all the relevant information

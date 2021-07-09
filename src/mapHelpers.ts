@@ -5,7 +5,6 @@ import {
   StateTree,
   Store,
   StoreDefinition,
-  ActionsTree,
 } from './types'
 
 /**
@@ -54,26 +53,6 @@ export type _StoreObject<S> = S extends StoreDefinition<
 export type _Spread<A extends readonly any[]> = A extends [infer L, ...infer R]
   ? _StoreObject<L> & _Spread<R>
   : unknown
-
-function getCachedStore<
-  Id extends string = string,
-  S extends StateTree = StateTree,
-  G extends GettersTree<S> = GettersTree<S>,
-  A /* extends ActionsTree */ = ActionsTree
->(
-  vm: ComponentPublicInstance,
-  useStore: StoreDefinition<Id, S, G, A>
-): Store<Id, S, G, A> {
-  const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
-  const id = useStore.$id
-  return (cache[id] ||
-    (cache[id] = useStore(vm.$pinia) as unknown as Store)) as unknown as Store<
-    Id,
-    S,
-    G,
-    A
-  >
-}
 
 export let mapStoreSuffix = 'Store'
 
@@ -131,8 +110,10 @@ export function mapStores<Stores extends any[]>(
 
   return stores.reduce((reduced, useStore) => {
     // @ts-ignore: $id is added by defineStore
-    reduced[useStore.$id + mapStoreSuffix] = function (this: Vue) {
-      return getCachedStore(this, useStore)
+    reduced[useStore.$id + mapStoreSuffix] = function (
+      this: ComponentPublicInstance
+    ) {
+      return useStore(this.$pinia)
     }
     return reduced
   }, {} as _Spread<Stores>)
@@ -280,13 +261,13 @@ export function mapState<
     ? keysOrMapper.reduce((reduced, key) => {
         reduced[key] = function (this: ComponentPublicInstance) {
           // @ts-expect-error
-          return getCachedStore(this, useStore)[key]
+          return useStore(this.$pinia)[key]
         } as () => any
         return reduced
       }, {} as _MapStateReturn<S, G>)
     : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
         reduced[key] = function (this: ComponentPublicInstance) {
-          const store = getCachedStore(this, useStore)
+          const store = useStore(this.$pinia)
           const storeKey = keysOrMapper[key]
           // for some reason TS is unable to infer the type of storeKey to be a
           // function
@@ -411,7 +392,7 @@ export function mapActions<
           ...args: any[]
         ) {
           // @ts-expect-error
-          return (getCachedStore(this, useStore)[key] as _Method)(...args)
+          return (useStore(this.$pinia)[key] as _Method)(...args)
         }
         return reduced
       }, {} as _MapActionsReturn<A>)
@@ -422,7 +403,7 @@ export function mapActions<
           ...args: any[]
         ) {
           // @ts-expect-error
-          return getCachedStore(this, useStore)[keysOrMapper[key]](...args)
+          return useStore(this.$pinia)[keysOrMapper[key]](...args)
         }
         return reduced
       }, {} as _MapActionsObjectReturn<A, KeyMapper>)
@@ -510,12 +491,12 @@ export function mapWritableState<
         reduced[key] = {
           get(this: ComponentPublicInstance) {
             // @ts-expect-error
-            return getCachedStore(this, useStore)[key]
+            return useStore(this.$pinia)[key]
           },
           set(this: ComponentPublicInstance, value) {
             // it's easier to type it here as any
             // @ts-expect-error
-            return (getCachedStore(this, useStore)[key] = value as any)
+            return (useStore(this.$pinia)[key] = value as any)
           },
         }
         return reduced
@@ -525,13 +506,12 @@ export function mapWritableState<
         reduced[key] = {
           get(this: ComponentPublicInstance) {
             // @ts-expect-error
-            return getCachedStore(this, useStore)[keysOrMapper[key]]
+            return useStore(this.$pinia)[keysOrMapper[key]]
           },
           set(this: ComponentPublicInstance, value) {
             // it's easier to type it here as any
             // @ts-expect-error
-            return (getCachedStore(this, useStore)[keysOrMapper[key]] =
-              value as any)
+            return (useStore(this.$pinia)[keysOrMapper[key]] = value as any)
           },
         }
         return reduced

@@ -1,10 +1,5 @@
 import { reactive, ref } from 'vue'
-import {
-  createPinia,
-  defineSetupStore,
-  defineStore,
-  setActivePinia,
-} from '../src'
+import { createPinia, defineStore, Pinia, setActivePinia } from '../src'
 
 describe('store.$patch', () => {
   const useStore = () => {
@@ -89,26 +84,57 @@ describe('store.$patch', () => {
   })
 
   describe('skipping nested objects', () => {
-    const useStore = () => {
+    const useStore = (pinia?: Pinia) => {
       // create a new store
-      setActivePinia(createPinia())
+      setActivePinia(pinia || createPinia())
       return defineStore({
         id: 'main',
         state: () => ({
           arr: [] as any[],
+          name: 'Eduardo',
           item: { a: 0, b: 0 } as null | { a: number; b?: number },
         }),
       })()
     }
+    // const useStore = (pinia?: Pinia) => {
+    //   // create a new store
+    //   setActivePinia(pinia || createPinia())
+    //   return defineSetupStore('main', () => {
+    //     const arr = ref([] as any[])
+    //     const item = ref({ a: 0, b: 0 } as null | { a: number; b?: number })
 
-    it('ref', () => {
-      const store = useStore()
+    //     return { arr, item }
+    //   })()
+    // }
+
+    it('ref of primitive', () => {
+      const pinia = createPinia()
+      const store = useStore(pinia)
+      const name = ref('Edu')
+      // @ts-expect-error: because it's a ref
+      store.$patch({ name })
+      expect(pinia.state.value.main.name).toEqual('Edu')
+      expect(store.$state.name).toEqual('Edu')
+      expect(store.name).toEqual('Edu')
+    })
+
+    it('ref of object', () => {
+      const pinia = createPinia()
+      const store = useStore(pinia)
       const item = ref({ a: 1, b: 1 })
       const oldItem = store.item
       // @ts-expect-error: because it's a ref
-      store.$patch({ item })
+      store.$state.item = item
       expect(oldItem).toEqual({ a: 0, b: 0 })
+      expect(pinia.state.value.main.item).toEqual({ a: 1, b: 1 })
+      expect(store.$state.item).toEqual({ a: 1, b: 1 })
       expect(store.item).toEqual({ a: 1, b: 1 })
+
+      // @ts-expect-error: because it's a ref
+      store.$patch({ item: ref({ a: 2, b: 2 }) })
+      expect(pinia.state.value.main.item).toEqual({ a: 2, b: 2 })
+      expect(store.$state.item).toEqual({ a: 2, b: 2 })
+      expect(store.item).toEqual({ a: 2, b: 2 })
     })
 
     it('nested ref', () => {

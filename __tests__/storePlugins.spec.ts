@@ -10,7 +10,6 @@ declare module '../src' {
     idFromPlugin: Id
     globalA: string
     globalB: string
-    notShared: number
     shared: number
   }
 
@@ -134,8 +133,6 @@ describe('store plugins', () => {
         store.$state.shared = ref(20)
       }
       // @ts-expect-error: TODO: allow setting refs
-      store.notShared = ref(10)
-      // @ts-expect-error: TODO: allow setting refs
       store.shared = toRef(store.$state, 'shared')
     })
 
@@ -158,11 +155,5 @@ describe('store plugins', () => {
     expect(store.shared).toBe(1)
     expect(store2.$state.shared).toBe(1)
     expect(store2.shared).toBe(1)
-
-    store.notShared = 5
-    expect(store.$state).not.toHaveProperty('notShared')
-    expect(store.notShared).toBe(5)
-    expect(store2.$state).not.toHaveProperty('notShared')
-    expect(store2.notShared).toBe(10)
   })
 })
