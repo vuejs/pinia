@@ -1,5 +1,10 @@
 import { reactive, ref } from 'vue'
-import { createPinia, defineStore, setActivePinia } from '../src'
+import {
+  createPinia,
+  defineSetupStore,
+  defineStore,
+  setActivePinia,
+} from '../src'
 
 describe('store.$patch', () => {
   const useStore = () => {

@@ -20,6 +20,12 @@ describe('Store', () => {
     })()
   }
 
+  it('reuses a store', () => {
+    setActivePinia(createPinia())
+    const useStore = defineStore({ id: 'main' })
+    expect(useStore()).toBe(useStore())
+  })
+
   it('sets the initial state', () => {
     const store = useStore()
     expect(store.$state).toEqual({

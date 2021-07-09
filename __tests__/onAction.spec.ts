@@ -147,7 +147,7 @@ describe('Subscriptions', () => {
       const s1 = useStore()
       const s2 = useStore()
 
-      expect(s2).not.toBe(s1)
+      expect(s2).toBe(s1)
 
       const spy1 = jest.fn()
       const spy2 = jest.fn()

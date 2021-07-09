@@ -77,7 +77,9 @@ describe('Actions', () => {
   it('store is forced as the context', () => {
     const store = useStore()
     expect(store.$state.a).toBe(true)
-    store.toggle.call(null)
+    expect(() => {
+      store.toggle.call(null)
+    }).not.toThrow()
     expect(store.$state.a).toBe(false)
   })
 
