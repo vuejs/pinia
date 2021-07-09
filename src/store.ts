@@ -14,7 +14,6 @@ import {
   isRef,
   isReactive,
   effectScope,
-  onScopeDispose,
   EffectScope,
   onUnmounted,
   ComputedRef,
@@ -408,7 +407,7 @@ export interface DefineSetupStoreOptions<
   hydrate?(store: Store<Id, S, G, A>, initialState: S | undefined): void
 }
 
-function isComputed(o: any) {
+function isComputed(o: any): o is ComputedRef {
   return o && o.effect && o.effect.computed
 }
 
@@ -425,7 +424,7 @@ function createSetupStore<
     // @ts-expect-error
     hydrate = innerPatch,
   }: DefineSetupStoreOptions<Id, S, G, A> = {}
-): Store<Id, S, {}, A> {
+): Store<Id, S, G, A> {
   const pinia = getActivePinia()
   let scope!: EffectScope
 
@@ -538,22 +537,28 @@ function createSetupStore<
     )
   }
 
+  // TODO: refactor duplicated code for subscriptions
   function $subscribe(callback: SubscriptionCallback<S>, detached?: boolean) {
     subscriptions.push(callback)
 
-    if (!detached) {
-      if (getCurrentInstance()) {
-        onUnmounted(() => {
-          const idx = subscriptions.indexOf(callback)
-          if (idx > -1) {
-            subscriptions.splice(idx, 1)
-          }
-        })
+    const removeSubscription = () => {
+      const idx = subscriptions.indexOf(callback)
+      if (idx > -1) {
+        subscriptions.splice(idx, 1)
       }
     }
+
+    if (!detached && getCurrentInstance()) {
+      onUnmounted(removeSubscription)
+    }
+
+    return removeSubscription
   }
 
-  function $onAction(callback: StoreOnActionListener<Id, S, G, A>) {
+  function $onAction(
+    callback: StoreOnActionListener<Id, S, G, A>,
+    detached?: boolean
+  ) {
     actionSubscriptions.push(callback)
 
     const removeSubscription = () => {
@@ -563,8 +568,8 @@ function createSetupStore<
       }
     }
 
-    if (getCurrentInstance()) {
-      onScopeDispose(removeSubscription)
+    if (!detached && getCurrentInstance()) {
+      onUnmounted(removeSubscription)
     }
 
     return removeSubscription
@@ -664,9 +669,15 @@ function createSetupStore<
   // apply all plugins
   pinia._p.forEach((extender) => {
     if (__DEV__ && IS_CLIENT) {
-      // @ts-expect-error: conflict between A and ActionsTree
-      // TODO: completely different options...
-      const extensions = extender({ store, app: pinia._a, pinia, options })
+      const extensions = extender({
+        // @ts-expect-error: conflict between A and ActionsTree
+        store,
+        app: pinia._a,
+        pinia,
+        // TODO: completely different options...
+        // @ts-expect-error
+        options,
+      })
       Object.keys(extensions || {}).forEach((key) =>
         store._customProperties.add(key)
       )
