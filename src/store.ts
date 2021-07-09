@@ -16,7 +16,6 @@ import {
   effectScope,
   onScopeDispose,
   EffectScope,
-  getCurrentScope,
   onUnmounted,
   ComputedRef,
   toRef,
@@ -400,22 +399,6 @@ function buildStoreToUse<
   return store
 }
 
-type _SetupOfStateActions<
-  S extends StateTree,
-  A extends Record<any, _Method>
-> = (StateTree extends S ? {} : S) & (Record<any, _Method> extends A ? {} : A)
-
-function stateBuilder<S extends StateTree>(
-  builder: (initial?: S | undefined) => S
-) {
-  return {} as S
-}
-
-const a = stateBuilder<{ n: number; toggle: boolean }>((initial) => ({
-  n: initial?.n || 2,
-  toggle: true,
-}))
-
 export interface DefineSetupStoreOptions<
   Id extends string,
   S extends StateTree,
@@ -438,7 +421,6 @@ function createSetupStore<
 >(
   $id: Id,
   setup: () => SS,
-  initialState: S | undefined,
   {
     // @ts-expect-error
     hydrate = innerPatch,
@@ -473,6 +455,12 @@ function createSetupStore<
   let subscriptions: SubscriptionCallback<S>[] = markRaw([])
   let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = markRaw([])
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
+  const initialState = pinia.state.value[$id] as S | undefined
+
+  if (!initialState) {
+    // should be set in Vue 2
+    pinia.state.value[$id] = {}
+  }
 
   const triggerSubscriptions: SubscriptionCallback<S> = (mutation, state) => {
     subscriptions.forEach((callback) => {
@@ -490,8 +478,6 @@ function createSetupStore<
     scope = effectScope()
     return scope.run(() => {
       const store = setup()
-      // TODO: extract state and set it to pinia.state.value[$id]
-      // pinia.state.value[$id] = initialState || buildState()
 
       watch(
         () => pinia.state.value[$id] as UnwrapRef<S>,
@@ -634,7 +620,7 @@ function createSetupStore<
       }
     } else if ((isRef(prop) && !isComputed(prop)) || isReactive(prop)) {
       // mark it as a piece of state to be serialized
-      pinia.state.value[$id] = toRef(setupStore as any, key)
+      pinia.state.value[$id][key] = toRef(setupStore as any, key)
     } else if (__DEV__ && IS_CLIENT) {
       // add getters for devtools
       if (isComputed(prop)) {
@@ -690,6 +676,10 @@ function createSetupStore<
       assign(store, extender({ store, app: pinia._a, pinia, options }))
     }
   })
+
+  if (initialState) {
+    hydrate(store, initialState)
+  }
 
   return store
 }
