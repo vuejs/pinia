@@ -1,7 +1,6 @@
 import {
   watch,
   computed,
-  Ref,
   inject,
   getCurrentInstance,
   reactive,
@@ -42,34 +41,6 @@ import {
   activePinia,
 } from './rootStore'
 import { IS_CLIENT } from './env'
-
-/**
- * Create an object of computed properties referring to the root state. This
- * allows direct modification of `store.state` while still changing the root
- * state.
- *
- * @param rootStateRef - pinia.state
- * @param id - unique name
- */
-function computedFromState<T, Id extends string>(
-  rootStateRef: Ref<Record<Id, T>>,
-  id: Id
-) {
-  // let asComputed = computed<T>()
-  const reactiveObject = {} as {
-    [k in keyof T]: Ref<T[k]>
-  }
-  const state = rootStateRef.value[id]
-  for (const key in state) {
-    // @ts-expect-error: the key matches
-    reactiveObject[key] = computed({
-      get: () => rootStateRef.value[id][key as keyof T],
-      set: (value) => (rootStateRef.value[id][key as keyof T] = value),
-    })
-  }
-
-  return reactiveObject
-}
 
 function innerPatch<T extends StateTree>(
   target: T,
