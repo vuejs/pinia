@@ -5,7 +5,7 @@ import {
   Store,
   Pinia,
   StateTree,
-  DefineStoreOptions,
+  DefineStoreOptionsInPlugin,
 } from './'
 
 const pinia = createPinia()
@@ -15,7 +15,7 @@ pinia.use(({ store, app, options, pinia }) => {
   expectType<Pinia>(pinia)
   expectType<App>(app)
   expectType<
-    DefineStoreOptions<
+    DefineStoreOptionsInPlugin<
       string,
       StateTree,
       Record<string, any>,

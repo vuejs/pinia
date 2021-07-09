@@ -26,6 +26,8 @@ export type {
   PiniaCustomProperties,
   PiniaCustomStateProperties,
   DefineStoreOptions,
+  DefineSetupStoreOptions,
+  DefineStoreOptionsInPlugin,
 } from './types'
 export { MutationType } from './types'
 

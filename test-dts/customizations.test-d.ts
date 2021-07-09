@@ -1,4 +1,10 @@
-import { expectType, createPinia, defineStore, mapStores } from './'
+import {
+  expectType,
+  createPinia,
+  defineStore,
+  mapStores,
+  ActionsTree,
+} from './'
 import { App } from 'vue'
 
 declare module '../dist/pinia' {
@@ -27,7 +33,7 @@ declare module '../dist/pinia' {
 const pinia = createPinia()
 
 pinia.use((context) => {
-  expectType<string>(context.options.id)
+  expectType<ActionsTree>(context.options.actions)
   expectType<string>(context.store.$id)
   expectType<App>(context.app)
 
