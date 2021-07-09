@@ -13,7 +13,6 @@ import { nextTick, defineComponent } from 'vue'
 import { mockWarn } from 'jest-mock-warn'
 
 describe('Map Helpers', () => {
-  const useCartStore = defineStore({ id: 'cart' })
   const useStore = defineStore({
     id: 'main',
     state: () => ({
@@ -41,62 +40,6 @@ describe('Map Helpers', () => {
 
   describe('mapStores', () => {
     mockWarn()
-    it('mapStores computes only once when mapping one store', async () => {
-      const pinia = createPinia()
-      const fromStore = jest.fn(function () {
-        // @ts-ignore
-        return this.mainStore
-      })
-      const Component = defineComponent({
-        template: `<p @click="fromStore.n++">{{ fromStore.n }}</p>`,
-        computed: {
-          ...mapStores(useStore),
-          fromStore,
-        },
-      })
-
-      const wrapper = mount(Component, { global: { plugins: [pinia] } })
-      // const store = useStore()
-      // const other = useCartStore()
-      expect(wrapper.vm.mainStore).toBeDefined()
-      expect(wrapper.text()).toBe('0')
-      await nextTick()
-      expect(fromStore).toHaveBeenCalledTimes(1)
-
-      await wrapper.trigger('click')
-      expect(wrapper.text()).toBe('1')
-      expect(fromStore).toHaveBeenCalledTimes(1)
-      await wrapper.trigger('click')
-      expect(wrapper.text()).toBe('2')
-      expect(fromStore).toHaveBeenCalledTimes(1)
-    })
-
-    it('mapStores computes only once when mapping multiple stores', async () => {
-      const pinia = createPinia()
-      const fromStore = jest.fn(function () {
-        // @ts-ignore
-        return this.mainStore
-      })
-      const Component = defineComponent({
-        template: `<p @click="fromStore.n++">{{ mainStore.n }} {{ fromStore.n }} {{ cartStore.$id }}</p>`,
-        computed: {
-          ...mapStores(useStore, useCartStore),
-          fromStore,
-        },
-      })
-
-      const wrapper = mount(Component, { global: { plugins: [pinia] } })
-      expect(wrapper.text()).toBe('0 0 cart')
-      await nextTick()
-      expect(fromStore).toHaveBeenCalledTimes(1)
-
-      await wrapper.trigger('click')
-      expect(wrapper.text()).toBe('1 1 cart')
-      expect(fromStore).toHaveBeenCalledTimes(1)
-      await wrapper.trigger('click')
-      expect(wrapper.text()).toBe('2 2 cart')
-      expect(fromStore).toHaveBeenCalledTimes(1)
-    })
 
     it('can set custom suffix', async () => {
       const pinia = createPinia()
@@ -110,7 +53,6 @@ describe('Map Helpers', () => {
 
       const wrapper = mount(Component, { global: { plugins: [pinia] } })
       // const store = useStore()
-      // const other = useCartStore()
       // @ts-expect-error: by default this shouldn't exist
       expect(wrapper.vm.main).toBeDefined()
       expect(wrapper.vm.mainStore).not.toBeDefined()

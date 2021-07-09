@@ -1,15 +1,16 @@
-import { createPinia, defineStore, setActivePinia } from '../src'
+import { createPinia, defineStore, Pinia, setActivePinia } from '../src'
 import { computed, nextTick, ref, watch } from 'vue'
 
 describe('State', () => {
-  const useStore = () => {
+  const useStore = (pinia?: Pinia) => {
     // create a new store
-    setActivePinia(createPinia())
+    setActivePinia(pinia || createPinia())
     return defineStore({
       id: 'main',
       state: () => ({
         name: 'Eduardo',
         counter: 0,
+        nested: { n: 0 },
       }),
     })()
   }
@@ -27,6 +28,72 @@ describe('State', () => {
     expect(upperCased.value).toBe('EDUARDO')
     store.name = 'Ed'
     expect(upperCased.value).toBe('ED')
+  })
+
+  it('can be set with patch', () => {
+    const pinia = createPinia()
+    const store = useStore(pinia)
+
+    store.$patch({ name: 'a' })
+
+    expect(store.name).toBe('a')
+    expect(store.$state.name).toBe('a')
+    expect(pinia.state.value.main.name).toBe('a')
+  })
+
+  it('can be set on store', () => {
+    const pinia = createPinia()
+    const store = useStore(pinia)
+
+    store.name = 'a'
+
+    expect(store.name).toBe('a')
+    expect(store.$state.name).toBe('a')
+    expect(pinia.state.value.main.name).toBe('a')
+  })
+
+  it('can be set on store.$state', () => {
+    const pinia = createPinia()
+    const store = useStore(pinia)
+
+    store.$state.name = 'a'
+
+    expect(store.name).toBe('a')
+    expect(store.$state.name).toBe('a')
+    expect(pinia.state.value.main.name).toBe('a')
+  })
+
+  it('can be nested set with patch', () => {
+    const pinia = createPinia()
+    const store = useStore(pinia)
+
+    store.$patch({ nested: { n: 3 } })
+
+    expect(store.nested.n).toBe(3)
+    expect(store.$state.nested.n).toBe(3)
+    expect(pinia.state.value.main.nested.n).toBe(3)
+  })
+
+  it('can be nested set on store', () => {
+    const pinia = createPinia()
+    const store = useStore(pinia)
+
+    store.nested.n = 3
+
+    expect(store.nested.n).toBe(3)
+    expect(store.$state.nested.n).toBe(3)
+    expect(pinia.state.value.main.nested.n).toBe(3)
+  })
+
+  it('can be nested set on store.$state', () => {
+    const pinia = createPinia()
+    const store = useStore(pinia)
+
+    store.$state.nested.n = 3
+
+    expect(store.nested.n).toBe(3)
+    expect(store.$state.nested.n).toBe(3)
+    expect(pinia.state.value.main.nested.n).toBe(3)
   })
 
   // it('watch', () => {
@@ -48,6 +115,27 @@ describe('State', () => {
     store.name = 'Ed'
     await nextTick()
     expect(spy).toHaveBeenCalledTimes(1)
+  })
+
+  it('can be given a ref', () => {
+    const pinia = createPinia()
+    const store = useStore(pinia)
+
+    // If the ref is directly set to the store, it won't work,
+    // it must be set into the `store.$state` so it connects to pinia
+    // store.name = ref('Ed')
+
+    // @ts-expect-error
+    store.$state.name = ref('Ed')
+
+    expect(store.name).toBe('Ed')
+    expect(store.$state.name).toBe('Ed')
+    expect(pinia.state.value.main.name).toBe('Ed')
+
+    store.name = 'Other'
+    expect(store.name).toBe('Other')
+    expect(store.$state.name).toBe('Other')
+    expect(pinia.state.value.main.name).toBe('Other')
   })
 
   it('unwraps refs', () => {

@@ -43,34 +43,10 @@ import {
 } from './rootStore'
 import { IS_CLIENT } from './env'
 
-function innerPatch<T extends StateTree>(
-  target: T,
-  patchToApply: DeepPartial<T>
-): T {
-  // TODO: get all keys like symbols as well
-  for (const key in patchToApply) {
-    const subPatch = patchToApply[key]
-    const targetValue = target[key]
-    if (
-      isPlainObject(targetValue) &&
-      isPlainObject(subPatch) &&
-      !isRef(subPatch) &&
-      !isReactive(subPatch)
-    ) {
-      target[key] = innerPatch(targetValue, subPatch)
-    } else {
-      // @ts-ignore
-      target[key] = subPatch
-    }
-  }
-
-  return target
-}
-
-const { assign } = Object
-
 /**
- * Create an object of computed properties referring to
+ * Create an object of computed properties referring to the root state. This
+ * allows direct modification of `store.state` while still changing the root
+ * state.
  *
  * @param rootStateRef - pinia.state
  * @param id - unique name
@@ -94,6 +70,32 @@ function computedFromState<T, Id extends string>(
 
   return reactiveObject
 }
+
+function innerPatch<T extends StateTree>(
+  target: T,
+  patchToApply: DeepPartial<T>
+): T {
+  // no need to go through symbols because they cannot be serialized anyway
+  for (const key in patchToApply) {
+    const subPatch = patchToApply[key]
+    const targetValue = target[key]
+    if (
+      isPlainObject(targetValue) &&
+      isPlainObject(subPatch) &&
+      !isRef(subPatch) &&
+      !isReactive(subPatch)
+    ) {
+      target[key] = innerPatch(targetValue, subPatch)
+    } else {
+      // @ts-ignore
+      target[key] = subPatch
+    }
+  }
+
+  return target
+}
+
+const { assign } = Object
 
 export interface DefineSetupStoreOptions<
   Id extends string,
