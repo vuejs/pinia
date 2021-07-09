@@ -2,7 +2,7 @@ export { setActivePinia } from './rootStore'
 export { createPinia } from './createPinia'
 export type { Pinia, PiniaStorePlugin, PiniaPluginContext } from './rootStore'
 
-export { defineStore } from './store'
+export { defineStore, defineSetupStore } from './store'
 
 export type {
   StateTree,
