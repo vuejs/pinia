@@ -1,6 +1,6 @@
-import { createPinia, defineStore } from '../src'
+import { createPinia, defineSetupStore, defineStore } from '../src'
 import { mount } from '@vue/test-utils'
-import { App, ref, toRef } from 'vue'
+import { App, computed, Ref, ref, toRef } from 'vue'
 
 declare module '../src' {
   export interface PiniaCustomProperties<Id> {
@@ -155,5 +155,59 @@ describe('store plugins', () => {
     expect(store.shared).toBe(1)
     expect(store2.$state.shared).toBe(1)
     expect(store2.shared).toBe(1)
+  })
+
+  it('passes the options of the options store', (done) => {
+    const options = {
+      id: 'main',
+      state: () => ({ n: 0 }),
+      actions: {
+        increment() {
+          // @ts-expect-error
+          this.n++
+        },
+      },
+      getters: {
+        a() {
+          return 'a'
+        },
+      },
+    }
+    const useStore = defineStore(options)
+    const pinia = createPinia()
+    mount({ template: 'none' }, { global: { plugins: [pinia] } })
+
+    pinia.use((context) => {
+      expect(context.options).toEqual(options)
+      done()
+    })
+    useStore(pinia)
+  })
+
+  it('passes the options of a setup store', (done) => {
+    function increment(n: Ref<number>) {
+      n.value++
+    }
+
+    const useStore = defineSetupStore('main', () => {
+      const n = ref(0)
+
+      const a = computed(() => 'a')
+
+      return { n, increment, a }
+    })
+    const pinia = createPinia()
+    mount({ template: 'none' }, { global: { plugins: [pinia] } })
+
+    pinia.use((context) => {
+      expect(context.options).toEqual({
+        actions: {
+          increment,
+        },
+      })
+      done()
+    })
+
+    useStore()
   })
 })

@@ -368,7 +368,7 @@ export function devtoolsPlugin<
   A /* extends ActionsTree */ = ActionsTree
 >({ app, store, options, pinia }: PiniaPluginContext<Id, S, G, A>) {
   // original actions of the store as they are given by pinia. We are going to override them
-  const actions = Object.keys(options.actions || ({} as A)).reduce(
+  const actions = Object.keys(options.actions).reduce(
     (storeActions, actionName) => {
       // @ts-expect-error
       // use toRaw to avoid tracking #541

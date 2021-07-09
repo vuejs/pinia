@@ -9,7 +9,7 @@ import { useCartStore } from './pinia/stores/cart'
 
 describe('SSR', () => {
   const App = {
-    ssrRender(ctx: any, push: any, parent: any) {
+    ssrRender(ctx: any, push: any, _parent: any) {
       push(
         `<div>${ssrInterpolate(ctx.user.name)}: ${ssrInterpolate(
           ctx.cart.items

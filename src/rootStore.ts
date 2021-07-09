@@ -11,6 +11,7 @@ import {
   ActionsTree,
   PiniaCustomStateProperties,
   GenericStore,
+  DefineStoreOptionsInPlugin,
 } from './types'
 
 /**
@@ -162,7 +163,7 @@ export interface PiniaPluginContext<
   /**
    * Current store being extended.
    */
-  options: DefineStoreOptions<Id, S, G, A>
+  options: DefineStoreOptionsInPlugin<Id, S, G, A>
 }
 
 /**

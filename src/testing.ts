@@ -85,10 +85,10 @@ export function createTestingPinia({
   const spiedActions = new Map<string, Record<string, any>>()
 
   pinia.use(({ store, options }) => {
-    if (!spiedActions.has(options.id)) {
-      spiedActions.set(options.id, {})
+    if (!spiedActions.has(store.$id)) {
+      spiedActions.set(store.$id, {})
     }
-    const actionsCache = spiedActions.get(options.id)!
+    const actionsCache = spiedActions.get(store.$id)!
 
     Object.keys(options.actions || {}).forEach((action) => {
       actionsCache[action] =

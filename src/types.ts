@@ -455,7 +455,7 @@ export type ActionsTree = Record<string, _Method>
  * Options parameter of `defineStore()`. Can be extended to augment stores with
  * the plugin API.
  */
-export interface DefineStoreOptions<
+export interface DefineOptionStoreOptions<
   Id extends string,
   S extends StateTree,
   G extends GettersTree<S>,
@@ -480,6 +480,7 @@ export interface DefineStoreOptions<
         StoreWithGetters<G> &
         PiniaCustomProperties
     >
+
   /**
    * Optional object of actions.
    */
@@ -491,7 +492,61 @@ export interface DefineStoreOptions<
         StoreWithGetters<GettersTree<S> extends G ? {} : G> &
         PiniaCustomProperties
     >
+
+  /**
+   * Allows hydrating the store during SSR when there is an available state in
+   * pinia.state.
+   *
+   * @param store - the store
+   * @param initialState - initialState
+   */
+  hydrate?(store: Store<Id, S, G, A>, initialState: UnwrapRef<S>): void
 }
+
+export interface DefineSetupStoreOptions<
+  Id extends string,
+  S extends StateTree,
+  G extends ActionsTree, // TODO: naming
+  A /* extends ActionsTree */
+> extends Pick<DefineOptionStoreOptions<Id, S, G, A>, 'hydrate'> {
+  /**
+   * Extracted actions. Added by useStore(). SHOULD NOT be added by the user when
+   * creating the store. Can be used in plugins to get the list of actions in a
+   * store defined with a setup function. Note this is always defined
+   */
+  actions?: A
+}
+
+/**
+ * Available `options` when creating a pinia plugin.
+ */
+export interface DefineStoreOptionsInPlugin<
+  Id extends string,
+  S extends StateTree,
+  G extends ActionsTree, // TODO: naming
+  A /* extends ActionsTree */
+> extends Omit<DefineOptionStoreOptions<Id, S, G, A>, 'id'> {
+  /**
+   * Extracted object of actions. Added by useStore() when the store is built
+   * using the setup API, otherwise uses the one passed to `defineStore()`.
+   * Defaults to an empty object if no actions are defined.
+   */
+  actions: A
+
+  /**
+   * Id of the store. Only available when the options API is used.
+   *
+   * @deprecated  Use `store.$id` instead.
+   */
+  id?: Id
+}
+
+export type DefineStoreOptions<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  A /* extends ActionsTree */
+> = DefineOptionStoreOptions<Id, S, G, A> | DefineSetupStoreOptions<Id, S, G, A>
 
 export type _UnionToTuple<U> = _UnionToTupleRecursively<[], U>
 

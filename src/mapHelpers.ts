@@ -273,7 +273,8 @@ export function mapState<
           // function
           return typeof storeKey === 'function'
             ? (storeKey as (store: Store<Id, S, G, A>) => any).call(this, store)
-            : store[storeKey as keyof typeof store]
+            : // @ts-expect-error
+              store[storeKey]
         }
         return reduced
       }, {} as _MapStateObjectReturn<Id, S, G, A, KeyMapper>)

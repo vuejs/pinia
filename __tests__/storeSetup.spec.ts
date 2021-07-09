@@ -39,6 +39,18 @@ describe('store with setup syntax', () => {
     expect(store.$state).not.toHaveProperty('increment')
   })
 
+  it('can store a function', () => {
+    const store = defineSetupStore('main', () => {
+      const fn = ref(() => {})
+      function action() {}
+      return { fn, action }
+    })()
+    expectType<{ fn: () => void }>(store.$state)
+    expect(store.$state).toEqual({ fn: expect.any(Function) })
+    expect(store.fn).toEqual(expect.any(Function))
+    store.action()
+  })
+
   it('can directly access state at the store level', () => {
     const store = useStore()
 
@@ -54,17 +66,6 @@ describe('store with setup syntax', () => {
     store.name = 'Ed'
     expect(upperCased.value).toBe('ED')
   })
-
-  // it('watch', () => {
-  //   setActivePinia(createPinia())
-  //   defineStore({
-  //     id: 'main',
-  //     state: () => ({
-  //       name: 'Eduardo',
-  //       counter: 0,
-  //     }),
-  //   })()
-  // })
 
   it('state can be watched', async () => {
     const store = useStore()
