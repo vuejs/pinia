@@ -28,7 +28,7 @@ describe('Getters', () => {
       actions: {
         o() {
           // @ts-expect-error it should type getters
-          this.arrowUper.toUpperCase()
+          this.arrowUpper.toUpperCase()
           this.o().toUpperCase()
           return 'a string'
         },

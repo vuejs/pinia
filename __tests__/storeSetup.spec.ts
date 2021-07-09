@@ -1,21 +1,47 @@
-import { createPinia, defineStore, setActivePinia } from '../src'
+import {
+  createPinia,
+  defineSetupStore,
+  defineStore,
+  setActivePinia,
+} from '../src'
 import { computed, nextTick, ref, watch } from 'vue'
 
-describe('State', () => {
-  const useStore = () => {
-    // create a new store
+function expectType<T>(value: T): void {}
+
+describe('store with setup syntax', () => {
+  const useStore = defineSetupStore('main', () => {
+    const name = ref('Eduardo')
+    const counter = ref(0)
+    function increment(amount = 1) {
+      counter.value += amount
+    }
+    const double = computed(() => counter.value * 2)
+
+    return { name, counter, increment, double }
+  })
+
+  beforeEach(() => {
     setActivePinia(createPinia())
-    return defineStore({
-      id: 'main',
-      state: () => ({
-        name: 'Eduardo',
-        counter: 0,
-      }),
-    })()
-  }
+  })
+
+  it('should extract the $state', () => {
+    const store = useStore()
+    expectType<{ name: string; counter: number }>(store.$state)
+    expect(store.$state).toEqual({ name: 'Eduardo', counter: 0 })
+    expect(store.name).toBe('Eduardo')
+    expect(store.counter).toBe(0)
+    expect(store.double).toBe(0)
+    store.increment()
+    expect(store.counter).toBe(1)
+    expect(store.double).toBe(2)
+    expect(store.$state).toEqual({ name: 'Eduardo', counter: 1 })
+    expect(store.$state).not.toHaveProperty('double')
+    expect(store.$state).not.toHaveProperty('increment')
+  })
 
   it('can directly access state at the store level', () => {
     const store = useStore()
+
     expect(store.name).toBe('Eduardo')
     store.name = 'Ed'
     expect(store.name).toBe('Ed')
@@ -77,8 +103,8 @@ describe('State', () => {
     expect(store.$state.name).toBe('Eduardo')
     expect(pinia.state.value.main).toEqual({
       name: 'Eduardo',
-      double: 0,
       counter: 0,
+      double: 0,
     })
 
     name.value = 'Ed'
