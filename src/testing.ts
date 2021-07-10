@@ -58,6 +58,9 @@ export interface TestingPinia extends Pinia {
  * they are replaced with `jest.fn()`, otherwise, you must provide your own
  * `createSpy` option.
  *
+ * @internal - STILL NOT RELEASED, DO NOT USE. It will be likely moved to its
+ * own package.
+ *
  * @param options - options to configure the testing pinia
  * @returns a augmented pinia instance
  */
