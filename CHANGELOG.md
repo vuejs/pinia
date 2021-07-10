@@ -1,3 +1,23 @@
+# [2.0.0-beta.5](https://github.com/posva/pinia/compare/v2.0.0-beta.3...v2.0.0-beta.5) (2021-07-10)
+
+### Bug Fixes
+
+- **devtools:** avoid infinite loop when cross using stores ([55c651d](https://github.com/posva/pinia/commit/55c651d714a7d4083e4ef6369e3b5ab5dbf02182)), closes [#541](https://github.com/posva/pinia/issues/541)
+- **devtools:** avoid warning ([399a930](https://github.com/posva/pinia/commit/399a93002b9b3627e636af191e64a7b56f82d2db))
+- **types:** forbid non existant access in getters and actions ([2ee058e](https://github.com/posva/pinia/commit/2ee058ef0264dddb367c53ce534f832bdb7b5fb0))
+
+### Features
+
+- mark testing as internal ([18c8ed6](https://github.com/posva/pinia/commit/18c8ed6769f0313cdcf6139027c6162e973c8e89))
+- **testing:** add createTestingPinia ([120ac9d](https://github.com/posva/pinia/commit/120ac9d98eca0e11f24c5334022ef9bc805371af))
+- **testing:** allow stubing $patch ([10bef8a](https://github.com/posva/pinia/commit/10bef8ab2fa951fbaab0afe38b58a1396f23db8b))
+- **testing:** allows faking an app ([0d00a27](https://github.com/posva/pinia/commit/0d00a2734fa11d8a4fad6c9fb796f8c9c3a25f83))
+- **testing:** bypass useStore(pinia) ([5a52fb3](https://github.com/posva/pinia/commit/5a52fb33a1799e145a8d3e3423105247bb6980e7))
+
+### Performance Improvements
+
+- use esm version of file-saver ([49d1e38](https://github.com/posva/pinia/commit/49d1e38a808edbf58970ec2d47a1342d9a5229a1))
+
 # [2.0.0-beta.3](https://github.com/posva/pinia/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2021-06-18)
 
 ### Bug Fixes
