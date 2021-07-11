@@ -357,6 +357,7 @@ function createSetupStore<
   }
 
   const partialStore = {
+    _p: pinia,
     $id,
     $onAction,
     $patch,
