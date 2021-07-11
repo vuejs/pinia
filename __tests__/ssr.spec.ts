@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import { createPinia } from '../src'
-import { createSSRApp, inject } from 'vue'
+import { Component, createSSRApp, inject } from 'vue'
 import { renderToString, ssrInterpolate } from '@vue/server-renderer'
 import { useUserStore } from './pinia/stores/user'
 import { useCartStore } from './pinia/stores/cart'
@@ -25,14 +25,14 @@ describe('SSR', () => {
     },
   }
 
-  function createMyApp() {
-    const app = createSSRApp(App)
+  function createMyApp(MyApp: Component = App) {
+    const app = createSSRApp(MyApp)
     const pinia = createPinia()
     app.use(pinia)
     // const rootEl = document.createElement('div')
     // document.body.appendChild(rootEl)
 
-    return { app }
+    return { app, pinia }
   }
 
   it('keeps apps separated', async () => {
@@ -55,6 +55,35 @@ describe('SSR', () => {
         }
       ]</div>"
     `)
+  })
+
+  it('automatically hydrates', async () => {
+    const { app, pinia } = createMyApp({
+      ssrRender(ctx: any, push: any, _parent: any) {
+        push(
+          `<p>${ssrInterpolate(ctx.user.name)}: ${ssrInterpolate(
+            ctx.cart.rawItems.join(', ')
+          )}</p>`
+        )
+      },
+      setup() {
+        const cart = useCartStore()
+        const user = useUserStore()
+        return { cart, user }
+      },
+    })
+
+    pinia.state.value.user = {
+      name: 'Tom',
+      isAdmin: false,
+    }
+
+    pinia.state.value.cart = {
+      id: 10,
+      rawItems: ['water', 'water', 'apples'],
+    }
+
+    expect(await renderToString(app)).toBe(`<p>Tom: water, water, apples</p>`)
   })
 
   it('can use a different store', async () => {
