@@ -156,7 +156,7 @@ function createSetupStore<
   }
 
   // internal state
-  let isListening = true
+  let isListening = false // set to true at the end
   let subscriptions: SubscriptionCallback<S>[] = markRaw([])
   let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = markRaw([])
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
@@ -419,6 +419,7 @@ function createSetupStore<
     ;(options.hydrate || innerPatch)(store, initialState)
   }
 
+  isListening = true
   return store
 }
 
