@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import sponsors from './sponsors.json'
 import { isDark } from '../theme/dark-theme'
-import { computed, defineProps } from 'vue'
+import { computed } from 'vue'
 import type { PropType } from 'vue'
 
 const props = defineProps({
