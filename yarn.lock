@@ -646,10 +646,10 @@
     "@microsoft/tsdoc-config" "~0.15.2"
     "@rushstack/node-core-library" "3.39.0"
 
-"@microsoft/api-extractor@7.18.0":
-  version "7.18.0"
-  resolved "https://registry.yarnpkg.com/@microsoft/api-extractor/-/api-extractor-7.18.0.tgz#a39ad351269696736737557b839be1eb4b4f6941"
-  integrity sha512-n9vrK5t7ycaO3NSfQFae5resy555b1jBiTN+E4XMpCbuvIz5x0UX5xzIX7xs8Q4F7YmTV3QRe15wpa/gwbyyrA==
+"@microsoft/api-extractor@7.18.1":
+  version "7.18.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/api-extractor/-/api-extractor-7.18.1.tgz#61b39f972b646261dd49f2de9f5d448aa6497e7a"
+  integrity sha512-qljUF2Q0zAx1vJrjKkJVGN7OVbsXki+Pji99jywyl6L/FK3YZ7PpstUJYE6uBcLPy6rhNPWPAsHNTMpG/kHIsg==
   dependencies:
     "@microsoft/api-extractor-model" "7.13.3"
     "@microsoft/tsdoc" "0.13.2"
@@ -1093,7 +1093,7 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.1.4.tgz#c14c461ec42ea2c1556e86f60b0354341d91adc3"
   integrity sha512-6O45kZAmkLvzGLToBxEz4lR2W6kXohCtebV2UxjH9GXjd8X9AhEn68FN9eNanFtWNzvgw1hqd6HkPRVQalqf7Q==
 
-"@vue/test-utils@^2.0.0-rc.9":
+"@vue/test-utils@^2.0.0-rc.10":
   version "2.0.0-rc.10"
   resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-rc.10.tgz#9ed689cd7d5a1c9ef6693806010e464d2ecc13b2"
   integrity sha512-Z8jY+askU08svsI37NcJSLmWrfkZ/1ATA1DENWezRUX2uv3QyEj7idwx+rfeNSOrlNNBh4NTzypBKOUOklxBRA==
@@ -4858,10 +4858,10 @@ rollup@^2.38.5:
   optionalDependencies:
     fsevents "~2.3.2"
 
-rollup@^2.52.8:
-  version "2.53.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.53.0.tgz#5b6bc7820a03f361d2ae3dcabdc99d269a754709"
-  integrity sha512-spgrY78Toh+m0+zaOoeaayJKuzFuWy6o1PdFIBMVwRcuxT0xCOX9A5rChyKe+2ruL4lePKWUMImS4mMW1QAkmQ==
+rollup@^2.53.1:
+  version "2.53.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.53.1.tgz#b60439efd1eb41bdb56630509bd99aae78b575d3"
+  integrity sha512-yiTCvcYXZEulNWNlEONOQVlhXA/hgxjelFSjNcrwAAIfYx/xqjSHwqg/cCaWOyFRKr+IQBaXwt723m8tCaIUiw==
   optionalDependencies:
     fsevents "~2.3.2"
 
