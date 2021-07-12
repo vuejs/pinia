@@ -18,14 +18,13 @@ export function createPinia(): Pinia {
   // if there is anything like it with Vue 3 SSR
   const state = scope.run(() => ref<Record<string, StateTree>>({}))!
 
-  let localApp: App | undefined
   let _p: Pinia['_p'] = []
   // plugins added before calling app.use(pinia)
   const toBeInstalled: PiniaStorePlugin[] = []
 
   const pinia: Pinia = markRaw({
     install(app: App) {
-      pinia._a = localApp = app
+      pinia._a = app
       app.provide(piniaSymbol, pinia)
       app.config.globalProperties.$pinia = pinia
       if (IS_CLIENT) {
@@ -37,7 +36,7 @@ export function createPinia(): Pinia {
     },
 
     use(plugin) {
-      if (!localApp) {
+      if (!this._a) {
         toBeInstalled.push(plugin)
       } else {
         _p.push(plugin)
@@ -47,7 +46,8 @@ export function createPinia(): Pinia {
 
     _p,
     // it's actually undefined here
-    _a: localApp!,
+    // @ts-expect-error
+    _a: null,
     _e: scope,
     _s: new Map<string, Store>(),
     state,

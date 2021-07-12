@@ -252,6 +252,24 @@ export interface StoreWithState<
   _customProperties: Set<string>
 
   /**
+   * Handles a HMR replacement of this store. Dev Only.
+   *
+   * @internal
+   */
+  hotUpdate(useStore: Store<Id, S, G, A>): void
+
+  /**
+   * Payload of the hmr update. Dev only.
+   *
+   * @internal
+   */
+  _hmrPayload: {
+    state: string[]
+    actions: ActionsTree
+    getters: ActionsTree
+  }
+
+  /**
    * Applies a state patch to current state. Allows passing nested values
    *
    * @param partialState - patch to apply to the state
@@ -405,13 +423,21 @@ export interface StoreDefinition<
    * Returns a store, creates it if necessary.
    *
    * @param pinia - Pinia instance to retrieve the store
+   * @param hot - dev only hot module replacement
    */
-  (pinia?: Pinia | null | undefined): Store<Id, S, G, A>
+  (pinia?: Pinia | null | undefined, hot?: Store): Store<Id, S, G, A>
 
   /**
    * Id of the store. Used by map helpers.
    */
   $id: Id
+
+  /**
+   * Dev only pinia for HMR.
+   *
+   * @internal
+   */
+  _pinia?: Pinia
 }
 
 /**

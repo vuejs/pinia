@@ -16,6 +16,8 @@ import {
   ComputedRef,
   toRef,
   toRefs,
+  Ref,
+  ref,
 } from 'vue'
 import {
   StateTree,
@@ -43,6 +45,7 @@ import {
   activePinia,
 } from './rootStore'
 import { IS_CLIENT } from './env'
+import { createPinia } from './createPinia'
 
 function innerPatch<T extends StateTree>(
   target: T,
@@ -79,18 +82,26 @@ function createOptionsStore<
   S extends StateTree,
   G extends GettersTree<S>,
   A extends ActionsTree
->(options: DefineStoreOptions<Id, S, G, A>, pinia: Pinia): Store<Id, S, G, A> {
+>(
+  options: DefineStoreOptions<Id, S, G, A>,
+  pinia: Pinia,
+  hot?: boolean
+): Store<Id, S, G, A> {
   const { id, state, actions, getters } = options
   function $reset() {
     pinia.state.value[id] = state ? state() : {}
   }
 
+  const initialState: StateTree | undefined = pinia.state.value[id]
+
   function setup() {
-    $reset()
+    if (!initialState) {
+      $reset()
+    }
     // pinia.state.value[id] = state ? state() : {}
 
     return assign(
-      toRefs(pinia.state.value[id]),
+      initialState || toRefs(pinia.state.value[id]),
       actions,
       Object.keys(getters || {}).reduce((computedGetters, name) => {
         computedGetters[name] = computed(() => {
@@ -103,7 +114,9 @@ function createOptionsStore<
     )
   }
 
-  const store = createSetupStore(id, setup, options)
+  const store = createSetupStore(id, setup, options, hot)
+
+  // TODO: HMR should also replace getters here
 
   store.$reset = $reset
 
@@ -123,7 +136,8 @@ function createSetupStore<
   setup: () => SS,
   options:
     | DefineSetupStoreOptions<Id, S, G, A>
-    | DefineStoreOptions<Id, S, G, A> = {}
+    | DefineStoreOptions<Id, S, G, A> = {},
+  hot?: boolean
 ): Store<Id, S, G, A> {
   const pinia = getActivePinia()
   let scope!: EffectScope
@@ -185,22 +199,25 @@ function createSetupStore<
     return scope.run(() => {
       const store = setup()
 
-      watch(
-        () => pinia.state.value[$id] as UnwrapRef<S>,
-        (state, oldState) => {
-          if (isListening) {
-            triggerSubscriptions(
-              {
-                storeId: $id,
-                type: MutationType.direct,
-                events: debuggerEvents as DebuggerEvent,
-              },
-              state
-            )
-          }
-        },
-        $subscribeOptions
-      )!
+      // skip setting up the watcher on HMR
+      if (!__DEV__ || !hot) {
+        watch(
+          () => pinia.state.value[$id] as UnwrapRef<S>,
+          (state, oldState) => {
+            if (isListening) {
+              triggerSubscriptions(
+                {
+                  storeId: $id,
+                  type: MutationType.direct,
+                  events: debuggerEvents as DebuggerEvent,
+                },
+                state
+              )
+            }
+          },
+          $subscribeOptions
+        )!
+      }
 
       return store
     })
@@ -294,6 +311,58 @@ function createSetupStore<
     }
   }
 
+  /**
+   * Wraps an action to handle subscriptions
+   *
+   * @param name - name of the action
+   * @param action - action to wrap
+   * @returns a wrapped action to handle subscriptions
+   */
+  function wrapAction(name: string, action: _Method) {
+    return function (this: any) {
+      setActivePinia(pinia)
+      const args = Array.from(arguments)
+
+      let afterCallback: (resolvedReturn: any) => void = noop
+      let onErrorCallback: (error: unknown) => void = noop
+      function after(callback: typeof afterCallback) {
+        afterCallback = callback
+      }
+      function onError(callback: typeof onErrorCallback) {
+        onErrorCallback = callback
+      }
+
+      actionSubscriptions.forEach((callback) => {
+        // @ts-expect-error
+        callback({
+          args,
+          name,
+          store,
+          after,
+          onError,
+        })
+      })
+
+      let ret: any
+      try {
+        ret = action.apply(this || store, args)
+        Promise.resolve(ret).then(afterCallback).catch(onErrorCallback)
+      } catch (error) {
+        onErrorCallback(error)
+        throw error
+      }
+
+      return ret
+    }
+  }
+
+  // TODO: PURE to tree shake?
+  const _hmrPayload = markRaw({
+    actions: {} as Record<string, any>,
+    getters: {} as Record<string, Ref>,
+    state: [] as string[],
+  })
+
   // overwrite existing actions to support $onAction
   for (const key in setupStore) {
     const prop = setupStore[key]
@@ -304,54 +373,35 @@ function createSetupStore<
         // mark it as a piece of state to be serialized
         pinia.state.value[$id][key] = toRef(setupStore as any, key)
       }
+      if (__DEV__) {
+        _hmrPayload.state.push(key)
+      }
       // action
     } else if (typeof prop === 'function') {
       // @ts-expect-error: we are overriding the function
-      setupStore[key] = function () {
-        setActivePinia(pinia)
-        const args = Array.from(arguments)
+      // we avoid wrapping if this a hot module replacement store
+      setupStore[key] = __DEV__ && hot ? prop : wrapAction(key, prop)
 
-        let afterCallback: (resolvedReturn: any) => void = noop
-        let onErrorCallback: (error: unknown) => void = noop
-        function after(callback: typeof afterCallback) {
-          afterCallback = callback
-        }
-        function onError(callback: typeof onErrorCallback) {
-          onErrorCallback = callback
-        }
-
-        actionSubscriptions.forEach((callback) => {
-          // @ts-expect-error
-          callback({
-            args,
-            name: key,
-            store,
-            after,
-            onError,
-          })
-        })
-
-        let ret: any
-        try {
-          ret = prop.apply(this || store, args)
-          Promise.resolve(ret).then(afterCallback).catch(onErrorCallback)
-        } catch (error) {
-          onErrorCallback(error)
-          throw error
-        }
-
-        return ret
+      if (__DEV__) {
+        _hmrPayload.actions[key] = prop
       }
+
       // list actions so they can be used in plugins
       // @ts-expect-error
-      optionsForPlugin.actions[key] = prop
-    } else if (__DEV__ && IS_CLIENT) {
+      optionsForPlugin.actions[key] = setupStore[key] // TODO: check this change from `prop` is correct
+    } else if (__DEV__) {
       // add getters for devtools
       if (isComputed(prop)) {
-        const getters: string[] =
-          // @ts-expect-error: it should be on the store
-          setupStore._getters || (setupStore._getters = markRaw([]))
-        getters.push(key)
+        _hmrPayload.getters[key] = buildState
+          ? // @ts-expect-error
+            options.getters[key]
+          : prop
+        if (IS_CLIENT) {
+          const getters: string[] =
+            // @ts-expect-error: it should be on the store
+            setupStore._getters || (setupStore._getters = markRaw([]))
+          getters.push(key)
+        }
       }
     }
   }
@@ -371,6 +421,7 @@ function createSetupStore<
         ? // devtools custom properties
           {
             _customProperties: markRaw(new Set<string>()),
+            _hmrPayload,
           }
         : {},
       partialStore,
@@ -418,6 +469,56 @@ function createSetupStore<
 
   if (initialState) {
     ;(options.hydrate || innerPatch)(store, initialState)
+  }
+
+  if (__DEV__) {
+    store.hotUpdate = (newStore) => {
+      newStore._hmrPayload.state.forEach((stateKey) => {
+        if (!(stateKey in store.$state)) {
+          console.log('setting new key', stateKey)
+          // @ts-expect-error
+          // transfer the ref
+          store.$state[stateKey] = newStore.$state[stateKey]
+        }
+      })
+
+      // remove deleted keys
+      Object.keys(store.$state).forEach((stateKey) => {
+        if (!(stateKey in newStore.$state)) {
+          console.log('deleting old key', stateKey)
+          // @ts-expect-error
+          delete store.$state[stateKey]
+        }
+      })
+
+      for (const actionName in newStore._hmrPayload.actions) {
+        const action: _Method =
+          // @ts-expect-error
+          newStore[actionName]
+
+        // @ts-expect-error: new key
+        store[actionName] =
+          // new line forced for TS
+          wrapAction(actionName, action)
+      }
+
+      for (const getterName in newStore._hmrPayload.getters) {
+        const getter: _Method = newStore._hmrPayload.getters[getterName]
+
+        // @ts-expect-error
+        store[getterName] =
+          // ---
+          buildState
+            ? // special handling of options api
+              computed(() => {
+                setActivePinia(pinia)
+                return getter.call(store, store)
+              })
+            : getter
+      }
+
+      // TODO: remove old actions and getters
+    }
   }
 
   isListening = true
@@ -500,7 +601,8 @@ export function defineSetupStore<Id extends string, SS>(
   _ExtractActionsFromSetupStore<SS>
 > {
   function useStore(
-    pinia?: Pinia | null
+    pinia?: Pinia | null,
+    hot?: Store
   ): Store<
     Id,
     _ExtractStateFromSetupStore<SS>,
@@ -519,6 +621,10 @@ export function defineSetupStore<Id extends string, SS>(
 
     if (!pinia._s.has(id)) {
       pinia._s.set(id, createSetupStore(id, storeSetup, options))
+      if (__DEV__) {
+        // @ts-expect-error: not the right inferred type
+        useStore._pinia = pinia
+      }
     }
 
     const store: Store<
@@ -532,6 +638,23 @@ export function defineSetupStore<Id extends string, SS>(
       _ExtractGettersFromSetupStore<SS>,
       _ExtractActionsFromSetupStore<SS>
     >
+
+    if (__DEV__ && hot) {
+      const hotId = '__hot:' + id
+      const newStore = createSetupStore(hotId, storeSetup, options, true)
+      hot.hotUpdate(newStore as any)
+
+      // for state that exists in newStore, try to copy from old state
+
+      // actions
+
+      // cleanup the things
+      delete pinia.state.value[hotId]
+      pinia._s.delete(hotId)
+
+      // TODO: add the patched store to devtools again to override its previous version
+      // addDevtools(pinia._a, hot)
+    }
 
     // save stores in instances to access them devtools
     if (__DEV__ && IS_CLIENT && currentInstance && currentInstance.proxy) {
@@ -563,7 +686,7 @@ export function defineStore<
 >(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A> {
   const { id } = options
 
-  function useStore(pinia?: Pinia | null) {
+  function useStore(pinia?: Pinia | null, hot?: Store) {
     const currentInstance = getCurrentInstance()
     pinia =
       // in test mode, ignore the argument provided as we can always retrieve a
@@ -583,9 +706,35 @@ export function defineStore<
           pinia
         )
       )
+
+      if (__DEV__) {
+        // @ts-expect-error: not the right inferred type
+        useStore._pinia = pinia
+      }
     }
 
     const store: Store<Id, S, G, A> = pinia._s.get(id)! as Store<Id, S, G, A>
+
+    if (__DEV__ && hot) {
+      const hotId = '__hot:' + id
+      const newStore = createOptionsStore(
+        assign({}, options, { id: hotId }) as any,
+        pinia,
+        true
+      )
+      hot.hotUpdate(newStore as any)
+
+      // for state that exists in newStore, try to copy from old state
+
+      // actions
+
+      // cleanup the things
+      delete pinia.state.value[hotId]
+      pinia._s.delete(hotId)
+
+      // TODO: add the patched store to devtools again to override its previous version
+      // addDevtools(pinia._a, hot)
+    }
 
     // save stores in instances to access them devtools
     if (__DEV__ && IS_CLIENT && currentInstance && currentInstance.proxy) {

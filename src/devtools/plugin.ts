@@ -367,6 +367,10 @@ export function devtoolsPlugin<
   G extends GettersTree<S> = GettersTree<S>,
   A /* extends ActionsTree */ = ActionsTree
 >({ app, store, options, pinia }: PiniaPluginContext<Id, S, G, A>) {
+  // HMR module
+  if (store.$id.startsWith('__hot:')) {
+    return
+  }
   // original actions of the store as they are given by pinia. We are going to override them
   const actions = Object.keys(options.actions).reduce(
     (storeActions, actionName) => {
@@ -400,6 +404,8 @@ export function devtoolsPlugin<
       )
     }
   }
+
+  // TODO: replace existing one for HMR?
 
   addDevtools(
     app,
