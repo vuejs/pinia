@@ -381,6 +381,7 @@ function createSetupStore<
         // createOptionStore already did this
       } else if (!buildState) {
         pinia.state.value[$id][key] = toRef(setupStore as any, key)
+        // TODO: avoid if state exists for SSR
       }
 
       if (__DEV__) {
