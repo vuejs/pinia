@@ -270,6 +270,7 @@ function addDevtools(app: App, store: Store) {
         })
 
         after((result) => {
+          activeAction = undefined
           api.addTimelineEvent({
             layerId: MUTATIONS_LAYER_ID,
             event: {
@@ -287,6 +288,7 @@ function addDevtools(app: App, store: Store) {
         })
 
         onError((error) => {
+          activeAction = undefined
           api.addTimelineEvent({
             layerId: MUTATIONS_LAYER_ID,
             event: {
