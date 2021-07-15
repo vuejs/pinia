@@ -473,7 +473,7 @@ function createSetupStore<
 
       pinia.state.value[$id] = toRef(newStore._hmrPayload, 'hotState')
 
-      // remove deleted keys
+      // remove deleted state properties
       Object.keys(store.$state).forEach((stateKey) => {
         if (!(stateKey in newStore.$state)) {
           // @ts-expect-error
@@ -494,7 +494,6 @@ function createSetupStore<
 
       for (const getterName in newStore._hmrPayload.getters) {
         const getter: _Method = newStore._hmrPayload.getters[getterName]
-
         // @ts-expect-error
         store[getterName] =
           // ---
@@ -507,7 +506,30 @@ function createSetupStore<
             : getter
       }
 
-      // TODO: remove old actions and getters
+      // remove deleted getters
+      console.log('remove', store._hmrPayload)
+      Object.keys(store._hmrPayload.getters).forEach((key) => {
+        console.log('checking for', key)
+        if (!(key in newStore._hmrPayload.getters)) {
+          console.log('deleting')
+          // @ts-expect-error
+          delete store[key]
+        }
+      })
+
+      // remove old actions
+      Object.keys(store._hmrPayload.actions).forEach((key) => {
+        console.log('checking for', key)
+        if (!(key in newStore._hmrPayload.actions)) {
+          console.log('deleting')
+          // @ts-expect-error
+          delete store[key]
+        }
+      })
+
+      // update the values used in devtools and to allow deleting new properties later on
+      store._hmrPayload = newStore._hmrPayload
+      store._getters = newStore._getters
     })
 
     const nonEnumerable = {
