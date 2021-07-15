@@ -1,5 +1,6 @@
 <template>
   <button @click="n++">Increment {{ n }}</button>
+  <button @click="counter.changeMe()"><code>counter.changeMe()</code></button>
   <pre>{{ counter.$state }}</pre>
   <!-- <button @click="counter.newOne()">Click me</button> -->
   <TestStore />

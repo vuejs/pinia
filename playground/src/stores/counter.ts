@@ -6,7 +6,7 @@ export const useCounter = defineStore({
   id: 'counter',
 
   state: () => ({
-    n: 5,
+    n: 8,
     incrementedTimes: 0,
     decrementedTimes: 0,
     numbers: [] as number[],
@@ -25,8 +25,8 @@ export const useCounter = defineStore({
       this.n += amount
     },
 
-    newOne() {
-      console.log('neeeew')
+    changeMe() {
+      console.log('change me to test HMR')
     },
 
     async fail() {
@@ -55,7 +55,7 @@ export const useCounter = defineStore({
           //   state.decrementedTimes++
           // })
         } else {
-          this.n--
+          this.n -= 1
         }
         await delay(interval)
       }
@@ -104,7 +104,6 @@ if (import.meta.hot) {
           // TODO: replace the useCounter var???
           return
         }
-        console.log('patching')
         useStore(pinia, existingStore)
         // remove the existing store from the cache to force a new one
         // pinia._s.delete(id)

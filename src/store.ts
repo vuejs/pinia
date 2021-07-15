@@ -437,42 +437,9 @@ function createSetupStore<
     set: (state) => (pinia.state.value[$id] = state),
   })
 
-  // apply all plugins
-  pinia._p.forEach((extender) => {
-    if (__DEV__ && IS_CLIENT) {
-      const extensions = extender({
-        // @ts-expect-error: conflict between A and ActionsTree
-        store,
-        app: pinia._a,
-        pinia,
-        // @ts-expect-error
-        options: optionsForPlugin,
-      })
-      Object.keys(extensions || {}).forEach((key) =>
-        store._customProperties.add(key)
-      )
-      assign(store, extensions)
-    } else {
-      assign(
-        store,
-        extender({
-          // @ts-expect-error: conflict between A and ActionsTree
-          store,
-          app: pinia._a,
-          pinia,
-          // @ts-expect-error
-          options: optionsForPlugin,
-        })
-      )
-    }
-  })
-
-  if (initialState) {
-    ;(options.hydrate || innerPatch)(store, initialState)
-  }
-
+  // add the hotUpdate before plugins to allow them to override it
   if (__DEV__) {
-    store.hotUpdate = (newStore) => {
+    store.hotUpdate = markRaw((newStore) => {
       newStore._hmrPayload.state.forEach((stateKey) => {
         if (!(stateKey in store.$state)) {
           console.log('setting new key', stateKey)
@@ -518,7 +485,41 @@ function createSetupStore<
       }
 
       // TODO: remove old actions and getters
+    })
+  }
+
+  // apply all plugins
+  pinia._p.forEach((extender) => {
+    if (__DEV__ && IS_CLIENT) {
+      const extensions = extender({
+        // @ts-expect-error: conflict between A and ActionsTree
+        store,
+        app: pinia._a,
+        pinia,
+        // @ts-expect-error
+        options: optionsForPlugin,
+      })
+      Object.keys(extensions || {}).forEach((key) =>
+        store._customProperties.add(key)
+      )
+      assign(store, extensions)
+    } else {
+      assign(
+        store,
+        extender({
+          // @ts-expect-error: conflict between A and ActionsTree
+          store,
+          app: pinia._a,
+          pinia,
+          // @ts-expect-error
+          options: optionsForPlugin,
+        })
+      )
     }
+  })
+
+  if (initialState) {
+    ;(options.hydrate || innerPatch)(store, initialState)
   }
 
   isListening = true
@@ -651,9 +652,6 @@ export function defineSetupStore<Id extends string, SS>(
       // cleanup the things
       delete pinia.state.value[hotId]
       pinia._s.delete(hotId)
-
-      // TODO: add the patched store to devtools again to override its previous version
-      // addDevtools(pinia._a, hot)
     }
 
     // save stores in instances to access them devtools
@@ -731,13 +729,16 @@ export function defineStore<
       // cleanup the things
       delete pinia.state.value[hotId]
       pinia._s.delete(hotId)
-
-      // TODO: add the patched store to devtools again to override its previous version
-      // addDevtools(pinia._a, hot)
     }
 
     // save stores in instances to access them devtools
-    if (__DEV__ && IS_CLIENT && currentInstance && currentInstance.proxy) {
+    if (
+      __DEV__ &&
+      IS_CLIENT &&
+      currentInstance &&
+      currentInstance.proxy &&
+      !hot
+    ) {
       const vm = currentInstance.proxy
       const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
       // @ts-expect-error: still can't cast Store with generics to Store

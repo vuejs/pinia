@@ -1,9 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { createPinia, StoreDefinition } from '../../src'
-import { ha } from './test'
-
-console.log({ ha })
+import { createPinia } from '../../src'
 
 const pinia = createPinia()
 

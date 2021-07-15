@@ -359,33 +359,24 @@ let runningActionId = 0
 let activeAction: number | undefined
 
 /**
- * pinia.use(devtoolsPlugin)
+ * Patches a store to enable action grouping in devtools by wrapping the store with a Proxy that is passed as the context of all actions, allowing us to set `runningAction` on each access and effectively associating any state mutation to the action.
+ *
+ * @param store - store to patch
+ * @param actionNames - list of actionst to patch
  */
-export function devtoolsPlugin<
-  Id extends string = string,
-  S extends StateTree = StateTree,
-  G extends GettersTree<S> = GettersTree<S>,
-  A /* extends ActionsTree */ = ActionsTree
->({ app, store, options, pinia }: PiniaPluginContext<Id, S, G, A>) {
-  // HMR module
-  if (store.$id.startsWith('__hot:')) {
-    return
-  }
+function patchActionForGrouping(store: Store, actionNames: string[]) {
   // original actions of the store as they are given by pinia. We are going to override them
-  const actions = Object.keys(options.actions).reduce(
-    (storeActions, actionName) => {
-      // @ts-expect-error
-      // use toRaw to avoid tracking #541
-      storeActions[actionName] = toRaw(store)[actionName]
-      return storeActions
-    },
-    {} as ActionsTree
-  )
+  const actions = actionNames.reduce((storeActions, actionName) => {
+    // use toRaw to avoid tracking #541
+    // @ts-expect-error
+    storeActions[actionName] = toRaw(store)[actionName]
+    return storeActions
+  }, {} as ActionsTree)
 
   for (const actionName in actions) {
     // @ts-expect-error
     store[actionName] = function () {
-      setActivePinia(pinia)
+      setActivePinia(store._p)
       // the running action id is incremented in a before action hook
       const _actionId = runningActionId
       const trackedStore = new Proxy(store, {
@@ -404,8 +395,38 @@ export function devtoolsPlugin<
       )
     }
   }
+}
 
-  // TODO: replace existing one for HMR?
+/**
+ * pinia.use(devtoolsPlugin)
+ */
+export function devtoolsPlugin<
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  G extends GettersTree<S> = GettersTree<S>,
+  A /* extends ActionsTree */ = ActionsTree
+>({ app, store, options }: PiniaPluginContext<Id, S, G, A>) {
+  // HMR module
+  if (store.$id.startsWith('__hot:')) {
+    return
+  }
+
+  patchActionForGrouping(
+    // @ts-expect-error: can cast the store...
+    store,
+    Object.keys(options.actions)
+  )
+
+  const originalHotUpdate = store.hotUpdate
+
+  toRaw(store).hotUpdate = function (newStore) {
+    originalHotUpdate.apply(this, arguments as any)
+    patchActionForGrouping(
+      // @ts-expect-error: can cast the store...
+      store,
+      Object.keys(toRaw(newStore)._hmrPayload.actions)
+    )
+  }
 
   addDevtools(
     app,
