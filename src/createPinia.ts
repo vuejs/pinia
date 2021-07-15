@@ -5,7 +5,7 @@ import {
   piniaSymbol,
 } from './rootStore'
 import { ref, App, markRaw, effectScope } from 'vue'
-import { devtoolsPlugin } from './devtools'
+import { registerPiniaDevtools, devtoolsPlugin } from './devtools'
 import { IS_CLIENT } from './env'
 import { StateTree, Store } from './types'
 
@@ -31,6 +31,9 @@ export function createPinia(): Pinia {
         // this allows calling useStore() outside of a component setup after
         // installing pinia's plugin
         setActivePinia(pinia)
+        if (__DEV__) {
+          registerPiniaDevtools(app, pinia)
+        }
       }
       toBeInstalled.forEach((plugin) => _p.push(plugin))
     },

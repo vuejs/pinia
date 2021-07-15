@@ -1,1 +1,1 @@
-export { devtoolsPlugin } from './plugin'
+export { devtoolsPlugin, registerPiniaDevtools } from './plugin'

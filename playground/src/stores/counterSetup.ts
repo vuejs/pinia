@@ -43,8 +43,8 @@ export const useCounter = defineSetupStore('counter-setup', () => {
     while (state.n > 0) {
       state.n -= 1
       state.decrementedTimes += 1
+      await delay(interval)
     }
-    await delay(interval)
   }
 
   return {
