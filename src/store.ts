@@ -45,7 +45,6 @@ import {
   activePinia,
 } from './rootStore'
 import { IS_CLIENT } from './env'
-import { createPinia } from './createPinia'
 
 function innerPatch<T extends StateTree>(
   target: T,
@@ -155,7 +154,8 @@ function createSetupStore<
     $subscribeOptions.onTrigger = (event) => {
       if (isListening) {
         debuggerEvents = event
-      } else {
+        // avoid triggering this while the store is being built and the state is being set in pinia
+      } else if (isListening == false) {
         // let patch send all the events together later
         /* istanbul ignore else */
         if (Array.isArray(debuggerEvents)) {
@@ -170,7 +170,7 @@ function createSetupStore<
   }
 
   // internal state
-  let isListening = false // set to true at the end
+  let isListening: boolean // set to true at the end
   let subscriptions: SubscriptionCallback<S>[] = markRaw([])
   let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = markRaw([])
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
@@ -188,12 +188,10 @@ function createSetupStore<
   }
 
   if (__DEV__ && !pinia._e.active) {
-    // TODO: warn in dev
     throw new Error('Pinia destroyed')
   }
 
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
-  // TODO: store the scope somewhere
   const setupStore = pinia._e.run(() => {
     scope = effectScope()
     return scope.run(() => {

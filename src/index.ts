@@ -54,3 +54,5 @@ export type {
 
 export { createTestingPinia } from './testing'
 export type { TestingOptions } from './testing'
+
+export * from './hmr'
