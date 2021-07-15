@@ -94,13 +94,19 @@ function createOptionsStore<
   const initialState: StateTree | undefined = pinia.state.value[id]
 
   function setup() {
-    if (!initialState) {
+    if (!initialState && (!__DEV__ || !hot)) {
       $reset()
     }
     // pinia.state.value[id] = state ? state() : {}
 
+    // avoid creating a state in pinia.state.value
+    const localState =
+      __DEV__ && hot
+        ? toRefs(ref(state ? state() : {}).value)
+        : initialState || toRefs(pinia.state.value[id])
+
     return assign(
-      initialState || toRefs(pinia.state.value[id]),
+      localState,
       actions,
       Object.keys(getters || {}).reduce((computedGetters, name) => {
         computedGetters[name] = computed(() => {
@@ -176,10 +182,12 @@ function createSetupStore<
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
 
-  if (!initialState) {
+  if (!initialState && !hot) {
     // should be set in Vue 2
     pinia.state.value[$id] = {}
   }
+
+  const hotState = ref({} as S)
 
   const triggerSubscriptions: SubscriptionCallback<S> = (mutation, state) => {
     subscriptions.forEach((callback) => {
@@ -310,7 +318,7 @@ function createSetupStore<
   }
 
   /**
-   * Wraps an action to handle subscriptions
+   * Wraps an action to handle subscriptions.
    *
    * @param name - name of the action
    * @param action - action to wrap
@@ -359,6 +367,7 @@ function createSetupStore<
     actions: {} as Record<string, any>,
     getters: {} as Record<string, Ref>,
     state: [] as string[],
+    hotState,
   })
 
   // overwrite existing actions to support $onAction
@@ -366,11 +375,14 @@ function createSetupStore<
     const prop = setupStore[key]
 
     if ((isRef(prop) && !isComputed(prop)) || isReactive(prop)) {
-      // createOptionStore already did this
-      if (!buildState) {
-        // mark it as a piece of state to be serialized
+      // mark it as a piece of state to be serialized
+      if (__DEV__ && hot) {
+        hotState.value[key] = toRef(setupStore as any, key)
+        // createOptionStore already did this
+      } else if (!buildState) {
         pinia.state.value[$id][key] = toRef(setupStore as any, key)
       }
+
       if (__DEV__) {
         _hmrPayload.state.push(key)
       }
@@ -431,28 +443,41 @@ function createSetupStore<
   // without linking the computed lifespan to wherever the store is first
   // created.
   Object.defineProperty(store, '$state', {
-    get: () => pinia.state.value[$id],
-    set: (state) => (pinia.state.value[$id] = state),
+    get: () => (__DEV__ && hot ? hotState.value : pinia.state.value[$id]),
+    set: (state) => {
+      if (__DEV__ && hot) {
+        throw new Error('cannot set hotState')
+      }
+      pinia.state.value[$id] = state
+    },
   })
 
   // add the hotUpdate before plugins to allow them to override it
   if (__DEV__) {
     store.hotUpdate = markRaw((newStore) => {
       newStore._hmrPayload.state.forEach((stateKey) => {
-        if (!(stateKey in store.$state)) {
-          console.log('setting new key', stateKey)
+        if (stateKey in store.$state) {
           // @ts-expect-error
           // transfer the ref
-          store.$state[stateKey] = newStore.$state[stateKey]
+          newStore.$state[stateKey] =
+            // ---
+            // @ts-expect-error
+            store.$state[stateKey]
+
+          // patch direct access properties to allow store.stateProperty to work as
+          // store.$state.stateProperty
+          // @ts-expect-error
+          store[stateKey] = toRef(newStore.$state, stateKey)
         }
       })
+
+      pinia.state.value[$id] = toRef(newStore._hmrPayload, 'hotState')
 
       // remove deleted keys
       Object.keys(store.$state).forEach((stateKey) => {
         if (!(stateKey in newStore.$state)) {
-          console.log('deleting old key', stateKey)
           // @ts-expect-error
-          delete store.$state[stateKey]
+          delete store[stateKey]
         }
       })
 

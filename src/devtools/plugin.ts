@@ -417,22 +417,26 @@ export function devtoolsPlugin<
     return
   }
 
-  patchActionForGrouping(
-    // @ts-expect-error: can cast the store...
-    store,
-    Object.keys(options.actions)
-  )
-
-  const originalHotUpdate = store.hotUpdate
-
-  // Upgrade the HMR to also update the new actions
-  toRaw(store).hotUpdate = function (newStore) {
-    originalHotUpdate.apply(this, arguments as any)
+  // only wrap actions in option-defined stores as this technique relies on
+  // wrapping the context of the action with a proxy
+  if ('id' in options) {
     patchActionForGrouping(
       // @ts-expect-error: can cast the store...
       store,
-      Object.keys(newStore._hmrPayload.actions)
+      Object.keys(options.actions)
     )
+
+    const originalHotUpdate = store.hotUpdate
+
+    // Upgrade the HMR to also update the new actions
+    toRaw(store).hotUpdate = function (newStore) {
+      originalHotUpdate.apply(this, arguments as any)
+      patchActionForGrouping(
+        // @ts-expect-error: can cast the store...
+        store,
+        Object.keys(newStore._hmrPayload.actions)
+      )
+    }
   }
 
   addStoreToDevtools(

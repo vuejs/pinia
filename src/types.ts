@@ -1,4 +1,4 @@
-import { DebuggerEvent, UnwrapRef } from 'vue'
+import { DebuggerEvent, Ref, UnwrapRef } from 'vue'
 import { Pinia } from './rootStore'
 
 /**
@@ -265,6 +265,7 @@ export interface StoreWithState<
    */
   _hmrPayload: {
     state: string[]
+    hotState: Ref<S>
     actions: ActionsTree
     getters: ActionsTree
   }

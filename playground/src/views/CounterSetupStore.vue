@@ -5,7 +5,7 @@
 
   <h2>Counter Store</h2>
 
-  <p>Counter :{{ counter.n }}</p>
+  <p>Counter :{{ counter.n }}. Double: {{ counter.double }}</p>
 
   <p>
     Increment the Store <br />
