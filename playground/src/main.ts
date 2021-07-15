@@ -6,25 +6,19 @@ import { router } from './router'
 const pinia = createPinia()
 
 if (import.meta.hot) {
-  import.meta.hot.data.pinia = pinia
-  console.log('set', import.meta.hot.data)
   //   const isUseStore = (fn: any): fn is StoreDefinition => {
   //     return typeof fn === 'function' && typeof fn.$id === 'string'
   //   }
-
   //   // import.meta.hot.accept(
   //   //   './stores/counter.ts',
   //   //   (newStore: Record<string, unknown>) => {
   //   //     console.log('haha', newStore)
   //   //   }
   //   // )
-
   //   import.meta.hot.accept('./test.ts', (newTest) => {
   //     console.log('test updated', newTest)
   //   })
-
   //   const stores = import.meta.glob('./stores/*.ts')
-
   //   for (const storeId in stores) {
   //     console.log('configuring HMR for', storeId)
   //     const oldUseStore = await stores[storeId]()
@@ -47,7 +41,5 @@ if (import.meta.hot) {
   //     })
   //   }
 }
-
-// TODO: HMR for plugins
 
 createApp(App).use(router).use(pinia).mount('#app')

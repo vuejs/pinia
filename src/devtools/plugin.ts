@@ -25,11 +25,6 @@ import {
 } from './formatting'
 import { isPinia, toastMessage } from './utils'
 
-/**
- * Registered stores used for devtools.
- */
-const registeredStores = /*#__PURE__*/ new Map<string, Store>()
-
 let isAlreadyInstalled: boolean | undefined
 // timeline can be paused when directly changing the state
 let isTimelineActive = true
@@ -38,17 +33,17 @@ const componentStateTypes: string[] = []
 const MUTATIONS_LAYER_ID = 'pinia:mutations'
 const INSPECTOR_ID = 'pinia'
 
-function addDevtools(app: App, store: Store) {
-  // TODO: we probably need to ensure the latest version of the store is kept:
-  // without effectScope, multiple stores will be created and will have a
-  // limited lifespan for getters.
-  // add a dev only variable that is removed in unmounted and replace the store
-  let hasSubscribed = true
-  const storeType = '🍍 ' + store.$id
-  if (!registeredStores.has(store.$id)) {
-    registeredStores.set(store.$id, store)
-    componentStateTypes.push(storeType)
-    hasSubscribed = false
+/**
+ * Gets the displayed name of a store in devtools
+ *
+ * @param id - id of the store
+ * @returns a formatted string
+ */
+const getStoreType = (id: string) => '🍍 ' + id
+
+function addDevtools(app: App, pinia: Pinia, store: Store) {
+  if (!componentStateTypes.includes(getStoreType(store.$id))) {
+    componentStateTypes.push(getStoreType(store.$id))
   }
 
   setupDevtoolsPlugin(
@@ -78,14 +73,14 @@ function addDevtools(app: App, store: Store) {
             {
               icon: 'content_copy',
               action: () => {
-                actionGlobalCopyState(store._p)
+                actionGlobalCopyState(pinia)
               },
               tooltip: 'Serialize and copy the state',
             },
             {
               icon: 'content_paste',
               action: async () => {
-                await actionGlobalPasteState(store._p)
+                await actionGlobalPasteState(pinia)
                 api.sendInspectorTree(INSPECTOR_ID)
                 api.sendInspectorState(INSPECTOR_ID)
               },
@@ -94,14 +89,14 @@ function addDevtools(app: App, store: Store) {
             {
               icon: 'save',
               action: () => {
-                actionGlobalSaveState(store._p)
+                actionGlobalSaveState(pinia)
               },
               tooltip: 'Save the state as a JSON file',
             },
             {
               icon: 'folder_open',
               action: async () => {
-                await actionGlobalOpenStateFile(store._p)
+                await actionGlobalOpenStateFile(pinia)
                 api.sendInspectorTree(INSPECTOR_ID)
                 api.sendInspectorState(INSPECTOR_ID)
               },
@@ -122,7 +117,7 @@ function addDevtools(app: App, store: Store) {
 
             Object.values(piniaStores).forEach((store) => {
               payload.instanceData.state.push({
-                type: storeType,
+                type: getStoreType(store.$id),
                 key: 'state',
                 editable: true,
                 value: store.$state,
@@ -130,7 +125,7 @@ function addDevtools(app: App, store: Store) {
 
               if (store._getters && store._getters.length) {
                 payload.instanceData.state.push({
-                  type: storeType,
+                  type: getStoreType(store.$id),
                   key: 'getters',
                   editable: false,
                   value: store._getters.reduce((getters, key) => {
@@ -146,8 +141,8 @@ function addDevtools(app: App, store: Store) {
 
         api.on.getInspectorTree((payload) => {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-            let stores: Array<Store | Pinia> = [store._p]
-            stores = stores.concat(Array.from(registeredStores.values()))
+            let stores: Array<Store | Pinia> = [pinia]
+            stores = stores.concat(Array.from(pinia._s.values()))
 
             payload.rootNodes = (
               payload.filter
@@ -169,8 +164,8 @@ function addDevtools(app: App, store: Store) {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
             const inspectedStore =
               payload.nodeId === PINIA_ROOT_ID
-                ? store._p
-                : registeredStores.get(payload.nodeId)
+                ? pinia
+                : pinia._s.get(payload.nodeId)
 
             if (!inspectedStore) {
               // this could be the selected store restored for a different project
@@ -188,8 +183,8 @@ function addDevtools(app: App, store: Store) {
           if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
             const inspectedStore =
               payload.nodeId === PINIA_ROOT_ID
-                ? store._p
-                : registeredStores.get(payload.nodeId)
+                ? pinia
+                : pinia._s.get(payload.nodeId)
 
             if (!inspectedStore) {
               return toastMessage(
@@ -200,12 +195,12 @@ function addDevtools(app: App, store: Store) {
 
             const { path } = payload
 
-            if (!isPinia(store)) {
+            if (!isPinia(inspectedStore)) {
               // access only the state
               if (
                 path.length !== 1 ||
-                !store._customProperties.has(path[0]) ||
-                path[0] in store.$state
+                !inspectedStore._customProperties.has(path[0]) ||
+                path[0] in inspectedStore.$state
               ) {
                 path.unshift('$state')
               }
@@ -221,7 +216,7 @@ function addDevtools(app: App, store: Store) {
         api.on.editComponentState((payload) => {
           if (payload.type.startsWith('🍍')) {
             const storeId = payload.type.replace(/^🍍\s*/, '')
-            const store = registeredStores.get(storeId)
+            const store = pinia._s.get(storeId)
 
             if (!store) {
               return toastMessage(`store "${storeId}" not found`, 'error')
@@ -249,10 +244,7 @@ function addDevtools(app: App, store: Store) {
         api.sendInspectorState(INSPECTOR_ID)
       }
 
-      // avoid subscribing to mutations and actions twice
-      if (hasSubscribed) return
-
-      store.$onAction(({ after, onError, name, args, store }) => {
+      store.$onAction(({ after, onError, name, args }) => {
         const groupId = runningActionId++
 
         api.addTimelineEvent({
@@ -305,7 +297,7 @@ function addDevtools(app: App, store: Store) {
             },
           })
         })
-      })
+      }, true)
 
       store.$subscribe(({ events, type }, state) => {
         if (!isTimelineActive) return
@@ -347,10 +339,9 @@ function addDevtools(app: App, store: Store) {
           layerId: MUTATIONS_LAYER_ID,
           event: eventData,
         })
-      })
+      }, true)
 
       // trigger an update so it can display new registered stores
-      // @ts-ignore
       api.notifyComponentUpdate()
       toastMessage(`"${store.$id}" store installed`)
     }
@@ -407,7 +398,7 @@ export function devtoolsPlugin<
   S extends StateTree = StateTree,
   G extends GettersTree<S> = GettersTree<S>,
   A /* extends ActionsTree */ = ActionsTree
->({ app, store, options }: PiniaPluginContext<Id, S, G, A>) {
+>({ app, store, options, pinia }: PiniaPluginContext<Id, S, G, A>) {
   // HMR module
   if (store.$id.startsWith('__hot:')) {
     return
@@ -432,6 +423,7 @@ export function devtoolsPlugin<
 
   addDevtools(
     app,
+    pinia,
     // @ts-expect-error: FIXME: if possible...
     store
   )

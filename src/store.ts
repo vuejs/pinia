@@ -484,6 +484,23 @@ function createSetupStore<
 
       // TODO: remove old actions and getters
     })
+
+    const nonEnumerable = {
+      writable: true,
+      configurable: true,
+      // avoid warning on devtools trying to display this property
+      enumerable: false,
+    }
+
+    // avoid listing internal properties in devtools
+    ;(['_p', '_hmrPayload', '_getters', '_customProperties'] as const).forEach(
+      (p) => {
+        Object.defineProperty(store, p, {
+          value: store[p],
+          ...nonEnumerable,
+        })
+      }
+    )
   }
 
   // apply all plugins

@@ -297,12 +297,14 @@ export interface StoreWithState<
    * Setups a callback to be called whenever the state changes. It also returns
    * a function to remove the callback. Note than when calling
    * `store.$subscribe()` inside of a component, it will be automatically
-   * cleanup up when the component gets unmounted.
+   * cleanup up when the component gets unmounted unless `detached` is set to
+   * true.
    *
    * @param callback - callback passed to the watcher
+   * @param detached - detach the subscription from the context this is called from
    * @returns function that removes the watcher
    */
-  $subscribe(callback: SubscriptionCallback<S>): () => void
+  $subscribe(callback: SubscriptionCallback<S>, detached?: boolean): () => void
 
   /**
    * @alpha Please send feedback at https://github.com/posva/pinia/issues/240
@@ -318,7 +320,7 @@ export interface StoreWithState<
    *
    * It also returns a function to remove the callback. Note than when calling
    * `store.$onAction()` inside of a component, it will be automatically cleanup
-   * up when the component gets unmounted.
+   * up when the component gets unmounted unless `detached` is set to true.
    *
    * @example
    *
@@ -338,9 +340,13 @@ export interface StoreWithState<
    *```
    *
    * @param callback - callback called before every action
+   * @param detached - detach the subscription from the context this is called from
    * @returns function that removes the watcher
    */
-  $onAction(callback: StoreOnActionListener<Id, S, G, A>): () => void
+  $onAction(
+    callback: StoreOnActionListener<Id, S, G, A>,
+    detached?: boolean
+  ): () => void
 }
 
 /**

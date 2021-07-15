@@ -101,6 +101,7 @@ export interface Pinia {
   _e: EffectScope
 
   /**
+   * Registry of stores used by this pinia.
    *
    * @internal
    */
