@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createPinia } from '../../src'
+import { router } from './router'
 
 const pinia = createPinia()
 
@@ -49,4 +50,4 @@ if (import.meta.hot) {
 
 // TODO: HMR for plugins
 
-createApp(App).use(pinia).mount('#app')
+createApp(App).use(router).use(pinia).mount('#app')

@@ -6,7 +6,7 @@ export const useCounter = defineStore({
   id: 'counter',
 
   state: () => ({
-    n: 8,
+    n: 0,
     incrementedTimes: 0,
     decrementedTimes: 0,
     numbers: [] as number[],
@@ -76,19 +76,19 @@ if (import.meta.hot) {
       import.meta.hot.data.pinia || oldUseStore._pinia
 
     if (!pinia) {
-      console.warn(`Missing the pinia instance for "${oldUseStore.$id}".`)
-      return import.meta.hot.invalidate()
+      // this store is still not used
+      return
     }
 
     // preserve the pinia instance across loads
     import.meta.hot.data.pinia = pinia
 
-    console.log('got data', newStore)
+    // console.log('got data', newStore)
     for (const exportName in newStore) {
       const useStore = newStore[exportName]
-      console.log('checking for', exportName)
+      // console.log('checking for', exportName)
       if (isUseStore(useStore) && pinia._s.has(useStore.$id)) {
-        console.log('Accepting update for', useStore.$id)
+        // console.log('Accepting update for', useStore.$id)
         const id = useStore.$id
 
         if (id !== oldUseStore.$id) {
@@ -101,17 +101,9 @@ if (import.meta.hot) {
         const existingStore: Store = pinia._s.get(id)!
         if (!existingStore) {
           console.log(`skipping hmr because store doesn't exist yet`)
-          // TODO: replace the useCounter var???
           return
         }
         useStore(pinia, existingStore)
-        // remove the existing store from the cache to force a new one
-        // pinia._s.delete(id)
-        // this adds any new state to pinia and then runs the `hydrate` function
-        // which, by default, will reuse the existing state in pinia
-        // const newStore = useStore(pinia)
-        // console.log('going there', newStore._hmrPayload)
-        // pinia._s.set(id, existingStore)
       }
     }
   })

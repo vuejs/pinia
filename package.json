@@ -69,6 +69,7 @@
     "@rollup/plugin-replace": "^3.0.0",
     "@sucrase/jest-plugin": "^2.1.0",
     "@types/jest": "^26.0.24",
+    "@types/lodash.kebabcase": "^4.1.6",
     "@types/node": "^16.0.1",
     "@vue/server-renderer": "^3.1.5",
     "@vue/test-utils": "^2.0.0-rc.10",
@@ -81,6 +82,7 @@
     "jest": "^26.6.3",
     "jest-mock-warn": "^1.1.0",
     "lint-staged": "^11.0.1",
+    "lodash.kebabcase": "^4.1.1",
     "pascalcase": "^1.0.0",
     "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
@@ -91,6 +93,7 @@
     "vite": "^2.4.1",
     "vitepress": "^0.15.6",
     "vue": "^3.1.5",
+    "vue-router": "^4.0.10",
     "yorkie": "^2.0.0"
   },
   "dependencies": {

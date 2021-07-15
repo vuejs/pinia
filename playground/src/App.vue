@@ -1,27 +1,34 @@
 <template>
-  <button @click="n++">Increment {{ n }}</button>
-  <button @click="counter.changeMe()"><code>counter.changeMe()</code></button>
-  <pre>{{ counter.$state }}</pre>
-  <!-- <button @click="counter.newOne()">Click me</button> -->
-  <TestStore />
+  <header>
+    <h1>🍍 Pinia playground</h1>
+    <nav>
+      <template v-for="(page, i) in pages" :key="page.name">
+        <router-link :to="page" v-slot="{ route }">{{
+          route.fullPath
+        }}</router-link>
+        <template v-if="i < pages.length - 1"> · </template>
+      </template>
+    </nav>
+  </header>
+
+  <router-view />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import TestStore from './components/TestStore.vue'
+import { useRouter } from 'vue-router'
 import { useCounter } from './stores/counter'
 
-const counter = useCounter()
+const router = useRouter()
 
-const n = ref(4)
+const pages = router
+  .getRoutes()
+  .filter((route) => !route.meta.hide)
+  .map((route) => ({ name: route.name }))
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  margin-top: 60px;
+button {
+  margin-right: 0.5rem;
 }
 </style>
