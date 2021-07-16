@@ -111,11 +111,15 @@ function createOptionsStore<
       localState,
       actions,
       Object.keys(getters || {}).reduce((computedGetters, name) => {
-        computedGetters[name] = computed(() => {
-          setActivePinia(pinia)
-          // @ts-expect-error
-          return store && getters![name].call(store, store)
-        })
+        computedGetters[name] = markRaw(
+          computed(() => {
+            setActivePinia(pinia)
+            // const context = store || ref(localState).value
+            // @ts-expect-error
+            // return getters![name].call(context, context)
+            return store && getters![name].call(store, store)
+          })
+        )
         return computedGetters
       }, {} as Record<string, ComputedRef>)
     )
@@ -470,8 +474,6 @@ function createSetupStore<
         store[stateKey] = toRef(newStore.$state, stateKey)
       })
 
-      pinia.state.value[$id] = toRef(newStore._hmrPayload, 'hotState')
-
       // remove deleted state properties
       Object.keys(store.$state).forEach((stateKey) => {
         if (!(stateKey in newStore.$state)) {
@@ -479,6 +481,8 @@ function createSetupStore<
           delete store[stateKey]
         }
       })
+
+      pinia.state.value[$id] = toRef(newStore._hmrPayload, 'hotState')
 
       for (const actionName in newStore._hmrPayload.actions) {
         const action: _Method =
