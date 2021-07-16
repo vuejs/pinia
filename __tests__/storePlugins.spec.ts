@@ -185,13 +185,12 @@ describe('store plugins', () => {
   })
 
   it('passes the options of a setup store', (done) => {
-    function increment(n: Ref<number>) {
-      n.value++
-    }
-
     const useStore = defineSetupStore('main', () => {
       const n = ref(0)
 
+      function increment() {
+        n.value++
+      }
       const a = computed(() => 'a')
 
       return { n, increment, a }
@@ -202,9 +201,11 @@ describe('store plugins', () => {
     pinia.use((context) => {
       expect(context.options).toEqual({
         actions: {
-          increment,
+          increment: expect.any(Function),
         },
       })
+      ;(context.store as any).increment()
+      expect((context.store as any).n).toBe(1)
       done()
     })
 
