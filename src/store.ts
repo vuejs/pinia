@@ -307,17 +307,13 @@ function createSetupStore<
     return removeSubscription
   }
 
-  function $reset() {
-    // TODO: is it worth? probably should be removed
-    // maybe it can stop the effect and create it again but should be a plugin
-    if (buildState) {
-      pinia.state.value[$id] = buildState()
-    } else if (__DEV__) {
-      throw new Error(
-        `🍍: Store "${$id}" is build using the setup syntax and does not implement $reset().`
-      )
-    }
-  }
+  const $reset = __DEV__
+    ? () => {
+        throw new Error(
+          `🍍: Store "${$id}" is build using the setup syntax and does not implement $reset().`
+        )
+      }
+    : noop
 
   /**
    * Wraps an action to handle subscriptions.
@@ -373,7 +369,6 @@ function createSetupStore<
   })
 
   // overwrite existing actions to support $onAction
-  scope.off()
   for (const key in setupStore) {
     const prop = setupStore[key]
 
@@ -420,7 +415,6 @@ function createSetupStore<
       }
     }
   }
-  scope.on()
 
   const partialStore = {
     _p: pinia,
@@ -546,15 +540,17 @@ function createSetupStore<
       enumerable: false,
     }
 
-    // avoid listing internal properties in devtools
-    ;(['_p', '_hmrPayload', '_getters', '_customProperties'] as const).forEach(
-      (p) => {
+    if (IS_CLIENT) {
+      // avoid listing internal properties in devtools
+      ;(
+        ['_p', '_hmrPayload', '_getters', '_customProperties'] as const
+      ).forEach((p) => {
         Object.defineProperty(store, p, {
           value: store[p],
           ...nonEnumerable,
         })
-      }
-    )
+      })
+    }
   }
 
   // apply all plugins
