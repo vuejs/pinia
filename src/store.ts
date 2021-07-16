@@ -93,6 +93,8 @@ function createOptionsStore<
 
   const initialState: StateTree | undefined = pinia.state.value[id]
 
+  let store: Store<Id, S, G, A>
+
   function setup() {
     if (!initialState && (!__DEV__ || !hot)) {
       $reset()
@@ -112,14 +114,14 @@ function createOptionsStore<
         computedGetters[name] = computed(() => {
           setActivePinia(pinia)
           // @ts-expect-error
-          return getters![name].call(store, store)
+          return store && getters![name].call(store, store)
         })
         return computedGetters
       }, {} as Record<string, ComputedRef>)
     )
   }
 
-  const store = createSetupStore(id, setup, options, hot)
+  store = createSetupStore(id, setup, options, hot)
 
   // TODO: HMR should also replace getters here
 
@@ -371,6 +373,7 @@ function createSetupStore<
   })
 
   // overwrite existing actions to support $onAction
+  scope.off()
   for (const key in setupStore) {
     const prop = setupStore[key]
 
@@ -417,6 +420,7 @@ function createSetupStore<
       }
     }
   }
+  scope.on()
 
   const partialStore = {
     _p: pinia,
@@ -494,6 +498,7 @@ function createSetupStore<
           wrapAction(actionName, action)
       }
 
+      // TODO: does this work in both setup and option store?
       for (const getterName in newStore._hmrPayload.getters) {
         const getter: _Method = newStore._hmrPayload.getters[getterName]
         // @ts-expect-error
