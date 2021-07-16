@@ -463,12 +463,11 @@ function createSetupStore<
             // ---
             // @ts-expect-error
             store.$state[stateKey]
-
-          // patch direct access properties to allow store.stateProperty to work as
-          // store.$state.stateProperty
-          // @ts-expect-error
-          store[stateKey] = toRef(newStore.$state, stateKey)
         }
+        // patch direct access properties to allow store.stateProperty to work as
+        // store.$state.stateProperty
+        // @ts-expect-error
+        store[stateKey] = toRef(newStore.$state, stateKey)
       })
 
       pinia.state.value[$id] = toRef(newStore._hmrPayload, 'hotState')
