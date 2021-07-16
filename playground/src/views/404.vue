@@ -3,9 +3,7 @@
 
   <ul>
     <li v-for="page in pages">
-      <router-link v-for="page in pages" :to="page">{{
-        page.name
-      }}</router-link>
+      <router-link :to="page">{{ page.name }}</router-link>
     </li>
   </ul>
 </template>

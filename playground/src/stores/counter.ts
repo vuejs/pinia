@@ -1,4 +1,4 @@
-import { acceptHMRUpdate, defineStore, setupViteHMR } from '../../../src'
+import { acceptHMRUpdate, defineStore } from '../../../src'
 
 const delay = (t: number) => new Promise((r) => setTimeout(r, t))
 

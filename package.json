@@ -71,10 +71,10 @@
     "@types/jest": "^26.0.24",
     "@types/lodash.kebabcase": "^4.1.6",
     "@types/node": "^16.0.1",
-    "@vue/server-renderer": "^3.1.5",
+    "@vue/server-renderer": "^3.2.0-beta.1",
     "@vue/test-utils": "^2.0.0-rc.10",
     "@vitejs/plugin-vue": "^1.2.4",
-    "@vue/compiler-sfc": "npm:@knightly/vue__compiler-sfc@3-2",
+    "@vue/compiler-sfc": "^3.2.0-beta.1",
     "@vueuse/core": "^5.1.3",
     "brotli": "^1.3.2",
     "codecov": "^3.8.2",
@@ -92,18 +92,12 @@
     "typescript": "~4.3.5",
     "vite": "^2.4.1",
     "vitepress": "^0.15.6",
-    "vue": "^3.1.5",
+    "vue": "^3.2.0-beta.1",
     "vue-router": "^4.0.10",
     "yorkie": "^2.0.0"
   },
   "dependencies": {
     "@vue/devtools-api": "^6.0.0-beta.15"
-  },
-  "resolutions": {
-    "vue": "npm:@knightly/vue@3-2",
-    "@vue/runtime-dom": "npm:@knightly/vue__runtime-dom@3-2",
-    "@vue/compiler-sfc": "npm:@knightly/vue__compiler-sfc@3-2",
-    "@vue/server-renderer": "npm:@knightly/vue__server-renderer@3-2"
   },
   "peerDependencies": {
     "typescript": "^4.3.5"
