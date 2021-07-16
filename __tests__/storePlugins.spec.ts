@@ -1,6 +1,6 @@
 import { createPinia, defineSetupStore, defineStore } from '../src'
 import { mount } from '@vue/test-utils'
-import { App, computed, Ref, ref, toRef } from 'vue'
+import { App, computed, ref, toRef } from 'vue'
 
 declare module '../src' {
   export interface PiniaCustomProperties<Id> {

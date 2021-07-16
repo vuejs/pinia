@@ -1,6 +1,6 @@
 import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
 import { App, ComponentPublicInstance, toRaw } from 'vue'
-import { Pinia, PiniaPluginContext, setActivePinia } from '../rootStore'
+import { Pinia, PiniaPluginContext } from '../rootStore'
 import {
   Store,
   GettersTree,
@@ -382,7 +382,7 @@ function patchActionForGrouping(store: Store, actionNames: string[]) {
   for (const actionName in actions) {
     // @ts-expect-error
     store[actionName] = function () {
-      setActivePinia(store._p)
+      // setActivePinia(store._p)
       // the running action id is incremented in a before action hook
       const _actionId = runningActionId
       const trackedStore = new Proxy(store, {

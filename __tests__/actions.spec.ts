@@ -110,6 +110,13 @@ describe('Actions', () => {
   })
 
   it('can force the pinia', () => {
+    // setup other pinias to force possible override effects on the options effect
+    const pinia11 = createPinia()
+    // const pinia22 = createPinia()
+    setActivePinia(pinia11)
+    useA()
+    setActivePinia(undefined)
+
     const pinia1 = createPinia()
     const pinia2 = createPinia()
     const aStore = useA(pinia1)

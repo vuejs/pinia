@@ -398,7 +398,7 @@ function createSetupStore<
 
       // list actions so they can be used in plugins
       // @ts-expect-error
-      optionsForPlugin.actions[key] = setupStore[key] // TODO: check this change from `prop` is correct
+      optionsForPlugin.actions[key] = prop
     } else if (__DEV__) {
       // add getters for devtools
       if (isComputed(prop)) {
@@ -508,11 +508,8 @@ function createSetupStore<
       }
 
       // remove deleted getters
-      console.log('remove', store._hmrPayload)
       Object.keys(store._hmrPayload.getters).forEach((key) => {
-        console.log('checking for', key)
         if (!(key in newStore._hmrPayload.getters)) {
-          console.log('deleting')
           // @ts-expect-error
           delete store[key]
         }
@@ -520,9 +517,7 @@ function createSetupStore<
 
       // remove old actions
       Object.keys(store._hmrPayload.actions).forEach((key) => {
-        console.log('checking for', key)
         if (!(key in newStore._hmrPayload.actions)) {
-          console.log('deleting')
           // @ts-expect-error
           delete store[key]
         }
