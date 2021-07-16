@@ -389,8 +389,9 @@ function createSetupStore<
       }
       // action
     } else if (typeof prop === 'function') {
-      // @ts-expect-error: we are overriding the function
-      // we avoid wrapping if this a hot module replacement store
+      // @ts-expect-error: we are overriding the function we avoid wrapping if
+      // this a hot module replacement store because the hotUpdate method needs
+      // to do it with the right context
       setupStore[key] = __DEV__ && hot ? prop : wrapAction(key, prop)
 
       if (__DEV__) {
