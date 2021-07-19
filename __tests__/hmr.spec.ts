@@ -18,6 +18,13 @@ describe('HMR', () => {
     id: 'main',
     state: () => ({
       n: 0,
+      arr: [],
+      nestedArr: {
+        arr: [],
+      },
+      nested: {
+        a: 'a',
+      },
     }),
 
     actions: {
@@ -63,25 +70,62 @@ describe('HMR', () => {
       expect(store.other).toBe('new')
     })
 
-    it('adds new state properties', () => {
+    it('patches nested objects', () => {
       const useStore = defineStore(baseOptions)
       const store: any = useStore()
-      store.n++
 
       // simulate a hmr
       defineStore({
         ...baseOptions,
-        state: () => ({ newOne: 'hey', n: 0 }),
+        state: () => ({ nested: { a: 'b', b: 'b' } }),
       })(null, store)
 
-      expect(store.$state).toEqual({ n: 1, newOne: 'hey' })
-      expect(store.n).toBe(1)
-      expect(store.newOne).toBe('hey')
+      expect(store.$state).toEqual({ nested: { a: 'a', b: 'b' } })
 
       defineStore({
         ...baseOptions,
-        state: () => ({ other: 'new', n: 0 }),
+        state: () => ({ nested: { b: 'c' } }),
       })(null, store)
+      // removes the nested a
+      expect(store.$state).toEqual({ nested: { b: 'b' } })
+    })
+
+    it('skips arrays', () => {
+      const useStore = defineStore(baseOptions)
+      const store: any = useStore()
+
+      // simulate a hmr
+      defineStore({
+        ...baseOptions,
+        state: () => ({ arr: [2] }),
+      })(null, store)
+
+      expect(store.$state).toEqual({ arr: [] })
+
+      defineStore({
+        ...baseOptions,
+        state: () => ({ arr: [1] }),
+      })(null, store)
+      expect(store.$state).toEqual({ arr: [] })
+    })
+
+    it('skips nested arrays', () => {
+      const useStore = defineStore(baseOptions)
+      const store: any = useStore()
+
+      // simulate a hmr
+      defineStore({
+        ...baseOptions,
+        state: () => ({ nestedArr: { arr: [2] } }),
+      })(null, store)
+
+      expect(store.$state).toEqual({ nestedArr: { arr: [] } })
+
+      defineStore({
+        ...baseOptions,
+        state: () => ({ nestedArr: { arr: [1] } }),
+      })(null, store)
+      expect(store.$state).toEqual({ nestedArr: { arr: [] } })
     })
 
     it('keeps state reactive', () => {

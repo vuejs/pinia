@@ -45,6 +45,7 @@ import {
   activePinia,
 } from './rootStore'
 import { IS_CLIENT } from './env'
+import { patchObject } from './hmr'
 
 function innerPatch<T extends StateTree>(
   target: T,
@@ -462,11 +463,20 @@ function createSetupStore<
       newStore._hmrPayload.state.forEach((stateKey) => {
         if (stateKey in store.$state) {
           // @ts-expect-error
-          // transfer the ref
-          newStore.$state[stateKey] =
-            // ---
+          const newStateTarget = newStore.$state[stateKey]
+          // @ts-expect-error
+          const oldStateSource = store.$state[stateKey]
+          if (
+            typeof newStateTarget === 'object' &&
+            isPlainObject(newStateTarget) &&
+            isPlainObject(oldStateSource)
+          ) {
+            patchObject(newStateTarget, oldStateSource)
+          } else {
             // @ts-expect-error
-            store.$state[stateKey]
+            // transfer the ref
+            newStore.$state[stateKey] = oldStateSource
+          }
         }
         // patch direct access properties to allow store.stateProperty to work as
         // store.$state.stateProperty

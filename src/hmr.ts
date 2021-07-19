@@ -1,8 +1,40 @@
+import { isRef, isReactive } from 'vue'
 import { Pinia } from './rootStore'
-import { Store, StoreDefinition, _Method } from './types'
+import { isPlainObject, Store, StoreDefinition, _Method } from './types'
 
 export const isUseStore = (fn: any): fn is StoreDefinition => {
   return typeof fn === 'function' && typeof fn.$id === 'string'
+}
+
+export function patchObject(
+  newState: Record<string, any>,
+  oldState: Record<string, any>
+): Record<string, any> {
+  // no need to go through symbols because they cannot be serialized anyway
+  for (const key in oldState) {
+    const subPatch = oldState[key]
+
+    // skip the whole sub tree
+    if (!(key in newState)) {
+      continue
+    }
+
+    const targetValue = newState[key]
+    if (
+      isPlainObject(targetValue) &&
+      isPlainObject(subPatch) &&
+      !isRef(subPatch) &&
+      !isReactive(subPatch)
+    ) {
+      newState[key] = patchObject(targetValue, subPatch)
+    } else {
+      // objects are either a bit more complex (e.g. refs) or primitives, so we
+      // just set the whole thing
+      newState[key] = subPatch
+    }
+  }
+
+  return newState
 }
 
 export function acceptHMRUpdate(
