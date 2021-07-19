@@ -31,6 +31,30 @@ describe('store.$patch', () => {
     })
   })
 
+  it('replaces whole arrays', () => {
+    const store = useStore()
+    store.$patch({ list: [1, 2] })
+    expect(store.$state.list).toEqual([1, 2])
+  })
+
+  it('replaces whole nested arrays', () => {
+    const store = useStore()
+    // @ts-expect-error: new state
+    store.$patch({ nested: { list: [1, 2] } })
+    expect(store.$state.nested).toEqual({
+      foo: 'foo',
+      a: { b: 'string' },
+      list: [1, 2],
+    })
+    // @ts-expect-error: new state
+    store.$patch({ nested: { list: [] } })
+    expect(store.$state.nested).toEqual({
+      foo: 'foo',
+      a: { b: 'string' },
+      list: [],
+    })
+  })
+
   it('patches using a function', () => {
     const store = useStore()
     store.$patch((state) => {
