@@ -9,6 +9,7 @@ module.exports = {
     'src/index.ts',
     '\\.d\\.ts$',
     'src/devtools',
+    'src/hmr',
     'src/deprecated.ts',
   ],
   testMatch: ['<rootDir>/__tests__/**/*.spec.ts'],
