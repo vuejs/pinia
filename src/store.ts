@@ -126,7 +126,7 @@ function createOptionsStore<
     )
   }
 
-  store = createSetupStore(id, setup, options, hot)
+  store = createSetupStore(id, setup, options, pinia, hot)
 
   // TODO: HMR should also replace getters here
 
@@ -149,9 +149,9 @@ function createSetupStore<
   options:
     | DefineSetupStoreOptions<Id, S, G, A>
     | DefineStoreOptions<Id, S, G, A> = {},
+  pinia: Pinia,
   hot?: boolean
 ): Store<Id, S, G, A> {
-  const pinia = getActivePinia()
   let scope!: EffectScope
   const buildState = (options as DefineStoreOptions<Id, S, G, A>).state
 
@@ -657,9 +657,41 @@ type _ExtractGettersFromSetupStore<SS> = _SpreadPropertiesFromObject<
 /**
  * Creates a `useStore` function that retrieves the store instance
  *
+ * @param id - id of the store (must be unique)
  * @param options - options to define the store
  */
-export function defineSetupStore<Id extends string, SS>(
+export function defineStore<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  // cannot extends ActionsTree because we loose the typings
+  A /* extends ActionsTree */
+>(
+  id: Id,
+  options: Omit<DefineStoreOptions<Id, S, G, A>, 'id'>
+): StoreDefinition<Id, S, G, A>
+
+/**
+ * Creates a `useStore` function that retrieves the store instance
+ *
+ * @param options - options to define the store
+ */
+export function defineStore<
+  Id extends string,
+  S extends StateTree,
+  G extends GettersTree<S>,
+  // cannot extends ActionsTree because we loose the typings
+  A /* extends ActionsTree */
+>(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A>
+
+/**
+ * Creates a `useStore` function that retrieves the store instance
+ *
+ * @param id - id of the store (must be unique)
+ * @param storeSetup - function that defines the store
+ * @param options - extra options
+ */
+export function defineStore<Id extends string, SS>(
   id: Id,
   storeSetup: () => SS,
   options?: DefineSetupStoreOptions<
@@ -673,91 +705,32 @@ export function defineSetupStore<Id extends string, SS>(
   _ExtractStateFromSetupStore<SS>,
   _ExtractGettersFromSetupStore<SS>,
   _ExtractActionsFromSetupStore<SS>
-> {
-  function useStore(
-    pinia?: Pinia | null,
-    hot?: Store
-  ): Store<
-    Id,
-    _ExtractStateFromSetupStore<SS>,
-    _ExtractGettersFromSetupStore<SS>,
-    _ExtractActionsFromSetupStore<SS>
-  > {
-    const currentInstance = getCurrentInstance()
-    pinia =
-      // in test mode, ignore the argument provided as we can always retrieve a
-      // pinia instance with getActivePinia()
-      (__TEST__ && activePinia && activePinia._testing ? null : pinia) ||
-      (currentInstance && inject(piniaSymbol))
-    if (pinia) setActivePinia(pinia)
-    // TODO: worth warning on server if no piniaKey as it can leak data
-    pinia = getActivePinia()
+>
+export function defineStore(idOrOptions: any, setup?: any, setupOptions?: any) {
+  let id: string
+  let options:
+    | DefineStoreOptions<string, StateTree, GettersTree<StateTree>, ActionsTree>
+    | DefineSetupStoreOptions<
+        string,
+        StateTree,
+        GettersTree<StateTree>,
+        ActionsTree
+      >
 
-    if (!pinia._s.has(id)) {
-      pinia._s.set(id, createSetupStore(id, storeSetup, options))
-      if (__DEV__) {
-        // @ts-expect-error: not the right inferred type
-        useStore._pinia = pinia
-      }
-    }
-
-    const store: Store<
-      Id,
-      _ExtractStateFromSetupStore<SS>,
-      _ExtractGettersFromSetupStore<SS>,
-      _ExtractActionsFromSetupStore<SS>
-    > = pinia._s.get(id)! as Store<
-      Id,
-      _ExtractStateFromSetupStore<SS>,
-      _ExtractGettersFromSetupStore<SS>,
-      _ExtractActionsFromSetupStore<SS>
-    >
-
-    if (__DEV__ && hot) {
-      const hotId = '__hot:' + id
-      const newStore = createSetupStore(hotId, storeSetup, options, true)
-      hot.hotUpdate(newStore as any)
-
-      // for state that exists in newStore, try to copy from old state
-
-      // actions
-
-      // cleanup the things
-      delete pinia.state.value[hotId]
-      pinia._s.delete(hotId)
-    }
-
-    // save stores in instances to access them devtools
-    if (__DEV__ && IS_CLIENT && currentInstance && currentInstance.proxy) {
-      const vm = currentInstance.proxy
-      const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
-      // @ts-expect-error: still can't cast Store with generics to Store
-      cache[id] = store
-    }
-
-    return store
+  const isSetupStore = typeof setup === 'function'
+  if (typeof idOrOptions === 'string') {
+    id = idOrOptions
+    options = setupOptions
+  } else {
+    options = idOrOptions
+    id = idOrOptions.id
   }
 
-  useStore.$id = id
+  if (__DEV__) {
+    // TODO: check duplicated ids
+  }
 
-  return useStore
-}
-
-/**
- * Creates a `useStore` function that retrieves the store instance
- *
- * @param options - options to define the store
- */
-export function defineStore<
-  Id extends string,
-  S extends StateTree,
-  G extends GettersTree<S>,
-  // cannot extends ActionsTree because we loose the typings
-  A /* extends ActionsTree */
->(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A> {
-  const { id } = options
-
-  function useStore(pinia?: Pinia | null, hot?: Store) {
+  function useStore(pinia?: Pinia | null, hot?: Store): Store {
     const currentInstance = getCurrentInstance()
     pinia =
       // in test mode, ignore the argument provided as we can always retrieve a
@@ -771,11 +744,9 @@ export function defineStore<
     if (!pinia._s.has(id)) {
       pinia._s.set(
         id,
-        createOptionsStore(
-          // @ts-expect-error: bad actions
-          options,
-          pinia
-        )
+        isSetupStore
+          ? createSetupStore(id, setup, options, pinia)
+          : createOptionsStore(options as any, pinia)
       )
 
       if (__DEV__) {
@@ -784,22 +755,21 @@ export function defineStore<
       }
     }
 
-    const store: Store<Id, S, G, A> = pinia._s.get(id)! as Store<Id, S, G, A>
+    const store: Store = pinia._s.get(id)!
 
     if (__DEV__ && hot) {
       const hotId = '__hot:' + id
-      const newStore = createOptionsStore(
-        assign({}, options, { id: hotId }) as any,
-        pinia,
-        true
-      )
+      const newStore = isSetupStore
+        ? createSetupStore(hotId, setup, options, pinia, true)
+        : createOptionsStore(
+            assign({}, options, { id: hotId }) as any,
+            pinia,
+            true
+          )
+
       hot.hotUpdate(newStore as any)
 
-      // for state that exists in newStore, try to copy from old state
-
-      // actions
-
-      // cleanup the things
+      // cleanup the state properties and the store from the cache
       delete pinia.state.value[hotId]
       pinia._s.delete(hotId)
     }
@@ -810,11 +780,11 @@ export function defineStore<
       IS_CLIENT &&
       currentInstance &&
       currentInstance.proxy &&
+      // avoid adding stores that are just built for hot module replacement
       !hot
     ) {
       const vm = currentInstance.proxy
       const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
-      // @ts-expect-error: still can't cast Store with generics to Store
       cache[id] = store
     }
 

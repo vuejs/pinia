@@ -1,4 +1,4 @@
-import { createPinia, defineSetupStore, defineStore } from '../src'
+import { createPinia, defineStore } from '../src'
 import { mount } from '@vue/test-utils'
 import { App, computed, ref, toRef } from 'vue'
 
@@ -185,7 +185,7 @@ describe('store plugins', () => {
   })
 
   it('passes the options of a setup store', (done) => {
-    const useStore = defineSetupStore('main', () => {
+    const useStore = defineStore('main', () => {
       const n = ref(0)
 
       function increment() {

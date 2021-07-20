@@ -1,15 +1,10 @@
-import {
-  createPinia,
-  defineSetupStore,
-  defineStore,
-  setActivePinia,
-} from '../src'
+import { createPinia, defineStore, setActivePinia } from '../src'
 import { computed, nextTick, ref, watch } from 'vue'
 
 function expectType<T>(value: T): void {}
 
 describe('store with setup syntax', () => {
-  const useStore = defineSetupStore('main', () => {
+  const useStore = defineStore('main', () => {
     const name = ref('Eduardo')
     const counter = ref(0)
     function increment(amount = 1) {
@@ -40,7 +35,7 @@ describe('store with setup syntax', () => {
   })
 
   it('can store a function', () => {
-    const store = defineSetupStore('main', () => {
+    const store = defineStore('main', () => {
       const fn = ref(() => {})
       function action() {}
       return { fn, action }

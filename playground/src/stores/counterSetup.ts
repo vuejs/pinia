@@ -1,9 +1,9 @@
 import { computed, toRefs, reactive } from 'vue'
-import { acceptHMRUpdate, defineSetupStore } from '../../../src'
+import { acceptHMRUpdate, defineStore } from '../../../src'
 
 const delay = (t: number) => new Promise((r) => setTimeout(r, t))
 
-export const useCounter = defineSetupStore('counter-setup', () => {
+export const useCounter = defineStore('counter-setup', () => {
   const state = reactive({
     n: 0,
     incrementedTimes: 0,

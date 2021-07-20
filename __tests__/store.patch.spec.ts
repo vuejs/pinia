@@ -123,7 +123,7 @@ describe('store.$patch', () => {
     // const useStore = (pinia?: Pinia) => {
     //   // create a new store
     //   setActivePinia(pinia || createPinia())
-    //   return defineSetupStore('main', () => {
+    //   return defineStore('main', () => {
     //     const arr = ref([] as any[])
     //     const item = ref({ a: 0, b: 0 } as null | { a: number; b?: number })
 
