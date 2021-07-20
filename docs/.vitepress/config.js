@@ -121,6 +121,7 @@ module.exports = {
     ['script', {}, darkModeFix],
     ...(isProduction ? productionHead : []),
   ],
+
   themeConfig: {
     repo: 'posva/pinia',
     logo: '/logo.svg',
@@ -191,6 +192,10 @@ module.exports = {
             { text: 'Getters', link: '/core-concepts/getters.html' },
             { text: 'Actions', link: '/core-concepts/actions.html' },
             { text: 'Plugins', link: '/core-concepts/plugins.html' },
+            {
+              text: 'Stores outside of components',
+              link: '/core-concepts/outside-component-usage.html',
+            },
           ],
         },
         {
