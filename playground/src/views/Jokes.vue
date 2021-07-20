@@ -14,15 +14,14 @@
       </button>
 
       <div style="min-height: 9rem" v-if="jokes.current">
-
-          <blockquote :key="jokes.current.id">
-            <i>{{ jokes.current.setup }}</i>
-            <br />
-            <br />
-            <p class="appear" @animationend="state = 'ready'">
-              {{ jokes.current.punchline }}
-            </p>
-          </blockquote>
+        <blockquote :key="jokes.current.id">
+          <i>{{ jokes.current.setup }}</i>
+          <br />
+          <br />
+          <p class="appear" @animationend="state = 'ready'">
+            {{ jokes.current.punchline }}
+          </p>
+        </blockquote>
       </div>
     </section>
   </main>
@@ -60,8 +59,8 @@ onMounted(() => {
   console.log('mounted')
   // @ts-expect-error
   window.jo = jokes
-    console.log('new pending')
-    fetchRandomJoke()
+  console.log('new pending')
+  fetchRandomJoke()
 })
 </script>
 
