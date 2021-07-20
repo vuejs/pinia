@@ -11,18 +11,38 @@
     </nav>
   </header>
 
-  <router-view />
+  <section>
+    <router-view />
+  </section>
+
+  <footer>
+    <p>
+      ©2021 Eduardo San Martin Morote
+      <br />
+      <a :href="sourceCodeLink">Source Code</a>
+    </p>
+  </footer>
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
+const route = useRoute()
 
 const pages = router
   .getRoutes()
   .filter((route) => !route.meta.hide)
   .map((route) => ({ name: route.name }))
+
+const sourceCodeLink = computed(() => {
+  if (route.name) {
+    return `https://github.com/posva/pinia/blob/v2/playground/src/views/${route.name}.vue`
+  } else {
+    return `https://github.com/posva/pinia/blob/v2/playground/src/`
+  }
+})
 </script>
 
 <style>

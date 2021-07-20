@@ -6,7 +6,7 @@ export const useCounter = defineStore({
   id: 'counter',
 
   state: () => ({
-    n: 0,
+    n: 2,
     incrementedTimes: 0,
     decrementedTimes: 0,
     numbers: [] as number[],

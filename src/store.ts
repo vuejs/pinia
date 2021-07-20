@@ -380,7 +380,7 @@ function createSetupStore<
         hotState.value[key] = toRef(setupStore as any, key)
         // createOptionStore already did this
       } else if (!buildState) {
-        pinia.state.value[$id][key] = toRef(setupStore as any, key)
+        pinia.state.value[$id][key] = prop
         // TODO: avoid if state exists for SSR
       }
 

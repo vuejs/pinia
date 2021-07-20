@@ -3997,6 +3997,11 @@ makeerror@1.0.x:
   dependencies:
     tmpl "1.0.x"
 
+mande@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/mande/-/mande-1.0.0.tgz#80f1faae62ebe9bebdd37093794d25de39ceafab"
+  integrity sha512-SKNhkHOvXXFOGCgOvqD9EUKDiNZFXvfACfED+Omw7dXTq/NmHJ83QhHte3wOIiQ7bwLh7F/uotJ2djqcN0JgpA==
+
 map-cache@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"
@@ -5446,6 +5451,11 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
+swrv@^1.0.0-beta.8:
+  version "1.0.0-beta.8"
+  resolved "https://registry.yarnpkg.com/swrv/-/swrv-1.0.0-beta.8.tgz#745723f5ca8a7a7e290e911cf7da34cecaf356d3"
+  integrity sha512-MsjaMOvZODfM0cess/HhbSrNbAotYinv4vzipLckKYBo/QmrvjNUPGZSRSqByXy/9AjrMRFWo0YanaVPbqADPQ==
+
 symbol-tree@^3.2.4:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
@@ -5843,10 +5853,17 @@ vitepress@^0.15.6:
     vite "^2.3.7"
     vue "^3.1.1"
 
-vue-demi@*:
+vue-demi@*, vue-demi@latest:
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.11.2.tgz#faa06da53887c493a695b997f4fcb4784a667990"
   integrity sha512-J+X8Au6BhQdcej6LY4O986634hZLu55L0ewU2j8my7WIKlu8cK0dqmdUxqVHHMd/cMrKKZ9SywB/id6aLhwCtA==
+
+vue-promised@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/vue-promised/-/vue-promised-2.1.0.tgz#dd565da4c24f0c974ccafc56def2514d9411b73b"
+  integrity sha512-AEcIeOR0bzSr5E1wq9MOSiX9ERO5zxi6jCOU3269EZbc+z6KXGOHIzPpeU+/SnvhTCXqJx9Nj3ff/KiFtgDfHA==
+  dependencies:
+    vue-demi latest
 
 vue-router@^4.0.10:
   version "4.0.10"
