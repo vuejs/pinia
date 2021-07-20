@@ -2,10 +2,25 @@ import { isRef, isReactive } from 'vue'
 import { Pinia } from './rootStore'
 import { isPlainObject, Store, StoreDefinition, _Method } from './types'
 
+/**
+ * Checks if a function is a `StoreDefinition`
+ *
+ * @param fn - object to test
+ * @returns true if `fn` is a StoreDefinition
+ */
 export const isUseStore = (fn: any): fn is StoreDefinition => {
   return typeof fn === 'function' && typeof fn.$id === 'string'
 }
 
+/**
+ * Mutates in place `newState` with `oldState` to _hot update_ it. It will
+ * remove any key not existing in `newState` and recursively merge plain
+ * objects.
+ *
+ * @param newState - new state object to be patched
+ * @param oldState - old state that should be used to patch newState
+ * @returns - newState
+ */
 export function patchObject(
   newState: Record<string, any>,
   oldState: Record<string, any>
@@ -37,6 +52,20 @@ export function patchObject(
   return newState
 }
 
+/**
+ * Creates an _accept_ function to pass to `import.meta.hot` in Vite applications.
+ *
+ * @example
+ * ```js
+ * const useUser = defineStore(...)
+ * if (import.meta.hot) {
+ *   import.meta.hot.accept(acceptHMRUpdate(useUser, import.meta.hot))
+ * }
+ * ```
+ *
+ * @param initialUseStore - return of the defineStore to hot update
+ * @param hot - `import.meta.hot`
+ */
 export function acceptHMRUpdate(
   initialUseStore: StoreDefinition<string, any, any, any>,
   hot: any
