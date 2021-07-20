@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useJokesSetup } from '../stores/jokes-swrv'
 
 // const jokes = useJokes()
@@ -52,6 +52,13 @@ function fetchRandomJoke() {
     console.log('done fetching', jokes.current)
   })
 }
+
+watch(
+  () => jokes.current,
+  (joke) => {
+    console.log('Got joke', joke)
+  }
+)
 
 onMounted(() => {
   console.log('mounted')
