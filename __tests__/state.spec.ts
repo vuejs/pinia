@@ -117,6 +117,18 @@ describe('State', () => {
     expect(spy).toHaveBeenCalledTimes(1)
   })
 
+  it('state can be watched when a ref is given', async () => {
+    const store = useStore()
+    const spy = jest.fn()
+    watch(() => store.name, spy)
+    expect(spy).not.toHaveBeenCalled()
+    const nameRef = ref('Ed')
+    // @ts-expect-error
+    store.$state.name = nameRef
+    await nextTick()
+    expect(spy).toHaveBeenCalledTimes(1)
+  })
+
   it('can be given a ref', () => {
     const pinia = createPinia()
     const store = useStore(pinia)

@@ -210,8 +210,6 @@ function createSetupStore<
   const setupStore = pinia._e.run(() => {
     scope = effectScope()
     return scope.run(() => {
-      const store = setup()
-
       // skip setting up the watcher on HMR
       if (!__DEV__ || !hot) {
         watch(
@@ -232,7 +230,7 @@ function createSetupStore<
         )!
       }
 
-      return store
+      return setup()
     })
   })!
 
@@ -365,8 +363,7 @@ function createSetupStore<
     }
   }
 
-  // TODO: PURE to tree shake?
-  const _hmrPayload = markRaw({
+  const _hmrPayload = /*#__PURE__*/ markRaw({
     actions: {} as Record<string, any>,
     getters: {} as Record<string, Ref>,
     state: [] as string[],
@@ -423,6 +420,7 @@ function createSetupStore<
 
   const partialStore = {
     _p: pinia,
+    // _s: scope,
     $id,
     $onAction,
     $patch,
@@ -724,10 +722,6 @@ export function defineStore(idOrOptions: any, setup?: any, setupOptions?: any) {
   } else {
     options = idOrOptions
     id = idOrOptions.id
-  }
-
-  if (__DEV__) {
-    // TODO: check duplicated ids
   }
 
   function useStore(pinia?: Pinia | null, hot?: Store): Store {
