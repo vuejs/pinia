@@ -1,4 +1,5 @@
 const fs = require('fs')
+const globby = require('globby')
 const path = require('path')
 const chalk = require('chalk')
 const { gzipSync } = require('zlib')
@@ -21,4 +22,8 @@ function checkFileSize(filePath) {
   )
 }
 
-checkFileSize(path.resolve(__dirname, '../size-checks/dist/small.js'))
+const paths = globby.sync(path.resolve(__dirname, '../size-checks/dist/*.js'))
+
+for (const file of paths) {
+  checkFileSize(file)
+}
