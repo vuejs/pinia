@@ -189,7 +189,7 @@ function createSetupStore<
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
 
-  if (!initialState && !hot) {
+  if (!initialState && __DEV__ && !hot) {
     // should be set in Vue 2
     pinia.state.value[$id] = {}
   }
