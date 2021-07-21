@@ -73,8 +73,10 @@ function innerPatch<T extends StateTree>(
 
 const { assign } = Object
 
+function isComputed<T>(value: ComputedRef<T> | unknown): value is ComputedRef<T>
 function isComputed(o: any): o is ComputedRef {
-  return o && o.effect && o.effect.computed
+  // FIXME: should be different in next beta
+  return o && o.effect
 }
 
 function createOptionsStore<
@@ -141,7 +143,7 @@ function createSetupStore<
   Id extends string,
   SS,
   S extends StateTree,
-  G extends ActionsTree, // TODO: naming
+  G extends Record<string, _Method>,
   A extends ActionsTree
 >(
   $id: Id,
