@@ -46,6 +46,7 @@ import {
 } from './rootStore'
 import { IS_CLIENT } from './env'
 import { patchObject } from './hmr'
+import { addSubscription, triggerSubscriptions } from './subscriptions'
 
 function innerPatch<T extends StateTree>(
   target: T,
@@ -198,12 +199,6 @@ function createSetupStore<
 
   const hotState = ref({} as S)
 
-  const triggerSubscriptions: SubscriptionCallback<S> = (mutation, state) => {
-    subscriptions.forEach((callback) => {
-      callback(mutation, state)
-    })
-  }
-
   if (__DEV__ && !pinia._e.active) {
     throw new Error('Pinia destroyed')
   }
@@ -219,6 +214,7 @@ function createSetupStore<
           (state, oldState) => {
             if (isListening) {
               triggerSubscriptions(
+                subscriptions,
                 {
                   storeId: $id,
                   type: MutationType.direct,
@@ -269,47 +265,10 @@ function createSetupStore<
     isListening = true
     // because we paused the watcher, we need to manually call the subscriptions
     triggerSubscriptions(
+      subscriptions,
       subscriptionMutation,
       pinia.state.value[$id] as UnwrapRef<S>
     )
-  }
-
-  // TODO: refactor duplicated code for subscriptions
-  function $subscribe(callback: SubscriptionCallback<S>, detached?: boolean) {
-    subscriptions.push(callback)
-
-    const removeSubscription = () => {
-      const idx = subscriptions.indexOf(callback)
-      if (idx > -1) {
-        subscriptions.splice(idx, 1)
-      }
-    }
-
-    if (!detached && getCurrentInstance()) {
-      onUnmounted(removeSubscription)
-    }
-
-    return removeSubscription
-  }
-
-  function $onAction(
-    callback: StoreOnActionListener<Id, S, G, A>,
-    detached?: boolean
-  ) {
-    actionSubscriptions.push(callback)
-
-    const removeSubscription = () => {
-      const idx = actionSubscriptions.indexOf(callback)
-      if (idx > -1) {
-        actionSubscriptions.splice(idx, 1)
-      }
-    }
-
-    if (!detached && getCurrentInstance()) {
-      onUnmounted(removeSubscription)
-    }
-
-    return removeSubscription
   }
 
   const $reset = __DEV__
@@ -341,15 +300,13 @@ function createSetupStore<
         onErrorCallback = callback
       }
 
-      actionSubscriptions.forEach((callback) => {
-        // @ts-expect-error
-        callback({
-          args,
-          name,
-          store,
-          after,
-          onError,
-        })
+      // @ts-expect-error
+      triggerSubscriptions(actionSubscriptions, {
+        args,
+        name,
+        store,
+        after,
+        onError,
       })
 
       let ret: any
@@ -441,10 +398,10 @@ function createSetupStore<
     _p: pinia,
     // _s: scope,
     $id,
-    $onAction,
+    $onAction: addSubscription.bind(null, actionSubscriptions),
     $patch,
     $reset,
-    $subscribe,
+    $subscribe: addSubscription.bind(null, subscriptions),
   }
 
   const store: Store<Id, S, G, A> = reactive(
