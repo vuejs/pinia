@@ -10,6 +10,29 @@
       href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1/new.min.css"
     />
     <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css" />
+    <style>
+      @keyframes spinner {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .spinner:before {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 30px;
+        height: 30px;
+        margin-top: -15px;
+        margin-left: -15px;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        border-top-color: #07d;
+        animation: spinner 0.6s linear infinite;
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>

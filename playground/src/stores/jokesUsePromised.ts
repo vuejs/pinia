@@ -1,5 +1,5 @@
 import { acceptHMRUpdate, defineStore } from '../../../src'
-import { getRandomJoke, Joke } from '../views/api/jokes'
+import { getRandomJoke, Joke } from '../api/jokes'
 import { usePromise } from 'vue-promised'
 import { ref, watch } from 'vue'
 

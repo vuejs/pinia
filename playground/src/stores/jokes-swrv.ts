@@ -1,6 +1,6 @@
 import { ref, toRaw, unref, watch } from 'vue'
 import { acceptHMRUpdate, defineStore } from '../../../src'
-import { getRandomJoke, Joke } from '../views/api/jokes'
+import { getRandomJoke, Joke } from '../api/jokes'
 import useSWRV from 'swrv'
 
 export const useJokesSetup = defineStore('jokes-swrv-setup', () => {

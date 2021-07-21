@@ -1,6 +1,6 @@
 import { ref, unref } from 'vue'
 import { acceptHMRUpdate, defineStore } from '../../../src'
-import { getRandomJoke, Joke } from '../views/api/jokes'
+import { getRandomJoke, Joke } from '../api/jokes'
 
 export const useJokes = defineStore('jokes', {
   state: () => ({
