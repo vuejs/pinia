@@ -310,7 +310,7 @@ function createSetupStore<
 
       let ret: any
       try {
-        ret = action.apply(this || store, args)
+        ret = action.apply(this && this.$id === $id ? this : store, args)
         // handle sync errors
       } catch (error) {
         if (onErrorCallback(error) !== false) {

@@ -25,6 +25,11 @@ describe('Actions', () => {
         async getNonA() {
           return this.nonA
         },
+        simple() {
+          this.toggle()
+          return 'simple'
+        },
+
         toggle() {
           return (this.a = !this.a)
         },
@@ -210,5 +215,24 @@ describe('Actions', () => {
       })
     })
     await expect(store.getNonA()).resolves.toBe('hello')
+  })
+
+  it('can destructure actions', () => {
+    const store = useStore()
+    const { simple } = store
+    expect(simple()).toBe('simple')
+    // works with the wrong this
+    expect({ simple }.simple()).toBe('simple')
+    // special this check
+    expect({ $id: 'o', simple }.simple()).toBe('simple')
+    // override the function like devtools do
+    expect(
+      {
+        $id: store.$id,
+        simple,
+        // otherwise it would faial
+        toggle() {},
+      }.simple()
+    ).toBe('simple')
   })
 })
