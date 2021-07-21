@@ -353,7 +353,7 @@ function createSetupStore<
       let ret: any
       try {
         ret = action.apply(this || store, args)
-        // Promise.resolve(ret).then(afterCallback).catch(onErrorCallback)
+        // handle sync errors
       } catch (error) {
         if (onErrorCallback(error) !== false) {
           throw error
@@ -374,8 +374,8 @@ function createSetupStore<
           })
       }
 
+      // allow the afterCallback to override the return value
       const newRet = afterCallback(ret)
-
       return newRet === undefined ? ret : newRet
     }
   }
