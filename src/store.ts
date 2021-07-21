@@ -12,7 +12,6 @@ import {
   isReactive,
   effectScope,
   EffectScope,
-  onUnmounted,
   ComputedRef,
   toRef,
   toRefs,
