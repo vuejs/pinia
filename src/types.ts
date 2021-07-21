@@ -183,19 +183,24 @@ export type StoreOnActionListenerContext<
     args: A[Name] extends _Method ? Parameters<A[Name]> : unknown[]
 
     /**
-     * Sets up a hook once the action is finished. It receives the return value of
-     * the action, if it's a Promise, it will be unwrapped.
+     * Sets up a hook once the action is finished. It receives the return value
+     * of the action, if it's a Promise, it will be unwrapped. Can return a
+     * value (other than `undefined`) to **override** the returned value.
      */
     after: (
       callback: A[Name] extends _Method
-        ? (resolvedReturn: UnwrapPromise<ReturnType<A[Name]>>) => void
+        ? (
+            resolvedReturn: UnwrapPromise<ReturnType<A[Name]>>
+            // allow the after callback to override the return value
+          ) => void | ReturnType<A[Name]> | UnwrapPromise<ReturnType<A[Name]>>
         : () => void
     ) => void
 
     /**
-     * Sets up a hook if the action fails.
+     * Sets up a hook if the action fails. Return `false` to catch the error and
+     * stop it fro propagating.
      */
-    onError: (callback: (error: unknown) => void) => void
+    onError: (callback: (error: unknown) => unknown | false) => void
   }
 }[keyof A]
 
