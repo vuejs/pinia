@@ -261,7 +261,7 @@ export interface StoreWithState<
    *
    * @internal
    */
-  hotUpdate(useStore: Store<Id, S, G, A>): void
+  _hotUpdate(useStore: Store<Id, S, G, A>): void
 
   /**
    * Payload of the hmr update. Dev only.

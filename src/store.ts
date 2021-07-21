@@ -432,7 +432,7 @@ function createSetupStore<
 
   // add the hotUpdate before plugins to allow them to override it
   if (__DEV__) {
-    store.hotUpdate = markRaw((newStore) => {
+    store._hotUpdate = markRaw((newStore) => {
       newStore._hmrPayload.state.forEach((stateKey) => {
         if (stateKey in store.$state) {
           // @ts-expect-error
@@ -736,7 +736,7 @@ export function defineStore(idOrOptions: any, setup?: any, setupOptions?: any) {
             true
           )
 
-      hot.hotUpdate(newStore as any)
+      hot._hotUpdate(newStore as any)
 
       // cleanup the state properties and the store from the cache
       delete pinia.state.value[hotId]
