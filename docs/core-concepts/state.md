@@ -5,8 +5,7 @@ The state is, most of the time, the central part of your store. People often sta
 ```js
 import { defineStore } from 'pinia'
 
-const useStore = defineStore({
-  id: 'storeId',
+const useStore = defineStore('storeId', {
   // can also be defined with an arrow function if you prefer that syntax
   state() {
     return {
@@ -167,7 +166,7 @@ Note that depending on when you create the watcher, `pinia.state.value.cart` mig
 ```ts
 import { defineStore } from 'pinia'
 
-const useCartStore = defineStore({
+const useCartStore = defineStore('cart', {
   // ...
 })
 

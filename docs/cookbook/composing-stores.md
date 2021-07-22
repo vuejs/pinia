@@ -11,8 +11,7 @@ You can call `useOtherStore()` at the top of any getter an action:
 ```js
 import { useUserStore } from './user'
 
-export const cartStore = defineStore({
-  id: 'cart',
+export const cartStore = defineStore('cart', {
   getters: {
     // ... other getters
     summary(state) {
@@ -42,8 +41,7 @@ import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { useCartStore } from './cart'
 
-export const useSharedStore = defineStore({
-  id: 'shared',
+export const useSharedStore = defineStore('shared', {
   getters: {
     summary() {
       const user = useUserStore()
@@ -64,8 +62,7 @@ import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { useCartStore } from './cart'
 
-export const useSharedStore = defineStore({
-  id: 'shared',
+export const useSharedStore = defineStore('shared', {
   actions: {
     async orderCart() {
       const user = useUserStore()

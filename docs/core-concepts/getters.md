@@ -3,8 +3,7 @@
 Getters are exactly the equivalent of [computed values](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values) for the state of a Store. They can be defined with the `getters` property in `defineStore()`. They receive the `state` as the first parameter **to encourage** the usage of arrow function:
 
 ```js
-export const useStore = defineStore({
-  id: 'main',
+export const useStore = defineStore('main', {
   state: () => ({
     counter: 0,
   }),
@@ -17,8 +16,7 @@ export const useStore = defineStore({
 Most of the time, getters will only rely on the state, however, they might need to use other getters. Because of this, we can get access to the _whole store instance_ through `this` when defining a regular function **but it is necessary to define the type of the return type (in TypeScript)**. This is due to a known limitation in TypeScript and **doesn't affect getters defined with an arrow function nor getters not using `this`**:
 
 ```ts
-export const useStore = defineStore({
-  id: 'main',
+export const useStore = defineStore('main', {
   state: () => ({
     counter: 0,
   }),
@@ -59,8 +57,7 @@ export default {
 As with computed properties, you can combine multiple getters. Access any other getter via `this`. Even if you are not using TypeScript, you can hint your IDE for types with the [JSDoc](https://jsdoc.app/tags-returns.html):
 
 ```js
-export const useStore = defineStore({
-  id: 'main',
+export const useStore = defineStore('main', {
   state: () => ({
     counter: 0,
   }),
@@ -89,8 +86,7 @@ To use another store getters, you can directly _use it_ inside of the _action_:
 ```js
 import { useOtherStore } from './other-store'
 
-export const useStore = defineStore({
-  id: 'main',
+export const useStore = defineStore('main', {
   state: () => ({
     // ...
   }),

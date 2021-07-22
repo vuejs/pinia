@@ -10,8 +10,7 @@ You start by creating a store:
 // stores/counter.js
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore({
-  id: 'counter',
+export const useCounterStore = defineStore('counter', {
   state() {
     return { count: 0 }
   },
@@ -39,8 +38,7 @@ export default {
 If you are still not into `setup()` and Composition API, don't worry, Pinia also support a similar set of [_map helpers_ like Vuex](https://vuex.vuejs.org/guide/state.html#the-mapstate-helper). You define stores the same way but then use `mapStores()`, `mapState()`, or `mapActions()`:
 
 ```js
-const useCounterStore = defineStore({
-  id: 'counter',
+const useCounterStore = defineStore('counter', {
   state: () => ({ count: 0 }),
   getters: {
     double: (state) => state.count * 2,
@@ -52,7 +50,9 @@ const useCounterStore = defineStore({
   }
 })
 
-const useUserStore = defineStore({ id: 'user' })
+const useUserStore = defineStore('user', {
+  // ...
+})
 
 export default {
   computed: {
@@ -83,8 +83,7 @@ Here is a more complete example of the API you will be using with Pinia **with t
 ```js
 import { defineStore } from 'pinia'
 
-export const todos = defineStore({
-  id: 'todos',
+export const todos = defineStore('todos', {
   state: () => ({
     /** @type {{ text: string, id: number, isFinished: boolean }[]} */
     todos: [],

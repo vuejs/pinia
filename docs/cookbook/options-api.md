@@ -16,8 +16,12 @@ If you need to access pretty much everything from the store, it might be too muc
 import { mapStores } from 'pinia'
 
 // given two stores with the following ids
-const useUserStore = defineStore({ id: 'user' })
-const useCartStore = defineStore({ id: 'cart' })
+const useUserStore = defineStore('user', {
+  // ...
+})
+const useCartStore = defineStore('cart', {
+  // ...
+})
 
 export default {
   computed: {

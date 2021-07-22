@@ -192,9 +192,7 @@ The same is true for `store.$onAction()`.
 It is possible to create new options when defining stores to later on consume them from plugins. For example, you could create a `debounce` option that allows you to debounce any action:
 
 ```js
-defineStore({
-  id: 'search',
-  // ...
+defineStore('search', {
   actions: {
     searchContacts() {
       // ...

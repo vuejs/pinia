@@ -3,8 +3,7 @@
 Actions are the equivalent of [methods](https://v3.vuejs.org/guide/data-methods.html#methods) in components. They can be defined with the `actions` property in `defineStore()` and **they are perfect to define business logic**:
 
 ```js
-export const useStore = defineStore({
-  id: 'main',
+export const useStore = defineStore('main', {
   state: () => ({
     counter: 0,
   }),
@@ -26,8 +25,7 @@ import { mande } from 'mande'
 
 const api = mande('/api/users')
 
-export const useUsers = defineStore({
-  id: 'users',
+export const useUsers = defineStore('users', {
   state: () => ({
     data: userData,
     // ...
@@ -71,8 +69,7 @@ To use another store, you can directly _use it_ inside of the _action_:
 ```js
 import { useAuthStore } from './auth-store'
 
-export const useSettingsStore = defineStore({
-  id: 'settings',
+export const useSettingsStore = defineStore('settings', {
   state: () => ({
     // ...
   }),

@@ -45,9 +45,7 @@ export default {
 You can also use [the context](https://nuxtjs.org/docs/2.x/internals-glossary/context) in any store by using the injected property `$nuxt`:
 
 ```js
-defineStore({
-  id: 'cart',
-
+defineStore('cart', {
   actions: {
     purchase() {
       const user = useUserStore()

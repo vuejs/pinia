@@ -130,10 +130,9 @@ You can create as many stores as you want, and they should each exist in differe
 ```ts
 import { defineStore } from 'pinia'
 
-export const useMainStore = defineStore({
-  // name of the store
-  // it is used in devtools and allows restoring state
-  id: 'main',
+// main is the name of the store. It is unique across your application
+// and will appear in devtools
+export const useMainStore = defineStore('main', {
   // a function that returns a fresh state
   state: () => ({
     counter: 0,
