@@ -26,10 +26,9 @@ export const useNasaStore = defineStore('nasa-pod-swrv', () => {
     () => `nasa-pod-${currentDate.value}`,
     () => getNASAPOD(currentDate.value),
     {
-      refreshInterval: 0,
-      ttl: 0,
+      // refreshInterval: 0,
+      // ttl: 0,
       revalidateOnFocus: false,
-      cache: new LocalStorageCache(),
     }
   )
 

@@ -426,10 +426,10 @@ export function devtoolsPlugin<
       Object.keys(options.actions)
     )
 
-    const originalHotUpdate = store.hotUpdate
+    const originalHotUpdate = store._hotUpdate
 
     // Upgrade the HMR to also update the new actions
-    toRaw(store).hotUpdate = function (newStore) {
+    toRaw(store)._hotUpdate = function (newStore) {
       originalHotUpdate.apply(this, arguments as any)
       patchActionForGrouping(
         // @ts-expect-error: can cast the store...
