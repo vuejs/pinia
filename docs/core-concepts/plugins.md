@@ -30,7 +30,7 @@ const store = useStore()
 store.secret // 'the cake is a lie'
 ```
 
-This is useful to add global objects like the router, modals, or toasts.
+This is useful to add global objects like the router, modal, or toast managers.
 
 ## Introduction
 
@@ -52,7 +52,7 @@ This function is then passed to `pinia` with `pinia.use()`:
 pinia.use(myPiniaPlugin)
 ```
 
-It will get executed **every time `useStore()`** is called to be able to extend them. This is a limitation of the current implementation until [the effectScope RFC](https://github.com/vuejs/rfcs/pull/212) is merged.
+Plugins are only applied to stores **created after `pinia` is passed to the app**, otherwise they won't be applied.
 
 ## Augmenting a Store
 
@@ -67,6 +67,19 @@ You can also set the property directly on the `store` but **if possible use the 
 ```js
 pinia.use(({ store }) => {
   store.hello = 'world'
+})
+```
+
+Any property _returned_ by a plugin will be automatically tracked by devtools so in order to make `hello` visible in devtools, make sure to add it to `store._customProperties` **in dev mode only** if you want to debug it in devtools:
+
+```js
+// from the example above
+pinia.use(({ store }) => {
+  store.hello = 'world'
+  // make sure your bundler handle this. webpack and vite should do it by default
+  if (process.env.NODE_ENV === 'development') {
+    store._customProperties.add('secret')
+  }
 })
 ```
 
@@ -106,35 +119,19 @@ pinia.use(({ store }) => {
   // it gets automatically unwrapped
   store.secret // 'secret'
 
-  // we need to check if the state has been added yet because of
-  // the limitation mentioned during the introduction
-  if (!store.$state.hasOwnProperty('hasError')) {
-    // Each store has its own `hasError`
-    store.$state.hasError = ref(false)
-  }
+  const hasError = ref(false)
+  store.$state.hasError = hasError
   // this one must always be set
   store.hasError = toRef(store.$state, 'hasError')
-})
-```
 
-**Note**: If you are using Vue 2, make sure to use `set` (from `@vue/composition-api`) or `Vue.set` as mentioned in the [State page](./state.md#state) when creating new properties like `secret` and `hasError` in the example above.
-
-Any property _returned_ by a plugin will be automatically tracked by devtools so in order to make `hasError` visible in devtools, make sure to add it to `store._customProperties` **in dev mode only** if you want to debug it in devtools:
-
-```js
-// from the example above
-pinia.use(({ store }) => {
-  store.$state.secret = globalSecret
-  store.secret = globalSecret
-  // make sure your bundler handle this. webpack and vite should do it by default
-  if (process.env.NODE_ENV === 'development') {
-    store._customProperties.add('secret')
-  }
+  // in this case it's better not to return `hasError` since it
+  // will be displayed in the `state` section in the devtools
+  // anyway and if we return it, devtools will display it twice.
 })
 ```
 
 :::warning
-If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats) as Vue. You will need to use `set` from `@vue/composition-api`:
+If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats) as Vue. You will need to use `set` from `@vue/composition-api` when creating new state properties like `secret` and `hasError`:
 
 ```js
 import { set } from '@vue/composition-api'
@@ -144,11 +141,11 @@ pinia.use(({ store }) => {
     // If the data is meant to be used during SSR, you should
     // set it on the `$state` property so it is serialized and
     // picked up during hydration
-    set(store.$state, 'hello', secretRef)
+    set(store.$state, 'secret', secretRef)
     // set it directly on the store too so you can access it
-    // both ways: `store.$state.hello` / `store.hello`
-    set(store, 'hello', secretRef)
-    store.hello // 'secret'
+    // both ways: `store.$state.secret` / `store.secret`
+    set(store, 'secret', secretRef)
+    store.secret // 'secret'
   }
 })
 ```
@@ -171,21 +168,18 @@ pinia.use(({ store }) => {
 
 ## Calling `$subscribe` inside plugins
 
-Because of the limitation mentioned above about plugins being invoked **every time `useStore()` is called**, it's important to avoid _subscribing_ multiple times by keeping track of the registered subscriptions:
+You can use [store.$subscribe](./state.md#subscribing-to-the-state) and [store.$onAction](./actions.md#subscribing-to-actions) inside plugins too:
 
 ```ts
-let isRegistered
 pinia.use(({ store }) => {
-  if (!isRegistered) {
-    store.$subscribe(() => {
-      // react to store changes
-    })
-    isRegistered = true
-  }
+  store.$subscribe(() => {
+    // react to store changes
+  })
+  store.$onAction(() => {
+    // react to store actions
+  })
 })
 ```
-
-The same is true for `store.$onAction()`.
 
 ## Adding new options
 
@@ -215,6 +209,7 @@ import debounce from 'lodash/debunce'
 
 pinia.use(({ options, store }) => {
   if (options.debounce) {
+    // we are overriding the actions with new ones
     return Object.keys(options.debounce).reduce((debouncedActions, action) => {
       debouncedActions[action] = debounce(
         store[action],
@@ -227,6 +222,8 @@ pinia.use(({ options, store }) => {
 ```
 
 ## TypeScript
+
+Everything shown above can be done with typing support, so you don't ever need to use `any` or `@ts-ignore`.
 
 ### Typing plugins
 
@@ -249,7 +246,12 @@ import 'pinia'
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
-    hello: string
+    // by using a setter we can allow both strings and refs
+    set hello(value: string | Ref<string>)
+    get hello(): string
+
+    // you can define simpler values too
+    simpleNumber: number
   }
 }
 ```
@@ -259,8 +261,11 @@ It can then be written and read safely:
 ```ts
 pinia.use(({ store }) => {
   store.hello = 'Hola'
-  // @ts-expect-error: this will still add a string because refs get unwrapped
   store.hello = ref('Hola')
+
+  store.number = Math.random()
+  // @ts-expect-error: we haven't typed this correctly
+  store.number = ref(Math.random())
 })
 ```
 

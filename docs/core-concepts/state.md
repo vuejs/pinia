@@ -133,9 +133,41 @@ You can also replace the whole state of your application by changing the `state`
 pinia.state.value = {}
 ```
 
-## Watching the state
+## Subscribing to the state
 
-You can watch the state, similar to Vuex's [subscribe method](https://vuex.vuejs.org/api/#subscribe) by simply watching it (since it's a reactive source). Keep in mind a watcher is cleared up when the wrapping component is unmounted so you should add the watcher in your App component or outside of it if you want it to run forever.
+You can watch the state and its changes through the `$subscribe()` method of a store, similar to Vuex's [subscribe method](https://vuex.vuejs.org/api/#subscribe). The advantage of using `$subscribe()` over a regular `watch()` is that _subscriptions_ will trigger only once after _patches_ (e.g. when using the function version from above).
+
+```js
+cartStore.$subscribe((mutation, state) => {
+  // import { MutationType } from 'pinia'
+  mutation.type // 'direct' | 'patch object' | 'patch function'
+  // same as cartStore.$id
+  mutation.storeId // 'cart'
+  // only available with mutation.type === 'patch object'
+  mutation.payload // patch object passed to cartStore.$patch()
+
+  // persist the whole state to the local storage whenever it changes
+  localStorage.setItem('cart', JSON.stringify(state))
+})
+```
+
+By default, _state subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you want to keep them after the component is unmounted, pass `true` as the second argument to _detach_ the _state subscription_ from the current component:
+
+```js
+export default {
+  setup() {
+    const someStore = useSomeStore()
+
+    // this subscription will be kept after the component is unmounted
+    someStore.$subscribe(callback, true)
+
+    // ...
+  },
+}
+```
+
+:::tip
+You can watch the whole state on the `pinia` instance:
 
 ```js
 watch(
@@ -148,44 +180,4 @@ watch(
 )
 ```
 
-You can also observe a specific store state instead of all of them by passing a function. Here is an example to watch a store with the id `cart`:
-
-```js
-watch(
-  () => pinia.state.value.cart,
-  (cartState) => {
-    // persist the whole state to the local storage whenever it changes
-    localStorage.setItem('cart', JSON.stringify(cartState))
-  },
-  { deep: true }
-)
-```
-
-Note that depending on when you create the watcher, `pinia.state.value.cart` might be `undefined`. You can also watch a store's `$state` property (this will also make typing work):
-
-```ts
-import { defineStore } from 'pinia'
-
-const useCartStore = defineStore('cart', {
-  // ...
-})
-
-const cartStore = useCartStore()
-
-// watch the whole state of the cart
-watch(
-  () => cartStore.$state,
-  () => {
-    // do something
-  },
-  { deep: true }
-)
-
-// you can also watch a getter
-watch(
-  () => cartStore.totalAmount,
-  () => {
-    // do something
-  }
-)
-```
+:::

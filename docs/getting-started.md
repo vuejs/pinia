@@ -12,7 +12,7 @@ npm install pinia@next
 `pinia@next` install Pinia v2 for Vue 3. If your app is using Vue 2, you need to install Pinia v1: `pinia@latest` **and** `@vue/composition-api`. If you are using Nuxt, you should follow [these instructions](/ssr/nuxt).
 :::
 
-Create a pinia (the root store) and pass it to app:
+Create a pinia (the root store) and pass it to the app:
 
 ```js
 import { createPinia } from 'pinia'
@@ -38,7 +38,7 @@ new Vue({
 })
 ```
 
-This will also add devtools support. In Vue 3, some features like time traveling and editing are still not supported because vue-devtools doesn't expose the necessary APIs yet. In Vue 2, Pinia uses the existing interface for Vuex (and can therefore not be used alongside it).
+This will also add devtools support. In Vue 3, some features like time traveling and editing are still not supported because vue-devtools doesn't expose the necessary APIs yet but the devtools have way more features are the developer experience as a whole is far superior. In Vue 2, Pinia uses the existing interface for Vuex (and can therefore not be used alongside it).
 
 ## What is a Store?
 

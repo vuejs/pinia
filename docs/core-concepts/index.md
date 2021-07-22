@@ -1,6 +1,6 @@
 # Defining a Store
 
-Before diving into core concepts, we need to know that a store is defined using `defineStore()` and that it requires an `id` property, **unique** across all of your stores:
+Before diving into core concepts, we need to know that a store is defined using `defineStore()` and that it requires an **unique** name, passed as the first argument:
 
 ```js
 import { defineStore } from 'pinia'
@@ -12,7 +12,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-The `id` is necessary and is used by `pinia` to connect the store to the devtools. Naming the returned function _use..._ is a convention across composables to make its usage idiomatic.
+This _name_, also referred as _id_, is necessary and is used by Pinia to connect the store to the devtools. Naming the returned function _use..._ is a convention across composables to make its usage idiomatic.
 
 ## Using the store
 

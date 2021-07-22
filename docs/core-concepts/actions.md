@@ -118,11 +118,11 @@ export default {
 }
 ```
 
-## Watching actions
+## Subscribing to actions
 
 > [Give feedback about `$onAction()`](https://github.com/posva/pinia/issues/240)
 
-It is possible to observe actions and their outcome with `store.$onAction()`. This
+It is possible to observe actions and their outcome with `store.$onAction()`. The callback passed to it is executed before the action itself. `after` handle promises and allows you to change the returned value of the action. `onError` allows you to stop the error from propagating. These are useful for tracking errors at runtime, similar to [what is explaining in Vue docs](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors).
 
 Here is an example that logs before running actions and after they resolve/reject.
 
@@ -163,4 +163,17 @@ const unsubscribe = someStore.$onAction(
 unsubscribe()
 ```
 
-By default, action listeners are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted.
+By default, _action subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you want to keep them after the component is unmounted, pass `true` as the second argument to _detach_ the _action subscription_ from the current component:
+
+```js
+export default {
+  setup() {
+    const someStore = useSomeStore()
+
+    // this subscription will be kept after the component is unmounted
+    someStore.$onAction(callback, true)
+
+    // ...
+  },
+}
+```
