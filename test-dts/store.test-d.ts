@@ -36,6 +36,22 @@ const useStore = defineStore({
   },
 })
 
+defineStore('name', {
+  // @ts-expect-error: id is passed as the first argument
+  id: 'name',
+})
+defineStore('name', {})
+// @ts-expect-error
+defineStore('name')
+defineStore('name', {
+  state: () => ({}),
+})
+const useSetupStore = defineStore('name', () => {})
+
+const setupStore = useSetupStore()
+expectType<{}>(setupStore.$state)
+expectType<'name'>(setupStore.$id)
+
 // actions on not existing properties
 defineStore({
   id: '',
