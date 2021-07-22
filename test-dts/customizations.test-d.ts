@@ -5,7 +5,7 @@ import {
   mapStores,
   ActionsTree,
 } from './'
-import { App } from 'vue'
+import { App, ref, Ref } from 'vue'
 
 declare module '../dist/pinia' {
   export interface MapStoresCustomization {
@@ -15,6 +15,9 @@ declare module '../dist/pinia' {
   export interface PiniaCustomProperties<Id, S, G, A> {
     $actions: Array<keyof A>
     myState: number
+
+    set canBeARef(value: number | Ref<number>)
+    get canBeARef(): number
   }
 
   export interface PiniaCustomStateProperties<S> {
@@ -39,6 +42,13 @@ pinia.use((context) => {
 
   expectType<number>(context.store.$state.myState)
   expectType<number>(context.store.myState)
+
+  expectType<number>(context.store.canBeARef)
+  // it can be set to both a ref and a number
+  context.store.canBeARef = ref(2)
+  context.store.canBeARef = 3
+  // @ts-expect-error
+  context.store.canBeARef = 'eou'
 
   return {
     $actions: Object.keys(context.options.actions || {}),
