@@ -159,6 +159,7 @@ export type SubscriptionCallback<S> = (
 
 /**
  * Context object passed to callbacks of `store.$onAction(context => {})`
+ * TODO: should have only the Id, the Store and Actions to generate the proper object
  */
 export type StoreOnActionListenerContext<
   Id extends string,
@@ -223,24 +224,13 @@ export type StoreOnActionListener<
 ) => void
 
 /**
- * Base store with state and functions
- * @internal
+ * Properties of a store.
  */
-export interface StoreWithState<
-  Id extends string,
-  S extends StateTree,
-  G /* extends GettersTree<StateTree> */,
-  A /* extends ActionsTree */
-> {
+export interface StoreProperties<Id extends string> {
   /**
    * Unique identifier of the store
    */
   $id: Id
-
-  /**
-   * State of the Store. Setting it will replace the whole state.
-   */
-  $state: UnwrapRef<S> & PiniaCustomStateProperties<S>
 
   /**
    * Private property defining the pinia the store is attached to.
@@ -279,10 +269,26 @@ export interface StoreWithState<
    */
   _hmrPayload: {
     state: string[]
-    hotState: Ref<S>
+    hotState: Ref<StateTree>
     actions: ActionsTree
     getters: ActionsTree
   }
+}
+
+/**
+ * Base store with state and functions
+ * @internal
+ */
+export interface StoreWithState<
+  Id extends string,
+  S extends StateTree,
+  G /* extends GettersTree<StateTree> */,
+  A /* extends ActionsTree */
+> extends StoreProperties<Id> {
+  /**
+   * State of the Store. Setting it will replace the whole state.
+   */
+  $state: UnwrapRef<S> & PiniaCustomStateProperties<S>
 
   /**
    * Applies a state patch to current state. Allows passing nested values
@@ -305,6 +311,7 @@ export interface StoreWithState<
 
   /**
    * Resets the store to its initial state by building a new state object.
+   * TODO: make this options only
    */
   $reset(): void
 
@@ -410,7 +417,7 @@ export type Store<
   UnwrapRef<S> &
   StoreWithGetters<G> &
   // StoreWithActions<A> &
-  (ActionsTree extends A ? {} : StoreWithActions<A>) &
+  (ActionsTree extends A ? {} : A) &
   PiniaCustomProperties<Id, S, G, A> &
   PiniaCustomStateProperties<S>
 /**
@@ -440,7 +447,7 @@ export type GenericStore<
 > = StoreWithState<Id, S, G, A> &
   UnwrapRef<S> &
   StoreWithGetters<G> &
-  StoreWithActions<A> &
+  A &
   PiniaCustomProperties<Id, S, G, A> &
   PiniaCustomStateProperties<S>
 
@@ -513,15 +520,31 @@ export type GettersTree<S extends StateTree> = Record<
 export type ActionsTree = Record<string, _Method>
 
 /**
- * Options parameter of `defineStore()`. Can be extended to augment stores with
- * the plugin API.
+ * Options passed to `defineStore()` that are common between option and setup
+ * stores. Extend this interface if you want to add custom options to both kinds
+ * of stores.
+ */
+export interface DefineStoreOptionsBase<S extends StateTree, Store> {
+  /**
+   * Allows hydrating the store during SSR when there is an available state in
+   * pinia.state.
+   *
+   * @param store - the store
+   * @param initialState - initialState
+   */
+  hydrate?(store: Store, initialState: UnwrapRef<S>): void
+}
+
+/**
+ * Options parameter of `defineStore()` for option stores. Can be extended to
+ * augment stores with the plugin API. {@see DefineStoreOptionsBase}.
  */
 export interface DefineStoreOptions<
   Id extends string,
   S extends StateTree,
   G /* extends GettersTree<S> */,
   A /* extends Record<string, StoreAction> */
-> {
+> extends DefineStoreOptionsBase<Store<Id, S, G, A>, S> {
   /**
    * Unique string key to identify the store across the application.
    */
@@ -550,26 +573,19 @@ export interface DefineStoreOptions<
         StoreWithGetters<G> &
         PiniaCustomProperties
     >
-
-  /**
-   * Allows hydrating the store during SSR when there is an available state in
-   * pinia.state.
-   *
-   * @param store - the store
-   * @param initialState - initialState
-   */
-  hydrate?(store: Store<Id, S, G, A>, initialState: UnwrapRef<S>): void
 }
 
+/**
+ * Options parameter of `defineStore()` for setup stores. Can be extended to
+ * augment stores with the plugin API. {@see DefineStoreOptionsBase}.
+ */
 export interface DefineSetupStoreOptions<
   Id extends string,
+  // TODO: pass SS instead
   S extends StateTree,
   G,
   A /* extends ActionsTree */
-> extends Omit<
-    DefineStoreOptions<Id, S, G, A>,
-    'actions' | 'id' | 'state' | 'getters'
-  > {
+> extends DefineStoreOptionsBase<Store<Id, S, G, A>, S> {
   /**
    * Extracted actions. Added by useStore(). SHOULD NOT be added by the user when
    * creating the store. Can be used in plugins to get the list of actions in a
@@ -586,7 +602,7 @@ export interface DefineStoreOptionsInPlugin<
   S extends StateTree,
   G,
   A
-> extends Omit<DefineStoreOptions<Id, S, G, A>, 'id'> {
+> extends Omit<DefineStoreOptions<Id, S, G, A>, 'id' | 'actions'> {
   /**
    * Extracted object of actions. Added by useStore() when the store is built
    * using the setup API, otherwise uses the one passed to `defineStore()`.

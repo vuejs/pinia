@@ -26,6 +26,7 @@ export type {
   _SubscriptionCallbackMutationBase,
   PiniaCustomProperties,
   PiniaCustomStateProperties,
+  DefineStoreOptionsBase,
   DefineStoreOptions,
   DefineSetupStoreOptions,
   DefineStoreOptionsInPlugin,
