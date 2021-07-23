@@ -2,7 +2,7 @@ import { App } from 'vue'
 import {
   expectType,
   createPinia,
-  Store,
+  StoreGeneric,
   Pinia,
   StateTree,
   DefineStoreOptionsInPlugin,
@@ -11,7 +11,7 @@ import {
 const pinia = createPinia()
 
 pinia.use(({ store, app, options, pinia }) => {
-  expectType<Store>(store)
+  expectType<StoreGeneric>(store)
   expectType<Pinia>(pinia)
   expectType<App>(app)
   expectType<

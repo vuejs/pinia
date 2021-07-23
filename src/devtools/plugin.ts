@@ -2,11 +2,11 @@ import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
 import { App, ComponentPublicInstance, toRaw } from 'vue'
 import { Pinia, PiniaPluginContext } from '../rootStore'
 import {
-  Store,
   GettersTree,
   MutationType,
   StateTree,
   ActionsTree,
+  StoreGeneric,
 } from '../types'
 import {
   actionGlobalCopyState,
@@ -130,7 +130,6 @@ export function registerPiniaDevtools(app: App, pinia: Pinia) {
                 key: 'getters',
                 editable: false,
                 value: store._getters.reduce((getters, key) => {
-                  // @ts-expect-error
                   getters[key] = store[key]
                   return getters
                 }, {} as GettersTree<StateTree>),
@@ -142,7 +141,7 @@ export function registerPiniaDevtools(app: App, pinia: Pinia) {
 
       api.on.getInspectorTree((payload) => {
         if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
-          let stores: Array<Store | Pinia> = [pinia]
+          let stores: Array<StoreGeneric | Pinia> = [pinia]
           stores = stores.concat(Array.from(pinia._s.values()))
 
           payload.rootNodes = (
@@ -239,7 +238,7 @@ export function registerPiniaDevtools(app: App, pinia: Pinia) {
   )
 }
 
-function addStoreToDevtools(app: App, store: Store) {
+function addStoreToDevtools(app: App, store: StoreGeneric) {
   if (!componentStateTypes.includes(getStoreType(store.$id))) {
     componentStateTypes.push(getStoreType(store.$id))
   }
@@ -370,17 +369,15 @@ let activeAction: number | undefined
  * @param store - store to patch
  * @param actionNames - list of actionst to patch
  */
-function patchActionForGrouping(store: Store, actionNames: string[]) {
+function patchActionForGrouping(store: StoreGeneric, actionNames: string[]) {
   // original actions of the store as they are given by pinia. We are going to override them
   const actions = actionNames.reduce((storeActions, actionName) => {
     // use toRaw to avoid tracking #541
-    // @ts-expect-error
     storeActions[actionName] = toRaw(store)[actionName]
     return storeActions
   }, {} as ActionsTree)
 
   for (const actionName in actions) {
-    // @ts-expect-error
     store[actionName] = function () {
       // setActivePinia(store._p)
       // the running action id is incremented in a before action hook
@@ -409,7 +406,7 @@ function patchActionForGrouping(store: Store, actionNames: string[]) {
 export function devtoolsPlugin<
   Id extends string = string,
   S extends StateTree = StateTree,
-  G extends GettersTree<S> = GettersTree<S>,
+  G /* extends GettersTree<S> */ = GettersTree<S>,
   A /* extends ActionsTree */ = ActionsTree
 >({ app, store, options }: PiniaPluginContext<Id, S, G, A>) {
   // HMR module

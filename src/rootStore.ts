@@ -1,16 +1,14 @@
 import { App, EffectScope, InjectionKey, Plugin, Ref, warn } from 'vue'
 import {
   StateTree,
-  StoreWithState,
-  StateDescriptor,
   PiniaCustomProperties,
   _Method,
   Store,
   GettersTree,
   ActionsTree,
   PiniaCustomStateProperties,
-  GenericStore,
   DefineStoreOptionsInPlugin,
+  StoreGeneric,
 } from './types'
 
 /**
@@ -43,23 +41,6 @@ export const getActivePinia = () => {
 
   return activePinia!
 }
-
-/**
- * Map of stores based on a Pinia instance. Allows setting and retrieving stores
- * for the current running application (with its pinia).
- */
-
-export const storesMap = new WeakMap<
-  Pinia,
-  Map<
-    string,
-    [
-      StoreWithState<string, StateTree>,
-      StateDescriptor<StateTree>,
-      InjectionKey<Store>
-    ]
-  >
->()
 
 /**
  * Every application must own its own pinia to be able to create stores
@@ -105,7 +86,7 @@ export interface Pinia {
    *
    * @internal
    */
-  _s: Map<string, GenericStore>
+  _s: Map<string, StoreGeneric>
 
   /**
    * Added by `createTestingPinia()` to bypass `useStore(pinia)`.
@@ -128,7 +109,7 @@ declare module '@vue/runtime-core' {
      *
      * @internal
      */
-    _pStores?: Record<string, Store>
+    _pStores?: Record<string, StoreGeneric>
   }
 }
 
@@ -142,7 +123,7 @@ export const piniaSymbol = (
 export interface PiniaPluginContext<
   Id extends string = string,
   S extends StateTree = StateTree,
-  G extends GettersTree<S> = GettersTree<S>,
+  G /* extends GettersTree<S> */ = GettersTree<S>,
   A /* extends ActionsTree */ = ActionsTree
 > {
   /**

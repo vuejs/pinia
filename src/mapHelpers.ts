@@ -146,7 +146,7 @@ export type _MapStateObjectReturn<
     keyof S | keyof G | ((store: Store<Id, S, G, A>) => any)
   >
 > = {
-  [key in keyof T]: () => T[key] extends (store: Store) => infer R
+  [key in keyof T]: () => T[key] extends (store: any) => infer R
     ? R
     : T[key] extends keyof Store<Id, S, G, A>
     ? Store<Id, S, G, A>[T[key]]
@@ -260,7 +260,6 @@ export function mapState<
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
         reduced[key] = function (this: ComponentPublicInstance) {
-          // @ts-expect-error
           return useStore(this.$pinia)[key]
         } as () => any
         return reduced
@@ -392,8 +391,7 @@ export function mapActions<
           this: ComponentPublicInstance,
           ...args: any[]
         ) {
-          // @ts-expect-error
-          return (useStore(this.$pinia)[key] as _Method)(...args)
+          return useStore(this.$pinia)[key](...args)
         }
         return reduced
       }, {} as _MapActionsReturn<A>)
@@ -403,7 +401,6 @@ export function mapActions<
           this: ComponentPublicInstance,
           ...args: any[]
         ) {
-          // @ts-expect-error
           return useStore(this.$pinia)[keysOrMapper[key]](...args)
         }
         return reduced
@@ -491,12 +488,10 @@ export function mapWritableState<
         // @ts-ignore
         reduced[key] = {
           get(this: ComponentPublicInstance) {
-            // @ts-expect-error
             return useStore(this.$pinia)[key]
           },
           set(this: ComponentPublicInstance, value) {
             // it's easier to type it here as any
-            // @ts-expect-error
             return (useStore(this.$pinia)[key] = value as any)
           },
         }
@@ -506,12 +501,10 @@ export function mapWritableState<
         // @ts-ignore
         reduced[key] = {
           get(this: ComponentPublicInstance) {
-            // @ts-expect-error
             return useStore(this.$pinia)[keysOrMapper[key]]
           },
           set(this: ComponentPublicInstance, value) {
             // it's easier to type it here as any
-            // @ts-expect-error
             return (useStore(this.$pinia)[keysOrMapper[key]] = value as any)
           },
         }

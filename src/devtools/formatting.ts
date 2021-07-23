@@ -3,7 +3,7 @@ import {
   CustomInspectorNode,
   CustomInspectorState,
 } from '@vue/devtools-api'
-import { Store, MutationType } from '../types'
+import { MutationType, StoreGeneric } from '../types'
 import { DebuggerEvent } from 'vue'
 import { Pinia } from '../rootStore'
 import { isPinia } from './utils'
@@ -20,7 +20,7 @@ export const PINIA_ROOT_LABEL = '🍍 Pinia (root)'
 export const PINIA_ROOT_ID = '_root'
 
 export function formatStoreForInspectorTree(
-  store: Store | Pinia
+  store: StoreGeneric | Pinia
 ): CustomInspectorNode {
   return '$id' in store
     ? {
@@ -34,7 +34,7 @@ export function formatStoreForInspectorTree(
 }
 
 export function formatStoreForInspectorState(
-  store: Store | Pinia
+  store: StoreGeneric | Pinia
 ): CustomInspectorState {
   if (isPinia(store)) {
     const state: CustomInspectorState = {
@@ -63,7 +63,6 @@ export function formatStoreForInspectorState(
     state: Object.keys(store.$state).map((key) => ({
       editable: true,
       key,
-      // @ts-expect-error
       value: store.$state[key],
     })),
   }
@@ -73,7 +72,6 @@ export function formatStoreForInspectorState(
     state.getters = store._getters.map((getterName) => ({
       editable: false,
       key: getterName,
-      // @ts-expect-error
       value: store[getterName],
     }))
   }
@@ -82,7 +80,6 @@ export function formatStoreForInspectorState(
     state.customProperties = Array.from(store._customProperties).map((key) => ({
       editable: true,
       key,
-      // @ts-expect-error
       value: store[key],
     }))
   }

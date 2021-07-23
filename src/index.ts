@@ -7,6 +7,7 @@ export { defineStore } from './store'
 export type {
   StateTree,
   Store,
+  StoreGeneric,
   GenericStore,
   StoreDefinition,
   StoreWithGetters,

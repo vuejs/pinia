@@ -1,6 +1,6 @@
 import { isRef, isReactive } from 'vue'
 import { Pinia } from './rootStore'
-import { isPlainObject, Store, StoreDefinition, _Method } from './types'
+import { isPlainObject, StoreDefinition, StoreGeneric, _Method } from './types'
 
 /**
  * Checks if a function is a `StoreDefinition`
@@ -66,10 +66,7 @@ export function patchObject(
  * @param initialUseStore - return of the defineStore to hot update
  * @param hot - `import.meta.hot`
  */
-export function acceptHMRUpdate(
-  initialUseStore: StoreDefinition<string, any, any, any>,
-  hot: any
-) {
+export function acceptHMRUpdate(initialUseStore: StoreDefinition, hot: any) {
   return (newModule: any) => {
     const pinia: Pinia | undefined = hot.data.pinia || initialUseStore._pinia
 
@@ -97,7 +94,7 @@ export function acceptHMRUpdate(
           return hot.invalidate()
         }
 
-        const existingStore: Store = pinia._s.get(id)!
+        const existingStore: StoreGeneric = pinia._s.get(id)!
         if (!existingStore) {
           console.log(`skipping hmr because store doesn't exist yet`)
           return

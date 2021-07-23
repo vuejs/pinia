@@ -7,7 +7,7 @@ import {
 import { ref, App, markRaw, effectScope } from 'vue'
 import { registerPiniaDevtools, devtoolsPlugin } from './devtools'
 import { IS_CLIENT } from './env'
-import { StateTree, Store } from './types'
+import { StateTree, StoreGeneric } from './types'
 
 /**
  * Creates a Pinia instance to be used by the application
@@ -52,7 +52,7 @@ export function createPinia(): Pinia {
     // @ts-expect-error
     _a: null,
     _e: scope,
-    _s: new Map<string, Store>(),
+    _s: new Map<string, StoreGeneric>(),
     state,
   })
 

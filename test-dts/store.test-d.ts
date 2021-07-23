@@ -1,5 +1,5 @@
+import { StoreGeneric, defineStore, expectType } from './'
 import { watch } from 'vue'
-import { defineStore, expectType, Store, GenericStore } from './'
 
 const useStore = defineStore({
   id: 'name',
@@ -205,12 +205,12 @@ noA.notExisting
 // @ts-expect-error
 noG.notExisting
 
-function takeStore<TStore extends Store>(store: TStore): TStore['$id'] {
+function takeStore<TStore extends StoreGeneric>(store: TStore): TStore['$id'] {
   return store.$id
 }
 
 export const useSyncValueToStore = <
-  TStore extends Store,
+  TStore extends StoreGeneric,
   TKey extends keyof TStore['$state']
 >(
   propGetter: () => TStore[TKey],
@@ -247,12 +247,13 @@ useSyncValueToStore(() => 2, noA, 'myState')
 takeStore(noG)
 useSyncValueToStore(() => 2, noG, 'myState')
 
-declare var genericStore: GenericStore
+declare var genericStore: StoreGeneric
 
 // should not fail like it does with Store
 expectType<any>(genericStore.thing)
 expectType<any>(genericStore.$state.thing)
 takeStore(genericStore)
 useSyncValueToStore(() => 2, genericStore, 'myState')
+// @ts-expect-error: this type is known so it should yield an error
 useSyncValueToStore(() => false, genericStore, 'myState')
 useSyncValueToStore(() => 2, genericStore, 'random')

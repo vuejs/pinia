@@ -35,6 +35,7 @@ import {
   _UnionToTuple,
   DefineSetupStoreOptions,
   DefineStoreOptionsInPlugin,
+  StoreGeneric,
 } from './types'
 import {
   getActivePinia,
@@ -435,9 +436,7 @@ function createSetupStore<
     store._hotUpdate = markRaw((newStore) => {
       newStore._hmrPayload.state.forEach((stateKey) => {
         if (stateKey in store.$state) {
-          // @ts-expect-error
           const newStateTarget = newStore.$state[stateKey]
-          // @ts-expect-error
           const oldStateSource = store.$state[stateKey]
           if (
             typeof newStateTarget === 'object' &&
@@ -446,7 +445,6 @@ function createSetupStore<
           ) {
             patchObject(newStateTarget, oldStateSource)
           } else {
-            // @ts-expect-error
             // transfer the ref
             newStore.$state[stateKey] = oldStateSource
           }
@@ -460,7 +458,6 @@ function createSetupStore<
       // remove deleted state properties
       Object.keys(store.$state).forEach((stateKey) => {
         if (!(stateKey in newStore.$state)) {
-          // @ts-expect-error
           delete store[stateKey]
         }
       })
@@ -468,9 +465,7 @@ function createSetupStore<
       pinia.state.value[$id] = toRef(newStore._hmrPayload, 'hotState')
 
       for (const actionName in newStore._hmrPayload.actions) {
-        const action: _Method =
-          // @ts-expect-error
-          newStore[actionName]
+        const action: _Method = newStore[actionName]
 
         // @ts-expect-error: new key
         store[actionName] =
@@ -496,7 +491,6 @@ function createSetupStore<
       // remove deleted getters
       Object.keys(store._hmrPayload.getters).forEach((key) => {
         if (!(key in newStore._hmrPayload.getters)) {
-          // @ts-expect-error
           delete store[key]
         }
       })
@@ -504,7 +498,6 @@ function createSetupStore<
       // remove old actions
       Object.keys(store._hmrPayload.actions).forEach((key) => {
         if (!(key in newStore._hmrPayload.actions)) {
-          // @ts-expect-error
           delete store[key]
         }
       })
@@ -572,7 +565,7 @@ function createSetupStore<
   return store
 }
 
-// export function disposeStore(store: Store) {
+// export function disposeStore(store: StoreGeneric) {
 //   store._e
 
 // }
@@ -635,10 +628,10 @@ type _ExtractGettersFromSetupStore<SS> = _SpreadPropertiesFromObject<
  */
 export function defineStore<
   Id extends string,
-  S extends StateTree,
-  G extends GettersTree<S>,
+  S extends StateTree = {},
+  G extends GettersTree<S> = {},
   // cannot extends ActionsTree because we loose the typings
-  A /* extends ActionsTree */
+  A /* extends ActionsTree */ = {}
 >(
   id: Id,
   options: Omit<DefineStoreOptions<Id, S, G, A>, 'id'>
@@ -651,10 +644,10 @@ export function defineStore<
  */
 export function defineStore<
   Id extends string,
-  S extends StateTree,
-  G extends GettersTree<S>,
+  S extends StateTree = {},
+  G extends GettersTree<S> = {},
   // cannot extends ActionsTree because we loose the typings
-  A /* extends ActionsTree */
+  A /* extends ActionsTree */ = {}
 >(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A>
 
 /**
@@ -679,7 +672,12 @@ export function defineStore<Id extends string, SS>(
   _ExtractGettersFromSetupStore<SS>,
   _ExtractActionsFromSetupStore<SS>
 >
-export function defineStore(idOrOptions: any, setup?: any, setupOptions?: any) {
+export function defineStore(
+  // TODO: add proper types from above
+  idOrOptions: any,
+  setup?: any,
+  setupOptions?: any
+): StoreDefinition {
   let id: string
   let options:
     | DefineStoreOptions<string, StateTree, GettersTree<StateTree>, ActionsTree>
@@ -699,7 +697,7 @@ export function defineStore(idOrOptions: any, setup?: any, setupOptions?: any) {
     id = idOrOptions.id
   }
 
-  function useStore(pinia?: Pinia | null, hot?: Store): Store {
+  function useStore(pinia?: Pinia | null, hot?: StoreGeneric): StoreGeneric {
     const currentInstance = getCurrentInstance()
     pinia =
       // in test mode, ignore the argument provided as we can always retrieve a
@@ -724,7 +722,7 @@ export function defineStore(idOrOptions: any, setup?: any, setupOptions?: any) {
       }
     }
 
-    const store: Store = pinia._s.get(id)!
+    const store: StoreGeneric = pinia._s.get(id)!
 
     if (__DEV__ && hot) {
       const hotId = '__hot:' + id
@@ -736,7 +734,7 @@ export function defineStore(idOrOptions: any, setup?: any, setupOptions?: any) {
             true
           )
 
-      hot._hotUpdate(newStore as any)
+      hot._hotUpdate(newStore)
 
       // cleanup the state properties and the store from the cache
       delete pinia.state.value[hotId]
@@ -757,7 +755,8 @@ export function defineStore(idOrOptions: any, setup?: any, setupOptions?: any) {
       cache[id] = store
     }
 
-    return store
+    // StoreGeneric cannot be casted towards Store
+    return store as any
   }
 
   useStore.$id = id

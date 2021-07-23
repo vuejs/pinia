@@ -93,11 +93,7 @@ export function createTestingPinia({
     Object.keys(options.actions || {}).forEach((action) => {
       actionsCache[action] =
         actionsCache[action] ||
-        (stubActions
-          ? createSpy!()
-          : // @ts-expect-error:
-            createSpy!(store[action]))
-      // @ts-expect-error:
+        (stubActions ? createSpy!() : createSpy!(store[action]))
       store[action] = actionsCache[action]
     })
 
