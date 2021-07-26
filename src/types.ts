@@ -537,7 +537,7 @@ export interface DefineStoreOptionsBase<S extends StateTree, Store> {
 
 /**
  * Options parameter of `defineStore()` for option stores. Can be extended to
- * augment stores with the plugin API. {@see DefineStoreOptionsBase}.
+ * augment stores with the plugin API. @see {@link DefineStoreOptionsBase}.
  */
 export interface DefineStoreOptions<
   Id extends string,
@@ -577,7 +577,7 @@ export interface DefineStoreOptions<
 
 /**
  * Options parameter of `defineStore()` for setup stores. Can be extended to
- * augment stores with the plugin API. {@see DefineStoreOptionsBase}.
+ * augment stores with the plugin API. @see {@link DefineStoreOptionsBase}.
  */
 export interface DefineSetupStoreOptions<
   Id extends string,
