@@ -46,6 +46,11 @@ expectType<{
   counterStore: () => CounterStore
 }>(computedStores)
 
+// store with no getters
+expectType<{
+  n: () => number
+}>(mapState(useCounter, ['n']))
+
 expectType<{
   a: () => 'on' | 'off'
   upper: () => string
