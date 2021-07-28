@@ -9,6 +9,7 @@ export type {
   StateTree,
   Store,
   StoreGeneric,
+  // TODO: remove in release
   GenericStore,
   StoreDefinition,
   StoreWithGetters,
@@ -17,6 +18,7 @@ export type {
   _Method,
   StoreWithActions,
   StoreWithState,
+  StoreProperties,
   StoreOnActionListener,
   StoreOnActionListenerContext,
   SubscriptionCallback,
@@ -56,6 +58,6 @@ export type {
 } from './mapHelpers'
 
 export { createTestingPinia } from './testing'
-export type { TestingOptions } from './testing'
+export type { TestingOptions, TestingPinia } from './testing'
 
 export { acceptHMRUpdate } from './hmr'

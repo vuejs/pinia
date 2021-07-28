@@ -574,6 +574,9 @@ function createSetupStore<
 
 // }
 
+/**
+ * @internal
+ */
 type _SpreadStateFromStore<SS, K extends readonly any[]> = K extends readonly [
   infer A,
   ...infer Rest
@@ -587,6 +590,9 @@ type _SpreadStateFromStore<SS, K extends readonly any[]> = K extends readonly [
     : {}
   : {}
 
+/**
+ * @internal
+ */
 type _SpreadPropertiesFromObject<
   SS,
   K extends readonly any[],
@@ -599,17 +605,26 @@ type _SpreadPropertiesFromObject<
     : {}
   : {}
 
+/**
+ * @internal
+ */
 type _ExtractStateFromSetupStore<SS> = _SpreadStateFromStore<
   SS,
   _UnionToTuple<keyof SS>
 >
 
+/**
+ * @internal
+ */
 type _ExtractActionsFromSetupStore<SS> = _SpreadPropertiesFromObject<
   SS,
   _UnionToTuple<keyof SS>,
   _Method
 >
 
+/**
+ * @internal
+ */
 type _ExtractGettersFromSetupStore<SS> = _SpreadPropertiesFromObject<
   SS,
   _UnionToTuple<keyof SS>,

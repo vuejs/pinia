@@ -287,7 +287,7 @@ pinia.use(({ store }) => {
 })
 ```
 
-`PiniaCustomProperties` is a generic type that allows you to reference properties of a store. Imagine the following example where we copy over the initial options as `$options`:
+`PiniaCustomProperties` is a generic type that allows you to reference properties of a store. Imagine the following example where we copy over the initial options as `$options` (this would only work for option stores):
 
 ```ts
 pinia.use(({ options }) => ({ $options: options }))
@@ -299,16 +299,26 @@ We can properly type this by using the 4 generic types of `PiniaCustomProperties
 import 'pinia'
 
 declare module 'pinia' {
-  export interface PiniaCustomProperties<Id, State, Getters, Actions> {
+  export interface PiniaCustomProperties<Id, S, G, A> {
     $options: {
       id: Id
-      state?: () => State
-      getters?: Getters
-      actions?: Actions
+      state?: () => S
+      getters?: G
+      actions?: A
     }
   }
 }
 ```
+
+:::tip
+When extending types in generics, they must be named **exactly as in the source code**. `Id` cannot be named `id` or `I`, and `S` cannot be named `State`. Here is what every letter stands for:
+
+- S: State
+- G: Getters
+- A: Actions
+- SS: Setup Store / Store
+
+:::
 
 ### Typing new state
 
@@ -318,7 +328,7 @@ When adding new state properties (to both, the `store` and `store.$state`), you 
 import 'pinia'
 
 declare module 'pinia' {
-  export interface PiniaCustomStateProperties<State> {
+  export interface PiniaCustomStateProperties<S> {
     hello: string
   }
 }
@@ -326,13 +336,13 @@ declare module 'pinia' {
 
 ### Typing new creation options
 
-When creating new options for `defineStore()`, you should extend the `DefineStoreOptions`. Like `PiniaCustomProperties`, it also exposes all the generics that define a store, allowing you to limit what can be defined. For example, you can une the names of the actions:
+When creating new options for `defineStore()`, you should extend the `DefineStoreOptionsBase`. Differently from `PiniaCustomProperties`, it only exposes two generics: the State and the Store type, allowing you to limit what can be defined. For example, you can une the names of the actions:
 
 ```ts
 import 'pinia'
 
 declare module 'pinia' {
-  export interface DefineStoreOptions<Id, State, Getters, Actions> {
+  export interface DefineStoreOptionsBase<S, Store> {
     debounce?: {
       // allow defining a number of ms for any of the actions
       [k in keyof A]?: number

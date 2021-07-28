@@ -40,6 +40,10 @@ export interface TestingOptions {
   createSpy?: (fn?: (...args: any[]) => any) => (...args: any[]) => any
 }
 
+/**
+ * Pinia instance specifically designed for testing. Extends a regular
+ * {@link Pinia} instance with test specific properties.
+ */
 export interface TestingPinia extends Pinia {
   /**
    * Clears the cache of spies used for actions.
@@ -58,7 +62,7 @@ export interface TestingPinia extends Pinia {
  * they are replaced with `jest.fn()`, otherwise, you must provide your own
  * `createSpy` option.
  *
- * @internal - STILL NOT RELEASED, DO NOT USE. It will be likely moved to its
+ * @alpha - STILL NOT RELEASED, DO NOT USE. It will be likely moved to its
  * own package.
  *
  * @param options - options to configure the testing pinia
@@ -75,7 +79,7 @@ export function createTestingPinia({
 
   plugins.forEach((plugin) => pinia.use(plugin))
 
-  // @ts-ignore
+  // @ts-ignore: this can fail in TS depending of the existence of jest
   createSpy = createSpy || (typeof jest !== undefined && jest.fn)
   if (!createSpy) {
     throw new Error('You must configure the `createSpy` option.')

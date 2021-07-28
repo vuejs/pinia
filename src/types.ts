@@ -18,6 +18,11 @@ export function isPlainObject(
   )
 }
 
+/**
+ * Recursive `Partial<T>`. Used by {@link Store.$patch}.
+ *
+ * @internal
+ */
 export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
 // type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
 
@@ -493,7 +498,7 @@ export interface StoreDefinition<
 }
 
 /**
- * Properties that are added to every store by `pinia.use()`
+ * Properties that are added to every store by `pinia.use()`.
  */
 export interface PiniaCustomProperties<
   Id extends string = string,
@@ -503,12 +508,12 @@ export interface PiniaCustomProperties<
 > {}
 
 /**
- * Properties that are added to every `store.$state` by `pinia.use()`
+ * Properties that are added to every `store.$state` by `pinia.use()`.
  */
 export interface PiniaCustomStateProperties<S extends StateTree = StateTree> {}
 
 /**
- * Type of an object of Getters that infers the argument
+ * Type of an object of Getters that infers the argument.
  *
  * @internal
  */
@@ -519,7 +524,7 @@ export type GettersTree<S extends StateTree> = Record<
 >
 
 /**
- * Type of an object of Actions
+ * Type of an object of Actions.
  *
  * @internal
  */
