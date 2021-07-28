@@ -72,6 +72,20 @@ describe('store with setup syntax', () => {
     expect(spy).toHaveBeenCalledTimes(1)
   })
 
+  // TODO: could be fixed by using computed or getters + setters in store
+  it.skip('state refs can be watched', async () => {
+    const store = useStore()
+    const spy = jest.fn()
+    watch(() => store.name, spy)
+    expect(spy).not.toHaveBeenCalled()
+    const nameRef = ref('Ed')
+    store._p.state.value[store.$id].name = nameRef
+    // @ts-ignore
+    // store.$state.name = nameRef
+    await nextTick()
+    expect(spy).toHaveBeenCalledTimes(1)
+  })
+
   it('unwraps refs', () => {
     const name = ref('Eduardo')
     const counter = ref(0)
