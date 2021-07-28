@@ -530,7 +530,6 @@ function createSetupStore<
   pinia._p.forEach((extender) => {
     if (__DEV__ && IS_CLIENT) {
       const extensions = extender({
-        // @ts-expect-error: conflict between A and ActionsTree
         store,
         app: pinia._a,
         pinia,
@@ -545,7 +544,6 @@ function createSetupStore<
       assign(
         store,
         extender({
-          // @ts-expect-error: conflict between A and ActionsTree
           store,
           app: pinia._a,
           pinia,

@@ -1211,9 +1211,9 @@
   integrity sha512-P00v895ONlx4P6D8p9OyJv+iL0+QghaDm1BDlhP8ibsu9MqHznoyZ/r1rHuLQEAR//4SMMo/9dC3SW8edUPvBw==
 
 "@vue/test-utils@^2.0.0-rc.10":
-  version "2.0.0-rc.11"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-rc.11.tgz#62521dc1d758cb0458a375e7eba1a4503e1e27f5"
-  integrity sha512-7XMp3ha/dSvPoJAWx9Ils9CLByu8Ntk/DOPXj8Elp/fqtUXngj/DiXEcBBNLboiS5ux3xYfKfakzz4JNpind+A==
+  version "2.0.0-rc.12"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-rc.12.tgz#716a84d915d6045640eeac416cc2a2acd514e06e"
+  integrity sha512-G9BGRYlfwWjhorGjnpniC3hcYn1pCG2NqKG68fdUpk3DgWKordZ+BsEFD/SAmKdTZVMCY1huFwY3XAbPc+AgRw==
 
 "@vueuse/core@^5.2.0":
   version "5.2.0"

@@ -6,14 +6,6 @@ import { Pinia } from './rootStore'
  */
 export type StateTree = Record<string | number | symbol, any>
 
-/**
- * Object descriptor for Object.defineProperty
- */
-export interface StateDescriptor<S extends StateTree = {}> {
-  get(): S
-  set(newValue: S): void
-}
-
 export function isPlainObject(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   o: any
@@ -157,6 +149,48 @@ export type SubscriptionCallback<S> = (
   state: UnwrapRef<S>
 ) => void
 
+type _StoreOnActionListenerContext<Store, ActionName extends string, A> = {
+  /**
+   * Name of the action
+   */
+  name: ActionName
+
+  /**
+   * Store that is invoking the action
+   */
+  store: Store
+
+  /**
+   * Parameters passed to the action
+   */
+  args: A extends Record<ActionName, _Method>
+    ? Parameters<A[ActionName]>
+    : unknown[]
+
+  /**
+   * Sets up a hook once the action is finished. It receives the return value
+   * of the action, if it's a Promise, it will be unwrapped. Can return a
+   * value (other than `undefined`) to **override** the returned value.
+   */
+  after: (
+    callback: A extends Record<ActionName, _Method>
+      ? (
+          resolvedReturn: UnwrapPromise<ReturnType<A[ActionName]>>
+          // allow the after callback to override the return value
+        ) =>
+          | void
+          | ReturnType<A[ActionName]>
+          | UnwrapPromise<ReturnType<A[ActionName]>>
+      : () => void
+  ) => void
+
+  /**
+   * Sets up a hook if the action fails. Return `false` to catch the error and
+   * stop it fro propagating.
+   */
+  onError: (callback: (error: unknown) => unknown | false) => void
+}
+
 /**
  * Context object passed to callbacks of `store.$onAction(context => {})`
  * TODO: should have only the Id, the Store and Actions to generate the proper object
@@ -166,44 +200,13 @@ export type StoreOnActionListenerContext<
   S extends StateTree,
   G /* extends GettersTree<S> */,
   A /* extends ActionsTree */
-> = {
-  [Name in keyof A]: {
-    /**
-     * Name of the action
-     */
-    name: Name
-
-    /**
-     * Store that is invoking the action
-     */
-    store: ActionsTree extends A ? StoreGeneric : Store<Id, S, G, A>
-
-    /**
-     * Parameters passed to the action
-     */
-    args: A[Name] extends _Method ? Parameters<A[Name]> : unknown[]
-
-    /**
-     * Sets up a hook once the action is finished. It receives the return value
-     * of the action, if it's a Promise, it will be unwrapped. Can return a
-     * value (other than `undefined`) to **override** the returned value.
-     */
-    after: (
-      callback: A[Name] extends _Method
-        ? (
-            resolvedReturn: UnwrapPromise<ReturnType<A[Name]>>
-            // allow the after callback to override the return value
-          ) => void | ReturnType<A[Name]> | UnwrapPromise<ReturnType<A[Name]>>
-        : () => void
-    ) => void
-
-    /**
-     * Sets up a hook if the action fails. Return `false` to catch the error and
-     * stop it fro propagating.
-     */
-    onError: (callback: (error: unknown) => unknown | false) => void
-  }
-}[keyof A]
+> = ActionsTree extends A
+  ? _StoreOnActionListenerContext<StoreGeneric, string, ActionsTree>
+  : {
+      [Name in keyof A]: Name extends string
+        ? _StoreOnActionListenerContext<Store<Id, S, G, A>, Name, A>
+        : never
+    }[keyof A]
 
 /**
  * Argument of `store.$onAction()`

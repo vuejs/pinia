@@ -429,8 +429,7 @@ export function devtoolsPlugin<
     toRaw(store)._hotUpdate = function (newStore) {
       originalHotUpdate.apply(this, arguments as any)
       patchActionForGrouping(
-        // @ts-expect-error: can cast the store...
-        store,
+        store as StoreGeneric,
         Object.keys(newStore._hmrPayload.actions)
       )
     }
@@ -438,7 +437,7 @@ export function devtoolsPlugin<
 
   addStoreToDevtools(
     app,
-    // @ts-expect-error: FIXME: if possible...
-    store
+    // FIXME: is there a way to allow the assignment from Store<Id, S, G, A> to StoreGeneric?
+    store as StoreGeneric
   )
 }
