@@ -550,7 +550,7 @@ export interface DefineStoreOptions<
   S extends StateTree,
   G /* extends GettersTree<S> */,
   A /* extends Record<string, StoreAction> */
-> extends DefineStoreOptionsBase<Store<Id, S, G, A>, S> {
+> extends DefineStoreOptionsBase<S, Store<Id, S, G, A>> {
   /**
    * Unique string key to identify the store across the application.
    */
@@ -591,7 +591,7 @@ export interface DefineSetupStoreOptions<
   S extends StateTree,
   G,
   A /* extends ActionsTree */
-> extends DefineStoreOptionsBase<Store<Id, S, G, A>, S> {
+> extends DefineStoreOptionsBase<S, Store<Id, S, G, A>> {
   /**
    * Extracted actions. Added by useStore(). SHOULD NOT be added by the user when
    * creating the store. Can be used in plugins to get the list of actions in a

@@ -25,12 +25,13 @@ declare module '../dist/pinia' {
     stateOnly: number
   }
 
-  export interface DefineStoreOptions<Id, S, G, A> {
-    debounce?: {
-      // Record<keyof A, number>
-      [k in keyof A]?: number
-    }
+  export interface DefineStoreOptionsBase<S, Store> {
+    debounce?: Partial<Record<keyof StoreActions<Store>, number>>
   }
+
+  // export interface DefineStoreOptions<Id, S, G, A> {
+  //   debounce?: Partial<Record<keyof A, number>>
+  // }
 }
 
 const pinia = createPinia()
@@ -89,6 +90,23 @@ const useStore = defineStore({
   },
 })
 
+defineStore(
+  'withSetup',
+  () => {
+    function one() {}
+    function two() {}
+    function three() {}
+
+    return { one, two, three }
+  },
+  {
+    debounce: {
+      one: 200,
+      two: 300,
+    },
+  }
+)
+
 type Procedure = (...args: any[]) => any
 
 function debounce<F extends Procedure>(fn: F, time: number = 200) {
@@ -100,11 +118,12 @@ expectType<{
 }>(mapStores(useStore))
 
 pinia.use(({ options, store }) => {
-  if (options.debounce) {
-    return Object.keys(options.debounce).reduce((debouncedActions, action) => {
+  const { debounce: debounceOptions } = options
+  if (debounceOptions) {
+    return Object.keys(debounceOptions).reduce((debouncedActions, action) => {
       debouncedActions[action] = debounce(
         store[action],
-        options.debounce![action as keyof typeof options['actions']]
+        debounceOptions[action]
       )
       return debouncedActions
     }, {} as Record<string, (...args: any[]) => any>)

@@ -221,6 +221,24 @@ pinia.use(({ options, store }) => {
 })
 ```
 
+Note that custom options are passed as the 3rd argument when using the setup syntax:
+
+```js
+defineStore(
+  'search',
+  () => {
+    // ...
+  },
+  {
+    // this will be read by a plugin later on
+    debounce: {
+      // debounce the action searchContacts by 300ms
+      searchContacts: 300,
+    },
+  }
+)
+```
+
 ## TypeScript
 
 Everything shown above can be done with typing support, so you don't ever need to use `any` or `@ts-ignore`.

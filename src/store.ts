@@ -561,7 +561,6 @@ function createSetupStore<
   })
 
   if (initialState) {
-    // @ts-expect-error: initialState doesn't match
     ;(options.hydrate || innerPatch)(store, initialState)
   }
 
