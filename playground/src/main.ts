@@ -1,9 +1,13 @@
-import { createApp } from 'vue'
+import { computed, createApp, markRaw } from 'vue'
 import App from './App.vue'
 import { createPinia } from '../../src'
 import { router } from './router'
 
 const pinia = createPinia()
+
+pinia.use(() => ({
+  route: computed(() => markRaw(router.currentRoute.value)),
+}))
 
 if (import.meta.hot) {
   //   const isUseStore = (fn: any): fn is StoreDefinition => {

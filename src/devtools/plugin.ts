@@ -1,5 +1,14 @@
 import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
-import { App, ComponentPublicInstance, markRaw, toRaw } from 'vue'
+import {
+  App,
+  ComponentPublicInstance,
+  isReactive,
+  isRef,
+  markRaw,
+  toRaw,
+  unref,
+  watch,
+} from 'vue'
 import { Pinia, PiniaPluginContext } from '../rootStore'
 import {
   GettersTree,
@@ -312,12 +321,38 @@ function addStoreToDevtools(app: App, store: StoreGeneric) {
         })
       }, true)
 
-      store.$subscribe(({ events, type }, state) => {
-        if (!isTimelineActive) return
-        // rootStore.state[store.id] = state
+      store._customProperties.forEach((name) => {
+        watch(
+          () => unref(store[name]),
+          (newValue, oldValue) => {
+            api.notifyComponentUpdate()
+            api.sendInspectorState(INSPECTOR_ID)
+            if (isTimelineActive) {
+              api.addTimelineEvent({
+                layerId: MUTATIONS_LAYER_ID,
+                event: {
+                  time: Date.now(),
+                  title: 'Change',
+                  subtitle: name,
+                  data: {
+                    newValue,
+                    oldValue,
+                  },
+                  groupId: activeAction,
+                },
+              })
+            }
+          },
+          { deep: true }
+        )
+      })
 
+      store.$subscribe(({ events, type }, state) => {
         api.notifyComponentUpdate()
         api.sendInspectorState(INSPECTOR_ID)
+
+        if (!isTimelineActive) return
+        // rootStore.state[store.id] = state
 
         const eventData: TimelineEvent = {
           time: Date.now(),
