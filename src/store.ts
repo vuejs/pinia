@@ -37,6 +37,9 @@ import {
   DefineStoreOptionsInPlugin,
   StoreGeneric,
   StoreWithGetters,
+  _ExtractActionsFromSetupStore,
+  _ExtractGettersFromSetupStore,
+  _ExtractStateFromSetupStore,
 } from './types'
 import {
   getActivePinia,
@@ -131,8 +134,6 @@ function createOptionsStore<
   }
 
   store = createSetupStore(id, setup, options, pinia, hot)
-
-  // TODO: HMR should also replace getters here
 
   store.$reset = $reset
 
@@ -573,63 +574,6 @@ function createSetupStore<
 //   store._e
 
 // }
-
-/**
- * @internal
- */
-type _SpreadStateFromStore<SS, K extends readonly any[]> = K extends readonly [
-  infer A,
-  ...infer Rest
-]
-  ? A extends string | number | symbol
-    ? SS extends Record<A, _Method | ComputedRef<any>>
-      ? _SpreadStateFromStore<SS, Rest>
-      : SS extends Record<A, any>
-      ? Record<A, UnwrapRef<SS[A]>> & _SpreadStateFromStore<SS, Rest>
-      : never
-    : {}
-  : {}
-
-/**
- * @internal
- */
-type _SpreadPropertiesFromObject<
-  SS,
-  K extends readonly any[],
-  T
-> = K extends readonly [infer A, ...infer Rest]
-  ? A extends string | number | symbol
-    ? SS extends Record<A, T>
-      ? Record<A, UnwrapRef<SS[A]>> & _SpreadPropertiesFromObject<SS, Rest, T>
-      : _SpreadPropertiesFromObject<SS, Rest, T>
-    : {}
-  : {}
-
-/**
- * @internal
- */
-type _ExtractStateFromSetupStore<SS> = _SpreadStateFromStore<
-  SS,
-  _UnionToTuple<keyof SS>
->
-
-/**
- * @internal
- */
-type _ExtractActionsFromSetupStore<SS> = _SpreadPropertiesFromObject<
-  SS,
-  _UnionToTuple<keyof SS>,
-  _Method
->
-
-/**
- * @internal
- */
-type _ExtractGettersFromSetupStore<SS> = _SpreadPropertiesFromObject<
-  SS,
-  _UnionToTuple<keyof SS>,
-  ComputedRef<any>
->
 
 /**
  * Extract the actions of a store type. Works with both a Setup Store or an

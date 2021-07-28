@@ -1,4 +1,4 @@
-import { DebuggerEvent, Ref, UnwrapRef } from 'vue'
+import { ComputedRef, DebuggerEvent, Ref, UnwrapRef } from 'vue'
 import { Pinia } from './rootStore'
 
 /**
@@ -550,6 +550,63 @@ export interface DefineStoreOptionsBase<S extends StateTree, Store> {
 }
 
 /**
+ * @internal
+ */
+type _SpreadStateFromStore<SS, K extends readonly any[]> = K extends readonly [
+  infer A,
+  ...infer Rest
+]
+  ? A extends string | number | symbol
+    ? SS extends Record<A, _Method | ComputedRef<any>>
+      ? _SpreadStateFromStore<SS, Rest>
+      : SS extends Record<A, any>
+      ? Record<A, UnwrapRef<SS[A]>> & _SpreadStateFromStore<SS, Rest>
+      : never
+    : {}
+  : {}
+
+/**
+ * @internal
+ */
+type _SpreadPropertiesFromObject<
+  SS,
+  K extends readonly any[],
+  T
+> = K extends readonly [infer A, ...infer Rest]
+  ? A extends string | number | symbol
+    ? SS extends Record<A, T>
+      ? Record<A, UnwrapRef<SS[A]>> & _SpreadPropertiesFromObject<SS, Rest, T>
+      : _SpreadPropertiesFromObject<SS, Rest, T>
+    : {}
+  : {}
+
+/**
+ * @internal
+ */
+export type _ExtractStateFromSetupStore<SS> = _SpreadStateFromStore<
+  SS,
+  _UnionToTuple<keyof SS>
+>
+
+/**
+ * @internal
+ */
+export type _ExtractActionsFromSetupStore<SS> = _SpreadPropertiesFromObject<
+  SS,
+  _UnionToTuple<keyof SS>,
+  _Method
+>
+
+/**
+ * @internal
+ */
+export type _ExtractGettersFromSetupStore<SS> = _SpreadPropertiesFromObject<
+  SS,
+  _UnionToTuple<keyof SS>,
+  ComputedRef<any>
+>
+
+/**
  * Options parameter of `defineStore()` for option stores. Can be extended to
  * augment stores with the plugin API. @see {@link DefineStoreOptionsBase}.
  */
@@ -595,7 +652,7 @@ export interface DefineStoreOptions<
  */
 export interface DefineSetupStoreOptions<
   Id extends string,
-  // TODO: pass SS instead
+  // NOTE: Passing SS seems to make TS crash
   S extends StateTree,
   G,
   A /* extends ActionsTree */
