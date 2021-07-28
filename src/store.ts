@@ -36,6 +36,7 @@ import {
   DefineSetupStoreOptions,
   DefineStoreOptionsInPlugin,
   StoreGeneric,
+  StoreWithGetters,
 } from './types'
 import {
   getActivePinia,
@@ -614,6 +615,45 @@ type _ExtractGettersFromSetupStore<SS> = _SpreadPropertiesFromObject<
   _UnionToTuple<keyof SS>,
   ComputedRef<any>
 >
+
+/**
+ * Extract the actions of a store type. Works with both a Setup Store or an
+ * Options Store.
+ */
+export type StoreActions<SS> = SS extends Store<
+  string,
+  StateTree,
+  GettersTree<StateTree>,
+  infer A
+>
+  ? A
+  : _ExtractActionsFromSetupStore<SS>
+
+/**
+ * Extract the getters of a store type. Works with both a Setup Store or an
+ * Options Store.
+ */
+export type StoreGetters<SS> = SS extends Store<
+  string,
+  StateTree,
+  infer G,
+  ActionsTree
+>
+  ? StoreWithGetters<G>
+  : _ExtractGettersFromSetupStore<SS>
+
+/**
+ * Extract the state of a store type. Works with both a Setup Store or an
+ * Options Store. Note this unwraps refs.
+ */
+export type StoreState<SS> = SS extends Store<
+  string,
+  infer S,
+  GettersTree<StateTree>,
+  ActionsTree
+>
+  ? UnwrapRef<S>
+  : _ExtractStateFromSetupStore<SS>
 
 // type a1 = _ExtractStateFromSetupStore<{ a: Ref<number>; action: () => void }>
 // type a2 = _ExtractActionsFromSetupStore<{ a: Ref<number>; action: () => void }>

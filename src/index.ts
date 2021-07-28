@@ -3,6 +3,7 @@ export { createPinia } from './createPinia'
 export type { Pinia, PiniaStorePlugin, PiniaPluginContext } from './rootStore'
 
 export { defineStore } from './store'
+export type { StoreActions, StoreGetters, StoreState } from './store'
 
 export type {
   StateTree,

@@ -3,9 +3,6 @@
   "compilerOptions": {
     "noEmit": true,
     "declaration": true,
-    "paths": {
-      "vue-router": ["../dist"]
-    },
     "noImplicitReturns": false
   },
   "include": ["./"],
