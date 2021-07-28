@@ -76,7 +76,6 @@ const { assign } = Object
 
 function isComputed<T>(value: ComputedRef<T> | unknown): value is ComputedRef<T>
 function isComputed(o: any): o is ComputedRef {
-  // FIXME: should be different in next beta
   return o && o.effect
 }
 
