@@ -171,7 +171,7 @@ function createSetupStore<
       if (isListening) {
         debuggerEvents = event
         // avoid triggering this while the store is being built and the state is being set in pinia
-      } else if (isListening == false) {
+      } else if (isListening == false && !store._hotUpdating) {
         // let patch send all the events together later
         /* istanbul ignore else */
         if (Array.isArray(debuggerEvents)) {
@@ -434,6 +434,7 @@ function createSetupStore<
   // add the hotUpdate before plugins to allow them to override it
   if (__DEV__) {
     store._hotUpdate = markRaw((newStore) => {
+      store._hotUpdating = true
       newStore._hmrPayload.state.forEach((stateKey) => {
         if (stateKey in store.$state) {
           const newStateTarget = newStore.$state[stateKey]
@@ -462,7 +463,10 @@ function createSetupStore<
         }
       })
 
+      // avoid devtools logging this as a mutation
+      isListening = false
       pinia.state.value[$id] = toRef(newStore._hmrPayload, 'hotState')
+      isListening = true
 
       for (const actionName in newStore._hmrPayload.actions) {
         const action: _Method = newStore[actionName]
@@ -505,6 +509,7 @@ function createSetupStore<
       // update the values used in devtools and to allow deleting new properties later on
       store._hmrPayload = newStore._hmrPayload
       store._getters = newStore._getters
+      store._hotUpdating = false
     })
 
     const nonEnumerable = {

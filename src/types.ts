@@ -266,6 +266,14 @@ export interface StoreProperties<Id extends string> {
   _hotUpdate(useStore: StoreGeneric): void
 
   /**
+   * Allows pausing some of the watching mechanisms while the store is being
+   * patched with a newer version.
+   *
+   * @internal
+   */
+  _hotUpdating: boolean
+
+  /**
    * Payload of the hmr update. Dev only.
    *
    * @internal
@@ -469,12 +477,7 @@ export interface StoreDefinition<
    * @param pinia - Pinia instance to retrieve the store
    * @param hot - dev only hot module replacement
    */
-  (pinia?: Pinia | null | undefined, hot?: Store<Id, S, G, A>): Store<
-    Id,
-    S,
-    G,
-    A
-  >
+  (pinia?: Pinia | null | undefined, hot?: StoreGeneric): Store<Id, S, G, A>
 
   /**
    * Id of the store. Used by map helpers.
