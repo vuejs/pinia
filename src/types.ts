@@ -6,6 +6,9 @@ import { Pinia } from './rootStore'
  */
 export type StateTree = Record<string | number | symbol, any>
 
+export function isPlainObject<S extends StateTree>(
+  value: S | unknown
+): value is S
 export function isPlainObject(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   o: any
