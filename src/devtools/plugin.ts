@@ -264,6 +264,7 @@ function addStoreToDevtools(app: App, store: StoreGeneric) {
             title: '🛫 ' + name,
             subtitle: 'start',
             data: {
+              store: formatDisplay(store.$id),
               action: formatDisplay(name),
               args,
             },
@@ -280,6 +281,7 @@ function addStoreToDevtools(app: App, store: StoreGeneric) {
               title: '🛬 ' + name,
               subtitle: 'end',
               data: {
+                store: formatDisplay(store.$id),
                 action: formatDisplay(name),
                 args,
                 result,
@@ -299,6 +301,7 @@ function addStoreToDevtools(app: App, store: StoreGeneric) {
               title: '💥 ' + name,
               subtitle: 'end',
               data: {
+                store: formatDisplay(store.$id),
                 action: formatDisplay(name),
                 args,
                 error,
@@ -319,7 +322,10 @@ function addStoreToDevtools(app: App, store: StoreGeneric) {
         const eventData: TimelineEvent = {
           time: Date.now(),
           title: formatMutationType(type),
-          data: formatEventData(events),
+          data: {
+            store: formatDisplay(store.$id),
+            ...formatEventData(events),
+          },
           groupId: activeAction,
         }
 
@@ -361,7 +367,7 @@ function addStoreToDevtools(app: App, store: StoreGeneric) {
             title: '🔥 ' + store.$id,
             subtitle: 'HMR update',
             data: {
-              id: formatDisplay(store.$id),
+              store: formatDisplay(store.$id),
               info: formatDisplay(`HMR update`),
             },
           },
