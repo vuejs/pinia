@@ -1,5 +1,5 @@
 import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
-import { App, ComponentPublicInstance, toRaw } from 'vue'
+import { App, ComponentPublicInstance, markRaw, toRaw } from 'vue'
 import { Pinia, PiniaPluginContext } from '../rootStore'
 import {
   GettersTree,
@@ -350,6 +350,23 @@ function addStoreToDevtools(app: App, store: StoreGeneric) {
           event: eventData,
         })
       }, true)
+
+      const hotUpdate = store._hotUpdate
+      store._hotUpdate = markRaw((newStore) => {
+        hotUpdate(newStore)
+        api.addTimelineEvent({
+          layerId: MUTATIONS_LAYER_ID,
+          event: {
+            time: Date.now(),
+            title: '🔥 ' + store.$id,
+            subtitle: 'HMR update',
+            data: {
+              id: formatDisplay(store.$id),
+              info: formatDisplay(`HMR update`),
+            },
+          },
+        })
+      })
 
       // trigger an update so it can display new registered stores
       api.notifyComponentUpdate()
