@@ -1,3 +1,44 @@
+# [2.0.0-rc.0](https://github.com/posva/pinia/compare/v2.0.0-beta.5...v2.0.0-rc.0) (2021-07-28)
+
+## Required Vue version ‼️
+
+This release requires Vue 3.2.0, which is currently only available under the `beta` dist tag (`npm i vue@beta` or `yarn add vue@beta` + the corresponding packages like `@vue/compiler-sfc@beta`).
+
+It contains major improvements:
+
+- Performance: Pinia now uses `effectScope()`, effectively reducing memory consumption and removing the drawbacks mentioned in the Plugin section about `useStore()` creating multiple store instances (still sharing the state).
+- Devtools: Many improvements over the information displayed in devtools as well as a few bugfixes
+- HMR (Hot Module Replacement): You can now modify your stores without reloading the page and losing the state, making development much easier. Until 3.2.0 (stable) is released, you can find an example [in the playground](https://github.com/posva/pinia/blob/2b98eafe441ea7e9a3ff3cef122c24eb5fa03f1d/playground/src/stores/counter.ts#L66-L68). After that, you can read up to date instructions [in the documentation](https://pinia.esm.dev/cookbook/hot-module-replacement.html).
+- Setup syntax: You can now define stores with a function instead of options. This enables more complex patterns. See an example [in the playground](https://github.com/posva/pinia/blob/75f1fe6aa4ef2629ae1c9840a2d4542ac6e62686/playground/src/stores/jokes-swrv.ts). Setup Stores are unable to group actions like Option Stores due to their very permissive syntax.
+- Option syntax: we can now pass the `id` as the first parameter. This syntax is preferred over the object syntax to be consistent with the Setup syntax.
+
+### Bug Fixes
+
+- avoid modifying options argument ([59ac9b9](https://github.com/posva/pinia/commit/59ac9b962778f730ade9c2a8b1a575922957d907))
+- **devtools:** avoid grouping patches and mutations with finished actions ([18a87fe](https://github.com/posva/pinia/commit/18a87fe260317c679732d0ec271c036b9806448f))
+- **errors:** allow async errors to propagate ([17ee4e8](https://github.com/posva/pinia/commit/17ee4e85fb2c084ba27730dae4f21683686156c6)), closes [#576](https://github.com/posva/pinia/issues/576)
+- **ssr:** delay getters read ([2f3bd53](https://github.com/posva/pinia/commit/2f3bd5330e853b8ef11b6364a3a86e780c5f309f))
+- **types:** actual generic store ([e4c541f](https://github.com/posva/pinia/commit/e4c541fdd17ea97e25dfd45bd3378732ff6a344d))
+- **types:** stricter types for mapState ([f702356](https://github.com/posva/pinia/commit/f702356a5549dfe184c4d3805757c494a7088b19))
+
+### Features
+
+- allow actions to be destructured ([859d094](https://github.com/posva/pinia/commit/859d094bd993f4714093af17182ed73dd98659c5))
+- **devtools:** display pinia without stores ([ca59257](https://github.com/posva/pinia/commit/ca59257a4ca3a37f54d6b9690a2ceedbc545dedd))
+- **devtools:** show hot update in timeline ([3b9ed17](https://github.com/posva/pinia/commit/3b9ed1777621b1c8c0f781f5c974357da042c6e7))
+- **types:** add StorState, StoreGetters, and StoreActions helpers ([47c0610](https://github.com/posva/pinia/commit/47c06101555328b6ca24e2f574f8f402b3bf1675))
+
+### BREAKING CHANGES
+
+- **types:** The existing `Store<Id, S, G, A>` types was trying to be generic when no types were specified but failing at it. Now, `Store` without any type will default to an empty Store. This enables a stricter version of `defineStore` when any of state, getters, and actions are missing. If you were using `Store` as a type, you should now use `StoreGeneric` instead, which also replaces `GenericStore` (marked as deprecated).
+
+```diff
+-function takeAnyStore(store: Store) {}
++function takeAnyStore(store: StoreGeneric) {}
+```
+
+- **types** The existing `DefineStoreOptions` is no longer the one that should be extended to add custom options unless you only want them to be applied to Option Stores. Use `DefineStoreOptionsBase` instead.
+
 # [2.0.0-beta.5](https://github.com/posva/pinia/compare/v2.0.0-beta.3...v2.0.0-beta.5) (2021-07-10)
 
 ### Bug Fixes
