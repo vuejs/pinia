@@ -537,20 +537,7 @@ function createSetupStore<
   // apply all plugins
   pinia._p.forEach((extender) => {
     if (__DEV__ && IS_CLIENT) {
-      const extensions = extender({
-        store,
-        app: pinia._a,
-        pinia,
-        // @ts-expect-error
-        options: optionsForPlugin,
-      })
-      Object.keys(extensions || {}).forEach((key) =>
-        store._customProperties.add(key)
-      )
-      assign(store, extensions)
-    } else {
-      assign(
-        store,
+      const extensions = scope.run(() =>
         extender({
           store,
           app: pinia._a,
@@ -558,6 +545,23 @@ function createSetupStore<
           // @ts-expect-error
           options: optionsForPlugin,
         })
+      )!
+      Object.keys(extensions || {}).forEach((key) =>
+        store._customProperties.add(key)
+      )
+      assign(store, extensions)
+    } else {
+      assign(
+        store,
+        scope.run(() =>
+          extender({
+            store,
+            app: pinia._a,
+            pinia,
+            // @ts-expect-error
+            options: optionsForPlugin,
+          })
+        )!
       )
     }
   })

@@ -1,6 +1,6 @@
 import { createPinia, defineStore } from '../src'
 import { mount } from '@vue/test-utils'
-import { App, computed, ref, toRef } from 'vue'
+import { App, computed, ref, toRef, watch } from 'vue'
 
 declare module '../src' {
   export interface PiniaCustomProperties<Id> {
@@ -11,6 +11,7 @@ declare module '../src' {
     globalA: string
     globalB: string
     shared: number
+    double: number
   }
 
   export interface PiniaCustomStateProperties<S> {
@@ -210,5 +211,40 @@ describe('store plugins', () => {
     })
 
     useStore()
+  })
+
+  it('run inside store effect', async () => {
+    const pinia = createPinia()
+
+    // must call use after installing the plugin
+    pinia.use(({ store }) => ({
+      // @ts-expect-error: invalid computed
+      double: computed(() => store.$state.n * 2),
+    }))
+
+    const useStore = defineStore('main', {
+      state: () => ({ n: 1 }),
+    })
+
+    mount(
+      {
+        template: 'none',
+        setup() {
+          // create it inside of the component
+          useStore()
+        },
+      },
+      { global: { plugins: [pinia] } }
+    ).unmount()
+
+    const store = useStore(pinia)
+
+    const spy = jest.fn()
+    watch(() => store.double, spy, { flush: 'sync' })
+
+    expect(spy).toHaveBeenCalledTimes(0)
+
+    store.n++
+    expect(spy).toHaveBeenCalledTimes(1)
   })
 })
