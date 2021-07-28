@@ -217,6 +217,10 @@ module.exports = {
           link: '/cookbook/',
           children: [
             {
+              text: 'Hot Module Replacement',
+              link: '/cookbook/hot-module-replacement.html',
+            },
+            {
               text: 'Testing',
               link: '/cookbook/testing.html',
             },
