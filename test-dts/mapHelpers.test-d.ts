@@ -56,8 +56,11 @@ expectType<{
   upper: () => string
 }>(mapState(useStore, ['a', 'upper']))
 
-// FIXME: @ts-expect-error
+// @ts-expect-error
 mapState(useStore, ['a']).nested
+
+// @ts-expect-error
+mapState(useStore, ['a', 'upper']).nested
 
 expectType<{
   newA: () => 'on' | 'off'

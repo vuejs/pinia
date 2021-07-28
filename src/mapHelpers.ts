@@ -122,15 +122,17 @@ export function mapStores<Stores extends any[]>(
 /**
  * @internal
  */
-export type _MapStateReturn<S extends StateTree, G extends GettersTree<S>> = {
+export type _MapStateReturn<
+  S extends StateTree,
+  G extends GettersTree<S>,
+  Keys extends keyof S | keyof G = keyof S | keyof G
+> = {
   // [key in keyof S | keyof G]: () => key extends keyof S
   //   ? S[key]
   //   : key extends keyof G
   //   ? G[key]
   //   : never
-  [key in keyof S | keyof G]: () => key extends keyof Store<string, S, G, {}>
-    ? Store<string, S, G, {}>[key]
-    : never
+  [key in Keys]: () => Store<string, S, G, {}>[key]
 }
 
 /**
@@ -144,7 +146,7 @@ export type _MapStateObjectReturn<
   T extends Record<
     string,
     keyof S | keyof G | ((store: Store<Id, S, G, A>) => any)
-  >
+  > = {}
 > = {
   [key in keyof T]: () => T[key] extends (store: any) => infer R
     ? R
@@ -230,11 +232,12 @@ export function mapState<
   Id extends string,
   S extends StateTree,
   G extends GettersTree<S>,
-  A
+  A,
+  Keys extends keyof S | keyof G
 >(
   useStore: StoreDefinition<Id, S, G, A>,
-  keys: Array<keyof S | keyof G>
-): _MapStateReturn<S, G>
+  keys: readonly Keys[]
+): _MapStateReturn<S, G, Keys>
 
 /**
  * Allows using state and getters from one store without using the composition
@@ -248,15 +251,11 @@ export function mapState<
   Id extends string,
   S extends StateTree,
   G extends GettersTree<S>,
-  A,
-  KeyMapper extends Record<
-    string,
-    keyof S | keyof G | ((store: Store<Id, S, G, A>) => any)
-  >
+  A
 >(
   useStore: StoreDefinition<Id, S, G, A>,
-  keysOrMapper: Array<keyof S | keyof G> | KeyMapper
-): _MapStateReturn<S, G> | _MapStateObjectReturn<Id, S, G, A, KeyMapper> {
+  keysOrMapper: any
+): _MapStateReturn<S, G> | _MapStateObjectReturn<Id, S, G, A> {
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce((reduced, key) => {
         reduced[key] = function (this: ComponentPublicInstance) {
@@ -264,7 +263,8 @@ export function mapState<
         } as () => any
         return reduced
       }, {} as _MapStateReturn<S, G>)
-    : Object.keys(keysOrMapper).reduce((reduced, key: keyof KeyMapper) => {
+    : Object.keys(keysOrMapper).reduce((reduced, key: string) => {
+        // @ts-expect-error
         reduced[key] = function (this: ComponentPublicInstance) {
           const store = useStore(this.$pinia)
           const storeKey = keysOrMapper[key]
@@ -272,11 +272,10 @@ export function mapState<
           // function
           return typeof storeKey === 'function'
             ? (storeKey as (store: Store<Id, S, G, A>) => any).call(this, store)
-            : // @ts-expect-error
-              store[storeKey]
+            : store[storeKey]
         }
         return reduced
-      }, {} as _MapStateObjectReturn<Id, S, G, A, KeyMapper>)
+      }, {} as _MapStateObjectReturn<Id, S, G, A>)
 }
 
 /**
