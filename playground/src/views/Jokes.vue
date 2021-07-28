@@ -31,10 +31,10 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue'
-import { useJokes, useJokesSetup } from '../stores/jokes'
+import { useJokes } from '../stores/jokes'
 
-// const jokes = useJokes()
-const jokes = useJokesSetup()
+const jokes = useJokes()
+// const jokes = useJokesSetup()
 
 const texts = {
   loading: 'Fetching the joke...',
