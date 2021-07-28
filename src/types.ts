@@ -534,22 +534,6 @@ export type GettersTree<S extends StateTree> = Record<
 export type ActionsTree = Record<string, _Method>
 
 /**
- * Options passed to `defineStore()` that are common between option and setup
- * stores. Extend this interface if you want to add custom options to both kinds
- * of stores.
- */
-export interface DefineStoreOptionsBase<S extends StateTree, Store> {
-  /**
-   * Allows hydrating the store during SSR when there is an available state in
-   * pinia.state.
-   *
-   * @param store - the store
-   * @param initialState - initialState
-   */
-  hydrate?(store: Store, initialState: UnwrapRef<S>): void
-}
-
-/**
  * @internal
  */
 type _SpreadStateFromStore<SS, K extends readonly any[]> = K extends readonly [
@@ -605,6 +589,22 @@ export type _ExtractGettersFromSetupStore<SS> = _SpreadPropertiesFromObject<
   _UnionToTuple<keyof SS>,
   ComputedRef<any>
 >
+
+/**
+ * Options passed to `defineStore()` that are common between option and setup
+ * stores. Extend this interface if you want to add custom options to both kinds
+ * of stores.
+ */
+export interface DefineStoreOptionsBase<S extends StateTree, Store> {
+  /**
+   * Allows hydrating the store during SSR when there is an available state in
+   * pinia.state.
+   *
+   * @param store - the store
+   * @param initialState - initialState
+   */
+  hydrate?(store: Store, initialState: UnwrapRef<S>): void
+}
 
 /**
  * Options parameter of `defineStore()` for option stores. Can be extended to
