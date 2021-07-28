@@ -85,11 +85,12 @@ function createOptionsStore<
   G extends GettersTree<S>,
   A extends ActionsTree
 >(
+  id: Id,
   options: DefineStoreOptions<Id, S, G, A>,
   pinia: Pinia,
   hot?: boolean
 ): Store<Id, S, G, A> {
-  const { id, state, actions, getters } = options
+  const { state, actions, getters } = options
   function $reset() {
     pinia.state.value[id] = state ? state() : {}
   }
@@ -689,7 +690,8 @@ export function defineStore(
   const isSetupStore = typeof setup === 'function'
   if (typeof idOrOptions === 'string') {
     id = idOrOptions
-    options = setupOptions
+    // the option store setup will contain the actual options in this case
+    options = isSetupStore ? setupOptions : setup
   } else {
     options = idOrOptions
     id = idOrOptions.id
@@ -711,7 +713,7 @@ export function defineStore(
         id,
         isSetupStore
           ? createSetupStore(id, setup, options, pinia)
-          : createOptionsStore(options as any, pinia)
+          : createOptionsStore(id, options as any, pinia)
       )
 
       if (__DEV__) {
@@ -726,11 +728,7 @@ export function defineStore(
       const hotId = '__hot:' + id
       const newStore = isSetupStore
         ? createSetupStore(hotId, setup, options, pinia, true)
-        : createOptionsStore(
-            assign({}, options, { id: hotId }) as any,
-            pinia,
-            true
-          )
+        : createOptionsStore(hotId, assign({}, options) as any, pinia, true)
 
       hot._hotUpdate(newStore)
 

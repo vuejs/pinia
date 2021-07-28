@@ -26,6 +26,22 @@ describe('Store', () => {
     expect(useStore()).toBe(useStore())
   })
 
+  it('works with id as first argument', () => {
+    setActivePinia(createPinia())
+    const useStore = defineStore('main', {
+      state: () => ({
+        a: true,
+        nested: {
+          foo: 'foo',
+          a: { b: 'string' },
+        },
+      }),
+    })
+    expect(useStore()).toBe(useStore())
+    const useStoreEmpty = defineStore('main', {})
+    expect(useStoreEmpty()).toBe(useStoreEmpty())
+  })
+
   it('sets the initial state', () => {
     const store = useStore()
     expect(store.$state).toEqual({
