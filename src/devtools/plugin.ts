@@ -1,14 +1,5 @@
 import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
-import {
-  App,
-  ComponentPublicInstance,
-  isReactive,
-  isRef,
-  markRaw,
-  toRaw,
-  unref,
-  watch,
-} from 'vue'
+import { App, ComponentPublicInstance, markRaw, toRaw, unref, watch } from 'vue'
 import { Pinia, PiniaPluginContext } from '../rootStore'
 import {
   GettersTree,
