@@ -64,6 +64,8 @@
   "license": "MIT",
   "devDependencies": {
     "@microsoft/api-extractor": "7.18.4",
+    "@nuxt/app": "^0.5.0",
+    "@nuxt/kit": "^0.6.4",
     "@rollup/plugin-alias": "^3.1.4",
     "@rollup/plugin-commonjs": "^19.0.1",
     "@rollup/plugin-node-resolve": "^13.0.4",
