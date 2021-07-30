@@ -93,6 +93,9 @@ describe('Store', () => {
         a: { b: 'string' },
       },
     })
+
+    // https://github.com/posva/pinia/issues/593
+    expect(store.nested.foo).toBe('bar')
   })
 
   it('can create an empty state if no state option is provided', () => {

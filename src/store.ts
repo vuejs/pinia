@@ -95,9 +95,6 @@ function createOptionsStore<
   hot?: boolean
 ): Store<Id, S, G, A> {
   const { state, actions, getters } = options
-  function $reset() {
-    pinia.state.value[id] = state ? state() : {}
-  }
 
   const initialState: StateTree | undefined = pinia.state.value[id]
 
@@ -105,9 +102,8 @@ function createOptionsStore<
 
   function setup() {
     if (!initialState && (!__DEV__ || !hot)) {
-      $reset()
+      pinia.state.value[id] = state ? state() : {}
     }
-    // pinia.state.value[id] = state ? state() : {}
 
     // avoid creating a state in pinia.state.value
     const localState =
@@ -135,7 +131,13 @@ function createOptionsStore<
 
   store = createSetupStore(id, setup, options, pinia, hot)
 
-  store.$reset = $reset
+  store.$reset = function $reset() {
+    const newState = state ? state() : {}
+    // we use a patch to group all changes into one single subscription
+    this.$patch(($state) => {
+      assign($state, newState)
+    })
+  }
 
   return store as any
 }
