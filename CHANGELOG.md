@@ -1,8 +1,20 @@
+# [2.0.0-rc.1](https://github.com/posva/pinia/compare/v2.0.0-rc.0...v2.0.0-rc.1) (2021-07-30)
+
+Posted https://github.com/posva/pinia/issues/592 to help people installing or upgrading Pinia.
+
+### Bug Fixes
+
+- collect reactive effects ran in plugins ([54cee00](https://github.com/posva/pinia/commit/54cee009cf15a5086ad031da65278a7689230587))
+- **devtools:** update when custom properties change ([7dcb71e](https://github.com/posva/pinia/commit/7dcb71e8182900c451a56f1ad9e0e931dba48dcb))
+- **store:** keep original refs with $reset ([a7dadff](https://github.com/posva/pinia/commit/a7dadfff8aae4abb83696a47904b030295408a09)), closes [#593](https://github.com/posva/pinia/issues/593)
+
 # [2.0.0-rc.0](https://github.com/posva/pinia/compare/v2.0.0-beta.5...v2.0.0-rc.0) (2021-07-28)
 
 ## Required Vue version ‼️
 
 This release requires Vue 3.2.0, which is currently only available under the `beta` dist tag (`npm i vue@beta` or `yarn add vue@beta` + the corresponding packages like `@vue/compiler-sfc@beta`).
+
+Follow the instructions at https://github.com/posva/pinia/issues/592 if you need help updating your package versions.
 
 It contains major improvements:
 
