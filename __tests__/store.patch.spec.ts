@@ -29,12 +29,15 @@ describe('store.$patch', () => {
       },
       list: [],
     })
+
+    expect(store.a).toBe(false)
   })
 
   it('replaces whole arrays', () => {
     const store = useStore()
     store.$patch({ list: [1, 2] })
     expect(store.$state.list).toEqual([1, 2])
+    expect(store.list).toEqual([1, 2])
   })
 
   it('replaces whole nested arrays', () => {
