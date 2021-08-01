@@ -35,7 +35,7 @@
     "test:types": "tsc --build tsconfig.json",
     "test:unit": "jest --coverage",
     "dev": "yarn run test:unit --watchAll",
-    "playground": "yarn vite",
+    "play": "yarn vite",
     "pretest": "yarn run lint",
     "test": "yarn run test:types && yarn run test:unit && yarn run build && yarn run build:dts && yarn test:dts"
   },
