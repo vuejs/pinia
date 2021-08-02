@@ -19,6 +19,7 @@
     "name": "Eduardo San Martin Morote",
     "email": "posva13@gmail.com"
   },
+  "funding": "https://github.com/sponsors/posva",
   "scripts": {
     "docs": "vitepress dev docs",
     "docs:build": "vitepress build docs",
@@ -96,6 +97,7 @@
     "vite": "^2.4.1",
     "vitepress": "^0.15.6",
     "vue": "^3.2.0-beta.1",
+    "vue2": "npm:vue@2",
     "vue-promised": "^2.1.0",
     "vue-router": "^4.0.10",
     "yorkie": "^2.0.0"

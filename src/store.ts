@@ -17,6 +17,8 @@ import {
   toRefs,
   Ref,
   ref,
+  set,
+  isVue2,
 } from 'vue-demi'
 import {
   StateTree,
@@ -102,7 +104,11 @@ function createOptionsStore<
 
   function setup() {
     if (!initialState && (!__DEV__ || !hot)) {
-      pinia.state.value[id] = state ? state() : {}
+      if (isVue2) {
+        set(pinia.state.value, id, state ? state() : {})
+      } else {
+        pinia.state.value[id] = state ? state() : {}
+      }
     }
 
     // avoid creating a state in pinia.state.value
@@ -170,7 +176,7 @@ function createSetupStore<
   // watcher options for $subscribe
   const $subscribeOptions: WatchOptions = { deep: true, flush: 'sync' }
   /* istanbul ignore else */
-  if (__DEV__) {
+  if (__DEV__ && !isVue2) {
     $subscribeOptions.onTrigger = (event) => {
       if (isListening) {
         debuggerEvents = event

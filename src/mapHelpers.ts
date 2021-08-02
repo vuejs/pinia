@@ -1,5 +1,5 @@
-import { ComponentPublicInstance } from 'vue-demi'
-import {
+import type { ComponentPublicInstance } from 'vue-demi'
+import type {
   GettersTree,
   _Method,
   StateTree,
@@ -109,7 +109,7 @@ export function mapStores<Stores extends any[]>(
   }
 
   return stores.reduce((reduced, useStore) => {
-    // @ts-ignore: $id is added by defineStore
+    // @ts-expect-error: $id is added by defineStore
     reduced[useStore.$id + mapStoreSuffix] = function (
       this: ComponentPublicInstance
     ) {
