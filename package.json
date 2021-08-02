@@ -23,6 +23,7 @@
     "name": "Eduardo San Martin Morote",
     "email": "posva13@gmail.com"
   },
+  "funding": "https://github.com/sponsors/posva",
   "scripts": {
     "lint": "eslint --color --ext=js,html,vue,ts src __tests__ *.js",
     "lint:fix": "yarn run lint --fix",
