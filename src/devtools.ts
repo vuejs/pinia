@@ -28,7 +28,7 @@ const target =
     ? global
     : { __VUE_DEVTOOLS_GLOBAL_HOOK__: undefined }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// @ts-ignore
 const devtoolHook: DevtoolHook | undefined = target.__VUE_DEVTOOLS_GLOBAL_HOOK__
 
 interface RootState {
