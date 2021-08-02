@@ -104,7 +104,8 @@ function createOptionsStore<
 
   function setup() {
     if (!initialState && (!__DEV__ || !hot)) {
-      if (isVue2) {
+      // only use set in Vue 2 if it's not for HMR
+      if (isVue2 && (!__DEV__ || !id.startsWith('__hot'))) {
         set(pinia.state.value, id, state ? state() : {})
       } else {
         pinia.state.value[id] = state ? state() : {}
@@ -203,8 +204,12 @@ function createSetupStore<
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
 
   if (!initialState && __DEV__ && !hot) {
-    // should be set in Vue 2
-    pinia.state.value[$id] = {}
+    // only use set in Vue 2 if it's not for HMR
+    if (isVue2 && (!__DEV__ || !$id.startsWith('__hot'))) {
+      set(pinia.state.value, $id, {})
+    } else {
+      pinia.state.value[$id] = {}
+    }
   }
 
   const hotState = ref({} as S)
@@ -366,7 +371,11 @@ function createSetupStore<
         hotState.value[key] = toRef(setupStore as any, key)
         // createOptionStore already did this
       } else if (!buildState) {
-        pinia.state.value[$id][key] = prop
+        if (isVue2) {
+          set(pinia.state.value[$id], key, prop)
+        } else {
+          pinia.state.value[$id][key] = prop
+        }
         // TODO: avoid if state exists for SSR
       }
 
