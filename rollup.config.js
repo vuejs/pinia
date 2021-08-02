@@ -77,7 +77,11 @@ function createConfig(format, output, plugins = []) {
   output.sourcemap = !!process.env.SOURCE_MAP
   output.banner = banner
   output.externalLiveBindings = false
-  output.globals = { vue: 'Vue', '@vue/composition-api': 'vueCompositionApi' }
+  output.globals = {
+    'vue-demi': 'VueDemi',
+    vue: 'Vue',
+    '@vue/composition-api': 'vueCompositionApi',
+  }
 
   const isProductionBuild = /\.prod\.js$/.test(output.file)
   const isGlobalBuild = format === 'global'
@@ -107,7 +111,7 @@ function createConfig(format, output, plugins = []) {
   // during a single build.
   hasTSChecked = true
 
-  const external = ['vue', '@vue/composition-api']
+  const external = ['vue-demi', 'vue', '@vue/composition-api']
   if (!isGlobalBuild) {
     external.push('@vue/devtools-api')
   }
