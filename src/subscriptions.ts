@@ -1,4 +1,4 @@
-import { getCurrentInstance, onUnmounted } from 'vue'
+import { getCurrentInstance, onUnmounted } from 'vue-demi'
 import { _Method } from './types'
 
 export function addSubscription<T extends _Method>(

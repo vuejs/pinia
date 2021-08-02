@@ -1,4 +1,4 @@
-import { App, createApp } from 'vue'
+import { App, createApp } from 'vue-demi'
 import { createPinia } from './createPinia'
 import { Pinia, PiniaStorePlugin, setActivePinia } from './rootStore'
 

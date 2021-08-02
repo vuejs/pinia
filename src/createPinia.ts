@@ -4,7 +4,7 @@ import {
   setActivePinia,
   piniaSymbol,
 } from './rootStore'
-import { ref, App, markRaw, effectScope } from 'vue'
+import { ref, App, markRaw, effectScope } from 'vue-demi'
 import { registerPiniaDevtools, devtoolsPlugin } from './devtools'
 import { IS_CLIENT } from './env'
 import { StateTree, StoreGeneric } from './types'

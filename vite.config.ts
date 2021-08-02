@@ -10,6 +10,6 @@ export default defineConfig({
     __TEST__: 'false',
   },
   optimizeDeps: {
-    exclude: ['@vueuse/shared', '@vueuse/core'],
+    exclude: ['vue-demi', '@vueuse/shared', '@vueuse/core'],
   },
 })

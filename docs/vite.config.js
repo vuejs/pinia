@@ -6,6 +6,6 @@ export default defineConfig({
     __BROWSER__: 'true',
   },
   optimizeDeps: {
-    exclude: ['@vueuse/shared', '@vueuse/core'],
+    exclude: ['vue-demi', '@vueuse/shared', '@vueuse/core'],
   },
 })

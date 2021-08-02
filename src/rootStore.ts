@@ -1,4 +1,4 @@
-import { App, EffectScope, InjectionKey, Plugin, Ref, warn } from 'vue'
+import { App, EffectScope, InjectionKey, Plugin, Ref, warn } from 'vue-demi'
 import {
   StateTree,
   PiniaCustomProperties,

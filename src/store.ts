@@ -17,7 +17,7 @@ import {
   toRefs,
   Ref,
   ref,
-} from 'vue'
+} from 'vue-demi'
 import {
   StateTree,
   SubscriptionCallback,

@@ -1,4 +1,4 @@
-import { ComputedRef, DebuggerEvent, Ref, UnwrapRef } from 'vue'
+import { ComputedRef, DebuggerEvent, Ref, UnwrapRef } from 'vue-demi'
 import { Pinia } from './rootStore'
 
 /**
