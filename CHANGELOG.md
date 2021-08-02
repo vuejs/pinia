@@ -1,3 +1,12 @@
+## [0.5.3](https://github.com/posva/pinia/compare/v0.5.2...v0.5.3) (2021-08-02)
+
+### Bug Fixes
+
+- markRaw on pinia ([208e6c0](https://github.com/posva/pinia/commit/208e6c00d2d6077b818a7f99f000b177a1f96107))
+- **patch:** avoid merging reactive objects ([581bd08](https://github.com/posva/pinia/commit/581bd08d978050fc5b9e8c6b32147cf3798b33cb)), closes [#528](https://github.com/posva/pinia/issues/528)
+- **types:** forbid non existent access in getters and actions ([29eee8a](https://github.com/posva/pinia/commit/29eee8a3eba5f426a05315dd05c1a7eaf69a6758))
+- **types:** remove state properties from this ([7990adf](https://github.com/posva/pinia/commit/7990adfffa39d14a0d458e6d8a0f341e61441693))
+
 ## [0.5.2](https://github.com/posva/pinia/compare/v0.5.1...v0.5.2) (2021-06-03)
 
 ### Bug Fixes
