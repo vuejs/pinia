@@ -398,6 +398,10 @@ function addStoreToDevtools(app: App, store: StoreGeneric) {
             },
           },
         })
+        // update the devtools too
+        api.notifyComponentUpdate()
+        api.sendInspectorTree(INSPECTOR_ID)
+        api.sendInspectorState(INSPECTOR_ID)
       })
 
       // trigger an update so it can display new registered stores
