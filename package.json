@@ -9,10 +9,8 @@
   "types": "dist/pinia.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/pinia.cjs.js",
-      "browser": "./dist/pinia.esm-browser.js",
       "import": "./dist/pinia.esm-bundler.js",
-      "module": "./dist/pinia.esm-bundler.js"
+      "require": "./dist/pinia.cjs.js"
     },
     "./package.json": "./package.json"
   },
