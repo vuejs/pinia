@@ -6,6 +6,7 @@ export const useJokes = defineStore('jokes', {
   state: () => ({
     current: null as null | Joke,
     jokes: [] as Joke[],
+    // hello: true,
   }),
   actions: {
     async fetchJoke() {
@@ -17,7 +18,8 @@ export const useJokes = defineStore('jokes', {
         this.jokes.push(this.current)
       }
 
-      this.current = await getRandomJoke()
+      this.$patch({ current: await getRandomJoke() })
+      // this.current = await getRandomJoke()
     },
   },
 })
@@ -45,5 +47,5 @@ export const useJokesSetup = defineStore('jokes-setup', () => {
 
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useJokes, import.meta.hot))
-  import.meta.hot.accept(acceptHMRUpdate(useJokesSetup, import.meta.hot))
+  // import.meta.hot.accept(acceptHMRUpdate(useJokesSetup, import.meta.hot))
 }

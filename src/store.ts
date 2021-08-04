@@ -105,8 +105,7 @@ function createOptionsStore<
 
   function setup() {
     if (!initialState && (!__DEV__ || !hot)) {
-      // only use set in Vue 2 if it's not for HMR
-      if (isVue2 && (!__DEV__ || !id.startsWith('__hot'))) {
+      if (isVue2) {
         set(pinia.state.value, id, state ? state() : {})
       } else {
         pinia.state.value[id] = state ? state() : {}
@@ -116,7 +115,8 @@ function createOptionsStore<
     // avoid creating a state in pinia.state.value
     const localState =
       __DEV__ && hot
-        ? toRefs(ref(state ? state() : {}).value)
+        ? // use ref() to unwrap refs inside state TODO: check if this is still necessary
+          toRefs(ref(state ? state() : {}).value)
         : initialState || toRefs(pinia.state.value[id])
 
     return assign(
@@ -205,8 +205,7 @@ function createSetupStore<
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
 
   if (!initialState && __DEV__ && !hot) {
-    // only use set in Vue 2 if it's not for HMR
-    if (isVue2 && (!__DEV__ || !$id.startsWith('__hot'))) {
+    if (isVue2) {
       set(pinia.state.value, $id, {})
     } else {
       pinia.state.value[$id] = {}
@@ -369,8 +368,9 @@ function createSetupStore<
     if ((isRef(prop) && !isComputed(prop)) || isReactive(prop)) {
       // mark it as a piece of state to be serialized
       if (__DEV__ && hot) {
-        hotState.value[key] = toRef(setupStore as any, key)
-        // createOptionStore already did this
+        set(hotState.value, key, toRef(setupStore as any, key))
+        // createOptionStore directly sets the state in pinia.state.value so we
+        // can just skip that
       } else if (!buildState) {
         if (isVue2) {
           set(pinia.state.value[$id], key, prop)
@@ -386,9 +386,15 @@ function createSetupStore<
       // action
     } else if (typeof prop === 'function') {
       // @ts-expect-error: we are overriding the function we avoid wrapping if
+      const actionValue = __DEV__ && hot ? prop : wrapAction(key, prop)
       // this a hot module replacement store because the hotUpdate method needs
       // to do it with the right context
-      setupStore[key] = __DEV__ && hot ? prop : wrapAction(key, prop)
+      if (isVue2) {
+        set(setupStore, key, actionValue)
+      } else {
+        // @ts-expect-error
+        setupStore[key] = actionValue
+      }
 
       if (__DEV__) {
         _hmrPayload.actions[key] = prop
