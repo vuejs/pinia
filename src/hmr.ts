@@ -3,7 +3,7 @@ import { Pinia } from './rootStore'
 import { isPlainObject, StoreDefinition, StoreGeneric, _Method } from './types'
 
 /**
- * Checks if a function is a `StoreDefinition`
+ * Checks if a function is a `StoreDefinition`.
  *
  * @param fn - object to test
  * @returns true if `fn` is a StoreDefinition
