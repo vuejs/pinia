@@ -1,3 +1,17 @@
+# [2.0.0-rc.2](https://github.com/posva/pinia/compare/v2.0.0-rc.1...v2.0.0-rc.2) (2021-08-04)
+
+This version supports Vue 2! [Here](https://github.com/posva/pinia-vue-2-vite-example) is an example using Vue 2 and Vite for an optimal DX. **Note this version requires Vue Devtools 6**, and more specifically, they don't work with the current `@vue/devtools-api` (`6.0.0-beta.15`) because they require [this unreleased fix](https://github.com/vuejs/devtools/commit/3db47027d81c1701d2ddfe1dd86bae0d7ce63cef). To get all the goodness pinia has to offer **for Vue 2**, you will need to clone `vuejs/devtools`, run `yarn && yarn run build` and then _load an unpacked extension_ on a Chromium browser (after activating the developer mode in the extension panel). If you are using Vue 3, you can still use the Vue Devtools 6 regularly.
+
+### Bug Fixes
+
+- **devtools:** grouping of actions ([3d760f1](https://github.com/posva/pinia/commit/3d760f1c78936666174c1a352314081bccf11b01))
+- **devtools:** reflect changes on HMR ([aebc9a0](https://github.com/posva/pinia/commit/aebc9a0969bec40c06b28f96ff0d1d048f589f31))
+
+### Features
+
+- add support for Vue 2 ([e1ea1c8](https://github.com/posva/pinia/commit/e1ea1c8563816dd99963aae778c03335d0577266))
+- enable devtools with Vue 2 ([08cdff5](https://github.com/posva/pinia/commit/08cdff5be7415f8c635fe9431cb32931950e5fcb))
+
 # [2.0.0-rc.1](https://github.com/posva/pinia/compare/v2.0.0-rc.0...v2.0.0-rc.1) (2021-07-30)
 
 Posted https://github.com/posva/pinia/issues/592 to help people installing or upgrading Pinia.
