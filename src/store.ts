@@ -18,6 +18,7 @@ import {
   Ref,
   ref,
   set,
+  del,
   isVue2,
 } from 'vue-demi'
 import {
@@ -471,14 +472,13 @@ function createSetupStore<
         }
         // patch direct access properties to allow store.stateProperty to work as
         // store.$state.stateProperty
-        // @ts-expect-error
-        store[stateKey] = toRef(newStore.$state, stateKey)
+        set(store, stateKey, toRef(newStore.$state, stateKey))
       })
 
       // remove deleted state properties
       Object.keys(store.$state).forEach((stateKey) => {
         if (!(stateKey in newStore.$state)) {
-          delete store[stateKey]
+          del(store, stateKey)
         }
       })
 
@@ -490,38 +490,34 @@ function createSetupStore<
       for (const actionName in newStore._hmrPayload.actions) {
         const action: _Method = newStore[actionName]
 
-        // @ts-expect-error: new key
-        store[actionName] =
-          // new line forced for TS
-          wrapAction(actionName, action)
+        set(store, actionName, wrapAction(actionName, action))
       }
 
       // TODO: does this work in both setup and option store?
       for (const getterName in newStore._hmrPayload.getters) {
         const getter: _Method = newStore._hmrPayload.getters[getterName]
-        // @ts-expect-error
-        store[getterName] =
-          // ---
-          buildState
-            ? // special handling of options api
-              computed(() => {
-                setActivePinia(pinia)
-                return getter.call(store, store)
-              })
-            : getter
+        const getterValue = buildState
+          ? // special handling of options api
+            computed(() => {
+              setActivePinia(pinia)
+              return getter.call(store, store)
+            })
+          : getter
+
+        set(store, getterName, getterValue)
       }
 
       // remove deleted getters
       Object.keys(store._hmrPayload.getters).forEach((key) => {
         if (!(key in newStore._hmrPayload.getters)) {
-          delete store[key]
+          del(store, key)
         }
       })
 
       // remove old actions
       Object.keys(store._hmrPayload.actions).forEach((key) => {
         if (!(key in newStore._hmrPayload.actions)) {
-          delete store[key]
+          del(store, key)
         }
       })
 

@@ -18,6 +18,18 @@ describe('store.$patch', () => {
     })()
   }
 
+  const useArrayStore = () => {
+    // create a new store
+    setActivePinia(createPinia())
+    return defineStore({
+      id: 'main',
+      state: () => ({
+        items: [{ id: 0 }],
+        currentItem: { id: 1 },
+      }),
+    })()
+  }
+
   it('patches a property without touching the rest', () => {
     const store = useStore()
     store.$patch({ a: false })
@@ -38,6 +50,16 @@ describe('store.$patch', () => {
     store.$patch({ list: [1, 2] })
     expect(store.$state.list).toEqual([1, 2])
     expect(store.list).toEqual([1, 2])
+  })
+
+  it('can patch an item that has been copied to an array', () => {
+    const store = useArrayStore()
+    store.$patch({ currentItem: { id: 2 } })
+    store.items.push(store.currentItem)
+    store.$patch({ currentItem: { id: 3 } })
+
+    expect(store.$state.items).toEqual([{ id: 0 }, { id: 2 }])
+    expect(store.items).toEqual([{ id: 0 }, { id: 2 }])
   })
 
   it('replaces whole nested arrays', () => {
