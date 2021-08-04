@@ -476,7 +476,7 @@ export function devtoolsPlugin<
 
   // only wrap actions in option-defined stores as this technique relies on
   // wrapping the context of the action with a proxy
-  if ('id' in options) {
+  if (typeof options.state === 'function') {
     patchActionForGrouping(
       // @ts-expect-error: can cast the store...
       store,
