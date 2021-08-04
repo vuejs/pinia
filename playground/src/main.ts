@@ -1,6 +1,6 @@
 import { computed, createApp, markRaw } from 'vue'
 import App from './App.vue'
-import { createPinia } from '../../src'
+import { acceptHMRUpdate, createPinia, isUseStore } from '../../src'
 import { router } from './router'
 
 const pinia = createPinia()
@@ -10,6 +10,24 @@ pinia.use(() => ({
 }))
 
 if (import.meta.hot) {
+  const stores = import.meta.glob('./stores/*.ts')
+  for (const filePath in stores) {
+    console.log('configuring HMR for', filePath)
+
+    stores[filePath]().then((mod) => {
+      for (const exportName in mod) {
+        const storeDef = mod[exportName]
+        if (isUseStore(storeDef)) {
+          console.log(`Detected store "${storeDef.$id}"`)
+          import.meta.hot!.accept(
+            filePath,
+            acceptHMRUpdate(storeDef, import.meta.hot)
+          )
+        }
+      }
+    })
+  }
+
   //   const isUseStore = (fn: any): fn is StoreDefinition => {
   //     return typeof fn === 'function' && typeof fn.$id === 'string'
   //   }
