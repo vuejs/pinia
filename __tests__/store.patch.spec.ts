@@ -54,9 +54,13 @@ describe('store.$patch', () => {
 
   it('can patch an item that has been copied to an array', () => {
     const store = useArrayStore()
-    store.$patch({ currentItem: { id: 2 } })
+    store.$state.currentItem = { id: 2 }
+    // NOTE: a patch of an object is always recursive, writing in the object, in
+    // place.
+    //store.$patch({ currentItem: { id: 2 } })
     store.items.push(store.currentItem)
-    store.$patch({ currentItem: { id: 3 } })
+    // store.$patch({ currentItem: { id: 3 } })
+    store.$state.currentItem = { id: 3 }
 
     expect(store.$state.items).toEqual([{ id: 0 }, { id: 2 }])
     expect(store.items).toEqual([{ id: 0 }, { id: 2 }])

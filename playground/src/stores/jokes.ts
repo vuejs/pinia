@@ -18,8 +18,9 @@ export const useJokes = defineStore('jokes', {
         this.jokes.push(this.current)
       }
 
-      this.$patch({ current: await getRandomJoke() })
-      // this.current = await getRandomJoke()
+      // NOTE: Avoid patching an object because it's recursive
+      // this.$patch({ current: await getRandomJoke() })
+      this.current = await getRandomJoke()
     },
   },
 })
