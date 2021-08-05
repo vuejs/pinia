@@ -204,7 +204,7 @@ function createSetupStore<
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
 
-  if (!initialState && __DEV__ && !hot) {
+  if (!initialState && (!__DEV__ || !hot)) {
     if (isVue2) {
       set(pinia.state.value, $id, {})
     } else {
