@@ -1,3 +1,9 @@
+# [2.0.0-rc.3](https://github.com/posva/pinia/compare/v2.0.0-rc.2...v2.0.0-rc.3) (2021-08-05)
+
+### Bug Fixes
+
+- set initial state in prod ([f8e3c83](https://github.com/posva/pinia/commit/f8e3c83a4c7be7bf537a5d6ffca97408263bc9a0)), closes [#598](https://github.com/posva/pinia/issues/598)
+
 # [2.0.0-rc.2](https://github.com/posva/pinia/compare/v2.0.0-rc.1...v2.0.0-rc.2) (2021-08-04)
 
 This version supports Vue 2! [Here](https://github.com/posva/pinia-vue-2-vite-example) is an example using Vue 2 and Vite for an optimal DX. **Note this version requires Vue Devtools 6**, and more specifically, they don't work with the current `@vue/devtools-api` (`6.0.0-beta.15`) because they require [this unreleased fix](https://github.com/vuejs/devtools/commit/3db47027d81c1701d2ddfe1dd86bae0d7ce63cef). To get all the goodness pinia has to offer **for Vue 2**, you will need to clone `vuejs/devtools`, run `yarn && yarn run build` and then _load an unpacked extension_ on a Chromium browser (after activating the developer mode in the extension panel). If you are using Vue 3, you can still use the Vue Devtools 6 regularly.
