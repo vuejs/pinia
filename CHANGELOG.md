@@ -1,3 +1,11 @@
+# [2.0.0-rc.4](https://github.com/posva/pinia/compare/v2.0.0-rc.3...v2.0.0-rc.4) (2021-08-09)
+
+If you are using Vue 2, make sure your `@vue/composition-api` version is at least `1.1.0`, which is currently under the npm dist tag `next`, which means it has to be installed with `npm install @vue/composition-api@next`.
+
+### Bug Fixes
+
+- **types:** unwrap computed in store getters ([35d4f59](https://github.com/posva/pinia/commit/35d4f591cf48166466f4d4e414de8063d55e3811)), closes [#602](https://github.com/posva/pinia/issues/602) [#603](https://github.com/posva/pinia/issues/603)
+
 # [2.0.0-rc.3](https://github.com/posva/pinia/compare/v2.0.0-rc.2...v2.0.0-rc.3) (2021-08-05)
 
 ### Bug Fixes
