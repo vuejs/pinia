@@ -77,8 +77,8 @@
     "@types/lodash.kebabcase": "^4.1.6",
     "@types/node": "^16.4.3",
     "@vitejs/plugin-vue": "^1.2.4",
-    "@vue/compiler-sfc": "^3.2.0-beta.1",
-    "@vue/server-renderer": "^3.2.0-beta.1",
+    "@vue/compiler-sfc": "^3.2.0",
+    "@vue/server-renderer": "^3.2.0",
     "@vue/test-utils": "^2.0.0-rc.10",
     "@vueuse/core": "^5.2.0",
     "brotli-wasm": "^1.1.0",
@@ -100,7 +100,7 @@
     "typescript": "~4.3.5",
     "vite": "^2.4.1",
     "vitepress": "^0.15.6",
-    "vue": "^3.2.0-beta.1",
+    "vue": "^3.2.0",
     "vue-promised": "^2.1.0",
     "vue-router": "^4.0.10",
     "vue2": "npm:vue@2",
@@ -113,7 +113,7 @@
   "peerDependencies": {
     "@vue/composition-api": "^1.1.0 || ^1.1.0-0",
     "typescript": "^4.3.5",
-    "vue": "^2.6.14 || ^3.2.0 || ^3.2.0-beta.4"
+    "vue": "^2.6.14 || ^3.2.0"
   },
   "peerDependenciesMeta": {
     "typescript": {

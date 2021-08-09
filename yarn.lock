@@ -1124,7 +1124,7 @@
     postcss-selector-parser "^6.0.4"
     source-map "^0.6.1"
 
-"@vue/compiler-sfc@^3.2.0-beta.1":
+"@vue/compiler-sfc@^3.2.0":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/@vue/compiler-sfc/-/compiler-sfc-3.2.1.tgz#7809b298cf0fbce62a2c628b7dfc1e82dd9a3a9b"
   integrity sha512-fVLdme5RZVkBt+jxv2LCSRM72o4FX7BR2eu2FpjjEi1kEtUMKBDnjKwGWy7TyhTju0t0CocctyoM+G56vH7NpQ==
@@ -1224,7 +1224,7 @@
     "@vue/compiler-ssr" "3.1.5"
     "@vue/shared" "3.1.5"
 
-"@vue/server-renderer@^3.2.0-beta.1":
+"@vue/server-renderer@^3.2.0":
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/@vue/server-renderer/-/server-renderer-3.2.1.tgz#249c8b5091ccc4c939ff1a2b5786d1da81c5dfd9"
   integrity sha512-Zphh7jjysefw4c4mqy2gDlg5W1MYpYuXPlbv2qnjr4IQHjR/FXQfrqo7U858SOCGXL7sXvx025/BstefP4WBTg==
@@ -6099,7 +6099,7 @@ vue@^3.1.1:
     "@vue/runtime-dom" "3.1.5"
     "@vue/shared" "3.1.5"
 
-vue@^3.2.0-beta.1:
+vue@^3.2.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.1.tgz#30dde152f2fdad0669ea9854d5a90a00ef96974b"
   integrity sha512-0jhXluF5mzTAK5bXw/8yq4McvsI8HwEWI4cnQwJeN8NYGRbwh9wwuE4FNv1Kej9pxBB5ajTNsWr0M6DPs5EJZg==
