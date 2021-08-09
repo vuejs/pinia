@@ -11,6 +11,7 @@ module.exports = {
     'src/devtools',
     'src/hmr',
     'src/deprecated.ts',
+    'src/vue2-plugin.ts',
   ],
   testMatch: ['<rootDir>/__tests__/**/*.spec.ts'],
   transform: {
