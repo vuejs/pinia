@@ -3,5 +3,3 @@
   ignore = "./scripts/docs-check.sh"
   publish = "docs/.vitepress/dist"
 
-[build.environment]
-  NODE_VERSION = 16
