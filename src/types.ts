@@ -420,7 +420,11 @@ export type StoreWithActions<A> = {
  * @internal
  */
 export type StoreWithGetters<G> = {
-  readonly [k in keyof G]: G[k] extends (...args: any[]) => infer R ? R : never
+  readonly [k in keyof G]: G[k] extends (...args: any[]) => infer R
+    ? R
+    : G[k] extends ComputedRef<infer T>
+    ? T
+    : G[k]
 }
 
 /**
