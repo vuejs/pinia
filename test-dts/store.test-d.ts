@@ -46,11 +46,6 @@ defineStore('name')
 defineStore('name', {
   state: () => ({}),
 })
-const useSetupStore = defineStore('name', () => {})
-
-const setupStore = useSetupStore()
-expectType<{}>(setupStore.$state)
-expectType<'name'>(setupStore.$id)
 
 // actions on not existing properties
 defineStore({
