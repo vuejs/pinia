@@ -109,7 +109,11 @@ yarn add pinia@next
 npm install pinia@next
 ```
 
-Note: If you are using Vue `^3.2.0` or `@vue/composition-api` `^1.1.0` (with Vue 2), give `pinia@beta` a try! [Check this issue](https://github.com/posva/pinia/issues/592) for more information and to ask questions.
+If you are using Vue 2, make sure to install `@vue/composition-api` version `1.1.0` (or greater):
+
+```bash
+npm install pinia@next @vue/composition-api@next
+```
 
 ## Usage
 
