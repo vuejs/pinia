@@ -13,13 +13,13 @@ features:
   - title: 🔑 Type Safe
     details: Types are inferred, which means stores provide you with autocompletion even in JavaScript!
   - title: ⚙️ Devtools support
-    details: Pinia hooks into Vue devtools to give you a enhanced development experience in both Vue 2 and Vue 3.
+    details: Pinia hooks into Vue devtools to give you an enhanced development experience in both Vue 2 and Vue 3.
   - title: 🔌 Extensible
     details: React to store changes to extend Pinia with transactions, local storage synchronization, etc.
   - title: 🏗 Modular by design
     details: Build multiple stores and let your bundler code split them automatically.
   - title: 📦 Extremely light
-    details: Pinia weights around 1kb, you will forget it's even there!
+    details: Pinia weighs around 1kb, you will forget it's even there!
 footer: MIT Licensed | Copyright © 2019-present Eduardo San Martin Morote
 ---
 
