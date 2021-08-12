@@ -409,15 +409,17 @@ function createSetupStore<
     $patch,
     $reset,
     $subscribe(callback, options = {}) {
+      /* istanbul ignore if */
       if (__DEV__ && typeof options === 'boolean') {
         console.warn(
           `[🍍]: store.$subscribe() no longer accepts a boolean as the 2nd parameter:\n` +
             `Replace "store.$subscribe(fn, ${String(
               options
-            )})" with "$store.$subscribe(fn, { detached: ${String(
+            )})" with "store.$subscribe(fn, { detached: ${String(
               options
-            )} })".`
+            )} })".\n This will fail in production.`
         )
+        options = { detached: options }
       }
 
       const _removeSubscription = addSubscription(
