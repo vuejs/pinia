@@ -81,9 +81,10 @@ describe('Store', () => {
     const store = useStore()
     store.$state.a = false
     const spy = jest.fn()
-    store.$subscribe(spy)
+    store.$subscribe(spy, { flush: 'sync' })
     expect(spy).not.toHaveBeenCalled()
     store.$reset()
+    expect(spy).toHaveBeenCalledTimes(1)
     store.$state.nested.foo = 'bar'
     expect(spy).toHaveBeenCalledTimes(2)
     expect(store.$state).toEqual({

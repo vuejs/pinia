@@ -20,7 +20,7 @@ describe('Subscriptions', () => {
 
   it('fires callback when patch is applied', () => {
     const spy = jest.fn()
-    store.$subscribe(spy)
+    store.$subscribe(spy, { flush: 'sync' })
     store.$state.name = 'Cleiton'
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith(
@@ -35,7 +35,7 @@ describe('Subscriptions', () => {
   it('subscribe to changes done via patch', () => {
     const store = useStore()
     const spy = jest.fn()
-    store.$subscribe(spy)
+    store.$subscribe(spy, { flush: 'sync' })
 
     const patch = { name: 'Cleiton' }
     store.$patch(patch)
@@ -52,7 +52,7 @@ describe('Subscriptions', () => {
 
   it('unsubscribes callback when unsubscribe is called', () => {
     const spy = jest.fn()
-    const unsubscribe = store.$subscribe(spy)
+    const unsubscribe = store.$subscribe(spy, { flush: 'sync' })
     unsubscribe()
     store.$state.name = 'Cleiton'
     expect(spy).not.toHaveBeenCalled()
@@ -61,8 +61,8 @@ describe('Subscriptions', () => {
   it('listeners are not affected when unsubscribe is called multiple times', () => {
     const func1 = jest.fn()
     const func2 = jest.fn()
-    const unsubscribe1 = store.$subscribe(func1)
-    store.$subscribe(func2)
+    const unsubscribe1 = store.$subscribe(func1, { flush: 'sync' })
+    store.$subscribe(func2, { flush: 'sync' })
     unsubscribe1()
     unsubscribe1()
     store.$state.name = 'Cleiton'
@@ -86,8 +86,8 @@ describe('Subscriptions', () => {
       const spy1 = jest.fn()
       const spy2 = jest.fn()
 
-      s1.$subscribe(spy1)
-      s2.$subscribe(spy2)
+      s1.$subscribe(spy1, { flush: 'sync' })
+      s2.$subscribe(spy2, { flush: 'sync' })
 
       expect(spy1).toHaveBeenCalledTimes(0)
       expect(spy2).toHaveBeenCalledTimes(0)
@@ -107,7 +107,7 @@ describe('Subscriptions', () => {
         {
           setup() {
             const s1 = useStore()
-            s1.$subscribe(spy1)
+            s1.$subscribe(spy1, { flush: 'sync' })
           },
           template: `<p/>`,
         },
@@ -117,15 +117,15 @@ describe('Subscriptions', () => {
       const s1 = useStore()
       const s2 = useStore()
 
-      s2.$subscribe(spy2)
+      s2.$subscribe(spy2, { flush: 'sync' })
 
       expect(spy1).toHaveBeenCalledTimes(0)
       expect(spy2).toHaveBeenCalledTimes(0)
 
       s1.name = 'Edu'
 
-      expect(spy2).toHaveBeenCalledTimes(1)
       expect(spy1).toHaveBeenCalledTimes(1)
+      expect(spy2).toHaveBeenCalledTimes(1)
 
       s1.$patch({ name: 'a' })
       expect(spy1).toHaveBeenCalledTimes(2)

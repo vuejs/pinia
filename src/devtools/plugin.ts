@@ -345,50 +345,53 @@ function addStoreToDevtools(app: App, store: StoreGeneric) {
         )
       })
 
-      store.$subscribe(({ events, type }, state) => {
-        api.notifyComponentUpdate()
-        api.sendInspectorState(INSPECTOR_ID)
+      store.$subscribe(
+        ({ events, type }, state) => {
+          api.notifyComponentUpdate()
+          api.sendInspectorState(INSPECTOR_ID)
 
-        if (!isTimelineActive) return
-        // rootStore.state[store.id] = state
+          if (!isTimelineActive) return
+          // rootStore.state[store.id] = state
 
-        const eventData: TimelineEvent = {
-          time: Date.now(),
-          title: formatMutationType(type),
-          data: {
-            store: formatDisplay(store.$id),
-            ...formatEventData(events),
-          },
-          groupId: activeAction,
-        }
-
-        // reset for the next mutation
-        activeAction = undefined
-
-        if (type === MutationType.patchFunction) {
-          eventData.subtitle = '⤵️'
-        } else if (type === MutationType.patchObject) {
-          eventData.subtitle = '🧩'
-        } else if (events && !Array.isArray(events)) {
-          eventData.subtitle = events.type
-        }
-
-        if (events) {
-          eventData.data['rawEvent(s)'] = {
-            _custom: {
-              display: 'DebuggerEvent',
-              type: 'object',
-              tooltip: 'raw DebuggerEvent[]',
-              value: events,
+          const eventData: TimelineEvent = {
+            time: Date.now(),
+            title: formatMutationType(type),
+            data: {
+              store: formatDisplay(store.$id),
+              ...formatEventData(events),
             },
+            groupId: activeAction,
           }
-        }
 
-        api.addTimelineEvent({
-          layerId: MUTATIONS_LAYER_ID,
-          event: eventData,
-        })
-      }, true)
+          // reset for the next mutation
+          activeAction = undefined
+
+          if (type === MutationType.patchFunction) {
+            eventData.subtitle = '⤵️'
+          } else if (type === MutationType.patchObject) {
+            eventData.subtitle = '🧩'
+          } else if (events && !Array.isArray(events)) {
+            eventData.subtitle = events.type
+          }
+
+          if (events) {
+            eventData.data['rawEvent(s)'] = {
+              _custom: {
+                display: 'DebuggerEvent',
+                type: 'object',
+                tooltip: 'raw DebuggerEvent[]',
+                value: events,
+              },
+            }
+          }
+
+          api.addTimelineEvent({
+            layerId: MUTATIONS_LAYER_ID,
+            event: eventData,
+          })
+        },
+        { detached: true, flush: 'sync' }
+      )
 
       const hotUpdate = store._hotUpdate
       store._hotUpdate = markRaw((newStore) => {

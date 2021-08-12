@@ -43,6 +43,7 @@ import {
   _ExtractActionsFromSetupStore,
   _ExtractGettersFromSetupStore,
   _ExtractStateFromSetupStore,
+  StoreWithState,
 } from './types'
 import {
   getActivePinia,
@@ -176,7 +177,10 @@ function createSetupStore<
   }
 
   // watcher options for $subscribe
-  const $subscribeOptions: WatchOptions = { deep: true, flush: 'sync' }
+  const $subscribeOptions: WatchOptions = {
+    deep: true,
+    // flush: 'post',
+  }
   /* istanbul ignore else */
   if (__DEV__ && !isVue2) {
     $subscribeOptions.onTrigger = (event) => {
@@ -221,30 +225,7 @@ function createSetupStore<
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
   const setupStore = pinia._e.run(() => {
     scope = effectScope()
-    return scope.run(() => {
-      // skip setting up the watcher on HMR
-      if (!__DEV__ || !hot) {
-        watch(
-          () => pinia.state.value[$id] as UnwrapRef<S>,
-          (state, oldState) => {
-            if (isListening) {
-              triggerSubscriptions(
-                subscriptions,
-                {
-                  storeId: $id,
-                  type: MutationType.direct,
-                  events: debuggerEvents as DebuggerEvent,
-                },
-                state
-              )
-            }
-          },
-          $subscribeOptions
-        )!
-      }
-
-      return setup()
-    })
+    return scope.run(() => setup())
   })!
 
   function $patch(stateMutation: (state: UnwrapRef<S>) => void): void
@@ -427,8 +408,51 @@ function createSetupStore<
     $onAction: addSubscription.bind(null, actionSubscriptions),
     $patch,
     $reset,
-    $subscribe: addSubscription.bind(null, subscriptions),
-  }
+    $subscribe(callback, options = {}) {
+      if (__DEV__ && typeof options === 'boolean') {
+        console.warn(
+          `[🍍]: store.$subscribe() no longer accepts a boolean as the 2nd parameter:\n` +
+            `Replace "store.$subscribe(fn, ${String(
+              options
+            )})" with "$store.$subscribe(fn, { detached: ${String(
+              options
+            )} })".`
+        )
+      }
+
+      const _removeSubscription = addSubscription(
+        subscriptions,
+        callback,
+        // @ts-expect-error: until the deprecation is removed
+        options.detached
+      )
+      const stopWatcher = scope.run(() =>
+        watch(
+          () => pinia.state.value[$id] as UnwrapRef<S>,
+          (state, oldState) => {
+            if (isListening) {
+              callback(
+                {
+                  storeId: $id,
+                  type: MutationType.direct,
+                  events: debuggerEvents as DebuggerEvent,
+                },
+                state
+              )
+            }
+          },
+          assign({}, $subscribeOptions, options)
+        )
+      )!
+
+      const removeSubscription = () => {
+        stopWatcher()
+        _removeSubscription()
+      }
+
+      return removeSubscription
+    },
+  } as StoreWithState<Id, S, G, A>
 
   const store: Store<Id, S, G, A> = reactive(
     assign(
