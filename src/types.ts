@@ -1,4 +1,10 @@
-import { ComputedRef, DebuggerEvent, Ref, UnwrapRef } from 'vue-demi'
+import {
+  ComputedRef,
+  DebuggerEvent,
+  Ref,
+  UnwrapRef,
+  WatchOptions,
+} from 'vue-demi'
 import { Pinia } from './rootStore'
 
 /**
@@ -342,7 +348,27 @@ export interface StoreWithState<
    * true.
    *
    * @param callback - callback passed to the watcher
-   * @param detached - detach the subscription from the context this is called from
+   * @param options - `watch` options + `detached` to detach the subscription
+   * from the context (usually a component) this is called from
+   * @returns function that removes the watcher
+   */
+  $subscribe(
+    callback: SubscriptionCallback<S>,
+    options?: { detached?: boolean } & WatchOptions
+  ): () => void
+
+  /**
+   * Setups a callback to be called whenever the state changes. It also returns
+   * a function to remove the callback. Note than when calling
+   * `store.$subscribe()` inside of a component, it will be automatically
+   * cleanup up when the component gets unmounted unless `detached` is set to
+   * true.
+   *
+   * @deprecated use `store.$subscribe(fn, { detached: true })` instead.
+   *
+   * @param callback - callback passed to the watcher
+   * @param detached - detach the subscription from the context this is called
+   * from
    * @returns function that removes the watcher
    */
   $subscribe(callback: SubscriptionCallback<S>, detached?: boolean): () => void
