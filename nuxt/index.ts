@@ -1,6 +1,6 @@
 // @ts-check
 import { resolve } from 'upath'
-import { addPlugin, defineNuxtModule } from '@nuxt/kit'
+import { addPlugin, defineNuxtModule, resolveModule } from '@nuxt/kit'
 
 export interface PiniaNuxtOptions {
   /**
@@ -26,6 +26,10 @@ const module = defineNuxtModule<PiniaNuxtOptions>({
     }
 
     addPlugin({ src: resolve(__dirname, 'plugin') })
+
+    // Define pinia resolution to ensure plugins register global context successfully
+    nuxt.options.alias['pinia'] =
+      nuxt.options.alias['pinia'] || resolveModule('pinia')
 
     // transpile pinia if @vue/composition-api is transpiled because we must use the same instance
     if (
