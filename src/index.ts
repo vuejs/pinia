@@ -45,6 +45,8 @@ export {
   setMapStoreSuffix,
 } from './mapHelpers'
 
+export { storeToRefs } from './storeToRefs'
+
 export type {
   MapStoresCustomization,
   _MapActionsObjectReturn,

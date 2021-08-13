@@ -467,6 +467,7 @@ export type Store<
   (ActionsTree extends A ? {} : A) &
   PiniaCustomProperties<Id, S, G, A> &
   PiniaCustomStateProperties<S>
+
 /**
  * Generic and type-unsafe version of Store. Doesn't fail on access with
  * strings, making it much easier to write generic functions that do not care

@@ -4,6 +4,7 @@ import {
   defineStore,
   mapStores,
   ActionsTree,
+  storeToRefs,
 } from './'
 import { App, ref, Ref } from 'vue'
 
@@ -129,3 +130,45 @@ pinia.use(({ options, store }) => {
     }, {} as Record<string, (...args: any[]) => any>)
   }
 })
+
+expectType<{ myState: Ref<number>; stateOnly: Ref<number> }>(
+  storeToRefs(defineStore('a', {})())
+)
+
+expectType<{
+  a: Ref<boolean>
+  myState: Ref<number>
+  stateOnly: Ref<number>
+}>(
+  // @ts-expect-error: no a
+  storeToRefs(defineStore('a', {})())
+)
+
+expectType<{
+  $onAction: Ref<unknown>
+  myState: Ref<number>
+  stateOnly: Ref<number>
+}>(
+  // @ts-expect-error: doesn't add store methods
+  storeToRefs(defineStore('a', {})())
+)
+
+expectType<{ a: Ref<boolean>; myState: Ref<number>; stateOnly: Ref<number> }>(
+  storeToRefs(defineStore('a', { state: () => ({ a: true }) })())
+)
+
+expectType<{
+  n: Ref<number>
+  double: Ref<number>
+  myState: Ref<number>
+  stateOnly: Ref<number>
+}>(
+  storeToRefs(
+    defineStore('a', {
+      state: () => ({ n: 1 }),
+      getters: {
+        double: (state) => state.n * 2,
+      },
+    })()
+  )
+)
