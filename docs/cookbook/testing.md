@@ -68,7 +68,7 @@ beforeEach(() => {
 
 ## Unit testing components
 
-Coming soon with `createTestingPinia()`...
+Coming soon with `createTestingPinia()`... But if you are adventurous and want to give it a try, check the [existing tests for it](https://github.com/posva/pinia/blob/v2/__tests__/testing.spec.ts#L36). Note in future releases, you will have to install `@pinia/testing` (which doesn't exist yet) and adapt the imports. Make sure to keep an eye on releases to be notified when this happen!
 
 ## E2E tests
 
