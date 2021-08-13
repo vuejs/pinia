@@ -14,9 +14,13 @@ export default function NuxtPiniaModule(options) {
     fileName: 'pinia.js',
   })
 
-  this.options.build.transpile = this.options.build.transpile || []
+  // Define pinia resolution to ensure plugins register global context successfully
+  this.options.alias['pinia'] =
+    this.options.alias['pinia'] || this.nuxt.resolver.resolveModule('pinia')
 
   // transpile pinia if @vue/composition-api is transpiled because we must use the same instance
+  this.options.build.transpile = this.options.build.transpile || []
+
   if (
     !this.options.dev &&
     !this.options.build.transpile.includes('pinia') &&
