@@ -417,7 +417,7 @@ function createSetupStore<
               options
             )})" with "store.$subscribe(fn, { detached: ${String(
               options
-            )} })".\n This will fail in production.`
+            )} })".\nThis will fail in production.`
         )
         options = { detached: options }
       }
