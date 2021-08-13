@@ -39,7 +39,7 @@ If you are not using `setup` components yet, [you can still use Pinia with _map 
 
 Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will see these in detail in the next pages but autocompletion will help you.
 
-Note that `store` in an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it**:
+Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it**:
 
 ```js
 export default defineComponent({
