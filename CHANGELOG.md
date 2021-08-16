@@ -1,3 +1,13 @@
+## [0.5.4](https://github.com/posva/pinia/compare/v0.5.3...v0.5.4) (2021-08-16)
+
+### Bug Fixes
+
+- **nuxt:** make `$nuxt` non enumerable ([df75778](https://github.com/posva/pinia/commit/df75778917ed1543a8be73d5bbfa32750f811ab2)), closes [#574](https://github.com/posva/pinia/issues/574)
+
+### Features
+
+- **nuxt:** resolve in mono repos ([4716b5e](https://github.com/posva/pinia/commit/4716b5ea0f335bd8a1d582c60e6ce7e49c6bca3e))
+
 ## [0.5.3](https://github.com/posva/pinia/compare/v0.5.2...v0.5.3) (2021-08-02)
 
 ### Bug Fixes
