@@ -1,0 +1,27 @@
+{
+  "name": "@pinia/root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "release": "node TODO: scripts/release.mjs",
+    "size": "lerna run size",
+    "build": "lerna run build --parallel",
+    "docs:api": "typedoc TODO:"
+  },
+  "devDependencies": {
+    "chalk": "^4.1.1",
+    "conventional-changelog-cli": "^2.1.1",
+    "enquirer": "^2.3.6",
+    "execa": "^5.1.1",
+    "expect": "^27.0.6",
+    "globby": "^12.0.0",
+    "lerna": "^4.0.0",
+    "minimist": "^1.2.5",
+    "p-series": "^2.1.0",
+    "prettier": "^2.3.2",
+    "semver": "^7.3.5",
+    "typescript": "^4.3.5"
+  }
+}
