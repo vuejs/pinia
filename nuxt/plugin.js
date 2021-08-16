@@ -20,8 +20,10 @@ const myPlugin = (context, inject) => {
   setActivePinia(pinia)
 
   // we bypass warnings
-  // @ts-expect-error
-  pinia._p.push(() => ({ $nuxt: context }))
+  pinia._p.push(({ store }) => {
+    // non enumerable to avoid it being serialized or displayed in devtools
+    Object.defineProperty(store, '$nuxt', { value: context })
+  })
 
   if (process.server) {
     context.beforeNuxtRender(({ nuxtState }) => {
