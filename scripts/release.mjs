@@ -52,6 +52,8 @@ async function main() {
       console.log(chalk.red(`Git repo isn't clean.`))
       return
     }
+  } else {
+    console.log(chalk.bold.white(`Skipping git checks...`))
   }
 
   const currentBranch = (
@@ -67,17 +69,20 @@ async function main() {
     return
   }
 
-  const isOutdatedRE = new RegExp(
-    `\\W${EXPECTED_BRANCH}\\W.*(?:fast-forwardable|local out of date)`,
-    'i'
-  )
-  const isOutdatedGit = isOutdatedRE.test(
-    (await run('git', ['remote', 'show', 'origin'], { stdio: 'pipe' })).stdout
-  )
+  if (!skipCleanGitCheck) {
+    const isOutdatedRE = new RegExp(
+      `\\W${EXPECTED_BRANCH}\\W.*(?:fast-forwardable|local out of date)`,
+      'i'
+    )
 
-  if (isOutdatedGit) {
-    console.log(chalk.red(`Git branch is not in sync with remote`))
-    return
+    const isOutdatedGit = isOutdatedRE.test(
+      (await run('git', ['remote', 'show', 'origin'], { stdio: 'pipe' })).stdout
+    )
+
+    if (isOutdatedGit) {
+      console.log(chalk.red(`Git branch is not in sync with remote`))
+      return
+    }
   }
 
   const changedPackages = await getChangedPackages()
@@ -87,7 +92,7 @@ async function main() {
   }
 
   if (isDryRun) {
-    console.log('\n' + chalk.bold.blue('This is a dry run') + '\n\n')
+    console.log('\n' + chalk.bold.blue('This is a dry run') + '\n')
   }
 
   step(
@@ -158,7 +163,7 @@ async function main() {
   step('\nUpdating versions in package.json files...')
   await updateVersions(pkgWithVersions)
 
-  step('\n Generating changelogs...')
+  step('\nGenerating changelogs...')
   for (const pkg of pkgWithVersions) {
     await runIfNotDry(`yarn`, ['changelog'], { cwd: pkg.path })
     await runIfNotDry(`yarn`, ['prettier', '--write', 'CHANGELOG.md'], {
@@ -230,12 +235,14 @@ async function updateVersions(packageList) {
 function updateDeps(pkg, depType, updatedPackages) {
   const deps = pkg[depType]
   if (!deps) return
+  step(`Updating ${chalk.bold(depType)} for ${chalk.bold.white(pkg.name)}...`)
   Object.keys(deps).forEach((dep) => {
     const updatedDep = updatedPackages.find((pkg) => pkg.name === dep)
-    if (dep) {
+    // avoid updated peer deps that are external like @vue/devtools-api
+    if (dep && updatedDep) {
       console.log(
         chalk.yellow(
-          `${pkg.name} -> ${depType} -> ${dep}@~${updateDep.version}`
+          `${pkg.name} -> ${depType} -> ${dep}@~${updatedDep.version}`
         )
       )
       deps[dep] = '~' + updatedDep.version
