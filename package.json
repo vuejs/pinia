@@ -12,6 +12,8 @@
     "lint:fix": "yarn run lint --write",
     "test": "lerna run test && yarn run test:jest",
     "test:jest": "jest --coverage",
+    "test:types": "lerna run test:types",
+    "test:dts": "lerna run test:dts",
     "docs:api": "typedoc TODO:"
   },
   "devDependencies": {

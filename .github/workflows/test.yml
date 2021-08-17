@@ -20,6 +20,8 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn lerna bootstrap
       - run: yarn run lint
+      - run: yarn run test:types
       - run: yarn run test:jest
       - run: yarn run build
+      - run: yarn run test:dts
       - run: yarn codecov
