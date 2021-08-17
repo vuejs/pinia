@@ -1,11 +1,19 @@
 {
-  "include": ["src/global.d.ts", "src/**/*.ts", "__tests__/**/*.ts"],
+  "include": [
+    "packages/pinia/src/global.d.ts",
+    "packages/*/src/**/*.ts",
+    "packages/*/__tests__/**/*.ts"
+  ],
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
     "outDir": "dist",
     "sourceMap": false,
     "noEmit": true,
+    "paths": {
+      "@pinia/*": ["packages/*/src"],
+      "pinia": ["packages/pinia/src"]
+    },
 
     "target": "esnext",
     "module": "esnext",

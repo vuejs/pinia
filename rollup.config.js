@@ -1,3 +1,4 @@
+// @ts-check
 import path from 'path'
 import ts from 'rollup-plugin-typescript2'
 import replace from '@rollup/plugin-replace'
@@ -5,7 +6,14 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import pascalcase from 'pascalcase'
 
-const pkg = require('./package.json')
+if (!process.env.TARGET) {
+  throw new Error('TARGET package must be specified via --environment flag.')
+}
+
+const packagesDir = path.resolve(__dirname, 'packages')
+const packageDir = path.resolve(packagesDir, process.env.TARGET)
+
+const pkg = require(path.resolve(packageDir, `package.json`))
 const name = pkg.name
 
 function getAuthors(pkg) {
@@ -95,7 +103,7 @@ function createConfig(format, output, plugins = []) {
 
   const tsPlugin = ts({
     check: !hasTSChecked,
-    tsconfig: path.resolve(__dirname, 'tsconfig.json'),
+    tsconfig: path.resolve(__dirname, './tsconfig.json'),
     cacheRoot: path.resolve(__dirname, 'node_modules/.rts2_cache'),
     tsconfigOverride: {
       compilerOptions: {
@@ -103,7 +111,7 @@ function createConfig(format, output, plugins = []) {
         declaration: shouldEmitDeclarations,
         declarationMap: shouldEmitDeclarations,
       },
-      exclude: ['__tests__', 'test-dts'],
+      exclude: ['packages/*/__tests__', 'packages/*/test-dts'],
     },
   })
   // we only need to check TS and generate declarations once for each build.
