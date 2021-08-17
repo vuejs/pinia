@@ -8,20 +8,56 @@
     "release": "node TODO: scripts/release.mjs",
     "size": "lerna run size",
     "build": "lerna run build --parallel",
+    "lint": "prettier -c --parser typescript \"packages/*/{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
+    "lint:fix": "yarn run lint --write",
+    "test": "lerna run test && yarn run test:jest",
+    "test:jest": "jest --coverage",
     "docs:api": "typedoc TODO:"
   },
   "devDependencies": {
+    "@sucrase/jest-plugin": "^2.1.1",
+    "@rollup/plugin-alias": "^3.1.5",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-replace": "^3.0.0",
+    "@types/jest": "^27.0.1",
+    "@types/lodash.kebabcase": "^4.1.6",
+    "@types/node": "^16.4.3",
+    "brotli-wasm": "^1.1.0",
     "chalk": "^4.1.1",
+    "codecov": "^3.8.3",
     "conventional-changelog-cli": "^2.1.1",
     "enquirer": "^2.3.6",
     "execa": "^5.1.1",
     "expect": "^27.0.6",
     "globby": "^12.0.0",
+    "jest": "^27.0.6",
+    "jest-mock-warn": "^1.1.0",
     "lerna": "^4.0.0",
+    "lint-staged": "^11.1.2",
+    "lodash.kebabcase": "^4.1.1",
     "minimist": "^1.2.5",
     "p-series": "^2.1.0",
+    "pascalcase": "^1.0.0",
     "prettier": "^2.3.2",
+    "rollup": "^2.56.2",
+    "rimraf": "^3.0.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.30.0",
     "semver": "^7.3.5",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "yorkie": "^2.0.0"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged",
+    "commit-msg": "node scripts/verifyCommit.js"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
   }
 }

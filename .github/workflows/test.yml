@@ -3,7 +3,8 @@ name: test
 on:
   push:
     paths-ignore:
-      - 'docs/**'
+      - 'packages/docs/**'
+      - 'packages/playground/**'
 
 jobs:
   build:
@@ -17,6 +18,8 @@ jobs:
           cache: 'yarn'
 
       - run: yarn install --frozen-lockfile
+      - run: yarn lerna bootstrap
       - run: yarn run lint
-      - run: yarn run test
+      - run: yarn run test:jest
+      - run: yarn run build
       - run: yarn codecov
