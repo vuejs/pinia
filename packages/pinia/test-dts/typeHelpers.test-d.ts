@@ -1,4 +1,4 @@
-import { StoreDefinition } from 'dist/pinia'
+import { StoreDefinition } from './'
 import { computed, ref } from 'vue'
 import {
   StoreState,

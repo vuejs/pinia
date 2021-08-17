@@ -1,4 +1,4 @@
-import { defineStore, expectType } from '.'
+import { defineStore, expectType } from './'
 
 const useStore = defineStore({
   id: 'name',

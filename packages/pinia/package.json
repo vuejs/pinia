@@ -25,19 +25,16 @@
   "scripts": {
     "docs": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "build": "rimraf dist && rollup -c rollup.config.js",
+    "build": "rimraf dist && rollup -c ../../rollup.config.js --environment TARGET:pinia",
     "build:dts": "api-extractor run --local --verbose",
     "size": "rollup -c size-checks/rollup.config.js && node scripts/check-size.mjs",
     "release": "bash scripts/release.sh",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1",
-    "lint": "prettier -c --parser typescript \"{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
-    "lint:fix": "yarn run lint --write",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l pinia -r 1",
     "test:dts": "tsc -p ./test-dts/tsconfig.json",
-    "test:types": "tsc --build tsconfig.json",
-    "test:unit": "jest --coverage",
+    "test:types": "tsc --build ../../tsconfig.json",
     "dev": "yarn run test:unit --watchAll",
     "play": "yarn vite",
-    "test": "yarn run test:types && yarn run test:unit && yarn run build && yarn run build:dts && yarn test:dts"
+    "test": "yarn run test:types && yarn run build && yarn run build:dts && yarn test:dts"
   },
   "files": [
     "dist/*.js",
@@ -72,8 +69,6 @@
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-replace": "^3.0.0",
-    "@sucrase/jest-plugin": "^2.1.1",
-    "@types/jest": "^27.0.1",
     "@types/lodash.kebabcase": "^4.1.6",
     "@types/node": "^16.4.3",
     "@vitejs/plugin-vue": "^1.4.0",
@@ -85,8 +80,6 @@
     "codecov": "^3.8.3",
     "conventional-changelog-cli": "^2.1.1",
     "globby": "^12.0.0",
-    "jest": "^27.0.6",
-    "jest-mock-warn": "^1.1.0",
     "lint-staged": "^11.1.2",
     "lodash.kebabcase": "^4.1.1",
     "mande": "^1.0.0",
@@ -122,18 +115,6 @@
     "@vue/composition-api": {
       "optional": true
     }
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged",
-    "commit-msg": "node scripts/verifyCommit.js"
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
-    ]
   },
   "repository": {
     "type": "git",
