@@ -25,4 +25,5 @@ jobs:
       - run: yarn run build
       - run: yarn lerna run build:dts
       - run: yarn run test:dts
+      - run: yarn run size
       - run: yarn codecov
