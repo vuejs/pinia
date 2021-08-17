@@ -3,7 +3,7 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['html', 'lcov', 'text'],
-  collectCoverageFrom: ['src/**/*.ts'],
+  collectCoverageFrom: ['packages/*/src/**/*.ts'],
   coveragePathIgnorePatterns: [
     '/node_modules/',
     'src/index.ts',
@@ -13,10 +13,15 @@ module.exports = {
     'src/deprecated.ts',
     'src/vue2-plugin.ts',
   ],
-  testMatch: ['<rootDir>/__tests__/**/*.spec.ts'],
+  testMatch: ['<rootDir>/packages/*/__tests__/**/*.spec.ts'],
   transform: {
     '^.+\\.tsx?$': '@sucrase/jest-plugin',
   },
+  moduleNameMapper: {
+    '^@pinia/(.*?)$': '<rootDir>/packages/$1/src',
+    '^pinia$': '<rootDir>/packages/pinia/src',
+  },
+  rootDir: __dirname,
   globals: {
     __DEV__: true,
     __TEST__: true,

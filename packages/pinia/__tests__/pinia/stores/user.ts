@@ -5,8 +5,7 @@ function apiLogin(a: string, p: string) {
   return Promise.reject(new Error('invalid credentials'))
 }
 
-export const useUserStore = defineStore({
-  id: 'user',
+export const useUserStore = defineStore('user', {
   state: () => ({
     name: 'Eduardo',
     isAdmin: true,

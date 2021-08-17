@@ -1,8 +1,7 @@
 import { defineStore } from '../../../src'
 import { useUserStore } from './user'
 
-export const useCartStore = defineStore({
-  id: 'cart',
+export const useCartStore = defineStore('cart', {
   state: () => ({
     id: 2,
     rawItems: [] as string[],
