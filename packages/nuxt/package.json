@@ -1,0 +1,45 @@
+{
+  "name": "@pinia/nuxt",
+  "description": "Nuxt Module for pinia",
+  "version": "0.0.0",
+  "sideEffects": false,
+  "author": {
+    "name": "Eduardo San Martin Morote",
+    "email": "posva13@gmail.com"
+  },
+  "funding": "https://github.com/sponsors/posva",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.mjs"
+  },
+  "scripts": {
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @senda/url -r 1"
+  },
+  "files": [
+    "dist/*.js",
+    "dist/*.mjs",
+    "dist/*.d.ts"
+  ],
+  "keywords": [
+    "vue",
+    "vuex",
+    "store",
+    "pinia",
+    "nuxt"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/posva/pinia.git"
+  },
+  "bugs": {
+    "url": "https://github.com/posva/pinia/issues"
+  },
+  "homepage": "https://github.com/posva/pinia/tree/v2/packages/nuxt#readme"
+}
