@@ -23,5 +23,6 @@ jobs:
       - run: yarn run test:types
       - run: yarn run test:jest
       - run: yarn run build
+      - run: yarn lerna run build:dts
       - run: yarn run test:dts
       - run: yarn codecov

@@ -31,10 +31,9 @@
     "release": "bash scripts/release.sh",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l pinia -r 1",
     "test:dts": "tsc -p ./test-dts/tsconfig.json",
-    "test:types": "tsc --build ../../tsconfig.json",
     "dev": "yarn run test:unit --watchAll",
     "play": "yarn vite",
-    "test": "yarn run test:types && yarn run build && yarn run build:dts && yarn test:dts"
+    "test": "yarn run build && yarn run build:dts && yarn test:dts"
   },
   "files": [
     "dist/*.js",
