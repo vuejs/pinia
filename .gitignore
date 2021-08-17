@@ -10,3 +10,4 @@ package-lock.json
 temp
 test-dts/tsconfig.tsbuildinfo
 .env
+packages/*/LICENSE

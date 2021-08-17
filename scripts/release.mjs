@@ -169,6 +169,10 @@ async function main() {
     await runIfNotDry(`yarn`, ['prettier', '--write', 'CHANGELOG.md'], {
       cwd: pkg.path,
     })
+    await fs.copyFile(
+      resolve(__dirname, '../LICENSE'),
+      resolve(pkg.path, 'LICENSE')
+    )
   }
 
   step('\nBuilding all packages...')
