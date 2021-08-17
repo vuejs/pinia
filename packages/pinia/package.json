@@ -27,7 +27,6 @@
     "docs:build": "vitepress build docs",
     "build": "rimraf dist && rollup -c ../../rollup.config.js --environment TARGET:pinia",
     "build:dts": "api-extractor run --local --verbose",
-    "size": "rollup -c size-checks/rollup.config.js && node scripts/check-size.mjs",
     "release": "bash scripts/release.sh",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l pinia -r 1",
     "test:dts": "tsc -p ./test-dts/tsconfig.json",

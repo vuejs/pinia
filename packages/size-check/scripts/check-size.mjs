@@ -27,9 +27,7 @@ async function checkFileSize(filePath) {
 }
 
 async function main() {
-  const paths = await globby(
-    path.resolve(__dirname, '../size-checks/dist/*.js')
-  )
+  const paths = await globby(path.resolve(__dirname, '../dist/*.js'))
 
   for (const file of paths) {
     checkFileSize(file)

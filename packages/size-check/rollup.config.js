@@ -6,7 +6,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 
 /** @type {import('rollup').RollupOptions[]} */
-const config = ['option-store', 'setup-store'].map(createConfig)
+const config = ['pinia'].map(createConfig)
 
 export default config
 
@@ -22,7 +22,7 @@ function createConfig(file) {
       file: path.resolve(__dirname, `./dist/${file}.js`),
       format: 'es',
     },
-    input: path.resolve(__dirname, `./${file}.js`),
+    input: path.resolve(__dirname, `./src/${file}.js`),
     plugins: [
       replace({
         preventAssignment: true,
@@ -43,7 +43,7 @@ function createConfig(file) {
       }),
       ts({
         check: false,
-        tsconfig: path.resolve(__dirname, '../tsconfig.json'),
+        tsconfig: path.resolve(__dirname, '../../tsconfig.json'),
         cacheRoot: path.resolve(__dirname, '../node_modules/.rts2_cache'),
         tsconfigOverride: {
           compilerOptions: {
