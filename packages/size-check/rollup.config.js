@@ -44,7 +44,7 @@ function createConfig(file) {
       ts({
         check: false,
         tsconfig: path.resolve(__dirname, '../../tsconfig.json'),
-        cacheRoot: path.resolve(__dirname, '../node_modules/.rts2_cache'),
+        cacheRoot: path.resolve(__dirname, '../../node_modules/.rts2_cache'),
         tsconfigOverride: {
           compilerOptions: {
             sourceMap: false,
