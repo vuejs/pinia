@@ -1,40 +1,40 @@
 import { createPinia, defineStore, setActivePinia } from '../src'
 
 describe('Getters', () => {
-  const useStore = () => {
-    // create a new store
+  beforeEach(() => {
     setActivePinia(createPinia())
-    return defineStore({
-      id: 'main',
-      state: () => ({
-        name: 'Eduardo',
-      }),
-      getters: {
-        upperCaseName(store) {
-          return store.name.toUpperCase()
-        },
-        doubleName(): string {
-          return this.upperCaseName
-        },
-        composed(): string {
-          return this.upperCaseName + ': ok'
-        },
-        arrowUpper: (state) => {
-          // @ts-expect-error
-          state.nope
-          state.name.toUpperCase()
-        },
+  })
+
+  const useStore = defineStore({
+    id: 'main',
+    state: () => ({
+      name: 'Eduardo',
+    }),
+    getters: {
+      upperCaseName(store) {
+        return store.name.toUpperCase()
       },
-      actions: {
-        o() {
-          // @ts-expect-error it should type getters
-          this.arrowUpper.toUpperCase()
-          this.o().toUpperCase()
-          return 'a string'
-        },
+      doubleName(): string {
+        return this.upperCaseName
       },
-    })()
-  }
+      composed(): string {
+        return this.upperCaseName + ': ok'
+      },
+      arrowUpper: (state) => {
+        // @ts-expect-error
+        state.nope
+        state.name.toUpperCase()
+      },
+    },
+    actions: {
+      o() {
+        // @ts-expect-error it should type getters
+        this.arrowUpper.toUpperCase()
+        this.o().toUpperCase()
+        return 'a string'
+      },
+    },
+  })
 
   const useB = defineStore({
     id: 'B',
@@ -89,5 +89,16 @@ describe('Getters', () => {
     expect(store.composed).toBe('EDUARDO: ok')
     store.name = 'Ed'
     expect(store.composed).toBe('ED: ok')
+  })
+
+  it('keeps getters reactive when hydrating', () => {
+    const pinia = createPinia()
+    setActivePinia(pinia)
+    pinia.state.value = { main: { name: 'Jack' } }
+    const store = useStore()
+    expect(store.name).toBe('Jack')
+    expect(store.upperCaseName).toBe('JACK')
+    store.name = 'Ed'
+    expect(store.upperCaseName).toBe('ED')
   })
 })

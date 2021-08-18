@@ -118,7 +118,7 @@ function createOptionsStore<
       __DEV__ && hot
         ? // use ref() to unwrap refs inside state TODO: check if this is still necessary
           toRefs(ref(state ? state() : {}).value)
-        : initialState || toRefs(pinia.state.value[id])
+        : toRefs(pinia.state.value[id])
 
     return assign(
       localState,
