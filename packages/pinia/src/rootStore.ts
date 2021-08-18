@@ -1,4 +1,12 @@
-import { App, EffectScope, InjectionKey, Plugin, Ref, warn } from 'vue-demi'
+import {
+  App,
+  EffectScope,
+  getCurrentInstance,
+  inject,
+  InjectionKey,
+  Plugin,
+  Ref,
+} from 'vue-demi'
 import {
   StateTree,
   PiniaCustomProperties,
@@ -27,20 +35,10 @@ export const setActivePinia = (pinia: Pinia | undefined) =>
   (activePinia = pinia)
 
 /**
- * Get the currently active pinia
+ * Get the currently active pinia if there is any.
  */
-export const getActivePinia = () => {
-  if (__DEV__ && !activePinia) {
-    warn(
-      `[🍍]: getActivePinia was called with no active Pinia. Did you forget to install pinia?\n\n` +
-        `const pinia = createPinia()\n` +
-        `app.use(pinia)\n\n` +
-        `This will fail in production.`
-    )
-  }
-
-  return activePinia!
-}
+export const getActivePinia = () =>
+  (getCurrentInstance() && inject(piniaSymbol)) || activePinia
 
 /**
  * Every application must own its own pinia to be able to create stores

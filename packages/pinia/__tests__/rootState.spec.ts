@@ -14,8 +14,7 @@ describe('Root State', () => {
   })
 
   it('warns if creating a store without a pinia', () => {
-    expect(() => useA()).toThrow()
-    expect('with no active Pinia').toHaveBeenWarned()
+    expect(() => useA()).toThrowError(/with no active Pinia/)
   })
 
   it('works with no stores', () => {

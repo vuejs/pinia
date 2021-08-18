@@ -45,13 +45,7 @@ import {
   _ExtractStateFromSetupStore,
   StoreWithState,
 } from './types'
-import {
-  getActivePinia,
-  setActivePinia,
-  piniaSymbol,
-  Pinia,
-  activePinia,
-} from './rootStore'
+import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
 import { IS_CLIENT } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions } from './subscriptions'
@@ -757,8 +751,17 @@ export function defineStore(
       (__TEST__ && activePinia && activePinia._testing ? null : pinia) ||
       (currentInstance && inject(piniaSymbol))
     if (pinia) setActivePinia(pinia)
-    // TODO: worth warning on server if no piniaKey as it can leak data
-    pinia = getActivePinia()
+
+    if (__DEV__ && !activePinia) {
+      throw new Error(
+        `[🍍]: getActivePinia was called with no active Pinia. Did you forget to install pinia?\n\n` +
+          `const pinia = createPinia()\n` +
+          `app.use(pinia)\n\n` +
+          `This will fail in production.`
+      )
+    }
+
+    pinia = activePinia!
 
     if (!pinia._s.has(id)) {
       pinia._s.set(
