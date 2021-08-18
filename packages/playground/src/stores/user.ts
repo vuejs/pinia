@@ -1,7 +1,6 @@
-import { defineStore } from '../../../src'
+import { defineStore } from 'pinia'
 
-export const useUserStore = defineStore({
-  id: 'user',
+export const useUserStore = defineStore('user', {
   state: () => ({
     name: 'Eduardo',
     isAdmin: true,
@@ -13,13 +12,13 @@ export const useUserStore = defineStore({
     async login(user: string, password: string) {
       const userData = await apiLogin(user, password)
 
-      this.patch({
+      this.$patch({
         name: user,
         ...userData,
       })
     },
     logout() {
-      this.patch({
+      this.$patch({
         name: '',
         isAdmin: false,
       })

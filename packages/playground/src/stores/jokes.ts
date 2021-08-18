@@ -1,5 +1,5 @@
 import { ref, unref } from 'vue'
-import { acceptHMRUpdate, defineStore } from '../../../src'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { getRandomJoke, Joke } from '../api/jokes'
 
 export const useJokes = defineStore('jokes', {

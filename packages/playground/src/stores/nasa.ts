@@ -1,9 +1,7 @@
 import useSWRV from 'swrv'
-import { computed, ref } from 'vue'
-import { acceptHMRUpdate, defineStore } from '../../../src'
+import { ref } from 'vue'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { getNASAPOD } from '../api/nasa'
-
-import LocalStorageCache from 'swrv/dist/cache/adapters/localStorage'
 
 export const useNasaStore = defineStore('nasa-pod-swrv', () => {
   // can't go past today

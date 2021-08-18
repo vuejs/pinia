@@ -8,6 +8,7 @@
     "release": "node TODO: scripts/release.mjs",
     "size": "lerna run size",
     "build": "lerna run build --parallel",
+    "play": "lerna run play",
     "build:dts": "lerna run build:dts --parallel",
     "lint": "prettier -c --parser typescript \"packages/*/{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
     "lint:fix": "yarn run lint --write",

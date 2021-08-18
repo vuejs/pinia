@@ -1,4 +1,4 @@
-import { defineStore } from '../../../src'
+import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 
 export const useCartStore = defineStore({

@@ -1,11 +1,25 @@
-import { computed, createApp, markRaw } from 'vue'
+import { computed, createApp, markRaw, Ref } from 'vue'
 import App from './App.vue'
-import { createPinia } from '../../src'
+import { createPinia } from 'pinia'
 import { router } from './router'
+import {
+  RouteLocationNormalized,
+  RouteLocationNormalizedLoaded,
+} from 'vue-router'
 
 const pinia = createPinia()
 
+declare module 'pinia' {
+  export interface PiniaCustomProperties {
+    set route(
+      value: RouteLocationNormalizedLoaded | Ref<RouteLocationNormalizedLoaded>
+    )
+    get route(): RouteLocationNormalized
+  }
+}
+
 pinia.use(() => ({
+  // @ts-expect-error: WHY?
   route: computed(() => markRaw(router.currentRoute.value)),
 }))
 

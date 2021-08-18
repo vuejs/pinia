@@ -1,5 +1,5 @@
 import { computed, toRefs, reactive } from 'vue'
-import { acceptHMRUpdate, defineStore } from '../../../src'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 
 const delay = (t: number) => new Promise((r) => setTimeout(r, t))
 

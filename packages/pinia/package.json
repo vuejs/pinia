@@ -30,7 +30,6 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l pinia -r 1",
     "test:dts": "tsc -p ./test-dts/tsconfig.json",
     "dev": "yarn run test:unit --watchAll",
-    "play": "yarn vite",
     "test": "yarn run build && yarn run build:dts && yarn test:dts"
   },
   "files": [
@@ -62,18 +61,11 @@
     "@microsoft/api-extractor": "7.18.5",
     "@nuxt/app": "^0.5.0",
     "@nuxt/kit": "^0.6.4",
-    "@vitejs/plugin-vue": "^1.4.0",
     "@vue/compiler-sfc": "^3.2.2",
     "@vue/server-renderer": "^3.2.2",
     "@vue/test-utils": "^2.0.0-rc.12",
-    "@vueuse/core": "^6.0.0",
-    "mande": "^1.0.0",
-    "swrv": "^1.0.0-beta.8",
-    "vite": "^2.5.0",
     "vitepress": "^0.16.1",
     "vue": "^3.2.2",
-    "vue-promised": "^2.1.0",
-    "vue-router": "^4.0.11",
     "vue2": "npm:vue@2"
   },
   "dependencies": {

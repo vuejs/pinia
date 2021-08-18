@@ -1,5 +1,5 @@
-import { ref, toRaw, unref, watch } from 'vue'
-import { acceptHMRUpdate, defineStore } from '../../../src'
+import { ref, toRaw, watch } from 'vue'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { getRandomJoke, Joke } from '../api/jokes'
 import useSWRV from 'swrv'
 
@@ -7,7 +7,7 @@ export const useJokesSetup = defineStore('jokes-swrv-setup', () => {
   // const current = ref<null | Joke>(null)
   const history = ref<Joke[]>([])
 
-  const { data, error, isValidating, mutate } = useSWRV('jokes', getRandomJoke)
+  const { data, error, mutate } = useSWRV('jokes', getRandomJoke)
 
   watch(data, (joke) => {
     console.log('changed from within the store', joke)

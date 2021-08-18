@@ -1,4 +1,4 @@
-import { acceptHMRUpdate, defineStore } from '../../../src'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 import { getRandomJoke, Joke } from '../api/jokes'
 import { usePromise } from 'vue-promised'
 import { ref, watch } from 'vue'
@@ -85,6 +85,6 @@ export const useSetupJokes = defineStore('jokes-setup-vue-promised', () => {
 })
 
 if (import.meta.hot) {
-  // import.meta.hot.accept(acceptHMRUpdate(useJokes, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useJokes, import.meta.hot))
   // import.meta.hot.accept(acceptHMRUpdate(useSetupJokes, import.meta.hot))
 }
