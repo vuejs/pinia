@@ -1,6 +1,19 @@
-import { createPinia, defineStore, setActivePinia } from '../src'
+import {
+  createPinia,
+  defineStore,
+  getActivePinia,
+  setActivePinia,
+} from '../src'
 import { mount } from '@vue/test-utils'
-import { watch, nextTick, defineComponent, ref, Ref, onMounted } from 'vue'
+import {
+  watch,
+  nextTick,
+  defineComponent,
+  ref,
+  Ref,
+  onMounted,
+  getCurrentInstance,
+} from 'vue'
 
 describe('Store Lifespan', () => {
   function defineMyStore() {
@@ -27,6 +40,31 @@ describe('Store Lifespan', () => {
   }
 
   const pinia = createPinia()
+
+  it('gets the active pinia outside of setup', () => {
+    setActivePinia(pinia)
+    expect(getCurrentInstance()).toBeFalsy()
+    expect(getActivePinia()).toBe(pinia)
+  })
+
+  it('gets the active pinia inside of setup', () => {
+    expect.assertions(3)
+    const pinia = createPinia()
+    setActivePinia(undefined)
+    expect(getActivePinia()).toBe(undefined)
+
+    mount(
+      {
+        template: 'no',
+        setup() {
+          expect(getActivePinia()).toBe(pinia)
+        },
+      },
+      { global: { plugins: [pinia] } }
+    )
+    // and outside too
+    expect(getActivePinia()).toBe(pinia)
+  })
 
   it('state reactivity outlives component life', async () => {
     const useStore = defineMyStore()

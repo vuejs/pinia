@@ -44,11 +44,6 @@ export interface TestingOptions {
  * {@link Pinia} instance with test specific properties.
  */
 export interface TestingPinia extends Pinia {
-  /**
-   * Clears the cache of spies used for actions.
-   */
-  resetSpyCache(): void
-
   /** App used by Pinia */
   app: App
 }
@@ -72,35 +67,24 @@ export function createTestingPinia({
   stubActions = true,
   stubPatch = false,
   fakeApp = false,
-  createSpy,
+  createSpy: _createSpy,
 }: TestingOptions = {}): TestingPinia {
   const pinia = createPinia()
 
   plugins.forEach((plugin) => pinia.use(plugin))
 
-  // @ts-ignore: this can fail in TS depending of the existence of jest
-  createSpy = createSpy || (typeof jest !== undefined && jest.fn)
+  const createSpy = _createSpy || (typeof jest !== undefined && jest.fn)
+  /* istanbul ignore if */
   if (!createSpy) {
     throw new Error('You must configure the `createSpy` option.')
   }
 
-  // Cache of all actions to share them across all stores
-  const spiedActions = new Map<string, Record<string, any>>()
-
   pinia.use(({ store, options }) => {
-    if (!spiedActions.has(store.$id)) {
-      spiedActions.set(store.$id, {})
-    }
-    const actionsCache = spiedActions.get(store.$id)!
-
     Object.keys(options.actions || {}).forEach((action) => {
-      actionsCache[action] =
-        actionsCache[action] ||
-        (stubActions ? createSpy!() : createSpy!(store[action]))
-      store[action] = actionsCache[action]
+      store[action] = stubActions ? createSpy() : createSpy(store[action])
     })
 
-    store.$patch = stubPatch ? createSpy!() : createSpy!(store.$patch)
+    store.$patch = stubPatch ? createSpy() : createSpy(store.$patch)
   })
 
   if (fakeApp) {
@@ -114,10 +98,7 @@ export function createTestingPinia({
 
   return Object.assign(
     {
-      resetSpyCache() {
-        spiedActions.clear()
-      },
-      get app() {
+      get app(): App {
         return (this as TestingPinia)._a
       },
     },

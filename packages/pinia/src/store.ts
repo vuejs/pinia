@@ -212,6 +212,7 @@ function createSetupStore<
 
   const hotState = ref({} as S)
 
+  /* istanbul ignore if */
   if (__DEV__ && !pinia._e.active) {
     throw new Error('Pinia destroyed')
   }
@@ -261,6 +262,7 @@ function createSetupStore<
     )
   }
 
+  /* istanbul ignore next */
   const $reset = __DEV__
     ? () => {
         throw new Error(
@@ -478,6 +480,7 @@ function createSetupStore<
   Object.defineProperty(store, '$state', {
     get: () => (__DEV__ && hot ? hotState.value : pinia.state.value[$id]),
     set: (state) => {
+      /* istanbul ignore if */
       if (__DEV__ && hot) {
         throw new Error('cannot set hotState')
       }
@@ -486,6 +489,7 @@ function createSetupStore<
   })
 
   // add the hotUpdate before plugins to allow them to override it
+  /* istanbul ignore else */
   if (__DEV__) {
     store._hotUpdate = markRaw((newStore) => {
       store._hotUpdating = true
@@ -583,6 +587,7 @@ function createSetupStore<
 
   // apply all plugins
   pinia._p.forEach((extender) => {
+    /* istanbul ignore else */
     if (__DEV__ && IS_CLIENT) {
       const extensions = scope.run(() =>
         extender({
