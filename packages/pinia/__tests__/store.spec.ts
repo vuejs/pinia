@@ -314,7 +314,7 @@ describe('Store', () => {
     const store = useStore(pinia)
     const spy = jest.fn()
 
-    store.$subscribe(spy)
+    store.$subscribe(spy, { flush: 'sync' })
     pinia.state.value.main.n++
     expect(spy).toHaveBeenCalledTimes(1)
 
