@@ -125,7 +125,7 @@ module.exports = {
   themeConfig: {
     repo: 'posva/pinia',
     logo: '/logo.svg',
-    docsDir: 'docs',
+    docsDir: 'packages/docs',
     docsBranch: 'v2',
     editLinks: true,
     editLinkText: 'Suggest changes to this page',
@@ -162,7 +162,7 @@ module.exports = {
           },
           {
             text: 'Changelog',
-            link: 'https://github.com/posva/pinia/blob/v2/CHANGELOG.md',
+            link: 'https://github.com/posva/pinia/blob/v2/packages/pinia/CHANGELOG.md',
           },
         ],
       },
