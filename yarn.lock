@@ -1426,18 +1426,6 @@
     node-gyp "^7.1.0"
     read-package-json-fast "^2.0.1"
 
-"@nuxt/app@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@nuxt/app/-/app-0.5.0.tgz#7a0c9c31ef8c29754c79e278d28dde450d54a4e0"
-  integrity sha512-UGwwQVGhAhDJ3/vZZ9mIY/1mekWR+h4Jnrthuz/UcyL2g07cK3oyqdEQG2gXJWYDkwH4HnzPt9v4mWFK03IzfQ==
-  dependencies:
-    "@vueuse/head" "^0.6.0"
-    hookable "^4.4.1"
-    ohmyfetch "^0.2.0"
-    vue "^3.1.1"
-    vue-router "^4.0.9"
-    vuex5 "^0.5.0-testing.3"
-
 "@nuxt/kit@^0.6.4":
   version "0.6.4"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-0.6.4.tgz#76a81e135bfeb91c0b5eb58435c8e5640046c912"
@@ -2387,11 +2375,6 @@
   dependencies:
     "@vueuse/shared" "6.0.0"
     vue-demi "*"
-
-"@vueuse/head@^0.6.0":
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-0.6.0.tgz#5584b1f724327cfce941c42efec9e590f5799329"
-  integrity sha512-fi7ZjkMpEAUtTT6iR5wgL2HkX1+3zbrmbpcwU//RgJIWEr5b42jk8E9yOheaC2dYAAHzelAllVpX0pDmhcTXuw==
 
 "@vueuse/shared@6.0.0":
   version "6.0.0"
@@ -3598,7 +3581,7 @@ deprecation@^2.0.0, deprecation@^2.3.1:
   resolved "https://registry.yarnpkg.com/deprecation/-/deprecation-2.3.1.tgz#6368cbdb40abf3373b525ac87e4a260c3a700919"
   integrity sha512-xmHIy4F3scKVwMsQ4WnVaS8bHOx0DmVwRywosKhaILI0ywMDWPtBSku2HNxRvF7jtwDRsoEwYQSfbxj8b7RlJQ==
 
-destr@^1.0.0, destr@^1.1.0:
+destr@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/destr/-/destr-1.1.0.tgz#2da6add6ba71e04fd0abfb1e642d4f6763235095"
   integrity sha512-Ev/sqS5AzzDwlpor/5wFCDu0dYMQu/0x2D6XfAsQ0E7uQmamIgYJ6Dppo2T2EOFVkeVYWjc+PCLKaqZZ57qmLg==
@@ -4420,11 +4403,6 @@ highlight.js@^10.7.2:
   version "10.7.3"
   resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-10.7.3.tgz#697272e3991356e40c3cac566a74eef681756531"
   integrity sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==
-
-hookable@^4.4.1:
-  version "4.4.1"
-  resolved "https://registry.yarnpkg.com/hookable/-/hookable-4.4.1.tgz#3d7154ac7e1f6f147e50fef583832f2645b9f04f"
-  integrity sha512-KWjZM8C7IVT2qne5HTXjM6R6VnRfjfRlf/oCnHd+yFxoHO1DzOl6B9LzV/VqGQK/IrFewq+EG+ePVrE9Tpc3fg==
 
 hosted-git-info@^2.1.4:
   version "2.8.9"
@@ -6450,15 +6428,6 @@ object.getownpropertydescriptors@^2.0.3:
     define-properties "^1.1.3"
     es-abstract "^1.18.0-next.2"
 
-ohmyfetch@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/ohmyfetch/-/ohmyfetch-0.2.0.tgz#09c03a6c107ddfe6a75c83f0a9cdaa59fb31e54b"
-  integrity sha512-tbrMD8LauY8xivHmDJItpfth/caVDHmDljeZE+4DzA2sbSp72Vzb//NJD1LtAm3pEnK5hY48i4V/zcraeiS3FQ==
-  dependencies:
-    destr "^1.1.0"
-    node-fetch "^2.6.1"
-    ufo "^0.6.10"
-
 on-headers@~1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/on-headers/-/on-headers-1.0.2.tgz#772b0ae6aaa525c399e489adfad90c403eb3c28f"
@@ -8240,11 +8209,6 @@ uc.micro@^1.0.1, uc.micro@^1.0.5:
   resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
   integrity sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==
 
-ufo@^0.6.10:
-  version "0.6.11"
-  resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.6.11.tgz#69311ed4abc8ab671c83754b79ce0d396fea1075"
-  integrity sha512-Yu7TJThwlr23peOkX/+hm6LfkyBs+eDWV880468PTrjKBKjjsNWFFwIuOqDfmXngRo9TZ4+twFYueRH0OLl0Gw==
-
 ufo@^0.7.5:
   version "0.7.7"
   resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.7.7.tgz#0062f9e5e790819b0fb23ca24d7c63a4011c036a"
@@ -8460,7 +8424,7 @@ vue-promised@^2.1.0:
   dependencies:
     vue-demi latest
 
-vue-router@^4.0.11, vue-router@^4.0.9:
+vue-router@^4.0.11:
   version "4.0.11"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.0.11.tgz#cd649a0941c635281763a20965b599643ddc68ed"
   integrity sha512-sha6I8fx9HWtvTrFZfxZkiQQBpqSeT+UCwauYjkdOQYRvwsGwimlQQE2ayqUwuuXGzquFpCPoXzYKWlzL4OuXg==
@@ -8480,7 +8444,7 @@ vue-template-compiler@^2.6.14:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.14.tgz#e51aa5250250d569a3fbad3a8a5a687d6036e235"
   integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==
 
-vue@^3.1.1, vue@^3.2.1:
+vue@^3.2.1:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.2.tgz#11715cb71a02baefd0f6e6552dc623680eb1bf32"
   integrity sha512-D/LuzAV30CgNJYGyNheE/VUs5N4toL2IgmS6c9qeOxvyh0xyn4exyRqizpXIrsvfx34zG9x5gCI2tdRHCGvF9w==
@@ -8497,11 +8461,6 @@ vue@^3.2.2:
     "@vue/compiler-dom" "3.2.4"
     "@vue/runtime-dom" "3.2.4"
     "@vue/shared" "3.2.4"
-
-vuex5@^0.5.0-testing.3:
-  version "0.5.0-testing.3"
-  resolved "https://registry.yarnpkg.com/vuex5/-/vuex5-0.5.0-testing.3.tgz#2e7e5d45fabc26870c80257215f0e38696a45d59"
-  integrity sha512-fKcpx/RwnfD2L7Lv4VKjY9hmBZp3LJi2G7tUblCUQB5vhOKpoWkip5XIYHEDmJe5KnJJvZ7nf9Ih8wvCIOCVQg==
 
 w3c-hr-time@^1.0.2:
   version "1.0.2"
