@@ -1,0 +1,12 @@
+{
+  "name": "@pinia/docs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "docs": "vitepress dev .",
+    "docs:build": "vitepress build ."
+  },
+  "dependencies": {
+    "vitepress": "^0.16.1"
+  }
+}

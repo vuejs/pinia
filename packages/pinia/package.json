@@ -23,8 +23,6 @@
   },
   "funding": "https://github.com/sponsors/posva",
   "scripts": {
-    "docs": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
     "build": "rimraf dist && rollup -c ../../rollup.config.js --environment TARGET:pinia",
     "build:dts": "api-extractor run --local --verbose",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l pinia -r 1",
@@ -64,7 +62,6 @@
     "@vue/compiler-sfc": "^3.2.2",
     "@vue/server-renderer": "^3.2.2",
     "@vue/test-utils": "^2.0.0-rc.12",
-    "vitepress": "^0.16.1",
     "vue": "^3.2.2",
     "vue2": "npm:vue@2"
   },
