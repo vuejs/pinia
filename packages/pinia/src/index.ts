@@ -59,9 +59,6 @@ export type {
   _StoreObject,
 } from './mapHelpers'
 
-export { createTestingPinia } from './testing'
-export type { TestingOptions, TestingPinia } from './testing'
-
 export { acceptHMRUpdate } from './hmr'
 
 export { PiniaPlugin } from './vue2-plugin'

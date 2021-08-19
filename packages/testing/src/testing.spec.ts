@@ -1,15 +1,10 @@
-import {
-  createPinia,
-  createTestingPinia,
-  defineStore,
-  TestingOptions,
-} from '../src'
+import { createTestingPinia, TestingOptions } from './testing'
+import { createPinia, defineStore } from 'pinia'
 import { mount } from '@vue/test-utils'
 import { defineComponent } from 'vue'
 
 describe('Testing', () => {
-  const useCounter = defineStore({
-    id: 'counter',
+  const useCounter = defineStore('counter', {
     state: () => ({ n: 0 }),
     actions: {
       increment(amount = 1) {
