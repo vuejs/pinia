@@ -1,3 +1,15 @@
+# 2.0.0-rc.5 (2021-08-19)
+
+### Bug Fixes
+
+- **ssr:** convert hydrated state to refs ([3f186a2](https://github.com/posva/pinia/commit/3f186a28e954cd4ccb48e4f26448a96cb0a0d7e1)), closes [#619](https://github.com/posva/pinia/issues/619)
+
+### Features
+
+- destroy a store with $dispose ([#597](https://github.com/posva/pinia/issues/597)) ([a563e6a](https://github.com/posva/pinia/commit/a563e6abd1e58e6bf810987dd520f754987c32d8))
+- expose getActivePinia ([8b8d0c1](https://github.com/posva/pinia/commit/8b8d0c17958e3b4e2d9bc809c78a28931d1b00f0))
+- **testing:** add testing package ([fc05376](https://github.com/posva/pinia/commit/fc053763752c2b11d7b851f95334034a1f9b8347))
+
 # [2.0.0-rc.4](https://github.com/posva/pinia/compare/v2.0.0-rc.3...v2.0.0-rc.4) (2021-08-09)
 
 If you are using Vue 2, make sure your `@vue/composition-api` version is at least `1.1.0`, which is currently under the npm dist tag `next`, which means it has to be installed with `npm install @vue/composition-api@next`.
