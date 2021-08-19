@@ -11,5 +11,8 @@
   "devDependencies": {
     "brotli-wasm": "^1.1.0",
     "zlib": "^1.0.5"
+  },
+  "dependencies": {
+    "pinia": "^2.0.0-rc.4"
   }
 }

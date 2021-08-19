@@ -43,8 +43,8 @@
     "build": "siroc",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/testing -r 1"
   },
-  "dependencies": {},
   "devDependencies": {
+    "pinia": "^2.0.0-0",
     "siroc": "^0.15.0"
   },
   "publishConfig": {

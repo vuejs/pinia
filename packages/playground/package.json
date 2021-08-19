@@ -15,6 +15,7 @@
     "@vue/compiler-sfc": "^3.2.2",
     "@vueuse/core": "^6.0.0",
     "mande": "^1.0.0",
+    "pinia": "^2.0.0-rc.4",
     "swrv": "^1.0.0-beta.8",
     "vue": "^3.2.2",
     "vue-promised": "^2.1.0",

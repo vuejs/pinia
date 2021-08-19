@@ -1,10 +1,5 @@
 import { App, createApp } from 'vue-demi'
-import { createPinia } from 'pinia'
-import {
-  Pinia,
-  PiniaStorePlugin,
-  setActivePinia,
-} from '../../pinia/src/rootStore'
+import { Pinia, PiniaStorePlugin, setActivePinia, createPinia } from 'pinia'
 
 export interface TestingOptions {
   /**

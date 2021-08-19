@@ -7,7 +7,7 @@
   "scripts": {
     "release": "node scripts/release.mjs",
     "size": "lerna run size",
-    "build": "lerna run build --parallel",
+    "build": "lerna run build",
     "docs:build": "lerna run docs:build --scope @pinia/docs",
     "play": "lerna run play",
     "build:dts": "lerna run build:dts --parallel",
