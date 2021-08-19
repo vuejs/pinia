@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "release": "node TODO: scripts/release.mjs",
+    "release": "node scripts/release.mjs",
     "size": "lerna run size",
     "build": "lerna run build --parallel",
     "docs:build": "lerna run docs:build --scope @pinia/docs",
