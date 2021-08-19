@@ -5,7 +5,7 @@ import path from 'path'
 const fs = _fs.promises
 
 export default defineConfig({
-  plugins: [copyPiniaPlugin()],
+  plugins: process.env.NETLIFY ? [] : [copyPiniaPlugin()],
   define: {
     __DEV__: 'true',
     __BROWSER__: 'true',
