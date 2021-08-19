@@ -1,6 +1,7 @@
-// @ts-check
 import { resolve } from 'upath'
 import { addPlugin, defineNuxtModule, resolveModule } from '@nuxt/kit'
+import { Pinia } from 'pinia'
+import { Context } from '@nuxt/types'
 
 export interface PiniaNuxtOptions {
   /**
@@ -25,7 +26,7 @@ const module = defineNuxtModule<PiniaNuxtOptions>({
       nuxt.options.features.store = false
     }
 
-    addPlugin({ src: resolve(__dirname, 'plugin') })
+    addPlugin({ src: resolve(__dirname, '../templates/plugin.js') })
 
     // Define pinia resolution to ensure plugins register global context successfully
     nuxt.options.alias['pinia'] =
@@ -43,3 +44,23 @@ const module = defineNuxtModule<PiniaNuxtOptions>({
 })
 
 export default module
+
+declare module '@nuxt/types' {
+  export interface Context {
+    // TODO: test out if correct
+    // pinia: Pinia
+    /**
+     * Pinia instance attached to the app.
+     */
+    $pinia: Pinia
+  }
+}
+
+declare module 'pinia' {
+  export interface PiniaCustomProperties {
+    /**
+     * Nuxt context.
+     */
+    $nuxt: Context
+  }
+}

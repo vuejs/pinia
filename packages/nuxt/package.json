@@ -1,31 +1,7 @@
 {
   "name": "@pinia/nuxt",
-  "description": "Nuxt Module for pinia",
   "version": "0.0.0",
-  "sideEffects": false,
-  "author": {
-    "name": "Eduardo San Martin Morote",
-    "email": "posva13@gmail.com"
-  },
-  "funding": "https://github.com/sponsors/posva",
-  "publishConfig": {
-    "access": "public"
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    "require": "./dist/index.js",
-    "import": "./dist/index.mjs"
-  },
-  "scripts": {
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @senda/url -r 1"
-  },
-  "files": [
-    "dist/*.js",
-    "dist/*.mjs",
-    "dist/*.d.ts"
-  ],
+  "description": "Nuxt Module for pinia",
   "keywords": [
     "vue",
     "vuex",
@@ -33,13 +9,47 @@
     "pinia",
     "nuxt"
   ],
-  "license": "MIT",
+  "homepage": "https://github.com/posva/pinia/tree/v2/packages/nuxt#readme",
+  "bugs": {
+    "url": "https://github.com/posva/pinia/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/posva/pinia.git"
   },
-  "bugs": {
-    "url": "https://github.com/posva/pinia/issues"
+  "funding": "https://github.com/sponsors/posva",
+  "license": "MIT",
+  "author": {
+    "name": "Eduardo San Martin Morote",
+    "email": "posva13@gmail.com"
   },
-  "homepage": "https://github.com/posva/pinia/tree/v2/packages/nuxt#readme"
+  "sideEffects": false,
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.mjs"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/*.js",
+    "dist/*.mjs",
+    "dist/*.d.ts",
+    "templates/*.js"
+  ],
+  "scripts": {
+    "build": "siroc",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/nuxt -r 1"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^0.6.4",
+    "upath": "^2.0.1"
+  },
+  "devDependencies": {
+    "@nuxt/types": "^2.15.8",
+    "siroc": "^0.15.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }
