@@ -418,8 +418,7 @@ export interface StoreWithState<
   /**
    * Stops the associated effect scope of the store and remove it from the store
    * registry. Plugins can override this method to cleanup any added effects.
-   * e.g. devtools plugin remove its listeners and stops displaying it from
-   * devtools.
+   * e.g. devtools plugin stops displaying disposed stores from devtools.
    */
   $dispose(): void
 }
