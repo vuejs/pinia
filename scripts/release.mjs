@@ -16,9 +16,14 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const args = minimist(process.argv.slice(2))
-let { skipBuild, tag, dry: isDryRun, skipCleanCheck: skipCleanGitCheck } = args
+let {
+  skipBuild,
+  tag: optionTag,
+  dry: isDryRun,
+  skipCleanCheck: skipCleanGitCheck,
+} = args
 // TODO: remove on stable
-tag = tag || 'next'
+optionTag = optionTag || 'next'
 
 // const preId =
 //   args.preid ||
@@ -256,6 +261,10 @@ function updateDeps(pkg, depType, updatedPackages) {
 
 async function publishPackage(pkg) {
   step(`Publishing ${pkg.name}...`)
+
+  // TODO: remove on stable
+  // apply all @pinia/* packages to the latest dist tag on npm
+  const tag = pkg.name !== 'pinia' && optionTag === 'next' ? null : optionTag
 
   try {
     await runIfNotDry(
