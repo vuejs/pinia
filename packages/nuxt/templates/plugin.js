@@ -3,7 +3,7 @@ import { isVue2, Vue2 } from 'vue-demi'
 import { createPinia, setActivePinia, PiniaPlugin } from 'pinia'
 
 if (isVue2) {
-  Vue2(PiniaPlugin)
+  Vue2.use(PiniaPlugin)
 }
 
 /**
@@ -13,13 +13,15 @@ const PiniaNuxtPlugin = (context, inject) => {
   const pinia = createPinia()
   // add $pinia to the context
   inject('pinia', pinia)
-  // TO
   // to allow accessing pinia without the $
-  // context.pinia = pinia
+  context.pinia = pinia
 
   if (isVue2) {
     // simulate new Vue({ pinia })
     context.app.pinia = pinia
+  } else {
+    // TODO: does this work?
+    context.app.use(pinia)
   }
 
   setActivePinia(pinia)

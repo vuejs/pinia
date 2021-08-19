@@ -19,7 +19,6 @@ const module = defineNuxtModule<PiniaNuxtOptions>({
   defaults: {
     disableVuex: true,
   },
-  hooks: {},
   setup(options, nuxt) {
     // Disable default Vuex store (options.features only exists in Nuxt v2.10+)
     if (nuxt.options.features && options.disableVuex) {
@@ -47,8 +46,11 @@ export default module
 
 declare module '@nuxt/types' {
   export interface Context {
-    // TODO: test out if correct
-    // pinia: Pinia
+    /**
+     * Pinia instance attached to the app.
+     */
+    pinia: Pinia
+
     /**
      * Pinia instance attached to the app.
      */
