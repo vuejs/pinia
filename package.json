@@ -13,7 +13,7 @@
     "build:dts": "lerna run build:dts --parallel",
     "lint": "prettier -c --parser typescript \"packages/*/{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
     "lint:fix": "yarn run lint --write",
-    "test": "yarn run test:types && yarn run test:jest && lerna run test",
+    "test": "yarn run test:types && yarn run test:jest && lerna run test && yarn run build && yarn run build:dts && yarn test:dts",
     "test:jest": "jest --coverage",
     "test:types": "tsc --build ./tsconfig.json",
     "test:dts": "lerna run test:dts",
