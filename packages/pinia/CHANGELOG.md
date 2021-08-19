@@ -1,3 +1,5 @@
+# [2.0.0-rc.6](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.5...pinia@2.0.0-rc.6) (2021-08-19)
+
 # 2.0.0-rc.5 (2021-08-19)
 
 ### Bug Fixes
