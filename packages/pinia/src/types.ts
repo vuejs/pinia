@@ -414,6 +414,14 @@ export interface StoreWithState<
     callback: StoreOnActionListener<Id, S, G, A>,
     detached?: boolean
   ): () => void
+
+  /**
+   * Stops the associated effect scope of the store and remove it from the store
+   * registry. Plugins can override this method to cleanup any added effects.
+   * e.g. devtools plugin remove its listeners and stops displaying it from
+   * devtools.
+   */
+  $dispose(): void
 }
 
 /**

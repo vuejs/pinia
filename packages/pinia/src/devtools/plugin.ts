@@ -414,11 +414,20 @@ function addStoreToDevtools(app: App, store: StoreGeneric) {
         api.sendInspectorState(INSPECTOR_ID)
       })
 
+      const { $dispose } = store
+      store.$dispose = () => {
+        $dispose()
+        api.notifyComponentUpdate()
+        api.sendInspectorTree(INSPECTOR_ID)
+        api.sendInspectorState(INSPECTOR_ID)
+        toastMessage(`Disposed "${store.$id}" store 🗑`)
+      }
+
       // trigger an update so it can display new registered stores
       api.notifyComponentUpdate()
       api.sendInspectorTree(INSPECTOR_ID)
       api.sendInspectorState(INSPECTOR_ID)
-      toastMessage(`"${store.$id}" store installed`)
+      toastMessage(`"${store.$id}" store installed 🆕`)
     }
   )
 }

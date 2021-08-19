@@ -303,4 +303,27 @@ describe('Store', () => {
     expect(One.text()).toBe('1')
     expect(Two.text()).toBe('1')
   })
+
+  it('can be disposed', () => {
+    const pinia = createPinia()
+    const useStore = defineStore({
+      id: 'main',
+      state: () => ({ n: 0 }),
+    })
+
+    const store = useStore(pinia)
+    const spy = jest.fn()
+
+    store.$subscribe(spy, { flush: 'sync' })
+    pinia.state.value.main.n++
+    expect(spy).toHaveBeenCalledTimes(1)
+
+    expect(useStore()).toBe(store)
+    store.$dispose()
+    pinia.state.value.main.n++
+
+    expect(spy).toHaveBeenCalledTimes(1)
+
+    expect(useStore()).not.toBe(store)
+  })
 })
