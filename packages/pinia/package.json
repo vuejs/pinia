@@ -12,9 +12,7 @@
       "import": "./dist/pinia.esm-bundler.js",
       "require": "./dist/pinia.cjs.js"
     },
-    "./package.json": "./package.json",
-    "./nuxt-2": "./nuxt-2/index.js",
-    "./nuxt-2/*": "./nuxt-2/*"
+    "./package.json": "./package.json"
   },
   "sideEffects": false,
   "author": {
