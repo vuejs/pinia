@@ -180,6 +180,16 @@ async function main() {
     )
   }
 
+  const { yes } = await prompt({
+    type: 'confirm',
+    name: 'yes',
+    message: 'Are the changelogs correct?',
+  })
+
+  if (!yes) {
+    return
+  }
+
   step('\nBuilding all packages...')
   if (!skipBuild && !isDryRun) {
     await run('yarn', ['build'])

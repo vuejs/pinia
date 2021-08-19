@@ -1,6 +1,8 @@
 # [2.0.0-rc.6](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.5...pinia@2.0.0-rc.6) (2021-08-19)
 
-# 2.0.0-rc.5 (2021-08-19)
+Fix missing types.
+
+# [2.0.0-rc.5](https://github.com/posva/pinia/compare/v2.0.0-rc.4...v2.0.0-rc.5) (2021-08-19)
 
 ### Bug Fixes
 
