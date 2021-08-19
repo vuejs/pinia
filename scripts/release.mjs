@@ -183,6 +183,7 @@ async function main() {
   step('\nBuilding all packages...')
   if (!skipBuild && !isDryRun) {
     await run('yarn', ['build'])
+    await run('yarn', ['build:dts'])
   } else {
     console.log(`(skipped)`)
   }
