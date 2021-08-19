@@ -25,7 +25,7 @@ describe('Testing', () => {
     `,
   })
 
-  function factory(options: TestingOptions = {}) {
+  function factory(options?: TestingOptions) {
     const wrapper = mount(Counter, {
       global: {
         plugins: [createTestingPinia(options)],
@@ -150,5 +150,25 @@ describe('Testing', () => {
     counter.n++
     expect(counter.n).toBe(1)
     expect(counterWithRealPinia.n).toBe(1)
+  })
+
+  it('works with no actions', () => {
+    const useEmpty = defineStore('empty', {})
+
+    const Empty = defineComponent({
+      setup() {
+        const empty = useEmpty()
+        return { empty }
+      },
+      template: `{{ empty.$id }}`,
+    })
+
+    const wrapper = mount(Empty, {
+      global: {
+        plugins: [createTestingPinia()],
+      },
+    })
+
+    expect(wrapper.text()).toBe('empty')
   })
 })

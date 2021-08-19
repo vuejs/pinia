@@ -193,4 +193,18 @@ describe('State', () => {
     expect(store.counter).toBe(2)
     expect(counter.value).toBe(2)
   })
+
+  it('can reset the state', () => {
+    const store = useStore()
+    store.name = 'Ed'
+    store.nested.n++
+    store.$reset()
+    expect(store.$state).toEqual({
+      counter: 0,
+      name: 'Eduardo',
+      nested: {
+        n: 0,
+      },
+    })
+  })
 })

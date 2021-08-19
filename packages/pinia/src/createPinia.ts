@@ -32,6 +32,7 @@ export function createPinia(): Pinia {
           // this allows calling useStore() outside of a component setup after
           // installing pinia's plugin
           setActivePinia(pinia)
+          /* istanbul ignore else */
           if (__DEV__) {
             registerPiniaDevtools(app, pinia)
           }

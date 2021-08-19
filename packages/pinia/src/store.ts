@@ -178,6 +178,7 @@ function createSetupStore<
   /* istanbul ignore else */
   if (__DEV__ && !isVue2) {
     $subscribeOptions.onTrigger = (event) => {
+      /* istanbul ignore else */
       if (isListening) {
         debuggerEvents = event
         // avoid triggering this while the store is being built and the state is being set in pinia

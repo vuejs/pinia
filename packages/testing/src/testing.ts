@@ -80,7 +80,7 @@ export function createTestingPinia({
   }
 
   pinia.use(({ store, options }) => {
-    Object.keys(options.actions || {}).forEach((action) => {
+    Object.keys(options.actions).forEach((action) => {
       store[action] = stubActions ? createSpy() : createSpy(store[action])
     })
 
