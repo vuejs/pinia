@@ -20,4 +20,4 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           body: |
-            Please refer to [CHANGELOG.md](https://github.com/posva/pinia/blob/v2/CHANGELOG.md) for details.
+            Please refer to [CHANGELOG.md](https://github.com/posva/pinia/blob/v2/packages/pinia/CHANGELOG.md) for details.
