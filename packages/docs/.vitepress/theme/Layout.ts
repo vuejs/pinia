@@ -3,10 +3,12 @@ import { h, nextTick } from 'vue'
 import type { FunctionalComponent } from 'vue'
 import sponsors from '../components/sponsors.json'
 import './sponsors.css'
-import { isDark } from './dark-theme'
+import { darkStorageConfig } from '../theme/dark-theme'
+import { useDark } from '@vueuse/core'
 
-export const Layout: FunctionalComponent = () =>
-  h(
+export const Layout: FunctionalComponent = () => {
+  const isDark = useDark(darkStorageConfig)
+  return h(
     Theme.Layout,
     {
       onVnodeMounted() {
@@ -45,5 +47,6 @@ export const Layout: FunctionalComponent = () =>
         ]),
     }
   )
+}
 
 Layout.displayName = 'CustomLayout'

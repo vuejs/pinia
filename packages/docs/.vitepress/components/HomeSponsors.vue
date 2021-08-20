@@ -20,7 +20,10 @@
 import HomeSponsorsGroup from './HomeSponsorsGroup.vue'
 import sponsors from './sponsors.json'
 import { nextTick, onMounted } from 'vue'
-import { isDark } from '../theme/dark-theme'
+import { darkStorageConfig } from '../theme/dark-theme'
+import { useDark } from '@vueuse/core'
+
+const isDark = useDark(darkStorageConfig)
 
 onMounted(() => {
   // wait to ticks to fix the problem of SSR with no color scheme

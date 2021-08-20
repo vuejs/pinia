@@ -31,9 +31,12 @@
 
 <script setup lang="ts">
 import sponsors from './sponsors.json'
-import { isDark } from '../theme/dark-theme'
 import { computed } from 'vue'
 import type { PropType } from 'vue'
+import { darkStorageConfig } from '../theme/dark-theme'
+import { useDark } from '@vueuse/core'
+
+const isDark = useDark(darkStorageConfig)
 
 const props = defineProps({
   name: {

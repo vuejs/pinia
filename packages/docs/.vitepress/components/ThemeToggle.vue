@@ -58,7 +58,10 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { isDark } from '../theme/dark-theme'
+import { darkStorageConfig } from '../theme/dark-theme'
+import { useDark } from '@vueuse/core'
+
+const isDark = useDark(darkStorageConfig)
 
 const label = computed(() =>
   isDark.value ? 'Switch to light mode' : 'Switch to dark mode'
