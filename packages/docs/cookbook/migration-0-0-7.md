@@ -3,7 +3,7 @@
 The versions after `0.0.7`: `0.1.0`, and `0.2.0`, came with a few big breaking changes. This guide helps you migrate whether you use Vue 2 or Vue 3. The whole changelog can be found in the repository:
 
 - [For Pinia <= 1 for Vue 2](https://github.com/posva/pinia/blob/v1/CHANGELOG.md)
-- [For Pinia >= 2 for Vue 3](https://github.com/posva/pinia/blob/v2/CHANGELOG.md)
+- [For Pinia >= 2 for Vue 3](https://github.com/posva/pinia/blob/v2/packages/pinia/CHANGELOG.md)
 
 If you have questions or issues regarding the migration, feel free to [open a discussion](https://github.com/posva/pinia/discussions/categories/q-a) to ask for help.
 
