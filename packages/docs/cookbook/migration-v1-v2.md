@@ -71,3 +71,39 @@ yarn add @vue/composition-api@latest
 ## Devtools
 
 Pinia v2 no longer hijacks Vue Devtools v5, it requires Vue Devtools v6. Find the download link on the [Vue Devtools documentation](https://devtools.vuejs.org/guide/installation.html#chrome) for the **beta channel** of the extension.
+
+## Nuxt
+
+If you are using Nuxt, pinia has now it's dedicated Nuxt package 🎉. Install it with:
+
+```shell
+npm i @pinia/nuxt
+# or with yarn
+yarn add @pinia/nuxt
+```
+
+Also make sure to **update your `@nuxtjs/composition-api` package**.
+
+Then adapt your `nuxt.config.js` and your `tsconfig.json` if you are using TypeScript:
+
+```diff
+ // nuxt.config.js
+ module.exports {
+   buildModules: [
+     '@nuxtjs/composition-api/module',
+-    'pinia/nuxt',
++    '@pinia/nuxt',
+   ],
+ }
+```
+
+```diff
+ // tsconfig.json
+ {
+   "types": [
+     // ...
+-    "pinia/nuxt/types"
++    "@pinia/nuxt"
+   ]
+ }
+```
