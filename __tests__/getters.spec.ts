@@ -20,11 +20,11 @@ describe('Getters', () => {
           return this.name.toUpperCase()
         },
         callCheck(state) {
-          setImmediate(() => {
+          setTimeout(() => {
             // avoid getting tracked
             // toRaw(state).callCount++
             state.callCount++
-          })
+          }, 0)
           return state.forCallCheck
         },
         doubleName(): string {
@@ -96,15 +96,15 @@ describe('Getters', () => {
     expect(store.callCount).toBe(0)
     expect(store.callCheck).toBe('foo')
     expect(store.callCount).toBe(0)
-    jest.runAllImmediates()
+    jest.runAllTimers()
     expect(store.callCount).toBe(1)
     expect(store.callCheck).toBe('foo')
-    jest.runAllImmediates()
+    jest.runAllTimers()
     expect(store.callCount).toBe(1)
     expect(store.callCheck).toBe('foo')
     // changing a different value on the store
     store.name = 'Ed'
-    jest.runAllImmediates()
+    jest.runAllTimers()
     expect(store.callCount).toBe(1)
     expect(store.callCheck).toBe('foo')
   })
