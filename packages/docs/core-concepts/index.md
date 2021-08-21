@@ -39,7 +39,7 @@ If you are not using `setup` components yet, [you can still use Pinia with _map 
 
 Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will see these in detail in the next pages but autocompletion will help you.
 
-Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it**:
+Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it directly**:
 
 ```js
 export default defineComponent({
@@ -60,6 +60,25 @@ export default defineComponent({
       // this one will be reactive
       doubleValue: computed(() => store.doubleCount),
       }
+  },
+})
+```
+
+You can use `storeToRefs` to destructure the returned object without losing reactivity:
+```js
+import { storeToRefs } from 'pinia'
+
+export default defineComponent({
+  setup() {
+    const store = useStore()
+    // Now name & doubleCount still have reactivity
+    // Note that methods and non reactive properties will be ignored
+    const { name, doubleCount } = storeToRefs(store)
+
+    return {
+      name,
+      doubleCount
+    }
   },
 })
 ```
