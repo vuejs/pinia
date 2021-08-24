@@ -25,7 +25,7 @@ import { Pinia, piniaSymbol, setActivePinia } from './rootStore'
  *
  * @param _Vue
  */
-export const PiniaPlugin: Plugin = function (_Vue) {
+export const PiniaVuePlugin: Plugin = function (_Vue) {
   // Equivalent of
   // app.config.globalProperties.$pinia = pinia
   _Vue.mixin({
@@ -69,3 +69,8 @@ export const PiniaPlugin: Plugin = function (_Vue) {
     },
   })
 }
+
+/**
+ * @deprecated use PiniaVuePlugin
+ */
+export const PiniaPlugin = PiniaVuePlugin

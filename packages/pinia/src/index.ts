@@ -61,4 +61,8 @@ export type {
 
 export { acceptHMRUpdate } from './hmr'
 
-export { PiniaPlugin } from './vue2-plugin'
+export {
+  // TODO: remove in release and deprecate PiniaStorePlugin in favor of PiniaPlugin
+  PiniaPlugin,
+  PiniaVuePlugin,
+} from './vue2-plugin'
