@@ -350,3 +350,29 @@ declare module 'pinia' {
   }
 }
 ```
+
+## Nuxt.js
+
+When [using pinia alongside Nuxt](../ssr/nuxt.md), you will have to create a [Nuxt plugin](https://nuxtjs.org/docs/2.x/directory-structure/plugins) first. This will give you access to the `pinia` instance:
+
+```ts
+// plugins/myPiniaPlugin.js
+import { PiniaPluginContext } from 'pinia'
+import { Plugin } from '@nuxt/types'
+
+function MyPiniaPlugin({ store }: PiniaPluginContext) {
+  store.$subscribe((mutation) => {
+    // react to store changes
+    console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
+  })
+
+  return { creationTime: new Date() }
+}
+
+const myPlugin: Plugin = ({ pinia }) {
+  pinia.use(MyPiniaPlugin);
+}
+export default myPlugin
+```
+
+Note the above example is using TypeScript, you have to remove the type annotations `PiniaPluginContext` and `Plugin` as well as their imports if you are using a `.js` file.
