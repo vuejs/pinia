@@ -1,9 +1,9 @@
 // @ts-check
 import { isVue2, Vue2 } from 'vue-demi'
-import { createPinia, setActivePinia, PiniaPlugin } from 'pinia'
+import { createPinia, setActivePinia, PiniaVuePlugin } from 'pinia'
 
 if (isVue2) {
-  Vue2.use(PiniaPlugin)
+  Vue2.use(PiniaVuePlugin)
 }
 
 /**
