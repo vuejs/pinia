@@ -4,6 +4,7 @@
     "packages/*/src/**/*.ts",
     "packages/*/__tests__/**/*.ts"
   ],
+  "exclude": ["packages/test-vue-2", "packages/pinia/__tests__/test-utils.ts"],
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",

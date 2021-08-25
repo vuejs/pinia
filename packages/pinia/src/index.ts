@@ -1,3 +1,6 @@
+/**
+ * @module pinia
+ */
 export { setActivePinia, getActivePinia } from './rootStore'
 export { createPinia } from './createPinia'
 export type { Pinia, PiniaStorePlugin, PiniaPluginContext } from './rootStore'

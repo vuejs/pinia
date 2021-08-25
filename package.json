@@ -17,7 +17,7 @@
     "test:jest": "jest --coverage",
     "test:types": "tsc --build ./tsconfig.json",
     "test:dts": "lerna run test:dts",
-    "docs:api": "typedoc TODO:"
+    "docs:api": "typedoc"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.5",
@@ -49,6 +49,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "semver": "^7.3.5",
+    "typedoc": "^0.21.6",
     "typescript": "^4.3.5",
     "yorkie": "^2.0.0"
   },

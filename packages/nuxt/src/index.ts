@@ -1,3 +1,6 @@
+/**
+ * @module @pinia/nuxt
+ */
 import { resolve } from 'upath'
 import { addPlugin, defineNuxtModule, resolveModule } from '@nuxt/kit'
 import { Pinia } from 'pinia'

@@ -12,3 +12,4 @@ test-dts/tsconfig.tsbuildinfo
 .env
 packages/*/LICENSE
 explorations
+docs-api
