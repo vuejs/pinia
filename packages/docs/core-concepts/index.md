@@ -39,7 +39,7 @@ If you are not using `setup` components yet, [you can still use Pinia with _map 
 
 Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will see these in detail in the next pages but autocompletion will help you.
 
-Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it directly**:
+Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it**:
 
 ```js
 export default defineComponent({
@@ -64,15 +64,16 @@ export default defineComponent({
 })
 ```
 
-You can use `storeToRefs` to destructure the returned object without losing reactivity:
+In order to extract properties from the store while keeping its reactivity, you need to use `storeToRefs()`. It will create refs for any reactive property. This is useful when you are only using state from the store but not calling any action:
 ```js
 import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   setup() {
     const store = useStore()
-    // Now name & doubleCount still have reactivity
-    // Note that methods and non reactive properties will be ignored
+    // `name` and `doubleCount` are reactive refs
+    // This will also create refs for properties added by plugins
+    // but skip any action or non reactive (non ref/reactive) property
     const { name, doubleCount } = storeToRefs(store)
 
     return {
