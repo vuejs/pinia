@@ -63,3 +63,23 @@ export default defineComponent({
   },
 })
 ```
+
+In order to extract properties from the store while keeping its reactivity, you need to use `storeToRefs()`. It will create refs for any reactive property. This is useful when you are only using state from the store but not calling any action:
+```js
+import { storeToRefs } from 'pinia'
+
+export default defineComponent({
+  setup() {
+    const store = useStore()
+    // `name` and `doubleCount` are reactive refs
+    // This will also create refs for properties added by plugins
+    // but skip any action or non reactive (non ref/reactive) property
+    const { name, doubleCount } = storeToRefs(store)
+
+    return {
+      name,
+      doubleCount
+    }
+  },
+})
+```
