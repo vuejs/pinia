@@ -1,4 +1,4 @@
 [build]
-command = "yarn run docs:build"
+command = "yarn run docs:build && yarn run docs:api"
 ignore = "./scripts/docs-check.sh"
 publish = "packages/docs/.vitepress/dist"

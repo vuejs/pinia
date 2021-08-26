@@ -4,7 +4,7 @@
 const config = {
   name: 'Pinia',
   excludeInternal: true,
-  out: 'docs-api',
+  out: 'packages/docs/.vitepress/dist/api',
   entryPoints: [
     'packages/pinia/src/index.ts',
     'packages/testing/src/index.ts',
