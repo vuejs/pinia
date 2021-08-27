@@ -3,6 +3,7 @@
 /** @type {Partial<import('typedoc').TypeDocOptions>} */
 const config = {
   name: 'Pinia',
+  readme: 'none',
   excludeInternal: true,
   out: 'packages/docs/.vitepress/dist/api',
   entryPoints: [
