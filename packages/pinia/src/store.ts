@@ -213,17 +213,6 @@ function createSetupStore<
 
   const hotState = ref({} as S)
 
-  /* istanbul ignore if */
-  if (__DEV__ && !pinia._e.active) {
-    throw new Error('Pinia destroyed')
-  }
-
-  // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
-  const setupStore = pinia._e.run(() => {
-    scope = effectScope()
-    return scope.run(() => setup())
-  })!
-
   function $patch(stateMutation: (state: UnwrapRef<S>) => void): void
   function $patch(partialState: DeepPartial<UnwrapRef<S>>): void
   function $patch(
@@ -346,65 +335,6 @@ function createSetupStore<
     hotState,
   })
 
-  // overwrite existing actions to support $onAction
-  for (const key in setupStore) {
-    const prop = setupStore[key]
-
-    if ((isRef(prop) && !isComputed(prop)) || isReactive(prop)) {
-      // mark it as a piece of state to be serialized
-      if (__DEV__ && hot) {
-        set(hotState.value, key, toRef(setupStore as any, key))
-        // createOptionStore directly sets the state in pinia.state.value so we
-        // can just skip that
-      } else if (!buildState) {
-        if (isVue2) {
-          set(pinia.state.value[$id], key, prop)
-        } else {
-          pinia.state.value[$id][key] = prop
-        }
-        // TODO: avoid if state exists for SSR
-      }
-
-      if (__DEV__) {
-        _hmrPayload.state.push(key)
-      }
-      // action
-    } else if (typeof prop === 'function') {
-      // @ts-expect-error: we are overriding the function we avoid wrapping if
-      const actionValue = __DEV__ && hot ? prop : wrapAction(key, prop)
-      // this a hot module replacement store because the hotUpdate method needs
-      // to do it with the right context
-      if (isVue2) {
-        set(setupStore, key, actionValue)
-      } else {
-        // @ts-expect-error
-        setupStore[key] = actionValue
-      }
-
-      if (__DEV__) {
-        _hmrPayload.actions[key] = prop
-      }
-
-      // list actions so they can be used in plugins
-      // @ts-expect-error
-      optionsForPlugin.actions[key] = prop
-    } else if (__DEV__) {
-      // add getters for devtools
-      if (isComputed(prop)) {
-        _hmrPayload.getters[key] = buildState
-          ? // @ts-expect-error
-            options.getters[key]
-          : prop
-        if (IS_CLIENT) {
-          const getters: string[] =
-            // @ts-expect-error: it should be on the store
-            setupStore._getters || (setupStore._getters = markRaw([]))
-          getters.push(key)
-        }
-      }
-    }
-  }
-
   const partialStore = {
     _p: pinia,
     // _s: scope,
@@ -470,10 +400,84 @@ function createSetupStore<
             _hmrPayload,
           }
         : {},
-      partialStore,
-      setupStore
+      partialStore
+      // must be added later
+      // setupStore
     )
-  ) as Store<Id, S, G, A>
+  ) as unknown as Store<Id, S, G, A>
+
+  // store the partial store now so the setup of stores can use each other
+  pinia._s.set($id, store)
+
+  // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
+  const setupStore = pinia._e.run(() => {
+    scope = effectScope()
+    return scope.run(() => setup())
+  })!
+
+  // overwrite existing actions to support $onAction
+  for (const key in setupStore) {
+    const prop = setupStore[key]
+
+    if ((isRef(prop) && !isComputed(prop)) || isReactive(prop)) {
+      // mark it as a piece of state to be serialized
+      if (__DEV__ && hot) {
+        set(hotState.value, key, toRef(setupStore as any, key))
+        // createOptionStore directly sets the state in pinia.state.value so we
+        // can just skip that
+      } else if (!buildState) {
+        if (isVue2) {
+          set(pinia.state.value[$id], key, prop)
+        } else {
+          pinia.state.value[$id][key] = prop
+        }
+        // TODO: avoid if state exists for SSR
+      }
+
+      /* istanbul ignore else */
+      if (__DEV__) {
+        _hmrPayload.state.push(key)
+      }
+      // action
+    } else if (typeof prop === 'function') {
+      // @ts-expect-error: we are overriding the function we avoid wrapping if
+      const actionValue = __DEV__ && hot ? prop : wrapAction(key, prop)
+      // this a hot module replacement store because the hotUpdate method needs
+      // to do it with the right context
+      if (isVue2) {
+        set(setupStore, key, actionValue)
+      } else {
+        // @ts-expect-error
+        setupStore[key] = actionValue
+      }
+
+      /* istanbul ignore else */
+      if (__DEV__) {
+        _hmrPayload.actions[key] = prop
+      }
+
+      // list actions so they can be used in plugins
+      // @ts-expect-error
+      optionsForPlugin.actions[key] = prop
+    } else if (__DEV__) {
+      // add getters for devtools
+      if (isComputed(prop)) {
+        _hmrPayload.getters[key] = buildState
+          ? // @ts-expect-error
+            options.getters[key]
+          : prop
+        if (IS_CLIENT) {
+          const getters: string[] =
+            // @ts-expect-error: it should be on the store
+            setupStore._getters || (setupStore._getters = markRaw([]))
+          getters.push(key)
+        }
+      }
+    }
+  }
+
+  // add the state, getters, and action properties
+  assign(store, setupStore)
 
   // use this instead of a computed with setter to be able to create it anywhere
   // without linking the computed lifespan to wherever the store is first
@@ -778,13 +782,14 @@ export function defineStore(
     pinia = activePinia!
 
     if (!pinia._s.has(id)) {
-      pinia._s.set(
-        id,
-        isSetupStore
-          ? createSetupStore(id, setup, options, pinia)
-          : createOptionsStore(id, options as any, pinia)
-      )
+      // creating the store registers it in `pinia._s`
+      if (isSetupStore) {
+        createSetupStore(id, setup, options, pinia)
+      } else {
+        createOptionsStore(id, options as any, pinia)
+      }
 
+      /* istanbul ignore else */
       if (__DEV__) {
         // @ts-expect-error: not the right inferred type
         useStore._pinia = pinia
