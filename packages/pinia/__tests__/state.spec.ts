@@ -1,4 +1,4 @@
-import { createPinia, defineStore, Pinia, setActivePinia } from '../src'
+import { createPinia, defineStore, setActivePinia } from '../src'
 import { computed, nextTick, ref, watch } from 'vue'
 
 describe('State', () => {
