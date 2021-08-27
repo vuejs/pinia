@@ -1,33 +1,29 @@
-import { createPinia, defineStore, setActivePinia, Pinia } from '../src'
+import { createPinia, defineStore, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
 import { defineComponent, getCurrentInstance, nextTick, watch } from 'vue'
 
 describe('Store', () => {
-  let pinia: Pinia
-  const useStore = () => {
-    // create a new store
-    pinia = createPinia()
-    setActivePinia(pinia)
-    return defineStore({
-      id: 'main',
-      state: () => ({
-        a: true,
-        nested: {
-          foo: 'foo',
-          a: { b: 'string' },
-        },
-      }),
-    })()
-  }
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
+
+  const useStore = defineStore({
+    id: 'main',
+    state: () => ({
+      a: true,
+      nested: {
+        foo: 'foo',
+        a: { b: 'string' },
+      },
+    }),
+  })
 
   it('reuses a store', () => {
-    setActivePinia(createPinia())
     const useStore = defineStore({ id: 'main' })
     expect(useStore()).toBe(useStore())
   })
 
   it('works with id as first argument', () => {
-    setActivePinia(createPinia())
     const useStore = defineStore('main', {
       state: () => ({
         a: true,
@@ -54,6 +50,7 @@ describe('Store', () => {
   })
 
   it('works without setting the active pinia', async () => {
+    setActivePinia(undefined)
     const pinia = createPinia()
     const useStore = defineStore({
       id: 'main',
@@ -123,7 +120,7 @@ describe('Store', () => {
       a: false,
       nested: {
         foo: 'bar',
-        a: { b: 'string' },
+        a: { b: 'string 2' },
       },
     }
 
@@ -133,7 +130,7 @@ describe('Store', () => {
       a: false,
       nested: {
         foo: 'bar',
-        a: { b: 'string' },
+        a: { b: 'string 2' },
       },
     })
   })
@@ -162,7 +159,7 @@ describe('Store', () => {
 
   it('do not share the state between same id store', () => {
     const store = useStore()
-    const store2 = useStore()
+    const store2 = useStore(createPinia())
     expect(store.$state).not.toBe(store2.$state)
     store.$state.nested.a.b = 'hey'
     expect(store2.$state.nested.a.b).toBe('string')
