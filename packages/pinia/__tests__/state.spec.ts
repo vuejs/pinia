@@ -2,18 +2,17 @@ import { createPinia, defineStore, Pinia, setActivePinia } from '../src'
 import { computed, nextTick, ref, watch } from 'vue'
 
 describe('State', () => {
-  const useStore = (pinia?: Pinia) => {
-    // create a new store
-    setActivePinia(pinia || createPinia())
-    return defineStore({
-      id: 'main',
-      state: () => ({
-        name: 'Eduardo',
-        counter: 0,
-        nested: { n: 0 },
-      }),
-    })()
-  }
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
+
+  const useStore = defineStore('main', {
+    state: () => ({
+      name: 'Eduardo',
+      counter: 0,
+      nested: { n: 0 },
+    }),
+  })
 
   it('can directly access state at the store level', () => {
     const store = useStore()

@@ -8,14 +8,13 @@ import {
 } from '../src'
 
 function defineOptions<
-  O extends DefineStoreOptions<string, StateTree, any, any>
+  O extends Omit<DefineStoreOptions<string, StateTree, any, any>, 'id'>
 >(options: O): O {
   return options
 }
 
 describe('HMR', () => {
   const baseOptions = defineOptions({
-    id: 'main',
     state: () => ({
       n: 0,
       arr: [],
@@ -45,12 +44,12 @@ describe('HMR', () => {
 
   describe('state', () => {
     it('adds new state properties', () => {
-      const useStore = defineStore(baseOptions)
+      const useStore = defineStore('id', baseOptions)
       const store: any = useStore()
       store.n++
 
       // simulate a hmr
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         state: () => ({ newOne: 'hey', n: 0 }),
       })(null, store)
@@ -59,7 +58,7 @@ describe('HMR', () => {
       expect(store.n).toBe(1)
       expect(store.newOne).toBe('hey')
 
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         state: () => ({ other: 'new', n: 0 }),
       })(null, store)
@@ -71,18 +70,18 @@ describe('HMR', () => {
     })
 
     it('patches nested objects', () => {
-      const useStore = defineStore(baseOptions)
+      const useStore = defineStore('id', baseOptions)
       const store: any = useStore()
 
       // simulate a hmr
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         state: () => ({ nested: { a: 'b', b: 'b' } }),
       })(null, store)
 
       expect(store.$state).toEqual({ nested: { a: 'a', b: 'b' } })
 
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         state: () => ({ nested: { b: 'c' } }),
       })(null, store)
@@ -91,18 +90,18 @@ describe('HMR', () => {
     })
 
     it('skips arrays', () => {
-      const useStore = defineStore(baseOptions)
+      const useStore = defineStore('id', baseOptions)
       const store: any = useStore()
 
       // simulate a hmr
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         state: () => ({ arr: [2] }),
       })(null, store)
 
       expect(store.$state).toEqual({ arr: [] })
 
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         state: () => ({ arr: [1] }),
       })(null, store)
@@ -110,18 +109,18 @@ describe('HMR', () => {
     })
 
     it('skips nested arrays', () => {
-      const useStore = defineStore(baseOptions)
+      const useStore = defineStore('id', baseOptions)
       const store: any = useStore()
 
       // simulate a hmr
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         state: () => ({ nestedArr: { arr: [2] } }),
       })(null, store)
 
       expect(store.$state).toEqual({ nestedArr: { arr: [] } })
 
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         state: () => ({ nestedArr: { arr: [1] } }),
       })(null, store)
@@ -129,7 +128,7 @@ describe('HMR', () => {
     })
 
     it('keeps state reactive', () => {
-      const useStore = defineStore(baseOptions)
+      const useStore = defineStore('id', baseOptions)
       const store: any = useStore()
 
       const directSpy = jest.fn()
@@ -139,7 +138,7 @@ describe('HMR', () => {
       watch(() => store.$state.n, $stateSpy, { flush: 'sync' })
 
       // simulate a hmr
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         state: () => ({ newOne: 'hey', n: 0 }),
       })(null, store)
@@ -154,7 +153,7 @@ describe('HMR', () => {
       expect(directSpy).toHaveBeenCalledTimes(2)
       expect($stateSpy).toHaveBeenCalledTimes(2)
 
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         state: () => ({ other: 'new', n: 0 }),
       })(null, store)
@@ -173,11 +172,11 @@ describe('HMR', () => {
 
   describe('actions', () => {
     it('adds new actions', () => {
-      const useStore = defineStore(baseOptions)
+      const useStore = defineStore('id', baseOptions)
       const store: any = useStore()
 
       // simulate a hmr
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         actions: {
           ...baseOptions.actions,
@@ -194,7 +193,7 @@ describe('HMR', () => {
       expect(store.n).toBe(0)
       expect(store.$state.n).toBe(0)
 
-      defineStore(baseOptions)(null, store)
+      defineStore('id', baseOptions)(null, store)
 
       store.increment()
       expect(store.n).toBe(1)
@@ -205,12 +204,12 @@ describe('HMR', () => {
 
   describe('getters', () => {
     it('adds new getters properties', () => {
-      const useStore = defineStore(baseOptions)
+      const useStore = defineStore('id', baseOptions)
       const store: any = useStore()
       expect(store.double).toBe(0)
 
       // simulate a hmr
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         getters: {
           ...baseOptions.getters,
@@ -222,16 +221,15 @@ describe('HMR', () => {
       expect(store.double).toBe(6)
       expect(store.triple).toBe(9)
 
-      defineStore(baseOptions)(null, store)
+      defineStore('id', baseOptions)(null, store)
 
       store.n = 4
       expect(store.double).toBe(8)
       expect(store).not.toHaveProperty('triple')
     })
 
-    // FIXME:
-    it.skip('keeps getters reactive', () => {
-      const useStore = defineStore(baseOptions)
+    it('keeps getters reactive', () => {
+      const useStore = defineStore('id', baseOptions)
       const store: any = useStore()
 
       const spy = jest.fn()
@@ -245,7 +243,7 @@ describe('HMR', () => {
       )
 
       // simulate a hmr
-      defineStore({
+      defineStore('id', {
         ...baseOptions,
         state: () => ({ n: 2, newThing: true }),
       })(null, store)
@@ -257,7 +255,7 @@ describe('HMR', () => {
       // expect(store.double).toBe(6)
       expect(spy).toHaveBeenCalledTimes(1)
 
-      defineStore(baseOptions)(null, store)
+      defineStore('id', baseOptions)(null, store)
 
       store.n++
       // expect(store.double).toBe(8)
