@@ -1,5 +1,5 @@
 import { createPinia, defineStore, setActivePinia } from '../src'
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, reactive, ref, watch } from 'vue'
 
 describe('State', () => {
   beforeEach(() => {
@@ -212,5 +212,80 @@ describe('State', () => {
     expect(store.$state).toEqual({})
     store.$reset()
     expect(store.$state).toEqual({})
+  })
+
+  it('can hydrate refs', () => {
+    const pinia = createPinia()
+    setActivePinia(pinia)
+    pinia.state.value.main = {
+      stuff: 1,
+      a: 2,
+      // nested: { a: 2 },
+      state: {
+        count: 5,
+        a: 2,
+        // nested: { a: 2 },
+      },
+    }
+
+    const stuff = ref(2)
+    const useStore = defineStore('main', () => {
+      const a = ref(0)
+      // const nested = ref({ a })
+      const state = reactive({
+        a,
+        // nested,
+        count: 0,
+      })
+      return {
+        stuff,
+        a,
+        // nested,
+        state,
+        double: computed(() => stuff.value * 2),
+      }
+    })
+
+    const store = useStore()
+
+    expect(stuff.value).toBe(1)
+    expect(store.$state).toEqual({
+      stuff: 1,
+      a: 2,
+      // nested: { a: 2 },
+      state: {
+        // nested: { a: 2 },
+        count: 5,
+        a: 2,
+      },
+    })
+    expect(store.stuff).toBe(1)
+    expect(store.double).toBe(2)
+    expect(store.a).toBe(2)
+    expect(store.state).toEqual({
+      // nested: { a: 2 },
+      a: 2,
+      count: 5,
+    })
+
+    store.a = 0
+    expect(store.a).toBe(0)
+    expect(store.state).toEqual({
+      // nested: { a: 0 },
+      a: 0,
+      count: 5,
+    })
+
+    store.stuff = 5
+    expect(store.stuff).toBe(5)
+    expect(stuff.value).toBe(5)
+    expect(store.$state.stuff).toBe(5)
+    expect(store.double).toBe(10)
+
+    stuff.value = 15
+    expect(store.stuff).toBe(15)
+    expect(stuff.value).toBe(15)
+    expect(store.$state.stuff).toBe(15)
+    expect(store.double).toBe(30)
   })
 })

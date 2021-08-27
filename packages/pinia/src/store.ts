@@ -66,7 +66,7 @@ function innerPatch<T extends StateTree>(
     ) {
       target[key] = innerPatch(targetValue, subPatch)
     } else {
-      // @ts-ignore
+      // @ts-expect-error: subPatch is a valid value
       target[key] = subPatch
     }
   }
@@ -431,12 +431,21 @@ function createSetupStore<
         // createOptionStore directly sets the state in pinia.state.value so we
         // can just skip that
       } else if (!buildState) {
+        // we must hydrate the state
+        if (initialState) {
+          if (isRef(prop)) {
+            prop.value = initialState[key]
+          } else {
+            // probably a reactive object, lets recursively assign
+            innerPatch(prop, initialState[key])
+          }
+        }
+        // transfer the ref to the pinia state to keep everything in sync
         if (isVue2) {
           set(pinia.state.value[$id], key, prop)
         } else {
           pinia.state.value[$id][key] = prop
         }
-        // TODO: avoid if state exists for SSR
       }
 
       /* istanbul ignore else */
