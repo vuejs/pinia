@@ -207,4 +207,11 @@ describe('State', () => {
       },
     })
   })
+
+  it('can reset the state of an empty store', () => {
+    const store = defineStore('a', {})(createPinia())
+    expect(store.$state).toEqual({})
+    store.$reset()
+    expect(store.$state).toEqual({})
+  })
 })

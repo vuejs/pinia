@@ -1,5 +1,6 @@
 import { createPinia, defineStore, MutationType, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
 
 describe('Subscriptions', () => {
   const useStore = () => {
@@ -137,5 +138,21 @@ describe('Subscriptions', () => {
       expect(spy1).toHaveBeenCalledTimes(2)
       expect(spy2).toHaveBeenCalledTimes(3)
     })
+  })
+
+  it('subscribe is post by default', async () => {
+    const spy = jest.fn()
+    store.$subscribe(spy)
+    store.$state.name = 'Cleiton'
+    expect(spy).toHaveBeenCalledTimes(0)
+    await nextTick()
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        storeId: 'main',
+        type: MutationType.direct,
+      }),
+      store.$state
+    )
   })
 })
