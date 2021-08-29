@@ -81,7 +81,7 @@ export const useStore = defineStore('main', {
 
 ## Accessing other stores getters
 
-To use another store getters, you can directly _use it_ inside of the _action_:
+To use another store getters, you can directly _use it_ inside of the _getter_:
 
 ```js
 import { useOtherStore } from './other-store'
