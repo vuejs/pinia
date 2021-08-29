@@ -88,7 +88,7 @@ A few notes about the project and possible questions:
 
 **Q**: _What about dynamic modules?_
 
-**A**: Dynamic modules are not type safe, so instead [we allow creating different stores](#composing-stores) that can be imported anywhere
+**A**: Dynamic modules are not type safe, so instead [we allow creating different stores](https://pinia.esm.dev/cookbook/composing-stores.html) that can be imported anywhere
 
 ## Roadmap / Ideas
 
