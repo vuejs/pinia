@@ -143,7 +143,7 @@ module.exports = {
 
     nav: [
       { text: 'Guide', link: '/introduction.html' },
-      { text: 'API', link: 'https://pinia.esm.dev/api/' },
+      { text: 'API', link: '/api/' },
       // { text: 'Config', link: '/config/' },
       // { text: 'Plugins', link: '/plugins/' },
       {

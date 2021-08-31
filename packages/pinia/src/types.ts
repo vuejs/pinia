@@ -658,7 +658,8 @@ export interface DefineStoreOptions<
   id: Id
 
   /**
-   * Function to create a fresh state.
+   * Function to create a fresh state. **Must be an arrow function** to ensure
+   * correct typings!
    */
   state?: () => S
 
