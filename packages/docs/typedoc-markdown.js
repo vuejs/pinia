@@ -58,7 +58,10 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
   }
 
   async function build() {
-    if ((await fs.stat(options.out)).isDirectory()) {
+    if (
+      (await exists(options.out)) &&
+      (await fs.stat(options.out)).isDirectory()
+    ) {
       await fs.rm(options.out, { recursive: true })
     }
     app.bootstrap(options)
@@ -94,5 +97,14 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
     setTargetMode(command) {
       targetMode = command
     },
+  }
+}
+
+async function exists(path) {
+  try {
+    await fs.access(path)
+    return true
+  } catch {
+    return false
   }
 }
