@@ -1,11 +1,24 @@
 import { defineConfig, Plugin } from 'vite'
 import _fs from 'fs'
 import path from 'path'
+// import TypeDocPlugin from './vite-typedoc-plugin'
 
 const fs = _fs.promises
 
 export default defineConfig({
-  plugins: process.env.NETLIFY ? [] : [copyPiniaPlugin()],
+  clearScreen: false,
+  plugins: [
+    ...(process.env.NETLIFY ? [] : [copyPiniaPlugin()]),
+    // FIXME: fix vitepress bug of running plugins twice
+    // TypeDocPlugin({
+    //   name: 'Pinia',
+    //   entryPoints: [
+    //     path.resolve(__dirname, '../pinia/src/index.ts'),
+    //     path.resolve(__dirname, '../testing/src/index.ts'),
+    //     path.resolve(__dirname, '../nuxt/src/index.ts'),
+    //   ],
+    // }),
+  ],
   define: {
     __DEV__: 'true',
     __BROWSER__: 'true',
