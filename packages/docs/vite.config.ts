@@ -9,7 +9,7 @@ export default defineConfig({
   clearScreen: false,
   plugins: [
     ...(process.env.NETLIFY ? [] : [copyPiniaPlugin()]),
-    // FIXME: fix vitepress bug of running plugins twice
+    // TODO: actual plugin that works well
     // TypeDocPlugin({
     //   name: 'Pinia',
     //   entryPoints: [

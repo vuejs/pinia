@@ -10,6 +10,7 @@ const fs = _fs.promises
 
 const DEFAULT_OPTIONS = {
   disableOutputCheck: true,
+  excludeInternal: true,
   readme: 'none',
   out: path.resolve(__dirname, './api'),
   entryDocument: 'index.md',
