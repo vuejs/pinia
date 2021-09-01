@@ -47,6 +47,8 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
       if (page.url !== 'index.md' && page.contents) {
         page.contents = prependYAML(page.contents, {
           sidebar: 'auto',
+          // TODO: figure out a way to point to the source files?
+          editLinks: false,
           sidebarDepth: 3,
         })
       }
