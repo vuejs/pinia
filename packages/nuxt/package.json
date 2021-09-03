@@ -48,7 +48,7 @@
   "devDependencies": {
     "@nuxt/types": "^2.15.8",
     "pinia": "^2.0.0-0",
-    "siroc": "^0.15.0"
+    "siroc": "^0.16.0"
   },
   "publishConfig": {
     "access": "public"
