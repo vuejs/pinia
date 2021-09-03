@@ -9,15 +9,15 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.6.0",
-    "vite": "^2.5.2"
+    "vite": "^2.5.3"
   },
   "dependencies": {
-    "@vue/compiler-sfc": "^3.2.4",
-    "@vueuse/core": "^6.0.0",
+    "@vue/compiler-sfc": "^3.2.8",
+    "@vueuse/core": "^6.1.0",
     "mande": "^1.0.0",
     "pinia": "^2.0.0-rc.4",
     "swrv": "^1.0.0-beta.8",
-    "vue": "^3.2.4",
+    "vue": "^3.2.8",
     "vue-promised": "^2.1.0",
     "vue-router": "^4.0.11"
   }
