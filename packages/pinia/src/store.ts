@@ -35,7 +35,6 @@ import {
   StoreOnActionListener,
   ActionsTree,
   SubscriptionCallbackMutation,
-  _UnionToTuple,
   DefineSetupStoreOptions,
   DefineStoreOptionsInPlugin,
   StoreGeneric,

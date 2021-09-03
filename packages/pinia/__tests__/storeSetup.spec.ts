@@ -1,10 +1,10 @@
 import { createPinia, defineStore, setActivePinia } from '../src'
 import { computed, nextTick, ref, watch } from 'vue'
 
-function expectType<T>(value: T): void {}
+function expectType<T>(_value: T): void {}
 
 describe('store with setup syntax', () => {
-  const useStore = defineStore('main', () => {
+  function mainFn() {
     const name = ref('Eduardo')
     const counter = ref(0)
     function increment(amount = 1) {
@@ -13,7 +13,9 @@ describe('store with setup syntax', () => {
     const double = computed(() => counter.value * 2)
 
     return { name, counter, increment, double }
-  })
+  }
+
+  const useStore = defineStore('main', mainFn)
 
   beforeEach(() => {
     setActivePinia(createPinia())

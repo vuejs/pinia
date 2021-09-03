@@ -572,59 +572,31 @@ export type ActionsTree = Record<string, _Method>
 /**
  * @internal
  */
-type _SpreadStateFromStore<SS, K extends readonly any[]> = K extends readonly [
-  infer A,
-  ...infer Rest
-]
-  ? A extends string | number | symbol
-    ? SS extends Record<A, _Method | ComputedRef<any>>
-      ? _SpreadStateFromStore<SS, Rest>
-      : SS extends Record<A, any>
-      ? Record<A, UnwrapRef<SS[A]>> & _SpreadStateFromStore<SS, Rest>
-      : never
-    : {}
-  : {}
+export type _ExtractStateFromSetupStore<SS> = SS extends undefined | void
+  ? {}
+  : {
+      [K in keyof SS as SS[K] extends _Method | ComputedRef
+        ? never
+        : K]: UnwrapRef<SS[K]>
+    }
 
 /**
  * @internal
  */
-type _SpreadPropertiesFromObject<
-  SS,
-  K extends readonly any[],
-  T
-> = K extends readonly [infer A, ...infer Rest]
-  ? A extends string | number | symbol
-    ? SS extends Record<A, T>
-      ? Record<A, UnwrapRef<SS[A]>> & _SpreadPropertiesFromObject<SS, Rest, T>
-      : _SpreadPropertiesFromObject<SS, Rest, T>
-    : {}
-  : {}
+export type _ExtractActionsFromSetupStore<SS> = SS extends undefined | void
+  ? {}
+  : {
+      [K in keyof SS as SS[K] extends _Method ? K : never]: SS[K]
+    }
 
 /**
  * @internal
  */
-export type _ExtractStateFromSetupStore<SS> = _SpreadStateFromStore<
-  SS,
-  _UnionToTuple<keyof SS>
->
-
-/**
- * @internal
- */
-export type _ExtractActionsFromSetupStore<SS> = _SpreadPropertiesFromObject<
-  SS,
-  _UnionToTuple<keyof SS>,
-  _Method
->
-
-/**
- * @internal
- */
-export type _ExtractGettersFromSetupStore<SS> = _SpreadPropertiesFromObject<
-  SS,
-  _UnionToTuple<keyof SS>,
-  ComputedRef<any>
->
+export type _ExtractGettersFromSetupStore<SS> = SS extends undefined | void
+  ? {}
+  : {
+      [K in keyof SS as SS[K] extends ComputedRef ? K : never]: UnwrapRef<SS[K]>
+    }
 
 /**
  * Options passed to `defineStore()` that are common between option and setup
@@ -725,34 +697,3 @@ export interface DefineStoreOptionsInPlugin<
    */
   id?: Id
 }
-
-export type _UnionToTuple<U> = _UnionToTupleRecursively<[], U>
-
-type _Overwrite<T, S extends any> = {
-  [P in keyof T]: P extends keyof S ? S[P] : never
-}
-type _TupleUnshift<T extends any[], X> = T extends any
-  ? ((x: X, ...t: T) => void) extends (...t: infer R) => void
-    ? R
-    : never
-  : never
-type TuplePush<T extends any[], X> = T extends any
-  ? _Overwrite<_TupleUnshift<T, any>, T & { [x: string]: X }>
-  : never
-type _UnionToIntersection<U> = (
-  U extends any ? (k: U) => void : never
-) extends (k: infer I) => void
-  ? I
-  : never
-type _UnionToOvlds<U> = _UnionToIntersection<
-  U extends any ? (f: U) => void : never
->
-type _PopUnion<U> = _UnionToOvlds<U> extends (a: infer A) => void ? A : never
-/* end helpers */
-/* main work */
-type _UnionToTupleRecursively<T extends any[], U> = {
-  1: T
-  0: _PopUnion<U> extends infer SELF
-    ? _UnionToTupleRecursively<TuplePush<T, SELF>, Exclude<U, SELF>>
-    : never
-}[[U] extends [never] ? 1 : 0]
