@@ -9,14 +9,18 @@ export function checkClipboardAccess() {
   }
 }
 
-function checkNotFocusedError(error: Error) {
-  if (error.message.toLowerCase().includes('document is not focused')) {
+function checkNotFocusedError(error: unknown): error is Error {
+  if (
+    error instanceof Error &&
+    error.message.toLowerCase().includes('document is not focused')
+  ) {
     toastMessage(
       'You need to activate the "Emulate a focused page" setting in the "Rendering" panel of devtools.',
       'warn'
     )
     return true
   }
+  return false
 }
 
 export async function actionGlobalCopyState(pinia: Pinia) {
@@ -25,7 +29,7 @@ export async function actionGlobalCopyState(pinia: Pinia) {
     await navigator.clipboard.writeText(JSON.stringify(pinia.state.value))
     toastMessage('Global state copied to clipboard.')
   } catch (error) {
-    if (checkNotFocusedError(error as Error)) return
+    if (checkNotFocusedError(error)) return
     toastMessage(
       `Failed to serialize the state. Check the console for more details.`,
       'error'
@@ -40,7 +44,7 @@ export async function actionGlobalPasteState(pinia: Pinia) {
     pinia.state.value = JSON.parse(await navigator.clipboard.readText())
     toastMessage('Global state pasted from clipboard.')
   } catch (error) {
-    if (checkNotFocusedError(error as Error)) return
+    if (checkNotFocusedError(error)) return
     toastMessage(
       `Failed to deserialize the state from clipboard. Check the console for more details.`,
       'error'
