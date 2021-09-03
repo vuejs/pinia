@@ -168,6 +168,7 @@ function msSaveAs(blob: Blob, name: string = 'download', opts?: Options) {
       })
     }
   } else {
+    // @ts-ignore: works on windows
     navigator.msSaveOrOpenBlob(bom(blob, opts), name)
   }
 }

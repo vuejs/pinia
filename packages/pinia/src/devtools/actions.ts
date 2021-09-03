@@ -25,7 +25,7 @@ export async function actionGlobalCopyState(pinia: Pinia) {
     await navigator.clipboard.writeText(JSON.stringify(pinia.state.value))
     toastMessage('Global state copied to clipboard.')
   } catch (error) {
-    if (checkNotFocusedError(error)) return
+    if (checkNotFocusedError(error as Error)) return
     toastMessage(
       `Failed to serialize the state. Check the console for more details.`,
       'error'
@@ -40,7 +40,7 @@ export async function actionGlobalPasteState(pinia: Pinia) {
     pinia.state.value = JSON.parse(await navigator.clipboard.readText())
     toastMessage('Global state pasted from clipboard.')
   } catch (error) {
-    if (checkNotFocusedError(error)) return
+    if (checkNotFocusedError(error as Error)) return
     toastMessage(
       `Failed to deserialize the state from clipboard. Check the console for more details.`,
       'error'
@@ -83,6 +83,7 @@ function getFileOpener() {
         if (!file) return resolve(null)
         return resolve({ text: await file.text(), file })
       }
+      // @ts-ignore: TODO: changed from 4.3 to 4.4
       fileInput!.oncancel = () => resolve(null)
       fileInput!.onerror = reject
       fileInput!.click()
