@@ -1,3 +1,16 @@
+# [2.0.0-rc.7](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.6...pinia@2.0.0-rc.7) (2021-09-03)
+
+### Bug Fixes
+
+- **ssr:** properly hydrate setup stores ([4fbacfc](https://github.com/posva/pinia/commit/4fbacfcd87362515902e3f98fd53a51a39216b9f))
+
+### Features
+
+- add typedoc ([b98e23d](https://github.com/posva/pinia/commit/b98e23d5588925c6a0094a92067a3cc5784e965d))
+- allow stores to be cross used ([cda3658](https://github.com/posva/pinia/commit/cda365875c599e9786ab3479d42e8e6b3bb0fc23))
+- deprecate PiniaPlugin in favor of PiniaVuePlugin ([c0495c0](https://github.com/posva/pinia/commit/c0495c0fe5710894ff04009f1f136cfb4d9241c4))
+- support TS 4.4 ([#656](https://github.com/posva/pinia/issues/656)) ([39b2e15](https://github.com/posva/pinia/commit/39b2e15c0a2782280bd0de44230d2f3dc624b3c6))
+
 # [2.0.0-rc.6](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.5...pinia@2.0.0-rc.6) (2021-08-19)
 
 Fix missing types.
