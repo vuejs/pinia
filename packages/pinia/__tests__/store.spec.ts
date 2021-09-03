@@ -1,8 +1,11 @@
 import { createPinia, defineStore, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
 import { defineComponent, getCurrentInstance, nextTick, watch } from 'vue'
+import { mockWarn } from 'jest-mock-warn'
 
 describe('Store', () => {
+  mockWarn()
+
   beforeEach(() => {
     setActivePinia(createPinia())
   })
@@ -322,5 +325,27 @@ describe('Store', () => {
     expect(spy).toHaveBeenCalledTimes(1)
 
     expect(useStore()).not.toBe(store)
+  })
+
+  it('warns when state is created with a class constructor', () => {
+    class MyState {
+      someValue?: string
+    }
+
+    const useMyStore = defineStore({
+      id: 'functionInit',
+      state(): MyState {
+        return new MyState()
+      },
+    })
+    useMyStore()
+    expect('Detected constructor usage').toHaveBeenWarned()
+
+    const useMyOtherStore = defineStore({
+      id: 'arrowInit',
+      state: () => new MyState(),
+    })
+    useMyOtherStore()
+    expect('Detected constructor usage').toHaveBeenWarned()
   })
 })

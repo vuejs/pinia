@@ -164,10 +164,6 @@ export type _MapStateObjectReturn<
  * as its first argument. Note that while it has access to the component
  * instance via `this`, it won't be typed.
  *
- * Mappings defined for properties added after store creation will not be
- * reactive. Properties must be present in the state object when the
- * `mapState()` call is made.
- *
  * @example
  * ```js
  * export default {
