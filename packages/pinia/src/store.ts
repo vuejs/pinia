@@ -410,7 +410,8 @@ function createSetupStore<
     )
   ) as unknown as Store<Id, S, G, A>
 
-  // store the partial store now so the setup of stores can use each other
+  // store the partial store now so the setup of stores can instantiate each other before they are finished without
+  // creating infinite loops.
   pinia._s.set($id, store)
 
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
@@ -430,7 +431,7 @@ function createSetupStore<
         // createOptionStore directly sets the state in pinia.state.value so we
         // can just skip that
       } else if (!buildState) {
-        // we must hydrate the state
+        // in setup stores we must hydrate the state and sync pinia state tree with the refs the user just created
         if (initialState) {
           if (isRef(prop)) {
             prop.value = initialState[key]
@@ -636,7 +637,8 @@ function createSetupStore<
     }
   })
 
-  if (initialState) {
+  // only apply hydrate to option stores with an initial state in pinia
+  if (initialState && buildState) {
     ;(options.hydrate || innerPatch)(store, initialState)
   }
 
