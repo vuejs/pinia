@@ -100,7 +100,7 @@ function createOptionsStore<
 
   function setup() {
     if (!initialState && __DEV__ && typeof state === 'function') {
-      if (/new .+\(/.test(state.toString())) {
+      if (/new [\S]+\(/.test(state.toString())) {
         console.warn(
           `[🍍]: Detected constructor usage in state initialisation.\n` +
             `Ensure undefined properties are explicitly initialised for reactivity to work.`
