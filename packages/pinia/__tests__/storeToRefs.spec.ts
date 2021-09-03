@@ -20,6 +20,31 @@ describe('storeToRefs', () => {
     expect(storeToRefs(defineStore({ id: 'a' })())).toEqual({})
   })
 
+  it('plain values', () => {
+    const { a, b, c, d } = storeToRefs(
+      defineStore('a', {
+        state: () => ({ a: null as null | undefined, b: false, c: 1, d: 'd' }),
+      })()
+    )
+
+    expect(a.value).toBe(null)
+    expect(b.value).toBe(false)
+    expect(c.value).toBe(1)
+    expect(d.value).toBe('d')
+
+    a.value = undefined
+    expect(a.value).toBe(undefined)
+
+    b.value = true
+    expect(b.value).toBe(true)
+
+    c.value = 2
+    expect(c.value).toBe(2)
+
+    d.value = 'e'
+    expect(d.value).toBe('e')
+  })
+
   it('empty getters', () => {
     expect(
       storeToRefs(
