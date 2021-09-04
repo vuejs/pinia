@@ -98,21 +98,23 @@ function createOptionsStore<
 
   let store: Store<Id, S, G, A>
 
-  function setup() {
-    if (!initialState && __DEV__ && typeof state === 'function') {
-      if (/new [\S]+\(/.test(state.toString())) {
+  function initializeState(stateFn: (() => S)): S {
+    const st = stateFn();
+    if (__DEV__ && st && typeof st === 'object' && typeof st.constructor === 'function' && !(st.constructor.toString().includes('[native code]'))) {
         console.warn(
-          `[🍍]: Detected constructor usage in state initialisation.\n` +
-            `Ensure undefined properties are explicitly initialised for reactivity to work.`
+        `[🍍]: Detected constructor usage during state initialisation.\n` +
+        `Ensure any undefined properties are explicitly initialised for reactivity to work.`
         )
       }
+    return st;
     }
 
+  function setup() {
     if (!initialState && (!__DEV__ || !hot)) {
       if (isVue2) {
-        set(pinia.state.value, id, state ? state() : {})
+        set(pinia.state.value, id, state ? initializeState(state) : {})
       } else {
-        pinia.state.value[id] = state ? state() : {}
+        pinia.state.value[id] = state ? initializeState(state) : {}
       }
     }
 

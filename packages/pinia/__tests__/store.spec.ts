@@ -348,4 +348,24 @@ describe('Store', () => {
     useMyOtherStore()
     expect('Detected constructor usage').toHaveBeenWarned()
   })
+
+  it('only warns about constructors when store is initially created', () => {
+    class MyState { someValue?: string }
+    const useMyStore = defineStore({
+      id: 'arrowInit',
+      state: () => new MyState(),
+    });
+    useMyStore();
+    useMyStore();
+    expect('Detected constructor usage').toHaveBeenWarnedTimes(1);
+  })
+
+  it('does not warn when state is created with a plain object', () => {
+    const useMyStore = defineStore({
+      id: 'poInit',
+      state: () => ({ someValue: undefined })
+    })
+    useMyStore()
+    expect('Detected constructor usage').toHaveBeenWarnedTimes(0)
+  })
 })
