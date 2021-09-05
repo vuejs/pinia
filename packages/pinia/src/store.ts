@@ -491,7 +491,18 @@ function createSetupStore<
   }
 
   // add the state, getters, and action properties
-  assign(store, setupStore)
+  if (isVue2) {
+    Object.keys(setupStore).forEach((key) => {
+      set(
+        store,
+        key,
+        // @ts-expect-error: valid key indexing
+        setupStore[key]
+      )
+    })
+  } else {
+    assign(store, setupStore)
+  }
 
   // use this instead of a computed with setter to be able to create it anywhere
   // without linking the computed lifespan to wherever the store is first
