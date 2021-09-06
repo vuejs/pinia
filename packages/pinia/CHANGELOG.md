@@ -1,3 +1,9 @@
+# [2.0.0-rc.8](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.7...pinia@2.0.0-rc.8) (2021-09-06)
+
+### Bug Fixes
+
+- correctly set the store properties in Vue 2 ([9e40309](https://github.com/posva/pinia/commit/9e40309e5bfc54f5f71178cf90d37ebcf8dd8dca)), closes [#657](https://github.com/posva/pinia/issues/657)
+
 # [2.0.0-rc.7](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.6...pinia@2.0.0-rc.7) (2021-09-03)
 
 ### Bug Fixes
