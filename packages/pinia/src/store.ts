@@ -77,6 +77,13 @@ const { assign } = Object
 
 function isComputed<T>(value: ComputedRef<T> | unknown): value is ComputedRef<T>
 function isComputed(o: any): o is ComputedRef {
+  if (isVue2) {
+    const descriptor = o ? Object.getOwnPropertyDescriptor(o, 'value') : null
+    return (descriptor &&
+      descriptor.get &&
+      // TODO: make something in @vue/composition-api to be able to check this
+      descriptor.get.toString().length > 42) as boolean
+  }
   return o && o.effect
 }
 
