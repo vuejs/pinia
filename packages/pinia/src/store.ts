@@ -650,7 +650,8 @@ function createSetupStore<
     )
   }
 
-  if (initialState) {
+  // only apply hydrate to option stores with an initial state in pinia
+  if (initialState && buildState) {
     ;(options.hydrate || innerPatch)(store, initialState)
   }
 
