@@ -6,8 +6,8 @@ The state is, most of the time, the central part of your store. People often sta
 import { defineStore } from 'pinia'
 
 const useStore = defineStore('storeId', {
-  // can also be defined with an arrow function if you prefer that syntax
-  state() {
+  // arrow function recommended for full type inference
+  state: () => {
     return {
       // all these properties will have their type inferred automatically
       counter: 0,

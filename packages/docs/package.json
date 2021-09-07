@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "docs": "vitepress dev .",
+    "docs:api": "node run-typedoc.js",
     "docs:build": "vitepress build ."
   },
   "dependencies": {
     "pinia": "^2.0.0-rc.4",
-    "vitepress": "^0.16.1"
+    "vitepress": "^0.17.0"
   }
 }

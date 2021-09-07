@@ -1,8 +1,8 @@
 /**
  * @jest-environment node
  */
-import { createPinia } from '../src'
-import { Component, createSSRApp, inject } from 'vue'
+import { createPinia, defineStore } from '../src'
+import { Component, createSSRApp, inject, ref, computed } from 'vue'
 import { renderToString, ssrInterpolate } from '@vue/server-renderer'
 import { useUserStore } from './pinia/stores/user'
 import { useCartStore } from './pinia/stores/cart'
@@ -108,5 +108,75 @@ describe('SSR', () => {
         }
       ]</div>"
     `)
+  })
+
+  describe('Setup Store', () => {
+    const useStore = defineStore('main', () => {
+      const count = ref(0)
+      const name = ref('Eduardo')
+      const double = computed(() => count.value * 2)
+
+      function increment() {
+        count.value++
+      }
+
+      return { name, count, double, increment }
+    })
+
+    const App = {
+      ssrRender(ctx: any, push: any, _parent: any) {
+        push(
+          `<button>${ssrInterpolate(ctx.store.count)};${ssrInterpolate(
+            ctx.store.double
+          )};${ssrInterpolate(ctx.store.name)}</button>`
+        )
+      },
+      setup() {
+        const store = useStore()
+        store.count++
+
+        return { store }
+      },
+    }
+
+    it('works', async () => {
+      const { pinia, app } = createMyApp(App)
+
+      pinia.state.value.main = {
+        count: 2,
+        name: 'Eduardo',
+      }
+
+      expect(await renderToString(app)).toBe('<button>3;6;Eduardo</button>')
+    })
+
+    it('store can be changed before rendering', async () => {
+      const { pinia, app } = createMyApp(App)
+
+      pinia.state.value.main = {
+        count: 2,
+        name: 'Eduardo',
+      }
+
+      const store = useStore(pinia)
+      store.count = 10
+
+      expect(await renderToString(app)).toBe('<button>11;22;Eduardo</button>')
+    })
+
+    it('pinia can be changed before rendering', async () => {
+      const { pinia, app } = createMyApp(App)
+
+      pinia.state.value.main = {
+        count: 0,
+        name: 'Eduardo',
+      }
+
+      // create the store before changing
+      useStore(pinia)
+      pinia.state.value.main.name = 'Ed'
+
+      expect(await renderToString(app)).toBe('<button>1;2;Ed</button>')
+    })
   })
 })
