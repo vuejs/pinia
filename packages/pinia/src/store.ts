@@ -98,23 +98,12 @@ function createOptionsStore<
 
   let store: Store<Id, S, G, A>
 
-  function initializeState(stateFn: (() => S)): S {
-    const st = stateFn();
-    if (__DEV__ && st && typeof st === 'object' && typeof st.constructor === 'function' && !(st.constructor.toString().includes('[native code]'))) {
-        console.warn(
-        `[🍍]: Detected constructor usage during state initialisation.\n` +
-        `Ensure any undefined properties are explicitly initialised for reactivity to work.`
-        )
-      }
-    return st;
-    }
-
   function setup() {
     if (!initialState && (!__DEV__ || !hot)) {
       if (isVue2) {
-        set(pinia.state.value, id, state ? initializeState(state) : {})
+        set(pinia.state.value, id, state ? state() : {})
       } else {
-        pinia.state.value[id] = state ? initializeState(state) : {}
+        pinia.state.value[id] = state ? state() : {}
       }
     }
 
@@ -647,6 +636,19 @@ function createSetupStore<
       )
     }
   })
+
+  if (
+    __DEV__ &&
+    store.$state &&
+    typeof store.$state === 'object' &&
+    typeof store.$state.constructor === 'function' &&
+    !store.$state.constructor.toString().includes('[native code]')
+  ) {
+    console.warn(
+      `[🍍]: Detected constructor usage in state initialisation.\n` +
+        `Ensure any undefined properties are explicitly initialised for reactivity to work as expected.`
+    )
+  }
 
   if (initialState) {
     ;(options.hydrate || innerPatch)(store, initialState)
