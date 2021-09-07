@@ -35,7 +35,6 @@ import {
   StoreOnActionListener,
   ActionsTree,
   SubscriptionCallbackMutation,
-  _UnionToTuple,
   DefineSetupStoreOptions,
   DefineStoreOptionsInPlugin,
   StoreGeneric,
@@ -78,6 +77,13 @@ const { assign } = Object
 
 function isComputed<T>(value: ComputedRef<T> | unknown): value is ComputedRef<T>
 function isComputed(o: any): o is ComputedRef {
+  if (isVue2) {
+    const descriptor = o ? Object.getOwnPropertyDescriptor(o, 'value') : null
+    return (descriptor &&
+      descriptor.get &&
+      // TODO: make something in @vue/composition-api to be able to check this
+      descriptor.get.toString().length > 42) as boolean
+  }
   return o && o.effect
 }
 
@@ -411,7 +417,8 @@ function createSetupStore<
     )
   ) as unknown as Store<Id, S, G, A>
 
-  // store the partial store now so the setup of stores can use each other
+  // store the partial store now so the setup of stores can instantiate each other before they are finished without
+  // creating infinite loops.
   pinia._s.set($id, store)
 
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
@@ -431,7 +438,7 @@ function createSetupStore<
         // createOptionStore directly sets the state in pinia.state.value so we
         // can just skip that
       } else if (!buildState) {
-        // we must hydrate the state
+        // in setup stores we must hydrate the state and sync pinia state tree with the refs the user just created
         if (initialState) {
           if (isRef(prop)) {
             prop.value = initialState[key]
@@ -491,7 +498,18 @@ function createSetupStore<
   }
 
   // add the state, getters, and action properties
-  assign(store, setupStore)
+  if (isVue2) {
+    Object.keys(setupStore).forEach((key) => {
+      set(
+        store,
+        key,
+        // @ts-expect-error: valid key indexing
+        setupStore[key]
+      )
+    })
+  } else {
+    assign(store, setupStore)
+  }
 
   // use this instead of a computed with setter to be able to create it anywhere
   // without linking the computed lifespan to wherever the store is first

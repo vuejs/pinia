@@ -150,7 +150,7 @@ async function main() {
     })
   )
 
-  const { yes } = await prompt({
+  const { yes: isReleaseConfirmed } = await prompt({
     type: 'confirm',
     name: 'yes',
     message: `Releasing \n${pkgWithVersions
@@ -161,7 +161,7 @@ async function main() {
       .join('\n')}\nConfirm?`,
   })
 
-  if (!yes) {
+  if (!isReleaseConfirmed) {
     return
   }
 
@@ -180,13 +180,13 @@ async function main() {
     )
   }
 
-  const { yes } = await prompt({
+  const { yes: isChangelogCorrect } = await prompt({
     type: 'confirm',
     name: 'yes',
     message: 'Are the changelogs correct?',
   })
 
-  if (!yes) {
+  if (!isChangelogCorrect) {
     return
   }
 

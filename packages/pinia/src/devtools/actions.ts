@@ -9,14 +9,18 @@ export function checkClipboardAccess() {
   }
 }
 
-function checkNotFocusedError(error: Error) {
-  if (error.message.toLowerCase().includes('document is not focused')) {
+function checkNotFocusedError(error: unknown): error is Error {
+  if (
+    error instanceof Error &&
+    error.message.toLowerCase().includes('document is not focused')
+  ) {
     toastMessage(
       'You need to activate the "Emulate a focused page" setting in the "Rendering" panel of devtools.',
       'warn'
     )
     return true
   }
+  return false
 }
 
 export async function actionGlobalCopyState(pinia: Pinia) {
@@ -83,6 +87,7 @@ function getFileOpener() {
         if (!file) return resolve(null)
         return resolve({ text: await file.text(), file })
       }
+      // @ts-ignore: TODO: changed from 4.3 to 4.4
       fileInput!.oncancel = () => resolve(null)
       fileInput!.onerror = reject
       fileInput!.click()

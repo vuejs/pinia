@@ -26,7 +26,7 @@ This is what using pinia looks like in terms of API (make sure to check the [Get
 import { defineStore } from 'pinia'
 
 export const useCounterStore = defineStore('counter', {
-  state() {
+  state: () => {
     return { count: 0 }
   },
   // could also be defined as

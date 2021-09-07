@@ -95,6 +95,15 @@
   background-color: var(--c-bg-accent) !important;
 }
 
+tr:nth-child(2n) {
+  background-color: var(--code-bg-color);
+}
+
+html:not(.light) th,
+html:not(.light) td {
+  border: 1px solid var(--c-brand-text);
+}
+
 html:not(.light):root {
   /* --c-black: #ffffff;
   --c-white: #000000; */
