@@ -127,10 +127,12 @@ function createOptionsStore<
         computedGetters[name] = markRaw(
           computed(() => {
             setActivePinia(pinia)
-            // const context = store || ref(localState).value
+            // it was created just before
+            const store = pinia._s.get(id)!
             // @ts-expect-error
             // return getters![name].call(context, context)
-            return store && getters![name].call(store, store)
+            // TODO: avoid reading the getter while assigning with a global variable
+            return getters![name].call(store, store)
           })
         )
         return computedGetters
