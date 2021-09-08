@@ -31,6 +31,11 @@ export const useCounterStore = defineStore('counter', {
   },
   // could also be defined as
   // state: () => ({ count: 0 })
+  actions: {
+    increment() {
+      this.count++
+    }
+  }
 })
 ```
 
@@ -46,6 +51,8 @@ export default {
     counter.count++
     // with autocompletion ✨
     counter.$patch({ count: counter.count + 1 })
+    // using the action
+    coutner.increment();
   },
 }
 ```
