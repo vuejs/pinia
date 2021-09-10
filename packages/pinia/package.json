@@ -2,15 +2,15 @@
   "name": "pinia",
   "version": "2.0.0-rc.8",
   "description": "Intuitive, type safe and flexible Store for Vue",
-  "main": "dist/pinia.cjs.js",
-  "module": "dist/pinia.esm-bundler.js",
-  "unpkg": "dist/pinia.global.js",
-  "jsdelivr": "dist/pinia.global.js",
+  "main": "dist/pinia.cjs",
+  "module": "dist/pinia.mjs",
+  "unpkg": "dist/pinia.iife.js",
+  "jsdelivr": "dist/pinia.iife.js",
   "types": "dist/pinia.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/pinia.esm-bundler.js",
-      "require": "./dist/pinia.cjs.js"
+      "import": "./dist/pinia.mjs",
+      "require": "./dist/pinia.cjs"
     },
     "./package.json": "./package.json"
   },
@@ -30,9 +30,9 @@
   },
   "files": [
     "dist/*.js",
+    "dist/*.mjs",
+    "dist/*.cjs",
     "dist/pinia.d.ts",
-    "nuxt-2/*.js",
-    "nuxt-2/*.d.ts",
     "LICENSE",
     "README.md"
   ],

@@ -41,7 +41,7 @@ let hasTSChecked = false
 const outputConfigs = {
   // each file name has the format: `dist/${name}.${format}.js`
   // format being a key of this object
-  'esm-bundler': {
+  mjs: {
     file: pkg.module,
     format: `es`,
   },
@@ -54,7 +54,7 @@ const outputConfigs = {
     format: `iife`,
   },
   esm: {
-    file: pkg.module.replace('bundler', 'browser'),
+    file: pkg.module.replace('.mjs', '.browser.js'),
     format: `es`,
   },
 }
@@ -91,11 +91,11 @@ function createConfig(format, output, plugins = []) {
     '@vue/composition-api': 'vueCompositionApi',
   }
 
-  const isProductionBuild = /\.prod\.js$/.test(output.file)
+  const isProductionBuild = output.file.endsWith('.prod.js')
   const isGlobalBuild = format === 'global'
   const isRawESMBuild = format === 'esm'
   const isNodeBuild = format === 'cjs'
-  const isBundlerESMBuild = /esm-bundler/.test(format)
+  const isBundlerESMBuild = format === 'esm' || format === 'mjs'
 
   if (isGlobalBuild) output.name = pascalcase(pkg.name)
 
@@ -195,9 +195,15 @@ function createReplacePlugin(
   })
 }
 
+function getProdFileName(format, name) {
+  return format === 'cjs'
+    ? `dist/${name}.prod.cjs`
+    : `dist/${name}.${format}.prod.js`
+}
+
 function createProductionConfig(format) {
   return createConfig(format, {
-    file: `dist/${name}.${format}.prod.js`,
+    file: getProdFileName(format, name),
     format: outputConfigs[format].format,
   })
 }
@@ -207,7 +213,7 @@ function createMinifiedConfig(format) {
   return createConfig(
     format,
     {
-      file: `dist/${name}.${format}.prod.js`,
+      file: getProdFileName(format, name),
       format: outputConfigs[format].format,
     },
     [
