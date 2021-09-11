@@ -1,4 +1,7 @@
+import { ref, computed } from 'vue'
 import { createPinia, defineStore, setActivePinia } from '../src'
+
+function expectType<T>(_value: T): void {}
 
 describe('Getters', () => {
   beforeEach(() => {
@@ -100,5 +103,64 @@ describe('Getters', () => {
     expect(store.upperCaseName).toBe('JACK')
     store.name = 'Ed'
     expect(store.upperCaseName).toBe('ED')
+  })
+
+  describe('cross used stores', () => {
+    const useA = defineStore('a', () => {
+      const B = useB()
+
+      const n = ref(0)
+      const double = computed(() => n.value * 2)
+      const sum = computed(() => n.value + B.n)
+
+      function increment() {
+        return n.value++
+      }
+
+      function incrementB() {
+        return B.increment()
+      }
+
+      return { n, double, sum, increment, incrementB }
+    })
+
+    const useB = defineStore('b', () => {
+      const A = useA()
+
+      const n = ref(0)
+      const double = computed(() => n.value * 2)
+
+      function increment() {
+        return n.value++
+      }
+
+      function incrementA() {
+        return A.increment()
+      }
+
+      return { n, double, incrementA, increment }
+    })
+
+    it('keeps getters reactive', () => {
+      const a = useA()
+      const b = useB()
+
+      expectType<() => number>(a.increment)
+      expectType<() => number>(b.increment)
+      expectType<() => number>(a.incrementB)
+      expectType<() => number>(b.incrementA)
+
+      expect(a.double).toBe(0)
+      b.incrementA()
+      expect(a.double).toBe(2)
+      a.increment()
+      expect(a.double).toBe(4)
+
+      expect(b.double).toBe(0)
+      a.incrementB()
+      expect(b.double).toBe(2)
+      b.increment()
+      expect(b.double).toBe(4)
+    })
   })
 })
