@@ -129,6 +129,10 @@ function createOptionsStore<
             setActivePinia(pinia)
             // it was created just before
             const store = pinia._s.get(id)!
+
+            // allow cross using stores
+            if (isVue2 && store._r) return
+
             // @ts-expect-error
             // return getters![name].call(context, context)
             // TODO: avoid reading the getter while assigning with a global variable
@@ -404,6 +408,11 @@ function createSetupStore<
     $dispose,
   } as StoreWithState<Id, S, G, A>
 
+  if (isVue2) {
+    // start as non ready
+    partialStore._r = false
+  }
+
   const store: Store<Id, S, G, A> = reactive(
     assign(
       __DEV__ && IS_CLIENT
@@ -622,6 +631,11 @@ function createSetupStore<
         })
       })
     }
+  }
+
+  if (isVue2) {
+    // mark the store as ready before pluginsn
+    store._r = true
   }
 
   // apply all plugins

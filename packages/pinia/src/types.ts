@@ -421,6 +421,14 @@ export interface StoreWithState<
    * e.g. devtools plugin stops displaying disposed stores from devtools.
    */
   $dispose(): void
+
+  /**
+   * Vue 2 only. Is the store ready. Used for store cross usage. Getters automatically compute when they are added to
+   * the store, before the store is actually ready, this allows to avoid calling the computed function yet.
+   *
+   * @internal
+   */
+  _r?: boolean
 }
 
 /**
