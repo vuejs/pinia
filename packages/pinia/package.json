@@ -1,6 +1,6 @@
 {
   "name": "pinia",
-  "version": "2.0.0-rc.8",
+  "version": "2.0.0-rc.9",
   "description": "Intuitive, type safe and flexible Store for Vue",
   "main": "dist/pinia.cjs",
   "module": "dist/pinia.mjs",

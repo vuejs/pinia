@@ -1,3 +1,11 @@
+# [2.0.0-rc.9](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.8...pinia@2.0.0-rc.9) (2021-09-12)
+
+### Bug Fixes
+
+- correct store in getters vue 2 ([3d4080b](https://github.com/posva/pinia/commit/3d4080b503292f1d711daa51fad204c5f8db223d))
+- **vue2:** delay getters until stores are ready when cross using them ([ed48b00](https://github.com/posva/pinia/commit/ed48b0093c2a58caf8bb4548cceb13eeaf5f1378))
+- **vue2:** fix isComputed check for getters ([307078b](https://github.com/posva/pinia/commit/307078bb7a485ec01ff50fdcd58138433662ade0))
+
 # [2.0.0-rc.8](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.7...pinia@2.0.0-rc.8) (2021-09-06)
 
 ### Bug Fixes
