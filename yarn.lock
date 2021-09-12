@@ -8461,11 +8461,6 @@ vue-demi@*, vue-demi@latest:
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.11.3.tgz#dd7495b92b495ecfa35675bf024b1358a7add150"
   integrity sha512-DpM0TTMpclRZDV6AIacgg837zrim/C9Zn+2ztXBs9hsESJN9vC83ztjTe4KC4HgJuVle8YUjPp7HTwWtwOHfmg==
 
-vue-demi@0.11.4:
-  version "0.11.4"
-  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.11.4.tgz#6101992fe4724cf5634018a16e953f3052e94e2a"
-  integrity sha512-/3xFwzSykLW2HiiLie43a+FFgNOcokbBJ+fzvFXd0r2T8MYohqvphUyDQ8lbAwzQ3Dlcrb1c9ykifGkhSIAk6A==
-
 vue-promised@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/vue-promised/-/vue-promised-2.1.0.tgz#dd565da4c24f0c974ccafc56def2514d9411b73b"

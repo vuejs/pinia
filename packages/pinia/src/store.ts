@@ -131,7 +131,7 @@ function createOptionsStore<
             const store = pinia._s.get(id)!
 
             // allow cross using stores
-            if (isVue2 && store._r) return
+            if (isVue2 && !store._r) return
 
             // @ts-expect-error
             // return getters![name].call(context, context)
