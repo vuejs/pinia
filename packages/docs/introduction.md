@@ -51,7 +51,7 @@ export default {
     counter.count++
     // with autocompletion ✨
     counter.$patch({ count: counter.count + 1 })
-    // using the action
+    // or using an action instead
     coutner.increment();
   },
 }
@@ -62,7 +62,9 @@ You can even use a function (similar to a component `setup()`) to define a Store
 ```js
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
-  const increment = () => count.value++
+  function increment() {
+    count.value++
+  }
 
   return { count, increment }
 })
