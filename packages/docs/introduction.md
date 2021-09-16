@@ -52,7 +52,7 @@ export default {
     // with autocompletion ✨
     counter.$patch({ count: counter.count + 1 })
     // or using an action instead
-    coutner.increment();
+    counter.increment();
   },
 }
 ```
