@@ -49,8 +49,8 @@ export default defineComponent({
     // it's the same as destructuring from `props`
     const { name, doubleCount } = store
 
-    console.log(name); // "eduardo"
-    console.log(doubleCount); // 2
+    name // "eduardo"
+    doubleCount // 2
 
     return {
       // will always be "eduardo"
