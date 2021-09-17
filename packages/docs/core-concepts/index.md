@@ -56,7 +56,7 @@ export default defineComponent({
       // will always be "eduardo"
       name,
       // will always be 2
-      doubleCount
+      doubleCount,
       // this one will be reactive
       doubleValue: computed(() => store.doubleCount),
       }
