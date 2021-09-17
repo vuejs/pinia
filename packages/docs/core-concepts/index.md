@@ -49,14 +49,14 @@ export default defineComponent({
     // it's the same as destructuring from `props`
     const { name, doubleCount } = store
 
-    name // "eduardo"
-    doubleCount // 2
+    console.log(name); // "eduardo"
+    console.log(doubleCount); // 2
 
     return {
       // will always be "eduardo"
       name,
       // will always be 2
-      doubleCount
+      doubleCount,
       // this one will be reactive
       doubleValue: computed(() => store.doubleCount),
       }
