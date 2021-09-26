@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "pinia": "^2.0.0-rc.4",
-    "vitepress": "^0.17.3"
+    "vitepress": "^0.19.1"
   }
 }
