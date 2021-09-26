@@ -22,7 +22,7 @@
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.5",
     "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-node-resolve": "^13.0.5",
     "@rollup/plugin-replace": "^3.0.0",
     "@sucrase/jest-plugin": "^2.1.1",
     "@types/jest": "^27.0.2",
@@ -45,7 +45,7 @@
     "pascalcase": "^1.0.0",
     "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
-    "rollup": "^2.56.3",
+    "rollup": "^2.57.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "semver": "^7.3.5",
