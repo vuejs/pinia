@@ -54,7 +54,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@microsoft/api-extractor": "7.18.7",
+    "@microsoft/api-extractor": "7.18.11",
     "@vue/compiler-sfc": "^3.2.11",
     "@vue/server-renderer": "^3.2.11",
     "@vue/test-utils": "^2.0.0-rc.14",

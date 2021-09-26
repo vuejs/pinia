@@ -1,7 +1,7 @@
 const _fs = require('fs')
 const path = require('path')
 const TypeDoc = require('typedoc')
-const { PageEvent } = require('typedoc/dist/lib/output/events')
+const { PageEvent } = TypeDoc
 const {
   prependYAML,
 } = require('typedoc-plugin-markdown/dist/utils/front-matter')
@@ -9,7 +9,8 @@ const {
 const fs = _fs.promises
 
 const DEFAULT_OPTIONS = {
-  disableOutputCheck: true,
+  // disableOutputCheck: true,
+  cleanOutputDir: true,
   excludeInternal: true,
   readme: 'none',
   out: path.resolve(__dirname, './api'),
