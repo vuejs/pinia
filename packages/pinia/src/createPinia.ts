@@ -24,18 +24,16 @@ export function createPinia(): Pinia {
 
   const pinia: Pinia = markRaw({
     install(app: App) {
+      // this allows calling useStore() outside of a component setup after
+      // installing pinia's plugin
+      setActivePinia(pinia)
       if (!isVue2) {
         pinia._a = app
         app.provide(piniaSymbol, pinia)
         app.config.globalProperties.$pinia = pinia
-        if (IS_CLIENT) {
-          // this allows calling useStore() outside of a component setup after
-          // installing pinia's plugin
-          setActivePinia(pinia)
-          /* istanbul ignore else */
-          if (__DEV__) {
-            registerPiniaDevtools(app, pinia)
-          }
+        /* istanbul ignore else */
+        if (IS_CLIENT && __DEV__) {
+          registerPiniaDevtools(app, pinia)
         }
         toBeInstalled.forEach((plugin) => _p.push(plugin))
       }
