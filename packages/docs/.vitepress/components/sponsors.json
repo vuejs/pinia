@@ -1,4 +1,12 @@
 {
+  "platinum": [
+    {
+      "href": "https://www.finclip.com/#/home?from=vue",
+      "alt": "Finogeeks",
+      "imgSrcLight": "/sponsors/fincliplogo_black_svg.svg",
+      "imgSrcDark": "/sponsors/fincliplogo_white_svg.svg"
+    }
+  ],
   "gold": [
     {
       "href": "https://passionatepeople.io/",

@@ -1,11 +1,11 @@
 <template>
   <div class="sponsors_outer">
     <div>
-      <HomeSponsorsGroup v-if="sponsors.platinum" name="Platinum" size="160" />
+      <HomeSponsorsGroup v-if="sponsors.platinum" name="Platinum" size="96" />
 
-      <HomeSponsorsGroup v-if="sponsors.gold" name="Gold" size="140" />
+      <HomeSponsorsGroup v-if="sponsors.gold" name="Gold" size="38" />
 
-      <HomeSponsorsGroup v-if="sponsors.silver" name="Silver" size="120" />
+      <HomeSponsorsGroup v-if="sponsors.silver" name="Silver" size="24" />
 
       <div class="cta">
         <a class="become-sponsor" href="https://github.com/sponsors/posva"

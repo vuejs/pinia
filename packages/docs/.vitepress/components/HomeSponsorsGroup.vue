@@ -9,7 +9,6 @@
       :title="sponsor.alt"
       target="_blank"
       rel="sponsored noopener"
-      :style="{ width: size + 'px' }"
       class="sponsor_wrapper"
       :class="
         isDark && sponsor.imgSrcLight === sponsor.imgSrcDark && 'apply-bg'
@@ -23,7 +22,7 @@
           'invert-colors'
         "
         :alt="sponsor.alt"
-        :style="{ width: size + 'px' }"
+        :style="{ height: size + 'px' }"
       />
     </a>
   </p>
@@ -64,7 +63,6 @@ const list = computed(() =>
 
   border-radius: 5px;
 
-  width: 100px;
   display: inline-block;
   text-decoration: none;
   vertical-align: middle;

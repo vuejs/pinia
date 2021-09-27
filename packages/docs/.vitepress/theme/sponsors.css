@@ -1,17 +1,31 @@
 .sponsors {
-  padding: 0 1.5rem 2rem;
+  margin: 0 0 1rem 1.35rem;
+}
+
+.sponsors-top {
+  margin-top: 1rem;
+  /* workaround padding in vitepress */
+  margin-bottom: -2rem;
+}
+
+.sponsors > span {
+  /* margin: 1.25rem 0; */
+  display: block;
+  color: #999;
   font-size: 0.8rem;
 }
 
-.sponsors a {
-  color: #999;
+.sponsors a:last-child {
+  margin-bottom: 20px;
+}
+.sponsors a:first-child {
+  margin-top: 18px;
 }
 
-.sponsors img {
-  max-width: 200px;
-  max-height: 40px;
+.sponsors a {
+  margin-top: 10px;
+  width: 125px;
   display: block;
-  margin: 1.25rem 0;
 }
 
 .sponsors.frontpage {
