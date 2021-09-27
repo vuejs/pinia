@@ -1,17 +1,12 @@
 # Defining a Store
 
-Before diving into core concepts, we need to know that a store is defined using `defineStore()` and that it requires a **
-** name, passed as the first argument:
+Before diving into core concepts, we need to know that a store is defined using `defineStore()` and that it requires a **unique** name, passed as the first argument:
 
 ```js
 import { defineStore } from 'pinia'
 
 // useStore could be anything like useUser, useCart
-// the first argument is a 
-
-
-
-id of the store across your application
+// the first argument is a uique id of the store across your application
 export const useStore = defineStore('main', {
   // other options...
 })
