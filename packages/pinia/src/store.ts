@@ -663,8 +663,7 @@ function createSetupStore<
     !store.$state.constructor.toString().includes('[native code]')
   ) {
     console.warn(
-      `[🍍]: Detected constructor usage in state initialisation.\n` +
-        `Ensure any undefined properties are explicitly initialised for reactivity to work as expected.`
+      `[🍍]: The "state" must be a plain object. It cannot be\n\tstate: () => new MyClass()` 
     )
   }
 

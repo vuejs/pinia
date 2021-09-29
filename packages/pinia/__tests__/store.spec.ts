@@ -328,36 +328,24 @@ describe('Store', () => {
   })
 
   it('warns when state is created with a class constructor', () => {
-    class MyState {
-      someValue?: string
-    }
+    class MyState {}
 
     const useMyStore = defineStore({
-      id: 'functionInit',
-      state(): MyState {
-        return new MyState()
-      },
-    })
-    useMyStore()
-    expect('Detected constructor usage').toHaveBeenWarned()
-
-    const useMyOtherStore = defineStore({
-      id: 'arrowInit',
+      id: 'store',
       state: () => new MyState(),
     })
-    useMyOtherStore()
+    useMyStore()
     expect('Detected constructor usage').toHaveBeenWarned()
   })
 
   it('only warns about constructors when store is initially created', () => {
-    class MyState { someValue?: string }
+    class MyState {}
     const useMyStore = defineStore({
       id: 'arrowInit',
       state: () => new MyState(),
     });
-    useMyStore();
-    useMyStore();
-    expect('Detected constructor usage').toHaveBeenWarnedTimes(1);
+    useMyStore()
+    expect('Detected constructor usage').toHaveBeenWarnedTimes(1)
   })
 
   it('does not warn when state is created with a plain object', () => {
