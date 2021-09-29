@@ -79,6 +79,52 @@ export const useStore = defineStore('main', {
 })
 ```
 
+
+## Passing arguments to getters
+
+_Getters_ are just _computed_ properties behind the scenes, so it's not possible to pass any parameters to them. However, you can return a function from the _getter_ to accept any arguments:
+
+```js
+export const useStore = defineStore('main', {
+  getters: {
+    getUserById: (state) => {
+      return (userId) => state.users.find((user) => user.id === userId)
+    },
+  },
+})
+```
+
+and use in component:
+
+```vue
+<script>
+export default {
+  setup() {
+    const store = useStore()
+
+    return { getUserById: store.getUserById }
+  },
+}
+</script>
+
+<template>
+User 2: {{ getUserById(2) }}
+</template>
+```
+
+Note that when doing this, **getters are not cached anymore**, they are simply functions that you invoke. You can however cache some results inside of the getter itself, which is uncommon but should prove more performant:
+
+```js
+export const useStore = defineStore('main', {
+  getters: {
+    getActiveUserById(state) {
+      const activeUsers = state.users.filter((user) => user.active)
+      return (userId) => activeUsers.find((user) => user.id === userId)
+    },
+  },
+})
+```
+
 ## Accessing other stores getters
 
 To use another store getters, you can directly _use it_ inside of the _getter_:
