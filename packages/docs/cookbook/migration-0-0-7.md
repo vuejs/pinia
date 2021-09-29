@@ -60,10 +60,10 @@ If you are using Vue 2 (Pinia <= 1):
 
 ```js
 import Vue from 'vue'
-import { createPinia, PiniaPlugin } from 'pinia'
+import { createPinia, PiniaVuePlugin } from 'pinia'
 
 const pinia = createPinia()
-Vue.use(PiniaPlugin)
+Vue.use(PiniaVuePlugin)
 new Vue({
   el: '#app',
   pinia,
@@ -75,7 +75,7 @@ If you are using Vue 3 (Pinia >= 2):
 
 ```js
 import { createApp } from 'vue'
-import { createPinia, PiniaPlugin } from 'pinia'
+import { createPinia, PiniaVuePlugin } from 'pinia'
 import App from './App.vue'
 
 const pinia = createPinia()
@@ -94,12 +94,12 @@ If you are using Vue 2 (Pinia <= 1):
 ```diff
 // entry-server.js
 -import { getRootState, PiniaSsr } from 'pinia',
-+import { createPinia, PiniaPlugin } from 'pinia',
++import { createPinia, PiniaVuePlugin } from 'pinia',
 
 
 -// install plugin to automatically use correct context in setup and onServerPrefetch
 -Vue.use(PiniaSsr);
-+Vue.use(PiniaPlugin)
++Vue.use(PiniaVuePlugin)
 
  export default context => {
 +  const pinia = createPinia()

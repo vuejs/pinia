@@ -234,8 +234,8 @@ module.exports = {
               link: '/cookbook/composing-stores.html',
             },
             {
-              text: 'Migration from 0.0.7',
-              link: '/cookbook/migration-0-0-7.html',
+              text: 'Migration from v0/v1 to v2',
+              link: '/cookbook/migration-v1-v2.html',
             },
           ],
         },
