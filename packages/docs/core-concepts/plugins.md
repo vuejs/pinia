@@ -343,13 +343,15 @@ import 'pinia'
 
 declare module 'pinia' {
   export interface DefineStoreOptionsBase<S, Store> {
-    debounce?: {
-      // allow defining a number of ms for any of the actions
-      [k in keyof A]?: number
-    }
+    // allow defining a number of ms for any of the actions
+    debounce?: Partial<Record<keyof StoreActions<Store>, number>>
   }
 }
 ```
+
+:::tip
+There is also a `StoreGetters` type to extract the _getters_ from a Store type. You can also extend the options of _setup stores_ or _option stores_ **only** by extending the types `DefineStoreOptions` and `DefineSetupStoreOptions` respectively.
+:::
 
 ## Nuxt.js
 
