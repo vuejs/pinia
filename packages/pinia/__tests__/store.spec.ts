@@ -137,6 +137,11 @@ describe('Store', () => {
 
   it('can replace its state', () => {
     const store = useStore()
+    const spy = jest.fn()
+    watch(() => store.a, spy, { flush: 'sync' })
+    expect(store.a).toBe(true)
+
+    expect(spy).toHaveBeenCalledTimes(0)
     // TODO: remove once plugin state achieve generics
     // @ts-expect-error
     store.$state = {
@@ -148,6 +153,8 @@ describe('Store', () => {
         },
       },
     }
+    expect(spy).toHaveBeenCalledTimes(1)
+
     expect(store.$state).toEqual({
       a: false,
       nested: {

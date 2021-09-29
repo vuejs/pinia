@@ -532,7 +532,9 @@ function createSetupStore<
       if (__DEV__ && hot) {
         throw new Error('cannot set hotState')
       }
-      pinia.state.value[$id] = state
+      $patch(($state) => {
+        assign($state, state)
+      })
     },
   })
 
