@@ -33,6 +33,8 @@ And that's it, use your store as usual!
 If you want to use a store outside of `setup()`, remember to pass the `pinia` object to `useStore()`. We added it to [the context](https://nuxtjs.org/docs/2.x/internals-glossary/context) so you have access to it in `asyncData()` and `fetch()`:
 
 ```js
+import { useStore } from '~/stores/myStore'
+
 export default {
   asyncData({ pinia }) {
     const store = useStore(pinia)
@@ -45,6 +47,8 @@ export default {
 You can also use [the context](https://nuxtjs.org/docs/2.x/internals-glossary/context) in any store by using the injected property `$nuxt`:
 
 ```js
+import { useUserStore } from '~/stores/userStore'
+
 defineStore('cart', {
   actions: {
     purchase() {
