@@ -673,6 +673,18 @@ function createSetupStore<
     }
   })
 
+  if (
+    __DEV__ &&
+    store.$state &&
+    typeof store.$state === 'object' &&
+    typeof store.$state.constructor === 'function' &&
+    !store.$state.constructor.toString().includes('[native code]')
+  ) {
+    console.warn(
+      `[🍍]: The "state" must be a plain object. It cannot be\n\tstate: () => new MyClass()` 
+    )
+  }
+
   // only apply hydrate to option stores with an initial state in pinia
   if (initialState && buildState) {
     ;(options.hydrate || innerPatch)(store, initialState)
