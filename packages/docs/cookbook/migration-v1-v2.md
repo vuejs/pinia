@@ -27,7 +27,7 @@ npm i 'pinia@^2.x.x'
 yarn add 'pinia@^2.x.x'
 ```
 
-And start updating your code
+And start updating your code.
 
 ### Generic Store type
 
@@ -107,3 +107,5 @@ Then adapt your `nuxt.config.js` and your `tsconfig.json` if you are using TypeS
    ]
  }
 ```
+
+It is also recommended to give [the dedicated Nuxt section](../ssr/nuxt.md) a read.
