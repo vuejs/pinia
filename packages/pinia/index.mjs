@@ -1,1 +1,1 @@
-export * from './index.js'
+export * from './dist/pinia.esm-bundler.js'
