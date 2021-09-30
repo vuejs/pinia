@@ -69,3 +69,5 @@ export {
   PiniaPlugin,
   PiniaVuePlugin,
 } from './vue2-plugin'
+
+export * from './globalExtensions'

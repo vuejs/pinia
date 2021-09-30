@@ -94,23 +94,6 @@ export interface Pinia {
   _testing?: boolean
 }
 
-declare module '@vue/runtime-core' {
-  export interface ComponentCustomProperties {
-    /**
-     * Access to the application's Pinia
-     */
-    $pinia: Pinia
-
-    /**
-     * Cache of stores instantiated by the current instance. Used by devtools to
-     * list currently used stores.
-     *
-     * @internal
-     */
-    _pStores?: Record<string, StoreGeneric>
-  }
-}
-
 export const piniaSymbol = (
   __DEV__ ? Symbol('pinia') : /* istanbul ignore next */ Symbol()
 ) as InjectionKey<Pinia>
