@@ -5,7 +5,7 @@
 </p>
 <br/>
 <p align="center">
-  <a href="https://npmjs.com/package/pinia"><img src="https://badgen.net/npm/v/pinia/next" alt="npm package"></a>
+  <a href="https://npmjs.com/package/pinia"><img src="https://badgen.net/npm/v/pinia/latest" alt="npm package"></a>
   <a href="https://github.com/posva/pinia/actions/workflows/test.yml?query=branch%3Av2"><img src="https://github.com/posva/pinia/workflows/test/badge.svg?branch=v2" alt="build status"></a>
   <a href="https://codecov.io/github/posva/pinia"><img src="https://badgen.net/codecov/c/github/posva/pinia/v2" alt="code coverage"></a>
 </p>
@@ -117,15 +117,15 @@ A few notes about the project and possible questions:
 ## Installation
 
 ```bash
-yarn add pinia@next
+yarn add pinia
 # or with npm
-npm install pinia@next
+npm install pinia
 ```
 
 If you are using Vue 2, make sure to install `@vue/composition-api` version `1.1.0` (or greater):
 
 ```bash
-npm install pinia@next @vue/composition-api
+npm install pinia @vue/composition-api
 ```
 
 ## Usage

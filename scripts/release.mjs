@@ -22,8 +22,6 @@ let {
   dry: isDryRun,
   skipCleanCheck: skipCleanGitCheck,
 } = args
-// TODO: remove on stable
-optionTag = optionTag || 'next'
 
 // const preId =
 //   args.preid ||
@@ -273,10 +271,6 @@ function updateDeps(pkg, depType, updatedPackages) {
 async function publishPackage(pkg) {
   step(`Publishing ${pkg.name}...`)
 
-  // TODO: remove on stable
-  // apply all @pinia/* packages to the latest dist tag on npm
-  const tag = pkg.name !== 'pinia' && optionTag === 'next' ? null : optionTag
-
   try {
     await runIfNotDry(
       'yarn',
@@ -286,7 +280,7 @@ async function publishPackage(pkg) {
         pkg.version,
         '--no-commit-hooks',
         '--no-git-tag-version',
-        ...(tag ? ['--tag', tag] : []),
+        ...(optionTag ? ['--tag', optionTag] : []),
         '--access',
         'public',
       ],
