@@ -32,7 +32,7 @@ export function createPinia(): Pinia {
         app.provide(piniaSymbol, pinia)
         app.config.globalProperties.$pinia = pinia
         /* istanbul ignore else */
-        if (IS_CLIENT && __DEV__) {
+        if (__DEV__ && IS_CLIENT) {
           registerPiniaDevtools(app, pinia)
         }
         toBeInstalled.forEach((plugin) => _p.push(plugin))
