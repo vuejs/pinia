@@ -46,16 +46,12 @@ const outputConfigs = {
     format: `es`,
   },
   cjs: {
-    file: pkg.main,
+    file: pkg.module.replace('esm-bundler', 'cjs'),
     format: `cjs`,
   },
   global: {
     file: pkg.unpkg,
     format: `iife`,
-  },
-  esm: {
-    file: pkg.module.replace('.mjs', '.browser.js'),
-    format: `es`,
   },
 }
 
@@ -196,9 +192,7 @@ function createReplacePlugin(
 }
 
 function getProdFileName(format, name) {
-  return format === 'cjs'
-    ? `dist/${name}.prod.cjs`
-    : `dist/${name}.${format}.prod.js`
+  return `dist/${name}.${format}.prod.js`
 }
 
 function createProductionConfig(format) {
