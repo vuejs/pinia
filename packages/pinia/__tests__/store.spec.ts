@@ -334,6 +334,8 @@ describe('Store', () => {
     expect(useStore()).not.toBe(store)
   })
 
+  const warnTextCheckPlainObject = `"state" must be a plain object`
+
   it('warns when state is created with a class constructor', () => {
     class MyState {}
 
@@ -342,7 +344,7 @@ describe('Store', () => {
       state: () => new MyState(),
     })
     useMyStore()
-    expect('Detected constructor usage').toHaveBeenWarned()
+    expect(warnTextCheckPlainObject).toHaveBeenWarned()
   })
 
   it('only warns about constructors when store is initially created', () => {
@@ -352,7 +354,7 @@ describe('Store', () => {
       state: () => new MyState(),
     })
     useMyStore()
-    expect('Detected constructor usage').toHaveBeenWarnedTimes(1)
+    expect(warnTextCheckPlainObject).toHaveBeenWarnedTimes(1)
   })
 
   it('does not warn when state is created with a plain object', () => {
@@ -361,6 +363,6 @@ describe('Store', () => {
       state: () => ({ someValue: undefined }),
     })
     useMyStore()
-    expect('Detected constructor usage').toHaveBeenWarnedTimes(0)
+    expect(warnTextCheckPlainObject).toHaveBeenWarnedTimes(0)
   })
 })
