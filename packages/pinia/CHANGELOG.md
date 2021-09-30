@@ -1,3 +1,15 @@
+# [2.0.0-rc.10](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.9...pinia@2.0.0-rc.10) (2021-09-30)
+
+### Bug Fixes
+
+- **ssr:** always call setActivePinia ([83d7d2f](https://github.com/posva/pinia/commit/83d7d2f4cabedf9c65ba90f2e18882261c49f71f)), closes [#665](https://github.com/posva/pinia/issues/665)
+- use assign to set $state ([f3a732f](https://github.com/posva/pinia/commit/f3a732f86fbd0399f7b7ebc6a762a2425d08bb4c)), closes [#682](https://github.com/posva/pinia/issues/682)
+- fix mjs, cjs versions for webpack based builds
+
+### Features
+
+- **warn:** incorrect state value [#641](https://github.com/posva/pinia/issues/641) ([#646](https://github.com/posva/pinia/issues/646)) ([6fd3883](https://github.com/posva/pinia/commit/6fd3883100ccc5c11668c3b855ff0660dd8af9fe))
+
 # [2.0.0-rc.9](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.8...pinia@2.0.0-rc.9) (2021-09-12)
 
 ### Bug Fixes
