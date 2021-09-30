@@ -53,10 +53,6 @@ const outputConfigs = {
     file: pkg.unpkg,
     format: `iife`,
   },
-  esm: {
-    file: pkg.module.replace('bundler', 'browser'),
-    format: `es`,
-  },
 }
 
 const allFormats = Object.keys(outputConfigs)
