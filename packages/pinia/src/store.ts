@@ -84,6 +84,7 @@ function isComputed(o: any): o is ComputedRef {
       // TODO: make something in @vue/composition-api to be able to check this
       descriptor.get.toString().length > 42) as boolean
   }
+  // !!(isRef(o) && o.effect)
   return o && o.effect
 }
 
