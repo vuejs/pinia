@@ -1,3 +1,10 @@
+## [0.0.3](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.2...@pinia/nuxt@0.0.3) (2021-10-03)
+
+### Bug Fixes
+
+- export the module version in mjs ([cffc313](https://github.com/posva/pinia/commit/cffc3134ec4d44c7a0a1492d942d44dc5d838df1))
+- **nuxt:** correct build ([435b294](https://github.com/posva/pinia/commit/435b2948f2290407c03b9652c7a754192e3e912f))
+
 ## [0.0.2](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.1...@pinia/nuxt@0.0.2) (2021-09-03)
 
 ### Features

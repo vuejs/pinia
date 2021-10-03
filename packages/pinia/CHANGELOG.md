@@ -1,3 +1,12 @@
+# [2.0.0-rc.11](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.10...pinia@2.0.0-rc.11) (2021-10-03)
+
+### Bug Fixes
+
+- **build:** expose mjs correctly ([2e9fe33](https://github.com/posva/pinia/commit/2e9fe33647f9b649e53841ec54f0df048835c1ba))
+- export the module version in mjs ([cffc313](https://github.com/posva/pinia/commit/cffc3134ec4d44c7a0a1492d942d44dc5d838df1))
+- **types:** correctly type global extensions ([cdbdba5](https://github.com/posva/pinia/commit/cdbdba5153198cde6b678cb96ab7948b351fd3cc)), closes [#630](https://github.com/posva/pinia/issues/630)
+- **warn:** avoid toRefs warning for Vue 2 ([c174fe1](https://github.com/posva/pinia/commit/c174fe1dfa48569b1fc9e04f105832ab9a8e3824)), closes [#648](https://github.com/posva/pinia/issues/648)
+
 # [2.0.0-rc.10](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.9...pinia@2.0.0-rc.10) (2021-09-30)
 
 ### Bug Fixes
