@@ -31,8 +31,8 @@ const module = defineNuxtModule<PiniaNuxtOptions>({
     addPlugin({ src: resolve(__dirname, '../templates/plugin.js') })
 
     // Define pinia resolution to ensure plugins register global context successfully
-    nuxt.options.alias['pinia'] =
-      nuxt.options.alias['pinia'] || resolveModule('pinia/index.mjs')
+    // TODO: needed with @nuxt/bridge but not without it...
+    // nuxt.options.alias['pinia'] = nuxt.options.alias['pinia'] || resolveModule('pinia/index.mjs')
 
     // transpile pinia if @vue/composition-api is transpiled because we must use the same instance
     if (
