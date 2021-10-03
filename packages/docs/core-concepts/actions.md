@@ -18,7 +18,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-Like [getters](./getters.md), actions get access to the _whole store instance_ through `this` with **full typing (and autocompletion ✨) support**. **Unlike them, `actions` can be asynchronous**, you can `await` inside of them any API call or even other actions! Here is an examlpe using [Mande](https://github.com/posva/mande). Note the library you use doesn't matter as long as you get a `Promise`, you could even use the native `fetch` function (browser only):
+Like [getters](./getters.md), actions get access to the _whole store instance_ through `this` with **full typing (and autocompletion ✨) support**. **Unlike them, `actions` can be asynchronous**, you can `await` inside of them any API call or even other actions! Here is an example using [Mande](https://github.com/posva/mande). Note the library you use doesn't matter as long as you get a `Promise`, you could even use the native `fetch` function (browser only):
 
 ```js
 import { mande } from 'mande'
@@ -120,9 +120,9 @@ export default {
 
 ## Subscribing to actions
 
-> [Give feedback about `$onAction()`](https://github.com/posva/pinia/issues/240)
+> [Give feedback on `$onAction()`](https://github.com/posva/pinia/issues/240)
 
-It is possible to observe actions and their outcome with `store.$onAction()`. The callback passed to it is executed before the action itself. `after` handle promises and allows you to change the returned value of the action. `onError` allows you to stop the error from propagating. These are useful for tracking errors at runtime, similar to [what is explaining in Vue docs](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors).
+It is possible to observe actions and their outcome with `store.$onAction()`. The callback passed to it is executed before the action itself. `after` handle promises and allows you to change the returned value of the action. `onError` allows you to stop the error from propagating. These are useful for tracking errors at runtime, similar to [this tip in the Vue docs](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors).
 
 Here is an example that logs before running actions and after they resolve/reject.
 
