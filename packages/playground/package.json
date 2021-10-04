@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.2",
-    "vite": "^2.5.10"
+    "vite": "^2.6.2"
   },
   "dependencies": {
     "@vue/compiler-sfc": "^3.2.19",
