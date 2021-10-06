@@ -1,6 +1,6 @@
 import { ref, watch } from 'vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { getNASAPOD, NASAPOD } from '../api/nasa'
+import { getNASAPOD } from '../api/nasa'
 import { useCachedRequest } from '../composables/useCachedRequest'
 
 export const useNasaPOD = defineStore('nasa-pod', () => {
