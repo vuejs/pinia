@@ -23,7 +23,18 @@
       <h3 class="mb-4 text-center">{{ image.title }}</h3>
 
       <figure class="mb-0">
+        <iframe
+          v-if="image.url.includes('youtube.com')"
+          width="560"
+          height="315"
+          :key="image.url"
+          :src="image.url"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
         <img
+          v-else
           class="max-w-full m-auto max-h-[75vh]"
           :src="image.url"
           :key="image.url"

@@ -1,9 +1,7 @@
 import { defineConfig, Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import _fs from 'fs'
+import { promises as fs } from 'fs'
 import path from 'path'
-
-const fs = _fs.promises
 
 // https://vitejs.dev/config/
 export default defineConfig({
