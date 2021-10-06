@@ -335,38 +335,35 @@ describe('Store', () => {
   })
 
   const warnTextCheckPlainObject = (storeId: string) =>
-    `"state" for ${storeId} must be a plain object`
+    `The "state" must be a plain object. It cannot be\n\tstate: () => new MyClass()\nFound in store "${storeId}".`
 
   it('warns when state is created with a class constructor', () => {
     class MyState {}
 
-    const id = 'store'
     const useMyStore = defineStore({
-      id,
+      id: 'store',
       state: () => new MyState(),
     })
     useMyStore()
-    expect(warnTextCheckPlainObject(id)).toHaveBeenWarned()
+    expect(warnTextCheckPlainObject('store')).toHaveBeenWarned()
   })
 
   it('only warns about constructors when store is initially created', () => {
     class MyState {}
-    const id = 'arrowInit'
     const useMyStore = defineStore({
-      id,
+      id: 'arrowInit',
       state: () => new MyState(),
     })
     useMyStore()
-    expect(warnTextCheckPlainObject(id)).toHaveBeenWarnedTimes(1)
+    expect(warnTextCheckPlainObject('arrowInit')).toHaveBeenWarnedTimes(1)
   })
 
   it('does not warn when state is created with a plain object', () => {
-    const id = 'poInit'
     const useMyStore = defineStore({
-      id,
+      id: 'poInit',
       state: () => ({ someValue: undefined }),
     })
     useMyStore()
-    expect(warnTextCheckPlainObject(id)).toHaveBeenWarnedTimes(0)
+    expect(warnTextCheckPlainObject('poInit')).toHaveBeenWarnedTimes(0)
   })
 })
