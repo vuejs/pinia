@@ -1,3 +1,10 @@
+# [2.0.0-rc.12](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.11...pinia@2.0.0-rc.12) (2021-10-07)
+
+### Features
+
+- proper check of computed requiring @vue/composition-api@1.2.3 ([b099ef4](https://github.com/posva/pinia/commit/b099ef4ee143ba9cf44e08c1eb607de395563020))
+- **warn:** log store id with class constructor warning ([#702](https://github.com/posva/pinia/issues/702)) ([39eee6a](https://github.com/posva/pinia/commit/39eee6a48b5d84f916e90b513024e26e9c6d72c5))
+
 # [2.0.0-rc.11](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.10...pinia@2.0.0-rc.11) (2021-10-03)
 
 ### Bug Fixes
