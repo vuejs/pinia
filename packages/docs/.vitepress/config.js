@@ -201,7 +201,6 @@ module.exports = {
         },
         {
           text: 'Server-Side Rendering (SSR)',
-          link: '/ssr/',
           children: [
             {
               text: 'Vue and Vite',
