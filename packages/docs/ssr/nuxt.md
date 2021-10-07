@@ -7,9 +7,9 @@ Using Pinia with [Nuxt.js](https://nuxtjs.org/) is easier since Nuxt takes care 
 Make sure to install [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/) alongside `pinia`:
 
 ```bash
-yarn add pinia@next @pinia/nuxt @nuxtjs/composition-api
+yarn add pinia @pinia/nuxt @nuxtjs/composition-api
 # or with npm
-npm install pinia@next @pinia/nuxt @nuxtjs/composition-api
+npm install pinia @pinia/nuxt @nuxtjs/composition-api
 ```
 
 We supply a _module_ to handle everything for you, you only need to add it to `buildModules` in your `nuxt.config.js` file:

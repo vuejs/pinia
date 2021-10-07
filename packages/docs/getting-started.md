@@ -3,13 +3,13 @@
 Install `pinia` with your favorite package manager:
 
 ```bash
-yarn add pinia@next
+yarn add pinia
 # or with npm
-npm install pinia@next
+npm install pinia
 ```
 
 :::tip
-`pinia@next` install Pinia v2 for Vue 3. If your app is using Vue 2, you need to install Pinia v1: `pinia@latest` **and** `@vue/composition-api`. If you are using Nuxt, you should follow [these instructions](/ssr/nuxt).
+If your app is using Vue 2, you also need to install the composition api: `@vue/composition-api`. If you are using Nuxt, you should follow [these instructions](/ssr/nuxt.md).
 :::
 
 If you are using the Vue CLI, you can instead give this [**unofficial plugin**](https://github.com/wobsoriano/vue-cli-plugin-pinia) a try.
