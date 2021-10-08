@@ -22,7 +22,7 @@
 - 🏗 Modular by design
 - 📦 Extremely light
 
-Pinia works both for Vue 2.x and Vue 3.x. It requires Vue 2 with `@vue/composition-api` `^1.1.0-0` or Vue `^3.2.0-0`.
+Pinia works both for Vue 2.x and Vue 3.x. It requires Vue 2 with the latest `@vue/composition-api` or Vue `^3.2.0-0`.
 
 Pinia is is the most similar English pronunciation of the word _pineapple_ in Spanish: _piña_. A pineapple is in reality a group of individual flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
 
@@ -112,7 +112,7 @@ A few notes about the project and possible questions:
 - [x] Should the state be merged at the same level as actions and getters?
 - [ ] ~~Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)~~
       You can directly call `useOtherStore()` inside of a getter or action.
-- [ ] Getter with params that act like computed properties (@ktsn)
+- [ ] ~~Getter with params that act like computed properties (@ktsn)~~ Can be implement through a custom composable and passed directly to state.
 
 ## Installation
 
@@ -122,7 +122,7 @@ yarn add pinia
 npm install pinia
 ```
 
-If you are using Vue 2, make sure to install `@vue/composition-api` version `1.1.0` (or greater):
+If you are using Vue 2, make sure to install latest `@vue/composition-api`:
 
 ```bash
 npm install pinia @vue/composition-api
@@ -157,11 +157,10 @@ export const useMainStore = defineStore('main', {
   }),
   // optional getters
   getters: {
-    doubleCount() {
-      return this.counter * 2
-    },
+    // getters receive the state as first parameter
+    doubleCount: (state) => state.counter * 2,
     // use getters in other getters
-    doubleCountPlusOne() {
+    doubleCountPlusOne(): number {
       return this.doubleCount * 2 + 1
     },
   },
@@ -179,18 +178,21 @@ export const useMainStore = defineStore('main', {
 
 ```ts
 import { useMainStore } from '@/stores/main'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   setup() {
     const main = useMainStore()
 
+    // extract specific store properties
+    const { counter, doubleCount } = storeToRefs(main)
+
     return {
-      // gives access to the whole store
+      // gives access to the whole store in the template
       main,
-      // gives access only to specific state
-      state: computed(() => main.counter),
-      // gives access to specific getter; like `computed` properties
-      doubleCount: computed(() => main.doubleCount),
+      // gives access only to specific state or getter
+      counter,
+      doublerCount,
     }
   },
 })
