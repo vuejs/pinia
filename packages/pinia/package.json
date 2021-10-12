@@ -1,6 +1,6 @@
 {
   "name": "pinia",
-  "version": "2.0.0-rc.12",
+  "version": "2.0.0-rc.13",
   "description": "Intuitive, type safe and flexible Store for Vue",
   "main": "index.js",
   "module": "dist/pinia.esm-bundler.js",

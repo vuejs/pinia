@@ -1,3 +1,9 @@
+## [0.0.4](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.3...@pinia/nuxt@0.0.4) (2021-10-12)
+
+### Bug Fixes
+
+- **nuxt:** use latest nuxt kit ([4892546](https://github.com/posva/pinia/commit/4892546395654772561be7d33101dc52b03ccdeb)), closes [#717](https://github.com/posva/pinia/issues/717)
+
 ## [0.0.3](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.2...@pinia/nuxt@0.0.3) (2021-10-03)
 
 ### Bug Fixes
