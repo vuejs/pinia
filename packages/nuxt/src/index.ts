@@ -3,8 +3,9 @@
  */
 import { resolve } from 'upath'
 import { addPlugin, defineNuxtModule } from '@nuxt/kit'
-import { Pinia } from 'pinia'
-import { Context } from '@nuxt/types'
+import { isVue2 } from 'vue-demi'
+import type { Pinia } from 'pinia'
+import type { Context } from '@nuxt/types'
 
 export interface PiniaNuxtOptions {
   /**
@@ -34,12 +35,8 @@ const module = defineNuxtModule<PiniaNuxtOptions>({
 
     addPlugin({ src: resolve(__dirname, '../templates/plugin.js') })
 
-    // transpile pinia if @vue/composition-api is transpiled because we must use the same instance
-    if (
-      !nuxt.options.dev &&
-      !nuxt.options.build.transpile.includes('pinia') &&
-      nuxt.options.build.transpile.includes('@vue/composition-api')
-    ) {
+    // transpile pinia for nuxt 2 and nuxt bridge
+    if (isVue2 && !nuxt.options.build.transpile.includes('pinia')) {
       nuxt.options.build.transpile.push('pinia')
     }
   },
