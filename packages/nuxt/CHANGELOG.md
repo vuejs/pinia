@@ -1,3 +1,9 @@
+## [0.0.6](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.5...@pinia/nuxt@0.0.6) (2021-10-14)
+
+### Bug Fixes
+
+- link to correct file [skip ci] ([c44b771](https://github.com/posva/pinia/commit/c44b771b6e3f538df6c9b2aab1beca7a681f7d9a))
+
 ## [0.0.5](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.4...@pinia/nuxt@0.0.5) (2021-10-14)
 
 ### Bug Fixes
