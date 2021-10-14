@@ -30,7 +30,6 @@
     "build:dts": "api-extractor run --local --verbose && tail -n +3 ./src/globalExtensions.ts >> dist/pinia.d.ts",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l pinia -r 1",
     "test:dts": "tsc -p ./test-dts/tsconfig.json",
-    "dev": "yarn run test:unit --watchAll",
     "test": "yarn run build && yarn run build:dts && yarn test:dts"
   },
   "files": [
