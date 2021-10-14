@@ -11,18 +11,20 @@ if (isVue2) {
  */
 const PiniaNuxtPlugin = (context, inject) => {
   const pinia = createPinia()
-  // add $pinia to the context
-  inject('pinia', pinia)
-  // to allow accessing pinia without the $
-  context.pinia = pinia
-
   if (isVue2) {
     // simulate new Vue({ pinia })
     context.app.pinia = pinia
   } else {
-    // TODO: does this work?
     context.app.use(pinia)
   }
+
+  // make sure to inject pinia after installing the plugin because in Nuxt 3, inject defines a non configurable getter
+  // on app.config.globalProperties
+  // add $pinia to the context
+  inject('pinia', pinia)
+  // to allow accessing pinia without the $
+  // TODO: remove this in deprecation
+  context.pinia = pinia
 
   setActivePinia(pinia)
 
