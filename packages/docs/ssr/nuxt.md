@@ -19,6 +19,7 @@ We supply a _module_ to handle everything for you, you only need to add it to `b
 export default {
   // ... other options
   buildModules: [
+    // Nuxt 2 only:
     // https://composition-api.nuxtjs.org/getting-started/setup#quick-start
     '@nuxtjs/composition-api/module',
     '@pinia/nuxt',
@@ -36,8 +37,8 @@ If you want to use a store outside of `setup()`, remember to pass the `pinia` ob
 import { useStore } from '~/stores/myStore'
 
 export default {
-  asyncData({ pinia }) {
-    const store = useStore(pinia)
+  asyncData({ $pinia }) {
+    const store = useStore($pinia)
   },
 }
 ```

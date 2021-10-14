@@ -1,9 +1,5 @@
 # Testing stores
 
-:::warning
-This code is still not released.
-::::
-
 Stores will, by design, be used at many places and can make testing much harder than it should be. Fortunately, this doesn't have to be the case. We need to take care of three things when testing stores:
 
 - The `pinia` instance: Stores cannot work without it
@@ -68,7 +64,43 @@ beforeEach(() => {
 
 ## Unit testing components
 
-Coming soon with `createTestingPinia()`... But if you are adventurous and want to give it a try, check the [existing tests for it](https://github.com/posva/pinia/blob/v2/__tests__/testing.spec.ts#L36). Note in future releases, you will have to install `@pinia/testing` (which doesn't exist yet) and adapt the imports. Make sure to keep an eye on releases to be notified when this happen!
+This can be achieved with `createTestingPinia()`. I haven't been able to write proper documentation for this yet but its usage can be discovered through autocompletion and the documentation that appears in tooltips.
+
+Start by installing `@pinia/testing`:
+
+```sh
+npm i -D @pinia/testing
+```
+
+And make sure to create a testing pinia in your tests when mounting a component:
+
+```js
+import { mount } from '@vue/test-utils'
+import { createTestingPinia } from '@pinia/nuxt'
+
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [createTestingPinia()],
+  },
+})
+
+const store = useSomeStore() // uses the testing pinia!
+
+// state can be directly manipulated
+store.name = 'my new name'
+// can also be done through patch
+store.$patch({ name: 'new name' })
+expect(store.name).toBe('new name')
+
+// actions are stubbed by default but can be configured by
+// passing an option to `createTestingPinia()`
+store.someAction()
+
+expect(store.someAction).toHaveBeenCalledTimes(1)
+expect(store.someAction).toHaveBeenLastCalledWith()
+```
+
+You can find more examples in [the tests of the testing package](https://github.com/posva/pinia/blob/v2/packages/testing/src/testing.spec.ts).
 
 ## E2E tests
 
