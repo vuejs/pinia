@@ -1,3 +1,15 @@
+## [0.0.5](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.4...@pinia/nuxt@0.0.5) (2021-10-14)
+
+### Bug Fixes
+
+- **nuxt:** inject pinia after installing the plugin ([32dfdec](https://github.com/posva/pinia/commit/32dfdeca3d6413570d113f02314f57df9fecc42e))
+- **nuxt:** inject state for nuxt 3 ([14999ce](https://github.com/posva/pinia/commit/14999ceefe2a326dbfb720eedd0889a2ae9e4169))
+- **nuxt:** point to the correct dist file ([438b16d](https://github.com/posva/pinia/commit/438b16dfd3dd5052be437d2e7382f9f4f497eea3))
+
+### Features
+
+- **nuxt:** deprecate context.pinia in favor of context.$pinia ([7dbc8e8](https://github.com/posva/pinia/commit/7dbc8e864afcf2636f1c9aede0480c941ab2b4ef))
+
 ## [0.0.4](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.3...@pinia/nuxt@0.0.4) (2021-10-12)
 
 ### Bug Fixes
