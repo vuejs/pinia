@@ -55,6 +55,8 @@ declare module '@nuxt/types' {
   export interface Context {
     /**
      * Pinia instance attached to the app.
+     *
+     * @deprecated: use context.$pinia instead
      */
     pinia: Pinia
 
