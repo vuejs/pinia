@@ -35,9 +35,14 @@ const PiniaNuxtPlugin = (context, inject) => {
   })
 
   if (process.server) {
-    context.beforeNuxtRender(({ nuxtState }) => {
-      nuxtState.pinia = pinia.state.value
-    })
+    if (isVue2) {
+      context.beforeNuxtRender(({ nuxtState }) => {
+        nuxtState.pinia = pinia.state.value
+      })
+    } else {
+      // there is no beforeNuxtRender in Nuxt 3
+      context.nuxtState.pinia = pinia.state.value
+    }
   } else if (context.nuxtState && context.nuxtState.pinia) {
     pinia.state.value = context.nuxtState.pinia
   }
