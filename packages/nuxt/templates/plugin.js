@@ -29,6 +29,7 @@ const PiniaNuxtPlugin = (context, inject) => {
   setActivePinia(pinia)
 
   // add access to `$nuxt`
+  // TODO: adapt to Nuxt 3 with a definePlugin
   pinia._p.push(({ store }) => {
     // make it non enumerable so it avoids any serialization and devtools
     Object.defineProperty(store, '$nuxt', { value: context })
