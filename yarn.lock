@@ -1445,9 +1445,9 @@
     read-package-json-fast "^2.0.1"
 
 "@nuxt/kit@npm:@nuxt/kit-edge@latest":
-  version "3.0.0-27234211.2a0afbd"
-  resolved "https://registry.yarnpkg.com/@nuxt/kit-edge/-/kit-edge-3.0.0-27234211.2a0afbd.tgz#f34573c1f1f354f65e5eb68a4725956dc5b75c59"
-  integrity sha512-tA/Ke/tPPWJEiBGWKuHGGd26JXhRWm5HO10iq9DYAdQzybbX8XZx1yorEzXynMX7YUhsF+PkhFzgnQUHTff//Q==
+  version "3.0.0-27235989.d52b1e8"
+  resolved "https://registry.yarnpkg.com/@nuxt/kit-edge/-/kit-edge-3.0.0-27235989.d52b1e8.tgz#5b0be49989a8b63c0089b2344bd1826fcacca904"
+  integrity sha512-bdhkrRlK5avcHgy6oD/JUgEXS6hxWuOtV/cXL5adcC1sS7+x5dAu+PmyoY2DB8NtqqSZp105PGfTWWCVrDUovA==
   dependencies:
     consola "^2.15.3"
     create-require "^1.1.1"
@@ -1460,6 +1460,7 @@
     lodash.template "^4.5.0"
     mlly "^0.2.6"
     pathe "^0.2.0"
+    pkg-types "^0.1.3"
     rc9 "^1.2.0"
     scule "^0.2.1"
     semver "^7.3.5"
@@ -1981,7 +1982,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^16.10.1":
+"@types/node@*":
   version "16.10.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.10.3.tgz#7a8f2838603ea314d1d22bb3171d899e15c57bd5"
   integrity sha512-ho3Ruq+fFnBrZhUYI46n/bV2GjwzSkwuT4dTf0GkuNFmnb8nq4ny2z9JEVemFi6bdEJanHLlYfy9c6FN9B9McQ==
@@ -1995,6 +1996,11 @@
   version "12.20.24"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.20.24.tgz#c37ac69cb2948afb4cef95f424fa0037971a9a5c"
   integrity sha512-yxDeaQIAJlMav7fH5AQqPH1u8YIuhYJXYBzxaQ4PifsU0GDO38MSdmEDeRlIxrKbC6NbEaaEHDanWb+y30U8SQ==
+
+"@types/node@^16.10.1":
+  version "16.10.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.10.9.tgz#8f1cdd517972f76a3b928298f4c0747cd6fef25a"
+  integrity sha512-H9ReOt+yqIJPCutkTYjFjlyK6WEMQYT9hLZMlWtOjFQY2ItppsWZ6RJf8Aw+jz5qTYceuHvFgPIaKOHtLAEWBw==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -2366,9 +2372,9 @@
   integrity sha512-FbpX+hD5BvXCQerEYO7jtAGHlhAkhTQ4KIV73kmLWNlawWhTiVuQxizgVb0BOkX5oG9cIRZ42EG++d/k/Efp0w==
 
 "@vue/test-utils@^2.0.0-rc.15":
-  version "2.0.0-rc.15"
-  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-rc.15.tgz#425d0ecd639fbe6383e240f4542907b3bfccde6e"
-  integrity sha512-cb+Ri4PDRhtGCJuaLyl1HO9jXcwEj6AFwcNXace8FhhwelDzOdjyIgOb25xtDiUojzWjPuzGLKZQr/5WB7MLew==
+  version "2.0.0-rc.16"
+  resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.0.0-rc.16.tgz#59380f02870f856ac002a29c02681d3f3fcbafeb"
+  integrity sha512-TubikDVkI2LuRKRPSLv3lYpbpvvucT2DIcGqfBVpvYs4W19u0EBTJEdmfwmSuLY7H1TyAr9Stur3PI1sWWvTGQ==
 
 "@vueuse/core@^6.5.3":
   version "6.5.3"
@@ -6631,6 +6637,11 @@ pkg-dir@^4.1.0, pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
+pkg-types@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/pkg-types/-/pkg-types-0.1.3.tgz#3bceecc8d7b459692469fd12faf79c263b758fa5"
+  integrity sha512-lvMenDKreGMUT2ZxbNbYfL3TgI54jnRtpdY7GCb1swzm4KUjuQ8LXx1i5kmK2e6ldA06reEyTVr5PxYD7MmrkQ==
+
 please-upgrade-node@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/please-upgrade-node/-/please-upgrade-node-3.2.0.tgz#aeddd3f994c933e4ad98b99d9a556efa0e2fe942"
@@ -8016,10 +8027,15 @@ typedoc@^0.22.5:
     minimatch "^3.0.4"
     shiki "^0.9.11"
 
-typescript@^4.3.5, typescript@^4.4.3, typescript@~4.4.2:
+typescript@^4.3.5, typescript@~4.4.2:
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.4.3.tgz#bdc5407caa2b109efd4f82fe130656f977a29324"
   integrity sha512-4xfscpisVgqqDfPaJo5vkd+Qd/ItkoagnHpufr+i2QCHBsNYp+G7UAoyFl8aPtx879u38wPV65rZ8qbGZijalA==
+
+typescript@^4.4.3:
+  version "4.4.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.4.4.tgz#2cd01a1a1f160704d3101fd5a58ff0f9fcb8030c"
+  integrity sha512-DqGhF5IKoBl8WNf8C1gu8q0xZSInh9j1kJJMqT3a94w1JzVaBU4EXOSMrz9yDqMT0xt3selp83fuFMQ0uzv6qA==
 
 ufo@^0.7.9:
   version "0.7.9"
