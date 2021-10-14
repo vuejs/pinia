@@ -28,6 +28,10 @@ const module = defineNuxtModule<PiniaNuxtOptions>({
       nuxt.options.features.store = false
     }
 
+    // make sure we use the mjs for pinia so node doesn't complain about using a module js with an extension that is js
+    // but doesn't have the type: module in its packages.json file
+    nuxt.options.alias.pinia = 'pinia/pinia.mjs'
+
     addPlugin({ src: resolve(__dirname, '../templates/plugin.js') })
 
     // Define pinia resolution to ensure plugins register global context successfully
