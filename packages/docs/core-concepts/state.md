@@ -97,7 +97,7 @@ You don't need `mapWritableState()` for collections like arrays unless you are r
 
 <!-- TODO: disable this with `strictMode` -->
 
-Apart from directly changing a the store with `store.counter++`, you can also call the `$patch` method. It allows you to apply multiple changes at the same time with a partial `state` object:
+Apart from directly mutating the store with `store.counter++`, you can also call the `$patch` method. It allows you to apply multiple changes at the same time with a partial `state` object:
 
 ```js
 store.$patch({
