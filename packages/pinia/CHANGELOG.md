@@ -1,3 +1,7 @@
+# [2.0.0-rc.14](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.13...pinia@2.0.0-rc.14) (2021-10-19)
+
+Readme update
+
 # [2.0.0-rc.13](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.12...pinia@2.0.0-rc.13) (2021-10-12)
 
 - bump vue-devtools-api version

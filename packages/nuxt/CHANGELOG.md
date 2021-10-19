@@ -1,3 +1,10 @@
+## [0.0.7](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.6...@pinia/nuxt@0.0.7) (2021-10-19)
+
+### Bug Fixes
+
+- **nuxt3:** Rename `app` to `vueApp` ([#731](https://github.com/posva/pinia/issues/731)) ([f78c289](https://github.com/posva/pinia/commit/f78c289c8b6c2f8f7657dc46290b022df65945d0))
+- transpile pinia for nuxt 2 ([7bf2e4a](https://github.com/posva/pinia/commit/7bf2e4a986d707dd3864a3dfc8933df0a683251e))
+
 ## [0.0.6](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.5...@pinia/nuxt@0.0.6) (2021-10-14)
 
 ### Bug Fixes
