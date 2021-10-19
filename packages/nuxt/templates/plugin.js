@@ -15,7 +15,7 @@ const PiniaNuxtPlugin = (context, inject) => {
     // simulate new Vue({ pinia })
     context.app.pinia = pinia
   } else {
-    context.app.use(pinia)
+    context.vueApp.use(pinia)
   }
 
   // make sure to inject pinia after installing the plugin because in Nuxt 3, inject defines a non configurable getter
