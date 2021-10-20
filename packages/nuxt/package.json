@@ -25,8 +25,11 @@
   },
   "sideEffects": false,
   "exports": {
-    "require": "./dist/index.js",
-    "import": "./dist/index.mjs"
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./templates/plugin.js": "./templates/plugin.js"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
