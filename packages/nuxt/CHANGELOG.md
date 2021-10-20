@@ -1,3 +1,9 @@
+## [0.0.8](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.7...@pinia/nuxt@0.0.8) (2021-10-20)
+
+### Bug Fixes
+
+- expose the plugin in mjs ([7a18af7](https://github.com/posva/pinia/commit/7a18af7dd7d40b491f01f7da4873733d56ded431))
+
 ## [0.0.7](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.6...@pinia/nuxt@0.0.7) (2021-10-19)
 
 ### Bug Fixes

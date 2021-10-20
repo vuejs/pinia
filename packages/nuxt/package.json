@@ -1,6 +1,6 @@
 {
   "name": "@pinia/nuxt",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Nuxt Module for pinia",
   "keywords": [
     "vue",
