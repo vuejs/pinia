@@ -36,16 +36,21 @@
   "files": [
     "dist/*.js",
     "dist/*.mjs",
-    "dist/*.d.ts",
-    "templates/*.js"
+    "dist/*.d.ts"
   ],
   "scripts": {
     "build": "siroc",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/testing -r 1"
   },
+  "dependencies": {
+    "vue-demi": "*"
+  },
   "devDependencies": {
     "pinia": "^2.0.0-0",
     "siroc": "^0.16.0"
+  },
+  "peerDependencies": {
+    "pinia": "^2.0.0-0"
   },
   "publishConfig": {
     "access": "public"
