@@ -29,6 +29,7 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
+    "./dist/templates/*": "./dist/templates/*",
     "./templates/*": "./dist/templates/*"
   },
   "main": "./dist/index.js",
@@ -38,10 +39,11 @@
     "dist/*.js",
     "dist/*.mjs",
     "dist/*.d.ts",
-    "dist/templates/*.js"
+    "dist/templates/*.js",
+    "dist/templates/*.mjs"
   ],
   "scripts": {
-    "build": "siroc",
+    "build": "siroc build",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/nuxt -r 1"
   },
   "dependencies": {

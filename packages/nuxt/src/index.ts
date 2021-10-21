@@ -32,7 +32,7 @@ const module = defineNuxtModule<PiniaNuxtOptions>({
     // but doesn't have the type: module in its packages.json file
     nuxt.options.alias.pinia = 'pinia/index.mjs'
 
-    addPlugin({ src: require.resolve('./templates/plugin') })
+    addPlugin({ src: require.resolve('./templates/plugin.mjs') })
 
     // transpile pinia for nuxt 2 and nuxt bridge
     if (isVue2 && !nuxt.options.build.transpile.includes('pinia')) {
