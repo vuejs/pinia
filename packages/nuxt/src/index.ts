@@ -1,7 +1,6 @@
 /**
  * @module @pinia/nuxt
  */
-import { resolve } from 'upath'
 import { addPlugin, defineNuxtModule } from '@nuxt/kit'
 import { isVue2 } from 'vue-demi'
 import type { Pinia } from 'pinia'
@@ -33,7 +32,7 @@ const module = defineNuxtModule<PiniaNuxtOptions>({
     // but doesn't have the type: module in its packages.json file
     nuxt.options.alias.pinia = 'pinia/index.mjs'
 
-    addPlugin({ src: resolve(__dirname, './templates/plugin.js') })
+    addPlugin({ src: require.resolve('./templates/plugin') })
 
     // transpile pinia for nuxt 2 and nuxt bridge
     if (isVue2 && !nuxt.options.build.transpile.includes('pinia')) {

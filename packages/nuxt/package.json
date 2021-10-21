@@ -29,7 +29,7 @@
       "require": "./dist/index.js",
       "import": "./dist/index.mjs"
     },
-    "./src/templates/*": "./dist/templates/*.js"
+    "./templates/*": "./dist/templates/*.js"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
