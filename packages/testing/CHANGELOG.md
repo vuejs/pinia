@@ -1,3 +1,9 @@
+## [0.0.4](https://github.com/posva/pinia/compare/@pinia/testing@0.0.3...@pinia/testing@0.0.4) (2021-10-21)
+
+### Bug Fixes
+
+- correct peer deps and deps ([c83677a](https://github.com/posva/pinia/commit/c83677a9cf7a1cb20b2e6fed529f3c5500062648))
+
 ## [0.0.3](https://github.com/posva/pinia/compare/@pinia/testing@0.0.2...@pinia/testing@0.0.3) (2021-09-03)
 
 ### Features

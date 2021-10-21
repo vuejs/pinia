@@ -1,3 +1,11 @@
+## [0.0.9](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.8...@pinia/nuxt@0.0.9) (2021-10-21)
+
+### Bug Fixes
+
+- correct deps in nuxt plugin ([8020f99](https://github.com/posva/pinia/commit/8020f996e2b3c32685c88d0652b23a86bdcba507))
+- correct peer deps and deps ([c83677a](https://github.com/posva/pinia/commit/c83677a9cf7a1cb20b2e6fed529f3c5500062648))
+- should work with nuxt ([03159a4](https://github.com/posva/pinia/commit/03159a440de0eb2b17c3c3bd30dc64223fe90648))
+
 ## [0.0.8](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.7...@pinia/nuxt@0.0.8) (2021-10-20)
 
 ### Bug Fixes
