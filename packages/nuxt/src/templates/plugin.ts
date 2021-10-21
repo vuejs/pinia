@@ -1,20 +1,18 @@
-// @ts-check
 import { isVue2, Vue2 } from 'vue-demi'
 import { createPinia, setActivePinia, PiniaVuePlugin } from 'pinia'
+import type { Plugin } from '@nuxt/types'
 
 if (isVue2) {
   Vue2.use(PiniaVuePlugin)
 }
 
-/**
- * @type {import('@nuxt/types').Plugin}
- */
-const PiniaNuxtPlugin = (context, inject) => {
+const PiniaNuxtPlugin: Plugin = (context, inject) => {
   const pinia = createPinia()
   if (isVue2) {
     // simulate new Vue({ pinia })
     context.app.pinia = pinia
   } else {
+    // @ts-expect-error: vue 3 only
     context.vueApp.use(pinia)
   }
 
