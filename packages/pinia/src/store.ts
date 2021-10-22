@@ -30,19 +30,19 @@ import {
   _Method,
   DefineStoreOptions,
   StoreDefinition,
-  GettersTree,
+  _GettersTree,
   MutationType,
   StoreOnActionListener,
-  ActionsTree,
+  _ActionsTree,
   SubscriptionCallbackMutation,
   DefineSetupStoreOptions,
   DefineStoreOptionsInPlugin,
   StoreGeneric,
-  StoreWithGetters,
+  _StoreWithGetters,
   _ExtractActionsFromSetupStore,
   _ExtractGettersFromSetupStore,
   _ExtractStateFromSetupStore,
-  StoreWithState,
+  _StoreWithState,
 } from './types'
 import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
 import { IS_CLIENT } from './env'
@@ -83,8 +83,8 @@ function isComputed(o: any): o is ComputedRef {
 function createOptionsStore<
   Id extends string,
   S extends StateTree,
-  G extends GettersTree<S>,
-  A extends ActionsTree
+  G extends _GettersTree<S>,
+  A extends _ActionsTree
 >(
   id: Id,
   options: DefineStoreOptions<Id, S, G, A>,
@@ -157,7 +157,7 @@ function createSetupStore<
   SS,
   S extends StateTree,
   G extends Record<string, _Method>,
-  A extends ActionsTree
+  A extends _ActionsTree
 >(
   $id: Id,
   setup: () => SS,
@@ -401,7 +401,7 @@ function createSetupStore<
       return removeSubscription
     },
     $dispose,
-  } as StoreWithState<Id, S, G, A>
+  } as _StoreWithState<Id, S, G, A>
 
   if (isVue2) {
     // start as non ready
@@ -701,7 +701,7 @@ function createSetupStore<
 export type StoreActions<SS> = SS extends Store<
   string,
   StateTree,
-  GettersTree<StateTree>,
+  _GettersTree<StateTree>,
   infer A
 >
   ? A
@@ -715,9 +715,9 @@ export type StoreGetters<SS> = SS extends Store<
   string,
   StateTree,
   infer G,
-  ActionsTree
+  _ActionsTree
 >
-  ? StoreWithGetters<G>
+  ? _StoreWithGetters<G>
   : _ExtractGettersFromSetupStore<SS>
 
 /**
@@ -727,8 +727,8 @@ export type StoreGetters<SS> = SS extends Store<
 export type StoreState<SS> = SS extends Store<
   string,
   infer S,
-  GettersTree<StateTree>,
-  ActionsTree
+  _GettersTree<StateTree>,
+  _ActionsTree
 >
   ? UnwrapRef<S>
   : _ExtractStateFromSetupStore<SS>
@@ -750,7 +750,7 @@ export type StoreState<SS> = SS extends Store<
 export function defineStore<
   Id extends string,
   S extends StateTree = {},
-  G extends GettersTree<S> = {},
+  G extends _GettersTree<S> = {},
   // cannot extends ActionsTree because we loose the typings
   A /* extends ActionsTree */ = {}
 >(
@@ -766,7 +766,7 @@ export function defineStore<
 export function defineStore<
   Id extends string,
   S extends StateTree = {},
-  G extends GettersTree<S> = {},
+  G extends _GettersTree<S> = {},
   // cannot extends ActionsTree because we loose the typings
   A /* extends ActionsTree */ = {}
 >(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A>
@@ -801,12 +801,17 @@ export function defineStore(
 ): StoreDefinition {
   let id: string
   let options:
-    | DefineStoreOptions<string, StateTree, GettersTree<StateTree>, ActionsTree>
+    | DefineStoreOptions<
+        string,
+        StateTree,
+        _GettersTree<StateTree>,
+        _ActionsTree
+      >
     | DefineSetupStoreOptions<
         string,
         StateTree,
-        GettersTree<StateTree>,
-        ActionsTree
+        _GettersTree<StateTree>,
+        _ActionsTree
       >
 
   const isSetupStore = typeof setup === 'function'

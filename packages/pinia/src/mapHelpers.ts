@@ -1,6 +1,6 @@
 import type { ComponentPublicInstance } from 'vue-demi'
 import type {
-  GettersTree,
+  _GettersTree,
   _Method,
   StateTree,
   Store,
@@ -124,7 +124,7 @@ export function mapStores<Stores extends any[]>(
  */
 export type _MapStateReturn<
   S extends StateTree,
-  G extends GettersTree<S>,
+  G extends _GettersTree<S>,
   Keys extends keyof S | keyof G = keyof S | keyof G
 > = {
   // [key in keyof S | keyof G]: () => key extends keyof S
@@ -141,7 +141,7 @@ export type _MapStateReturn<
 export type _MapStateObjectReturn<
   Id extends string,
   S extends StateTree,
-  G extends GettersTree<S>,
+  G extends _GettersTree<S>,
   A,
   T extends Record<
     string,
@@ -194,7 +194,7 @@ export type _MapStateObjectReturn<
 export function mapState<
   Id extends string,
   S extends StateTree,
-  G extends GettersTree<S>,
+  G extends _GettersTree<S>,
   A,
   KeyMapper extends Record<
     string,
@@ -231,7 +231,7 @@ export function mapState<
 export function mapState<
   Id extends string,
   S extends StateTree,
-  G extends GettersTree<S>,
+  G extends _GettersTree<S>,
   A,
   Keys extends keyof S | keyof G
 >(
@@ -250,7 +250,7 @@ export function mapState<
 export function mapState<
   Id extends string,
   S extends StateTree,
-  G extends GettersTree<S>,
+  G extends _GettersTree<S>,
   A
 >(
   useStore: StoreDefinition<Id, S, G, A>,
@@ -326,7 +326,7 @@ export type _MapActionsObjectReturn<A, T extends Record<string, keyof A>> = {
 export function mapActions<
   Id extends string,
   S extends StateTree,
-  G extends GettersTree<S>,
+  G extends _GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof A>
 >(
@@ -359,7 +359,7 @@ export function mapActions<
 export function mapActions<
   Id extends string,
   S extends StateTree,
-  G extends GettersTree<S>,
+  G extends _GettersTree<S>,
   A
 >(
   useStore: StoreDefinition<Id, S, G, A>,
@@ -376,7 +376,7 @@ export function mapActions<
 export function mapActions<
   Id extends string,
   S extends StateTree,
-  G extends GettersTree<S>,
+  G extends _GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof A>
 >(
@@ -440,7 +440,7 @@ export type _MapWritableStateObjectReturn<
 export function mapWritableState<
   Id extends string,
   S extends StateTree,
-  G extends GettersTree<S>,
+  G extends _GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof S>
 >(
@@ -458,7 +458,7 @@ export function mapWritableState<
 export function mapWritableState<
   Id extends string,
   S extends StateTree,
-  G extends GettersTree<S>,
+  G extends _GettersTree<S>,
   A
 >(
   useStore: StoreDefinition<Id, S, G, A>,
@@ -475,7 +475,7 @@ export function mapWritableState<
 export function mapWritableState<
   Id extends string,
   S extends StateTree,
-  G extends GettersTree<S>,
+  G extends _GettersTree<S>,
   A,
   KeyMapper extends Record<string, keyof S>
 >(

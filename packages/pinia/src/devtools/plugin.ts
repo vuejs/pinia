@@ -9,10 +9,10 @@ import {
 } from 'vue-demi'
 import { Pinia, PiniaPluginContext } from '../rootStore'
 import {
-  GettersTree,
+  _GettersTree,
   MutationType,
   StateTree,
-  ActionsTree,
+  _ActionsTree,
   StoreGeneric,
 } from '../types'
 import {
@@ -139,7 +139,7 @@ export function registerPiniaDevtools(app: App, pinia: Pinia) {
                 value: store._getters.reduce((getters, key) => {
                   getters[key] = store[key]
                   return getters
-                }, {} as GettersTree<StateTree>),
+                }, {} as _GettersTree<StateTree>),
               })
             }
           })
@@ -447,7 +447,7 @@ function patchActionForGrouping(store: StoreGeneric, actionNames: string[]) {
     // use toRaw to avoid tracking #541
     storeActions[actionName] = toRaw(store)[actionName]
     return storeActions
-  }, {} as ActionsTree)
+  }, {} as _ActionsTree)
 
   for (const actionName in actions) {
     store[actionName] = function () {
@@ -478,8 +478,8 @@ function patchActionForGrouping(store: StoreGeneric, actionNames: string[]) {
 export function devtoolsPlugin<
   Id extends string = string,
   S extends StateTree = StateTree,
-  G /* extends GettersTree<S> */ = GettersTree<S>,
-  A /* extends ActionsTree */ = ActionsTree
+  G /* extends GettersTree<S> */ = _GettersTree<S>,
+  A /* extends ActionsTree */ = _ActionsTree
 >({ app, store, options }: PiniaPluginContext<Id, S, G, A>) {
   // HMR module
   if (store.$id.startsWith('__hot:')) {

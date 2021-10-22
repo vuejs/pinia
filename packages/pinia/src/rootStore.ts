@@ -12,8 +12,8 @@ import {
   PiniaCustomProperties,
   _Method,
   Store,
-  GettersTree,
-  ActionsTree,
+  _GettersTree,
+  _ActionsTree,
   PiniaCustomStateProperties,
   DefineStoreOptionsInPlugin,
   StoreGeneric,
@@ -104,8 +104,8 @@ export const piniaSymbol = (
 export interface PiniaPluginContext<
   Id extends string = string,
   S extends StateTree = StateTree,
-  G /* extends GettersTree<S> */ = GettersTree<S>,
-  A /* extends ActionsTree */ = ActionsTree
+  G /* extends _GettersTree<S> */ = _GettersTree<S>,
+  A /* extends _ActionsTree */ = _ActionsTree
 > {
   /**
    * pinia instance.

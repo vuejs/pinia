@@ -67,9 +67,7 @@ export enum MutationType {
 }
 
 /**
- * Base type for the context passed to a subscription callback.
- *
- * @internal
+ * Base type for the context passed to a subscription callback. Internal type.
  */
 export interface _SubscriptionCallbackMutationBase {
   /**
@@ -163,7 +161,11 @@ export type SubscriptionCallback<S> = (
   state: UnwrapRef<S>
 ) => void
 
-type _StoreOnActionListenerContext<Store, ActionName extends string, A> = {
+/**
+ * Actual type for {@link StoreOnActionListenerContext}. Exists for refactoring
+ * purposes. For internal use only.
+ */
+interface _StoreOnActionListenerContext<Store, ActionName extends string, A> {
   /**
    * Name of the action
    */
@@ -214,8 +216,8 @@ export type StoreOnActionListenerContext<
   S extends StateTree,
   G /* extends GettersTree<S> */,
   A /* extends ActionsTree */
-> = ActionsTree extends A
-  ? _StoreOnActionListenerContext<StoreGeneric, string, ActionsTree>
+> = _ActionsTree extends A
+  ? _StoreOnActionListenerContext<StoreGeneric, string, _ActionsTree>
   : {
       [Name in keyof A]: Name extends string
         ? _StoreOnActionListenerContext<Store<Id, S, G, A>, Name, A>
@@ -236,7 +238,7 @@ export type StoreOnActionListener<
     S,
     G,
     // {} creates a type of never due to how StoreOnActionListenerContext is defined
-    {} extends A ? ActionsTree : A
+    {} extends A ? _ActionsTree : A
   >
 ) => void
 
@@ -295,16 +297,15 @@ export interface StoreProperties<Id extends string> {
   _hmrPayload: {
     state: string[]
     hotState: Ref<StateTree>
-    actions: ActionsTree
-    getters: ActionsTree
+    actions: _ActionsTree
+    getters: _ActionsTree
   }
 }
 
 /**
- * Base store with state and functions
- * @internal
+ * Base store with state and functions. Should not be used directly.
  */
-export interface StoreWithState<
+export interface _StoreWithState<
   Id extends string,
   S extends StateTree,
   G /* extends GettersTree<StateTree> */,
@@ -445,29 +446,27 @@ export type _Method = (...args: any[]) => any
 
 // in this type we forget about this because otherwise the type is recursive
 /**
- * Store augmented for actions
- *
+ * Store augmented for actions. For internal usage only.
  * @internal
  */
-export type StoreWithActions<A> = {
+export type _StoreWithActions<A> = {
   [k in keyof A]: A[k] extends (...args: infer P) => infer R
     ? (...args: P) => R
     : never
 }
 
 /**
- * Store augmented with getters
- *
+ * Store augmented with getters. For internal usage only.
  * @internal
  */
-export type StoreWithGetters<G> = {
+export type _StoreWithGetters<G> = {
   readonly [k in keyof G]: G[k] extends (...args: any[]) => infer R
     ? R
     : UnwrapRef<G[k]>
 }
 
 /**
- * Store type to build a store
+ * Store type to build a store.
  */
 export type Store<
   Id extends string = string,
@@ -475,11 +474,11 @@ export type Store<
   G /* extends GettersTree<S>*/ = {},
   // has the actions without the context (this) for typings
   A /* extends ActionsTree */ = {}
-> = StoreWithState<Id, S, G, A> &
+> = _StoreWithState<Id, S, G, A> &
   UnwrapRef<S> &
-  StoreWithGetters<G> &
+  _StoreWithGetters<G> &
   // StoreWithActions<A> &
-  (ActionsTree extends A ? {} : A) &
+  (_ActionsTree extends A ? {} : A) &
   PiniaCustomProperties<Id, S, G, A> &
   PiniaCustomStateProperties<S>
 
@@ -491,8 +490,8 @@ export type Store<
 export type StoreGeneric = Store<
   string,
   StateTree,
-  GettersTree<StateTree>,
-  ActionsTree
+  _GettersTree<StateTree>,
+  _ActionsTree
 >
 
 /**
@@ -504,12 +503,12 @@ export type StoreGeneric = Store<
 export type GenericStore<
   Id extends string = string,
   S extends StateTree = StateTree,
-  G /* extends GettersTree<S> */ = GettersTree<S>,
+  G /* extends GettersTree<S> */ = _GettersTree<S>,
   // has the actions without the context (this) for typings
-  A /* extends ActionsTree */ = ActionsTree
-> = StoreWithState<Id, S, G, A> &
+  A /* extends ActionsTree */ = _ActionsTree
+> = _StoreWithState<Id, S, G, A> &
   UnwrapRef<S> &
-  StoreWithGetters<G> &
+  _StoreWithGetters<G> &
   A &
   PiniaCustomProperties<Id, S, G, A> &
   PiniaCustomStateProperties<S>
@@ -520,8 +519,8 @@ export type GenericStore<
 export interface StoreDefinition<
   Id extends string = string,
   S extends StateTree = StateTree,
-  G /* extends GettersTree<S>*/ = GettersTree<S>,
-  A /* extends ActionsTree */ = ActionsTree
+  G /* extends GettersTree<S>*/ = _GettersTree<S>,
+  A /* extends ActionsTree */ = _ActionsTree
 > {
   /**
    * Returns a store, creates it if necessary.
@@ -545,13 +544,13 @@ export interface StoreDefinition<
 }
 
 /**
- * Properties that are added to every store by `pinia.use()`.
+ * Interface to be extended by the user when they add properties through plugins.
  */
 export interface PiniaCustomProperties<
   Id extends string = string,
   S extends StateTree = StateTree,
-  G /* extends GettersTree<S> */ = GettersTree<S>,
-  A /* extends ActionsTree */ = ActionsTree
+  G /* extends GettersTree<S> */ = _GettersTree<S>,
+  A /* extends ActionsTree */ = _ActionsTree
 > {}
 
 /**
@@ -560,22 +559,20 @@ export interface PiniaCustomProperties<
 export interface PiniaCustomStateProperties<S extends StateTree = StateTree> {}
 
 /**
- * Type of an object of Getters that infers the argument.
- *
+ * Type of an object of Getters that infers the argument. For internal usage only.
  * @internal
  */
-export type GettersTree<S extends StateTree> = Record<
+export type _GettersTree<S extends StateTree> = Record<
   string,
   | ((state: UnwrapRef<S> & UnwrapRef<PiniaCustomStateProperties<S>>) => any)
   | (() => any)
 >
 
 /**
- * Type of an object of Actions.
- *
+ * Type of an object of Actions. For internal usage only.
  * @internal
  */
-export type ActionsTree = Record<string, _Method>
+export type _ActionsTree = Record<string, _Method>
 
 /**
  * @internal
@@ -647,8 +644,8 @@ export interface DefineStoreOptions<
    * Optional object of getters.
    */
   getters?: G &
-    ThisType<UnwrapRef<S> & StoreWithGetters<G> & PiniaCustomProperties> &
-    GettersTree<S>
+    ThisType<UnwrapRef<S> & _StoreWithGetters<G> & PiniaCustomProperties> &
+    _GettersTree<S>
 
   /**
    * Optional object of actions.
@@ -657,8 +654,8 @@ export interface DefineStoreOptions<
     ThisType<
       A &
         UnwrapRef<S> &
-        StoreWithState<Id, S, G, A> &
-        StoreWithGetters<G> &
+        _StoreWithState<Id, S, G, A> &
+        _StoreWithGetters<G> &
         PiniaCustomProperties
     >
 }
