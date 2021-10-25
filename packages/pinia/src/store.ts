@@ -631,7 +631,7 @@ function createSetupStore<
   }
 
   if (isVue2) {
-    // mark the store as ready before pluginsn
+    // mark the store as ready before plugins
     store._r = true
   }
 
