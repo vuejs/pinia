@@ -651,8 +651,25 @@ export interface DefineStoreOptions<
     >
 
   /**
-   * Allows hydrating the store during SSR when there is an available state in
-   * pinia.state.
+   * Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
+   * definition and copying the value from `pinia.state` isn't enough.
+   *
+   * @example
+   * If in your `state`, you use any `customRef`s, any `computed`s, or any `ref`s that have a different value on
+   * Server and Client, you need to manually hydrate them. e.g., a custom ref that is stored in the local
+   * storage:
+   *
+   * ```ts
+   * const useStore = defineStore('main', {
+   *   state: () => ({
+   *     n: useLocalStorage('key', 0)
+   *   }),
+   *   hydrate(storeState, initialState) {
+   *     // @ts-expect-error: https://github.com/microsoft/TypeScript/issues/43826
+   *     storeState.n = useLocalStorage('key', 0)
+   *   }
+   * })
+   * ```
    *
    * @param storeState - the current state in the store
    * @param initialState - initialState
