@@ -49,7 +49,7 @@ import { IS_CLIENT } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions } from './subscriptions'
 
-function innerPatch<T extends StateTree>(
+function mergeReactiveObjects<T extends StateTree>(
   target: T,
   patchToApply: DeepPartial<T>
 ): T {
@@ -63,7 +63,7 @@ function innerPatch<T extends StateTree>(
       !isRef(subPatch) &&
       !isReactive(subPatch)
     ) {
-      target[key] = innerPatch(targetValue, subPatch)
+      target[key] = mergeReactiveObjects(targetValue, subPatch)
     } else {
       // @ts-expect-error: subPatch is a valid value
       target[key] = subPatch
@@ -257,7 +257,7 @@ function createSetupStore<
         events: debuggerEvents as DebuggerEvent[],
       }
     } else {
-      innerPatch(pinia.state.value[$id], partialStateOrMutator)
+      mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator)
       subscriptionMutation = {
         type: MutationType.patchObject,
         payload: partialStateOrMutator,
@@ -460,7 +460,7 @@ function createSetupStore<
             prop.value = initialState[key]
           } else {
             // probably a reactive object, lets recursively assign
-            innerPatch(prop, initialState[key])
+            mergeReactiveObjects(prop, initialState[key])
           }
         }
         // transfer the ref to the pinia state to keep everything in sync
