@@ -60,10 +60,10 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@microsoft/api-extractor": "7.18.15",
+    "@microsoft/api-extractor": "7.18.16",
     "@vue/compiler-sfc": "^3.2.20",
     "@vue/server-renderer": "^3.2.20",
-    "@vue/test-utils": "^2.0.0-rc.15",
+    "@vue/test-utils": "^2.0.0-rc.16",
     "vue": "^3.2.20",
     "vue2": "npm:vue@2"
   },
@@ -73,7 +73,7 @@
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.2.4",
-    "typescript": "^4.4.3",
+    "typescript": "^4.4.4",
     "vue": "^2.6.14 || ^3.2.0"
   },
   "peerDependenciesMeta": {
