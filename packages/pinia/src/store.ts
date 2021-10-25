@@ -677,7 +677,7 @@ function createSetupStore<
   ) {
     console.warn(
       `[🍍]: The "state" must be a plain object. It cannot be\n` +
-        `\tstate: () => new MyClass() \n` +
+        `\tstate: () => new MyClass()\n` +
         `Found in store "${store.$id}".`
     )
   }
