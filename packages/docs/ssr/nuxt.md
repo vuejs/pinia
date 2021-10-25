@@ -77,7 +77,7 @@ export default {
 }
 ```
 
-## Typescript
+## TypeScript
 
 If you are using TypeScript or have a `jsconfig.json`, you should also add the types for `context.pinia`:
 
