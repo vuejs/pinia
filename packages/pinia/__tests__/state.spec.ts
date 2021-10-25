@@ -1,5 +1,5 @@
-import { createPinia, defineStore, setActivePinia } from '../src'
-import { computed, nextTick, reactive, ref, watch } from 'vue'
+import { createPinia, defineStore, setActivePinia, skipHydrate } from '../src'
+import { computed, nextTick, reactive, ref, watch, customRef } from 'vue'
 
 describe('State', () => {
   beforeEach(() => {
@@ -287,5 +287,51 @@ describe('State', () => {
     expect(stuff.value).toBe(15)
     expect(store.$state.stuff).toBe(15)
     expect(store.double).toBe(30)
+  })
+
+  describe('custom refs', () => {
+    let spy!: jest.SpyInstance
+    function useCustomRef() {
+      let value = 0
+
+      return customRef((track, trigger) => {
+        spy = jest.fn(function (newValue: number) {
+          value = newValue
+          trigger()
+        })
+        return {
+          get() {
+            track()
+            return value
+          },
+          set: spy as any,
+        }
+      })
+    }
+
+    it('hydrates custom refs setup', async () => {
+      const pinia = createPinia()
+      pinia.state.value.main = { myCustom: 24 }
+
+      setActivePinia(pinia)
+
+      const useMainOptions = defineStore('main', () => ({
+        myCustom: skipHydrate(useCustomRef()),
+      }))
+
+      const main = useMainOptions()
+
+      // 0 because it skipped hydration
+      expect(main.myCustom).toBe(0)
+      expect(spy).toHaveBeenCalledTimes(0)
+      main.myCustom++
+      main.$state.myCustom++
+      main.$patch({ myCustom: 0 })
+      main.$patch((state) => {
+        state.myCustom++
+      })
+      expect(main.myCustom).toBe(1)
+      expect(spy).toHaveBeenCalledTimes(4)
+    })
   })
 })

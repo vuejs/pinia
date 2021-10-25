@@ -73,6 +73,16 @@ function innerPatch<T extends StateTree>(
   return target
 }
 
+const skipHydrateSymbol = __DEV__ ? Symbol('pinia:skipHydration') : Symbol()
+
+export function skipHydrate<T = any>(obj: T): T {
+  return Object.defineProperty(obj, skipHydrateSymbol, {})
+}
+
+function shouldHydrate(obj: any) {
+  return !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol)
+}
+
 const { assign } = Object
 
 function isComputed<T>(value: ComputedRef<T> | unknown): value is ComputedRef<T>
@@ -445,7 +455,7 @@ function createSetupStore<
         // can just skip that
       } else if (!buildState) {
         // in setup stores we must hydrate the state and sync pinia state tree with the refs the user just created
-        if (initialState) {
+        if (initialState && shouldHydrate(prop)) {
           if (isRef(prop)) {
             prop.value = initialState[key]
           } else {

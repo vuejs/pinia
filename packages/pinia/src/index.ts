@@ -5,7 +5,7 @@ export { setActivePinia, getActivePinia } from './rootStore'
 export { createPinia } from './createPinia'
 export type { Pinia, PiniaStorePlugin, PiniaPluginContext } from './rootStore'
 
-export { defineStore } from './store'
+export { defineStore, skipHydrate } from './store'
 export type { StoreActions, StoreGetters, StoreState } from './store'
 
 export type {
