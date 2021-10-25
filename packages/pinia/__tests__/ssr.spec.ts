@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import { createPinia, defineStore } from '../src'
-import { Component, createSSRApp, inject, ref, computed } from 'vue'
+import { Component, createSSRApp, inject, ref, computed, customRef } from 'vue'
 import { renderToString, ssrInterpolate } from '@vue/server-renderer'
 import { useUserStore } from './pinia/stores/user'
 import { useCartStore } from './pinia/stores/cart'
@@ -84,6 +84,40 @@ describe('SSR', () => {
     }
 
     expect(await renderToString(app)).toBe(`<p>Tom: water, water, apples</p>`)
+  })
+
+  it('hydrates custom refs', async () => {
+    function useCustomRef() {
+      let value = 3
+      return customRef((track, trigger) => ({
+        get() {
+          track()
+          return value
+        },
+        set(newValue: number) {
+          value = newValue
+          trigger()
+        },
+      }))
+    }
+
+    const useMainOptions = defineStore('main-options', {
+      state: () => ({
+        customRef: useCustomRef(),
+      }),
+    })
+
+    const { app } = createMyApp({
+      ssrRender(ctx: any, push: any, _parent: any) {
+        push(`<p>${ssrInterpolate(ctx.store.customRef)}</p>`)
+      },
+      setup() {
+        const store = useMainOptions()
+        return { store }
+      },
+    })
+
+    expect(await renderToString(app)).toBe(`<p>3</p>`)
   })
 
   it('can use a different store', async () => {
