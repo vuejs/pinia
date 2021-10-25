@@ -676,7 +676,9 @@ function createSetupStore<
     !store.$state.constructor.toString().includes('[native code]')
   ) {
     console.warn(
-      `[🍍]: The "state" must be a plain object. It cannot be\n\tstate: () => new MyClass()\nFound in store "${store.$id}".`
+      `[🍍]: The "state" must be a plain object. It cannot be\n` +
+        `\tstate: () => new MyClass() \n` +
+        `Found in store "${store.$id}".`
     )
   }
 
