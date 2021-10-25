@@ -3,7 +3,7 @@ import {
   createPinia,
   defineStore,
   mapStores,
-  ActionsTree,
+  _ActionsTree,
   storeToRefs,
 } from './'
 import { App, ref, Ref } from 'vue'
@@ -38,7 +38,7 @@ declare module '../dist/pinia' {
 const pinia = createPinia()
 
 pinia.use((context) => {
-  expectType<ActionsTree>(context.options.actions)
+  expectType<_ActionsTree>(context.options.actions)
   expectType<string>(context.store.$id)
   expectType<App>(context.app)
 
