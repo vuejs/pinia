@@ -644,7 +644,6 @@ function createSetupStore<
           store,
           app: pinia._a,
           pinia,
-          // @ts-expect-error
           options: optionsForPlugin,
         })
       )!
@@ -660,7 +659,6 @@ function createSetupStore<
             store,
             app: pinia._a,
             pinia,
-            // @ts-expect-error
             options: optionsForPlugin,
           })
         )!

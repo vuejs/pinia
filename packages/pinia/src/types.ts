@@ -608,16 +608,7 @@ export type _ExtractGettersFromSetupStore<SS> = SS extends undefined | void
  * stores. Extend this interface if you want to add custom options to both kinds
  * of stores.
  */
-export interface DefineStoreOptionsBase<S extends StateTree, Store> {
-  /**
-   * Allows hydrating the store during SSR when there is an available state in
-   * pinia.state.
-   *
-   * @param store - the store
-   * @param initialState - initialState
-   */
-  hydrate?(store: Store, initialState: UnwrapRef<S>): void
-}
+export interface DefineStoreOptionsBase<S extends StateTree, Store> {}
 
 /**
  * Options parameter of `defineStore()` for option stores. Can be extended to
@@ -658,6 +649,15 @@ export interface DefineStoreOptions<
         _StoreWithGetters<G> &
         PiniaCustomProperties
     >
+
+  /**
+   * Allows hydrating the store during SSR when there is an available state in
+   * pinia.state.
+   *
+   * @param store - the store
+   * @param initialState - initialState
+   */
+  hydrate?(storeState: UnwrapRef<S>, initialState: UnwrapRef<S>): void
 }
 
 /**
