@@ -1,3 +1,7 @@
+# [0.1.0](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.9...@pinia/nuxt@0.1.0) (2021-10-25)
+
+- Adapt paths of dist files
+
 ## [0.0.9](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.8...@pinia/nuxt@0.0.9) (2021-10-21)
 
 ### Bug Fixes

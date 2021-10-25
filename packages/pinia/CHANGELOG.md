@@ -1,3 +1,39 @@
+# [2.0.0-rc.15](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.14...pinia@2.0.0-rc.15) (2021-10-25)
+
+### Bug Fixes
+
+- **types:** remove unused option hydrate for setup stores ([37d07fb](https://github.com/posva/pinia/commit/37d07fb29ef2885d94cae3b3f212cea83772a073))
+
+### Code Refactoring
+
+- **ssr:** pass storeState instead of store to hydrate ([c85edac](https://github.com/posva/pinia/commit/c85edacefc8c69a54e84afbcd577b8d1027b3065))
+
+### Features
+
+- **ssr:** add skipHydrate to skip hydration on specific refs ([55deedb](https://github.com/posva/pinia/commit/55deedbc492a26ab98d96ed40ddfdf6ebac45aae))
+
+### BREAKING CHANGES
+
+- **ssr:** the `hydrate()` option for stores defined with the
+  options api no longers passes the whole store instance. Instead, it
+  passes the `storeState` so it can be directly modified. This is because
+  it was currently necessary to hydrate the store by setting properties
+  onto `store.$state`. This change makes it impossible to make the mistake
+  anymore.
+
+```diff
+ defineStore('main', {
+   state: () => ({
+     customRef: useLocalStorage('key', 0)
+   }),
+-  hydrate(store) {
+-    store.$state.customRef = useLocalStorage('key', 0)
++  hydrate(storeState) {
++    storeState.customRef = useLocalStorage('key', 0)
+   }
+ })
+```
+
 # [2.0.0-rc.14](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.13...pinia@2.0.0-rc.14) (2021-10-19)
 
 Readme update
