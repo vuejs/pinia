@@ -309,6 +309,46 @@ describe('State', () => {
       })
     }
 
+    it('hydrates custom refs options', async () => {
+      const pinia = createPinia()
+      pinia.state.value.main = { myCustom: 24, other: 'ssr' }
+
+      setActivePinia(pinia)
+
+      const useMainOptions = defineStore('main', {
+        state: () => ({ myCustom: useCustomRef(), other: 'start' }),
+        hydrate(storeState, initialState) {
+          // @ts-expect-error: cannot set as a ref
+          storeState.myCustom = useCustomRef()
+          // Object.assign(store, initialState)
+          // const { myCustom, ...rest } = initialState
+          // Object.assign(store, rest)
+        },
+      })
+
+      const main = useMainOptions()
+
+      // skips the value from hydration
+      expect(main.myCustom).toBe(0)
+      expect(main.$state.myCustom).toBe(0)
+      expect(main.other).toBe('ssr')
+      expect(main.$state.other).toBe('ssr')
+
+      expect(spy).toHaveBeenCalledTimes(0)
+      main.myCustom++
+      main.$state.myCustom++
+      main.$patch({ myCustom: 0 })
+      main.$patch((state) => {
+        state.myCustom++
+      })
+
+      expect(main.myCustom).toBe(1)
+      expect(main.$state.myCustom).toBe(1)
+      expect(main.other).toBe('ssr')
+      expect(main.$state.other).toBe('ssr')
+      expect(spy).toHaveBeenCalledTimes(4)
+    })
+
     it('hydrates custom refs setup', async () => {
       const pinia = createPinia()
       pinia.state.value.main = { myCustom: 24 }

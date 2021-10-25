@@ -691,8 +691,15 @@ function createSetupStore<
   }
 
   // only apply hydrate to option stores with an initial state in pinia
-  if (initialState && buildState) {
-    ;(options.hydrate || innerPatch)(store, initialState)
+  if (
+    initialState &&
+    buildState &&
+    (options as DefineStoreOptions<Id, S, G, A>).hydrate
+  ) {
+    ;(options as DefineStoreOptions<Id, S, G, A>).hydrate!(
+      store.$state,
+      initialState
+    )
   }
 
   isListening = true

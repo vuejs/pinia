@@ -654,7 +654,7 @@ export interface DefineStoreOptions<
    * Allows hydrating the store during SSR when there is an available state in
    * pinia.state.
    *
-   * @param store - the store
+   * @param storeState - the current state in the store
    * @param initialState - initialState
    */
   hydrate?(storeState: UnwrapRef<S>, initialState: UnwrapRef<S>): void
