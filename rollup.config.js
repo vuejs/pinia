@@ -46,35 +46,38 @@ const outputConfigs = {
     format: `es`,
   },
   cjs: {
-    file: pkg.module.replace('esm-bundler', 'cjs'),
+    file: pkg.module.replace('mjs', 'cjs'),
     format: `cjs`,
   },
   global: {
     file: pkg.unpkg,
     format: `iife`,
   },
+  browser: {
+    file: 'dist/pinia.esm-browser.js',
+    format: `es`,
+  },
 }
 
-const allFormats = Object.keys(outputConfigs)
-const packageFormats = allFormats
-const packageConfigs = packageFormats.map((format) =>
+const packageBuilds = Object.keys(outputConfigs)
+const packageConfigs = packageBuilds.map((format) =>
   createConfig(format, outputConfigs[format])
 )
 
 // only add the production ready if we are bundling the options
-packageFormats.forEach((format) => {
-  if (format === 'cjs') {
-    packageConfigs.push(createProductionConfig(format))
-  } else if (format === 'global') {
-    packageConfigs.push(createMinifiedConfig(format))
+packageBuilds.forEach((buildName) => {
+  if (buildName === 'cjs') {
+    packageConfigs.push(createProductionConfig(buildName))
+  } else if (buildName === 'global') {
+    packageConfigs.push(createMinifiedConfig(buildName))
   }
 })
 
 export default packageConfigs
 
-function createConfig(format, output, plugins = []) {
+function createConfig(buildName, output, plugins = []) {
   if (!output) {
-    console.log(require('chalk').yellow(`invalid format: "${format}"`))
+    console.log(require('chalk').yellow(`invalid format: "${buildName}"`))
     process.exit(1)
   }
 
@@ -87,11 +90,11 @@ function createConfig(format, output, plugins = []) {
     '@vue/composition-api': 'vueCompositionApi',
   }
 
-  const isProductionBuild = output.file.endsWith('.prod.js')
-  const isGlobalBuild = format === 'global'
-  const isRawESMBuild = format === 'esm'
-  const isNodeBuild = format === 'cjs'
-  const isBundlerESMBuild = format === 'esm' || format === 'mjs'
+  const isProductionBuild = /\.prod\.[cmj]s$/.test(output.file)
+  const isGlobalBuild = buildName === 'global'
+  const isRawESMBuild = buildName === 'browser'
+  const isNodeBuild = buildName === 'cjs'
+  const isBundlerESMBuild = buildName === 'browser' || buildName === 'mjs'
 
   if (isGlobalBuild) output.name = pascalcase(pkg.name)
 
@@ -191,13 +194,11 @@ function createReplacePlugin(
   })
 }
 
-function getProdFileName(format, name) {
-  return `dist/${name}.${format}.prod.js`
-}
-
 function createProductionConfig(format) {
+  const extension = format === 'cjs' ? 'cjs' : 'js'
+  const descriptor = format === 'cjs' ? '' : `.${format}`
   return createConfig(format, {
-    file: getProdFileName(format, name),
+    file: `dist/${name}${descriptor}.prod.${extension}`,
     format: outputConfigs[format].format,
   })
 }
@@ -207,7 +208,7 @@ function createMinifiedConfig(format) {
   return createConfig(
     format,
     {
-      file: getProdFileName(format, name),
+      file: `dist/${name}.${format === 'global' ? 'iife' : format}.prod.js`,
       format: outputConfigs[format].format,
     },
     [

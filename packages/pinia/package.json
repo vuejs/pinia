@@ -3,20 +3,28 @@
   "version": "2.0.0-rc.14",
   "description": "Intuitive, type safe and flexible Store for Vue",
   "main": "index.js",
-  "module": "dist/pinia.esm-bundler.js",
+  "module": "dist/pinia.mjs",
   "unpkg": "dist/pinia.iife.js",
   "jsdelivr": "dist/pinia.iife.js",
   "types": "dist/pinia.d.ts",
   "exports": {
     ".": {
-      "import": {
-        "node": "./index.mjs",
-        "default": "./dist/pinia.esm-bundler.js"
+      "browser": "./dist/pinia.esm-browser.js",
+      "node": {
+        "import": {
+          "production": "./dist/pinia.prod.cjs",
+          "development": "./dist/pinia.mjs",
+          "default": "./dist/pinia.mjs"
+        },
+        "require": {
+          "production": "./dist/pinia.prod.cjs",
+          "development": "./dist/pinia.cjs",
+          "default": "./index.js"
+        }
       },
-      "require": "./index.js"
+      "import": "./dist/pinia.mjs"
     },
     "./package.json": "./package.json",
-    "./index.mjs": "./index.mjs",
     "./dist/*": "./dist/*"
   },
   "sideEffects": false,
@@ -26,7 +34,7 @@
   },
   "funding": "https://github.com/sponsors/posva",
   "scripts": {
-    "build": "rimraf dist && rollup -c ../../rollup.config.js --environment TARGET:pinia && cp dist/pinia.esm-bundler.js index.mjs",
+    "build": "rimraf dist && rollup -c ../../rollup.config.js --environment TARGET:pinia",
     "build:dts": "api-extractor run --local --verbose && tail -n +3 ./src/globalExtensions.ts >> dist/pinia.d.ts",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l pinia -r 1",
     "test:dts": "tsc -p ./test-dts/tsconfig.json",
@@ -38,7 +46,7 @@
     "dist/*.cjs",
     "dist/pinia.d.ts",
     "index.js",
-    "index.mjs",
+    "index.cjs",
     "LICENSE",
     "README.md"
   ],
