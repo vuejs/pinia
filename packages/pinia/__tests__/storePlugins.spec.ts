@@ -251,10 +251,8 @@ describe('store plugins', () => {
   it('only executes plugins once after multiple installs', async () => {
     const pinia = createPinia()
 
-    let invokedCount = 0
-    pinia.use(() => {
-      invokedCount++
-    })
+    const spy = jest.fn()
+    pinia.use(spy)
 
     for (let i = 0; i < 3; i++) {
       mount({ template: 'none' }, { global: { plugins: [pinia] } }).unmount()
@@ -262,6 +260,6 @@ describe('store plugins', () => {
 
     useStore(pinia)
 
-    expect(invokedCount).toBe(1)
+    expect(spy).toHaveBeenCalledTimes(1)
   })
 })
