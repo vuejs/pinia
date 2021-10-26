@@ -247,4 +247,19 @@ describe('store plugins', () => {
     store.n++
     expect(spy).toHaveBeenCalledTimes(1)
   })
+
+  it('only executes plugins once after multiple installs', async () => {
+    const pinia = createPinia()
+
+    const spy = jest.fn()
+    pinia.use(spy)
+
+    for (let i = 0; i < 3; i++) {
+      mount({ template: 'none' }, { global: { plugins: [pinia] } }).unmount()
+    }
+
+    useStore(pinia)
+
+    expect(spy).toHaveBeenCalledTimes(1)
+  })
 })
