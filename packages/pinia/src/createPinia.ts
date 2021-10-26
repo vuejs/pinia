@@ -36,6 +36,7 @@ export function createPinia(): Pinia {
           registerPiniaDevtools(app, pinia)
         }
         toBeInstalled.forEach((plugin) => _p.push(plugin))
+        toBeInstalled.splice(0, toBeInstalled.length)
       }
     },
 
