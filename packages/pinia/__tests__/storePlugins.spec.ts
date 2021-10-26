@@ -247,4 +247,21 @@ describe('store plugins', () => {
     store.n++
     expect(spy).toHaveBeenCalledTimes(1)
   })
+
+  it('only executes plugins once after multiple installs', async () => {
+    const pinia = createPinia()
+
+    let invokedCount = 0
+    pinia.use(() => {
+      invokedCount++
+    })
+
+    for (let i = 0; i < 3; i++) {
+      mount({ template: 'none' }, { global: { plugins: [pinia] } }).unmount()
+    }
+
+    useStore(pinia)
+
+    expect(invokedCount).toBe(1)
+  })
 })
