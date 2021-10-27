@@ -209,7 +209,8 @@ export function registerPiniaDevtools(app: App, pinia: Pinia) {
               path.unshift('$state')
             }
           } else {
-            path.unshift('state', 'value')
+            // Root access, we can omit the `.value` because the devtools API does it for us
+            path.unshift('state')
           }
           isTimelineActive = false
           payload.set(inspectedStore, path, payload.state.value)
