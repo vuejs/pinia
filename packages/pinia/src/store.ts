@@ -74,13 +74,19 @@ function mergeReactiveObjects<T extends StateTree>(
 }
 
 const skipHydrateSymbol = __DEV__ ? Symbol('pinia:skipHydration') : Symbol()
+const skipHydrateMap = /*#__PURE__*/ new WeakMap<any, any>()
 
 export function skipHydrate<T = any>(obj: T): T {
-  return Object.defineProperty(obj, skipHydrateSymbol, {})
+  return isVue2
+    ? // in @vue/composition-api, the refs are sealed so defineProperty doesn't work...
+      skipHydrateMap.set(obj, 1) && obj
+    : Object.defineProperty(obj, skipHydrateSymbol, {})
 }
 
 function shouldHydrate(obj: any) {
-  return !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol)
+  return isVue2
+    ? skipHydrateMap.has(obj)
+    : !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol)
 }
 
 const { assign } = Object
