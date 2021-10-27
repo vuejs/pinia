@@ -324,9 +324,17 @@ async function getChangedPackages() {
       if (!pkg.private) {
         const { stdout: hasChanges } = await run(
           'git',
-          ['diff', lastTag, '--', join(folder, '{src,package.json}')],
+          [
+            'diff',
+            lastTag,
+            '--',
+            // apparently {src,package.json} doesn't work
+            join(folder, 'src'),
+            join(folder, 'package.json'),
+          ],
           { stdio: 'pipe' }
         )
+
         if (hasChanges) {
           return {
             path: folder,
