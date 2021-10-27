@@ -34,8 +34,8 @@ export const useCounterStore = defineStore('counter', {
   actions: {
     increment() {
       this.count++
-    }
-  }
+    },
+  },
 })
 ```
 
@@ -52,7 +52,7 @@ export default {
     // with autocompletion ✨
     counter.$patch({ count: counter.count + 1 })
     // or using an action instead
-    counter.increment();
+    counter.increment()
   },
 }
 ```
@@ -164,8 +164,8 @@ Pinia tries to stay as close as Vuex's philosophy as possible. It was designed t
 
 ### RFCs
 
-While Vuex goes through RFC to gather as much feedback from the community as possible, Pinia doesn't. I test out ideas based on my experience developing applications, reading other people's code and answering questions on Discord.
-This allows me to provide a solution that works, publish often, and make it evolve it while people use it by having breaking changes (very unlikely to have major breaking changes after its first stable release) in major releases if necessary.
+While Vuex goes through RFC to gather as much feedback from the community as possible, Pinia doesn't. I test out ideas based on my experience developing applications, reading other people's code, working for clients who use Pinia, and answering questions on Discord.
+This allows me to provide a solution that works and it adapted to a variety of cases and application sizes. I publish often, and make the library evolve while keeping its core API the same.
 
 ### Comparison with Vuex 3.x/4.x
 
@@ -177,5 +177,5 @@ Pinia API is very different from Vuex ≤4, namely:
 - No need to create custom complex wrappers to support TypeScript, everything is typed and the API is designed in a way to leverage TS type inference as much as possible.
 - No more magic strings to inject, import the functions, call them, enjoy autocompletion!
 - No need to dynamically add stores, they are all dynamic by default and you won't even notice. Note you can still manually use a store to register it whenever you want but because it is automatic you don't need to worry about it.
-- No more nested structuring of _modules_. You can still nest stores implicitly by importing and _using_ a store inside another but Pinia offers a flat structuring by design while still enabling ways of cross composition among stores.
+- No more nested structuring of _modules_. You can still nest stores implicitly by importing and _using_ a store inside another but Pinia offers a flat structuring by design while still enabling ways of cross composition among stores. **You can even have circular dependencies of stores**.
 - No _namespaced modules_. Given the flat architecture of stores, "namespacing" stores is inherent to how they are defined and you could say all stores are namespaced.

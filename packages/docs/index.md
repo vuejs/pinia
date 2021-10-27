@@ -5,7 +5,7 @@ actionText: Get Started
 actionLink: /introduction.html
 
 altActionText: Demo
-altActionLink: https://y4dfi.csb.app
+altActionLink: https://stackblitz.com/github/piniajs/example-vue-3-vite
 
 features:
   - title: 💡 Intuitive
