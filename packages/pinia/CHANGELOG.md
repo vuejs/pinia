@@ -8,6 +8,10 @@
 - **plugins:** ensure plugins are used only once ([#745](https://github.com/posva/pinia/issues/745)) ([150fdfc](https://github.com/posva/pinia/commit/150fdfc8abe2577046af947b2e4fbbde2efb057e))
 - **ssr:** make skipHydrate compatible with @vue/composition-api ([71448b0](https://github.com/posva/pinia/commit/71448b008fc4517ab0036b98121a0346df75880e))
 
+### BREAKING CHANGES
+
+All deprecated API have been removed.
+
 # [2.0.0-rc.15](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.14...pinia@2.0.0-rc.15) (2021-10-25)
 
 ### Bug Fixes
