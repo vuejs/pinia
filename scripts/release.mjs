@@ -324,7 +324,7 @@ async function getChangedPackages() {
       if (!pkg.private) {
         const { stdout: hasChanges } = await run(
           'git',
-          ['diff', lastTag, '--', folder],
+          ['diff', lastTag, '--', join(folder, '{src,package.json}')],
           { stdio: 'pipe' }
         )
         if (hasChanges) {
