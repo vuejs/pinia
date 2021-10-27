@@ -26,7 +26,9 @@ Pinia works both for Vue 2.x and Vue 3.x. It requires Vue 2 with the latest `@vu
 
 Pinia is the most similar English pronunciation of the word _pineapple_ in Spanish: _piña_. A pineapple is in reality a group of individual flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
 
-## 👉 [Demo on StackBlitz](https://stackblitz.com/github/piniajs/example-nuxt-3)
+## 👉 [Demo with Vue 3 on StackBlitz](https://stackblitz.com/github/piniajs/example-vue-3-vite)
+
+## 👉 [Demo with Nuxt 3 on StackBlitz](https://stackblitz.com/github/piniajs/example-nuxt-3)
 
 ## 👉 [Demo on CodeSandbox](https://y4dfi.csb.app)
 
