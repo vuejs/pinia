@@ -186,10 +186,10 @@ function createSetupStore<
   let scope!: EffectScope
   const buildState = (options as DefineStoreOptions<Id, S, G, A>).state
 
-  const optionsForPlugin: DefineStoreOptionsInPlugin<Id, S, G, A> = {
-    actions: {} as A,
-    ...options,
-  }
+  const optionsForPlugin: DefineStoreOptionsInPlugin<Id, S, G, A> = assign(
+    { actions: {} as A },
+    options
+  )
 
   /* istanbul ignore if */
   if (__DEV__ && !pinia._e.active) {
