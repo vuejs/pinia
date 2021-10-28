@@ -3,7 +3,13 @@
  */
 export { setActivePinia, getActivePinia } from './rootStore'
 export { createPinia } from './createPinia'
-export type { Pinia, PiniaStorePlugin, PiniaPluginContext } from './rootStore'
+export type {
+  Pinia,
+  // TODO: remove in next release
+  PiniaStorePlugin,
+  PiniaPlugin,
+  PiniaPluginContext,
+} from './rootStore'
 
 export { defineStore, skipHydrate } from './store'
 export type { StoreActions, StoreGetters, StoreState } from './store'
@@ -12,8 +18,6 @@ export type {
   StateTree,
   Store,
   StoreGeneric,
-  // TODO: remove in release
-  GenericStore,
   StoreDefinition,
   _StoreWithGetters,
   _GettersTree,
@@ -64,10 +68,6 @@ export type {
 
 export { acceptHMRUpdate } from './hmr'
 
-export {
-  // TODO: remove in release and deprecate PiniaStorePlugin in favor of PiniaPlugin
-  PiniaPlugin,
-  PiniaVuePlugin,
-} from './vue2-plugin'
+export { PiniaVuePlugin } from './vue2-plugin'
 
 export * from './globalExtensions'

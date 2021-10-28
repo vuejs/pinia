@@ -359,22 +359,6 @@ export interface _StoreWithState<
   ): () => void
 
   /**
-   * Setups a callback to be called whenever the state changes. It also returns
-   * a function to remove the callback. Note than when calling
-   * `store.$subscribe()` inside of a component, it will be automatically
-   * cleanup up when the component gets unmounted unless `detached` is set to
-   * true.
-   *
-   * @deprecated use `store.$subscribe(fn, { detached: true })` instead.
-   *
-   * @param callback - callback passed to the watcher
-   * @param detached - detach the subscription from the context this is called
-   * from
-   * @returns function that removes the watcher
-   */
-  $subscribe(callback: SubscriptionCallback<S>, detached?: boolean): () => void
-
-  /**
    * @alpha Please send feedback at https://github.com/posva/pinia/issues/240
    * Setups a callback to be called every time an action is about to get
    * invoked. The callback receives an object with all the relevant information
@@ -493,25 +477,6 @@ export type StoreGeneric = Store<
   _GettersTree<StateTree>,
   _ActionsTree
 >
-
-/**
- * Generic and type-unsafe version of Store. Doesn't fail on access with
- * strings, making it much easier to write generic functions that do not care
- * about the kind of store that is passed.
- * @deprecated Use `StoreGeneric` instead
- */
-export type GenericStore<
-  Id extends string = string,
-  S extends StateTree = StateTree,
-  G /* extends GettersTree<S> */ = _GettersTree<S>,
-  // has the actions without the context (this) for typings
-  A /* extends ActionsTree */ = _ActionsTree
-> = _StoreWithState<Id, S, G, A> &
-  UnwrapRef<S> &
-  _StoreWithGetters<G> &
-  A &
-  PiniaCustomProperties<Id, S, G, A> &
-  PiniaCustomStateProperties<S>
 
 /**
  * Return type of `defineStore()`. Function that allows instantiating a store.
@@ -711,11 +676,4 @@ export interface DefineStoreOptionsInPlugin<
    * Defaults to an empty object if no actions are defined.
    */
   actions: A
-
-  /**
-   * Id of the store. Only available when the options API is used.
-   *
-   * @deprecated  Use `store.$id` instead.
-   */
-  id?: Id
 }

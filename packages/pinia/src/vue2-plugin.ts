@@ -69,8 +69,3 @@ export const PiniaVuePlugin: Plugin = function (_Vue) {
     },
   })
 }
-
-/**
- * @deprecated use `PiniaVuePlugin` instead.
- */
-export const PiniaPlugin = PiniaVuePlugin

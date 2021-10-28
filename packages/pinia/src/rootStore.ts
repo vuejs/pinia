@@ -129,9 +129,9 @@ export interface PiniaPluginContext<
 }
 
 /**
- * Plugin to extend every store
+ * Plugin to extend every store.
  */
-export interface PiniaStorePlugin {
+export interface PiniaPlugin {
   /**
    * Plugin to extend every store. Returns an object to extend the store or
    * nothing.
@@ -142,3 +142,9 @@ export interface PiniaStorePlugin {
     PiniaCustomProperties & PiniaCustomStateProperties
   > | void
 }
+
+/**
+ * Plugin to extend every store.
+ * @deprecated use PiniaPlugin instead
+ */
+export type PiniaStorePlugin = PiniaPlugin
