@@ -379,7 +379,7 @@ function createSetupStore<
       const stopWatcher = scope.run(() =>
         watch(
           () => pinia.state.value[$id] as UnwrapRef<S>,
-          (state, oldState) => {
+          (state) => {
             if (isListening) {
               callback(
                 {
