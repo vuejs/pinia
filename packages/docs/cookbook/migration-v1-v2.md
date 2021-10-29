@@ -68,6 +68,54 @@ npm i @vue/composition-api@latest
 yarn add @vue/composition-api@latest
 ```
 
+## webpack 4 support
+
+If you are using webpack 4 (Vue CLI uses webpack 4), you might encounter an error like this:
+
+```
+ERROR  Failed to compile with 18 errors
+
+ error  in ./node_modules/pinia/dist/pinia.mjs
+
+Can't import the named export 'computed' from non EcmaScript module (only default export is available)
+```
+
+This is due to the modernization of dist files to support native ESM modules in Node.js. Files are now using the extension `.mjs` and `.cjs` to let Node benefit from this. To fix this issue you have two possibilities:
+
+- If you are using Vue CLI 4.x, upgrade your dependencies. This should include the fix below.
+  - If upgrading is not possible for you, add this to your `vue.config.js`:
+    ```js
+    // vue.config.js
+    module.exports = {
+      configureWebpack: {
+        module: {
+          rules: [
+            {
+              test: /\.mjs$/,
+              include: /node_modules/,
+              type: 'javascript/auto',
+            },
+          ],
+        },
+      },
+    }
+    ```
+- If you are manually handling webpack, you will have to let it know how to handle `.mjs` files:
+  ```js
+  // webpack.config.js
+  module.exports = {
+    module: {
+      rules: [
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: 'javascript/auto',
+        },
+      ],
+    },
+  }
+  ```
+
 ## Devtools
 
 Pinia v2 no longer hijacks Vue Devtools v5, it requires Vue Devtools v6. Find the download link on the [Vue Devtools documentation](https://devtools.vuejs.org/guide/installation.html#chrome) for the **beta channel** of the extension.
