@@ -76,7 +76,7 @@ And make sure to create a testing pinia in your tests when mounting a component:
 
 ```js
 import { mount } from '@vue/test-utils'
-import { createTestingPinia } from '@pinia/nuxt'
+import { createTestingPinia } from '@pinia/testing'
 
 const wrapper = mount(Counter, {
   global: {
