@@ -94,7 +94,7 @@ The same applies to _actions_:
 
 ```js
 import { defineStore } from 'pinia'
-import { useCartStore } from './cart'
+import { useUserStore } from './user'
 
 export const useCartStore = defineStore('cart', {
   actions: {
