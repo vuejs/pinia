@@ -1434,9 +1434,9 @@
     read-package-json-fast "^2.0.1"
 
 "@nuxt/kit@npm:@nuxt/kit-edge@latest":
-  version "3.0.0-27255596.0c1860a"
-  resolved "https://registry.yarnpkg.com/@nuxt/kit-edge/-/kit-edge-3.0.0-27255596.0c1860a.tgz#be0911acb31aaee3d9f7742c9278202413902e74"
-  integrity sha512-cwrX15oG9B0jK6hJCAMTATb+azJVmVv96TSpXEK/4CS8x9VWuEKoq/06VpjTHK8q3kNJbrhnxsz1JHjwDcov5A==
+  version "3.0.0-27258294.bdbfa36"
+  resolved "https://registry.yarnpkg.com/@nuxt/kit-edge/-/kit-edge-3.0.0-27258294.bdbfa36.tgz#87edc2f66efe686181b9cddcdfbe0e64f168a120"
+  integrity sha512-1gNOk3kDNHbe1DXBaiSd8jEUCuB9tDguTsfw6t/4/cQSt/pLX6udApNxD/aMY2MWj7Oav6/6G/25X1uQqDsC9Q==
   dependencies:
     consola "^2.15.3"
     create-require "^1.1.1"
@@ -1447,9 +1447,9 @@
     hookable "^5.0.0"
     jiti "^1.12.9"
     lodash.template "^4.5.0"
-    mlly "^0.3.1"
+    mlly "^0.3.9"
     pathe "^0.2.0"
-    pkg-types "^0.2.3"
+    pkg-types "^0.3.1"
     rc9 "^1.2.0"
     scule "^0.2.1"
     semver "^7.3.5"
@@ -2281,17 +2281,17 @@
   integrity sha512-TubikDVkI2LuRKRPSLv3lYpbpvvucT2DIcGqfBVpvYs4W19u0EBTJEdmfwmSuLY7H1TyAr9Stur3PI1sWWvTGQ==
 
 "@vueuse/core@^6.7.3":
-  version "6.7.3"
-  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-6.7.3.tgz#1a827ee3be55a98c932f716467337a0826d54993"
-  integrity sha512-Cqvk/e4DbdfZlUmVRcxr4rkK5CMn6KqN7TLx2L1++F9HrvlD/FIET3KQ/W7+wHowhdKEjdOUCFJtyU0k65xH2g==
+  version "6.7.4"
+  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-6.7.4.tgz#8e15524454388b11c9eb6ff59a6742602b976e2f"
+  integrity sha512-y39SD+pxDkv7/Fe369c02FQpr/148otQr64ScPDTpw4fGnspc8ONXCNU3gTrvDFRuiylirdPBpXgmt/GDQO7RA==
   dependencies:
-    "@vueuse/shared" "6.7.3"
+    "@vueuse/shared" "6.7.4"
     vue-demi "*"
 
-"@vueuse/shared@6.7.3":
-  version "6.7.3"
-  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-6.7.3.tgz#92ed69b3e79e1a30936fc1f1d39a0107e8d522e0"
-  integrity sha512-6syKgXvdikcSEHJzF7iVyXMqe7y7C7pH35EhH70zQLPnLXH6op9OgD2u4Ro1zyxESRkotbFIsuQJghG5IzXbKA==
+"@vueuse/shared@6.7.4":
+  version "6.7.4"
+  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-6.7.4.tgz#9aa2967d20863cf3253afd08a2e6e84a61d2c89b"
+  integrity sha512-Lkm8myEiOj0sIqSXck5EXDbu0W705Q10BxydGLMfiV6wAY4U1zu+YgEgR37Wy2/mT1545pwQqiJ7bd3kQQFCMw==
   dependencies:
     vue-demi "*"
 
@@ -5848,10 +5848,10 @@ mkdist@^0.3.3:
     mri "^1.2.0"
     pathe "^0.2.0"
 
-mlly@^0.3.1:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/mlly/-/mlly-0.3.5.tgz#9233f49f2d770008e2f7977e9c5dc5ba282234a9"
-  integrity sha512-apgTaqbim4BfR/jo3s9ZuPDCTsyXAFuf/XLkvdG8OJdoDMMsFpHs+7J2E5aSYyIIpLGIIMPKtI96urV1F6LH3w==
+mlly@^0.3.6, mlly@^0.3.9:
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/mlly/-/mlly-0.3.10.tgz#cf3353565c84e951311c46c8d2c8b320d90f9eb3"
+  integrity sha512-vD3A7naDtIOqHYZhnYUrECRO6UODWNqz6T0TS/pxwolzVoWKX/mXJF1XSM3qxruCDtkzJbzJPgesByihY/r3EA==
 
 modify-values@^1.0.0:
   version "1.0.1"
@@ -6508,12 +6508,13 @@ pkg-dir@^4.1.0, pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-pkg-types@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/pkg-types/-/pkg-types-0.2.3.tgz#4355ee06518b278ae6473d1c1eaf35010d6cf798"
-  integrity sha512-c05moyQEGO1z16NjidOZn2wQjuAi8CZKzPXmZBWLnnL3dRqDmeMWx3IxVSuYF7zKHkjQFJ9QH3Pas772a4iXQA==
+pkg-types@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/pkg-types/-/pkg-types-0.3.1.tgz#d7a8b69efb8777a05afc5aabfc259a29a5d6d159"
+  integrity sha512-BjECNgz/tsyqg0/T4Z/U7WbFQXUT24nfkxPbALcrk/uHVeZf9MrGG4tfvYtu+jsrHCFMseLQ6woQddDEBATw3A==
   dependencies:
     jsonc-parser "^3.0.0"
+    mlly "^0.3.6"
     pathe "^0.2.0"
 
 please-upgrade-node@^3.2.0:
