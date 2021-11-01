@@ -8,12 +8,12 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.9.3",
-    "vite": "^2.6.10"
+    "@vitejs/plugin-vue": "^1.9.4",
+    "vite": "^2.6.13"
   },
   "dependencies": {
     "@vue/compiler-sfc": "^3.2.20",
-    "@vueuse/core": "^6.7.3",
+    "@vueuse/core": "^6.7.4",
     "mande": "^1.0.0",
     "pinia": "^2.0.0-rc.4",
     "swrv": "^1.0.0-beta.8",
