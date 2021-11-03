@@ -25,13 +25,17 @@
   },
   "sideEffects": false,
   "exports": {
-    ".": "./dist/index.mjs",
+    ".": {
+      "import": "./dist/module.mjs",
+      "require": "./module.cjs"
+    },
     "./dist/templates/*": "./dist/templates/*",
     "./templates/*": "./dist/templates/*"
   },
-  "main": "./dist/index.mjs",
+  "main": "./module.cjs",
   "types": "./dist/index.d.ts",
   "files": [
+    "module.cjs",
     "dist/*.js",
     "dist/*.mjs",
     "dist/*.d.ts",
