@@ -1,12 +1,9 @@
-import { setupDevtoolsPlugin, TimelineEvent } from '@vue/devtools-api'
 import {
-  App,
-  ComponentPublicInstance,
-  markRaw,
-  toRaw,
-  unref,
-  watch,
-} from 'vue-demi'
+  setupDevtoolsPlugin,
+  TimelineEvent,
+  App as DevtoolsApp,
+} from '@vue/devtools-api'
+import { ComponentPublicInstance, markRaw, toRaw, unref, watch } from 'vue-demi'
 import { Pinia, PiniaPluginContext } from '../rootStore'
 import {
   _GettersTree,
@@ -54,7 +51,7 @@ const getStoreType = (id: string) => '🍍 ' + id
  * @param app - Vue application
  * @param pinia - pinia instance
  */
-export function registerPiniaDevtools(app: App, pinia: Pinia) {
+export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
   setupDevtoolsPlugin(
     {
       id: 'dev.esm.pinia',
@@ -246,7 +243,7 @@ export function registerPiniaDevtools(app: App, pinia: Pinia) {
   )
 }
 
-function addStoreToDevtools(app: App, store: StoreGeneric) {
+function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
   if (!componentStateTypes.includes(getStoreType(store.$id))) {
     componentStateTypes.push(getStoreType(store.$id))
   }
@@ -509,6 +506,7 @@ export function devtoolsPlugin<
   }
 
   addStoreToDevtools(
+    // @ts-expect-error: should be of type App from vue
     app,
     // FIXME: is there a way to allow the assignment from Store<Id, S, G, A> to StoreGeneric?
     store as StoreGeneric

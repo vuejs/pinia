@@ -57,6 +57,7 @@ export const PiniaVuePlugin: Plugin = function (_Vue) {
           // installing pinia's plugin
           setActivePinia(pinia)
           if (__DEV__) {
+            // @ts-expect-error: weird type in devtools api
             registerPiniaDevtools(pinia._a, pinia)
           }
         }

@@ -28,6 +28,7 @@ export function createPinia(): Pinia {
         app.config.globalProperties.$pinia = pinia
         /* istanbul ignore else */
         if (__DEV__ && IS_CLIENT) {
+          // @ts-expect-error: weird type in devtools api
           registerPiniaDevtools(app, pinia)
         }
         toBeInstalled.forEach((plugin) => _p.push(plugin))
