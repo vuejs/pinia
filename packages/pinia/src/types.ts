@@ -359,7 +359,6 @@ export interface _StoreWithState<
   ): () => void
 
   /**
-   * @alpha Please send feedback at https://github.com/posva/pinia/issues/240
    * Setups a callback to be called every time an action is about to get
    * invoked. The callback receives an object with all the relevant information
    * of the invoked action:

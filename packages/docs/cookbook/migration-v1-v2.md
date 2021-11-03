@@ -16,6 +16,9 @@ If you are using ESLint, consider using [this plugin](https://github.com/gund/es
 
 - `createStore()` becomes `defineStore()`
 - In subscriptions, `storeName` becomes `storeId`
+- `PiniaPlugin` was renamed `PiniaVuePlugin` (Pinia plugin for Vue 2)
+- `$subscribe()` no longer accepts a _boolean_ as second parameter, pass an object with `detached: true` instead.
+- Pinia plugins no longer directly receive the `id` of the store. Use `store.$id` instead.
 
 ## Breaking changes
 
@@ -52,11 +55,27 @@ If you were writing plugins, using TypeScript, and extending the type `DefineSto
 -  export interface DefineStoreOptions<S, Store> {
 +  export interface DefineStoreOptionsBase<S, Store> {
      debounce?: {
-       [k in keyof A]?: number
+       [k in keyof StoreActions<Store>]?: number
      }
    }
  }
 ```
+
+## `PiniaStorePLugin` was renamed
+
+The type `PiniaStorePlugin` was renamed to `PiniaPlugin`
+
+```diff
+-import { PiniaStorePlugin } from 'pinia'
++import { PiniaPlugin } from 'pinia'
+
+-const piniaPlugin: PiniaStorePlugin = () => {
++const piniaPlugin: PiniaPlugin = () => {
+   // ...
+ }
+```
+
+**Note this change can only be done after upgrading to the latest version of Pinia without deprecations**.
 
 ## `@vue/composition-api` version
 
