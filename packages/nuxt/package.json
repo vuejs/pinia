@@ -43,7 +43,7 @@
     "dist/templates/*.mjs"
   ],
   "scripts": {
-    "build": "siroc build",
+    "build": "unbuild",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/nuxt -r 1"
   },
   "dependencies": {
@@ -53,7 +53,7 @@
   "devDependencies": {
     "@nuxt/types": "^2.15.8",
     "pinia": "^2.0.0-0",
-    "siroc": "^0.16.0"
+    "unbuild": "^0.5.11"
   },
   "peerDependencies": {
     "pinia": "~2.0.0-rc.15"
