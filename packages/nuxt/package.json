@@ -33,7 +33,7 @@
     "./templates/*": "./dist/templates/*"
   },
   "main": "./module.cjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/module.d.ts",
   "files": [
     "module.cjs",
     "dist/*.js",
