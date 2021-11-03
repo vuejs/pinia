@@ -1,3 +1,15 @@
+## [2.0.1](https://github.com/posva/pinia/compare/pinia@2.0.0...pinia@2.0.1) (2021-11-03)
+
+This release correctly removes the deprecated APIs as advertised in v2. The [documentation](https://pinia.esm.dev/cookbook/migration-v1-v2.html) contains a list of all the deprecations compared to v0.x.
+
+### Bug Fixes
+
+- use assign instead of spread for older browsers ([51cf9b6](https://github.com/posva/pinia/commit/51cf9b6e5a61d668a5e27b5e02833607ad0b5907))
+
+### Features
+
+- **warn:** improve getActivePinia warn ([6a0a209](https://github.com/posva/pinia/commit/6a0a209faf42b149bcda1dd373e0b1e5bf426ce4))
+
 # [2.0.0](https://github.com/posva/pinia/compare/pinia@2.0.0-rc.15...pinia@2.0.0) (2021-10-27)
 
 🎉 🎉 🎉
