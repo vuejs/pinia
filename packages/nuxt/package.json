@@ -1,6 +1,6 @@
 {
   "name": "@pinia/nuxt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Nuxt Module for pinia",
   "keywords": [
     "vue",
@@ -56,7 +56,7 @@
     "unbuild": "^0.5.11"
   },
   "peerDependencies": {
-    "pinia": "~2.0.0-rc.15"
+    "pinia": "~2.0.2"
   },
   "publishConfig": {
     "access": "public"

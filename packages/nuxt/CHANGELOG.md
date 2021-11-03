@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/posva/pinia/compare/@pinia/nuxt@0.1.0...@pinia/nuxt@0.1.1) (2021-11-03)
+
+### Bug Fixes
+
+- **nuxt:** migrate to unbuild ([#765](https://github.com/posva/pinia/issues/765)) ([e8ccb71](https://github.com/posva/pinia/commit/e8ccb71e3ad5d1d5e55e1418e7c9f981f64c71ff))
+- **nuxt:** use `@nuxt/kit` ([#764](https://github.com/posva/pinia/issues/764)) ([3d6d3cb](https://github.com/posva/pinia/commit/3d6d3cb95e1e9adbbe22234a892c138d2a18c767))
+
 # [0.1.0](https://github.com/posva/pinia/compare/@pinia/nuxt@0.0.9...@pinia/nuxt@0.1.0) (2021-10-25)
 
 - Adapt paths of dist files

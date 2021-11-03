@@ -1,3 +1,7 @@
+## [0.0.5](https://github.com/posva/pinia/compare/@pinia/testing@0.0.4...@pinia/testing@0.0.5) (2021-11-03)
+
+Nothing new.
+
 ## [0.0.4](https://github.com/posva/pinia/compare/@pinia/testing@0.0.3...@pinia/testing@0.0.4) (2021-10-21)
 
 ### Bug Fixes

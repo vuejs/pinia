@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/posva/pinia/compare/pinia@2.0.1...pinia@2.0.2) (2021-11-03)
+
+### Bug Fixes
+
+- **types:** for devtools-api ([d856d5d](https://github.com/posva/pinia/commit/d856d5df5d8e7402749d0dc135a349e84f5c9e9d))
+- **types:** remove dependency on Vue 3 only Plugin type ([ee358a6](https://github.com/posva/pinia/commit/ee358a6428bf1f34e7c00415be56da9aecc739b0))
+
 ## [2.0.1](https://github.com/posva/pinia/compare/pinia@2.0.0...pinia@2.0.1) (2021-11-03)
 
 This release correctly removes the deprecated APIs as advertised in v2. The [documentation](https://pinia.esm.dev/cookbook/migration-v1-v2.html) contains a list of all the deprecations compared to v0.x.
