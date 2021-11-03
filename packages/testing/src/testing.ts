@@ -1,12 +1,12 @@
 import { App, createApp } from 'vue-demi'
-import { Pinia, PiniaStorePlugin, setActivePinia, createPinia } from 'pinia'
+import { Pinia, PiniaPlugin, setActivePinia, createPinia } from 'pinia'
 
 export interface TestingOptions {
   /**
    * Plugins to be installed before the testing plugin. Add any plugins used in
    * your application that will be used while testing.
    */
-  plugins?: PiniaStorePlugin[]
+  plugins?: PiniaPlugin[]
 
   /**
    * When set to false, actions are only spied, they still get executed. When

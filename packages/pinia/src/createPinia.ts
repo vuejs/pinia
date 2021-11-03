@@ -1,9 +1,4 @@
-import {
-  Pinia,
-  PiniaStorePlugin,
-  setActivePinia,
-  piniaSymbol,
-} from './rootStore'
+import { Pinia, PiniaPlugin, setActivePinia, piniaSymbol } from './rootStore'
 import { ref, App, markRaw, effectScope, isVue2 } from 'vue-demi'
 import { registerPiniaDevtools, devtoolsPlugin } from './devtools'
 import { IS_CLIENT } from './env'
@@ -20,7 +15,7 @@ export function createPinia(): Pinia {
 
   let _p: Pinia['_p'] = []
   // plugins added before calling app.use(pinia)
-  let toBeInstalled: PiniaStorePlugin[] = []
+  let toBeInstalled: PiniaPlugin[] = []
 
   const pinia: Pinia = markRaw({
     install(app: App) {

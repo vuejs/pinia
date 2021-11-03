@@ -4,7 +4,6 @@ import {
   getCurrentInstance,
   inject,
   InjectionKey,
-  Plugin,
   Ref,
 } from 'vue-demi'
 import {
@@ -56,14 +55,14 @@ export interface Pinia {
    *
    * @param plugin - store plugin to add
    */
-  use(plugin: PiniaStorePlugin): Pinia
+  use(plugin: PiniaPlugin): Pinia
 
   /**
    * Installed store plugins
    *
    * @internal
    */
-  _p: Array<PiniaStorePlugin>
+  _p: PiniaPlugin[]
 
   /**
    * App linked to this Pinia instance

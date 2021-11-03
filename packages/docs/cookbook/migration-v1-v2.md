@@ -63,7 +63,7 @@ If you were writing plugins, using TypeScript, and extending the type `DefineSto
 
 ## `PiniaStorePLugin` was renamed
 
-The type `PiniaStorePlugin` was renamed to `PiniaPlugin`
+The type `PiniaStorePlugin` was renamed to `PiniaPlugin`.
 
 ```diff
 -import { PiniaStorePlugin } from 'pinia'
