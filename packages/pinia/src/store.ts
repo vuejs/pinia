@@ -73,19 +73,21 @@ function mergeReactiveObjects<T extends StateTree>(
   return target
 }
 
-const skipHydrateSymbol = __DEV__ ? Symbol('pinia:skipHydration') : Symbol()
+const skipHydrateSymbol = __DEV__
+  ? Symbol('pinia:skipHydration')
+  : /* istanbul ignore next */ Symbol()
 const skipHydrateMap = /*#__PURE__*/ new WeakMap<any, any>()
 
 export function skipHydrate<T = any>(obj: T): T {
   return isVue2
     ? // in @vue/composition-api, the refs are sealed so defineProperty doesn't work...
-      skipHydrateMap.set(obj, 1) && obj
+      /* istanbul ignore next */ skipHydrateMap.set(obj, 1) && obj
     : Object.defineProperty(obj, skipHydrateSymbol, {})
 }
 
 function shouldHydrate(obj: any) {
   return isVue2
-    ? skipHydrateMap.has(obj)
+    ? /* istanbul ignore next */ skipHydrateMap.has(obj)
     : !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol)
 }
 
@@ -115,6 +117,7 @@ function createOptionsStore<
 
   function setup() {
     if (!initialState && (!__DEV__ || !hot)) {
+      /* istanbul ignore if */
       if (isVue2) {
         set(pinia.state.value, id, state ? state() : {})
       } else {
@@ -140,6 +143,7 @@ function createOptionsStore<
             const store = pinia._s.get(id)!
 
             // allow cross using stores
+            /* istanbul ignore next */
             if (isVue2 && !store._r) return
 
             // @ts-expect-error
@@ -232,6 +236,7 @@ function createSetupStore<
   // avoid setting the state for option stores are it is set
   // by the setup
   if (!buildState && !initialState && (!__DEV__ || !hot)) {
+    /* istanbul ignore if */
     if (isVue2) {
       set(pinia.state.value, $id, {})
     } else {
@@ -405,6 +410,7 @@ function createSetupStore<
     $dispose,
   } as _StoreWithState<Id, S, G, A>
 
+  /* istanbul ignore if */
   if (isVue2) {
     // start as non ready
     partialStore._r = false
@@ -456,6 +462,7 @@ function createSetupStore<
           }
         }
         // transfer the ref to the pinia state to keep everything in sync
+        /* istanbul ignore if */
         if (isVue2) {
           set(pinia.state.value[$id], key, prop)
         } else {
@@ -473,6 +480,7 @@ function createSetupStore<
       const actionValue = __DEV__ && hot ? prop : wrapAction(key, prop)
       // this a hot module replacement store because the hotUpdate method needs
       // to do it with the right context
+      /* istanbul ignore if */
       if (isVue2) {
         set(setupStore, key, actionValue)
       } else {
@@ -506,6 +514,7 @@ function createSetupStore<
   }
 
   // add the state, getters, and action properties
+  /* istanbul ignore if */
   if (isVue2) {
     Object.keys(setupStore).forEach((key) => {
       set(
@@ -632,6 +641,7 @@ function createSetupStore<
     }
   }
 
+  /* istanbul ignore if */
   if (isVue2) {
     // mark the store as ready before plugins
     store._r = true
