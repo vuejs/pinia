@@ -25,15 +25,11 @@
   },
   "sideEffects": false,
   "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    },
+    ".": "./dist/index.mjs",
     "./dist/templates/*": "./dist/templates/*",
     "./templates/*": "./dist/templates/*"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist/*.js",
