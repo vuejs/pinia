@@ -78,7 +78,8 @@ pinia.use(({ store }) => {
   store.hello = 'world'
   // make sure your bundler handle this. webpack and vite should do it by default
   if (process.env.NODE_ENV === 'development') {
-    store._customProperties.add('secret')
+    // add any keys you set on the store
+    store._customProperties.add('hello')
   }
 })
 ```
