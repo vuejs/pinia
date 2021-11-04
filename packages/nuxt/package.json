@@ -29,8 +29,7 @@
       "import": "./dist/module.mjs",
       "require": "./module.cjs"
     },
-    "./dist/templates/*": "./dist/templates/*",
-    "./templates/*": "./dist/templates/*"
+    "./dist/*": "./dist/*"
   },
   "main": "./module.cjs",
   "types": "./dist/module.d.ts",
@@ -38,9 +37,7 @@
     "module.cjs",
     "dist/*.js",
     "dist/*.mjs",
-    "dist/*.d.ts",
-    "dist/templates/*.js",
-    "dist/templates/*.mjs"
+    "dist/*.d.ts"
   ],
   "scripts": {
     "build": "unbuild",
