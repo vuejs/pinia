@@ -1,3 +1,9 @@
+## [0.1.2](https://github.com/posva/pinia/compare/@pinia/nuxt@0.1.1...@pinia/nuxt@0.1.2) (2021-11-04)
+
+### Bug Fixes
+
+- **nuxt:** correct build export ([b2229cc](https://github.com/posva/pinia/commit/b2229cc8b35ed3be453fded8a52366406b1963db))
+
 ## [0.1.1](https://github.com/posva/pinia/compare/@pinia/nuxt@0.1.0...@pinia/nuxt@0.1.1) (2021-11-03)
 
 ### Bug Fixes
