@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
 import { defineStore, expectType } from './'
 
 const name = ref('Eduardo')
@@ -17,6 +17,8 @@ const useStore = defineStore({
     name,
     double,
     counter,
+    aRef: ref(0),
+    aShallowRef: shallowRef({ msg: 'hi' }),
   }),
 
   getters: {
@@ -30,6 +32,8 @@ const useStore = defineStore({
       expectType<number>(this.counter)
       return undefined
     },
+
+    fromARef: (state) => state.aRef,
   },
 
   actions: {
@@ -51,3 +55,10 @@ const store = useStore()
 
 expectType<number>(store.$state.counter)
 expectType<number>(store.$state.double)
+
+expectType<number>(store.aRef)
+expectType<number>(store.$state.aRef)
+expectType<number>(store.fromARef)
+
+expectType<{ msg: string }>(store.aShallowRef)
+expectType<{ msg: string }>(store.$state.aShallowRef)
