@@ -21,7 +21,11 @@ const DEFAULTS = {
 
 export default <Module>function (_options) {
   const nuxt = this.nuxt
-  const options = { ...DEFAULTS, ..._options, ...nuxt.options.pinia }
+  const options = {
+    ...DEFAULTS,
+    ...(_options || {}),
+    ...(nuxt.options.pinia || {}),
+  }
 
   // Disable default Vuex store (options.features only exists in Nuxt v2.10+)
   if (nuxt.options.features && options.disableVuex) {
