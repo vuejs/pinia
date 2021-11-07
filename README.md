@@ -196,7 +196,7 @@ export default defineComponent({
       main,
       // gives access only to specific state or getter
       counter,
-      doublerCount,
+      doubleCount,
     }
   },
 })
