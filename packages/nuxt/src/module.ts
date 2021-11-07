@@ -28,10 +28,6 @@ const module = defineNuxtModule<PiniaNuxtOptions>({
       nuxt.options.features.store = false
     }
 
-    // make sure we use the mjs for pinia so node doesn't complain about using a module js with an extension that is js
-    // but doesn't have the type: module in its packages.json file
-    nuxt.options.alias.pinia = 'pinia/dist/pinia.mjs'
-
     addPlugin({ src: require.resolve('./plugin.mjs') })
 
     // transpile pinia for nuxt 2 and nuxt bridge
