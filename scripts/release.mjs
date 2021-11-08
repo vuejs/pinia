@@ -56,6 +56,10 @@ async function main() {
       return
     }
 
+    const currentBranch = (
+      await run('git', ['branch', '--show-current'], { stdio: 'pipe' })
+    ).stdout
+
     if (currentBranch !== EXPECTED_BRANCH) {
       console.log(
         chalk.red(
@@ -67,10 +71,6 @@ async function main() {
   } else {
     console.log(chalk.bold.white(`Skipping git checks...`))
   }
-
-  const currentBranch = (
-    await run('git', ['branch', '--show-current'], { stdio: 'pipe' })
-  ).stdout
 
   if (!skipCleanGitCheck) {
     const isOutdatedRE = new RegExp(
