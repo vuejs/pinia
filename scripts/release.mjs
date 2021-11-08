@@ -55,6 +55,15 @@ async function main() {
       console.log(chalk.red(`Git repo isn't clean.`))
       return
     }
+
+    if (currentBranch !== EXPECTED_BRANCH) {
+      console.log(
+        chalk.red(
+          `You should be on brach "${EXPECTED_BRANCH}" but are on "${currentBranch}"`
+        )
+      )
+      return
+    }
   } else {
     console.log(chalk.bold.white(`Skipping git checks...`))
   }
@@ -62,15 +71,6 @@ async function main() {
   const currentBranch = (
     await run('git', ['branch', '--show-current'], { stdio: 'pipe' })
   ).stdout
-
-  if (currentBranch !== EXPECTED_BRANCH) {
-    console.log(
-      chalk.red(
-        `You should be on brach "${EXPECTED_BRANCH}" but are on "${currentBranch}"`
-      )
-    )
-    return
-  }
 
   if (!skipCleanGitCheck) {
     const isOutdatedRE = new RegExp(
