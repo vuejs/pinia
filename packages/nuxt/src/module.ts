@@ -36,7 +36,7 @@ export default <Module>function (_options) {
   // but doesn't have the type: module in its packages.json file
   nuxt.options.alias.pinia = 'pinia/dist/pinia.mjs'
 
-  this.addPlugin({ src: require.resolve('./plugin.mjs') })
+  this.addPlugin({ src: require.resolve('./plugin.mjs').replace(/\\/g,'/') })
 
   // transpile pinia for nuxt 2 and nuxt bridge
   if (isVue2 && !nuxt.options.build.transpile.includes('pinia')) {
