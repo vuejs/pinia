@@ -1,10 +1,9 @@
 /**
  * @module @pinia/nuxt
  */
-import { addPlugin, defineNuxtModule } from '@nuxt/kit'
 import { isVue2 } from 'vue-demi'
 import type { Pinia } from 'pinia'
-import type { Context } from '@nuxt/types'
+import type { Context, Module } from '@nuxt/types'
 
 export interface PiniaNuxtOptions {
   /**
@@ -16,28 +15,37 @@ export interface PiniaNuxtOptions {
   disableVuex?: boolean
 }
 
-const module = defineNuxtModule<PiniaNuxtOptions>({
-  name: 'pinia',
-  configKey: 'pinia',
-  defaults: {
-    disableVuex: true,
-  },
-  setup(options, nuxt) {
-    // Disable default Vuex store (options.features only exists in Nuxt v2.10+)
-    if (nuxt.options.features && options.disableVuex) {
-      nuxt.options.features.store = false
-    }
+const DEFAULTS = {
+  disableVuex: true,
+}
 
-    addPlugin({ src: require.resolve('./plugin.mjs') })
+export default <Module>function (_options) {
+  const nuxt = this.nuxt
+  const options = {
+    ...DEFAULTS,
+    ...(_options || {}),
+    ...(nuxt.options.pinia || {}),
+  }
 
-    // transpile pinia for nuxt 2 and nuxt bridge
-    if (isVue2 && !nuxt.options.build.transpile.includes('pinia')) {
-      nuxt.options.build.transpile.push('pinia')
-    }
-  },
-})
+  // Disable default Vuex store (options.features only exists in Nuxt v2.10+)
+  if (nuxt.options.features && options.disableVuex) {
+    nuxt.options.features.store = false
+  }
 
-export default module
+  if (!isVue2) {
+    // make sure we use the mjs for pinia so node doesn't complain about using a module js with an extension that is js
+    // but doesn't have the type: module in its packages.json file
+    // This is not necessary for nuxt/bridge as we transpile pinia in that case (see below) 
+    nuxt.options.alias.pinia = 'pinia/dist/pinia.mjs'
+  }
+    
+  this.addPlugin({ src: require.resolve('./plugin.mjs') })
+
+  // transpile pinia for nuxt 2 and nuxt bridge
+  if (isVue2 && !nuxt.options.build.transpile.includes('pinia')) {
+    nuxt.options.build.transpile.push('pinia')
+  }
+}
 
 declare module '@nuxt/types' {
   export interface Context {
