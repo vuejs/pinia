@@ -1,3 +1,7 @@
+## [2.0.3](https://github.com/posva/pinia/compare/pinia@2.0.2...pinia@2.0.3) (2021-11-10)
+
+- Updated peer deps for composition api and vue devtools
+
 ## [2.0.2](https://github.com/posva/pinia/compare/pinia@2.0.1...pinia@2.0.2) (2021-11-03)
 
 ### Bug Fixes

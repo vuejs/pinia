@@ -1,3 +1,9 @@
+## [0.1.3](https://github.com/posva/pinia/compare/@pinia/nuxt@0.1.2...@pinia/nuxt@0.1.3) (2021-11-10)
+
+### Bug Fixes
+
+- install vue composition api for vue 2 ([1287916](https://github.com/posva/pinia/commit/12879168d7e6f252f67431f1df02a9002642281e))
+
 ## [0.1.2](https://github.com/posva/pinia/compare/@pinia/nuxt@0.1.1...@pinia/nuxt@0.1.2) (2021-11-04)
 
 ### Bug Fixes
