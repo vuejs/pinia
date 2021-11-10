@@ -5,7 +5,9 @@ import type { Plugin } from '@nuxt/types'
 const PiniaNuxtPlugin: Plugin = (context, inject) => {
   if (isVue2) {
     install()
-    Vue2.use(PiniaVuePlugin)
+    // TODO: workaround that should probably be removed in the future
+    const Vue = 'default' in Vue2 ? Vue2.default : Vue2
+    Vue.use(PiniaVuePlugin)
   }
 
   const pinia = createPinia()
