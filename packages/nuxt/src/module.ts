@@ -1,7 +1,7 @@
 /**
  * @module @pinia/nuxt
  */
-import { isVue2 } from 'vue-demi'
+// import { isVue2 } from 'vue-demi'
 import type { Pinia } from 'pinia'
 import type { Context, Module } from '@nuxt/types'
 
@@ -39,9 +39,9 @@ export default <Module>function (_options) {
   this.addPlugin({ src: require.resolve('./plugin.mjs') })
 
   // transpile pinia for nuxt 2 and nuxt bridge
-  if (isVue2 && !nuxt.options.build.transpile.includes('pinia')) {
-    nuxt.options.build.transpile.push('pinia')
-  }
+  // if (isVue2 && !nuxt.options.build.transpile.includes('pinia')) {
+  //   nuxt.options.build.transpile.push('pinia')
+  // }
 }
 
 declare module '@nuxt/types' {

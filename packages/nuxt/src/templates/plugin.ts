@@ -1,12 +1,13 @@
-import { isVue2, Vue2 } from 'vue-demi'
+import { install, isVue2, Vue2 } from 'vue-demi'
 import { createPinia, setActivePinia, PiniaVuePlugin } from 'pinia'
 import type { Plugin } from '@nuxt/types'
 
-if (isVue2) {
-  Vue2.use(PiniaVuePlugin)
-}
-
 const PiniaNuxtPlugin: Plugin = (context, inject) => {
+  if (isVue2) {
+    install()
+    Vue2.use(PiniaVuePlugin)
+  }
+
   const pinia = createPinia()
   if (isVue2) {
     // simulate new Vue({ pinia })
