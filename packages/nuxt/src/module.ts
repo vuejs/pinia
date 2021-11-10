@@ -29,6 +29,15 @@ export default defineNuxtModule({
     // TODO: Use kit to use proper search path
     nuxt.options.alias.pinia = require.resolve('pinia/dist/pinia.mjs')
 
+    // Register auto imports
+    nuxt.hook('autoImports:extend', (autoImports) => {
+      autoImports.push({
+        name: 'defineStore',
+        as: 'defineStore',
+        from: 'pinia',
+      })
+    })
+
     // Add vue2 or vue3 plugin
     addPlugin({
       src: isNuxt2()
