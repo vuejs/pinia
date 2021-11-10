@@ -1,3 +1,9 @@
+## [0.1.4](https://github.com/posva/pinia/compare/@pinia/nuxt@0.1.3...@pinia/nuxt@0.1.4) (2021-11-10)
+
+### Bug Fixes
+
+- workaround prod build bug ([e1ebadb](https://github.com/posva/pinia/commit/e1ebadb4892608b02d370f18296a6bae256acd05))
+
 ## [0.1.3](https://github.com/posva/pinia/compare/@pinia/nuxt@0.1.2...@pinia/nuxt@0.1.3) (2021-11-10)
 
 ### Bug Fixes
