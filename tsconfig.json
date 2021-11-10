@@ -3,7 +3,7 @@
     "packages/pinia/src/global.d.ts",
     "packages/*/src/**/*.ts",
     "packages/*/__tests__/**/*.ts"
-  ],
+, "packages/nuxt/src/runtime/plugin.vue3.mjs", "packages/nuxt/src/runtime/plugin.vue2.mjs"  ],
   "exclude": ["packages/test-vue-2", "packages/pinia/__tests__/test-utils.ts"],
   "compilerOptions": {
     "baseUrl": ".",

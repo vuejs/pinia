@@ -35,26 +35,17 @@
   "types": "./dist/module.d.ts",
   "files": [
     "module.cjs",
-    "dist/*.js",
-    "dist/*.mjs",
-    "dist/*.d.ts"
+    "dist"
   ],
   "scripts": {
     "build": "unbuild",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/nuxt -r 1"
   },
   "dependencies": {
-    "vue-demi": "*"
+    "@nuxt/kit": "latest",
+    "pinia": "^2.0.3"
   },
   "devDependencies": {
-    "@nuxt/types": "^2.15.8",
-    "pinia": "^2.0.0-0",
     "unbuild": "^0.5.11"
-  },
-  "peerDependencies": {
-    "pinia": "~2.0.3"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

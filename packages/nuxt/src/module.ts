@@ -1,11 +1,8 @@
-/**
- * @module @pinia/nuxt
- */
-// import { isVue2 } from 'vue-demi'
+import { name, version } from '../package.json'
+import { defineNuxtModule, addPlugin, isNuxt2 } from '@nuxt/kit'
 import type { Pinia } from 'pinia'
-import type { Context, Module } from '@nuxt/types'
 
-export interface PiniaNuxtOptions {
+export interface PiniaModuleOptions {
   /**
    * Pinia disables Vuex by default, set this option to `false` to avoid it and
    * use Pinia alongside Vuex.
@@ -15,56 +12,38 @@ export interface PiniaNuxtOptions {
   disableVuex?: boolean
 }
 
-const DEFAULTS = {
-  disableVuex: true,
-}
+export default defineNuxtModule({
+  name,
+  version,
+  configKey: 'pinia',
+  defaults: {
+    disableVuex: true,
+  } as PiniaModuleOptions,
+  setup(options, nuxt) {
+    // Disable default Vuex store for Nuxt 2 (options.features only exists in Nuxt v2.10+)
+    if (isNuxt2() && nuxt.options.features && options.disableVuex) {
+      nuxt.options.features.store = false
+    }
 
-export default <Module>function (_options) {
-  const nuxt = this.nuxt
-  const options = {
-    ...DEFAULTS,
-    ...(_options || {}),
-    ...(nuxt.options.pinia || {}),
-  }
+    // Resolve pinia
+    // TODO: Use kit to use proper search path
+    nuxt.options.alias.pinia = require.resolve('pinia/dist/pinia.mjs')
 
-  // Disable default Vuex store (options.features only exists in Nuxt v2.10+)
-  if (nuxt.options.features && options.disableVuex) {
-    nuxt.options.features.store = false
-  }
+    // Add vue2 or vue3 plugin
+    addPlugin({
+      src: isNuxt2()
+        ? require.resolve('./runtime/plugin.vue2.mjs')
+        : require.resolve('./runtime/plugin.vue3.mjs'),
+    })
+  },
+})
 
-  // make sure we use the mjs for pinia so node doesn't complain about using a module js with an extension that is js
-  // but doesn't have the type: module in its packages.json file
-  nuxt.options.alias.pinia = 'pinia/dist/pinia.mjs'
-
-  this.addPlugin({ src: require.resolve('./plugin.mjs') })
-
-  // transpile pinia for nuxt 2 and nuxt bridge
-  // if (isVue2 && !nuxt.options.build.transpile.includes('pinia')) {
-  //   nuxt.options.build.transpile.push('pinia')
-  // }
-}
-
-declare module '@nuxt/types' {
-  export interface Context {
-    /**
-     * Pinia instance attached to the app.
-     *
-     * @deprecated: use context.$pinia instead
-     */
-    pinia: Pinia
-
-    /**
-     * Pinia instance attached to the app.
-     */
+declare module '@nuxt/kit' {
+  export interface NuxtApp {
+    /** Pinia instance attached to the app.*/
     $pinia: Pinia
   }
-}
-
-declare module 'pinia' {
-  export interface PiniaCustomProperties {
-    /**
-     * Nuxt context.
-     */
-    $nuxt: Context
+  export interface NuxtConfig {
+    pinia: PiniaModuleOptions
   }
 }
