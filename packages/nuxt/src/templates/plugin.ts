@@ -2,14 +2,14 @@ import { install, isVue2, Vue2 } from 'vue-demi'
 import { createPinia, setActivePinia, PiniaVuePlugin } from 'pinia'
 import type { Plugin } from '@nuxt/types'
 
-const PiniaNuxtPlugin: Plugin = (context, inject) => {
-  if (isVue2) {
-    install()
-    // TODO: workaround that should probably be removed in the future
-    const Vue = 'default' in Vue2 ? Vue2.default : Vue2
-    Vue.use(PiniaVuePlugin)
-  }
+if (isVue2) {
+  install()
+  // TODO: workaround that should probably be removed in the future
+  const Vue = 'default' in Vue2 ? Vue2.default : Vue2
+  Vue.use(PiniaVuePlugin)
+}
 
+const PiniaNuxtPlugin: Plugin = (context, inject) => {
   const pinia = createPinia()
   if (isVue2) {
     // simulate new Vue({ pinia })
