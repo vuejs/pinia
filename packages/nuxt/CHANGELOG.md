@@ -1,3 +1,9 @@
+## [0.1.5](https://github.com/posva/pinia/compare/@pinia/nuxt@0.1.4...@pinia/nuxt@0.1.5) (2021-11-11)
+
+### Performance Improvements
+
+- install plugins only once ([1b8e363](https://github.com/posva/pinia/commit/1b8e36355d52eb0934364bf622846e3bceced590))
+
 ## [0.1.4](https://github.com/posva/pinia/compare/@pinia/nuxt@0.1.3...@pinia/nuxt@0.1.4) (2021-11-10)
 
 ### Bug Fixes
