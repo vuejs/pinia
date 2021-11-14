@@ -61,7 +61,7 @@ If you were writing plugins, using TypeScript, and extending the type `DefineSto
  }
 ```
 
-## `PiniaStorePLugin` was renamed
+## `PiniaStorePlugin` was renamed
 
 The type `PiniaStorePlugin` was renamed to `PiniaPlugin`.
 
