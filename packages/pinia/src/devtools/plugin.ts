@@ -125,7 +125,20 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
               type: getStoreType(store.$id),
               key: 'state',
               editable: true,
-              value: store.$state,
+              value: store._isOptionsAPI
+                ? {
+                    _custom: {
+                      value: store.$state,
+                      actions: [
+                        {
+                          icon: 'restore',
+                          tooltip: 'Reset the state of this store',
+                          action: () => store.$reset(),
+                        },
+                      ],
+                    },
+                  }
+                : store.$state,
             })
 
             if (store._getters && store._getters.length) {
@@ -434,7 +447,9 @@ let runningActionId = 0
 let activeAction: number | undefined
 
 /**
- * Patches a store to enable action grouping in devtools by wrapping the store with a Proxy that is passed as the context of all actions, allowing us to set `runningAction` on each access and effectively associating any state mutation to the action.
+ * Patches a store to enable action grouping in devtools by wrapping the store with a Proxy that is passed as the
+ * context of all actions, allowing us to set `runningAction` on each access and effectively associating any state
+ * mutation to the action.
  *
  * @param store - store to patch
  * @param actionNames - list of actionst to patch
@@ -482,6 +497,11 @@ export function devtoolsPlugin<
   // HMR module
   if (store.$id.startsWith('__hot:')) {
     return
+  }
+
+  // detect option api vs setup api
+  if (options.state) {
+    store._isOptionsAPI = true
   }
 
   // only wrap actions in option-defined stores as this technique relies on
