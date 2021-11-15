@@ -270,6 +270,13 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
       homepage: 'https://pinia.esm.dev',
       componentStateTypes,
       app,
+      settings: {
+        // useEmojis: {
+        //   label: 'Use emojis in messages ⚡️',
+        //   type: 'boolean',
+        //   defaultValue: true,
+        // },
+      },
     },
     (api) => {
       store.$onAction(({ after, onError, name, args }) => {
