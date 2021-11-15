@@ -2,7 +2,7 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 
 const delay = (t: number) => new Promise((r) => setTimeout(r, t))
 
-export const useCounter = defineStore('counter', {
+export const useCounter = defineStore('demo-counter', {
   state: () => ({
     n: 0,
   }),
