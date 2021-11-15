@@ -22,14 +22,14 @@ export const PINIA_ROOT_ID = '_root'
 export function formatStoreForInspectorTree(
   store: StoreGeneric | Pinia
 ): CustomInspectorNode {
-  return '$id' in store
+  return isPinia(store)
     ? {
-        id: store.$id,
-        label: store.$id,
-      }
-    : {
         id: PINIA_ROOT_ID,
         label: PINIA_ROOT_LABEL,
+      }
+    : {
+        id: store.$id,
+        label: store.$id,
       }
 }
 
@@ -37,24 +37,29 @@ export function formatStoreForInspectorState(
   store: StoreGeneric | Pinia
 ): CustomInspectorState {
   if (isPinia(store)) {
+    const storeNames = Array.from(store._s.keys())
+    const storeMap = store._s
     const state: CustomInspectorState = {
-      state: Object.keys(store.state.value).map((storeId) => ({
+      state: storeNames.map((storeId) => ({
         editable: true,
         key: storeId,
         value: store.state.value[storeId],
       })),
+      getters: storeNames
+        .filter((id) => storeMap.get(id)!._getters)
+        .map((id) => {
+          const store = storeMap.get(id)!
+
+          return {
+            editable: false,
+            key: id,
+            value: store._getters!.reduce((getters, key) => {
+              getters[key] = store[key]
+              return getters
+            }, {} as Record<string, any>),
+          }
+        }),
     }
-    // TODO: use this version when possible
-    // Object.keys(store.state.value).forEach((storeId) => {
-    //   const currentState = store.state.value[storeId]
-    //   state[storeId] = Object.keys(currentState).map((key) => ({
-    //     // is not possible to made editable because no way to get the storeId in
-    //     // edit inspector state callback
-    //     editable: false,
-    //     key,
-    //     value: currentState[key],
-    //   }))
-    // })
 
     return state
   }
