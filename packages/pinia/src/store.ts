@@ -13,6 +13,7 @@ import {
   effectScope,
   EffectScope,
   ComputedRef,
+  toRaw,
   toRef,
   toRefs,
   Ref,
@@ -526,6 +527,9 @@ function createSetupStore<
     })
   } else {
     assign(store, setupStore)
+    // allows retrieving reactive objects with `storeToRefs()`. Must be called after assigning to the reactive object.
+    // https://github.com/posva/pinia/issues/799
+    assign(toRaw(store), setupStore)
   }
 
   // use this instead of a computed with setter to be able to create it anywhere

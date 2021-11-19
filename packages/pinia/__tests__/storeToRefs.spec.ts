@@ -45,7 +45,7 @@ describe('storeToRefs', () => {
     expect(d.value).toBe('e')
   })
 
-  it.skip('setup store', () => {
+  it('setup store', () => {
     const store = defineStore('a', () => {
       return {
         a: ref<null | undefined>(null),
@@ -80,8 +80,8 @@ describe('storeToRefs', () => {
     expect(r.value).toEqual({ n: 2 })
     expect(store.r).toEqual({ n: 2 })
     store.r.n++
-    expect(r.value).toEqual({ n: 2 })
-    expect(store.r).toEqual({ n: 2 })
+    expect(r.value).toEqual({ n: 3 })
+    expect(store.r).toEqual({ n: 3 })
   })
 
   it('empty getters', () => {
