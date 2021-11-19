@@ -1,3 +1,9 @@
+## [0.0.6](https://github.com/posva/pinia/compare/@pinia/testing@0.0.5...@pinia/testing@0.0.6) (2021-11-19)
+
+### Bug Fixes
+
+- **testing:** typo when detecting jest existence ([#811](https://github.com/posva/pinia/issues/811)) ([c1fd013](https://github.com/posva/pinia/commit/c1fd01350b12b09ce49f923ebc9fee992c2408fd))
+
 ## [0.0.5](https://github.com/posva/pinia/compare/@pinia/testing@0.0.4...@pinia/testing@0.0.5) (2021-11-03)
 
 Nothing new.

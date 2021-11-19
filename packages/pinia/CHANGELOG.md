@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/posva/pinia/compare/pinia@2.0.3...pinia@2.0.4) (2021-11-19)
+
+### Features
+
+- **devtools:** allow resetting directly from devtools ([44fa896](https://github.com/posva/pinia/commit/44fa896213e855bb611e30f25b9cd7ffe4a1643e))
+- **devtools:** display all getters in pinia root ([ce8f1e5](https://github.com/posva/pinia/commit/ce8f1e5b87fa21c09b044be965e34d48b50a129b))
+
 ## [2.0.3](https://github.com/posva/pinia/compare/pinia@2.0.2...pinia@2.0.3) (2021-11-10)
 
 - Updated peer deps for composition api and vue devtools
