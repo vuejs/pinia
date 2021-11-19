@@ -1,4 +1,4 @@
-import { computed, ref, ToRefs } from 'vue'
+import { computed, reactive, ref, ToRefs } from 'vue'
 import { createPinia, defineStore, setActivePinia, storeToRefs } from '../src'
 
 describe('storeToRefs', () => {
@@ -43,6 +43,45 @@ describe('storeToRefs', () => {
 
     d.value = 'e'
     expect(d.value).toBe('e')
+  })
+
+  it.skip('setup store', () => {
+    const store = defineStore('a', () => {
+      return {
+        a: ref<null | undefined>(null),
+        b: ref(false),
+        c: ref(1),
+        d: ref('d'),
+        r: reactive({ n: 1 }),
+      }
+    })()
+
+    const { a, b, c, d, r } = storeToRefs(store)
+
+    expect(a.value).toBe(null)
+    expect(b.value).toBe(false)
+    expect(c.value).toBe(1)
+    expect(d.value).toBe('d')
+    expect(r.value).toEqual({ n: 1 })
+
+    a.value = undefined
+    expect(a.value).toBe(undefined)
+
+    b.value = true
+    expect(b.value).toBe(true)
+
+    c.value = 2
+    expect(c.value).toBe(2)
+
+    d.value = 'e'
+    expect(d.value).toBe('e')
+
+    r.value.n++
+    expect(r.value).toEqual({ n: 2 })
+    expect(store.r).toEqual({ n: 2 })
+    store.r.n++
+    expect(r.value).toEqual({ n: 2 })
+    expect(store.r).toEqual({ n: 2 })
   })
 
   it('empty getters', () => {
