@@ -217,6 +217,10 @@ module.exports = {
           link: '/cookbook/',
           children: [
             {
+              text: 'Migration from Vuex',
+              link: '/cookbook/migration-vuex.html',
+            },
+            {
               text: 'Hot Module Replacement',
               link: '/cookbook/hot-module-replacement.html',
             },
@@ -235,10 +239,6 @@ module.exports = {
             {
               text: 'Migration from v0/v1 to v2',
               link: '/cookbook/migration-v1-v2.html',
-            },
-            {
-              text: 'Migration from Vuex',
-              link: '/cookbook/migration-vuex.html',
             },
           ],
         },
