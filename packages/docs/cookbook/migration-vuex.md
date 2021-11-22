@@ -44,7 +44,7 @@ For large projects you may wish to do this conversion module by module rather th
 
 ## Converting a Single Module
 
-Here is a complete example of the before and after of converting a Vuex module to a Pinia store, see below for a step-by-step guide:
+Here is a complete example of the before and after of converting a Vuex module to a Pinia store, see below for a step-by-step guide. The Pinia example uses an option store as the structure is most similar to Vuex:
 
 ```ts
 // Vuex module in the 'auth/user' namespace
@@ -68,20 +68,22 @@ const storeModule: Module<State, RootState> = {
   getters: {
     firstName: (state) => state.firstName,
     fullName: (state) => `${state.firstName} ${state.lastName}`,
-    loggedIn: (state) => !!state.userId,
+    loggedIn: (state) => state.userId !== null,
     // combine with some state from other modules
     fullUserDetails: (state, getters, rootState, rootGetters) => {
       return {
         ...state,
         fullName: getters.fullName,
+        // read the state from another module named `auth`
         ...rootState.auth.preferences,
+        // read a getter from a namespaced module called `email` nested under `auth`
         ...rootGetters['auth/email'].details
       }
     }
   },
   actions: {
     async loadUser ({ state, commit }, id: number) {
-      if (state.userId) throw new Error('Already logged in')
+      if (state.userId !== null) throw new Error('Already logged in')
       const res = await api.user.load(id)
       commit('updateUser', res)
     }
@@ -126,9 +128,9 @@ export const useAuthUserStore = defineStore('auth/user', {
   getters: {
     // firstName getter removed, no longer needed
     fullName: (state) => `${state.firstName} ${state.lastName}`,
-    loggedIn: (state) => !!state.userId,
+    loggedIn: (state) => state.userId !== null,
     // must define return type because of using `this`
-    fullUserDetails: (state): FullUserDetails => {
+    fullUserDetails (state): FullUserDetails {
       // import from other stores
       const authPreferencesStore = useAuthPreferencesStore()
       const authEmailStore = useAuthEmailStore()
@@ -152,7 +154,7 @@ export const useAuthUserStore = defineStore('auth/user', {
   actions: {
     // no context as first argument, use `this` instead
     async loadUser (id: number) {
-      if (this.userId) throw new Error('Already logged in')
+      if (this.userId !== null) throw new Error('Already logged in')
       const res = await api.user.load(id)
       this.updateUser(res)
     },
@@ -176,7 +178,7 @@ Let's break the above down into steps:
 2. Convert `state` to a function if it was not one already
 3. Convert `getters`
     1. Remove any getters that return state under the same name (eg. `firstName: (state) => state.firstName`), these are not necessary as you can access any state directly from the store instance
-    2. If you need to access other getters, they are on `this` instead of using the second argument. Note you will need to specify a return type if you do this because of TS limitations, see [here](../core-concepts/getters.md#accessing-other-getters) for more details
+    2. If you need to access other getters, they are on `this` instead of using the second argument. Remember that if you are using `this` then you will have to use a regular function instead of an arrow function. Also note that you will need to specify a return type because of TS limitations, see [here](../core-concepts/getters.md#accessing-other-getters) for more details
     3. If using `rootState` or `rootGetters` arguments, replace them by importing the other store directly, or if they still exist in Vuex then access them directly from Vuex
 4. Convert `actions`
     1. Remove the first `context` argument from each action. Everything should be accessible from `this` instead
@@ -184,7 +186,7 @@ Let's break the above down into steps:
 5. Convert `mutations`
     1. Mutations do not exist any more. These can be converted to `actions` instead, or you can just assign directly to the store within your components (eg. `userStore.firstName = 'First'`)
     2. If converting to actions, remove the first `state` argument and replace any assignments with `this` instead
-    3. A common mutation is to reset the state back to its initial state. This is built in functionality with the store's `$reset` method
+    3. A common mutation is to reset the state back to its initial state. This is built in functionality with the store's `$reset` method. Note that this functionality only exists for option stores.
 
 As you can see most of your code can be reused. Type safety should also help you identify what needs to be changed if anything is missed.
 
