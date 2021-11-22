@@ -242,7 +242,7 @@ export default defineComponent({
 
 ## Usage Outside Components
 
-Updating usage outside of components should be simple as long as you're careful to _not use a store outside of functions_. Here is an example of using the store in a `vuex-router` hook:
+Updating usage outside of components should be simple as long as you're careful to _not use a store outside of functions_. Here is an example of using the store in a Vue Router navigation guard:
 
 ```ts
 // Vuex
@@ -274,7 +274,7 @@ In the case your Vuex store using some of the more advanced features it offers, 
 
 ### Dynamic Modules
 
-There is no need to dynamically register modules in Pinia. Stores are dynamic by default and are only registered when they are needed. If a store is never used, it will never be "registered".
+There is no need to dynamically register modules in Pinia. Stores are dynamic by design and are only registered when they are needed. If a store is never used, it will never be "registered".
 
 ### Hot Module Replacement
 
