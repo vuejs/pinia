@@ -209,6 +209,11 @@ export default defineComponent({
 
     const firstName = computed(() => store.state.auth.user.firstName)
     const fullName = computed(() => store.getters['auth/user/firstName'])
+
+    return {
+      firstName,
+      fullName
+    }
   }
 })
 ```
@@ -224,6 +229,13 @@ export default defineComponent({
 
     const firstName = computed(() => authUserStore.firstName)
     const fullName = computed(() => authUserStore.fullName)
+
+    return {
+      // you can also access the whole store in your component by returning it
+      authUserStore,
+      firstName,
+      fullName
+    }
   }
 })
 ```
