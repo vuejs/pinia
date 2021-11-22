@@ -217,7 +217,7 @@ module.exports = {
           link: '/cookbook/',
           children: [
             {
-              text: 'Migration from Vuex',
+              text: 'Migration from Vuex ≤4',
               link: '/cookbook/migration-vuex.html',
             },
             {
