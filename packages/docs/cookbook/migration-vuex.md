@@ -14,26 +14,26 @@ The easiest way to transition that concept to be used with Pinia is that each mo
 
 How you choose to restructure your Vuex modules into Pinia stores is entirely up to you, but here is one suggestion:
 
-```sh
+```bash
 # Vuex example (assuming namespaced modules)
-src/
-├─ store/
-│  ├─ index.js          # Initializes Vuex, imports modules
-│  ├─ modules/
-│  │  ├─ module1.js     # 'module1' namespace
-│  │  ├─ nested/
-│  │  │  ├─ index.js    # 'nested' namespace, imports module2 & module3
-│  │  │  ├─ module2.js  # 'nested/module2' namespace
-│  │  │  ├─ module3.js  # 'nested/module3' namespace
+src
+└── store
+    ├── index.js           # Initializes Vuex, imports modules
+    └── modules
+        ├── module1.js     # 'module1' namespace
+        └── nested
+            ├── index.js   # 'nested' namespace, imports module2 & module3
+            ├── module2.js # 'nested/module2' namespace
+            └── module3.js # 'nested/module3' namespace
 
 # Pinia equivalent, note ids match previous namespaces
-src/
-├─ stores/
-│  ├─ index.js          # Initializes Pinia, does not import stores
-│  ├─ module1.js        # 'module1' id
-│  ├─ nested.js         # 'nested' id
-│  ├─ nested-module2.js # 'nested/module2' id
-│  ├─ nested-module3.js # 'nested/module3' id
+src
+└── stores
+    ├── index.js          # (Optional) Initializes Pinia, does not import stores
+    ├── module1.js        # 'module1' id
+    ├── nested-module2.js # 'nested/module3' id
+    ├── nested-module3.js # 'nested/module2' id
+    └── nested.js         # 'nested' id
 ```
 
 This creates a flat structure for stores but also preserves the previous namespacing with equivalent `id`s. If you had some state/getters/actions/mutations in the root of the store (in the `store/index.js` file of Vuex) you may wish to create another store called something like `root` which holds all that information.
