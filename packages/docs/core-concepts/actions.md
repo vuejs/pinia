@@ -27,7 +27,7 @@ const api = mande('/api/users')
 
 export const useUsers = defineStore('users', {
   state: () => ({
-    data: userData,
+    userData: null,
     // ...
   }),
 
