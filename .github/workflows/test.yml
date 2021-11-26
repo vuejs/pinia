@@ -5,6 +5,10 @@ on:
     paths-ignore:
       - 'packages/docs/**'
       - 'packages/playground/**'
+  pull_request:
+    paths-ignore:
+      - 'packages/docs/**'
+      - 'packages/playground/**'
 
 jobs:
   build:
