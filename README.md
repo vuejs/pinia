@@ -174,6 +174,9 @@ export const useMainStore = defineStore('main', {
       // `this` is the store instance
       this.counter = 0
     },
+    increment() {
+      this.counter++
+    },
   },
 })
 ```
