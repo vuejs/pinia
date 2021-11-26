@@ -93,12 +93,13 @@ export function createTestingPinia({
 
   setActivePinia(pinia)
 
-  return Object.assign(
-    {
-      get app(): App {
-        return (this as TestingPinia)._a
-      },
+  Object.defineProperty(pinia, 'app', {
+    configurable: true,
+    enumerable: true,
+    get(): App {
+      return this._a
     },
-    pinia
-  )
+  })
+
+  return pinia as TestingPinia
 }
