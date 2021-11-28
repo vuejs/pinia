@@ -88,7 +88,7 @@ export function skipHydrate<T = any>(obj: T): T {
 
 function shouldHydrate(obj: any) {
   return isVue2
-    ? /* istanbul ignore next */ skipHydrateMap.has(obj)
+    ? /* istanbul ignore next */ !skipHydrateMap.has(obj)
     : !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol)
 }
 
