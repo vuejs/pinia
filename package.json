@@ -28,7 +28,7 @@
     "@types/jest": "^27.0.3",
     "@types/lodash.kebabcase": "^4.1.6",
     "@types/node": "^16.11.10",
-    "chalk": "^4.1.2",
+    "chalk": "^5.0.0",
     "conventional-changelog-cli": "^2.1.1",
     "enquirer": "^2.3.6",
     "execa": "^5.1.1",
