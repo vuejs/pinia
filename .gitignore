@@ -14,3 +14,5 @@ packages/*/LICENSE
 explorations
 docs-api
 packages/docs/api
+.yalc
+yalc.lock
