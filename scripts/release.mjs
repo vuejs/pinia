@@ -98,14 +98,27 @@ async function main() {
     console.log('\n' + chalk.bold.blue('This is a dry run') + '\n')
   }
 
+  // NOTE: I'm unsure if this would mess up the changelog
+  // const { pickedPackages } = await prompt({
+  //   type: 'multiselect',
+  //   name: 'pickedPackages',
+  //   messages: 'What packages do you want to release?',
+  //   choices: changedPackages.map((pkg) => pkg.name),
+  // })
+
+  const packagesToRelease = changedPackages
+  // const packagesToRelease = changedPackages.filter((pkg) =>
+  //   pickedPackages.includes(pkg.name)
+  // )
+
   step(
-    `Ready to release ${changedPackages
+    `Ready to release ${packagesToRelease
       .map(({ name }) => chalk.bold.white(name))
       .join(', ')}`
   )
 
   const pkgWithVersions = await pSeries(
-    changedPackages.map(({ name, path, pkg }) => async () => {
+    packagesToRelease.map(({ name, path, pkg }) => async () => {
       let { version } = pkg
 
       const prerelease = semver.prerelease(version)
