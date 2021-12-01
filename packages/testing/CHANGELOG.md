@@ -1,3 +1,9 @@
+## [0.0.7](https://github.com/posva/pinia/compare/@pinia/testing@0.0.6...@pinia/testing@0.0.7) (2021-12-01)
+
+### Bug Fixes
+
+- **testing:** preserve non-enumerable properties of pinia instance in createTestingPinia ([#841](https://github.com/posva/pinia/issues/841)) ([b130d6f](https://github.com/posva/pinia/commit/b130d6f648239293457f347b42a7f1b668748d30))
+
 ## [0.0.6](https://github.com/posva/pinia/compare/@pinia/testing@0.0.5...@pinia/testing@0.0.6) (2021-11-19)
 
 ### Bug Fixes

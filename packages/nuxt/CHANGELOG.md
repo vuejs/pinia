@@ -1,3 +1,7 @@
+## [0.1.6](https://github.com/posva/pinia/compare/@pinia/nuxt@0.1.5...@pinia/nuxt@0.1.6) (2021-12-01)
+
+Upgrade dependencies
+
 ## [0.1.5](https://github.com/posva/pinia/compare/@pinia/nuxt@0.1.4...@pinia/nuxt@0.1.5) (2021-11-11)
 
 ### Performance Improvements

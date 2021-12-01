@@ -1,3 +1,10 @@
+## [2.0.5](https://github.com/posva/pinia/compare/pinia@2.0.4...pinia@2.0.5) (2021-12-01)
+
+### Bug Fixes
+
+- accept reactive with storeToRefs ([3a2a334](https://github.com/posva/pinia/commit/3a2a334110dadb94cc1dddc10bd7673aa79b358f)), closes [#799](https://github.com/posva/pinia/issues/799)
+- shouldHydrate if not in skipHydrateMap ([#846](https://github.com/posva/pinia/issues/846)) ([bcc44bc](https://github.com/posva/pinia/commit/bcc44bcedf2f127cf0218db4a89bb16b028a4ffc))
+
 ## [2.0.4](https://github.com/posva/pinia/compare/pinia@2.0.3...pinia@2.0.4) (2021-11-19)
 
 ### Features
