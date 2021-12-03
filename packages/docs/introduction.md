@@ -113,7 +113,7 @@ Pinia (pronounced like `/peenya/` in English) is the closest word to _piña_ (_p
 
 ## A more realistic example
 
-Here is a more complete example of the API you will be using with Pinia **with types even in JavaScript**. For some people this might be enough to get started without reading further but we still recommend checking the rest of the documentation or even skipping this example and coming back once you have read about all of the _Core Concepts_.
+Here is a more complete example of the API you will be using with Pinia **with types even in JavaScript**. For some people, this might be enough to get started without reading further but we still recommend checking the rest of the documentation or even skipping this example and coming back once you have read about all of the _Core Concepts_.
 
 ```js
 import { defineStore } from 'pinia'
