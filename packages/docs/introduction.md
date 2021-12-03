@@ -165,7 +165,7 @@ Pinia tries to stay as close as Vuex's philosophy as possible. It was designed t
 ### RFCs
 
 While Vuex goes through RFC to gather as much feedback from the community as possible, Pinia doesn't. I test out ideas based on my experience developing applications, reading other people's code, working for clients who use Pinia, and answering questions on Discord.
-This allows me to provide a solution that works and it adapted to a variety of cases and application sizes. I publish often, and make the library evolve while keeping its core API the same.
+This allows me to provide a solution that works and is adapted to a variety of cases and application sizes. I publish often and make the library evolve while keeping its core API the same.
 
 ### Comparison with Vuex 3.x/4.x
 
