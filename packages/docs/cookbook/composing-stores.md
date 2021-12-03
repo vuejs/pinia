@@ -42,7 +42,7 @@ const useB = defineStore('b', () => {
 
 ## Nested stores
 
-Note that if one store uses an other store, **there is no need to create a new store in a separate file**, you can directly import it. Think of it as nesting.
+Note that if one store uses another store, **there is no need to create a new store in a separate file**, you can directly import it. Think of it as nesting.
 
 You can call `useOtherStore()` at the top of any getter or action:
 
