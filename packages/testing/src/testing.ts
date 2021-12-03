@@ -1,7 +1,19 @@
 import { App, createApp } from 'vue-demi'
-import { Pinia, PiniaPlugin, setActivePinia, createPinia } from 'pinia'
+import {
+  Pinia,
+  PiniaPlugin,
+  setActivePinia,
+  createPinia,
+  StateTree,
+} from 'pinia'
 
 export interface TestingOptions {
+  /**
+   * Allows defining a partial initial state of all your stores. This state gets applied after a store is created,
+   * allowing you to only set a few properties that are required in your test.
+   */
+  initialState?: StateTree
+
   /**
    * Plugins to be installed before the testing plugin. Add any plugins used in
    * your application that will be used while testing.
@@ -60,6 +72,7 @@ export interface TestingPinia extends Pinia {
  * @returns a augmented pinia instance
  */
 export function createTestingPinia({
+  initialState = {},
   plugins = [],
   stubActions = true,
   stubPatch = false,
@@ -67,6 +80,12 @@ export function createTestingPinia({
   createSpy: _createSpy,
 }: TestingOptions = {}): TestingPinia {
   const pinia = createPinia()
+
+  pinia.use(({ store }) => {
+    if (initialState[store.$id]) {
+      store.$patch(initialState[store.$id])
+    }
+  })
 
   plugins.forEach((plugin) => pinia.use(plugin))
 
