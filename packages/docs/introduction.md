@@ -160,7 +160,7 @@ export const todos = defineStore('todos', {
 
 ## Comparison with Vuex
 
-Pinia tries to stay as close as Vuex's philosophy as possible. It was designed to test out a proposal for the next iteration of Vuex and it was a success as we currently have an open RFC for Vuex 5 with [an API very similar](https://github.com/vuejs/rfcs/discussions/270) to the one used by Pinia. Note that I (Eduardo), the author of Pinia, am part of the Vue.js Core Team and actively participate in the design of APIs like the Router and Vuex. My personal intention with this project is to redesign the experience of using a global Store while keeping the approachable philosophy of Vue. I keep the API of Pinia as close as Vuex as it keeps moving forward to make it easy for people to migrate to Vuex or to even fusion both projects (under Vuex) in the future.
+Pinia tries to stay as close to Vuex's philosophy as possible. It was designed to test out a proposal for the next iteration of Vuex and it was a success as we currently have an open RFC for Vuex 5 with [an API very similar](https://github.com/vuejs/rfcs/discussions/270) to the one used by Pinia. Note that I (Eduardo), the author of Pinia, am part of the Vue.js Core Team and actively participate in the design of APIs like the Router and Vuex. My personal intention with this project is to redesign the experience of using a global Store while keeping the approachable philosophy of Vue. I keep the API of Pinia as close as Vuex as it keeps moving forward to make it easy for people to migrate to Vuex or to even fusion both projects (under Vuex) in the future.
 
 ### RFCs
 
