@@ -1,3 +1,9 @@
+## [0.0.8](https://github.com/posva/pinia/compare/@pinia/testing@0.0.7...@pinia/testing@0.0.8) (2021-12-04)
+
+### Features
+
+- can set an initialState for tests ([028e0ca](https://github.com/posva/pinia/commit/028e0cae2f46744f90c98914cfca13daa7ce36c1))
+
 ## [0.0.7](https://github.com/posva/pinia/compare/@pinia/testing@0.0.6...@pinia/testing@0.0.7) (2021-12-01)
 
 ### Bug Fixes

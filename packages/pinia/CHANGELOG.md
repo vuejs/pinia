@@ -1,3 +1,9 @@
+## [2.0.6](https://github.com/posva/pinia/compare/pinia@2.0.5...pinia@2.0.6) (2021-12-04)
+
+### Bug Fixes
+
+- downgrade peerdep requirement for ts ([100a60d](https://github.com/posva/pinia/commit/100a60d648e246cbc67ffe63105e1a5b3bcb9b44)), closes [#874](https://github.com/posva/pinia/issues/874)
+
 ## [2.0.5](https://github.com/posva/pinia/compare/pinia@2.0.4...pinia@2.0.5) (2021-12-01)
 
 ### Bug Fixes
