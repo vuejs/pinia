@@ -4,6 +4,7 @@ import {
   getCurrentInstance,
   inject,
   InjectionKey,
+  provide,
   Ref,
 } from 'vue-demi'
 import {
@@ -96,6 +97,13 @@ export interface Pinia {
 export const piniaSymbol = (
   __DEV__ ? Symbol('pinia') : /* istanbul ignore next */ Symbol()
 ) as InjectionKey<Pinia>
+
+/**
+ * Define which pinia to use in all child components.
+ */
+export function providePinia(pinia: Pinia) {
+  provide(piniaSymbol, pinia)
+}
 
 /**
  * Context argument passed to Pinia plugins.
