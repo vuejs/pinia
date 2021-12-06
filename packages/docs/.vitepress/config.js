@@ -131,7 +131,8 @@ module.exports = {
     editLinkText: 'Suggest changes to this page',
 
     algolia: {
-      apiKey: 'd526df143dcebc3c6de61189345348d1',
+      appId: '69Y3N7LHI2',
+      apiKey: '45441f4b65a2f80329fd45c7cb371fea',
       indexName: 'pinia',
     },
 
