@@ -49,7 +49,7 @@
   "devDependencies": {
     "@nuxt/types": "^2.15.8",
     "pinia": "^2.0.0-0",
-    "unbuild": "^0.5.13"
+    "unbuild": "^0.6.3"
   },
   "peerDependencies": {
     "pinia": "~2.0.5"
