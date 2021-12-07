@@ -132,7 +132,8 @@ describe('Subscriptions', () => {
       expect(spy1).toHaveBeenCalledTimes(2)
       expect(spy2).toHaveBeenCalledTimes(2)
 
-      await wrapper.unmount()
+      wrapper.unmount()
+      await nextTick()
 
       s1.$patch({ name: 'b' })
       expect(spy1).toHaveBeenCalledTimes(2)

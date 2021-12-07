@@ -91,7 +91,8 @@ describe('Store Lifespan', () => {
     let wrapper = mount(Component, options)
     await nextTick()
 
-    await wrapper.unmount()
+    wrapper.unmount()
+    await nextTick()
 
     expect(inComponentWatch).toHaveBeenCalledTimes(1)
 
@@ -102,7 +103,8 @@ describe('Store Lifespan', () => {
 
     wrapper = mount(Component, options)
     await nextTick()
-    await wrapper.unmount()
+    wrapper.unmount()
+    await nextTick()
 
     expect(inComponentWatch).toHaveBeenCalledTimes(2)
 
@@ -142,7 +144,8 @@ describe('Store Lifespan', () => {
     }
 
     let wrapper = mount(Component, options)
-    await wrapper.unmount()
+    wrapper.unmount()
+    await nextTick()
 
     expect(globalWatch).toHaveBeenCalledTimes(1)
 
@@ -152,7 +155,8 @@ describe('Store Lifespan', () => {
     expect(globalWatch).toHaveBeenCalledTimes(2)
 
     wrapper = mount(Component, options)
-    await wrapper.unmount()
+    wrapper.unmount()
+    await nextTick()
 
     expect(globalWatch).toHaveBeenCalledTimes(3)
 
