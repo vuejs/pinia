@@ -212,7 +212,8 @@ describe('Store', () => {
     expect(spy).toHaveBeenCalledTimes(1)
     expect(wrapper.html()).toBe('n: 1')
 
-    await wrapper.unmount()
+    wrapper.unmount()
+    await nextTick()
     store.n++
     await nextTick()
     expect(spy).toHaveBeenCalledTimes(2)
