@@ -280,7 +280,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
     },
     (api) => {
       store.$onAction(({ after, onError, name, args }) => {
-        const groupId = runningActionId++
+        const groupId = runningActionId.value++
 
         api.addTimelineEvent({
           layerId: MUTATIONS_LAYER_ID,
@@ -450,7 +450,9 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
   )
 }
 
-let runningActionId = 0
+let runningActionId = {
+  value: 0,
+}
 let activeAction: number | undefined
 
 /**
@@ -470,25 +472,25 @@ function patchActionForGrouping(store: StoreGeneric, actionNames: string[]) {
   }, {} as _ActionsTree)
 
   for (const actionName in actions) {
-    store[actionName] = function () {
+    const patchActionWarp = function () {
       // setActivePinia(store._p)
       // the running action id is incremented in a before action hook
       const _actionId = runningActionId
       const trackedStore = new Proxy(store, {
         get(...args) {
-          activeAction = _actionId
+          activeAction = _actionId.value
           return Reflect.get(...args)
         },
         set(...args) {
-          activeAction = _actionId
+          activeAction = _actionId.value
           return Reflect.set(...args)
         },
       })
-      return actions[actionName].apply(
-        trackedStore,
-        arguments as unknown as any[]
-      )
+
+      return () =>
+        actions[actionName].apply(trackedStore, arguments as unknown as any[])
     }
+    store[actionName] = patchActionWarp()
   }
 }
 
