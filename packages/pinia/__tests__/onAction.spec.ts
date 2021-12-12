@@ -10,8 +10,12 @@ describe('Subscriptions', () => {
       id: 'main',
       state: () => ({
         user: 'Eduardo',
+        theme: 'black',
       }),
       actions: {
+        changeTheme(theme: string) {
+          this.theme = theme
+        },
         direct(name: string) {
           this.user = name
         },
@@ -85,35 +89,94 @@ describe('Subscriptions', () => {
     expect(spy).toHaveBeenCalledWith('EDUARDO')
   })
 
-  it('calls after with the resolved value', async () => {
+  it('case1：calls multiple after with the resolved value', async () => {
     const spy = jest.fn()
+    let afterCount = 0
     store.$onAction(({ after }) => {
-      after(spy)
+      after(() => {
+        afterCount++
+        spy()
+      })
+    })
+    store.$onAction(({ after }) => {
+      after(() => {
+        afterCount++
+        spy()
+      })
     })
     await expect(store.asyncUpperName()).resolves.toBe('EDUARDO')
-    expect(spy).toHaveBeenCalledTimes(1)
-    expect(spy).toHaveBeenCalledWith('EDUARDO')
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(afterCount).toBe(2)
   })
 
-  it('calls onError when it throws', () => {
+  it('case2：calls multiple after with the resolved value', async () => {
     const spy = jest.fn()
-    store.$onAction(({ onError }) => {
-      onError(spy)
+    let afterCount = 0
+    store.$onAction(({ after }) => {
+      after(() => {
+        afterCount++
+        spy()
+      })
+      after(() => {
+        afterCount++
+        spy()
+      })
     })
-    expect(() => store.throws('fail')).toThrow()
-    expect(spy).toHaveBeenCalledTimes(1)
-    expect(spy).toHaveBeenCalledWith('fail')
+    await expect(store.asyncUpperName()).resolves.toBe('EDUARDO')
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(afterCount).toBe(2)
   })
 
-  it('calls onError when it rejects', async () => {
-    const spy = jest.fn()
-    expect.assertions(3)
-    store.$onAction(({ onError }) => {
-      onError(spy)
+  it('case3：Parent and child components exist at the same time', async () => {
+    const pinia = createPinia()
+    const spy1 = jest.fn()
+    const spy2 = jest.fn()
+    let s1AfterCount = 0
+    let s2AfterCount = 0
+
+    const wrapper = mount(
+      {
+        setup() {
+          store.$onAction(({ after }) => {
+            after(() => {
+              s1AfterCount++
+              spy1()
+            })
+          })
+        },
+        template: `<p/>`,
+      },
+      { global: { plugins: [pinia] } }
+    )
+
+    store.$onAction(({ after }) => {
+      after(() => {
+        s2AfterCount++
+        spy2()
+      })
     })
-    await expect(store.rejects('fail')).rejects.toBe('fail')
-    expect(spy).toHaveBeenCalledTimes(1)
-    expect(spy).toHaveBeenCalledWith('fail')
+
+    expect(spy1).toHaveBeenCalledTimes(0)
+    expect(spy2).toHaveBeenCalledTimes(0)
+
+    store.changeTheme('white')
+
+    expect(s1AfterCount).toBe(1)
+    expect(s2AfterCount).toBe(1)
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).toHaveBeenCalledTimes(1)
+
+    wrapper.unmount()
+    await nextTick()
+
+    store.changeTheme('pink')
+
+    expect(s1AfterCount).toBe(1)
+    expect(s2AfterCount).toBe(2)
+
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).toHaveBeenCalledTimes(2)
   })
 
   it('listeners are not affected when unsubscribe is called multiple times', () => {

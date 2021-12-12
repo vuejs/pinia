@@ -314,13 +314,17 @@ function createSetupStore<
       setActivePinia(pinia)
       const args = Array.from(arguments)
 
-      let afterCallback: (resolvedReturn: any) => any = noop
+      let afterCallback = new Set<(...arg: any[]) => any>()
+
+      //   let onErrorCallback: (resolvedReturn: Set<Function>) => Set<Function> = new Set([])
       let onErrorCallback: (error: unknown) => unknown = noop
-      function after(callback: typeof afterCallback) {
-        afterCallback = callback
+      function after(callback: (...arg: any[]) => any) {
+        // afterCallback = callback
+        afterCallback.add(callback)
       }
       function onError(callback: typeof onErrorCallback) {
         onErrorCallback = callback
+        // onErrorCallback.add(callback)
       }
 
       // @ts-expect-error
@@ -345,8 +349,10 @@ function createSetupStore<
       if (ret instanceof Promise) {
         return ret
           .then((value) => {
-            const newRet = afterCallback(value)
             // allow the afterCallback to override the return value
+            const newRet = Array.from(afterCallback).forEach((aft) =>
+              aft(value)
+            )
             return newRet === undefined ? value : newRet
           })
           .catch((error) => {
@@ -357,7 +363,7 @@ function createSetupStore<
       }
 
       // allow the afterCallback to override the return value
-      const newRet = afterCallback(ret)
+      const newRet = Array.from(afterCallback).forEach((aft) => aft(ret))
       return newRet === undefined ? ret : newRet
     }
   }
