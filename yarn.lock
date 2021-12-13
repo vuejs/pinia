@@ -2183,11 +2183,6 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@vitejs/plugin-vue@^1.10.2":
-  version "1.10.2"
-  resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-1.10.2.tgz#d718479e2789d8a94b63e00f23f1898ba239253a"
-  integrity sha512-/QJ0Z9qfhAFtKRY+r57ziY4BSbGUTGsPRMpB/Ron3QPwBZM4OZAZHdTa4a8PafCwU5DTatXG8TMDoP8z+oDqJw==
-
 "@vitejs/plugin-vue@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-2.0.0.tgz#5b5879cae44f48874196d018213bf1dbaca8f4ea"
