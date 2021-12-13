@@ -8,16 +8,16 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.10.1",
-    "vite": "^2.6.14"
+    "@vitejs/plugin-vue": "^1.10.2",
+    "vite": "^2.7.1"
   },
   "dependencies": {
-    "@vue/compiler-sfc": "^3.2.23",
-    "@vueuse/core": "^7.1.2",
+    "@vue/compiler-sfc": "^3.2.26",
+    "@vueuse/core": "^7.3.0",
     "mande": "^1.0.0",
     "pinia": "^2.0.0-rc.4",
     "swrv": "^1.0.0-beta.8",
-    "vue": "^3.2.23",
+    "vue": "^3.2.26",
     "vue-promised": "^2.2.0",
     "vue-router": "^4.0.12"
   }
