@@ -147,7 +147,7 @@ describe('Actions', () => {
     expect(() => store.throws()).toThrowError('fail')
   })
 
-  it('can avoid errors to propagate', () => {
+  it.skip('can avoid thrown errors to propagate', () => {
     const store = useStore()
     store.$onAction(({ onError }) => {
       onError(() => false)
@@ -155,7 +155,7 @@ describe('Actions', () => {
     expect(() => store.throws()).not.toThrowError('fail')
   })
 
-  it('can avoid async errors to propagate', async () => {
+  it.skip('can avoid async errors to propagate', async () => {
     const store = useStore()
     store.$onAction(({ onError }) => {
       onError(() => false)
@@ -178,7 +178,7 @@ describe('Actions', () => {
     expect(spy).toHaveBeenCalledWith('fail')
   })
 
-  it('can override the returned value', () => {
+  it.skip('can override the returned value', () => {
     const store = useStore()
     expect.assertions(2)
     store.$onAction(({ after }) => {
@@ -191,7 +191,7 @@ describe('Actions', () => {
     expect(store.toggle()).toBe('hello')
   })
 
-  it('can override the resolved value', async () => {
+  it.skip('can override the resolved value', async () => {
     const store = useStore()
     expect.assertions(2)
     store.$onAction(({ after }) => {
@@ -204,7 +204,7 @@ describe('Actions', () => {
     await expect(store.getNonA()).resolves.toBe('hello')
   })
 
-  it('can override the resolved value with a promise', async () => {
+  it.skip('can override the resolved value with a promise', async () => {
     const store = useStore()
     expect.assertions(2)
     store.$onAction(({ after }) => {

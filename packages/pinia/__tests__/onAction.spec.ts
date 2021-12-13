@@ -66,6 +66,21 @@ describe('Subscriptions', () => {
     expect(spy).not.toHaveBeenCalled()
   })
 
+  it('can register multiple onAction', async () => {
+    const spy1 = jest.fn()
+    const spy2 = jest.fn()
+    store.$onAction(({ after }) => {
+      after(spy1)
+    })
+    store.$onAction(({ after }) => {
+      after(spy2)
+    })
+
+    await expect(store.asyncUpperName()).resolves.toBe('EDUARDO')
+    expect(spy2).toHaveBeenCalledTimes(1)
+    expect(spy1).toHaveBeenCalledTimes(1)
+  })
+
   it('calls after with the returned value', async () => {
     const spy = jest.fn()
     // Cannot destructure because of https://github.com/microsoft/TypeScript/issues/38020

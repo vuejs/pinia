@@ -50,6 +50,8 @@ import { IS_CLIENT } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions } from './subscriptions'
 
+type _ArrayType<AT> = AT extends Array<infer T> ? T : never
+
 function mergeReactiveObjects<T extends StateTree>(
   target: T,
   patchToApply: DeepPartial<T>
@@ -314,13 +316,13 @@ function createSetupStore<
       setActivePinia(pinia)
       const args = Array.from(arguments)
 
-      let afterCallback: (resolvedReturn: any) => any = noop
-      let onErrorCallback: (error: unknown) => unknown = noop
-      function after(callback: typeof afterCallback) {
-        afterCallback = callback
+      const afterCallbackList: Array<(resolvedReturn: any) => any> = []
+      const onErrorCallbackList: Array<(error: unknown) => unknown> = []
+      function after(callback: _ArrayType<typeof afterCallbackList>) {
+        afterCallbackList.push(callback)
       }
-      function onError(callback: typeof onErrorCallback) {
-        onErrorCallback = callback
+      function onError(callback: _ArrayType<typeof onErrorCallbackList>) {
+        onErrorCallbackList.push(callback)
       }
 
       // @ts-expect-error
@@ -337,28 +339,25 @@ function createSetupStore<
         ret = action.apply(this && this.$id === $id ? this : store, args)
         // handle sync errors
       } catch (error) {
-        if (onErrorCallback(error) !== false) {
-          throw error
-        }
+        triggerSubscriptions(onErrorCallbackList, error)
+        throw error
       }
 
       if (ret instanceof Promise) {
         return ret
           .then((value) => {
-            const newRet = afterCallback(value)
-            // allow the afterCallback to override the return value
-            return newRet === undefined ? value : newRet
+            triggerSubscriptions(afterCallbackList, value)
+            return value
           })
           .catch((error) => {
-            if (onErrorCallback(error) !== false) {
-              return Promise.reject(error)
-            }
+            triggerSubscriptions(onErrorCallbackList, error)
+            return Promise.reject(error)
           })
       }
 
       // allow the afterCallback to override the return value
-      const newRet = afterCallback(ret)
-      return newRet === undefined ? ret : newRet
+      triggerSubscriptions(afterCallbackList, ret)
+      return ret
     }
   }
 
