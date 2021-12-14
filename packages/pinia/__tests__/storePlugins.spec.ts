@@ -14,7 +14,7 @@ declare module '../src' {
     double: number
   }
 
-  export interface PiniaCustomStateProperties<S> {
+  export interface PiniaCustomStateProperties {
     // pluginN: 'test' extends Id ? number : never | undefined
     pluginN: number
     shared: number
