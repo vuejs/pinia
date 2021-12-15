@@ -120,8 +120,6 @@ export default {
 
 ## Subscribing to actions
 
-> [Give feedback on `$onAction()`](https://github.com/posva/pinia/issues/240)
-
 It is possible to observe actions and their outcome with `store.$onAction()`. The callback passed to it is executed before the action itself. `after` handle promises and allows you to change the returned value of the action. `onError` allows you to stop the error from propagating. These are useful for tracking errors at runtime, similar to [this tip in the Vue docs](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors).
 
 Here is an example that logs before running actions and after they resolve/reject.

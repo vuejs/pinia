@@ -94,10 +94,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/posva/pinia.git"
+    "url": "git+https://github.com/vuejs/pinia.git"
   },
   "bugs": {
-    "url": "https://github.com/posva/pinia/issues"
+    "url": "https://github.com/vuejs/pinia/issues"
   },
-  "homepage": "https://github.com/posva/pinia#readme"
+  "homepage": "https://github.com/vuejs/pinia#readme"
 }

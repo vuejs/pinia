@@ -95,7 +95,6 @@ describe('Store', () => {
       },
     })
 
-    // https://github.com/posva/pinia/issues/593
     expect(store.nested.foo).toBe('bar')
   })
 

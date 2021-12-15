@@ -527,7 +527,7 @@ function createSetupStore<
   } else {
     assign(store, setupStore)
     // allows retrieving reactive objects with `storeToRefs()`. Must be called after assigning to the reactive object.
-    // https://github.com/posva/pinia/issues/799
+    // Make `storeToRefs()` work with `reactive()` #799
     assign(toRaw(store), setupStore)
   }
 

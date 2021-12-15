@@ -100,7 +100,7 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 expect(store.someAction).toHaveBeenLastCalledWith()
 ```
 
-You can find more examples in [the tests of the testing package](https://github.com/posva/pinia/blob/v2/packages/testing/src/testing.spec.ts).
+You can find more examples in [the tests of the testing package](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts).
 
 ## E2E tests
 

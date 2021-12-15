@@ -11,13 +11,13 @@
     "mock",
     "testing"
   ],
-  "homepage": "https://github.com/posva/pinia/tree/v2/packages/testing#readme",
+  "homepage": "https://github.com/vuejs/pinia/tree/v2/packages/testing#readme",
   "bugs": {
-    "url": "https://github.com/posva/pinia/issues"
+    "url": "https://github.com/vuejs/pinia/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/posva/pinia.git"
+    "url": "git+https://github.com/vuejs/pinia.git"
   },
   "funding": "https://github.com/sponsors/posva",
   "license": "MIT",

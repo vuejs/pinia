@@ -1,10 +1,10 @@
 blank_issues_enabled: false
 contact_links:
   - name: Question
-    url: https://github.com/posva/pinia/discussions/new?category=Q-A
+    url: https://github.com/vuejs/pinia/discussions/new?category=Q-A
     about: Ask a question or discuss about Pinia
   - name: Ideas
-    url: https://github.com/posva/pinia/discussions/new?category=Ideas
+    url: https://github.com/vuejs/pinia/discussions/new?category=Ideas
     about: Start a discussion to improve Pinia
   - name: GitHub Sponsors
     url: https://github.com/sponsors/posva

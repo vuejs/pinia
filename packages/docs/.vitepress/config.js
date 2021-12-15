@@ -123,7 +123,7 @@ module.exports = {
   ],
 
   themeConfig: {
-    repo: 'posva/pinia',
+    repo: 'vuejs/pinia',
     logo: '/logo.svg',
     docsDir: 'packages/docs',
     docsBranch: 'v2',
@@ -152,7 +152,7 @@ module.exports = {
         items: [
           {
             text: 'Discussions',
-            link: 'https://github.com/posva/pinia/discussions',
+            link: 'https://github.com/vuejs/pinia/discussions',
           },
           {
             text: 'Chat',
@@ -164,7 +164,7 @@ module.exports = {
           },
           {
             text: 'Changelog',
-            link: 'https://github.com/posva/pinia/blob/v2/packages/pinia/CHANGELOG.md',
+            link: 'https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md',
           },
         ],
       },
