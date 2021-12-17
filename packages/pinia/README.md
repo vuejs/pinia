@@ -8,7 +8,7 @@
 
 > Intuitive, type safe and flexible Store for Vue
 
-## 👉 [Demo on CodeSandbox](https://y4dfi.csb.app)
+## 👉 [Demo with Vue 3 on StackBlitz](https://stackblitz.com/github/piniajs/example-vue-3-vite)
 
 ## Help me keep working on this project 💚
 

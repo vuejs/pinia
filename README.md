@@ -30,8 +30,6 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
 
 ## 👉 [Demo with Nuxt 3 on StackBlitz](https://stackblitz.com/github/piniajs/example-nuxt-3)
 
-## 👉 [Demo on CodeSandbox](https://y4dfi.csb.app)
-
 ## Help me keep working on this project 💚
 
 - [Become a Sponsor on GitHub](https://github.com/sponsors/posva)
