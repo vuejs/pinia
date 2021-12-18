@@ -6,6 +6,8 @@ Install `pinia` with your favorite package manager:
 yarn add pinia
 # or with npm
 npm install pinia
+# or with pnpm
+pnpm add pinia
 ```
 
 :::tip
