@@ -333,11 +333,11 @@ export interface _StoreWithState<
   /**
    * Group multiple changes into one function. Useful when mutating objects like
    * Sets or arrays and applying an object patch isn't practical, e.g. appending
-   * to an array.
+   * to an array. The function passed to `$patch()` **must be synchronous**.
    *
    * @param stateMutator - function that mutates `state`, cannot be async
    */
-  $patch<F extends (state: UnwrapRef<S>) => void>(
+  $patch<F extends (state: UnwrapRef<S>) => any>(
     // this prevents the user from using `async` which isn't allowed
     stateMutator: ReturnType<F> extends Promise<any> ? never : F
   ): void

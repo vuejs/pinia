@@ -124,7 +124,6 @@ describe('Subscriptions', () => {
       expect(spy2).toHaveBeenCalledTimes(0)
 
       s1.name = 'Edu'
-
       expect(spy1).toHaveBeenCalledTimes(1)
       expect(spy2).toHaveBeenCalledTimes(1)
 
@@ -132,12 +131,26 @@ describe('Subscriptions', () => {
       expect(spy1).toHaveBeenCalledTimes(2)
       expect(spy2).toHaveBeenCalledTimes(2)
 
+      s1.$patch((state) => {
+        state.name = 'other'
+      })
+      expect(spy1).toHaveBeenCalledTimes(3)
+      expect(spy2).toHaveBeenCalledTimes(3)
+
       wrapper.unmount()
       await nextTick()
 
       s1.$patch({ name: 'b' })
-      expect(spy1).toHaveBeenCalledTimes(2)
-      expect(spy2).toHaveBeenCalledTimes(3)
+      expect(spy1).toHaveBeenCalledTimes(3)
+      expect(spy2).toHaveBeenCalledTimes(4)
+      s1.$patch((state) => {
+        state.name = 'c'
+      })
+      expect(spy1).toHaveBeenCalledTimes(3)
+      expect(spy2).toHaveBeenCalledTimes(5)
+      s1.name = 'd'
+      expect(spy1).toHaveBeenCalledTimes(3)
+      expect(spy2).toHaveBeenCalledTimes(6)
     })
   })
 

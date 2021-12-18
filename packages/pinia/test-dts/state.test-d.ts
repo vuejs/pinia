@@ -53,6 +53,11 @@ const useStore = defineStore({
 
 const store = useStore()
 
+store.$patch({ counter: 2 })
+store.$patch((state) => {
+  expectType<number>(state.counter)
+})
+
 expectType<number>(store.$state.counter)
 expectType<number>(store.$state.double)
 
@@ -62,3 +67,15 @@ expectType<number>(store.fromARef)
 
 expectType<{ msg: string }>(store.aShallowRef)
 expectType<{ msg: string }>(store.$state.aShallowRef)
+
+const onlyState = defineStore({
+  id: 'main',
+  state: () => ({
+    counter: 0,
+  }),
+})()
+
+onlyState.$patch({ counter: 2 })
+onlyState.$patch((state) => {
+  expectType<number>(state.counter)
+})

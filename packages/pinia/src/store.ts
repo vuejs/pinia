@@ -48,7 +48,7 @@ import {
 import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
 import { IS_CLIENT } from './env'
 import { patchObject } from './hmr'
-import { addSubscription, triggerSubscriptions } from './subscriptions'
+import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
 
 type _ArrayType<AT> = AT extends Array<infer T> ? T : never
 
@@ -172,8 +172,6 @@ function createOptionsStore<
 
   return store as any
 }
-
-const noop = () => {}
 
 function createSetupStore<
   Id extends string,
@@ -376,10 +374,11 @@ function createSetupStore<
     $patch,
     $reset,
     $subscribe(callback, options = {}) {
-      const _removeSubscription = addSubscription(
+      const removeSubscription = addSubscription(
         subscriptions,
         callback,
-        options.detached
+        options.detached,
+        () => stopWatcher()
       )
       const stopWatcher = scope.run(() =>
         watch(
@@ -399,11 +398,6 @@ function createSetupStore<
           assign({}, $subscribeOptions, options)
         )
       )!
-
-      const removeSubscription = () => {
-        stopWatcher()
-        _removeSubscription()
-      }
 
       return removeSubscription
     },

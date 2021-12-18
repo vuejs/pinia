@@ -1,10 +1,13 @@
 import { getCurrentInstance, onUnmounted } from 'vue-demi'
 import { _Method } from './types'
 
+export const noop = () => {}
+
 export function addSubscription<T extends _Method>(
   subscriptions: T[],
   callback: T,
-  detached?: boolean
+  detached?: boolean,
+  onCleanup: () => void = noop
 ) {
   subscriptions.push(callback)
 
@@ -12,6 +15,7 @@ export function addSubscription<T extends _Method>(
     const idx = subscriptions.indexOf(callback)
     if (idx > -1) {
       subscriptions.splice(idx, 1)
+      onCleanup()
     }
   }
 
