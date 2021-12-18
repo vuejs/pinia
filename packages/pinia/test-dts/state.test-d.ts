@@ -71,11 +71,15 @@ expectType<{ msg: string }>(store.$state.aShallowRef)
 const onlyState = defineStore({
   id: 'main',
   state: () => ({
-    counter: 0,
+    // counter: 0,
+    // TODO: having only name fails...
+    name: 'hey',
+    some: 'hello',
   }),
 })()
 
-onlyState.$patch({ counter: 2 })
+onlyState.$patch({ some: 'other' })
 onlyState.$patch((state) => {
-  expectType<number>(state.counter)
+  expectType<string>(state.some)
+  expectType<string>(state.name)
 })
