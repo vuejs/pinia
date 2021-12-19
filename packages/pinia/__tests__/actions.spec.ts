@@ -147,22 +147,6 @@ describe('Actions', () => {
     expect(() => store.throws()).toThrowError('fail')
   })
 
-  it.skip('can avoid thrown errors to propagate', () => {
-    const store = useStore()
-    store.$onAction(({ onError }) => {
-      onError(() => false)
-    })
-    expect(() => store.throws()).not.toThrowError('fail')
-  })
-
-  it.skip('can avoid async errors to propagate', async () => {
-    const store = useStore()
-    store.$onAction(({ onError }) => {
-      onError(() => false)
-    })
-    await expect(store.rejects()).resolves.toBe(undefined)
-  })
-
   it('throws async errors', async () => {
     const store = useStore()
     expect.assertions(1)
@@ -176,45 +160,6 @@ describe('Actions', () => {
     await expect(store.rejects().catch(spy)).resolves.toBe(undefined)
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('fail')
-  })
-
-  it.skip('can override the returned value', () => {
-    const store = useStore()
-    expect.assertions(2)
-    store.$onAction(({ after }) => {
-      // @ts-expect-error: cannot return a string because no action returns a string
-      after((v) => {
-        expect(v).toBe(false)
-        return 'hello'
-      })
-    })
-    expect(store.toggle()).toBe('hello')
-  })
-
-  it.skip('can override the resolved value', async () => {
-    const store = useStore()
-    expect.assertions(2)
-    store.$onAction(({ after }) => {
-      // @ts-expect-error: cannot return a string because no action returns a string
-      after((v) => {
-        expect(v).toBe(false)
-        return 'hello'
-      })
-    })
-    await expect(store.getNonA()).resolves.toBe('hello')
-  })
-
-  it.skip('can override the resolved value with a promise', async () => {
-    const store = useStore()
-    expect.assertions(2)
-    store.$onAction(({ after }) => {
-      // @ts-expect-error: cannot return a string because no action returns a string
-      after(async (v) => {
-        expect(v).toBe(false)
-        return 'hello'
-      })
-    })
-    await expect(store.getNonA()).resolves.toBe('hello')
   })
 
   it('can destructure actions', () => {
