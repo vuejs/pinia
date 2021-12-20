@@ -1,3 +1,9 @@
+## [2.0.8](https://github.com/vuejs/pinia/compare/pinia@2.0.7...pinia@2.0.8) (2021-12-20)
+
+### Bug Fixes
+
+- **subscribe:** avoid $subscriptions with $patch ([3bfe9e5](https://github.com/vuejs/pinia/commit/3bfe9e51fd0f9b3f939aace53463aa10f2e9c90f)), closes [#908](https://github.com/vuejs/pinia/issues/908)
+
 ## [2.0.7](https://github.com/vuejs/pinia/compare/pinia@2.0.6...pinia@2.0.7) (2021-12-20)
 
 ### Bug Fixes
