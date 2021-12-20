@@ -533,7 +533,6 @@ export function devtoolsPlugin<
   }
 
   addStoreToDevtools(
-    // @ts-expect-error: should be of type App from vue
     app,
     // FIXME: is there a way to allow the assignment from Store<Id, S, G, A> to StoreGeneric?
     store as StoreGeneric

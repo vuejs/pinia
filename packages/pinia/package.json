@@ -76,7 +76,7 @@
     "vue2": "npm:vue@2"
   },
   "dependencies": {
-    "@vue/devtools-api": "^6.0.0-beta.20.1",
+    "@vue/devtools-api": "^6.0.0-beta.21",
     "vue-demi": "*"
   },
   "peerDependencies": {
