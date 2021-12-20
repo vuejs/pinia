@@ -37,6 +37,7 @@ describe('Subscriptions', () => {
     const patch = { user: 'Cleiton' }
     store.$patch(patch)
 
+    expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith(
       expect.objectContaining({
         payload: patch,
@@ -45,6 +46,116 @@ describe('Subscriptions', () => {
       }),
       store.$state
     )
+  })
+  const flushOptions = ['post', 'pre', 'sync'] as const
+
+  flushOptions.forEach((flush) => {
+    it('calls once inside components with flush ' + flush, async () => {
+      const pinia = createPinia()
+      setActivePinia(pinia)
+      const spy1 = jest.fn()
+
+      mount(
+        {
+          setup() {
+            const s1 = useStore()
+            s1.$subscribe(spy1, { flush })
+          },
+          template: `<p/>`,
+        },
+        { global: { plugins: [pinia] } }
+      )
+
+      const s1 = useStore()
+
+      expect(spy1).toHaveBeenCalledTimes(0)
+
+      s1.user = 'Edu'
+      await nextTick()
+      await nextTick()
+      expect(spy1).toHaveBeenCalledTimes(1)
+
+      s1.$patch({ user: 'a' })
+      await nextTick()
+      await nextTick()
+      expect(spy1).toHaveBeenCalledTimes(2)
+
+      s1.$patch((state) => {
+        state.user = 'other'
+      })
+      await nextTick()
+      await nextTick()
+      expect(spy1).toHaveBeenCalledTimes(3)
+    })
+  })
+
+  it('works with multiple different flush', async () => {
+    const spyPre = jest.fn()
+    const spyPost = jest.fn()
+    const spySync = jest.fn()
+
+    const s1 = useStore()
+    s1.$subscribe(spyPre, { flush: 'pre' })
+    s1.$subscribe(spyPost, { flush: 'post' })
+    s1.$subscribe(spySync, { flush: 'sync' })
+
+    expect(spyPre).toHaveBeenCalledTimes(0)
+    expect(spyPost).toHaveBeenCalledTimes(0)
+    expect(spySync).toHaveBeenCalledTimes(0)
+
+    s1.user = 'Edu'
+    expect(spyPre).toHaveBeenCalledTimes(0)
+    expect(spyPost).toHaveBeenCalledTimes(0)
+    expect(spySync).toHaveBeenCalledTimes(1)
+    await nextTick()
+    expect(spyPre).toHaveBeenCalledTimes(1)
+    expect(spyPost).toHaveBeenCalledTimes(1)
+    expect(spySync).toHaveBeenCalledTimes(1)
+
+    s1.$patch({ user: 'a' })
+    // patch still triggers all subscriptions immediately
+    expect(spyPre).toHaveBeenCalledTimes(2)
+    expect(spyPost).toHaveBeenCalledTimes(2)
+    expect(spySync).toHaveBeenCalledTimes(2)
+    await nextTick()
+    expect(spyPre).toHaveBeenCalledTimes(2)
+    expect(spyPost).toHaveBeenCalledTimes(2)
+    expect(spySync).toHaveBeenCalledTimes(2)
+
+    s1.$patch((state) => {
+      state.user = 'other'
+    })
+    expect(spyPre).toHaveBeenCalledTimes(3)
+    expect(spyPost).toHaveBeenCalledTimes(3)
+    expect(spySync).toHaveBeenCalledTimes(3)
+    await nextTick()
+    expect(spyPre).toHaveBeenCalledTimes(3)
+    expect(spyPost).toHaveBeenCalledTimes(3)
+    expect(spySync).toHaveBeenCalledTimes(3)
+  })
+
+  it('works with multiple different flush and multiple state changes', async () => {
+    const spyPre = jest.fn()
+    const spyPost = jest.fn()
+    const spySync = jest.fn()
+
+    const s1 = useStore()
+    s1.$subscribe(spyPre, { flush: 'pre' })
+    s1.$subscribe(spyPost, { flush: 'post' })
+    s1.$subscribe(spySync, { flush: 'sync' })
+
+    s1.user = 'Edu'
+    expect(spyPre).toHaveBeenCalledTimes(0)
+    expect(spyPost).toHaveBeenCalledTimes(0)
+    expect(spySync).toHaveBeenCalledTimes(1)
+    s1.$patch({ user: 'a' })
+    expect(spyPre).toHaveBeenCalledTimes(1)
+    expect(spyPost).toHaveBeenCalledTimes(1)
+    expect(spySync).toHaveBeenCalledTimes(2)
+    await nextTick()
+    expect(spyPre).toHaveBeenCalledTimes(1)
+    expect(spyPost).toHaveBeenCalledTimes(1)
+    expect(spySync).toHaveBeenCalledTimes(2)
   })
 
   it('unsubscribes callback when unsubscribe is called', () => {

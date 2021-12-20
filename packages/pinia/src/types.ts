@@ -349,15 +349,13 @@ export interface _StoreWithState<
   $reset(): void
 
   /**
-   * Setups a callback to be called whenever the state changes. It also returns
-   * a function to remove the callback. Note than when calling
-   * `store.$subscribe()` inside of a component, it will be automatically
-   * cleanup up when the component gets unmounted unless `detached` is set to
-   * true.
+   * Setups a callback to be called whenever the state changes. It also returns a function to remove the callback. Note
+   * than when calling `store.$subscribe()` inside of a component, it will be automatically cleanup up when the
+   * component gets unmounted unless `detached` is set to true.
    *
    * @param callback - callback passed to the watcher
-   * @param options - `watch` options + `detached` to detach the subscription
-   * from the context (usually a component) this is called from
+   * @param options - `watch` options + `detached` to detach the subscription from the context (usually a component)
+   * this is called from. Note that the `flush` option does not affect calls to `store.$patch()`.
    * @returns function that removes the watcher
    */
   $subscribe(

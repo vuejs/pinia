@@ -20,6 +20,7 @@ import {
   ref,
   set,
   del,
+  nextTick,
   isVue2,
 } from 'vue-demi'
 import {
@@ -229,6 +230,7 @@ function createSetupStore<
 
   // internal state
   let isListening: boolean // set to true at the end
+  let isSyncListening: boolean // set to true at the end
   let subscriptions: SubscriptionCallback<S>[] = markRaw([])
   let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = markRaw([])
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
@@ -255,7 +257,7 @@ function createSetupStore<
       | ((state: UnwrapRef<S>) => void)
   ): void {
     let subscriptionMutation: SubscriptionCallbackMutation<S>
-    isListening = false
+    isListening = isSyncListening = false
     // reset the debugger events since patches are sync
     /* istanbul ignore else */
     if (__DEV__) {
@@ -277,7 +279,10 @@ function createSetupStore<
         events: debuggerEvents as DebuggerEvent[],
       }
     }
-    isListening = true
+    nextTick().then(() => {
+      isListening = true
+    })
+    isSyncListening = true
     // because we paused the watcher, we need to manually call the subscriptions
     triggerSubscriptions(
       subscriptions,
@@ -384,7 +389,7 @@ function createSetupStore<
         watch(
           () => pinia.state.value[$id] as UnwrapRef<S>,
           (state) => {
-            if (isListening) {
+            if (options.flush === 'sync' ? isSyncListening : isListening) {
               callback(
                 {
                   storeId: $id,
@@ -575,8 +580,12 @@ function createSetupStore<
 
       // avoid devtools logging this as a mutation
       isListening = false
+      isSyncListening = false
       pinia.state.value[$id] = toRef(newStore._hmrPayload, 'hotState')
-      isListening = true
+      isSyncListening = true
+      nextTick().then(() => {
+        isListening = true
+      })
 
       for (const actionName in newStore._hmrPayload.actions) {
         const action: _Method = newStore[actionName]
@@ -702,6 +711,7 @@ function createSetupStore<
   }
 
   isListening = true
+  isSyncListening = true
   return store
 }
 

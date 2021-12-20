@@ -151,7 +151,7 @@ cartStore.$subscribe((mutation, state) => {
 })
 ```
 
-By default, _state subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you want to keep them after the component is unmounted, pass `true` as the second argument to _detach_ the _state subscription_ from the current component:
+By default, _state subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you want to keep them after the component is unmounted, pass `{ detached: true }` as the second argument to _detach_ the _state subscription_ from the current component:
 
 ```js
 export default {
@@ -159,7 +159,7 @@ export default {
     const someStore = useSomeStore()
 
     // this subscription will be kept after the component is unmounted
-    someStore.$subscribe(callback, true)
+    someStore.$subscribe(callback, { detached: true })
 
     // ...
   },
