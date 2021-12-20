@@ -1,3 +1,14 @@
+## [2.0.7](https://github.com/vuejs/pinia/compare/pinia@2.0.6...pinia@2.0.7) (2021-12-20)
+
+### Bug Fixes
+
+- allow using multiple `$onAction`, **ignore returned value** ([4dc1f1b](https://github.com/vuejs/pinia/commit/4dc1f1bec8f3db508c02fa6bdcc8203f280cbb3e)), closes [#893](https://github.com/vuejs/pinia/issues/893)
+- **subscribe:** direct mutation should not trigger detached subscriptions ([a9ef6b6](https://github.com/vuejs/pinia/commit/a9ef6b6c96ae8fdf891e29ab05c5276773425e1c)), closes [#908](https://github.com/vuejs/pinia/issues/908)
+
+### Features
+
+- update devtools-api ([ca26686](https://github.com/vuejs/pinia/commit/ca266868c5c5a00f3bebb326e9a0b9aaf90fb344))
+
 ## [2.0.6](https://github.com/vuejs/pinia/compare/pinia@2.0.5...pinia@2.0.6) (2021-12-04)
 
 ### Bug Fixes

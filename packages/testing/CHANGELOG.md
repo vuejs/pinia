@@ -1,3 +1,7 @@
+## [0.0.9](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.8...@pinia/testing@0.0.9) (2021-12-20)
+
+No code updates in this release
+
 ## [0.0.8](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.7...@pinia/testing@0.0.8) (2021-12-04)
 
 ### Features
