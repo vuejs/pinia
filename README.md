@@ -207,3 +207,4 @@ To learn more about Pinia, check [its documentation](https://pinia.esm.dev).
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
+
