@@ -6,7 +6,7 @@ import { Pinia, piniaSymbol, setActivePinia } from './rootStore'
 /**
  * Vue 2 Plugin that must be installed for pinia to work. Note **you don't need
  * this plugin if you are using Nuxt.js**. Use the `buildModule` instead:
- * https://pinia.esm.dev/ssr/nuxt.html.
+ * https://pinia.vuejs.org/ssr/nuxt.html.
  *
  * @example
  * ```js

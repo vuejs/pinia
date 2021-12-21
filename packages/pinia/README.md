@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://pinia.esm.dev" target="_blank" rel="noopener noreferrer">
-    <img width="180" src="https://pinia.esm.dev/logo.svg" alt="Pinia logo">
+  <a href="https://pinia.vuejs.org" target="_blank" rel="noopener noreferrer">
+    <img width="180" src="https://pinia.vuejs.org/logo.svg" alt="Pinia logo">
   </a>
 </p>
 
@@ -17,7 +17,7 @@
 
 ## Documentation
 
-To learn more about Pinia, check [its documentation](https://pinia.esm.dev).
+To learn more about Pinia, check [its documentation](https://pinia.vuejs.org).
 
 ## License
 
