@@ -1,10 +1,10 @@
 // @ts-check
 
-const META_URL = 'https://pinia.esm.dev'
+const META_URL = 'https://pinia.vuejs.org'
 const META_TITLE = 'Pinia 🍍'
 const META_DESCRIPTION =
   'Intuitive, type safe, light and flexible Store for Vue'
-const META_IMAGE = 'https://pinia.esm.dev/social.png'
+const META_IMAGE = 'https://pinia.vuejs.org/social.png'
 
 const isProduction = process.env.NODE_ENV
 

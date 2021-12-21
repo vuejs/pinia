@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://pinia.esm.dev" target="_blank" rel="noopener noreferrer">
-    <img width="180" src="https://pinia.esm.dev/logo.svg" alt="Pinia logo">
+  <a href="https://pinia.vuejs.org" target="_blank" rel="noopener noreferrer">
+    <img width="180" src="https://pinia.vuejs.org/logo.svg" alt="Pinia logo">
   </a>
 </p>
 <br/>
@@ -107,7 +107,7 @@ A few notes about the project and possible questions:
 
 **Q**: _What about dynamic modules?_
 
-**A**: Dynamic modules are not type safe, so instead [we allow creating different stores](https://pinia.esm.dev/cookbook/composing-stores.html) that can be imported anywhere
+**A**: Dynamic modules are not type safe, so instead [we allow creating different stores](https://pinia.vuejs.org/cookbook/composing-stores.html) that can be imported anywhere
 
 ## Roadmap / Ideas
 
@@ -202,7 +202,7 @@ export default defineComponent({
 
 ## Documentation
 
-To learn more about Pinia, check [its documentation](https://pinia.esm.dev).
+To learn more about Pinia, check [its documentation](https://pinia.vuejs.org).
 
 ## License
 

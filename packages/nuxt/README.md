@@ -18,7 +18,7 @@ export default {
 }
 ```
 
-Note you also need `@nuxtjs/composition-api` if you are using Nuxt 2 without Bridge. [Refer to docs for more](https://pinia.esm.dev/ssr/nuxt.html).
+Note you also need `@nuxtjs/composition-api` if you are using Nuxt 2 without Bridge. [Refer to docs for more](https://pinia.vuejs.org/ssr/nuxt.html).
 
 ## License
 
