@@ -546,31 +546,55 @@ export type _ActionsTree = Record<string, _Method>
 /**
  * @internal
  */
+type _ExtractStateFromSetupStore_Keys<SS> = keyof {
+  [K in keyof SS as SS[K] extends _Method | ComputedRef ? never : K]: any
+}
+
+/**
+ * @internal
+ */
+type _ExtractActionsFromSetupStore_Keys<SS> = keyof {
+  [K in keyof SS as SS[K] extends _Method ? K : never]: any
+}
+
+/**
+ * @internal
+ */
+type _ExtractGettersFromSetupStore_Keys<SS> = keyof {
+  [K in keyof SS as SS[K] extends ComputedRef ? K : never]: any
+}
+
+/**
+ * @internal
+ */
+type _UnwrapAll<SS> = { [K in keyof SS]: UnwrapRef<SS[K]> }
+
+/**
+ * @internal
+ */
 export type _ExtractStateFromSetupStore<SS> = SS extends undefined | void
   ? {}
-  : {
-      [K in keyof SS as SS[K] extends _Method | ComputedRef
-        ? never
-        : K]: UnwrapRef<SS[K]>
-    }
+  : _ExtractStateFromSetupStore_Keys<SS> extends keyof SS
+  ? _UnwrapAll<Pick<SS, _ExtractStateFromSetupStore_Keys<SS>>>
+  : never
 
 /**
  * @internal
  */
 export type _ExtractActionsFromSetupStore<SS> = SS extends undefined | void
   ? {}
-  : {
-      [K in keyof SS as SS[K] extends _Method ? K : never]: SS[K]
-    }
+  : _ExtractActionsFromSetupStore_Keys<SS> extends keyof SS
+  ? Pick<SS, _ExtractActionsFromSetupStore_Keys<SS>>
+  : never
 
 /**
  * @internal
  */
 export type _ExtractGettersFromSetupStore<SS> = SS extends undefined | void
   ? {}
-  : {
-      [K in keyof SS as SS[K] extends ComputedRef ? K : never]: UnwrapRef<SS[K]>
-    }
+  : _ExtractGettersFromSetupStore_Keys<SS> extends keyof SS
+  ? _UnwrapAll<Pick<SS, _ExtractGettersFromSetupStore_Keys<SS>>>
+  : never
 
 /**
  * Options passed to `defineStore()` that are common between option and setup
