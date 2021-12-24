@@ -546,28 +546,28 @@ export type _ActionsTree = Record<string, _Method>
 /**
  * @internal
  */
-declare type _ExtractStateFromSetupStore_Keys<SS> = keyof {
+type _ExtractStateFromSetupStore_Keys<SS> = keyof {
   [K in keyof SS as SS[K] extends _Method | ComputedRef ? never : K]: any
 }
 
 /**
  * @internal
  */
-declare type _ExtractActionsFromSetupStore_Keys<SS> = keyof {
+type _ExtractActionsFromSetupStore_Keys<SS> = keyof {
   [K in keyof SS as SS[K] extends _Method ? K : never]: any
 }
 
 /**
  * @internal
  */
-declare type _ExtractGettersFromSetupStore_Keys<SS> = keyof {
+type _ExtractGettersFromSetupStore_Keys<SS> = keyof {
   [K in keyof SS as SS[K] extends ComputedRef ? K : never]: any
 }
 
 /**
  * @internal
  */
-declare type _UnwrapAll<SS> = { [K in keyof SS]: UnwrapRef<SS[K]> }
+type _UnwrapAll<SS> = { [K in keyof SS]: UnwrapRef<SS[K]> }
 
 /**
  * @internal
