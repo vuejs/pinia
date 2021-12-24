@@ -27,6 +27,7 @@ export type {
   _StoreWithState,
   StoreProperties,
   StoreOnActionListener,
+  _StoreOnActionListenerContext,
   StoreOnActionListenerContext,
   SubscriptionCallback,
   SubscriptionCallbackMutation,
@@ -40,6 +41,14 @@ export type {
   DefineStoreOptions,
   DefineSetupStoreOptions,
   DefineStoreOptionsInPlugin,
+  _ExtractActionsFromSetupStore,
+  _ExtractGettersFromSetupStore,
+  _ExtractStateFromSetupStore,
+  _DeepPartial,
+  _ExtractActionsFromSetupStore_Keys,
+  _ExtractGettersFromSetupStore_Keys,
+  _ExtractStateFromSetupStore_Keys,
+  _UnwrapAll,
 } from './types'
 export { MutationType } from './types'
 

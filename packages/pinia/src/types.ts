@@ -32,7 +32,7 @@ export function isPlainObject(
  *
  * @internal
  */
-export type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
+export type _DeepPartial<T> = { [K in keyof T]?: _DeepPartial<T[K]> }
 // type DeepReadonly<T> = { readonly [P in keyof T]: DeepReadonly<T[P]> }
 
 // TODO: can we change these to numbers?
@@ -112,7 +112,7 @@ export interface SubscriptionCallbackMutationPatchObject<S>
   /**
    * Object passed to `store.$patch()`.
    */
-  payload: DeepPartial<S>
+  payload: _DeepPartial<S>
 }
 
 /**
@@ -142,8 +142,6 @@ export type SubscriptionCallbackMutation<S> =
   | SubscriptionCallbackMutationPatchObject<S>
   | SubscriptionCallbackMutationPatchFunction
 
-export type UnwrapPromise<T> = T extends Promise<infer V> ? V : T
-
 /**
  * Callback of a subscription
  */
@@ -164,8 +162,13 @@ export type SubscriptionCallback<S> = (
 /**
  * Actual type for {@link StoreOnActionListenerContext}. Exists for refactoring
  * purposes. For internal use only.
+ * @internal
  */
-interface _StoreOnActionListenerContext<Store, ActionName extends string, A> {
+export interface _StoreOnActionListenerContext<
+  Store,
+  ActionName extends string,
+  A
+> {
   /**
    * Name of the action
    */
@@ -191,12 +194,12 @@ interface _StoreOnActionListenerContext<Store, ActionName extends string, A> {
   after: (
     callback: A extends Record<ActionName, _Method>
       ? (
-          resolvedReturn: UnwrapPromise<ReturnType<A[ActionName]>>
+          resolvedReturn: Awaited<ReturnType<A[ActionName]>>
           // allow the after callback to override the return value
         ) =>
           | void
           | ReturnType<A[ActionName]>
-          | UnwrapPromise<ReturnType<A[ActionName]>>
+          | Awaited<ReturnType<A[ActionName]>>
       : () => void
   ) => void
 
@@ -328,7 +331,7 @@ export interface _StoreWithState<
    *
    * @param partialState - patch to apply to the state
    */
-  $patch(partialState: DeepPartial<UnwrapRef<S>>): void
+  $patch(partialState: _DeepPartial<UnwrapRef<S>>): void
 
   /**
    * Group multiple changes into one function. Useful when mutating objects like
@@ -544,30 +547,34 @@ export type _GettersTree<S extends StateTree> = Record<
 export type _ActionsTree = Record<string, _Method>
 
 /**
+ * Type that enables refactoring through IDE.
  * @internal
  */
-type _ExtractStateFromSetupStore_Keys<SS> = keyof {
+export type _ExtractStateFromSetupStore_Keys<SS> = keyof {
   [K in keyof SS as SS[K] extends _Method | ComputedRef ? never : K]: any
 }
 
 /**
+ * Type that enables refactoring through IDE.
  * @internal
  */
-type _ExtractActionsFromSetupStore_Keys<SS> = keyof {
+export type _ExtractActionsFromSetupStore_Keys<SS> = keyof {
   [K in keyof SS as SS[K] extends _Method ? K : never]: any
 }
 
 /**
+ * Type that enables refactoring through IDE.
  * @internal
  */
-type _ExtractGettersFromSetupStore_Keys<SS> = keyof {
+export type _ExtractGettersFromSetupStore_Keys<SS> = keyof {
   [K in keyof SS as SS[K] extends ComputedRef ? K : never]: any
 }
 
 /**
+ * Type that enables refactoring through IDE.
  * @internal
  */
-type _UnwrapAll<SS> = { [K in keyof SS]: UnwrapRef<SS[K]> }
+export type _UnwrapAll<SS> = { [K in keyof SS]: UnwrapRef<SS[K]> }
 
 /**
  * @internal

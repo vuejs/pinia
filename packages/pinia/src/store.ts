@@ -26,7 +26,7 @@ import {
 import {
   StateTree,
   SubscriptionCallback,
-  DeepPartial,
+  _DeepPartial,
   isPlainObject,
   Store,
   _Method,
@@ -55,7 +55,7 @@ type _ArrayType<AT> = AT extends Array<infer T> ? T : never
 
 function mergeReactiveObjects<T extends StateTree>(
   target: T,
-  patchToApply: DeepPartial<T>
+  patchToApply: _DeepPartial<T>
 ): T {
   // no need to go through symbols because they cannot be serialized anyway
   for (const key in patchToApply) {
@@ -250,10 +250,10 @@ function createSetupStore<
   const hotState = ref({} as S)
 
   function $patch(stateMutation: (state: UnwrapRef<S>) => void): void
-  function $patch(partialState: DeepPartial<UnwrapRef<S>>): void
+  function $patch(partialState: _DeepPartial<UnwrapRef<S>>): void
   function $patch(
     partialStateOrMutator:
-      | DeepPartial<UnwrapRef<S>>
+      | _DeepPartial<UnwrapRef<S>>
       | ((state: UnwrapRef<S>) => void)
   ): void {
     let subscriptionMutation: SubscriptionCallbackMutation<S>
