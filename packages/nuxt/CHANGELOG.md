@@ -1,3 +1,7 @@
+## [0.1.8](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.1.7...@pinia/nuxt@0.1.8) (2021-12-24)
+
+Override the 0.1.7 version for convenience but no code changes since 0.1.6.
+
 ## [0.1.7](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.1.6...@pinia/nuxt@0.1.7) (2021-12-20)
 
 No code updates in this release

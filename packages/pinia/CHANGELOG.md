@@ -1,3 +1,9 @@
+## [2.0.9](https://github.com/vuejs/pinia/compare/pinia@2.0.8...pinia@2.0.9) (2021-12-24)
+
+### Features
+
+- **types:** support IDE features for store context ([#924](https://github.com/vuejs/pinia/issues/924)) ([4733f49](https://github.com/vuejs/pinia/commit/4733f49c5af400aea7d3d1002265f9cdebcdd222))
+
 ## [2.0.8](https://github.com/vuejs/pinia/compare/pinia@2.0.7...pinia@2.0.8) (2021-12-20)
 
 ### Bug Fixes
