@@ -3,11 +3,11 @@
   "version": "0.1.7",
   "description": "Nuxt Module for pinia",
   "keywords": [
+    "pinia",
+    "nuxt",
     "vue",
     "vuex",
-    "store",
-    "pinia",
-    "nuxt"
+    "store"
   ],
   "homepage": "https://github.com/vuejs/pinia/tree/v2/packages/nuxt#readme",
   "bugs": {
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@nuxt/types": "^2.15.8",
-    "pinia": "^2.0.0-0",
+    "pinia": "^2.0.0",
     "unbuild": "^0.6.3"
   },
   "peerDependencies": {
