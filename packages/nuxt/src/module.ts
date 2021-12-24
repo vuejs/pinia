@@ -2,8 +2,11 @@
  * @module @pinia/nuxt
  */
 // import { isVue2 } from 'vue-demi'
+import { createRequire } from 'module';
 import type { Pinia } from 'pinia'
 import type { Context, Module } from '@nuxt/types'
+
+const require = createRequire(import.meta.url);
 
 export interface PiniaNuxtOptions {
   /**
