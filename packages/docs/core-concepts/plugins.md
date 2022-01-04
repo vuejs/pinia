@@ -159,7 +159,7 @@ When adding external properties, class instances that come from other libraries,
 
 ```js
 import { markRaw } from 'vue'
-// adapt this based on where your router isj
+// adapt this based on where your router is
 import { router } from './router'
 
 pinia.use(({ store }) => {
