@@ -1,19 +1,6 @@
 {
-  "platinum": [
-    {
-      "href": "https://www.finclip.com/#/home?from=vue",
-      "alt": "Finogeeks",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/fincliplogo_black_svg.svg",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/fincliplogo_white_svg.svg"
-    }
-  ],
+  "platinum": [],
   "gold": [
-    {
-      "href": "https://www.vuetifyjs.com/",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuetify-logo-light-text.svg",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuetify-logo-dark-text.svg",
-      "alt": "Vuetify"
-    },
     {
       "href": "https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor",
       "alt": "VueJobs",
