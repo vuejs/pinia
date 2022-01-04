@@ -25,17 +25,36 @@ export const Layout: FunctionalComponent = () => {
       'sidebar-top': () =>
         h('div', { class: 'sponsors sponsors-top' }, [
           h('span', 'Platinum Sponsors'),
-          ...sponsors.platinum.map(({ href, imgSrcDark, imgSrcLight, alt }) =>
-            h(
-              'a',
-              {
-                href,
-                target: '_blank',
-                rel: 'noopener',
-              },
-              [h('img', { src: isDark.value ? imgSrcDark : imgSrcLight, alt })]
-            )
-          ),
+          ...(sponsors.platinum.length
+            ? sponsors.platinum.map(({ href, imgSrcDark, imgSrcLight, alt }) =>
+                h(
+                  'a',
+                  {
+                    href,
+                    target: '_blank',
+                    rel: 'noopener',
+                  },
+                  [
+                    h('img', {
+                      src: isDark.value ? imgSrcDark : imgSrcLight,
+                      alt,
+                    }),
+                  ]
+                )
+              )
+            : [
+                h(
+                  'a',
+                  {
+                    class: 'become-sponsor',
+                    href: 'https://github.com/sponsors/posva',
+                    target: '_blank',
+                    rel: 'noopener',
+                    alt: 'Your logo here',
+                  },
+                  'Become a Sponsor!'
+                ),
+              ]),
         ]),
       'sidebar-bottom': () =>
         h('div', { class: 'sponsors' }, [

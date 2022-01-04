@@ -48,24 +48,5 @@ onMounted(() => {
 .cta {
   margin-top: 1rem;
 }
-
-.become-sponsor {
-  font-size: 0.9em;
-  font-weight: 700;
-  width: auto;
-  background-color: transparent;
-  padding: 0.75em 2em;
-  border-radius: 2em;
-  transition: all 0.15s ease;
-  box-sizing: border-box;
-  border: 2px solid var(--c-text);
-  color: var(--c-text);
-}
-
-.become-sponsor:hover {
-  background-color: var(--c-yellow);
-  text-decoration: none;
-  border-color: var(--c-yellow);
-  color: var(--c-text-light-1);
-}
 </style>
+

@@ -183,3 +183,31 @@ code {
   font-size: 0.95em;
   padding: 0.175em 0.35em;
 }
+
+.become-sponsor {
+  font-size: 0.9em;
+  font-weight: 700;
+  width: auto;
+  text-align: center;
+  background-color: transparent;
+  padding: 0.75em 2em;
+  border-radius: 2em;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+  border: 2px solid var(--c-text);
+  color: var(--c-text);
+}
+
+.become-sponsor:hover {
+  background-color: var(--c-yellow);
+  text-decoration: none;
+  border-color: var(--c-yellow);
+  color: var(--c-text-light-1);
+}
+
+.sponsors-top .become-sponsor {
+  font-size: 0.75em;
+  padding: 0.2em;
+  width: auto;
+  max-width: 150px;
+}
