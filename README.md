@@ -55,7 +55,6 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
         <img src="https://posva-sponsors.pages.dev/logos/vuemastery-light.svg" height="42px" alt="VueMastery" />
       </picture>
     </a>
-
     <a href="https://birdeatsbug.com/?utm_source=vuerouter&utm_medium=sponsor&utm_campaign=silver" target="_blank" rel="noopener noreferrer">
       <picture>
         <source srcset="https://posva-sponsors.pages.dev/logos/birdeatsbug-light.svg" media="(prefers-color-scheme: dark)" height="42px" alt="Bird Eats Bug" />
@@ -72,7 +71,6 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
         <img src="https://posva-sponsors.pages.dev/logos/storyblok.png" height="26px" alt="Storyblok" />
       </picture>
     </a>
-
     <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer">
       <picture>
         <source srcset="https://posva-sponsors.pages.dev/logos/nuxt-dark.svg" media="(prefers-color-scheme: dark)" height="26px" alt="NuxtJS" />
