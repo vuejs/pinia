@@ -8,11 +8,11 @@ If **two or more stores use each other**, they cannot create an infinite loop th
 const useA = defineStore('a', () => {
   const b = useB()
 
-  // ❌ this is not possible because b also tries to read a.name
+  // ❌ this is not possible because 'b' also tries to read 'a.name'
   b.name
 
   function doSomething() {
-    // ✅ Read b properties in computed or actions
+    // ✅ Read 'b' properties in computed or actions
     const bName = b.name
     // ...
   }
@@ -25,11 +25,11 @@ const useA = defineStore('a', () => {
 const useB = defineStore('b', () => {
   const a = useA()
 
-  // ❌ this is not possible because a also tries to read a.name
+  // ❌ this is not possible because 'a' also tries to read 'b.name'
   a.name
 
   function doSomething() {
-    // ✅ Read b properties in computed or actions
+    // ✅ Read 'a' properties in computed or actions
     const aName = a.name
     // ...
   }
