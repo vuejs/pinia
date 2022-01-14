@@ -5,7 +5,7 @@
 .sponsors-top {
   margin-top: 1rem;
   /* workaround padding in vitepress */
-  margin-bottom: -2rem;
+  margin-bottom: 20px;
 }
 
 .sponsors > span {
@@ -15,9 +15,6 @@
   font-size: 0.8rem;
 }
 
-.sponsors a:last-child {
-  margin-bottom: 20px;
-}
 .sponsors a:first-child {
   margin-top: 18px;
 }
