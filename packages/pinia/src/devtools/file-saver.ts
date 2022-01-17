@@ -112,8 +112,10 @@ export type SaveAs =
 
 export const saveAs: SaveAs = !IS_CLIENT
   ? () => {} // noop
-  : // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView
-  'download' in HTMLAnchorElement.prototype && !isMacOSWebView
+  : // Use download attribute first if possible (#193 Lumia mobile) unless this is a macOS WebView or mini program
+  typeof HTMLAnchorElement !== 'undefined' &&
+    'download' in HTMLAnchorElement.prototype &&
+    !isMacOSWebView
   ? downloadSaveAs
   : // Use msSaveOrOpenBlob as a second approach
   'msSaveOrOpenBlob' in _navigator
