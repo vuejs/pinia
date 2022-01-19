@@ -28,7 +28,7 @@ export function addSubscription<T extends _Method>(
 
 export function triggerSubscriptions<T extends _Method>(
   subscriptions: T[],
-  ...args: Parameters<T>
+  ...args: Parameters<T>[]
 ) {
   subscriptions.forEach((callback) => {
     callback(...args)
