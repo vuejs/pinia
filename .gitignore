@@ -16,3 +16,4 @@ docs-api
 packages/docs/api
 .yalc
 yalc.lock
+.idea
