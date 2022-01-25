@@ -46,7 +46,7 @@ export interface TestingOptions {
 
   /**
    * Function used to create a spy for actions and `$patch()`. Pre-configured
-   * with `jest.fn()` in jest projects or `vitest.fn()` in vitest projects
+   * with `jest.fn()` in jest projects or `vitest.fn()` in vitest projects.
    */
   createSpy?: (fn?: (...args: any[]) => any) => (...args: any[]) => any
 }
@@ -64,8 +64,8 @@ export interface TestingPinia extends Pinia {
  * Creates a pinia instance designed for unit tests that **requires mocking**
  * the stores. By default, **all actions are mocked** and therefore not
  * executed. This allows you to unit test your store and components separately.
- * You can change this with the `stubActions` option. If you are using jest or vitest,
- * they are replaced with basic `fn()`, otherwise, you must provide your own
+ * You can change this with the `stubActions` option. If you are using jest,
+ * they are replaced with `jest.fn()`, otherwise, you must provide your own
  * `createSpy` option.
  *
  * @param options - options to configure the testing pinia
