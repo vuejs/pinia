@@ -272,4 +272,33 @@ describe('Subscriptions', () => {
       store.$state
     )
   })
+
+  it('subscribe once with patch', () => {
+    const spy1 = jest.fn()
+    const spy2 = jest.fn()
+    const store = useStore()
+    function once() {
+      const unsubscribe = store.$subscribe(
+        () => {
+          spy1()
+          unsubscribe()
+        },
+        { flush: 'sync' }
+      )
+    }
+    once()
+    store.$subscribe(spy2, { flush: 'sync' })
+    expect(spy1).toHaveBeenCalledTimes(0)
+    expect(spy2).toHaveBeenCalledTimes(0)
+    store.$patch((state) => {
+      state.user = 'a'
+    })
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).toHaveBeenCalledTimes(1)
+    store.$patch((state) => {
+      state.user = 'b'
+    })
+    expect(spy1).toHaveBeenCalledTimes(1)
+    expect(spy2).toHaveBeenCalledTimes(2)
+  })
 })
