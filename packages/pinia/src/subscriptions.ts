@@ -30,7 +30,7 @@ export function triggerSubscriptions<T extends _Method>(
   subscriptions: T[],
   ...args: Parameters<T>
 ) {
-  subscriptions.forEach((callback) => {
+  subscriptions.slice().forEach((callback) => {
     callback(...args)
   })
 }
