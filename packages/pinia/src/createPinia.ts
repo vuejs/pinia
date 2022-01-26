@@ -1,5 +1,5 @@
 import { Pinia, PiniaPlugin, setActivePinia, piniaSymbol } from './rootStore'
-import { ref, App, markRaw, effectScope, isVue2 } from 'vue-demi'
+import { ref, App, markRaw, effectScope, isVue2, Ref } from 'vue-demi'
 import { registerPiniaDevtools, devtoolsPlugin } from './devtools'
 import { IS_CLIENT } from './env'
 import { StateTree, StoreGeneric } from './types'
@@ -11,7 +11,9 @@ export function createPinia(): Pinia {
   const scope = effectScope(true)
   // NOTE: here we could check the window object for a state and directly set it
   // if there is anything like it with Vue 3 SSR
-  const state = scope.run(() => ref<Record<string, StateTree>>({}))!
+  const state = scope.run<Ref<Record<string, StateTree>>>(() =>
+    ref<Record<string, StateTree>>({})
+  )!
 
   let _p: Pinia['_p'] = []
   // plugins added before calling app.use(pinia)
