@@ -5,37 +5,37 @@ Composing stores is about having stores that use each other and there is one rul
 If **two or more stores use each other**, they cannot create an infinite loop through _getters_ or _actions_. They cannot **both** directly read each other state in their setup function:
 
 ```js
-const useA = defineStore('a', () => {
-  const b = useB()
+const useX = defineStore('x', () => {
+  const y = useY()
 
-  // ❌ this is not possible because b also tries to read a.name
-  b.name
+  // ❌ This is not possible because y also tries to read x.name
+  y.name
 
   function doSomething() {
-    // ✅ Read b properties in computed or actions
-    const bName = b.name
+    // ✅ Read y properties in computed or actions
+    const yName = y.name
     // ...
   }
 
   return {
-    name: ref('I am A'),
+    name: ref('I am X'),
   }
 })
 
-const useB = defineStore('b', () => {
-  const a = useA()
+const useY = defineStore('y', () => {
+  const x = useX()
 
-  // ❌ this is not possible because a also tries to read a.name
-  a.name
+  // ❌ This is not possible because x also tries to read y.name
+  x.name
 
   function doSomething() {
-    // ✅ Read b properties in computed or actions
-    const aName = a.name
+    // ✅ Read x properties in computed or actions
+    const xName = x.name
     // ...
   }
 
   return {
-    name: ref('I am B'),
+    name: ref('I am Y'),
   }
 })
 ```
