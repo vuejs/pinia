@@ -1,3 +1,11 @@
+## [2.0.10](https://github.com/vuejs/pinia/compare/pinia@2.0.9...pinia@2.0.10) (2022-01-27)
+
+### Bug Fixes
+
+- check HTMLAnchorElement in saveAs for mini-program ([#966](https://github.com/vuejs/pinia/issues/966)) ([#967](https://github.com/vuejs/pinia/issues/967)) ([85daefb](https://github.com/vuejs/pinia/commit/85daefb7c3325d3cd258de9812cb117c393b8f99))
+- **subscriptions:** allow removing subscriptions inside them ([#990](https://github.com/vuejs/pinia/issues/990)) ([465d222](https://github.com/vuejs/pinia/commit/465d22292a0086eb610f5f83edd64a795eba329b))
+- **types:** custom Awaited for TS 4.x ([7c51126](https://github.com/vuejs/pinia/commit/7c51126d5b59b0c1a693df7c4a93bd4cf309b79b)), closes [#957](https://github.com/vuejs/pinia/issues/957)
+
 ## [2.0.9](https://github.com/vuejs/pinia/compare/pinia@2.0.8...pinia@2.0.9) (2021-12-24)
 
 ### Features
