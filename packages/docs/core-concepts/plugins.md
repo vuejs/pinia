@@ -131,6 +131,8 @@ pinia.use(({ store }) => {
 })
 ```
 
+State changes that occur within a plugin are not recorded in the devtools timeline.
+
 :::warning
 If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats) as Vue. You will need to use `set` from `@vue/composition-api` when creating new state properties like `secret` and `hasError`:
 
