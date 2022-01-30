@@ -1,3 +1,9 @@
+## [2.0.11](https://github.com/vuejs/pinia/compare/pinia@2.0.10...pinia@2.0.11) (2022-01-30)
+
+### Bug Fixes
+
+- **types:** custom Awaited for TS 4.x ([7fcb62e](https://github.com/vuejs/pinia/commit/7fcb62e6fc77e273daf5396d68a9b17126d3ea35)), closes [#1006](https://github.com/vuejs/pinia/issues/1006)
+
 ## [2.0.10](https://github.com/vuejs/pinia/compare/pinia@2.0.9...pinia@2.0.10) (2022-01-27)
 
 ### Bug Fixes
