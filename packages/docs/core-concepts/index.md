@@ -14,6 +14,21 @@ export const useStore = defineStore('main', {
 
 This _name_, also referred as _id_, is necessary and is used by Pinia to connect the store to the devtools. Naming the returned function _use..._ is a convention across composables to make its usage idiomatic.
 
+Note that you can also define a store using a setup function instead, similar to Vue's Composition API:
+
+```js
+import { defineStore } from 'pinia'
+
+// useStore could be anything like useUser, useCart
+// the first argument is a unique id of the store across your application
+export const useStore = defineStore('main', () => {
+  return {
+    // any functions, computed, ref and reactive objects as you like.
+  }
+})
+```
+
+
 ## Using the store
 
 We are _defining_ a store because the store won't be created until `useStore()` is called inside of `setup()`:
