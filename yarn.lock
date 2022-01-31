@@ -8238,7 +8238,7 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vite@^2.7.0, vite@^2.7.1:
+vite@^2.7.1, vite@^2.7.12:
   version "2.7.13"
   resolved "https://registry.yarnpkg.com/vite/-/vite-2.7.13.tgz#99b56e27dfb1e4399e407cf94648f5c7fb9d77f5"
   integrity sha512-Mq8et7f3aK0SgSxjDNfOAimZGW9XryfHRa/uV0jseQSilg+KhYDSoNb9h1rknOy6SuMkvNDLKCYAYYUMCE+IgQ==
@@ -8250,17 +8250,17 @@ vite@^2.7.0, vite@^2.7.1:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vitepress@^0.20.5:
-  version "0.20.10"
-  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-0.20.10.tgz#18266182aee192191db76f63b68203eea3ac148d"
-  integrity sha512-dKgH6k1yxdEjIIxoXGI0vMg3lpBLvMarre/vvt4beuxd+rXOUB1a7DAtXDmgIXOMGQ7IcF+4zyd2132IedhjtQ==
+vitepress@^0.21.6:
+  version "0.21.6"
+  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-0.21.6.tgz#aa9e7a597efad607a08a79a020417771bec081c7"
+  integrity sha512-OzwD2cTfvoK5VKV0UWSqu4XvUOz4vWFJ4Bdi0z8GoVkTFXkfmbFawEDVXAZwzu0Hn4/VLopgmEyooc91iGKFlg==
   dependencies:
     "@docsearch/css" "^3.0.0-alpha.41"
     "@docsearch/js" "^3.0.0-alpha.41"
     "@vitejs/plugin-vue" "^2.0.0"
     prismjs "^1.25.0"
-    vite "^2.7.0"
-    vue "^3.2.26"
+    vite "^2.7.12"
+    vue "^3.2.27"
 
 vscode-oniguruma@^1.6.1:
   version "1.6.1"
@@ -8296,7 +8296,7 @@ vue-router@^4.0.12:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.14.tgz#e51aa5250250d569a3fbad3a8a5a687d6036e235"
   integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==
 
-vue@^3.2.26:
+vue@^3.2.26, vue@^3.2.27:
   version "3.2.29"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.29.tgz#3571b65dbd796d3a6347e2fd45a8e6e11c13d56a"
   integrity sha512-cFIwr7LkbtCRanjNvh6r7wp2yUxfxeM2yPpDQpAfaaLIGZSrUmLbNiSze9nhBJt5MrZ68Iqt0O5scwAMEVxF+Q==
