@@ -42,6 +42,11 @@ module.exports = {
 
     [
       'meta',
+      { name: 'wwads-cn-verify', content: '5878a7ab84fb43402106c575658472fa' },
+    ],
+
+    [
+      'meta',
       {
         property: 'og:type',
         content: 'website',
