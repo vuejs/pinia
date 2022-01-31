@@ -139,11 +139,11 @@ module.exports = {
       indexName: 'pinia',
     },
 
-    // carbonAds: {
-    //   carbon: 'CEBICK3I',
-    //   custom: 'CEBICK3M',
-    //   placement: 'routervuejsorg',
-    // },
+    carbonAds: {
+      carbon: 'CEBICK3I',
+      custom: 'CEBICK3M',
+      placement: 'routervuejsorg',
+    },
 
     nav: [
       { text: 'Guide', link: '/introduction.html' },
