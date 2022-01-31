@@ -1,5 +1,5 @@
 import Theme from 'vitepress/theme'
-import { h, nextTick, ref } from 'vue'
+import { h, nextTick, ref, createSlots, withCtx } from 'vue'
 import type { FunctionalComponent } from 'vue'
 import sponsors from '../components/sponsors.json'
 import './sponsors.css'
@@ -25,9 +25,12 @@ export const Layout: FunctionalComponent = () => {
         })
       },
     },
-    Object.assign(
+    createSlots(
       {
+        // @ts-expect-error
+        _: 2 /* DYNAMIC */,
         'sidebar-top': () =>
+          // @ts-expect-error
           h('div', { class: 'sponsors sponsors-top' }, [
             h('span', 'Platinum Sponsors'),
             ...(sponsors.platinum.length
@@ -63,6 +66,7 @@ export const Layout: FunctionalComponent = () => {
                 ]),
           ]),
         'sidebar-bottom': () =>
+          // @ts-expect-error
           h('div', { class: 'sponsors' }, [
             h('span', 'Sponsors'),
             ...sponsors.gold.map(({ href, imgSrcDark, imgSrcLight, alt }) =>
@@ -83,20 +87,23 @@ export const Layout: FunctionalComponent = () => {
             ),
           ]),
       },
-      showAds.value
-        ? {
-            'page-top-ads': () =>
-              h('div', { id: 'wwads-container' }, [
-                h('div', {
-                  class: 'wwads-cn wwads-vertical',
-                  'data-id': 144,
-                  style: {
-                    maxWidth: '150px',
-                  },
-                }),
-              ]),
-          }
-        : {}
+      [
+        showAds.value
+          ? {
+              name: 'page-top-ads',
+              fn: () =>
+                h('div', { id: 'wwads-container' }, [
+                  h('div', {
+                    class: 'wwads-cn wwads-vertical',
+                    'data-id': 144,
+                    style: {
+                      maxWidth: '150px',
+                    },
+                  }),
+                ]),
+            }
+          : undefined,
+      ]
     )
   )
 }
