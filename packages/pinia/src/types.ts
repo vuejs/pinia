@@ -161,7 +161,7 @@ export type SubscriptionCallback<S> = (
 
 // to support TS 4.4
 // TODO: remove in 2.1.0, use Awaited, and up the peer dep to TS 4.5
-type _Awaited<T> = T extends null | undefined
+export type _Awaited<T> = T extends null | undefined
   ? T // special case for `null | undefined` when not in `--strictNullChecks` mode
   : T extends object & { then(onfulfilled: infer F): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
   ? F extends (value: infer V, ...args: any) => any // if the argument to `then` is callable, extracts the first argument

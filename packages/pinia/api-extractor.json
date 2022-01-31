@@ -36,12 +36,19 @@
 
       "ae-missing-release-tag": {
         "logLevel": "none"
+      },
+
+      "ae-incompatible-release-tags": {
+        "logLevel": "none"
       }
     },
 
     "tsdocMessageReporting": {
       "default": {
         "logLevel": "warning"
+      },
+      "tsdoc-code-span-missing-delimiter": {
+        "logLevel": "none"
       }
     }
   }
