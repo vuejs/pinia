@@ -71,6 +71,16 @@ export const Layout: FunctionalComponent = () => {
             )
           ),
         ]),
+      'page-top-ads': () =>
+        h('div', { id: 'wwads-container' }, [
+          h('div', {
+            class: 'wwads-cn wwads-vertical',
+            'data-id': 114,
+            style: {
+              maxWidth: '150px',
+            },
+          }),
+        ]),
     }
   )
 }

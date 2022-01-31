@@ -38,10 +38,7 @@ module.exports = {
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
     ['link', { rel: 'icon', type: 'image/png', href: '/logo.png' }],
 
-    [
-      'meta',
-      { name: 'wwads-cn-verify', content: '5878a7ab84fb43402106c575658472fa' },
-    ],
+    ['script', { src: 'https://cdn.wwads.cn/js/makemoney.js', async: '' }],
 
     [
       'meta',
@@ -142,11 +139,11 @@ module.exports = {
       indexName: 'pinia',
     },
 
-    carbonAds: {
-      carbon: 'CEBICK3I',
-      custom: 'CEBICK3M',
-      placement: 'routervuejsorg',
-    },
+    // carbonAds: {
+    //   carbon: 'CEBICK3I',
+    //   custom: 'CEBICK3M',
+    //   placement: 'routervuejsorg',
+    // },
 
     nav: [
       { text: 'Guide', link: '/introduction.html' },
