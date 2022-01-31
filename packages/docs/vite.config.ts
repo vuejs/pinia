@@ -32,19 +32,17 @@ function copyPiniaPlugin(): Plugin {
   return {
     name: 'copy-pinia',
     async generateBundle() {
-      const filePath = path.resolve(
-        __dirname,
-        '../pinia/dist/pinia.esm-bundler.js'
-      )
-
-      // throws if file doesn't exist
-      await fs.access(filePath)
-
-      this.emitFile({
-        type: 'asset',
-        fileName: 'pinia.mjs',
-        source: await fs.readFile(filePath, 'utf-8'),
-      })
+      // const filePath = path.resolve(
+      //   __dirname,
+      //   '../pinia/dist/pinia.esm-bundler.js'
+      // )
+      // // throws if file doesn't exist
+      // await fs.access(filePath)
+      // this.emitFile({
+      //   type: 'asset',
+      //   fileName: 'pinia.mjs',
+      //   source: await fs.readFile(filePath, 'utf-8'),
+      // })
     },
   }
 }

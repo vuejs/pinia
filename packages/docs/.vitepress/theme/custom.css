@@ -213,10 +213,13 @@ code {
 }
 
 #wwads-container {
-  position: relative;
-  float: right;
   z-index: 9;
-  margin: 0 0 16px 16px;
+  margin: 0 auto;
+  padding: 8px;
+  max-width: 280px;
+  /* font-size: 0.75rem; */
+  background-color: var(--c-bg-accent);
+  min-height: 105.38px; /* avoid layout shift on mobile */
 }
 
 #wwads-container .wwads-text {
@@ -225,6 +228,18 @@ code {
 
 .page .container .content {
   clear: none !important;
+}
+
+@media (min-width: 420px) {
+  #wwads-container {
+    position: relative;
+    margin: 0 0 16px 16px;
+    float: right;
+    margin: -8px -8px 24px 24px;
+    width: 146px;
+    max-width: 100%;
+    min-height: 200px;
+  }
 }
 
 @media (min-width: 1368px) {
