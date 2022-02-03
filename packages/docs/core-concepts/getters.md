@@ -1,6 +1,6 @@
 # Getters
 
-Getters are exactly the equivalent of [computed values](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values) for the state of a Store. They can be defined with the `getters` property in `defineStore()`. They receive the `state` as the first parameter **to encourage** the usage of arrow function:
+Getters are exactly the equivalent of [computed values](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values) for the state of a Store. They can be defined with the `getters` property in `defineStore()`. They receive the `store` as the first parameter **to encourage** the usage of arrow function:
 
 ```js
 export const useStore = defineStore('main', {
@@ -8,7 +8,7 @@ export const useStore = defineStore('main', {
     counter: 0,
   }),
   getters: {
-    doubleCount: (state) => state.counter * 2,
+    doubleCount: (store) => store.counter * 2,
   },
 })
 ```
@@ -22,8 +22,8 @@ export const useStore = defineStore('main', {
   }),
   getters: {
     // automatically infers the return type as a number
-    doubleCount(state) {
-      return state.counter * 2
+    doubleCount(store) {
+      return store.counter * 2
     },
     // the return type **must** be explicitly set
     doublePlusOne(): number {
@@ -87,8 +87,8 @@ _Getters_ are just _computed_ properties behind the scenes, so it's not possible
 ```js
 export const useStore = defineStore('main', {
   getters: {
-    getUserById: (state) => {
-      return (userId) => state.users.find((user) => user.id === userId)
+    getUserById: (store) => {
+      return (userId) => store.users.find((user) => user.id === userId)
     },
   },
 })
@@ -117,8 +117,8 @@ Note that when doing this, **getters are not cached anymore**, they are simply f
 ```js
 export const useStore = defineStore('main', {
   getters: {
-    getActiveUserById(state) {
-      const activeUsers = state.users.filter((user) => user.active)
+    getActiveUserById(store) {
+      const activeUsers = store.users.filter((user) => user.active)
       return (userId) => activeUsers.find((user) => user.id === userId)
     },
   },
@@ -137,9 +137,9 @@ export const useStore = defineStore('main', {
     // ...
   }),
   getters: {
-    otherGetter(state) {
+    otherGetter(store) {
       const otherStore = useOtherStore()
-      return state.localData + otherStore.data
+      return store.localData + otherStore.data
     },
   },
 })
