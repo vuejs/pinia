@@ -22,11 +22,6 @@ const productionHead = [
   ],
 ]
 
-const darkModeFix = require('fs').readFileSync(
-  require('path').resolve(__dirname, './darkModeFix.js'),
-  'utf-8'
-)
-
 /**
  * @type {import('vitepress').UserConfig}
  */
@@ -124,7 +119,6 @@ module.exports = {
       },
     ],
 
-    ['script', {}, darkModeFix],
     ...(isProduction ? productionHead : []),
   ],
 

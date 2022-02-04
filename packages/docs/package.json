@@ -5,7 +5,8 @@
   "scripts": {
     "docs": "vitepress dev .",
     "docs:api": "node run-typedoc.js",
-    "docs:build": "vitepress build ."
+    "docs:build": "vitepress build .",
+    "docs:serve": "vitepress serve . --port 5001"
   },
   "dependencies": {
     "@vueuse/core": "^7.3.0",
