@@ -8,7 +8,6 @@ const fs = _fs.promises
 export default defineConfig({
   clearScreen: false,
   plugins: [
-    // ...(process.env.NETLIFY ? [] : [copyPiniaPlugin()]),
     // TODO: actual plugin that works well
     // TypeDocPlugin({
     //   name: 'Pinia',
@@ -27,24 +26,3 @@ export default defineConfig({
     exclude: ['vue-demi', '@vueuse/shared', '@vueuse/core', 'pinia'],
   },
 })
-
-// function copyPiniaPlugin(): Plugin {
-//   return {
-//     name: 'copy-pinia',
-//     async generateBundle() {
-//       const filePath = path.resolve(
-//         __dirname,
-//         '../pinia/dist/pinia.esm-bundler.js' // should be '../pinia/dist/pinia.esm-browser.js' ??
-//       )
-
-//       // throws if file doesn't exist
-//       await fs.access(filePath)
-
-//       this.emitFile({
-//         type: 'asset',
-//         fileName: 'pinia.mjs',
-//         source: await fs.readFile(filePath, 'utf-8'),
-//       })
-//     },
-//   }
-// }
