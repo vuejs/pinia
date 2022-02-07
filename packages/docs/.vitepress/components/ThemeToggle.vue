@@ -1,6 +1,6 @@
 <template>
   <button
-    class="icon-button"
+    class="dark-mode-icon-button"
     @click="isDark = !isDark"
     :aria-label="label"
     :title="label"
@@ -69,7 +69,7 @@ const label = computed(() =>
 </script>
 
 <style scoped>
-.icon-button {
+.dark-mode-icon-button {
   display: flex;
   font-size: 1.05rem;
   border: 0;
@@ -78,5 +78,8 @@ const label = computed(() =>
   color: var(--c-text);
   opacity: 0.8;
   cursor: pointer;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
 }
 </style>
