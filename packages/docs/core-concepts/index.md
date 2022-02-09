@@ -88,3 +88,14 @@ export default defineComponent({
   },
 })
 ```
+
+:::warning
+Extracting `actions` using `storeToRefs` will result in `actions` being `undefined`. To extract `actions` from the store, you should skip using `storeToRefs`
+
+```
+const store = useStore()
+
+const { fullName, age } = store
+const { logIn } = store
+```
+:::
