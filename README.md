@@ -96,9 +96,9 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
 
 A few notes about the project and possible questions:
 
-**Q**: _Does this replace Vuex, is it its successor?_
+**Q**: _Is Pinia the successor of Vuex?_
 
-**A**: No, or at least that's not the main intention
+**A**: [Yes](https://vuejs.org/guide/scaling-up/state-management.html#pinia)
 
 **Q**: _What about dynamic modules?_
 
