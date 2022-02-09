@@ -92,10 +92,41 @@ export default defineComponent({
 :::warning
 Extracting `actions` using `storeToRefs` will result in `actions` being `undefined`. To extract `actions` from the store, you should skip using `storeToRefs`
 
-```
-const store = useStore()
+```js
+import { storeToRefs } from 'pinia'
+import useCounterStore from '@/store/counter'
 
-const { fullName, age } = store
-const { logIn } = store
+export default defineComponent({
+    const store = useCounterStore()
+
+    const { counter, increment } = storeToRefs(store)
+
+    counter // 1
+
+    // ❌ This won't work because
+    // `storeToRefs` skips `actions` from the store
+    increment() // "undefined"
+
+
+    // if you want to only destructure `actions`
+    // from the store then don't use `storeToRefs`
+    const { increment } = store
+
+    increment() // works!
+    counter // 2
+})
 ```
 :::
+
+:::tip
+- **To extract only the properties from the store:**
+    - `const { counter } = counterStore`
+
+<br/>
+
+- **To extract only the actions from the store:**
+    - `const { increment, decrement } = counterStore`
+:::
+
+
+
