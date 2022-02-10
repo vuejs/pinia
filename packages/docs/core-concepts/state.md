@@ -44,11 +44,11 @@ store.$reset()
 
 ### Usage with the Options API
 
-If you are not using the Composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
+For the following examples, we'll be assuming you've created the following store:
 
 ```js
 // Example File Path:
-// src/stores/counterStore.js
+// ./src/stores/counterStore.js
 
 import { defineStore } from 'pinia',
 
@@ -58,6 +58,31 @@ const useCounterStore = defineStore('counterStore', {
   })
 })
 ```
+
+### With `setup()`
+
+While Composition API is not for everyone, the `setup()` hook makes using Pinia easier to work with in the Options API. No extra map helper functions needed!
+
+```js
+import { useCounterStore } from '../stores/counterStore'
+
+export default {
+  setup() {
+    const counterStore = useCounterStore()
+
+    return { counterStore }
+  },
+  computed: {
+    tripleCounter() {
+      return counterStore.counter * 3
+    },
+  },
+}
+```
+
+### Without `setup()`
+
+If you are not using the Composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
 
 ```js
 import { mapState } from 'pinia'
