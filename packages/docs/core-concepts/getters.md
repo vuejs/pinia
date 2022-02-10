@@ -106,7 +106,9 @@ export default {
 }
 </script>
 
-<template>User 2: {{ getUserById(2) }}</template>
+<template>
+  <p>User 2: {{ getUserById(2) }}</p>
+</template>
 ```
 
 Note that when doing this, **getters are not cached anymore**, they are simply functions that you invoke. You can however cache some results inside of the getter itself, which is uncommon but should prove more performant:
