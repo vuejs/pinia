@@ -124,7 +124,7 @@ const useCounterStore = defineStore('counterStore', {
 
 ### With `setup()`
 
-While Composition API is not for everyone, the `setup()` hook makes using Pinia easier to work with in the Options API. No extra map helper functions needed!
+While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
 
 ```js
 import { useCounterStore } from '../stores/counterStore'
