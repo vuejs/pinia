@@ -106,9 +106,7 @@ export default {
 }
 </script>
 
-<template>
-User 2: {{ getUserById(2) }}
-</template>
+<template>User 2: {{ getUserById(2) }}</template>
 ```
 
 Note that when doing this, **getters are not cached anymore**, they are simply functions that you invoke. You can however cache some results inside of the getter itself, which is uncommon but should prove more performant:
@@ -161,7 +159,7 @@ export default {
 
 ## Usage with the Options API
 
-For the following examples, we'll be assuming you've created the following store:
+For the following examples, you can assume the following store was created:
 
 ```js
 // Example File Path:

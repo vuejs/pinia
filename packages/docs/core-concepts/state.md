@@ -44,7 +44,7 @@ store.$reset()
 
 ### Usage with the Options API
 
-For the following examples, we'll be assuming you've created the following store:
+For the following examples, you can assume the following store was created:
 
 ```js
 // Example File Path:
