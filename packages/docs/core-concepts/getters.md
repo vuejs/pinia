@@ -162,15 +162,29 @@ export default {
 You can use the same `mapState()` function used in the [previous section of state](./state.md#options-api) to map to getters:
 
 ```js
+// Example File Path:
+// src/stores/counterStore.js
+
+import { defineStore } from 'pinia',
+
+const useCounterStore = defineStore('counterStore', {
+  state: () => ({
+    counter: 0
+  })
+})
+```
+
+```js
 import { mapState } from 'pinia'
+import { useCounterStore } from '../stores/counterStore'
 
 export default {
   computed: {
     // gives access to this.doubleCounter inside the component
     // same as reading from store.doubleCounter
-    ...mapState(useStore, ['doubleCount'])
+    ...mapState(useCounterStore, ['doubleCount'])
     // same as above but registers it as this.myOwnName
-    ...mapState(useStore, {
+    ...mapState(useCounterStore, {
       myOwnName: 'doubleCounter',
       // you can also write a function that gets access to the store
       double: store => store.doubleCount,
