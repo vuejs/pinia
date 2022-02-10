@@ -1,5 +1,7 @@
 # Actions
 
+<VueSchoolLink href="https://vueschool.io/lessons/synchronous-and-asynchronous-actions-in-pinia"/>
+
 Actions are the equivalent of [methods](https://v3.vuejs.org/guide/data-methods.html#methods) in components. They can be defined with the `actions` property in `defineStore()` and **they are perfect to define business logic**:
 
 ```js

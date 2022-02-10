@@ -1,5 +1,7 @@
 # Defining a Store
 
+<VueSchoolLink href="https://vueschool.io/lessons/define-your-first-pinia-store"/>
+
 Before diving into core concepts, we need to know that a store is defined using `defineStore()` and that it requires a **unique** name, passed as the first argument:
 
 ```js

@@ -1,5 +1,7 @@
 # Getters
 
+<VueSchoolLink href="https://vueschool.io/lessons/getters-in-pinia"/>
+
 Getters are exactly the equivalent of [computed values](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values) for the state of a Store. They can be defined with the `getters` property in `defineStore()`. They receive the `state` as the first parameter **to encourage** the usage of arrow function:
 
 ```js
