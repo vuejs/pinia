@@ -105,15 +105,29 @@ export default {
 If you are not using the Composition API, and you are using `computed`, `methods`, ..., you can use the `mapActions()` helper to map actions properties as methods in your component:
 
 ```js
+// Example File Path:
+// src/stores/counterStore.js
+
+import { defineStore } from 'pinia',
+
+const useCounterStore = defineStore('counterStore', {
+  state: () => ({
+    counter: 0
+  })
+})
+```
+
+```js
 import { mapActions } from 'pinia'
+import { useCounterStore } from '../stores/counterStore'
 
 export default {
   methods: {
     // gives access to this.increment() inside the component
     // same as calling from store.increment()
-    ...mapActions(useStore, ['increment'])
+    ...mapActions(useCounterStore, ['increment'])
     // same as above but registers it as this.myOwnName()
-    ...mapActions(useStore, { myOwnName: 'doubleCounter' }),
+    ...mapActions(useCounterStore, { myOwnName: 'doubleCounter' }),
   },
 }
 ```
