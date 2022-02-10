@@ -159,20 +159,50 @@ export default {
 
 ## Usage with the Options API
 
-You can use the same `mapState()` function used in the [previous section of state](./state.md#options-api) to map to getters:
+For the following examples, we'll be assuming you've created the following store:
 
 ```js
 // Example File Path:
-// src/stores/counterStore.js
+// ./src/stores/counterStore.js
 
 import { defineStore } from 'pinia',
 
 const useCounterStore = defineStore('counterStore', {
   state: () => ({
     counter: 0
-  })
+  }),
+  getters: {
+    doubleCounter() {
+      return this.counter * 2
+    }
+  }
 })
 ```
+
+### With `setup()`
+
+While Composition API is not for everyone, the `setup()` hook makes using Pinia easier to work with in the Options API. No extra map helper functions needed!
+
+```js
+import { useCounterStore } from '../stores/counterStore'
+
+export default {
+  setup() {
+    const counterStore = useCounterStore()
+
+    return { counterStore }
+  },
+  computed: {
+    quadrupleCounter() {
+      return counterStore.doubleCounter * 2
+    },
+  },
+}
+```
+
+### Without `setup()`
+
+You can use the same `mapState()` function used in the [previous section of state](./state.md#options-api) to map to getters:
 
 ```js
 import { mapState } from 'pinia'
