@@ -42,9 +42,9 @@ const store = useStore()
 store.$reset()
 ```
 
-### Usage with the options API
+### Usage with the Options API
 
-If you are not using the composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
+If you are not using the Composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
 
 ```js
 import { mapState } from 'pinia'

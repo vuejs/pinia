@@ -100,9 +100,9 @@ export default {
 }
 ```
 
-## Usage with the options API
+## Usage with the Options API
 
-If you are not using the composition API, and you are using `computed`, `methods`, ..., you can use the `mapActions()` helper to map actions properties as methods in your component:
+If you are not using the Composition API, and you are using `computed`, `methods`, ..., you can use the `mapActions()` helper to map actions properties as methods in your component:
 
 ```js
 import { mapActions } from 'pinia'

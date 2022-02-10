@@ -79,7 +79,6 @@ export const useStore = defineStore('main', {
 })
 ```
 
-
 ## Passing arguments to getters
 
 _Getters_ are just _computed_ properties behind the scenes, so it's not possible to pass any parameters to them. However, you can return a function from the _getter_ to accept any arguments:
@@ -107,9 +106,7 @@ export default {
 }
 </script>
 
-<template>
-User 2: {{ getUserById(2) }}
-</template>
+<template>User 2: {{ getUserById(2) }}</template>
 ```
 
 Note that when doing this, **getters are not cached anymore**, they are simply functions that you invoke. You can however cache some results inside of the getter itself, which is uncommon but should prove more performant:
@@ -160,7 +157,7 @@ export default {
 }
 ```
 
-## Usage with the options API
+## Usage with the Options API
 
 You can use the same `mapState()` function used in the [previous section of state](./state.md#options-api) to map to getters:
 
