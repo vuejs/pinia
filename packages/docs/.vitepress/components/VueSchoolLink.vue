@@ -10,14 +10,11 @@
     </a>
   </div>
 </template>
-<script>
-export default {
-  props: {
-    href: { type: String, required: true },
-    title: { type: String, required: true },
-  },
-}
+
+<script setup lang="ts">
+defineProps<{ href: string; title: string }>()
 </script>
+
 <style scoped>
 .vueschool {
   margin-top: 20px;

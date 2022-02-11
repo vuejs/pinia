@@ -1,6 +1,9 @@
 # State
 
-<VueSchoolLink href="https://vueschool.io/lessons/access-state-from-a-pinia-store"/>
+<VueSchoolLink
+  href="https://vueschool.io/lessons/access-state-from-a-pinia-store"
+  title="Learn all about state in Pinia"
+/>
 
 The state is, most of the time, the central part of your store. People often start by defining the state that represents their app. In Pinia the state is defined as a function that returns the initial state. This allows Pinia to work in both Server and Client Side.
 
