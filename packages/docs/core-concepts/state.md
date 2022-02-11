@@ -47,20 +47,59 @@ const store = useStore()
 store.$reset()
 ```
 
-### Usage with the options API
+### Usage with the Options API
 
-If you are not using the composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
+For the following examples, you can assume the following store was created:
+
+```js
+// Example File Path:
+// ./src/stores/counterStore.js
+
+import { defineStore } from 'pinia',
+
+const useCounterStore = defineStore('counterStore', {
+  state: () => ({
+    counter: 0
+  })
+})
+```
+
+### With `setup()`
+
+While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
+
+```js
+import { useCounterStore } from '../stores/counterStore'
+
+export default {
+  setup() {
+    const counterStore = useCounterStore()
+
+    return { counterStore }
+  },
+  computed: {
+    tripleCounter() {
+      return counterStore.counter * 3
+    },
+  },
+}
+```
+
+### Without `setup()`
+
+If you are not using the Composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
 
 ```js
 import { mapState } from 'pinia'
+import { useCounterStore } from '../stores/counterStore'
 
 export default {
   computed: {
     // gives access to this.counter inside the component
     // same as reading from store.counter
-    ...mapState(useStore, ['counter'])
+    ...mapState(useCounterStore, ['counter'])
     // same as above but registers it as this.myOwnName
-    ...mapState(useStore, {
+    ...mapState(useCounterStore, {
       myOwnName: 'counter',
       // you can also write a function that gets access to the store
       double: store => store.counter * 2,
@@ -79,15 +118,16 @@ If you want to be able to write to these state properties (e.g. if you have a fo
 
 ```js
 import { mapWritableState } from 'pinia'
+import { useCounterStore } from '../stores/counterStore'
 
 export default {
   computed: {
     // gives access to this.counter inside the component and allows setting it
     // this.counter++
     // same as reading from store.counter
-    ...mapWritableState(useStore, ['counter'])
+    ...mapWritableState(useCounterStore, ['counter'])
     // same as above but registers it as this.myOwnName
-    ...mapWritableState(useStore, {
+    ...mapWritableState(useCounterStore, {
       myOwnName: 'counter',
     }),
   },

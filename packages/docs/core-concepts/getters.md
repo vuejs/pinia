@@ -84,7 +84,6 @@ export const useStore = defineStore('main', {
 })
 ```
 
-
 ## Passing arguments to getters
 
 _Getters_ are just _computed_ properties behind the scenes, so it's not possible to pass any parameters to them. However, you can return a function from the _getter_ to accept any arguments:
@@ -113,7 +112,7 @@ export default {
 </script>
 
 <template>
-User 2: {{ getUserById(2) }}
+  <p>User 2: {{ getUserById(2) }}</p>
 </template>
 ```
 
@@ -165,20 +164,64 @@ export default {
 }
 ```
 
-## Usage with the options API
+## Usage with the Options API
+
+For the following examples, you can assume the following store was created:
+
+```js
+// Example File Path:
+// ./src/stores/counterStore.js
+
+import { defineStore } from 'pinia',
+
+const useCounterStore = defineStore('counterStore', {
+  state: () => ({
+    counter: 0
+  }),
+  getters: {
+    doubleCounter() {
+      return this.counter * 2
+    }
+  }
+})
+```
+
+### With `setup()`
+
+While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
+
+```js
+import { useCounterStore } from '../stores/counterStore'
+
+export default {
+  setup() {
+    const counterStore = useCounterStore()
+
+    return { counterStore }
+  },
+  computed: {
+    quadrupleCounter() {
+      return counterStore.doubleCounter * 2
+    },
+  },
+}
+```
+
+### Without `setup()`
 
 You can use the same `mapState()` function used in the [previous section of state](./state.md#options-api) to map to getters:
 
 ```js
 import { mapState } from 'pinia'
+import { useCounterStore } from '../stores/counterStore'
 
 export default {
   computed: {
     // gives access to this.doubleCounter inside the component
     // same as reading from store.doubleCounter
-    ...mapState(useStore, ['doubleCount'])
+    ...mapState(useCounterStore, ['doubleCount'])
     // same as above but registers it as this.myOwnName
-    ...mapState(useStore, {
+    ...mapState(useCounterStore, {
       myOwnName: 'doubleCounter',
       // you can also write a function that gets access to the store
       double: store => store.doubleCount,

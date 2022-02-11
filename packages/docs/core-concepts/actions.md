@@ -105,20 +105,65 @@ export default {
 }
 ```
 
-## Usage with the options API
+## Usage with the Options API
 
-If you are not using the composition API, and you are using `computed`, `methods`, ..., you can use the `mapActions()` helper to map actions properties as methods in your component:
+For the following examples, you can assume the following store was created:
+
+```js
+// Example File Path:
+// ./src/stores/counterStore.js
+
+import { defineStore } from 'pinia',
+
+const useCounterStore = defineStore('counterStore', {
+  state: () => ({
+    counter: 0
+  }),
+  actions: {
+    increment() {
+      this.counter++
+    }
+  }
+})
+```
+
+### With `setup()`
+
+While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
+
+```js
+import { useCounterStore } from '../stores/counterStore'
+
+export default {
+  setup() {
+    const counterStore = useCounterStore()
+
+    return { counterStore }
+  },
+  methods: {
+    incrementAndPrint() {
+      counterStore.increment()
+      console.log('New Count:', counterStore.count)
+    },
+  },
+}
+```
+
+### Without `setup()`
+
+If you would prefer not to use Composition API at all, you can use the `mapActions()` helper to map actions properties as methods in your component:
 
 ```js
 import { mapActions } from 'pinia'
+import { useCounterStore } from '../stores/counterStore'
 
 export default {
   methods: {
     // gives access to this.increment() inside the component
     // same as calling from store.increment()
-    ...mapActions(useStore, ['increment'])
+    ...mapActions(useCounterStore, ['increment'])
     // same as above but registers it as this.myOwnName()
-    ...mapActions(useStore, { myOwnName: 'doubleCounter' }),
+    ...mapActions(useCounterStore, { myOwnName: 'doubleCounter' }),
   },
 }
 ```
