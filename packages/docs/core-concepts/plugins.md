@@ -169,6 +169,15 @@ pinia.use(({ store }) => {
 })
 ```
 
+In your store file you now have access to the router using `this.router`, here is an example of an action using the router:
+
+```js
+login() {
+  // run som login code
+  if (loggedIn) this.router.push({ path: "/dashboard" });
+}
+```
+
 ## Calling `$subscribe` inside plugins
 
 You can use [store.$subscribe](./state.md#subscribing-to-the-state) and [store.$onAction](./actions.md#subscribing-to-actions) inside plugins too:
