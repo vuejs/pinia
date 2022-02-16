@@ -79,7 +79,7 @@ export default {
   },
   computed: {
     tripleCounter() {
-      return counterStore.counter * 3
+      return this.counterStore.counter * 3
     },
   },
 }
