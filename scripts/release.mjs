@@ -63,7 +63,7 @@ async function main() {
     if (currentBranch !== EXPECTED_BRANCH) {
       console.log(
         chalk.red(
-          `You should be on brach "${EXPECTED_BRANCH}" but are on "${currentBranch}"`
+          `You should be on branch "${EXPECTED_BRANCH}" but are on "${currentBranch}"`
         )
       )
       return
