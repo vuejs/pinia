@@ -276,6 +276,11 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
       componentStateTypes,
       app,
       settings: {
+        logStoreChanges: {
+          label: 'Notify about new/deleted stores',
+          type: 'boolean',
+          defaultValue: true,
+        },
         // useEmojis: {
         //   label: 'Use emojis in messages ⚡️',
         //   type: 'boolean',
@@ -443,14 +448,16 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
         api.notifyComponentUpdate()
         api.sendInspectorTree(INSPECTOR_ID)
         api.sendInspectorState(INSPECTOR_ID)
-        toastMessage(`Disposed "${store.$id}" store 🗑`)
+        api.getSettings().logStoreChanges &&
+          toastMessage(`Disposed "${store.$id}" store 🗑`)
       }
 
       // trigger an update so it can display new registered stores
       api.notifyComponentUpdate()
       api.sendInspectorTree(INSPECTOR_ID)
       api.sendInspectorState(INSPECTOR_ID)
-      toastMessage(`"${store.$id}" store installed 🆕`)
+      api.getSettings().logStoreChanges &&
+        toastMessage(`"${store.$id}" store installed 🆕`)
     }
   )
 }
