@@ -147,7 +147,12 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
                 key: 'getters',
                 editable: false,
                 value: store._getters.reduce((getters, key) => {
-                  getters[key] = store[key]
+                  try {
+                    getters[key] = store[key]
+                  } catch (error) {
+                    // @ts-expect-error: we just want to show it in devtools
+                    getters[key] = error
+                  }
                   return getters
                 }, {} as _GettersTree<StateTree>),
               })
