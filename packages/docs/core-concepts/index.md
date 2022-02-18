@@ -69,7 +69,8 @@ export default defineComponent({
 })
 ```
 
-In order to extract properties from the store while keeping its reactivity, you need to use `storeToRefs()`. It will create refs for any reactive property. This is useful when you are only using state from the store but not calling any action:
+In order to extract properties from the store while keeping its reactivity, you need to use `storeToRefs()`. It will create refs for every reactive property. This is useful when you are only using state from the store but not calling any action. Note you can destructure actions directly from the store as they are bound to the store itself too:
+
 ```js
 import { storeToRefs } from 'pinia'
 
@@ -80,41 +81,14 @@ export default defineComponent({
     // This will also create refs for properties added by plugins
     // but skip any action or non reactive (non ref/reactive) property
     const { name, doubleCount } = storeToRefs(store)
+    // the increment action can be just extracted
+    const { increment } = store
 
     return {
       name,
       doubleCount
+      increment,
     }
   },
 })
 ```
-
-Extracting `actions` using `storeToRefs` will result in `actions` being `undefined`. To extract `actions` from the store, you should skip using `storeToRefs`:
-
-```js
-import { storeToRefs } from 'pinia'
-import useCounterStore from '@/store/counter'
-
-export default defineComponent({
-    const store = useCounterStore()
-
-    const { counter, increment } = storeToRefs(store)
-
-    counter // 1
-
-    // ❌ This won't work because
-    // `storeToRefs` skips `actions` from the store
-    increment() // "undefined"
-
-
-    // ✅ if you want to only destructure `actions`
-    // from the store then don't use `storeToRefs`
-    const { increment } = store
-
-    increment() // works!
-    counter // 2
-})
-```
-
-
-
