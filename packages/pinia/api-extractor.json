@@ -14,7 +14,7 @@
 
   "dtsRollup": {
     "enabled": true,
-    "untrimmedFilePath": "./dist/<unscopedPackageName>.d.ts"
+    "publicTrimmedFilePath": "./dist/<unscopedPackageName>.d.ts"
   },
 
   "tsdocMetadata": {

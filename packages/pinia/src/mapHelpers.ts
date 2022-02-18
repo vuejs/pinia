@@ -20,7 +20,7 @@ export interface MapStoresCustomization {
 }
 
 /**
- * @internal
+ * For internal use **only**.
  */
 export type _StoreObject<S> = S extends StoreDefinition<
   infer Ids,
@@ -48,7 +48,7 @@ export type _StoreObject<S> = S extends StoreDefinition<
   : {}
 
 /**
- * @internal
+ * For internal use **only**.
  */
 export type _Spread<A extends readonly any[]> = A extends [infer L, ...infer R]
   ? _StoreObject<L> & _Spread<R>
@@ -120,7 +120,7 @@ export function mapStores<Stores extends any[]>(
 }
 
 /**
- * @internal
+ * For internal use **only**
  */
 export type _MapStateReturn<
   S extends StateTree,
@@ -136,7 +136,7 @@ export type _MapStateReturn<
 }
 
 /**
- * @internal
+ * For internal use **only**
  */
 export type _MapStateObjectReturn<
   Id extends string,
@@ -285,14 +285,14 @@ export function mapState<
 export const mapGetters = mapState
 
 /**
- * @internal
+ * For internal use **only**
  */
 export type _MapActionsReturn<A> = {
   [key in keyof A]: A[key]
 }
 
 /**
- * @internal
+ * For internal use **only**
  */
 export type _MapActionsObjectReturn<A, T extends Record<string, keyof A>> = {
   [key in keyof T]: A[T[key]]
@@ -407,7 +407,7 @@ export function mapActions<
 }
 
 /**
- * @internal
+ * For internal use **only**
  */
 export type _MapWritableStateReturn<S extends StateTree> = {
   [key in keyof S]: {
@@ -417,7 +417,7 @@ export type _MapWritableStateReturn<S extends StateTree> = {
 }
 
 /**
- * @internal
+ * For internal use **only**
  */
 export type _MapWritableStateObjectReturn<
   S extends StateTree,

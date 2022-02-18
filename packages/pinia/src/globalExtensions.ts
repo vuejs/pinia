@@ -15,7 +15,7 @@ declare module 'vue/types/vue' {
 
     /**
      * Cache of stores instantiated by the current instance. Used by map
-     * helpers.
+     * helpers. Used internally by Pinia.
      *
      * @internal
      */
@@ -44,7 +44,7 @@ declare module '@vue/runtime-core' {
 
     /**
      * Cache of stores instantiated by the current instance. Used by devtools to
-     * list currently used stores.
+     * list currently used stores. Used internally by Pinia.
      *
      * @internal
      */
