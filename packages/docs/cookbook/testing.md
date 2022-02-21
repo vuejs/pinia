@@ -100,8 +100,30 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 expect(store.someAction).toHaveBeenLastCalledWith()
 ```
 
+For a Vue 2 setup exemple [see this section](#unit-test-components-vue-2)
+
 You can find more examples in [the tests of the testing package](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts).
 
 ## E2E tests
 
 When it comes to pinia, you don't need to change anything for e2e tests, that's the whole point of e2e tests! You could maybe test HTTP requests, but that's way beyond the scope of this guide 😄.
+
+## Unit test components (Vue 2)
+
+With [Vue Test Utils 1](https://v1.test-utils.vuejs.org/) the recommended approach is to use a `localVue`, on which we'll install pinia's Vue 2 plugin :
+
+```js
+import { PiniaVuePlugin } from 'pinia'
+import { createLocalVue, mount } from '@vue/test-utils'
+import { createTestingPinia } from '@pinia/testing'
+
+const localVue = createLocalVue()
+localVue.use(PiniaVuePlugin)
+
+const wrapper = mount(Counter, {
+  localVue,
+  pinia: createTestingPinia(),
+})
+
+const store = useSomeStore() // uses the testing pinia!
+```
