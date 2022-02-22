@@ -16,6 +16,19 @@ export const Layout = defineComponent({
         Theme.Layout,
         {},
         {
+          'home-hero': ()=>(
+            h("div", {
+              style: "text-align: center; margin-top: -40px;"
+            }, [
+              h("a", {
+                  href: "https://vueschool.io/courses/pinia-the-enjoyable-vue-store?friend=vuerouter",
+                  target:"_blank",
+                  rel:"noopener"
+                },
+                [h("span", "Watch a Free Video Course")]
+              )
+            ])
+          ),
           'sidebar-top': () =>
             h('div', { class: 'sponsors sponsors-top' }, [
               h('span', 'Platinum Sponsors'),
