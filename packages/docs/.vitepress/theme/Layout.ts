@@ -18,14 +18,14 @@ export const Layout = defineComponent({
         {
           'home-hero': ()=>(
             h("div", {
-              style: "text-align: center; margin-top: -40px;"
+              class: "vue-school-homepage-link",
             }, [
               h("a", {
-                  href: "https://vueschool.io/courses/pinia-the-enjoyable-vue-store?friend=vuerouter",
+                  href: "https://vueschool.io/lessons/introduction-to-pinia?friend=vuerouter&utm_source=pinia&utm_medium=link&utm_campaign=homepage",
                   target:"_blank",
                   rel:"noopener"
                 },
-                [h("span", "Watch a Free Video Course")]
+                [h("span", "Watch Video Introduction")]
               )
             ])
           ),
