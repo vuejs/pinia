@@ -46,7 +46,7 @@ export interface TestingOptions {
 
   /**
    * Function used to create a spy for actions and `$patch()`. Pre-configured
-   * with `jest.fn()` in jest projects or `vitest.fn()` in vitest projects.
+   * with `jest.fn()` in jest projects or `vi.fn()` in vitest projects.
    */
   createSpy?: (fn?: (...args: any[]) => any) => (...args: any[]) => any
 }
@@ -59,6 +59,12 @@ export interface TestingPinia extends Pinia {
   /** App used by Pinia */
   app: App
 }
+
+declare var vi:
+  | undefined
+  | {
+      fn: (fn?: (...args: any[]) => any) => (...args: any[]) => any
+    }
 
 /**
  * Creates a pinia instance designed for unit tests that **requires mocking**
@@ -92,7 +98,7 @@ export function createTestingPinia({
   const createSpy =
     _createSpy ||
     (typeof jest !== 'undefined' && jest.fn) ||
-    (typeof vitest !== 'undefined' && vitest.fn)
+    (typeof vi !== 'undefined' && vi.fn)
   /* istanbul ignore if */
   if (!createSpy) {
     throw new Error('You must configure the `createSpy` option.')
