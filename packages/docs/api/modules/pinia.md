@@ -1,0 +1,953 @@
+---
+sidebar: "auto"
+editLinks: false
+sidebarDepth: 3
+---
+
+[API Documentation](../index.md) / pinia
+
+# Module: pinia
+
+## Enumerations
+
+- [MutationType](../enums/pinia.MutationType.md)
+
+## Interfaces
+
+- [DefineSetupStoreOptions](../interfaces/pinia.DefineSetupStoreOptions.md)
+- [DefineStoreOptions](../interfaces/pinia.DefineStoreOptions.md)
+- [DefineStoreOptionsBase](../interfaces/pinia.DefineStoreOptionsBase.md)
+- [DefineStoreOptionsInPlugin](../interfaces/pinia.DefineStoreOptionsInPlugin.md)
+- [MapStoresCustomization](../interfaces/pinia.MapStoresCustomization.md)
+- [Pinia](../interfaces/pinia.Pinia.md)
+- [PiniaCustomProperties](../interfaces/pinia.PiniaCustomProperties.md)
+- [PiniaCustomStateProperties](../interfaces/pinia.PiniaCustomStateProperties.md)
+- [PiniaPlugin](../interfaces/pinia.PiniaPlugin.md)
+- [PiniaPluginContext](../interfaces/pinia.PiniaPluginContext.md)
+- [StoreDefinition](../interfaces/pinia.StoreDefinition.md)
+- [StoreProperties](../interfaces/pinia.StoreProperties.md)
+- [SubscriptionCallbackMutationDirect](../interfaces/pinia.SubscriptionCallbackMutationDirect.md)
+- [SubscriptionCallbackMutationPatchFunction](../interfaces/pinia.SubscriptionCallbackMutationPatchFunction.md)
+- [SubscriptionCallbackMutationPatchObject](../interfaces/pinia.SubscriptionCallbackMutationPatchObject.md)
+- [\_StoreWithState](../interfaces/pinia._StoreWithState.md)
+- [\_SubscriptionCallbackMutationBase](../interfaces/pinia._SubscriptionCallbackMutationBase.md)
+
+## Type aliases
+
+### PiniaStorePlugin
+
+Ƭ **PiniaStorePlugin**: [`PiniaPlugin`](../interfaces/pinia.PiniaPlugin.md)
+
+Plugin to extend every store.
+
+**`deprecated`** use PiniaPlugin instead
+
+#### Defined in
+
+[pinia/src/rootStore.ts:149](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L149)
+
+___
+
+### StateTree
+
+Ƭ **StateTree**: `Record`<`string` \| `number` \| `symbol`, `any`\>
+
+Generic state of a Store
+
+#### Defined in
+
+[pinia/src/types.ts:13](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L13)
+
+___
+
+### Store
+
+Ƭ **Store**<`Id`, `S`, `G`, `A`\>: [`_StoreWithState`](../interfaces/pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & `UnwrapRef`<`S`\> & `_StoreWithGetters`<`G`\> & `_ActionsTree` extends `A` ? {} : `A` & [`PiniaCustomProperties`](../interfaces/pinia.PiniaCustomProperties.md)<`Id`, `S`, `G`, `A`\> & `PiniaCustomStateProperties`<`S`\>
+
+Store type to build a store.
+
+#### Type parameters
+
+| Name | Type                                           |
+| :--- | :--------------------------------------------- |
+| `Id` | extends `string` = `string`                    |
+| `S`  | extends [`StateTree`](pinia.md#statetree) = {} |
+| `G`  | {}                                             |
+| `A`  | {}                                             |
+
+#### Defined in
+
+[pinia/src/types.ts:472](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L472)
+
+___
+
+### StoreActions
+
+Ƭ **StoreActions**<`SS`\>: `SS` extends [`Store`](pinia.md#store)<`string`, [`StateTree`](pinia.md#statetree), `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, infer A\> ? `A` : `_ExtractActionsFromSetupStore`<`SS`\>
+
+Extract the actions of a store type. Works with both a Setup Store or an
+Options Store.
+
+#### Type parameters
+
+| Name |
+| :--- |
+| `SS` |
+
+#### Defined in
+
+[pinia/src/store.ts:727](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L727)
+
+___
+
+### StoreGeneric
+
+Ƭ **StoreGeneric**: [`Store`](pinia.md#store)<`string`, [`StateTree`](pinia.md#statetree), `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, `_ActionsTree`\>
+
+Generic and type-unsafe version of Store. Doesn't fail on access with
+strings, making it much easier to write generic functions that do not care
+about the kind of store that is passed.
+
+#### Defined in
+
+[pinia/src/types.ts:491](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L491)
+
+___
+
+### StoreGetters
+
+Ƭ **StoreGetters**<`SS`\>: `SS` extends [`Store`](pinia.md#store)<`string`, [`StateTree`](pinia.md#statetree), infer G, `_ActionsTree`\> ? `_StoreWithGetters`<`G`\> : `_ExtractGettersFromSetupStore`<`SS`\>
+
+Extract the getters of a store type. Works with both a Setup Store or an
+Options Store.
+
+#### Type parameters
+
+| Name |
+| :--- |
+| `SS` |
+
+#### Defined in
+
+[pinia/src/store.ts:740](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L740)
+
+___
+
+### StoreOnActionListener
+
+Ƭ **StoreOnActionListener**<`Id`, `S`, `G`, `A`\>: (`context`: [`StoreOnActionListenerContext`](pinia.md#storeonactionlistenercontext)<`Id`, `S`, `G`, {} extends `A` ? `_ActionsTree` : `A`\>) => `void`
+
+#### Type parameters
+
+| Name | Type                                      |
+| :--- | :---------------------------------------- |
+| `Id` | extends `string`                          |
+| `S`  | extends [`StateTree`](pinia.md#statetree) |
+| `G`  | `G`                                       |
+| `A`  | `A`                                       |
+
+#### Type declaration
+
+▸ (`context`): `void`
+
+Argument of `store.$onAction()`
+
+##### Parameters
+
+| Name      | Type                                                                                                                            |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| `context` | [`StoreOnActionListenerContext`](pinia.md#storeonactionlistenercontext)<`Id`, `S`, `G`, {} extends `A` ? `_ActionsTree` : `A`\> |
+
+##### Returns
+
+`void`
+
+#### Defined in
+
+[pinia/src/types.ts:243](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L243)
+
+___
+
+### StoreOnActionListenerContext
+
+Ƭ **StoreOnActionListenerContext**<`Id`, `S`, `G`, `A`\>: `_ActionsTree` extends `A` ? `_StoreOnActionListenerContext`<[`StoreGeneric`](pinia.md#storegeneric), `string`, `_ActionsTree`\> : { [Name in keyof A]: Name extends string ? \_StoreOnActionListenerContext<Store<Id, S, G, A\>, Name, A\> : never }[keyof `A`]
+
+Context object passed to callbacks of `store.$onAction(context => {})`
+TODO: should have only the Id, the Store and Actions to generate the proper object
+
+#### Type parameters
+
+| Name | Type                                      |
+| :--- | :---------------------------------------- |
+| `Id` | extends `string`                          |
+| `S`  | extends [`StateTree`](pinia.md#statetree) |
+| `G`  | `G`                                       |
+| `A`  | `A`                                       |
+
+#### Defined in
+
+[pinia/src/types.ts:227](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L227)
+
+___
+
+### StoreState
+
+Ƭ **StoreState**<`SS`\>: `SS` extends [`Store`](pinia.md#store)<`string`, infer S, `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, `_ActionsTree`\> ? `UnwrapRef`<`S`\> : `_ExtractStateFromSetupStore`<`SS`\>
+
+Extract the state of a store type. Works with both a Setup Store or an
+Options Store. Note this unwraps refs.
+
+#### Type parameters
+
+| Name |
+| :--- |
+| `SS` |
+
+#### Defined in
+
+[pinia/src/store.ts:753](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L753)
+
+___
+
+### SubscriptionCallback
+
+Ƭ **SubscriptionCallback**<`S`\>: (`mutation`: [`SubscriptionCallbackMutation`](pinia.md#subscriptioncallbackmutation)<`S`\>, `state`: `UnwrapRef`<`S`\>) => `void`
+
+#### Type parameters
+
+| Name |
+| :--- |
+| `S`  |
+
+#### Type declaration
+
+▸ (`mutation`, `state`): `void`
+
+Callback of a subscription
+
+##### Parameters
+
+| Name       | Type                                                                          |
+| :--------- | :---------------------------------------------------------------------------- |
+| `mutation` | [`SubscriptionCallbackMutation`](pinia.md#subscriptioncallbackmutation)<`S`\> |
+| `state`    | `UnwrapRef`<`S`\>                                                             |
+
+##### Returns
+
+`void`
+
+#### Defined in
+
+[pinia/src/types.ts:148](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L148)
+
+___
+
+### SubscriptionCallbackMutation
+
+Ƭ **SubscriptionCallbackMutation**<`S`\>: [`SubscriptionCallbackMutationDirect`](../interfaces/pinia.SubscriptionCallbackMutationDirect.md) \| [`SubscriptionCallbackMutationPatchObject`](../interfaces/pinia.SubscriptionCallbackMutationPatchObject.md)<`S`\> \| [`SubscriptionCallbackMutationPatchFunction`](../interfaces/pinia.SubscriptionCallbackMutationPatchFunction.md)
+
+Context object passed to a subscription callback.
+
+#### Type parameters
+
+| Name |
+| :--- |
+| `S`  |
+
+#### Defined in
+
+[pinia/src/types.ts:140](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L140)
+
+___
+
+### \_Awaited
+
+Ƭ **\_Awaited**<`T`\>: `T` extends ``null`` \| `undefined` ? `T` : `T` extends `object` & { `then`: (`onfulfilled`: `F`) => `any`  } ? `F` extends (`value`: infer V, ...`args`: `any`) => `any` ? [`_Awaited`](pinia.md#_awaited)<`V`\> : `never` : `T`
+
+#### Type parameters
+
+| Name |
+| :--- |
+| `T`  |
+
+#### Defined in
+
+[pinia/src/types.ts:164](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L164)
+
+## Variables
+
+### PiniaVuePlugin
+
+• **PiniaVuePlugin**: `Plugin`
+
+Vue 2 Plugin that must be installed for pinia to work. Note **you don't need
+this plugin if you are using Nuxt.js**. Use the `buildModule` instead:
+https://pinia.vuejs.org/ssr/nuxt.html.
+
+**`example`**
+```js
+import Vue from 'vue'
+import { PiniaVuePlugin, createPinia } from 'pinia'
+
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
+
+new Vue({
+  el: '#app',
+  // ...
+  pinia,
+})
+```
+
+**`param`** `Vue` imported from 'vue'.
+
+#### Defined in
+
+[pinia/src/vue2-plugin.ts:28](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/vue2-plugin.ts#L28)
+
+## Functions
+
+### acceptHMRUpdate
+
+▸ **acceptHMRUpdate**(`initialUseStore`, `hot`): (`newModule`: `any`) => `any`
+
+Creates an _accept_ function to pass to `import.meta.hot` in Vite applications.
+
+**`example`**
+```js
+const useUser = defineStore(...)
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useUser, import.meta.hot))
+}
+```
+
+#### Parameters
+
+| Name              | Type                                                                                                                                                                          | Description                             |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------- |
+| `initialUseStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`string`, [`StateTree`](pinia.md#statetree), `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, `_ActionsTree`\> | return of the defineStore to hot update |
+| `hot`             | `any`                                                                                                                                                                         | `import.meta.hot`                       |
+
+#### Returns
+
+`fn`
+
+▸ (`newModule`): `any`
+
+##### Parameters
+
+| Name        | Type  |
+| :---------- | :---- |
+| `newModule` | `any` |
+
+##### Returns
+
+`any`
+
+#### Defined in
+
+[pinia/src/hmr.ts:73](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/hmr.ts#L73)
+
+___
+
+### createPinia
+
+▸ **createPinia**(): [`Pinia`](../interfaces/pinia.Pinia.md)
+
+Creates a Pinia instance to be used by the application
+
+#### Returns
+
+[`Pinia`](../interfaces/pinia.Pinia.md)
+
+#### Defined in
+
+[pinia/src/createPinia.ts:10](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/createPinia.ts#L10)
+
+___
+
+### defineStore
+
+▸ **defineStore**<`Id`, `S`, `G`, `A`\>(`id`, `options`): [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\>
+
+Creates a `useStore` function that retrieves the store instance
+
+#### Type parameters
+
+| Name | Type                                           |
+| :--- | :--------------------------------------------- |
+| `Id` | extends `string`                               |
+| `S`  | extends [`StateTree`](pinia.md#statetree) = {} |
+| `G`  | extends `_GettersTree`<`S`\> = {}              |
+| `A`  | {}                                             |
+
+#### Parameters
+
+| Name      | Type                                                                                                       | Description                      |
+| :-------- | :--------------------------------------------------------------------------------------------------------- | :------------------------------- |
+| `id`      | `Id`                                                                                                       | id of the store (must be unique) |
+| `options` | `Omit`<[`DefineStoreOptions`](../interfaces/pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\>, ``"id"``\> | options to define the store      |
+
+#### Returns
+
+[`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\>
+
+#### Defined in
+
+[pinia/src/store.ts:776](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L776)
+
+▸ **defineStore**<`Id`, `S`, `G`, `A`\>(`options`): [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\>
+
+Creates a `useStore` function that retrieves the store instance
+
+#### Type parameters
+
+| Name | Type                                           |
+| :--- | :--------------------------------------------- |
+| `Id` | extends `string`                               |
+| `S`  | extends [`StateTree`](pinia.md#statetree) = {} |
+| `G`  | extends `_GettersTree`<`S`\> = {}              |
+| `A`  | {}                                             |
+
+#### Parameters
+
+| Name      | Type                                                                                    | Description                 |
+| :-------- | :-------------------------------------------------------------------------------------- | :-------------------------- |
+| `options` | [`DefineStoreOptions`](../interfaces/pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\> | options to define the store |
+
+#### Returns
+
+[`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\>
+
+#### Defined in
+
+[pinia/src/store.ts:792](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L792)
+
+▸ **defineStore**<`Id`, `SS`\>(`id`, `storeSetup`, `options?`): [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `_ExtractStateFromSetupStore`<`SS`\>, `_ExtractGettersFromSetupStore`<`SS`\>, `_ExtractActionsFromSetupStore`<`SS`\>\>
+
+Creates a `useStore` function that retrieves the store instance
+
+#### Type parameters
+
+| Name | Type             |
+| :--- | :--------------- |
+| `Id` | extends `string` |
+| `SS` | `SS`             |
+
+#### Parameters
+
+| Name         | Type                                                                                                                                                                                                     | Description                      |
+| :----------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------- |
+| `id`         | `Id`                                                                                                                                                                                                     | id of the store (must be unique) |
+| `storeSetup` | () => `SS`                                                                                                                                                                                               | function that defines the store  |
+| `options?`   | [`DefineSetupStoreOptions`](../interfaces/pinia.DefineSetupStoreOptions.md)<`Id`, `_ExtractStateFromSetupStore`<`SS`\>, `_ExtractGettersFromSetupStore`<`SS`\>, `_ExtractActionsFromSetupStore`<`SS`\>\> | extra options                    |
+
+#### Returns
+
+[`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `_ExtractStateFromSetupStore`<`SS`\>, `_ExtractGettersFromSetupStore`<`SS`\>, `_ExtractActionsFromSetupStore`<`SS`\>\>
+
+#### Defined in
+
+[pinia/src/store.ts:807](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L807)
+
+___
+
+### getActivePinia
+
+▸ `Const` **getActivePinia**(): `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md)
+
+Get the currently active pinia if there is any.
+
+#### Returns
+
+`undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md)
+
+#### Defined in
+
+[pinia/src/rootStore.ts:39](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L39)
+
+___
+
+### mapActions
+
+▸ **mapActions**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): `_MapActionsObjectReturn`<`A`, `KeyMapper`\>
+
+Allows directly using actions from your store without using the composition
+API (`setup()`) by generating an object to be spread in the `methods` field
+of a component. The values of the object are the actions while the keys are
+the names of the resulting methods.
+
+**`example`**
+```js
+export default {
+  methods: {
+    // other methods properties
+    // useCounterStore has two actions named `increment` and `setCount`
+    ...mapActions(useCounterStore, { moar: 'increment', setIt: 'setCount' })
+  },
+
+  created() {
+    this.moar()
+    this.setIt(2)
+  }
+}
+```
+
+#### Type parameters
+
+| Name        | Type                                      |
+| :---------- | :---------------------------------------- |
+| `Id`        | extends `string`                          |
+| `S`         | extends [`StateTree`](pinia.md#statetree) |
+| `G`         | extends `_GettersTree`<`S`\>              |
+| `A`         | `A`                                       |
+| `KeyMapper` | extends `Record`<`string`, keyof `A`\>    |
+
+#### Parameters
+
+| Name        | Type                                                                              | Description                                |
+| :---------- | :-------------------------------------------------------------------------------- | :----------------------------------------- |
+| `useStore`  | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from                          |
+| `keyMapper` | `KeyMapper`                                                                       | object to define new names for the actions |
+
+#### Returns
+
+`_MapActionsObjectReturn`<`A`, `KeyMapper`\>
+
+#### Defined in
+
+[pinia/src/mapHelpers.ts:326](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L326)
+
+▸ **mapActions**<`Id`, `S`, `G`, `A`\>(`useStore`, `keys`): `_MapActionsReturn`<`A`\>
+
+Allows directly using actions from your store without using the composition
+API (`setup()`) by generating an object to be spread in the `methods` field
+of a component.
+
+**`example`**
+```js
+export default {
+  methods: {
+    // other methods properties
+    ...mapActions(useCounterStore, ['increment', 'setCount'])
+  },
+
+  created() {
+    this.increment()
+    this.setCount(2) // pass arguments as usual
+  }
+}
+```
+
+#### Type parameters
+
+| Name | Type                                      |
+| :--- | :---------------------------------------- |
+| `Id` | extends `string`                          |
+| `S`  | extends [`StateTree`](pinia.md#statetree) |
+| `G`  | extends `_GettersTree`<`S`\>              |
+| `A`  | `A`                                       |
+
+#### Parameters
+
+| Name       | Type                                                                              | Description                  |
+| :--------- | :-------------------------------------------------------------------------------- | :--------------------------- |
+| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from            |
+| `keys`     | keyof `A`[]                                                                       | array of action names to map |
+
+#### Returns
+
+`_MapActionsReturn`<`A`\>
+
+#### Defined in
+
+[pinia/src/mapHelpers.ts:359](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L359)
+
+___
+
+### mapGetters
+
+▸ `Const` **mapGetters**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): `_MapStateObjectReturn`<`Id`, `S`, `G`, `A`, `KeyMapper`\>
+
+Alias for `mapState()`. You should use `mapState()` instead.
+
+**`deprecated`** use `mapState()` instead.
+
+#### Type parameters
+
+| Name        | Type                                                                                                                       |
+| :---------- | :------------------------------------------------------------------------------------------------------------------------- |
+| `Id`        | extends `string`                                                                                                           |
+| `S`         | extends [`StateTree`](pinia.md#statetree)                                                                                  |
+| `G`         | extends `_GettersTree`<`S`\>                                                                                               |
+| `A`         | `A`                                                                                                                        |
+| `KeyMapper` | extends `Record`<`string`, keyof `S` \| keyof `G` \| (`store`: [`Store`](pinia.md#store)<`Id`, `S`, `G`, `A`\>) => `any`\> |
+
+#### Parameters
+
+| Name        | Type                                                                              |
+| :---------- | :-------------------------------------------------------------------------------- |
+| `useStore`  | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> |
+| `keyMapper` | `KeyMapper`                                                                       |
+
+#### Returns
+
+`_MapStateObjectReturn`<`Id`, `S`, `G`, `A`, `KeyMapper`\>
+
+#### Defined in
+
+[pinia/src/mapHelpers.ts:285](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L285)
+
+▸ `Const` **mapGetters**<`Id`, `S`, `G`, `A`, `Keys`\>(`useStore`, `keys`): `_MapStateReturn`<`S`, `G`, `Keys`\>
+
+Alias for `mapState()`. You should use `mapState()` instead.
+
+**`deprecated`** use `mapState()` instead.
+
+#### Type parameters
+
+| Name   | Type                                      |
+| :----- | :---------------------------------------- |
+| `Id`   | extends `string`                          |
+| `S`    | extends [`StateTree`](pinia.md#statetree) |
+| `G`    | extends `_GettersTree`<`S`\>              |
+| `A`    | `A`                                       |
+| `Keys` | extends `string` \| `number` \| `symbol`  |
+
+#### Parameters
+
+| Name       | Type                                                                              |
+| :--------- | :-------------------------------------------------------------------------------- |
+| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> |
+| `keys`     | readonly `Keys`[]                                                                 |
+
+#### Returns
+
+`_MapStateReturn`<`S`, `G`, `Keys`\>
+
+#### Defined in
+
+[pinia/src/mapHelpers.ts:285](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L285)
+
+___
+
+### mapState
+
+▸ **mapState**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): `_MapStateObjectReturn`<`Id`, `S`, `G`, `A`, `KeyMapper`\>
+
+Allows using state and getters from one store without using the composition
+API (`setup()`) by generating an object to be spread in the `computed` field
+of a component. The values of the object are the state properties/getters
+while the keys are the names of the resulting computed properties.
+Optionally, you can also pass a custom function that will receive the store
+as its first argument. Note that while it has access to the component
+instance via `this`, it won't be typed.
+
+**`example`**
+```js
+export default {
+  computed: {
+    // other computed properties
+    // useCounterStore has a state property named `count` and a getter `double`
+    ...mapState(useCounterStore, {
+      n: 'count',
+      triple: store => store.n * 3,
+      // note we can't use an arrow function if we want to use `this`
+      custom(store) {
+        return this.someComponentValue + store.n
+      },
+      doubleN: 'double'
+    })
+  },
+
+  created() {
+    this.n // 2
+    this.doubleN // 4
+  }
+}
+```
+
+#### Type parameters
+
+| Name        | Type                                                                                                                       |
+| :---------- | :------------------------------------------------------------------------------------------------------------------------- |
+| `Id`        | extends `string`                                                                                                           |
+| `S`         | extends [`StateTree`](pinia.md#statetree)                                                                                  |
+| `G`         | extends `_GettersTree`<`S`\>                                                                                               |
+| `A`         | `A`                                                                                                                        |
+| `KeyMapper` | extends `Record`<`string`, keyof `S` \| keyof `G` \| (`store`: [`Store`](pinia.md#store)<`Id`, `S`, `G`, `A`\>) => `any`\> |
+
+#### Parameters
+
+| Name        | Type                                                                              | Description                           |
+| :---------- | :-------------------------------------------------------------------------------- | :------------------------------------ |
+| `useStore`  | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from                     |
+| `keyMapper` | `KeyMapper`                                                                       | object of state properties or getters |
+
+#### Returns
+
+`_MapStateObjectReturn`<`Id`, `S`, `G`, `A`, `KeyMapper`\>
+
+#### Defined in
+
+[pinia/src/mapHelpers.ts:194](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L194)
+
+▸ **mapState**<`Id`, `S`, `G`, `A`, `Keys`\>(`useStore`, `keys`): `_MapStateReturn`<`S`, `G`, `Keys`\>
+
+Allows using state and getters from one store without using the composition
+API (`setup()`) by generating an object to be spread in the `computed` field
+of a component.
+
+**`example`**
+```js
+export default {
+  computed: {
+    // other computed properties
+    ...mapState(useCounterStore, ['count', 'double'])
+  },
+
+  created() {
+    this.count // 2
+    this.double // 4
+  }
+}
+```
+
+#### Type parameters
+
+| Name   | Type                                      |
+| :----- | :---------------------------------------- |
+| `Id`   | extends `string`                          |
+| `S`    | extends [`StateTree`](pinia.md#statetree) |
+| `G`    | extends `_GettersTree`<`S`\>              |
+| `A`    | `A`                                       |
+| `Keys` | extends `string` \| `number` \| `symbol`  |
+
+#### Parameters
+
+| Name       | Type                                                                              | Description                          |
+| :--------- | :-------------------------------------------------------------------------------- | :----------------------------------- |
+| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from                    |
+| `keys`     | readonly `Keys`[]                                                                 | array of state properties or getters |
+
+#### Returns
+
+`_MapStateReturn`<`S`, `G`, `Keys`\>
+
+#### Defined in
+
+[pinia/src/mapHelpers.ts:231](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L231)
+
+___
+
+### mapStores
+
+▸ **mapStores**<`Stores`\>(...`stores`): `_Spread`<`Stores`\>
+
+Allows using stores without the composition API (`setup()`) by generating an
+object to be spread in the `computed` field of a component. It accepts a list
+of store definitions.
+
+**`example`**
+```js
+export default {
+  computed: {
+    // other computed properties
+    ...mapStores(useUserStore, useCartStore)
+  },
+
+  created() {
+    this.userStore // store with id "user"
+    this.cartStore // store with id "cart"
+  }
+}
+```
+
+#### Type parameters
+
+| Name     | Type            |
+| :------- | :-------------- |
+| `Stores` | extends `any`[] |
+
+#### Parameters
+
+| Name        | Type          | Description                        |
+| :---------- | :------------ | :--------------------------------- |
+| `...stores` | [...Stores[]] | list of stores to map to an object |
+
+#### Returns
+
+`_Spread`<`Stores`\>
+
+#### Defined in
+
+[pinia/src/mapHelpers.ts:96](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L96)
+
+___
+
+### mapWritableState
+
+▸ **mapWritableState**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): `_MapWritableStateObjectReturn`<`S`, `KeyMapper`\>
+
+Same as `mapState()` but creates computed setters as well so the state can be
+modified. Differently from `mapState()`, only `state` properties can be
+added.
+
+#### Type parameters
+
+| Name        | Type                                      |
+| :---------- | :---------------------------------------- |
+| `Id`        | extends `string`                          |
+| `S`         | extends [`StateTree`](pinia.md#statetree) |
+| `G`         | extends `_GettersTree`<`S`\>              |
+| `A`         | `A`                                       |
+| `KeyMapper` | extends `Record`<`string`, keyof `S`\>    |
+
+#### Parameters
+
+| Name        | Type                                                                              | Description                |
+| :---------- | :-------------------------------------------------------------------------------- | :------------------------- |
+| `useStore`  | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from          |
+| `keyMapper` | `KeyMapper`                                                                       | object of state properties |
+
+#### Returns
+
+`_MapWritableStateObjectReturn`<`S`, `KeyMapper`\>
+
+#### Defined in
+
+[pinia/src/mapHelpers.ts:440](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L440)
+
+▸ **mapWritableState**<`Id`, `S`, `G`, `A`\>(`useStore`, `keys`): `_MapWritableStateReturn`<`S`\>
+
+Allows using state and getters from one store without using the composition
+API (`setup()`) by generating an object to be spread in the `computed` field
+of a component.
+
+#### Type parameters
+
+| Name | Type                                      |
+| :--- | :---------------------------------------- |
+| `Id` | extends `string`                          |
+| `S`  | extends [`StateTree`](pinia.md#statetree) |
+| `G`  | extends `_GettersTree`<`S`\>              |
+| `A`  | `A`                                       |
+
+#### Parameters
+
+| Name       | Type                                                                              | Description               |
+| :--------- | :-------------------------------------------------------------------------------- | :------------------------ |
+| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from         |
+| `keys`     | keyof `S`[]                                                                       | array of state properties |
+
+#### Returns
+
+`_MapWritableStateReturn`<`S`\>
+
+#### Defined in
+
+[pinia/src/mapHelpers.ts:458](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L458)
+
+___
+
+### setActivePinia
+
+▸ `Const` **setActivePinia**(`pinia`): `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md)
+
+Sets or unsets the active pinia. Used in SSR and internally when calling
+actions and getters
+
+#### Parameters
+
+| Name    | Type                                                   | Description    |
+| :------ | :----------------------------------------------------- | :------------- |
+| `pinia` | `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md) | Pinia instance |
+
+#### Returns
+
+`undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md)
+
+#### Defined in
+
+[pinia/src/rootStore.ts:33](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L33)
+
+___
+
+### setMapStoreSuffix
+
+▸ **setMapStoreSuffix**(`suffix`): `void`
+
+Changes the suffix added by `mapStores()`. Can be set to an empty string.
+Defaults to `"Store"`. Make sure to extend the MapStoresCustomization
+interface if you need are using TypeScript.
+
+#### Parameters
+
+| Name     | Type     | Description |
+| :------- | :------- | :---------- |
+| `suffix` | `string` | new suffix  |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[pinia/src/mapHelpers.ts:66](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L66)
+
+___
+
+### skipHydrate
+
+▸ **skipHydrate**<`T`\>(`obj`): `T`
+
+#### Type parameters
+
+| Name | Type  |
+| :--- | :---- |
+| `T`  | `any` |
+
+#### Parameters
+
+| Name  | Type |
+| :---- | :--- |
+| `obj` | `T`  |
+
+#### Returns
+
+`T`
+
+#### Defined in
+
+[pinia/src/store.ts:85](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L85)
+
+___
+
+### storeToRefs
+
+▸ **storeToRefs**<`SS`\>(`store`): `ToRefs`<[`StoreState`](pinia.md#storestate)<`SS`\> & [`StoreGetters`](pinia.md#storegetters)<`SS`\> & [`PiniaCustomStateProperties`](../interfaces/pinia.PiniaCustomStateProperties.md)<[`StoreState`](pinia.md#storestate)<`SS`\>\>\>
+
+Creates an object of references with all the state, getters, and plugin-added
+state properties of the store. Similar to `toRefs()` but specifically
+designed for Pinia stores so methods and non reactive properties are
+completely ignored.
+
+#### Type parameters
+
+| Name | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| :--- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SS` | extends [`_StoreWithState`](../interfaces/pinia._StoreWithState.md)<`string`, [`StateTree`](pinia.md#statetree), `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, `_ActionsTree`, `SS`\> & {} & `_StoreWithGetters`<`_GettersTree`<[`StateTree`](pinia.md#statetree)\>\> & [`PiniaCustomProperties`](../interfaces/pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](pinia.md#statetree), `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, `_ActionsTree`, `SS`\> & `PiniaCustomStateProperties`<[`StateTree`](pinia.md#statetree), `SS`\> |
+
+#### Parameters
+
+| Name    | Type | Description                    |
+| :------ | :--- | :----------------------------- |
+| `store` | `SS` | store to extract the refs from |
+
+#### Returns
+
+`ToRefs`<[`StoreState`](pinia.md#storestate)<`SS`\> & [`StoreGetters`](pinia.md#storegetters)<`SS`\> & [`PiniaCustomStateProperties`](../interfaces/pinia.PiniaCustomStateProperties.md)<[`StoreState`](pinia.md#storestate)<`SS`\>\>\>
+
+#### Defined in
+
+[pinia/src/storeToRefs.ts:13](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/storeToRefs.ts#L13)
