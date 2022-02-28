@@ -89,7 +89,10 @@ export function createTestingPinia({
 
   plugins.forEach((plugin) => pinia.use(plugin))
 
-  const createSpy = _createSpy || (typeof jest !== 'undefined' && jest.fn) || (typeof vitest !== 'undefined' && vitest.fn)
+  const createSpy =
+    _createSpy ||
+    (typeof jest !== 'undefined' && jest.fn) ||
+    (typeof vitest !== 'undefined' && vitest.fn)
   /* istanbul ignore if */
   if (!createSpy) {
     throw new Error('You must configure the `createSpy` option.')
