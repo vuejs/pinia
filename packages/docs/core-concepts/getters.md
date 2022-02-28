@@ -166,6 +166,11 @@ export default {
 
 ## Usage with the Options API
 
+<VueSchoolLink
+  href="https://vueschool.io/lessons/access-pinia-getters-in-the-options-api"
+  title="Access Pinia Getters via the Options API"
+/>
+
 For the following examples, you can assume the following store was created:
 
 ```js

@@ -49,6 +49,11 @@ store.$reset()
 
 ### Usage with the Options API
 
+<VueSchoolLink
+  href="https://vueschool.io/lessons/access-pinia-state-in-the-options-api"
+  title="Access Pinia State via the Options API"
+/>
+
 For the following examples, you can assume the following store was created:
 
 ```js
