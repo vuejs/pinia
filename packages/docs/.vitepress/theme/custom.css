@@ -211,14 +211,17 @@ code {
   width: auto;
   max-width: 150px;
 }
-.vue-school-homepage-link{
-  text-align: center; margin-top: -40px;
+
+.vue-school-homepage-link {
+  text-align: center;
+  margin-top: -40px;
 }
-.vue-school-homepage-link a{
+.vue-school-homepage-link a {
   position: relative;
   padding-left: 23px;
 }
-.vue-school-homepage-link a::before{
+
+.vue-school-homepage-link a::before {
   content: '';
   position: absolute;
   display: block;
@@ -229,7 +232,8 @@ code {
   border-radius: 50%;
   border: 1px solid var(--c-brand);
 }
-.vue-school-homepage-link a::after{
+
+.vue-school-homepage-link a::after {
   content: '';
   position: absolute;
   display: block;
@@ -241,8 +245,10 @@ code {
   border-bottom: 4px solid transparent;
   border-left: 7px solid var(--c-brand);
 }
-@media screen and (max-width: 720px){
-  .vue-school-homepage-link{
-    text-align: center; margin-top: -20px;
+
+@media screen and (max-width: 720px) {
+  .vue-school-homepage-link {
+    text-align: center;
+    margin-top: -20px;
   }
 }
