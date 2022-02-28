@@ -8,9 +8,11 @@ Stores will, by design, be used at many places and can make testing much harder 
 
 Depending on what or how you are testing, we need to take care of these three differently:
 
-- [Unit testing stores (outside of components)](#unit-testing-a-store)
-- [Unit testing components that use stores](#unit-testing-components)
-- [End to End tests](#e2e-tests)
+- [Testing stores](#testing-stores)
+  - [Unit testing a store](#unit-testing-a-store)
+  - [Unit testing components](#unit-testing-components)
+  - [E2E tests](#e2e-tests)
+  - [Unit test components (Vue 2)](#unit-test-components-vue-2)
 
 ## Unit testing a store
 
@@ -100,7 +102,7 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 expect(store.someAction).toHaveBeenLastCalledWith()
 ```
 
-For a Vue 2 setup exemple [see this section](#unit-test-components-vue-2)
+Please note that if you are using Vue 2, `@vue/test-utils` requires a [slightly different configuration](#unit-test-components-vue-2).
 
 You can find more examples in [the tests of the testing package](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts).
 
@@ -110,7 +112,7 @@ When it comes to pinia, you don't need to change anything for e2e tests, that's 
 
 ## Unit test components (Vue 2)
 
-With [Vue Test Utils 1](https://v1.test-utils.vuejs.org/) the recommended approach is to use a `localVue`, on which we'll install pinia's Vue 2 plugin :
+When using [Vue Test Utils 1](https://v1.test-utils.vuejs.org/), install Pinia on a `localVue`:
 
 ```js
 import { PiniaVuePlugin } from 'pinia'
