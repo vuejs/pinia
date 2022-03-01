@@ -171,8 +171,10 @@ Compared to Vuex, Pinia provides a simpler API with less ceremony, offers Compos
 
 ### RFCs
 
-While Vuex goes through RFC to gather as much feedback from the community as possible, Pinia doesn't. I test out ideas based on my experience developing applications, reading other people's code, working for clients who use Pinia, and answering questions on Discord.
-This allows me to provide a solution that works and is adapted to a variety of cases and application sizes. I publish often and make the library evolve while keeping its core API the same.
+Initially Pinia didn't go through any RFC. I tested out ideas based on my experience developing applications, reading other people's code, working for clients who use Pinia, and answering questions on Discord.
+This allowed me to provide a solution that works and is adapted to a variety of cases and application sizes. I used to publish often and made the library evolve while keeping its core API the same.
+
+Now that Pinia has become the default state management solution, it is subject to the same RFC process as other core libraries in the Vue ecosystem and its API has entered a stable state.
 
 ### Comparison with Vuex 3.x/4.x
 
