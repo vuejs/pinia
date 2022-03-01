@@ -147,8 +147,8 @@ export default {
   },
   methods: {
     incrementAndPrint() {
-      counterStore.increment()
-      console.log('New Count:', counterStore.count)
+      this.counterStore.increment()
+      console.log('New Count:', this.counterStore.count)
     },
   },
 }
