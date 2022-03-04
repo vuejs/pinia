@@ -284,9 +284,9 @@ pinia.use(({ store }) => {
   store.hello = 'Hola'
   store.hello = ref('Hola')
 
-  store.number = Math.random()
+  store.simpleNumber = Math.random()
   // @ts-expect-error: we haven't typed this correctly
-  store.number = ref(Math.random())
+  store.simpleNumber = ref(Math.random())
 })
 ```
 
