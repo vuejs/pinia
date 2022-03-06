@@ -31,8 +31,8 @@ src
 └── stores
     ├── index.js          # (Optional) Initializes Pinia, does not import stores
     ├── module1.js        # 'module1' id
-    ├── nested-module2.js # 'nested/module3' id
-    ├── nested-module3.js # 'nested/module2' id
+    ├── nested-module2.js # 'nested/module2' id
+    ├── nested-module3.js # 'nested/module3' id
     └── nested.js         # 'nested' id
 ```
 
