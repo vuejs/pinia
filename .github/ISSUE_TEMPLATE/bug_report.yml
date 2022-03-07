@@ -1,6 +1,5 @@
 name: "\U0001F41E Bug report"
 description: Report an issue with Pinia
-labels: [pending triage]
 body:
   - type: markdown
     attributes:
