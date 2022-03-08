@@ -33,7 +33,7 @@ export const useStore = defineStore('main', {
     // the return type **must** be explicitly set
     doublePlusOne(): number {
       // autocompletion and typings for the whole store ✨
-      return this.counter * 2 + 1
+      return this.doubleCount + 1
     },
   },
 })
