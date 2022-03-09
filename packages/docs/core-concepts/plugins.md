@@ -7,7 +7,7 @@ Pinia stores can be fully extended thanks to a low level API. Here is a list of 
 - Add new methods to stores
 - Wrap existing methods
 - Change or even cancel actions
-- Implement side effects like local storage
+- Implement side effects like [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 - Apply **only** to specific stores
 
 Plugins are added to the pinia instance with `pinia.use()`. The simplest example is adding a static property to all stores by returning an object:
