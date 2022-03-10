@@ -14,7 +14,7 @@ const useAuth = defineStore('auth', {
 })
 
 // make sure to pass the right store definition, `useAuth` in this case.
-if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useAuth, import.meta.hot))
+if (module.hot) {
+  module.hot.accept(acceptHMRUpdate(useAuth, module.hot))
 }
 ```
