@@ -295,7 +295,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
         api.addTimelineEvent({
           layerId: MUTATIONS_LAYER_ID,
           event: {
-            time: Date.now(),
+            time: api.now(),
             title: '🛫 ' + name,
             subtitle: 'start',
             data: {
@@ -312,7 +312,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
           api.addTimelineEvent({
             layerId: MUTATIONS_LAYER_ID,
             event: {
-              time: Date.now(),
+              time: api.now(),
               title: '🛬 ' + name,
               subtitle: 'end',
               data: {
@@ -331,7 +331,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
           api.addTimelineEvent({
             layerId: MUTATIONS_LAYER_ID,
             event: {
-              time: Date.now(),
+              time: api.now(),
               logType: 'error',
               title: '💥 ' + name,
               subtitle: 'end',
@@ -357,7 +357,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
               api.addTimelineEvent({
                 layerId: MUTATIONS_LAYER_ID,
                 event: {
-                  time: Date.now(),
+                  time: api.now(),
                   title: 'Change',
                   subtitle: name,
                   data: {
@@ -382,7 +382,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
           // rootStore.state[store.id] = state
 
           const eventData: TimelineEvent = {
-            time: Date.now(),
+            time: api.now(),
             title: formatMutationType(type),
             data: {
               store: formatDisplay(store.$id),
@@ -427,7 +427,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
         api.addTimelineEvent({
           layerId: MUTATIONS_LAYER_ID,
           event: {
-            time: Date.now(),
+            time: api.now(),
             title: '🔥 ' + store.$id,
             subtitle: 'HMR update',
             data: {
