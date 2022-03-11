@@ -102,6 +102,14 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 expect(store.someAction).toHaveBeenLastCalledWith()
 ```
 
+If you are not using Jest (for example, you are using vitest), you will need to provide a [createSpy](https://pinia.vuejs.org/api/interfaces/pinia_testing.testingoptions.html#createspy) to `createTestingPinia()`, like:
+
+```
+import { fn } from 'vitest'
+//...
+plugins: [createTestingPinia({ createSpy: fn })]
+```
+
 Please note that if you are using Vue 2, `@vue/test-utils` requires a [slightly different configuration](#unit-test-components-vue-2).
 
 You can find more examples in [the tests of the testing package](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts).
