@@ -27,8 +27,7 @@ export default {
   computed: {
     // note we are not passing an array, just one store after the other
     // each store will be accessible as its id + 'Store'
-    ...mapStores(useCartStore, useUserStore),
-    }),
+    ...mapStores(useCartStore, useUserStore)
   },
 
   methods: {
