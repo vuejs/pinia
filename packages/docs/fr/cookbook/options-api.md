@@ -8,9 +8,9 @@ Pinia peut être utilisé même si vous n'utilisez pas l'API de composition (si 
 - ⚠️ [mapGetters](../core-concepts/getters.md#options-api) (juste pour des raisons de commodité de migration, utilisez `mapState()` à la place)
 - [mapActions](../core-concepts/actions.md#options-api)
 
-## Donner accès à l'ensemble du magasin
+## Donner accès à l'ensemble du store
 
-Si vous avez besoin d'accéder à presque tout ce qui se trouve dans le magasin, il est peut-être trop difficile de cartographier toutes les propriétés du store... Au lieu de cela, vous pouvez accéder à l'ensemble du magasin avec `mapStores()` :
+Si vous avez besoin d'accéder à presque tout ce qui se trouve dans le store, il est peut-être trop difficile de cartographier toutes les propriétés du store... Au lieu de cela, vous pouvez accéder à l'ensemble du store avec `mapStores()` :
 
 ```js
 import { mapStores } from 'pinia'

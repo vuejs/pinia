@@ -3,7 +3,7 @@
 Les stores seront, par conception, utilisés à de nombreux endroits et peuvent rendre les tests beaucoup plus difficiles qu'ils ne devraient l'être. Heureusement, ce n'est pas forcément le cas. Nous devons faire attention à trois choses lorsque nous testons des stores :
 
 - L'instance `pinia` : Les stores ne peuvent pas fonctionner sans elle
-- Les `actions` : la plupart du temps, elles contiennent la logique la plus complexe de nos magasins. Ne serait-il pas agréable qu'elles soient simulées par défaut ?
+- Les `actions` : la plupart du temps, elles contiennent la logique la plus complexe de nos stores. Ne serait-il pas agréable qu'elles soient simulées par défaut ?
 - Les plugins : Si vous comptez sur des plugins, vous devrez aussi les installer pour les tests.
 
 En fonction de ce que vous testez et de la manière dont vous le faites, nous devons nous occuper de ces trois éléments différemment :

@@ -2,7 +2,7 @@
 
 Composer des stores consiste à avoir des stores qui s'utilisent les uns les autres et il y a une règle à suivre :
 
-Si **deux stores ou plus s'utilisent mutuellement**, ils ne peuvent pas créer une boucle infinie par le biais d'_obteneurs_ ou d'_actions_. Ils ne peuvent pas **tous les deux** lire directement l'état de l'autre dans leur fonction de configuration :
+Si **deux stores ou plus s'utilisent mutuellement**, ils ne peuvent pas créer une boucle infinie par le biais de _getters_ ou d'_actions_. Ils ne peuvent pas **tous les deux** lire directement l'état de l'autre dans leur fonction de configuration :
 
 ```js
 const useX = defineStore('x', () => {

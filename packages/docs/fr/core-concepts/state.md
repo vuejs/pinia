@@ -54,7 +54,7 @@ store.$reset()
   title="Access Pinia State via the Options API"
 />
 
-For the following examples, you can assume the following store was created:
+Pour les exemples suivants, vous pouvez supposer que le store suivant a été créé :
 
 ```js
 // Exemple de chemin de fichier :
@@ -71,7 +71,7 @@ const useCounterStore = defineStore('counterStore', {
 
 ### Avec `setup()`
 
-Bien que l'API de composition ne soit pas pour tout le monde, le hook `setup()` peut rendre l'utilisation de Pinia plus facile dans l'API d'options. Aucune fonction supplémentaire d'aide à la carte n'est nécessaire !
+Bien que l'API de composition ne soit pas pour tout le monde, le hook `setup()` peut rendre l'utilisation de Pinia plus facile dans les options de l'API. Aucune fonction supplémentaire d'aide pour mapper n'est nécessaire !
 
 ```js
 import { useCounterStore } from '../stores/counterStore'
@@ -185,7 +185,7 @@ pinia.state.value = {}
 
 ## S'abonner à l'état
 
-Vous pouvez surveiller l'état et ses changements grâce à la méthode `$subscribe()` d'un store, similaire à la méthode [subscribe] de Vuex (https://vuex.vuejs.org/api/#subscribe). L'avantage de l'utilisation de `$subscribe()` par rapport à un `watch()` normal est que les _subscriptions_ ne se déclencheront qu'une seule fois après les _patchs_ (par exemple, en utilisant la version de la fonction ci-dessus).
+Vous pouvez surveiller l'état et ses changements grâce à la méthode `$subscribe()` d'un store, similaire à la méthode [subscribe](https://vuex.vuejs.org/api/#subscribe) de Vuex. L'avantage de l'utilisation de `$subscribe()` par rapport à un `watch()` normal est que les _subscriptions_ ne se déclencheront qu'une seule fois après les _patchs_ (par exemple, en utilisant la version de la fonction ci-dessus).
 
 ```js
 cartStore.$subscribe((mutation, state) => {

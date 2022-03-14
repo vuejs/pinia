@@ -59,7 +59,7 @@ export default {
 
 ## Accès à d'autres récupérateurs
 
-Comme pour les propriétés calculées, vous pouvez combiner plusieurs getters. Accédez à n'importe quel autre getter via `this`. Même si vous n'utilisez pas TypeScript, vous pouvez indiquer à votre IDE les types avec la [JSDoc] (https://jsdoc.app/tags-returns.html) :
+Comme pour les propriétés calculées, vous pouvez combiner plusieurs getters. Accédez à n'importe quel autre getter via `this`. Même si vous n'utilisez pas TypeScript, vous pouvez indiquer à votre IDE les types avec la [JSDoc](https://jsdoc.app/tags-returns.html) :
 
 ```js
 export const useStore = defineStore('main', {
@@ -193,7 +193,7 @@ const useCounterStore = defineStore('counterStore', {
 
 ### Avec `setup()`
 
-Bien que l'API de composition ne soit pas pour tout le monde, le hook `setup()` peut rendre l'utilisation de Pinia plus facile dans l'API d'options. Aucune fonction supplémentaire d'aide à la carte n'est nécessaire !
+Bien que l'API de composition ne soit pas pour tout le monde, le hook `setup()` peut rendre l'utilisation de Pinia plus facile dans l'API d'options. Aucune fonction supplémentaire d'aide à mapper n'est nécessaire !
 
 ```js
 import { useCounterStore } from '../stores/counterStore'

@@ -1,8 +1,8 @@
 # Les plugins
-Pinia stores can be fully extended thanks to a low level API. Here is a list of things you can do:
+Les stores de Pinia peuvent être entièrement étendus grâce à une API de bas niveau. Voici une liste de choses que vous pouvez faire :
 
-- Ajouter de nouvelles propriétés aux magasins
-- Ajouter de nouvelles options lors de la définition des magasins
+- Ajouter de nouvelles propriétés aux stores
+- Ajouter de nouvelles options lors de la définition des stores
 - Ajouter de nouvelles méthodes aux stores
 - Envelopper les méthodes existantes
 - Modifier ou même annuler des actions
@@ -133,7 +133,7 @@ pinia.use(({ store }) => {
 Notez que les changements d'état ou les ajouts qui se produisent dans un plugin (ce qui inclut l'appel à `store.$patch()`) se produisent avant que le store ne soit actif et donc **ne déclenchent pas d'abonnements**.
 
 :::warning
-If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats) as Vue. You will need to use `set` from `@vue/composition-api` when creating new state properties like `secret` and `hasError`:
+Si vous utilisez **Vue 2**, Pinia est soumis aux [mêmes réserves de réactivité](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats) que Vue. Vous devrez utiliser `set` de `@vue/composition-api` lors de la création de nouvelles propriétés d'état comme `secret` et `hasError` :
 
 ```js
 import { set } from '@vue/composition-api'

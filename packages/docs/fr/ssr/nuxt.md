@@ -31,7 +31,7 @@ Et c'est tout, utilisez votre store comme d'habitude !
 
 ## Utiliser le store en dehors de `setup()`
 
-Si vous voulez utiliser un store Nous l'avons ajouté au [contexte] (https://nuxtjs.org/docs/2.x/internals-glossary/context) pour que vous y ayez accès dans `asyncData()` et `fetch()` :
+Si vous voulez utiliser un store Nous l'avons ajouté au [contexte](https://nuxtjs.org/docs/2.x/internals-glossary/context) pour que vous y ayez accès dans `asyncData()` et `fetch()` :
 
 ```js
 import { useStore } from '~/stores/myStore'

@@ -30,7 +30,7 @@ npm i 'pinia@^2.x.x'
 yarn add 'pinia@^2.x.x'
 ```
 
-And start updating your code.
+Et commencez à mettre à jour votre code.
 
 ### Generic Store type
 
@@ -149,7 +149,7 @@ npm i @pinia/nuxt
 yarn add @pinia/nuxt
 ```
 
-Assurez-vous également de **mettre à jour votre paquetage `@nuxtjs/composition-api`.
+Assurez-vous également de **mettre à jour votre paquetage** `@nuxtjs/composition-api`.
 
 Adaptez ensuite votre `nuxt.config.js` et votre `tsconfig.json` si vous utilisez TypeScript :
 

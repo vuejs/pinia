@@ -13,7 +13,7 @@ const useAuth = defineStore('auth', {
   // options...
 })
 
-// assurez-vous de passer la bonne définition de magasin, `useAuth` dans ce cas.
+// assurez-vous de passer la bonne définition de store, `useAuth` dans ce cas.
 if (import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useAuth, import.meta.hot))
 }

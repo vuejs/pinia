@@ -5,7 +5,7 @@
   title="Learn all about actions in Pinia"
 />
 
-Les actions sont l'équivalent des [méthodes] (https://v3.vuejs.org/guide/data-methods.html#methods) dans les composants. Elles peuvent être définies avec la propriété `actions` dans `defineStore()` et **elles sont parfaites pour définir la logique métier** :
+Les actions sont l'équivalent des [méthodes](https://v3.vuejs.org/guide/data-methods.html#methods) dans les composants. Elles peuvent être définies avec la propriété `actions` dans `defineStore()` et **elles sont parfaites pour définir la logique métier** :
 
 ```js
 export const useStore = defineStore('main', {
@@ -175,7 +175,7 @@ export default {
 
 ## S'abonner à des actions
 
-Il est possible d'observer les actions et leur résultat avec `store.$onAction()`. Le callback qui lui est passé est exécuté avant l'action elle-même. `after` gère les promesses et vous permet d'exécuter une fonction après la résolution de l'action. De la même manière, `onError` vous permet d'exécuter une fonction si l'action est lancée ou rejetée. Ces fonctions sont utiles pour suivre les erreurs au moment de l'exécution, comme [cette astuce dans la documentation de Vue] (https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors).
+Il est possible d'observer les actions et leur résultat avec `store.$onAction()`. Le callback qui lui est passé est exécuté avant l'action elle-même. `after` gère les promesses et vous permet d'exécuter une fonction après la résolution de l'action. De la même manière, `onError` vous permet d'exécuter une fonction si l'action est lancée ou rejetée. Ces fonctions sont utiles pour suivre les erreurs au moment de l'exécution, comme [cette astuce dans la documentation de Vue](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors).
 
 Voici un exemple qui enregistre avant l'exécution des actions et après leur résolution/rejet.
 

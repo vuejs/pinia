@@ -8,11 +8,11 @@ Tout d'abord, suivez le [Guide de démarrage](../getting-started.md) pour instal
 
 ## Restructuration des modules en stores
 
-Vuex a le concept d'un magasin unique avec plusieurs _modules_. Ces modules peuvent éventuellement être espacés par des noms et même imbriqués les uns dans les autres.
+Vuex a le concept d'un store unique avec plusieurs _modules_. Ces modules peuvent éventuellement être espacés par des noms et même imbriqués les uns dans les autres.
 
 La façon la plus simple de transformer ce concept pour l'utiliser avec Pinia est que chaque module que vous utilisiez auparavant est maintenant un _store_. Chaque store nécessite un `id` qui est similaire à un espace de nom dans Vuex. Cela signifie que chaque store a un espace de nom par conception. Les modules imbriqués peuvent également devenir chacun leur propre store. Les stores qui dépendent les uns des autres seront simplement importés par l'autre store.
 
-La façon dont vous choisissez de restructurer vos modules Vuex en magasins Pinia vous appartient entièrement, mais voici une suggestion :
+La façon dont vous choisissez de restructurer vos modules Vuex en stores Pinia vous appartient entièrement, mais voici une suggestion :
 
 ```bash
 # Exemple Vuex (en supposant que les modules sont espacés par des noms)
@@ -29,7 +29,7 @@ src
 # Pinia équivalent, notez que les identifiants correspondent aux espaces de noms précédents.
 src
 └── stores
-    ├── index.js          # (Optionnel) Initialise Pinia, n'importe pas les magasins.
+    ├── index.js          # (Optionnel) Initialise Pinia, n'importe pas les stores.
     ├── module1.js        # 'module1' id
     ├── nested-module2.js # 'nested/module2' id
     ├── nested-module3.js # 'nested/module3' id
@@ -131,7 +131,7 @@ export const useAuthUserStore = defineStore('auth/user', {
     loggedIn: (state) => state.userId !== null,
     // doit définir le type de retour à cause de l'utilisation de `this`.
     fullUserDetails (state): FullUserDetails {
-      // importation à partir d'autres magasins
+      // importation à partir d'autres stores
       const authPreferencesStore = useAuthPreferencesStore()
       const authEmailStore = useAuthEmailStore()
       return {
@@ -180,7 +180,7 @@ Décomposons ce qui précède en plusieurs étapes :
     1. Supprimez tous les getters qui renvoient des états sous le même nom (par exemple, `firstName : (state) => state.firstName`), ils ne sont pas nécessaires car vous pouvez accéder à n'importe quel état directement à partir de l'instance du store.
     2. Si vous avez besoin d'accéder à d'autres getters, ils sont sur `this` au lieu d'utiliser le deuxième argument. Rappelez-vous que si vous utilisez `this`, vous devrez utiliser une fonction régulière au lieu d'une fonction flèche. Notez également que vous devrez spécifier un type de retour en raison des limitations TS, voir [ici](../core-concepts/getters.md#accessing-other-getters) pour plus de détails.
     3. Si vous utilisez les arguments `rootState` ou `rootGetters`, remplacez-les en important directement l'autre store, ou s'ils existent toujours dans Vuex, accédez-y directement depuis Vuex.
-4. Convertir les "actions" en
+4. Convertir les "actions"
     1. Enlevez le premier argument `context` de chaque action. Tout devrait être accessible depuis `this` à la place.
     2. Si vous utilisez d'autres stores, vous pouvez les importer directement ou y accéder sur Vuex, comme pour les getters.
 5. Convertir les `mutations`
@@ -242,7 +242,7 @@ export default defineComponent({
 
 ## Utilisation en dehors des composants
 
-La mise à jour de l'utilisation en dehors des composants devrait être simple tant que vous faites attention à _ne pas utiliser un store en dehors des fonctions_. Voici un exemple d'utilisation du magasin dans une garde de navigation Vue Router :
+La mise à jour de l'utilisation en dehors des composants devrait être simple tant que vous faites attention à _ne pas utiliser un store en dehors des fonctions_. Voici un exemple d'utilisation du store dans une garde de navigation Vue Router :
 
 ```ts
 // Vuex
@@ -274,7 +274,7 @@ Si votre store Vuex utilise certaines des fonctionnalités les plus avancées qu
 
 ### Modules dynamiques
 
-Il n'est pas nécessaire d'enregistrer dynamiquement des modules dans Pinia. Les stores sont dynamiques par conception et ne sont enregistrés que lorsqu'ils sont nécessaires. Si un magasin n'est jamais utilisé, il ne sera jamais "enregistré".
+Il n'est pas nécessaire d'enregistrer dynamiquement des modules dans Pinia. Les stores sont dynamiques par conception et ne sont enregistrés que lorsqu'ils sont nécessaires. Si un store n'est jamais utilisé, il ne sera jamais "enregistré".
 
 ### Remplacement à chaud des modules
 
