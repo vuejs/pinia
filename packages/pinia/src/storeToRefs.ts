@@ -1,4 +1,12 @@
-import { isReactive, isRef, toRaw, toRef, ToRefs } from 'vue-demi'
+import {
+  isReactive,
+  isRef,
+  isVue2,
+  toRaw,
+  toRef,
+  ToRefs,
+  toRefs,
+} from 'vue-demi'
 import { StoreGetters, StoreState } from './store'
 import type { PiniaCustomStateProperties, StoreGeneric } from './types'
 
@@ -15,6 +23,14 @@ export function storeToRefs<SS extends StoreGeneric>(
 ): ToRefs<
   StoreState<SS> & StoreGetters<SS> & PiniaCustomStateProperties<StoreState<SS>>
 > {
+  if (__DEV__ && isVue2) {
+    console.warn(
+      '[Pinia]: "storeToRefs()" currently only works on Vue 3 until https://github.com/vuejs/pinia/issues/852 is fixed. Please, use "toRefs()" (from vue) instead. This will FAIL in production if not changed.'
+    )
+    // @ts-expect-error: toRefs include methods and others
+    return toRefs(store)
+  }
+
   store = toRaw(store)
 
   const refs = {} as ToRefs<
