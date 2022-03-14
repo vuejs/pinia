@@ -63,6 +63,12 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
       app,
     },
     (api) => {
+      if (typeof api.now !== 'function') {
+        toastMessage(
+          'You seem to be using an outdated version of Vue Devtools. Are you still using the Beta release instead of the stable one? You can find the links at https://devtools.vuejs.org/guide/installation.html.'
+        )
+      }
+
       api.addTimelineLayer({
         id: MUTATIONS_LAYER_ID,
         label: `Pinia 🍍`,
@@ -289,13 +295,16 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
       },
     },
     (api) => {
+      // gracefully handle errors
+      const now = typeof api.now === 'function' ? api.now.bind(api) : Date.now
+
       store.$onAction(({ after, onError, name, args }) => {
         const groupId = runningActionId++
 
         api.addTimelineEvent({
           layerId: MUTATIONS_LAYER_ID,
           event: {
-            time: api.now(),
+            time: now(),
             title: '🛫 ' + name,
             subtitle: 'start',
             data: {
@@ -312,7 +321,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
           api.addTimelineEvent({
             layerId: MUTATIONS_LAYER_ID,
             event: {
-              time: api.now(),
+              time: now(),
               title: '🛬 ' + name,
               subtitle: 'end',
               data: {
@@ -331,7 +340,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
           api.addTimelineEvent({
             layerId: MUTATIONS_LAYER_ID,
             event: {
-              time: api.now(),
+              time: now(),
               logType: 'error',
               title: '💥 ' + name,
               subtitle: 'end',
@@ -357,7 +366,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
               api.addTimelineEvent({
                 layerId: MUTATIONS_LAYER_ID,
                 event: {
-                  time: api.now(),
+                  time: now(),
                   title: 'Change',
                   subtitle: name,
                   data: {
@@ -382,7 +391,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
           // rootStore.state[store.id] = state
 
           const eventData: TimelineEvent = {
-            time: api.now(),
+            time: now(),
             title: formatMutationType(type),
             data: {
               store: formatDisplay(store.$id),
@@ -427,7 +436,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
         api.addTimelineEvent({
           layerId: MUTATIONS_LAYER_ID,
           event: {
-            time: api.now(),
+            time: now(),
             title: '🔥 ' + store.$id,
             subtitle: 'HMR update',
             data: {

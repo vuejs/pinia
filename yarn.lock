@@ -2236,10 +2236,10 @@
   resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.0-beta.21.1.tgz#f1410f53c42aa67fa3b01ca7bdba891f69d7bc97"
   integrity sha512-FqC4s3pm35qGVeXRGOjTsRzlkJjrBLriDS9YXbflHLsfA9FrcKzIyWnLXoNm+/7930E8rRakXuAc2QkC50swAw==
 
-"@vue/devtools-api@^6.0.13":
-  version "6.0.13"
-  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.0.13.tgz#33f8debe2d0239903b6fc8af10ace45ed3a4fab1"
-  integrity sha512-T34EjcArVqzANedEZe2kXQ+AZsld2z1ptJlkOGm87+blk+s6udnP4ze/NYqV8lz1o9AIivimN0xxteLlWiWQdg==
+"@vue/devtools-api@^6.1.0":
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/@vue/devtools-api/-/devtools-api-6.1.1.tgz#10fd2ca8d5b3cbcde4d6aec5c3fcc7113fa913d6"
+  integrity sha512-VeqwqAOtI42AWeiAIHaoigw+0Km8MVwzDwICgsX95hy6R4UaHnLtTdF0a5JFy4T5vacTeRnuWxZtQ0B/Cytq4g==
 
 "@vue/reactivity-transform@3.2.31":
   version "3.2.31"
