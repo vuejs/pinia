@@ -90,7 +90,7 @@ function createConfig(buildName, output, plugins = []) {
     '@vue/composition-api': 'vueCompositionApi',
   }
 
-  const isProductionBuild = /\.prod\.[cmj]s$/.test(output.file)
+  const isProductionBuild = /\.prod\.[cm]?js$/.test(output.file)
   const isGlobalBuild = buildName === 'global'
   const isRawESMBuild = buildName === 'browser'
   const isNodeBuild = buildName === 'cjs'
