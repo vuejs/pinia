@@ -371,12 +371,17 @@ function MyPiniaPlugin({ store }: PiniaPluginContext) {
     console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
   })
 
-  return { creationTime: new Date() }
+  const creationTime = new Date();
+   
+  // add new state
+  store.$state.creationTime = creationTime;
+  store.secret.creationTime = creationTime;
 }
 
-const myPlugin: Plugin = ({ pinia }) {
-  pinia.use(MyPiniaPlugin);
+const myPlugin: Plugin = ({ $pinia }) => {
+  $pinia.use(MyPiniaPlugin);
 }
+
 export default myPlugin
 ```
 
