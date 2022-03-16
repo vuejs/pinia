@@ -66,7 +66,7 @@ beforeEach(() => {
 
 ## Unit testing components
 
-This can be achieved with `createTestingPinia()`, which returns a pinia instance designed for unit tests.
+This can be achieved with `createTestingPinia()`, which returns a pinia instance designed to help unit tests components.
 
 Start by installing `@pinia/testing`:
 
@@ -94,9 +94,8 @@ store.name = 'my new name'
 store.$patch({ name: 'new name' })
 expect(store.name).toBe('new name')
 
-// actions are stubbed by default, so this call won't actually
-// execute the implementation defined by the store. See below 
-// to customize this behavior.
+// actions are stubbed by default, meaning they don't execute their code by default.
+// See below to customize this behavior.
 store.someAction()
 
 expect(store.someAction).toHaveBeenCalledTimes(1)
@@ -108,11 +107,11 @@ Please note that if you are using Vue 2, `@vue/test-utils` requires a [slightly 
 
 ### Customizing behavior of actions
 
-By default, `createTestingPinia` stubs out all store actions, such that they are not executed when called during unit tests. This allows you to test your components and stores separately.
+`createTestingPinia` stubs out all store actions unless told otherwise. This allows you to test your components and stores separately.
 
-If you want your actions to execute during unit tests, specify `stubActions: true` as an option when calling `createTestingPinia`:
+If you want to revert this behavior and normally execute your actions during tests, specify `stubActions: false` when calling `createTestingPinia`:
 
-```
+```js
 const wrapper = mount(Counter, {
   global: {
     plugins: [createTestingPinia({ stubActions: false })],
@@ -131,17 +130,14 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 
 ### Specifying the createSpy function
 
-When using Jest, or vitest with `globals: true`, `createTestingPinia` will create action stubs automatically using the spy function defined by the test framework (`jest.fn` or `vitest.fn`). If you are using a different framework, you'll need to provide a [createSpy](https://pinia.vuejs.org/api/interfaces/pinia_testing.testingoptions.html#createspy) and supply it as a parameter.
+When using Jest, or vitest with `globals: true`, `createTestingPinia` automatically stubs actions using the spy function based on the existing test framework (`jest.fn` or `vitest.fn`). If you are using a different framework, you'll need to provide a [createSpy](/api/interfaces/pinia_testing.testingoptions.html#createspy) option:
 
-```
+```js
 import sinon from 'sinon'
+
 createTestingPinia({ 
   createSpy: sinon.spy // use sinon's spy to wrap actions
-  })
-```
-
-(Note that the provided `createSpy` will also be used to wrap the `$patch` method of the store).
-
+})
 
 You can find more examples in [the tests of the testing package](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts).
 
