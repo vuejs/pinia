@@ -371,12 +371,14 @@ function MyPiniaPlugin({ store }: PiniaPluginContext) {
     console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
   })
 
+  // Note this has to be typed if you are using TS
   return { creationTime: new Date() }
 }
 
-const myPlugin: Plugin = ({ pinia }) {
-  pinia.use(MyPiniaPlugin);
+const myPlugin: Plugin = ({ $pinia }) => {
+  $pinia.use(MyPiniaPlugin)
 }
+
 export default myPlugin
 ```
 
