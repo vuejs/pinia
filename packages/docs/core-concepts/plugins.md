@@ -376,7 +376,7 @@ function MyPiniaPlugin({ store }: PiniaPluginContext) {
 }
 
 const myPlugin: Plugin = ({ $pinia }) => {
-  $pinia.use(MyPiniaPlugin);
+  $pinia.use(MyPiniaPlugin)
 }
 
 export default myPlugin
