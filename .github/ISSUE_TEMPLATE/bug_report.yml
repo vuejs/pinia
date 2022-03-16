@@ -1,0 +1,49 @@
+name: "\U0001F41E Bug report"
+description: Report an issue with Pinia
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: "If possible, provide a boiled down editable reproduction using a service like JSFiddle, Codepen, CodeSandbox, or a GitHub repository based on this template: https://github.com/piniajs/bug-report. A failing unit test is even better! Otherwise provide as much information as possible to reproduce the problem. You can find examples of different environments at https://github.com/piniajs?q=example&type=source and use them as a bug reproduction. If no reproduction is provided and the information is not enough to reproduce the problem, we won't be able to give it a look **and the issue will be converted into a question and moved to discussions**."
+      placeholder: Reproduction
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce the bug
+      description: |
+        1. Click on ...
+        2. Check log
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      description: 'A clear and concise description of what actually happens.'
+    validations:
+      required: true
+  - type: textarea
+    id: other-info
+    attributes:
+      label: Additional information
+      description: Add any other context about the problem here.
+  - type: markdown
+    attributes:
+      value: |
+        ## Before creating an issue make sure that:
+        - This hasn't been [reported before](https://github.com/vuejs/pinia/issues).
+        - The provided reproduction is a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example) of the bug **with no external dependencies (e.g. vuetify)**
