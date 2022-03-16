@@ -371,11 +371,8 @@ function MyPiniaPlugin({ store }: PiniaPluginContext) {
     console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
   })
 
-  const creationTime = new Date();
-   
-  // add new state
-  store.$state.creationTime = creationTime;
-  store.secret.creationTime = creationTime;
+  // Note this has to be typed if you are using TS
+  return { creationTime: new Date() }
 }
 
 const myPlugin: Plugin = ({ $pinia }) => {
