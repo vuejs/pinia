@@ -100,7 +100,7 @@ export function acceptHMRUpdate(initialUseStore: StoreDefinition, hot: any) {
 
         const existingStore: StoreGeneric = pinia._s.get(id)!
         if (!existingStore) {
-          console.log(`skipping hmr because store doesn't exist yet`)
+          console.log(`[Pinia]: skipping hmr because store doesn't exist yet`)
           return
         }
         useStore(pinia, existingStore)
