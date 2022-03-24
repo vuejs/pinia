@@ -11,6 +11,9 @@ Depending on what or how you are testing, we need to take care of these three di
 - [Testing stores](#testing-stores)
   - [Unit testing a store](#unit-testing-a-store)
   - [Unit testing components](#unit-testing-components)
+    - [Initial State](#initial-state)
+    - [Customizing behavior of actions](#customizing-behavior-of-actions)
+    - [Specifying the createSpy function](#specifying-the-createspy-function)
   - [E2E tests](#e2e-tests)
   - [Unit test components (Vue 2)](#unit-test-components-vue-2)
 
@@ -104,82 +107,37 @@ expect(store.someAction).toHaveBeenLastCalledWith()
 
 Please note that if you are using Vue 2, `@vue/test-utils` requires a [slightly different configuration](#unit-test-components-vue-2).
 
-### Changing the Initial State of a store for testing
-A lot of the times, during testing, you will need/want to have a certain state on your store in order to perform your tests. This can easily be achieved by setting the `initialState` on the `createTestingPinia` options.
+### Initial State
 
-Suppose we have the following class:
-```ts
-// some templating and other irrelevant code for the example...
-
-setup(props) {
-    const configStore = configurationStore();
-    const baseYear = configStore.baseYear;
-
-    const nextFromBaseYear = baseYear + 1;
-
-    const availableYears = [];
-
-    const iterator = Array(2100 - baseYear).keys();
-    for (const year of iterator) {
-      availableYears.push(year + nextFromBaseYear);
-    }
-
-    const currentSelectedYear = baseYear + 1;
-
-    return {
-      currentSelectedYear,
-      availableYears,
-    };
-  },
-```
-In this case we want to test different values of `baseYear` and see if our logic works. For that we have to pass the following initialState format:
-```js
-const initialState = {
-  <STORE_ID>: { 
-      <STATE_OBJECT_NAME>: <VALUE>,
-      ...
-  },
-  <STORE_ID>: { 
-      <STATE_OBJECT_NAME>: <VALUE>,
-      ...
-  },
-  ...
-}
-```
-with this you can set an initial state for one or more of your existing stores.
-
-So coming back to our example above, in order to test it we can use the `STORE_ID` for our store, which is `configuration` and change the `baseYear` value:
+You can set the initial state of **all of your stores** when creating a testing pinia by passing an `initialState` object. This object will be used by the testing pinia to _patch_ stores when they are created. Let's say you want to initialize the state of this store:
 
 ```ts
-describe("My amazing component", () => {
-  let wrapper: any;
+import { defineStore } from 'pinia'
 
-  beforeAll(() => {
-    wrapper = mount(ReductionTargetYearSelect, {
-      global: {
-        plugins: [
-          createTestingPinia({
-            initialState: {
-              configuration: { baseYear: 2030 },
-            },
-          }),
-        ],
-      },
-    });
-  });
-
-  it("should generate all possible years until 2100", () => {
-    expect(configurationStore().baseYear).toBe(2030);
-
-    expect(wrapper.vm.availableYears.length).toBe(70);
-  });
-
-  it("should initially have current set year to baseYear + 1", () => {
-    expect(wrapper.vm.currentSelectedYear).toBe(2031);
-  });
-});
+const useCounterStore = defineStore('counter', {
+  state: () => ({ n: 0 }),
+  // ...
+})
 ```
 
+Since the store is named _"counter"_, you need to add a matching object to `initialState`:
+
+```ts
+// somewhere in your test
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [createTestingPinia(
+
+  initialState: {
+    counter: { n: 20 }, // start the counter at 20 instead of 0
+  },
+    )],
+  },
+})
+
+const store = useSomeStore() // uses the testing pinia!
+store.n // 20
+```
 
 ### Customizing behavior of actions
 
@@ -199,9 +157,8 @@ const store = useSomeStore()
 // Now this call WILL execute the implementation defined by the store
 store.someAction()
 
-// ...but it's still wrapped with a spy, so you can inspect calls 
+// ...but it's still wrapped with a spy, so you can inspect calls
 expect(store.someAction).toHaveBeenCalledTimes(1)
-
 ```
 
 ### Specifying the createSpy function
@@ -211,9 +168,10 @@ When using Jest, or vitest with `globals: true`, `createTestingPinia` automatica
 ```js
 import sinon from 'sinon'
 
-createTestingPinia({ 
-  createSpy: sinon.spy // use sinon's spy to wrap actions
+createTestingPinia({
+  createSpy: sinon.spy, // use sinon's spy to wrap actions
 })
+```
 
 You can find more examples in [the tests of the testing package](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts).
 
