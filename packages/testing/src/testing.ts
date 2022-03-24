@@ -1,10 +1,11 @@
-import { App, createApp } from 'vue-demi'
+import { App, createApp, isReactive, isRef, isVue2, set } from 'vue-demi'
 import {
   Pinia,
   PiniaPlugin,
   setActivePinia,
   createPinia,
   StateTree,
+  _DeepPartial,
 } from 'pinia'
 
 export interface TestingOptions {
@@ -89,7 +90,7 @@ export function createTestingPinia({
 
   pinia.use(({ store }) => {
     if (initialState[store.$id]) {
-      store.$patch(initialState[store.$id])
+      mergeReactiveObjects(store.$state, initialState[store.$id])
     }
   })
 
@@ -130,4 +131,45 @@ export function createTestingPinia({
   })
 
   return pinia as TestingPinia
+}
+
+function mergeReactiveObjects<T extends StateTree>(
+  target: T,
+  patchToApply: _DeepPartial<T>
+): T {
+  // no need to go through symbols because they cannot be serialized anyway
+  for (const key in patchToApply) {
+    const subPatch = patchToApply[key]
+    const targetValue = target[key]
+    if (
+      isPlainObject(targetValue) &&
+      isPlainObject(subPatch) &&
+      !isRef(subPatch) &&
+      !isReactive(subPatch)
+    ) {
+      target[key] = mergeReactiveObjects(targetValue, subPatch)
+    } else {
+      if (isVue2) {
+        set(target, key, subPatch)
+      } else {
+        // @ts-expect-error: subPatch is a valid value
+        target[key] = subPatch
+      }
+    }
+  }
+
+  return target
+}
+
+function isPlainObject<S extends StateTree>(value: S | unknown): value is S
+function isPlainObject(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  o: any
+): o is StateTree {
+  return (
+    o &&
+    typeof o === 'object' &&
+    Object.prototype.toString.call(o) === '[object Object]' &&
+    typeof o.toJSON !== 'function'
+  )
 }
