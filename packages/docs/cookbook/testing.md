@@ -11,6 +11,9 @@ Depending on what or how you are testing, we need to take care of these three di
 - [Testing stores](#testing-stores)
   - [Unit testing a store](#unit-testing-a-store)
   - [Unit testing components](#unit-testing-components)
+    - [Initial State](#initial-state)
+    - [Customizing behavior of actions](#customizing-behavior-of-actions)
+    - [Specifying the createSpy function](#specifying-the-createspy-function)
   - [E2E tests](#e2e-tests)
   - [Unit test components (Vue 2)](#unit-test-components-vue-2)
 
@@ -104,6 +107,37 @@ expect(store.someAction).toHaveBeenLastCalledWith()
 
 Please note that if you are using Vue 2, `@vue/test-utils` requires a [slightly different configuration](#unit-test-components-vue-2).
 
+### Initial State
+
+You can set the initial state of **all of your stores** when creating a testing pinia by passing an `initialState` object. This object will be used by the testing pinia to _patch_ stores when they are created. Let's say you want to initialize the state of this store:
+
+```ts
+import { defineStore } from 'pinia'
+
+const useCounterStore = defineStore('counter', {
+  state: () => ({ n: 0 }),
+  // ...
+})
+```
+
+Since the store is named _"counter"_, you need to add a matching object to `initialState`:
+
+```ts
+// somewhere in your test
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [createTestingPinia(
+
+  initialState: {
+    counter: { n: 20 }, // start the counter at 20 instead of 0
+  },
+    )],
+  },
+})
+
+const store = useSomeStore() // uses the testing pinia!
+store.n // 20
+```
 
 ### Customizing behavior of actions
 
@@ -123,9 +157,8 @@ const store = useSomeStore()
 // Now this call WILL execute the implementation defined by the store
 store.someAction()
 
-// ...but it's still wrapped with a spy, so you can inspect calls 
+// ...but it's still wrapped with a spy, so you can inspect calls
 expect(store.someAction).toHaveBeenCalledTimes(1)
-
 ```
 
 ### Specifying the createSpy function
@@ -135,9 +168,10 @@ When using Jest, or vitest with `globals: true`, `createTestingPinia` automatica
 ```js
 import sinon from 'sinon'
 
-createTestingPinia({ 
-  createSpy: sinon.spy // use sinon's spy to wrap actions
+createTestingPinia({
+  createSpy: sinon.spy, // use sinon's spy to wrap actions
 })
+```
 
 You can find more examples in [the tests of the testing package](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts).
 
