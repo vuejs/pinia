@@ -90,7 +90,7 @@ On top of these, it receives two functions that allow setting up a callback
 once the action finishes or when it fails.
 
 It also returns a function to remove the callback. Note than when calling
-`store.$onAction()` inside of a component, it will be automatically cleanup
+`store.$onAction()` inside of a component, it will be automatically cleaned
 up when the component gets unmounted unless `detached` is set to true.
 
 **`example`**
@@ -136,7 +136,7 @@ On top of these, it receives two functions that allow setting up a callback
 once the action finishes or when it fails.
 
 It also returns a function to remove the callback. Note than when calling
-`store.$onAction()` inside of a component, it will be automatically cleanup
+`store.$onAction()` inside of a component, it will be automatically cleaned
 up when the component gets unmounted unless `detached` is set to true.
 
 **`example`**
@@ -238,7 +238,7 @@ ___
 ▸ **$subscribe**(`callback`, `options?`): () => `void`
 
 Setups a callback to be called whenever the state changes. It also returns a function to remove the callback. Note
-than when calling `store.$subscribe()` inside of a component, it will be automatically cleanup up when the
+than when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
 component gets unmounted unless `detached` is set to true.
 
 #### Parameters
@@ -257,7 +257,7 @@ function that removes the watcher
 ▸ (): `void`
 
 Setups a callback to be called whenever the state changes. It also returns a function to remove the callback. Note
-than when calling `store.$subscribe()` inside of a component, it will be automatically cleanup up when the
+than when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
 component gets unmounted unless `detached` is set to true.
 
 ##### Returns
