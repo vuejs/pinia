@@ -361,7 +361,7 @@ export interface _StoreWithState<
 
   /**
    * Setups a callback to be called whenever the state changes. It also returns a function to remove the callback. Note
-   * than when calling `store.$subscribe()` inside of a component, it will be automatically cleanup up when the
+   * than when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
    * component gets unmounted unless `detached` is set to true.
    *
    * @param callback - callback passed to the watcher
@@ -386,7 +386,7 @@ export interface _StoreWithState<
    * once the action finishes or when it fails.
    *
    * It also returns a function to remove the callback. Note than when calling
-   * `store.$onAction()` inside of a component, it will be automatically cleanup
+   * `store.$onAction()` inside of a component, it will be automatically cleaned
    * up when the component gets unmounted unless `detached` is set to true.
    *
    * @example
