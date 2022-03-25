@@ -208,7 +208,7 @@ The plugin can then read that option to wrap actions and replace the original on
 
 ```js
 // use any debounce library
-import debounce from 'lodash/debunce'
+import debounce from 'lodash/debounce'
 
 pinia.use(({ options, store }) => {
   if (options.debounce) {
