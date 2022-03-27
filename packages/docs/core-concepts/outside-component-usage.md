@@ -52,6 +52,33 @@ router.beforeEach((to) => {
 })
 ```
 
+## Using pinia outside Vue
+To use a store outside a Vue instance, you will have to define your Pinia store inside your Vue file and pass it outside Vue as an argument. For example, inside your Vue file you can do something like this:
+
+```js
+import { createRouter } from 'vue-router'
+import { Counter } from '../composables/counter.js'
+
+// define your store
+const store = useStore()
+
+// pass it to the Counter function as an argument
+Counter(store)
+
+```
+
+Then the function in your `counter.js` will accept your store as a parameter.
+
+```js
+// ...
+
+export function Counter(store) {
+  console.log(store.$id)
+
+  // actual store stuff here ...
+}
+```
+
 ## SSR Apps
 
 When dealing with Server Side Rendering, you will have to pass the `pinia` instance to `useStore()`. This prevents pinia from sharing global state between different application instances.
