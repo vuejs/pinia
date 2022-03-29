@@ -48,7 +48,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.31.1",
     "semver": "^7.3.5",
-    "typedoc": "^0.22.10",
+    "typedoc": "^0.22.13",
     "typedoc-plugin-markdown": "^3.11.7",
     "typescript": "^4.5.3",
     "yorkie": "^2.0.0"

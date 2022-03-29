@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^7.6.1",
-    "pinia": "^2.0.0-rc.4",
-    "vitepress": "^0.22.0"
+    "pinia": "^2.0.0",
+    "vitepress": "^0.22.2"
   }
 }
