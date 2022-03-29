@@ -35,19 +35,19 @@ DEV ONLY. Array for patch calls.
 
 #### Defined in
 
-[pinia/src/types.ts:110](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L110)
+[pinia/src/types.ts:110](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L110)
 
 ___
 
 ### payload
 
-• **payload**: `_DeepPartial`<`S`\>
+• **payload**: [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`S`\>
 
 Object passed to `store.$patch()`.
 
 #### Defined in
 
-[pinia/src/types.ts:115](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L115)
+[pinia/src/types.ts:115](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L115)
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 #### Defined in
 
-[pinia/src/types.ts:81](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L81)
+[pinia/src/types.ts:81](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L81)
 
 ___
 
@@ -79,4 +79,4 @@ Type of the mutation.
 
 #### Defined in
 
-[pinia/src/types.ts:105](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L105)
+[pinia/src/types.ts:105](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L105)

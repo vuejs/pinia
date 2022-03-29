@@ -39,13 +39,13 @@ Defaults to an empty object if no actions are defined.
 
 #### Defined in
 
-[pinia/src/types.ts:723](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L723)
+[pinia/src/types.ts:721](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L721)
 
 ___
 
 ### getters
 
-• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & `_StoreWithGetters`<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), `_GettersTree`<[`StateTree`](../modules/pinia.md#statetree)\>, `_ActionsTree`\>\> & `_GettersTree`<`S`\>
+• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
 
 Optional object of getters.
 
@@ -55,7 +55,7 @@ Omit.getters
 
 #### Defined in
 
-[pinia/src/types.ts:647](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L647)
+[pinia/src/types.ts:645](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L645)
 
 ## Methods
 
@@ -100,7 +100,7 @@ Omit.hydrate
 
 #### Defined in
 
-[pinia/src/types.ts:687](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L687)
+[pinia/src/types.ts:685](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L685)
 
 ___
 
@@ -121,4 +121,4 @@ Omit.state
 
 #### Defined in
 
-[pinia/src/types.ts:642](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L642)
+[pinia/src/types.ts:640](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L640)

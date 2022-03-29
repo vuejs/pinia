@@ -4,7 +4,7 @@
 
 ## Installation
 
-```sh
+```shell
 npm i @pinia/nuxt
 ```
 

@@ -29,7 +29,7 @@ App used by Pinia
 
 #### Defined in
 
-[testing/src/testing.ts:60](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L60)
+[testing/src/testing.ts:60](https://github.com/vuejs/pinia/blob/d96dca2/packages/testing/src/testing.ts#L60)
 
 ___
 
@@ -45,7 +45,7 @@ root state
 
 #### Defined in
 
-[pinia/src/rootStore.ts:51](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L51)
+[pinia/src/rootStore.ts:51](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/rootStore.ts#L51)
 
 ## Methods
 
@@ -69,7 +69,7 @@ root state
 
 #### Defined in
 
-[pinia/src/rootStore.ts:46](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L46)
+[pinia/src/rootStore.ts:46](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/rootStore.ts#L46)
 
 ___
 
@@ -95,4 +95,4 @@ Adds a store plugin to extend every store
 
 #### Defined in
 
-[pinia/src/rootStore.ts:58](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L58)
+[pinia/src/rootStore.ts:58](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/rootStore.ts#L58)

@@ -23,7 +23,7 @@ Defaults to false.
 
 #### Defined in
 
-[testing/src/testing.ts:45](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L45)
+[testing/src/testing.ts:45](https://github.com/vuejs/pinia/blob/d96dca2/packages/testing/src/testing.ts#L45)
 
 ___
 
@@ -36,7 +36,7 @@ allowing you to only set a few properties that are required in your test.
 
 #### Defined in
 
-[testing/src/testing.ts:15](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L15)
+[testing/src/testing.ts:15](https://github.com/vuejs/pinia/blob/d96dca2/packages/testing/src/testing.ts#L15)
 
 ___
 
@@ -49,7 +49,7 @@ your application that will be used while testing.
 
 #### Defined in
 
-[testing/src/testing.ts:21](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L21)
+[testing/src/testing.ts:21](https://github.com/vuejs/pinia/blob/d96dca2/packages/testing/src/testing.ts#L21)
 
 ___
 
@@ -65,7 +65,7 @@ handle this in `createSpy()`.
 
 #### Defined in
 
-[testing/src/testing.ts:30](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L30)
+[testing/src/testing.ts:30](https://github.com/vuejs/pinia/blob/d96dca2/packages/testing/src/testing.ts#L30)
 
 ___
 
@@ -79,7 +79,7 @@ argument `undefined`. You still have to handle this in `createSpy()`.
 
 #### Defined in
 
-[testing/src/testing.ts:37](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L37)
+[testing/src/testing.ts:37](https://github.com/vuejs/pinia/blob/d96dca2/packages/testing/src/testing.ts#L37)
 
 ## Methods
 
@@ -88,7 +88,7 @@ argument `undefined`. You still have to handle this in `createSpy()`.
 ▸ `Optional` **createSpy**(`fn?`): (...`args`: `any`[]) => `any`
 
 Function used to create a spy for actions and `$patch()`. Pre-configured
-with `jest.fn()` in jest projects.
+with `jest.fn()` in jest projects or `vi.fn()` in vitest projects.
 
 #### Parameters
 
@@ -114,4 +114,4 @@ with `jest.fn()` in jest projects.
 
 #### Defined in
 
-[testing/src/testing.ts:51](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L51)
+[testing/src/testing.ts:51](https://github.com/vuejs/pinia/blob/d96dca2/packages/testing/src/testing.ts#L51)

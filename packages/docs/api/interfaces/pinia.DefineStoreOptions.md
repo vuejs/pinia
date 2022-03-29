@@ -32,25 +32,25 @@ augment stores with the plugin API. @see [DefineStoreOptionsBase](pinia.DefineSt
 
 ### actions
 
-• `Optional` **actions**: `A` & `ThisType`<`A` & `UnwrapRef`<`S`\> & [`_StoreWithState`](pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & `_StoreWithGetters`<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), `_GettersTree`<[`StateTree`](../modules/pinia.md#statetree)\>, `_ActionsTree`\>\>
+• `Optional` **actions**: `A` & `ThisType`<`A` & `UnwrapRef`<`S`\> & [`_StoreWithState`](pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\>
 
 Optional object of actions.
 
 #### Defined in
 
-[pinia/src/types.ts:654](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L654)
+[pinia/src/types.ts:652](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L652)
 
 ___
 
 ### getters
 
-• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & `_StoreWithGetters`<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), `_GettersTree`<[`StateTree`](../modules/pinia.md#statetree)\>, `_ActionsTree`\>\> & `_GettersTree`<`S`\>
+• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
 
 Optional object of getters.
 
 #### Defined in
 
-[pinia/src/types.ts:647](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L647)
+[pinia/src/types.ts:645](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L645)
 
 ___
 
@@ -62,7 +62,7 @@ Unique string key to identify the store across the application.
 
 #### Defined in
 
-[pinia/src/types.ts:636](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L636)
+[pinia/src/types.ts:634](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L634)
 
 ## Methods
 
@@ -103,7 +103,7 @@ const useStore = defineStore('main', {
 
 #### Defined in
 
-[pinia/src/types.ts:687](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L687)
+[pinia/src/types.ts:685](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L685)
 
 ___
 
@@ -120,4 +120,4 @@ correct typings!
 
 #### Defined in
 
-[pinia/src/types.ts:642](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L642)
+[pinia/src/types.ts:640](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L640)

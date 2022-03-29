@@ -41,7 +41,7 @@ Unique identifier of the store
 
 #### Defined in
 
-[pinia/src/types.ts:265](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L265)
+[pinia/src/types.ts:265](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L265)
 
 ___
 
@@ -53,7 +53,25 @@ State of the Store. Setting it will replace the whole state.
 
 #### Defined in
 
-[pinia/src/types.ts:337](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L337)
+[pinia/src/types.ts:335](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L335)
+
+___
+
+### \_customProperties
+
+• **\_customProperties**: `Set`<`string`\>
+
+Used by devtools plugin to retrieve properties added with plugins. Removed
+in production. Can be used by the user to add property keys of the store
+that should be displayed in devtools.
+
+#### Inherited from
+
+[StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#_customproperties)
+
+#### Defined in
+
+[pinia/src/types.ts:293](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L293)
 
 ## Methods
 
@@ -71,7 +89,7 @@ e.g. devtools plugin stops displaying disposed stores from devtools.
 
 #### Defined in
 
-[pinia/src/types.ts:425](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L425)
+[pinia/src/types.ts:423](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L423)
 
 ___
 
@@ -164,7 +182,7 @@ function that removes the watcher
 
 #### Defined in
 
-[pinia/src/types.ts:415](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L415)
+[pinia/src/types.ts:413](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L413)
 
 ___
 
@@ -178,7 +196,7 @@ Applies a state patch to current state. Allows passing nested values
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `partialState` | `_DeepPartial`<`UnwrapRef`<`S`\>\> | patch to apply to the state |
+| `partialState` | [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`UnwrapRef`<`S`\>\> | patch to apply to the state |
 
 #### Returns
 
@@ -186,7 +204,7 @@ Applies a state patch to current state. Allows passing nested values
 
 #### Defined in
 
-[pinia/src/types.ts:344](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L344)
+[pinia/src/types.ts:342](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L342)
 
 ▸ **$patch**<`F`\>(`stateMutator`): `void`
 
@@ -212,7 +230,7 @@ to an array. The function passed to `$patch()` **must be synchronous**.
 
 #### Defined in
 
-[pinia/src/types.ts:353](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L353)
+[pinia/src/types.ts:351](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L351)
 
 ___
 
@@ -229,7 +247,7 @@ TODO: make this options only
 
 #### Defined in
 
-[pinia/src/types.ts:362](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L362)
+[pinia/src/types.ts:360](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L360)
 
 ___
 
@@ -268,4 +286,4 @@ function that removes the watcher
 
 #### Defined in
 
-[pinia/src/types.ts:374](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L374)
+[pinia/src/types.ts:372](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L372)

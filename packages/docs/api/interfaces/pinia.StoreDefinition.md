@@ -16,8 +16,8 @@ sidebarDepth: 3
 | :------ | :------ |
 | `Id` | extends `string` = `string` |
 | `S` | extends [`StateTree`](../modules/pinia.md#statetree) = [`StateTree`](../modules/pinia.md#statetree) |
-| `G` | `_GettersTree`<`S`\> |
-| `A` | `_ActionsTree` |
+| `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
+| `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
 
 ## Callable
 
@@ -40,7 +40,7 @@ Returns a store, creates it if necessary.
 
 #### Defined in
 
-[pinia/src/types.ts:513](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L513)
+[pinia/src/types.ts:511](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L511)
 
 ## Properties
 
@@ -52,4 +52,4 @@ Id of the store. Used by map helpers.
 
 #### Defined in
 
-[pinia/src/types.ts:518](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L518)
+[pinia/src/types.ts:516](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L516)
