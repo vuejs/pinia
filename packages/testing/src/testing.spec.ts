@@ -199,4 +199,29 @@ describe('Testing', () => {
       b: { n: 0 },
     })
   })
+
+  it('allows overriding computed properties', () => {
+    const useStore = defineStore('lol', {
+      state: () => ({ n: 0 }),
+      getters: {
+        double: (state) => state.n * 2,
+      },
+    })
+    const pinia = createTestingPinia()
+    const store = useStore(pinia)
+
+    store.n++
+    expect(store.double).toBe(2)
+    // once the getter is overridden, it stays
+    store.double = 3
+    expect(store.double).toBe(3)
+    store.n++
+    expect(store.double).toBe(3)
+    // it can be set to undefined again to reset
+    // @ts-expect-error
+    store.double = undefined
+    expect(store.double).toBe(4)
+    store.n++
+    expect(store.double).toBe(6)
+  })
 })

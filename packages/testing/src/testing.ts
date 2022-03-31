@@ -1,4 +1,14 @@
-import { App, createApp, isReactive, isRef, isVue2, set } from 'vue-demi'
+import {
+  App,
+  createApp,
+  customRef,
+  isReactive,
+  isRef,
+  isVue2,
+  set,
+  toRaw,
+} from 'vue-demi'
+import type { ComputedRef, WritableComputedRef } from 'vue-demi'
 import {
   Pinia,
   PiniaPlugin,
@@ -6,6 +16,7 @@ import {
   createPinia,
   StateTree,
   _DeepPartial,
+  PiniaPluginContext,
 } from 'pinia'
 
 export interface TestingOptions {
@@ -94,6 +105,9 @@ export function createTestingPinia({
     }
   })
 
+  // allow computed to be manually overridden
+  pinia._p.push(WritableComputed)
+
   plugins.forEach((plugin) => pinia.use(plugin))
 
   const createSpy =
@@ -174,4 +188,32 @@ function isPlainObject(
     Object.prototype.toString.call(o) === '[object Object]' &&
     typeof o.toJSON !== 'function'
   )
+}
+
+function isComputed<T>(
+  v: ComputedRef<T> | WritableComputedRef<T> | unknown
+): v is ComputedRef<T> | WritableComputedRef<T> {
+  return !!v && isRef(v) && 'effect' in v
+}
+
+function WritableComputed({ store }: PiniaPluginContext) {
+  const rawStore = toRaw(store)
+  for (const key in rawStore) {
+    const value = rawStore[key]
+    if (isComputed(value)) {
+      rawStore[key] = customRef((track, trigger) => {
+        let internalValue: any
+        return {
+          get: () => {
+            track()
+            return internalValue !== undefined ? internalValue : value.value
+          },
+          set: (newValue) => {
+            internalValue = newValue
+            trigger()
+          },
+        }
+      })
+    }
+  }
 }
