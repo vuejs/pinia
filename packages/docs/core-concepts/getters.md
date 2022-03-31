@@ -206,7 +206,7 @@ export default {
   },
   computed: {
     quadrupleCounter() {
-      return counterStore.doubleCounter * 2
+      return this.counterStore.doubleCounter * 2
     },
   },
 }
