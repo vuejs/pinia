@@ -181,8 +181,9 @@ async function main() {
 
   step('\nGenerating changelogs...')
   for (const pkg of pkgWithVersions) {
-    await runIfNotDry(`yarn`, ['changelog'], { cwd: pkg.path })
-    await runIfNotDry(`yarn`, ['prettier', '--write', 'CHANGELOG.md'], {
+    step(` -> ${pkg.name} (${pkg.path})`)
+    await runIfNotDry(`pnpm`, ['run', 'changelog'], { cwd: pkg.path })
+    await runIfNotDry(`pnpm`, ['exec', 'prettier', '--write', 'CHANGELOG.md'], {
       cwd: pkg.path,
     })
     await fs.copyFile(
@@ -203,8 +204,8 @@ async function main() {
 
   step('\nBuilding all packages...')
   if (!skipBuild && !isDryRun) {
-    await run('yarn', ['build'])
-    await run('yarn', ['build:dts'])
+    await run('pnpm', ['run', 'build'])
+    await run('pnpm', ['run', 'build:dts'])
   } else {
     console.log(`(skipped)`)
   }
@@ -257,7 +258,10 @@ async function updateVersions(packageList) {
       updateDeps(pkg, 'peerDependencies', packageList)
       const content = JSON.stringify(pkg, null, 2) + '\n'
       return isDryRun
-        ? dryRun('write', [name], content)
+        ? dryRun('write', [name], {
+            dependencies: pkg.dependencies,
+            peerDependencies: pkg.peerDependencies,
+          })
         : fs.writeFile(join(path, 'package.json'), content)
     })
   )
@@ -276,7 +280,7 @@ function updateDeps(pkg, depType, updatedPackages) {
           `${pkg.name} -> ${depType} -> ${dep}@~${updatedDep.version}`
         )
       )
-      deps[dep] = '~' + updatedDep.version
+      deps[dep] = '>=' + updatedDep.version
     }
   })
 }
@@ -286,13 +290,9 @@ async function publishPackage(pkg) {
 
   try {
     await runIfNotDry(
-      'yarn',
+      'pnpm',
       [
         'publish',
-        '--new-version',
-        pkg.version,
-        '--no-commit-hooks',
-        '--no-git-tag-version',
         ...(optionTag ? ['--tag', optionTag] : []),
         '--access',
         'public',
@@ -315,16 +315,28 @@ async function publishPackage(pkg) {
 }
 
 /**
- * Get the packages that have changed based on `lerna changed`.
+ * Get the packages that have changed. Based on `lerna changed` but without lerna.
  *
  * @returns {Promise<{ name: string; path: string; pkg: any; version: string }[]}
  */
 async function getChangedPackages() {
-  const { stdout: lastTag } = await run(
-    'git',
-    ['describe', '--tags', '--abbrev=0'],
-    { stdio: 'pipe' }
-  )
+  let lastTag
+
+  try {
+    const { stdout } = await run('git', ['describe', '--tags', '--abbrev=0'], {
+      stdio: 'pipe',
+    })
+    lastTag = stdout
+  } catch (error) {
+    // maybe there are no tags
+    console.error(`Couldn't get the last tag, using first commit...`)
+    const { stdout } = await run(
+      'git',
+      ['rev-list', '--max-parents=0', 'HEAD'],
+      { stdio: 'pipe' }
+    )
+    lastTag = stdout
+  }
   const folders = await globby(join(__dirname, '../packages/*'), {
     onlyFiles: false,
   })

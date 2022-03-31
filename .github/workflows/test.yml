@@ -15,20 +15,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2.2.1
+        with:
+          version: 6.32.1
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-          cache: 'yarn'
+          cache: 'pnpm'
 
-      - run: yarn install --frozen-lockfile
-      - run: yarn lerna bootstrap
-      - run: yarn run lint
-      - run: yarn run test:types
-      - run: yarn run test:jest
-      - run: yarn run build
-      - run: yarn lerna run build:dts
-      - run: yarn run test:dts
-      - run: yarn run size
+      - run: pnpm install
+      - run: pnpm run lint
+      - run: pnpm run test:types
+      - run: pnpm run test:jest
+      - run: pnpm run build
+      - run: pnpm run build:dts
+      - run: pnpm run test:dts
+      - run: pnpm run size
 
       - uses: codecov/codecov-action@v2
