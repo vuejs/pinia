@@ -2,6 +2,8 @@ import { createPinia, defineStore, MutationType, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 
+const delay = (t: number) => new Promise((r) => setTimeout(r, t))
+
 describe('Subscriptions', () => {
   const useStore = defineStore({
     id: 'main',
@@ -198,6 +200,38 @@ describe('Subscriptions', () => {
 
       expect(spy1).toHaveBeenCalledTimes(1)
       expect(spy2).toHaveBeenCalledTimes(1)
+    })
+
+    it.skip('triggers pre subscriptions only once on $patch', async () => {
+      const s1 = useStore()
+      const spy1 = jest.fn()
+
+      s1.$subscribe(spy1, { flush: 'pre' })
+
+      // First mutation: works as expected
+      s1.$patch({ user: 'Edu' })
+      // anything else than awaiting a non promise or Promise.resolve() works
+      await false
+      // await Promise.resolve(false)
+      // adding an extra await works
+      // await false
+      // adding any other delay also works
+      // await delay(20)
+      // await nextTick()
+      expect(spy1).toHaveBeenCalledTimes(1)
+      expect(spy1).not.toHaveBeenCalledWith(
+        expect.objectContaining({ type: MutationType.direct }),
+        s1.$state
+      )
+
+      s1.$patch({ user: 'Myk' })
+      await nextTick()
+
+      expect(spy1).toHaveBeenCalledTimes(2)
+      expect(spy1).not.toHaveBeenCalledWith(
+        expect.objectContaining({ type: MutationType.direct }),
+        s1.$state
+      )
     })
 
     it('removes on unmount', async () => {
