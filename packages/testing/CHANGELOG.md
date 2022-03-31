@@ -1,3 +1,15 @@
+## [0.0.11](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.10...@pinia/testing@0.0.11) (2022-03-31)
+
+### Bug Fixes
+
+- avoid prototype pollution ([e4858f9](https://github.com/vuejs/pinia/commit/e4858f9d5f447ba6162ca9f2472608a8bac3eca7))
+- **testing:** enable initialState witohut app ([0a99a75](https://github.com/vuejs/pinia/commit/0a99a7589bed28104e26fccfa4fad007d73f4ca1))
+- **testing:** Vue 2 initial state reactive ([#1165](https://github.com/vuejs/pinia/issues/1165)) ([f23af8e](https://github.com/vuejs/pinia/commit/f23af8eac97b055e58908eb76aae684fd68685b5))
+
+### Features
+
+- **testing:** allow overriding computed in tests ([f4db826](https://github.com/vuejs/pinia/commit/f4db8264bd61467fa85f2407aedf23756af4b67c)), closes [#945](https://github.com/vuejs/pinia/issues/945)
+
 ## [0.0.10](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.9...@pinia/testing@0.0.10) (2022-03-14)
 
 ### Features

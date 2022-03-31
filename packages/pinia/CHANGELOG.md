@@ -1,3 +1,14 @@
+## [2.0.13](https://github.com/vuejs/pinia/compare/pinia@2.0.12...pinia@2.0.13) (2022-03-31)
+
+### Bug Fixes
+
+- avoid prototype pollution ([e4858f9](https://github.com/vuejs/pinia/commit/e4858f9d5f447ba6162ca9f2472608a8bac3eca7))
+- **vue2:** use toRefs in storeToRefs ([0f24ad2](https://github.com/vuejs/pinia/commit/0f24ad27f16bd473e20a8671cd24877d2603cbcf)), closes [#852](https://github.com/vuejs/pinia/issues/852)
+
+### Features
+
+- update devtools-api ([5334222](https://github.com/vuejs/pinia/commit/53342222c536b0dc122f491525ca1c5ad8d25a05))
+
 ## [2.0.12](https://github.com/vuejs/pinia/compare/pinia@2.0.11...pinia@2.0.12) (2022-03-14)
 
 ### Bug Fixes
