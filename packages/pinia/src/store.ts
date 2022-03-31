@@ -59,11 +59,13 @@ function mergeReactiveObjects<T extends StateTree>(
 ): T {
   // no need to go through symbols because they cannot be serialized anyway
   for (const key in patchToApply) {
+    if (!patchToApply.hasOwnProperty(key)) continue
     const subPatch = patchToApply[key]
     const targetValue = target[key]
     if (
       isPlainObject(targetValue) &&
       isPlainObject(subPatch) &&
+      target.hasOwnProperty(key) &&
       !isRef(subPatch) &&
       !isReactive(subPatch)
     ) {
