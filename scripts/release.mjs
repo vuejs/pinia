@@ -296,6 +296,9 @@ async function publishPackage(pkg) {
         ...(optionTag ? ['--tag', optionTag] : []),
         '--access',
         'public',
+        // specific to pinia
+        '--publish-branch',
+        'v2',
       ],
       {
         cwd: pkg.path,
