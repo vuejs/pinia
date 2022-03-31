@@ -14,6 +14,7 @@ Depending on what or how you are testing, we need to take care of these three di
     - [Initial State](#initial-state)
     - [Customizing behavior of actions](#customizing-behavior-of-actions)
     - [Specifying the createSpy function](#specifying-the-createspy-function)
+    - [Mocking getters](#mocking-getters)
   - [E2E tests](#e2e-tests)
   - [Unit test components (Vue 2)](#unit-test-components-vue-2)
 
@@ -174,6 +175,32 @@ createTestingPinia({
 ```
 
 You can find more examples in [the tests of the testing package](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts).
+
+### Mocking getters
+
+By default, any getter will be computed like regular usage but you can manually force a value by setting the getter to anything you want:
+
+```ts
+import { defineStore } from 'pinia'
+import { createTestingPinia } from '@pinia/testing'
+
+const useCounter = defineStore('counter', {
+  state: () => ({ n: 1 }),
+  getters: {
+    double: (state) => state.n * 2,
+  },
+})
+
+const pinia = createTestingPinia()
+const counter = useCounter(pinia)
+
+counter.double = 3 // 🪄 getters are writable only in tests
+
+// set to undefined to reset the default behavior
+// @ts-expect-error: usually it's a number
+counter.double = undefined
+counter.double // 2 (=1 x 2)
+```
 
 ## E2E tests
 
