@@ -23,30 +23,29 @@ export function storeToRefs<SS extends StoreGeneric>(
 ): ToRefs<
   StoreState<SS> & StoreGetters<SS> & PiniaCustomStateProperties<StoreState<SS>>
 > {
-  if (__DEV__ && isVue2) {
-    console.warn(
-      '[Pinia]: "storeToRefs()" currently only works on Vue 3 until https://github.com/vuejs/pinia/issues/852 is fixed. Please, use "toRefs()" (from vue) instead. This will FAIL in production if not changed.'
-    )
+  // See https://github.com/vuejs/pinia/issues/852
+  // It's easier to just use toRefs() even if it includes more stuff
+  if (isVue2) {
     // @ts-expect-error: toRefs include methods and others
     return toRefs(store)
-  }
+  } else {
+    store = toRaw(store)
 
-  store = toRaw(store)
-
-  const refs = {} as ToRefs<
-    StoreState<SS> &
-      StoreGetters<SS> &
-      PiniaCustomStateProperties<StoreState<SS>>
-  >
-  for (const key in store) {
-    const value = store[key]
-    if (isRef(value) || isReactive(value)) {
-      // @ts-expect-error: the key is state or getter
-      refs[key] =
-        // ---
-        toRef(store, key)
+    const refs = {} as ToRefs<
+      StoreState<SS> &
+        StoreGetters<SS> &
+        PiniaCustomStateProperties<StoreState<SS>>
+    >
+    for (const key in store) {
+      const value = store[key]
+      if (isRef(value) || isReactive(value)) {
+        // @ts-expect-error: the key is state or getter
+        refs[key] =
+          // ---
+          toRef(store, key)
+      }
     }
-  }
 
-  return refs
+    return refs
+  }
 }
