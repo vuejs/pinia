@@ -1,7 +1,7 @@
 import { createTestingPinia, TestingOptions } from './testing'
-import { createPinia, defineStore } from 'pinia'
+import { createPinia, defineStore, setActivePinia } from 'pinia'
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 
 describe('Testing', () => {
   const useCounter = defineStore('counter', {
@@ -170,5 +170,33 @@ describe('Testing', () => {
     })
 
     expect(wrapper.text()).toBe('empty')
+  })
+
+  it('works with nested stores', () => {
+    const useA = defineStore('a', () => {
+      const n = ref(0)
+      return { n }
+    })
+
+    const useB = defineStore('b', () => {
+      const a = useA()
+      const n = ref(0)
+      const doubleA = computed(() => a.n * 2)
+      return { n, doubleA }
+    })
+
+    const pinia = createTestingPinia()
+    setActivePinia(pinia)
+
+    const b = useB()
+    const a = useA()
+
+    expect(a.n).toBe(0)
+    a.n++
+    expect(b.doubleA).toBe(2)
+    expect(pinia.state.value).toEqual({
+      a: { n: 1 },
+      b: { n: 0 },
+    })
   })
 })
