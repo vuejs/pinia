@@ -57,4 +57,17 @@ describe('Testing: initial state', () => {
     counter.nested.n++
     expect(counter.nested.n).toBe(11)
   })
+
+  it('can set an initial state with no app', () => {
+    const pinia = createTestingPinia({
+      initialState: {
+        counter: { n: 20 },
+      },
+    })
+    const counter = useCounter(pinia)
+    expect(counter.nested).toEqual({ n: 0, other: false })
+    expect(counter.n).toBe(20)
+    counter.n++
+    expect(counter.n).toBe(21)
+  })
 })

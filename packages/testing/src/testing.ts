@@ -99,7 +99,8 @@ export function createTestingPinia({
 }: TestingOptions = {}): TestingPinia {
   const pinia = createPinia()
 
-  pinia.use(({ store }) => {
+  // allow adding initial state
+  pinia._p.push(({ store }) => {
     if (initialState[store.$id]) {
       mergeReactiveObjects(store.$state, initialState[store.$id])
     }
