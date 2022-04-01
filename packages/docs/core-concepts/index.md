@@ -83,7 +83,9 @@ export default defineComponent({
     const { name, doubleCount } = storeToRefs(store)
     // the increment action can be just extracted
     const { increment } = store
-
+    
+    const OPTIONS = ['Joan', 'Lou', 'Arnau', 'Guifré']
+    
     return {
       name,
       doubleCount
@@ -91,4 +93,21 @@ export default defineComponent({
     }
   },
 })
+```
+
+> TIP: 
+> This comes handy when you are binding forms to the store's state.
+> 
+
+
+```html
+<template>
+  <input type="text" v-model="name">
+  
+ // Reactivity also works in a select!!!
+ <q-select v-model="name" :options="OPTIONS" label="Som / Soc..." filled>
+   <option disabled value="">Please select one</option>
+ </q-select>
+</template>
+
 ```
