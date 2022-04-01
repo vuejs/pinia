@@ -1,6 +1,7 @@
 node_modules
 coverage
 npm-debug.log
+pnpm-debug.log
 yarn-error.log
 .nyc_output
 coverage.lcov
@@ -15,3 +16,5 @@ docs-api
 packages/docs/api
 .yalc
 yalc.lock
+yarn.lock
+package-lock.json

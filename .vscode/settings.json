@@ -6,6 +6,6 @@
     "editor.formatOnSave": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
-  "jest.jestCommandLine": "yarn jest --watchAll",
+  "jest.jestCommandLine": "pnpm jest --watchAll",
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
