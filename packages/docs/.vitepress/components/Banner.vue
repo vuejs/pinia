@@ -16,11 +16,11 @@
           VUE 3 MASTERCLASS - FREE WEEKEND
         </div>
         <div class="vs-slogan-title">
-          April 23-24th at <strong>vueschool.io/free-weekend</strong>
+          Register at <strong>vueschool.io/free-weekend</strong>
         </div>
       </div>
       <div class="vs-button">
-        Register Free
+        Free Access
       </div>
     </div>
     <div id="vs-close" class="vs-close" @click.stop.prevent="close">
@@ -33,10 +33,11 @@
 export default {
   data () {
     return {
-      isVisible: !localStorage.getItem('VS_FW_22')
+      isVisible: false
     }
   },
   mounted () {
+    this.isVisible = !localStorage.getItem('VS_FW_22')
     if (this.isVisible) document.body.classList.add('has-top-banner')
   },
   methods: {
