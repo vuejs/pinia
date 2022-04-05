@@ -2,7 +2,7 @@
   <a
     id="vs"
     v-if="isVisible"
-    href="https://vueschool.io/free-weekend?friend=vuerouter"
+    href="https://vueschool.io/free-weekend?friend=pinia"
     target="_blank"
     rel="noreferrer"
   >
