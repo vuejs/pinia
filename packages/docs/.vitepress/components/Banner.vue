@@ -1,6 +1,7 @@
 <template>
   <a
     id="vs"
+    v-if="isVisible"
     href="https://vueschool.io/free-weekend?friend=vuerouter"
     target="_blank"
     rel="noreferrer"
@@ -22,11 +23,31 @@
         Register Free
       </div>
     </div>
-    <div id="vs-close" class="vs-close" @click.stop.prevent="$emit('close')">
+    <div id="vs-close" class="vs-close" @click.stop.prevent="close">
       <img src="/images/vueschool/vs-close.svg" alt="Close">
     </div>
   </a>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      isVisible: !localStorage.getItem('VS_FW_22')
+    }
+  },
+  mounted () {
+    if (this.isVisible) document.body.classList.add('has-top-banner')
+  },
+  methods: {
+    close () {
+      this.isVisible = false
+      document.body.classList.remove('has-top-banner')
+      localStorage.setItem('VS_FW_22', 1)
+    }
+  }
+}
+</script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;600&display=swap');
@@ -181,8 +202,38 @@
 
 /********************************************/
 
-.theme.no-sidebar main {
-  padding-top: calc(80px + var(--header-height));
+.has-top-banner .theme {
+  margin-top: 80px;
+}
+
+.has-top-banner .theme .nav-bar {
+  margin-top: 80px;
+}
+
+.has-top-banner .theme .sidebar {
+  margin-top: 80px;
+}
+
+.has-top-banner .theme .page {
+  margin-top: 80px;
+}
+
+@media (min-width: 680px) {
+  .has-top-banner .theme {
+    margin-top: 80px;
+  }
+
+  .has-top-banner .theme .nav-bar {
+    margin-top: 80px;
+  }
+
+  .has-top-banner .theme .sidebar {
+    margin-top: 80px;
+  }
+
+  .has-top-banner .theme .page {
+    margin-top: 80px;
+  }
 }
 
 </style>

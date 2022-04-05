@@ -15,11 +15,10 @@ export const Layout = defineComponent({
     return () =>
       h(
         Theme.Layout,
-        {
-          class: 'has-top-banner',
-        },
+        {},
         {
           'home-hero': () => h(Banner),
+          'page-top': () => h(Banner),
           'sidebar-top': () =>
             h('div', { class: 'sponsors sponsors-top' }, [
               h('span', 'Platinum Sponsors'),
