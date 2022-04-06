@@ -1,25 +1,25 @@
 ---
 home: true
 heroImage: /logo.svg
-actionText: 开始
+actionText: 开始使用
 actionLink: /zh/introduction.html
 
-altActionText: Demo
+altActionText: Demo 演示
 altActionLink: https://stackblitz.com/github/piniajs/example-vue-3-vite
 
 features:
-  - title: 💡 Intuitive
-    details: Stores are as familiar as components. API designed to let you write well organized stores.
-  - title: 🔑 Type Safe
-    details: Types are inferred, which means stores provide you with autocompletion even in JavaScript!
-  - title: ⚙️ Devtools support
-    details: Pinia hooks into Vue devtools to give you an enhanced development experience in both Vue 2 and Vue 3.
-  - title: 🔌 Extensible
-    details: React to store changes to extend Pinia with transactions, local storage synchronization, etc.
-  - title: 🏗 Modular by design
-    details: Build multiple stores and let your bundler code split them automatically.
-  - title: 📦 Extremely light
-    details: Pinia weighs around 1kb, you will forget it's even there!
+  - title: 💡 所见即所得
+    details: Store 与组件类似。其 API 的设计旨在让你编写出更易组织的 store 。
+  - title: 🔑 类型安全
+    details: 类型可自动推断，即使在 JavaScript 中亦可为你提供自动补全功能！
+  - title: ⚙️ 开发工具支持
+    details: 不管是 Vue2 还是 Vue3，与 Vue devtools 挂钩的 Pinia 都能给你更好的开发体验。
+  - title: 🔌 可扩展性
+    details: 可通过事务、同步本地存储等方式扩展 Pinia，以响应 store 的变更。
+  - title: 🏗 模块化设计
+    details: 可构建多个 Store 并允许你的打包工具自动拆分它们。
+  - title: 📦 极致轻量化
+    details: Pinia 大小只有 1kb 左右，你甚至可能忘记它的存在！
 footer: MIT Licensed | Copyright © 2019-present Eduardo San Martin Morote
 ---
 
