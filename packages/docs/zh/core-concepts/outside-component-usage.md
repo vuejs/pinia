@@ -1,32 +1,32 @@
-# Using a store outside of a component
+# 在组件外使用一个 store{#using-a-store-outside-of-a-component}
 
-Pinia stores rely on the `pinia` instance to share the same store instance across all calls. Most of the time, this works out of the box by just calling your `useStore()` function. For example, in `setup()`, you don't need to do anything else. But things are a bit different outside of a component.
-Behind the scenes, `useStore()` _injects_ the `pinia` instance you gave to your `app`. This means that if the `pinia` instance cannot be automatically injected, you have to manually provide it to the `useStore()` function.
-You can solve this differently depending on the kind of application you are writing.
+Pinia store 依靠 `pinia` 实例在所有调用中共享同一个商店实例。大多数时候，只需调用你的 `useStore()` 函数，非常开箱即用。例如，在 `setup()` 中，你不需要做任何其他事情。但在组件之外，情况就有点不同了。
+在幕后，`useStore()` 给你的 `app` 注入了 `pinia` 实例。这意味着，如果 `pinia` 实例不能自动注入，你必须手动提供给 `useStore()` 函数。
+你可以根据你所写的应用程序的种类，以不同的方式解决这个问题。
 
-## Single Page Applications
+## 单页面应用{#single-page-applications}
 
-If you are not doing any SSR (Server Side Rendering), any call of `useStore()` after installing the pinia plugin with `app.use(pinia)` will work:
+如果你不做任何 SSR（服务器端渲染），在用 `app.use(pinia)` 安装pinia 插件后，任何对 `useStore()` 的调用都会有效：
 
 ```js
 import { useUserStore } from '@/stores/user'
 import { createApp } from 'vue'
 import App from './App.vue'
 
-// ❌  fails because it's called before the pinia is created
+// ❌  失败，因为它是在创建 pinia 之前被调用的
 const userStore = useUserStore()
 
 const pinia = createPinia()
 const app = createApp(App)
 app.use(pinia)
 
-// ✅ works because the pinia instance is now active
+// ✅ 成功，因为 pinia 实例现在激活了
 const userStore = useUserStore()
 ```
 
-The easiest way to ensure this is always applied is to _defer_ calls of `useStore()` by placing them inside functions that will always run after pinia is installed.
+最简单的方法是将 `useStore()` 的调用放在 pinia 安装后一直运行的函数中，以确保其始终被应用。
 
-Let's take a look at this example of using a store inside of a navigation guard with Vue Router:
+让我们来看看这个在 Vue Router 的导航卫士中使用 store 的例子。
 
 ```js
 import { createRouter } from 'vue-router'
@@ -34,26 +34,26 @@ const router = createRouter({
   // ...
 })
 
-// ❌ Depending on the order of imports this will fail
+// ❌ 取决于引入的顺序，这将失败
 const store = useStore()
 
 router.beforeEach((to, from, next) => {
-  // we wanted to use the store here
+  // 我们想用这里的 store
   if (store.isLoggedIn) next()
   else next('/login')
 })
 
 router.beforeEach((to) => {
-  // ✅ This will work because the router starts its navigation after
-  // the router is installed and pinia will be installed too
+  // ✅ 这样做是可行的，因为路由器在安装完之后就会开始导航。
+  // Pinia 也将被安装。
   const store = useStore()
 
   if (to.meta.requiresAuth && !store.isLoggedIn) return '/login'
 })
 ```
 
-## SSR Apps
+## 服务端渲染应用{#ssr-apps}
 
-When dealing with Server Side Rendering, you will have to pass the `pinia` instance to `useStore()`. This prevents pinia from sharing global state between different application instances.
+当处理服务端渲染时，你将必须把 `pinia` 实例传递给 `useStore()`。这可以防止 pinia 在不同的应用程序实例之间共享全局状态。
 
-There is a whole section dedicated to it in the [SSR guide](/ssr/index.md), this is just a short explanation:
+在[SSR 指南](/ssr/index.md)中有一整节专门讨论这个问题，这里只是一个简短的解释。
