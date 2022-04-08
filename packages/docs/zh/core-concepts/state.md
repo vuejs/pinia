@@ -177,7 +177,7 @@ cartStore.$patch((state) => {
 store.$state = { counter: 666, name: 'Paimon' }
 ```
 
-你也可以通过改变 `pinia` 实例的 `state` 来替换应用程序的整个 state。这在常用于[SSR for hydration](./ssr/#state-hydration)。
+你也可以通过改变 `pinia` 实例的 `state` 来替换应用程序的整个 state。这在常用于 [SSR for hydration](../ssr/#state-hydration)。
 
 ```js
 pinia.state.value = {}
