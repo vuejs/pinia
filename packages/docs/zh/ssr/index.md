@@ -1,25 +1,25 @@
-# Server Side Rendering (SSR)
+# 服务端渲染 (SSR){#server-side-rendering-ssr}
 
 :::tip
-If you are using **Nuxt.js,** you need to read [**these instructions**](./nuxt.md) instead.
+如果你使用的是 **Nuxt.js，**你需要阅读的是[**这些说明文档**](./nuxt.md)。
 :::
 
-Creating stores with Pinia should work out of the box for SSR as long as you call your `useStore()` functions at the top of `setup` functions, `getters` and `actions`:
+只要你在 `setup` 函数、`getters` 和 `actions` 的顶部调用 `useStore()` 函数，使用 Pinia 创建 store 对于 SSR 来说应该是开箱即用。
 
 ```js
 export default defineComponent({
   setup() {
-    // this works because pinia knows what application is running inside of
-    // `setup()`
+    // 这样做的原因是 Pinia 知道
+    // `setup()` 中运行的应用程序是什么
     const main = useMainStore()
     return { main }
   },
 })
 ```
 
-## Using the store outside of `setup()`
+## 在 `setup()` 外部使用 store{#using-the-store-outside-of-setup}
 
-If you need to use the store somewhere else, you need to pass the `pinia` instance [that was passed to the app](#install-the-plugin) to the `useStore()` function call:
+如果你需要在其他地方使用 store，你需要将[被传递给应用程序](#install-the-plugin) 的 `pinia` 实例传递给 `useStore()` 函数调用：
 
 ```js
 const pinia = createPinia()
@@ -29,15 +29,15 @@ app.use(router)
 app.use(pinia)
 
 router.beforeEach((to) => {
-  // ✅ This will work make sure the correct store is used for the
-  // current running app
+  // ✅这将会生效，确保正确的 store 被用于
+  // 当前正在运行的应用程序
   const main = useMainStore(pinia)
 
   if (to.meta.requiresAuth && !main.isLoggedIn) return '/login'
 })
 ```
 
-Pinia conveniently adds itself as `$pinia` to your app so you can use it in functions like `serverPrefetch()`:
+Pinia 会将自己作为 `$pinia` 添加到你的应用程序中，所以你可以在 `serverPrefetch()` 等函数中使用它。
 
 ```js
 export default {
@@ -49,27 +49,27 @@ export default {
 
 ## State hydration
 
-To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on. Depending on what you are using for SSR, **you should escape the state for security reasons**. We recommend using [@nuxt/devalue](https://github.com/nuxt-contrib/devalue) which is the one used by Nuxt.js:
+为了 hydrate 初始 state，你需要确保 rootState 包含在 HTML 中的某个地方，以便 Pinia 稍后能够接收到它。根据你所使用的 SSR，**你应该为了安全而转义状态**。我们推荐使用 [@nuxt/devalue](https://github.com/nuxt-contrib/devalue)，这是 Nuxt.js 使用的。
 
 ```js
 import devalue from '@nuxt/devalue'
 import { createPinia } from 'pinia'
-// retrieve the rootState server side
+// 检索服务端的 rootState
 const pinia = createPinia()
 const app = createApp(App)
 app.use(router)
 app.use(pinia)
 
-// after rendering the page, the root state is build and can be read directly
-// on `pinia.state.value`.
+// 渲染页面后，根状态被建立，
+// 可以直接在 `pinia.state.value`上读取。
 
-// serialize, escape (VERY important if the content of the state can be changed
-// by the user, which is almost always the case), and place it somewhere on
-// the page, for example, as a global variable.
+// 序列化，转义（状态的内容是否可以被用户改变，这非常重要，几乎都是这样的）
+// 并将其放置在页面的某处
+// 例如，作为一个全局变量。
 devalue(pinia.state.value)
 ```
 
-Depending on what you are using for SSR, you will set an _initial state_ variable that will be serialized in the HTML. You should also protect yourself from XSS attacks. For example, with [vite-ssr](https://github.com/frandiox/vite-ssr) you can use the [`transformState` option](https://github.com/frandiox/vite-ssr#state-serialization) and `@nuxt/devalue`:
+根据你所使用的 SSR，你将设置一个**初始状态**变量，该变量将在 HTML 中被序列化。你还应该保护自己免受 XSS 攻击。例如，使用 [vit-ssr](https://github.com/frandiox/vite-ssr) 你可以使用[ `transformState` 选项](https://github.com/frandiox/vite-ssr#state-serialization)和 `@nuxt/devalue`。
 
 ```js
 import devalue from '@nuxt/devalue'
@@ -85,26 +85,26 @@ export default viteSSR(
   ({ initialState }) => {
     // ...
     if (import.meta.env.SSR) {
-      // this will be stringified and set to window.__INITIAL_STATE__
+      // 这将被字符串化并设置为窗口。__INITIAL_STATE__
       initialState.pinia = pinia.state.value
     } else {
-      // on the client side, we restore the state
+      // 在客户端，我们恢复状态
       pinia.state.value = initialState.pinia
     }
   }
 )
 ```
 
-You can use [other alternatives](https://github.com/nuxt-contrib/devalue#see-also) to `@nuxt/devalue` depending on what you need, e.g. if you can serialize and parse your state with `JSON.stringify()`/`JSON.parse()`, **you could improve your performance by a lot**.
+你可以根据你的需要使用 `@nuxt/devalue` 的[其他替代品](https://github.com/nuxt-contrib/devalue#see-also)，例如，如果你能用 `JSON.stringify()`/`JSON.parse()` 来序列化和解析你的状态，**你可以把性能提高很多。**
 
-Adapt this strategy to your environment. Make sure to hydrate pinia's state before calling any `useStore()` function on client side. For example, if we serialize the state into a `<script>` tag to make it accessible globally on client side through `window.__pinia`, we can write this:
+根据你的环境调整这个策略。确保在客户端调用任何 `useStore()` 函数之前，对 pinia 的 state 进行 hydrate。例如，如果我们将状态序列化为一个 `<script>` 标签，使其在客户端通过 `window.__pinia` 全局访问，我们可以这样写：
 
 ```js
 const pinia = createPinia()
 const app = createApp(App)
 app.use(pinia)
 
-// must be set by the user
+// 必须由用户设置
 if (isClient) {
   pinia.state.value = JSON.parse(window.__pinia)
 }
