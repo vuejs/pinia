@@ -345,7 +345,7 @@ module.exports = {
                 link: '/zh/cookbook/migration-vuex.html',
               },
               {
-                text: '热重载',
+                text: '热更新',
                 link: '/zh/cookbook/hot-module-replacement.html',
               },
               {

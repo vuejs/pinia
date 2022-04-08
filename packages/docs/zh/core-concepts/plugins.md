@@ -1,68 +1,68 @@
 # Plugins
 
-Pinia stores can be fully extended thanks to a low level API. Here is a list of things you can do:
+由于有了底层 API，Pinia store 可以被完全扩展。下面是一个你可以实现的清单。
 
-- Add new properties to stores
-- Add new options when defining stores
-- Add new methods to stores
-- Wrap existing methods
-- Change or even cancel actions
-- Implement side effects like [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
-- Apply **only** to specific stores
+- 为 store 添加新的属性
+- 定义 store 时增加新的选项
+- 为 store 增加新的方法
+- 包装现有的方法
+- 改变或甚至取消 action
+- 实现副效果，如[本地存储](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
+- **仅**适用于特定 store
 
-Plugins are added to the pinia instance with `pinia.use()`. The simplest example is adding a static property to all stores by returning an object:
+插件是通过 `pinia.use()` 添加到 pinia 实例的。最简单的例子是通过返回一个对象将一个静态属性添加到所有商店。
 
 ```js
 import { createPinia } from 'pinia'
 
-// add a property named `secret` to every store that is created after this plugin is installed
-// this could be in a different file
+// 在安装此插件后创建的每个 store 中都会添加一个名为 `secret` 的属性。
+// 这可以在不同的文件中
 function SecretPiniaPlugin() {
   return { secret: 'the cake is a lie' }
 }
 
 const pinia = createPinia()
-// give the plugin to pinia
+// 将该插件交给 Pinia
 pinia.use(SecretPiniaPlugin)
 
-// in another file
+// 在另一个文件中
 const store = useStore()
 store.secret // 'the cake is a lie'
 ```
 
-This is useful to add global objects like the router, modal, or toast managers.
+这对添加全局对象很有用，如路由器、模态或 toast 管理器。
 
-## Introduction
+## 简介{#introduction}
 
-A Pinia plugin is a function that optionally returns properties to be added to a store. It takes one optional argument, a _context_:
+Pinia 插件是一个函数，可以选择性地返回要添加到 store 的属性。它接收一个可选的参数，即 _context_。
 
 ```js
 export function myPiniaPlugin(context) {
-  context.pinia // the pinia created with `createPinia()`
-  context.app // the current app created with `createApp()` (Vue 3 only)
-  context.store // the store the plugin is augmenting
-  context.options // the options object defining the store passed to `defineStore()`
+  context.pinia // 用 `createPinia()` 创建的 pinia。 
+  context.app // 用 `createApp()` 创建的当前应用程序（仅Vue 3）。
+  context.store // 该插件想扩展的 store
+  context.options // 定义传给 `defineStore()` 的 store 的可选对象。
   // ...
 }
 ```
 
-This function is then passed to `pinia` with `pinia.use()`:
+然后用 `pinia.use()` 将这个函数传给 `pinia`：
 
 ```js
 pinia.use(myPiniaPlugin)
 ```
 
-Plugins are only applied to stores **created after `pinia` is passed to the app**, otherwise they won't be applied.
+插件只适用于**在 `pinia` 传递给应用程序后**创建的 store，否则它们不会被应用。
 
-## Augmenting a Store
+## 扩展 Store{#augmenting-a-store}
 
-You can add properties to every store by simply returning an object of them in a plugin:
+你可以通过简单地在一个插件中返回它们的对象来为每个 store 添加属性：
 
 ```js
 pinia.use(() => ({ hello: 'world' }))
 ```
 
-You can also set the property directly on the `store` but **if possible use the return version so they can be automatically tracked by devtools**:
+你也可以直接在 `store` 上设置该属性，但**可以的话，请使用返回对象的方法，这样它们就能被 devtools 自动追踪到**：
 
 ```js
 pinia.use(({ store }) => {
@@ -70,83 +70,83 @@ pinia.use(({ store }) => {
 })
 ```
 
-Any property _returned_ by a plugin will be automatically tracked by devtools so in order to make `hello` visible in devtools, make sure to add it to `store._customProperties` **in dev mode only** if you want to debug it in devtools:
+任何由插件返回的属性都会被 devtools 自动跟踪，所以如果你想在 devtools 中调试，为了使 `hello` 在 devtools 中可见，请确保**在 dev 模式下**将其添加到 `store._customProperties` 中。
 
 ```js
-// from the example above
+// 上文示例
 pinia.use(({ store }) => {
   store.hello = 'world'
-  // make sure your bundler handle this. webpack and vite should do it by default
+  // 确保你的构建工具能处理这个问题，webpack 和 vite 在默认情况下应该能处理。
   if (process.env.NODE_ENV === 'development') {
-    // add any keys you set on the store
+    // 添加你在 store 中设置的任何键
     store._customProperties.add('hello')
   }
 })
 ```
 
-Note that every store is wrapped with [`reactive`](https://v3.vuejs.org/api/basic-reactivity.html#reactive), automatically unwrapping any Ref (`ref()`, `computed()`, ...) it contains:
+请注意，每个 store 都被 [`reactive`](https://v3.vuejs.org/api/basic-reactivity.html#reactive)包装过，所以可以自动解除它所包含的任何 Ref(`ref()`、`computed()`...) 的包装。
 
 ```js
 const sharedRef = ref('shared')
 pinia.use(({ store }) => {
-  // each store has its individual `hello` property
+  // 每个商店都有其独立的 `hello` 属性
   store.hello = ref('secret')
-  // it gets automatically unwrapped
+  // 它会被自动解包
   store.hello // 'secret'
 
-  // all stores are sharing the value `shared` property
+  // 所有的商店都在共享 `shared` 属性的值
   store.shared = sharedRef
   store.shared // 'shared'
 })
 ```
 
-This is why you can access all computed properties without `.value` and why they are reactive.
+这就是为什么你可以在没有 `.value` 的情况下访问所有的计算属性，以及为什么它们是响应式的。
 
-### Adding new state
+### 添加新的state {#adding-new-state}
 
-If you want to add new state properties to a store or properties that are meant to be used during hydration, **you will have to add it in two places**:
+如果你想给 store 添加新的 state 属性，或者要在 hydration 过程中使用的属性，**你必须在两个地方都添加它**。
 
-- On the `store` so you can access it with `store.myState`
-- On `store.$state` so it can be used in devtools and, **be serialized during SSR**.
+- 在 `store` 上，所以你可以用 `store.myState` 访问它。
+- 在 `store.$state` 上，所以它可以在 devtools 中使用，并且，**在 SSR 期间被序列化**。
 
-Note that this allows you to share a `ref` or `computed` property:
+注意，这允许你共享一个 `ref` 或 `computed` 属性。
 
 ```js
 const globalSecret = ref('secret')
 pinia.use(({ store }) => {
-  // `secret` is shared among all stores
+  // `secret` 是由所有 store 共享的
   store.$state.secret = globalSecret
   store.secret = globalSecret
-  // it gets automatically unwrapped
+  // i它会被自动解包
   store.secret // 'secret'
 
   const hasError = ref(false)
   store.$state.hasError = hasError
-  // this one must always be set
+  // 这个必须永远设置
   store.hasError = toRef(store.$state, 'hasError')
 
-  // in this case it's better not to return `hasError` since it
-  // will be displayed in the `state` section in the devtools
-  // anyway and if we return it, devtools will display it twice.
+  // 在这种情况下，最好不要返回 `hasError`
+  // 因为它将被显示在 devtools 的 `state` 部分
+  // 如果我们返回它，devtools 将显示两次。
 })
 ```
 
-Note that state changes or additions that occur within a plugin (that includes calling `store.$patch()`) happen before the store is active and therefore **do not trigger any subscriptions**.
+请注意，在一个插件中 state 变化或添加（包括调用 `store.$patch()`）发生在 store 被激活之前，**不会触发任何订阅**。
 
 :::warning
-If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats) as Vue. You will need to use `set` from `@vue/composition-api` when creating new state properties like `secret` and `hasError`:
+如果你使用的是**Vue 2**，Pinia 与 Vue 一样受制于[相同的响应式警告](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats)。在创建新的 state 属性如 `secret` 和 `hasError` 时，你需要使用 `@vue/composition-api` 的 `set`。
 
 ```js
 import { set } from '@vue/composition-api'
 pinia.use(({ store }) => {
   if (!store.$state.hasOwnProperty('hello')) {
     const secretRef = ref('secret')
-    // If the data is meant to be used during SSR, you should
-    // set it on the `$state` property so it is serialized and
-    // picked up during hydration
+    // 如果这些数据是要在 SSR 过程中使用的
+    // 你应该将其设置在`$state'属性上
+    // 这样它就会被序列化并在 hydration 过程中被拾取
     set(store.$state, 'secret', secretRef)
-    // set it directly on the store too so you can access it
-    // both ways: `store.$state.secret` / `store.secret`
+    // 直接在商店里设置，这样你就可以访问它了。
+    // 两种方式都可以：`store.$state.secret` / `store.secret`。
     set(store, 'secret', secretRef)
     store.secret // 'secret'
   }
@@ -155,13 +155,13 @@ pinia.use(({ store }) => {
 
 :::
 
-## Adding new external properties
+## 添加新的外部属性{#adding-new-external-properties}
 
-When adding external properties, class instances that come from other libraries, or simply things that are not reactive, you should wrap the object with `markRaw()` before passing it to pinia. Here is an example adding the router to every store:
+当添加外部属性、来自其他库的类实例或简单的非响应式的东西时，你应该在把对象传给 pinia 之前用 `markRaw()` 来包装它。下面是一个在每个 store 添加路由器的例子：
 
 ```js
 import { markRaw } from 'vue'
-// adapt this based on where your router is
+// 根据你的路由器的位置来调整这个
 import { router } from './router'
 
 pinia.use(({ store }) => {
@@ -169,24 +169,24 @@ pinia.use(({ store }) => {
 })
 ```
 
-## Calling `$subscribe` inside plugins
+## 在插件中调用 `$subscribe`{#calling-subscribe-inside-plugins}
 
-You can use [store.$subscribe](./state.md#subscribing-to-the-state) and [store.$onAction](./actions.md#subscribing-to-actions) inside plugins too:
+你也可以在插件中使用 [store.$subscribe](./state.md#subscribing-to-the-state) 和 [store.$onAction](./actions.md#subscribing-to-actions) 。
 
 ```ts
 pinia.use(({ store }) => {
   store.$subscribe(() => {
-    // react to store changes
+    // 响应 store 变化
   })
   store.$onAction(() => {
-    // react to store actions
+    // 响应 store actions
   })
 })
 ```
 
-## Adding new options
+## 添加新的选项{#adding-new-options}
 
-It is possible to create new options when defining stores to later on consume them from plugins. For example, you could create a `debounce` option that allows you to debounce any action:
+在定义 store 时，可以创建新的选项，以便之后在插件中使用它们。例如，你可以创建一个 `debounce` 选项，允许你让任何 action 实现防抖。
 
 ```js
 defineStore('search', {
@@ -196,23 +196,23 @@ defineStore('search', {
     },
   },
 
-  // this will be read by a plugin later on
+  // 这将在之后被一个插件读取
   debounce: {
-    // debounce the action searchContacts by 300ms
+    // 让 action searchContacts 防抖 300ms
     searchContacts: 300,
   },
 })
 ```
 
-The plugin can then read that option to wrap actions and replace the original ones:
+然后，该插件可以读取该选项来包装 action ，并替换原始 action：
 
 ```js
-// use any debounce library
+// 使用任意防抖库
 import debounce from 'lodash/debounce'
 
 pinia.use(({ options, store }) => {
   if (options.debounce) {
-    // we are overriding the actions with new ones
+    // 我们正在用新的 action 来覆盖这些 action
     return Object.keys(options.debounce).reduce((debouncedActions, action) => {
       debouncedActions[action] = debounce(
         store[action],
@@ -224,7 +224,7 @@ pinia.use(({ options, store }) => {
 })
 ```
 
-Note that custom options are passed as the 3rd argument when using the setup syntax:
+注意，在使用 setup 语法时，自定义选项作为第 3 个参数传递：
 
 ```js
 defineStore(
@@ -233,9 +233,9 @@ defineStore(
     // ...
   },
   {
-    // this will be read by a plugin later on
+    // 这将在之后被一个插件读取
     debounce: {
-      // debounce the action searchContacts by 300ms
+      // 让 action searchContacts 防抖 300ms
       searchContacts: 300,
     },
   }
@@ -244,11 +244,11 @@ defineStore(
 
 ## TypeScript
 
-Everything shown above can be done with typing support, so you don't ever need to use `any` or `@ts-ignore`.
+上面显示的一切都可以通过类型支持来完成，所以你永远不需要使用 `any` 或 `@ts-ignore`。
 
-### Typing plugins
+### 类型插件{#typing-plugins}
 
-A Pinia plugin can be typed as follows:
+一个 Pinia 插件可按如下方式实现类型检查：
 
 ```ts
 import { PiniaPluginContext } from 'pinia'
@@ -258,26 +258,26 @@ export function myPiniaPlugin(context: PiniaPluginContext) {
 }
 ```
 
-### Typing new store properties
+### 为新的 store 属性添加类型{#typing-new-store-properties}
 
-When adding new properties to stores, you should also extend the `PiniaCustomProperties` interface.
+当在 store 中添加新的属性时，你也应该扩展 `PiniaCustomProperties` 接口。
 
 ```ts
 import 'pinia'
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
-    // by using a setter we can allow both strings and refs
+    // 通过使用一个 setter，我们可以允许字符串和引用。
     set hello(value: string | Ref<string>)
     get hello(): string
 
-    // you can define simpler values too
+    // 你也可以定义更简单的值
     simpleNumber: number
   }
 }
 ```
 
-It can then be written and read safely:
+然后，它就可以被安全地写入和读取了：
 
 ```ts
 pinia.use(({ store }) => {
@@ -290,13 +290,13 @@ pinia.use(({ store }) => {
 })
 ```
 
-`PiniaCustomProperties` is a generic type that allows you to reference properties of a store. Imagine the following example where we copy over the initial options as `$options` (this would only work for option stores):
+`PiniaCustomProperties` 是一个通用类型，允许你引用 store 的属性。思考下面这个例子，我们把初始选项复制成 `$options`（这只对选项 store 有效）。
 
 ```ts
 pinia.use(({ options }) => ({ $options: options }))
 ```
 
-We can properly type this by using the 4 generic types of `PiniaCustomProperties`:
+我们可以通过使用 `PiniaCustomProperties` 的4种通用类型来为此进行类型检查。
 
 ```ts
 import 'pinia'
@@ -314,18 +314,18 @@ declare module 'pinia' {
 ```
 
 :::tip
-When extending types in generics, they must be named **exactly as in the source code**. `Id` cannot be named `id` or `I`, and `S` cannot be named `State`. Here is what every letter stands for:
+当在泛型中扩展类型时，它们的名字必须**与源代码中完全一样**。`Id` 不能被命名为 `id` 或 `I` ，`S` 不能被命名为 `State`。下面是每个字母代表的含义：
 
 - S: State
 - G: Getters
 - A: Actions
-- SS: Setup Store / Store
+- SS: Setup Store/Store
 
 :::
 
-### Typing new state
+### 为新的 state 添加类型{#typing-new-state}
 
-When adding new state properties (to both, the `store` and `store.$state`), you need to add the type to `PiniaCustomStateProperties` instead. Differently from `PiniaCustomProperties`, it only receives the `State` generic:
+当添加新的 state 属性（包括 `store` 和 `store.$state` ）时，你需要将类型添加到 `PiniaCustomStateProperties` 中。与 `PiniaCustomProperties` 不同的是，它只接收 `State` 泛型：
 
 ```ts
 import 'pinia'
@@ -337,9 +337,9 @@ declare module 'pinia' {
 }
 ```
 
-### Typing new creation options
+### 为新的创建选项添加类型{#typing-new-creation-options}
 
-When creating new options for `defineStore()`, you should extend the `DefineStoreOptionsBase`. Differently from `PiniaCustomProperties`, it only exposes two generics: the State and the Store type, allowing you to limit what can be defined. For example, you can use the names of the actions:
+当为 `defineStore()` 创建新选项时，你应该扩展 `DefineStoreOptionsBase`。与 `PiniaCustomProperties` 不同的是，它只暴露了两个泛型：State 和 Store 类型，允许你限制可以定义的内容。例如，你可以使用 action 的名称：
 
 ```ts
 import 'pinia'
@@ -353,12 +353,12 @@ declare module 'pinia' {
 ```
 
 :::tip
-There is also a `StoreGetters` type to extract the _getters_ from a Store type. You can also extend the options of _setup stores_ or _option stores_ **only** by extending the types `DefineStoreOptions` and `DefineSetupStoreOptions` respectively.
+还有一个 `StoreGetters` 类型可以从一个 store 类型中提取 _getters_。你也可以且**只可以**分别通过扩展 `DefineStoreOptions` 和 `DefineSetupStoreOptions` 类型来扩展 _setup stores_ 或_option stores_ 的选项。
 :::
 
 ## Nuxt.js
 
-When [using pinia alongside Nuxt](../ssr/nuxt.md), you will have to create a [Nuxt plugin](https://nuxtjs.org/docs/2.x/directory-structure/plugins) first. This will give you access to the `pinia` instance:
+当[在 Nuxt 中使用 pinia](./ssr/nuxt.md)时，你必须先创建一个 [Nuxt 插件](https://nuxtjs.org/docs/2.x/directory-structure/plugins)。这样才能使你能够访问 `pinia` 实例：
 
 ```ts
 // plugins/myPiniaPlugin.js
@@ -367,11 +367,11 @@ import { Plugin } from '@nuxt/types'
 
 function MyPiniaPlugin({ store }: PiniaPluginContext) {
   store.$subscribe((mutation) => {
-    // react to store changes
+    // 响应 store 变更
     console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
   })
 
-  // Note this has to be typed if you are using TS
+  // 请注意，如果你使用的是TS，则必须添加类型。
   return { creationTime: new Date() }
 }
 
@@ -382,4 +382,4 @@ const myPlugin: Plugin = ({ $pinia }) => {
 export default myPlugin
 ```
 
-Note the above example is using TypeScript, you have to remove the type annotations `PiniaPluginContext` and `Plugin` as well as their imports if you are using a `.js` file.
+注意上面的例子是使用 TypeScript。如果你使用的是 `.js` 文件，你必须删除类型注释 `PiniaPluginContext` 和 `Plugin` 以及它们的导入。
