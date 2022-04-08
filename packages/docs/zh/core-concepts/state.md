@@ -5,16 +5,16 @@
   title="Learn all about state in Pinia"
 />
 
-The state is, most of the time, the central part of your store. People often start by defining the state that represents their app. In Pinia the state is defined as a function that returns the initial state. This allows Pinia to work in both Server and Client Side.
+在大多数情况下，state 都是你的 store 的核心。人们通常会首先定义能代表他们应用程序的 state。在 Pinia 中，state 被定义为一个返回初始状态的函数。这使得 Pinia 可以同时支持服务端和客户端。
 
 ```js
 import { defineStore } from 'pinia'
 
 const useStore = defineStore('storeId', {
-  // arrow function recommended for full type inference
+  // 为了完整类型推理，推荐使用箭头函数
   state: () => {
     return {
-      // all these properties will have their type inferred automatically
+      // 所有这些属性都将自动推断出它们的类型
       counter: 0,
       name: 'Eduardo',
       isAdmin: true,
@@ -24,12 +24,12 @@ const useStore = defineStore('storeId', {
 ```
 
 :::tip
-If you are using Vue 2, the data you create in `state` follows the same rules as the `data` in a Vue instance, ie the state object must be plain and you need to call `Vue.set()` when **adding new** properties to it. **See also: [Vue#data](https://vuejs.org/v2/api/#data)**.
+如果你使用的是 Vue2，你在 `state` 中创建的数据与 Vue 实例中的  `data` 遵循同样的规则，即 state 对象必须是清晰的，你需要在**向其添加新**属性时调用 `Vue.set()` 。**参考：[Vue#data](https://vuejs.org/v2/api/#data)**。
 :::
 
-## Accessing the `state`
+## 访问 `state`{#accessing-the-state}
 
-By default, you can directly read and write to the state by accessing it through the `store` instance:
+默认情况下，你可以通过 `store` 实例访问 state，直接对其进行读写。
 
 ```js
 const store = useStore()
@@ -37,9 +37,9 @@ const store = useStore()
 store.counter++
 ```
 
-## Resetting the state
+## 重置 state{#resetting-the-state}
 
-You can _reset_ the state to its initial value by calling the `$reset()` method on the store:
+你可以通过调用 store 的 `$reset()` 方法将 state 重置为初始值。
 
 ```js
 const store = useStore()
@@ -47,17 +47,17 @@ const store = useStore()
 store.$reset()
 ```
 
-### Usage with the Options API
+### 使用选项式 API 的用法{#usage-with-the-options-api}
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-state-in-the-options-api"
   title="Access Pinia State via the Options API"
 />
 
-For the following examples, you can assume the following store was created:
+对于下面的例子，你可以假设相关 Store 已经创建了：
 
 ```js
-// Example File Path:
+// 示例文件路径：
 // ./src/stores/counterStore.js
 
 import { defineStore } from 'pinia',
@@ -69,9 +69,9 @@ const useCounterStore = defineStore('counterStore', {
 })
 ```
 
-### With `setup()`
+### 使用 `setup()`{#with-setup}
 
-While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
+虽然组合式 API 并不适合所有人，但 `setup()` 钩子可以使 Pinia 在选项式 API 中更容易操作。并且不需要额外的 map helper 函数!
 
 ```js
 import { useCounterStore } from '../stores/counterStore'
@@ -90,9 +90,9 @@ export default {
 }
 ```
 
-### Without `setup()`
+### 不使用 `setup()`{#without-setup}
 
-If you are not using the Composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
+如果你不使用组合式 API，你可以使用 `computed`，`methods`，...，你也可以使用`mapState()` helper 将 state 属性映射为只读的计算属性：
 
 ```js
 import { mapState } from 'pinia'
@@ -100,15 +100,15 @@ import { useCounterStore } from '../stores/counterStore'
 
 export default {
   computed: {
-    // gives access to this.counter inside the component
-    // same as reading from store.counter
+    // 可以访问组件中的 this.counter。
+    // 与从 store.counter 中读取的数据相同
     ...mapState(useCounterStore, ['counter'])
-    // same as above but registers it as this.myOwnName
+    // 与上述相同，但将其注册为 this.myOwnName
     ...mapState(useCounterStore, {
       myOwnName: 'counter',
-      // you can also write a function that gets access to the store
+      // 你也可以写一个函数来获得对 store 的访问权
       double: store => store.counter * 2,
-      // it can have access to `this` but it won't be typed correctly...
+      // 它可以访问 "this"，但它无法被正确类型检查。。。
       magicValue(store) {
         return store.someGetter + this.counter + this.double
       },
@@ -117,9 +117,9 @@ export default {
 }
 ```
 
-#### Modifiable state
+#### 可修改的 state{#modifiable state}
 
-If you want to be able to write to these state properties (e.g. if you have a form), you can use `mapWritableState()` instead. Note you cannot pass a function like with `mapState()`:
+如果你让这些 state 属性可写（例如，如果你有一个表单），你可以使用 `mapWritableState()` 来代替。但注意你不能像 `mapState()` 那样传递一个函数：
 
 ```js
 import { mapWritableState } from 'pinia'
@@ -127,11 +127,11 @@ import { useCounterStore } from '../stores/counterStore'
 
 export default {
   computed: {
-    // gives access to this.counter inside the component and allows setting it
+    // 可以访问组件中的this.counter，并允许设置它。
     // this.counter++
-    // same as reading from store.counter
+    // 与从 store.counter 中读取的数据相同
     ...mapWritableState(useCounterStore, ['counter'])
-    // same as above but registers it as this.myOwnName
+    // 与上述相同，但将其注册为 this.myOwnName
     ...mapWritableState(useCounterStore, {
       myOwnName: 'counter',
     }),
@@ -140,14 +140,14 @@ export default {
 ```
 
 :::tip
-You don't need `mapWritableState()` for collections like arrays unless you are replacing the whole array with `cartItems = []`, `mapState()` still allows you to call methods on your collections.
+对于像数组这样的集合，除非你用 `cartItems = []` 替换整个数组，你不需要 `mapWritableState()`，`mapState()` 就允许你调用集合上的方法。
 :::
 
-## Mutating the state
+## 变更 state{#mutating-the-state}
 
 <!-- TODO: disable this with `strictMode` -->
 
-Apart from directly mutating the store with `store.counter++`, you can also call the `$patch` method. It allows you to apply multiple changes at the same time with a partial `state` object:
+除了用 `store.counter++` 直接改变存储，你还可以调用 `$patch` 方法。它允许你用一个局部的 `state` 对象在同一时间应用多个变化：
 
 ```js
 store.$patch({
@@ -156,7 +156,7 @@ store.$patch({
 })
 ```
 
-However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the `$patch` method also accepts a function to group this kind of mutations that are difficult to apply with a patch object:
+然而，用这种语法的话，有些变更真的很难实现或很耗时：任何集合的修改（例如，从数组中推送、移除、拼接一个元素）都需要你创建一个新的集合。因此，`$patch` 方法也接受一个函数来分组这种难以用补丁对象实现的变更。
 
 ```js
 cartStore.$patch((state) => {
@@ -167,48 +167,48 @@ cartStore.$patch((state) => {
 
 <!-- TODO: disable this with `strictMode`, `{ noDirectPatch: true }` -->
 
-The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note **both, direct changes to `state` and `$patch()` appear in the devtools** and can be time travelled (not yet in Vue 3).
+这里的主要区别是，`$patch()` 允许你将多个改动归入 devtools 中的一个条目。注意两点，**直接修改 `state`然后 `$patch()` 就会出现在 devtools 中**，并且可以进行 time travelled（在 Vue3 中还没有）。
 
-## Replacing the `state`
+## 替换 `state`{#replacing-the-state}
 
-You can replace the whole state of a store by setting its `$state` property to a new object:
+你可以通过将一个 store 的 `$state` 属性设置为一个新的对象来替换它的整个 state：
 
 ```js
 store.$state = { counter: 666, name: 'Paimon' }
 ```
 
-You can also replace the whole state of your application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).
+你也可以通过改变 `pinia` 实例的 `state` 来替换应用程序的整个 state。这在常用于[SSR for hydration](./ssr/#state-hydration)。
 
 ```js
 pinia.state.value = {}
 ```
 
-## Subscribing to the state
+## 订阅 state{#subscribing-to-the-state}
 
-You can watch the state and its changes through the `$subscribe()` method of a store, similar to Vuex's [subscribe method](https://vuex.vuejs.org/api/#subscribe). The advantage of using `$subscribe()` over a regular `watch()` is that _subscriptions_ will trigger only once after _patches_ (e.g. when using the function version from above).
+类似于 Vuex 的 [subscribe 方法](https://vuex.vuejs.org/api/#subscribe)，你可以通过 store 的 `$subscribe()` 方法观测 state 及其变化。比起普通的 `watch()`，使用 `$subscribe()` 的好处是 _subscriptions_ 在 _patches_ 后只触发一次（例如，当使用上面的函数版本时）。
 
 ```js
 cartStore.$subscribe((mutation, state) => {
   // import { MutationType } from 'pinia'
   mutation.type // 'direct' | 'patch object' | 'patch function'
-  // same as cartStore.$id
+  // 和 cartStore.$id 一样
   mutation.storeId // 'cart'
-  // only available with mutation.type === 'patch object'
-  mutation.payload // patch object passed to cartStore.$patch()
+  // 只有 mutation.type === 'patch object'的情况下才可用
+  mutation.payload // 传递给 cartStore.$patch() 的补丁对象。
 
-  // persist the whole state to the local storage whenever it changes
+  // 每当状态发生变化时，将整个 state 持久化到本地存储。
   localStorage.setItem('cart', JSON.stringify(state))
 })
 ```
 
-By default, _state subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you want to keep them after the component is unmounted, pass `{ detached: true }` as the second argument to _detach_ the _state subscription_ from the current component:
+默认情况下，_state subscriptions_ 会被绑定到它们被添加的组件上（如果 store 在组件的 `setup()` 里面）。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后保留它们，请将 `{ detached: true }` 作为第二个参数，以将 _state subscription_ 从当前组件中剥离：
 
 ```js
 export default {
   setup() {
     const someStore = useSomeStore()
 
-    // this subscription will be kept after the component is unmounted
+    // 在组件被卸载后，该订阅将被保留。
     someStore.$subscribe(callback, { detached: true })
 
     // ...
@@ -217,13 +217,13 @@ export default {
 ```
 
 :::tip
-You can watch the whole state on the `pinia` instance:
+你可以在`pinia`实例上侦听整个 state。
 
 ```js
 watch(
   pinia.state,
   (state) => {
-    // persist the whole state to the local storage whenever it changes
+    // 每当状态发生变化时，将整个 state 持久化到本地存储。
     localStorage.setItem('piniaState', JSON.stringify(state))
   },
   { deep: true }

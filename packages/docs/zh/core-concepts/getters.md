@@ -1,4 +1,4 @@
-# Getters{#getters}
+# Getters
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/getters-in-pinia"
@@ -18,7 +18,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-大多数时候，getter 只会依赖状态，不过，有时它们可能需要使用其他 getter。正因为如此，在定义普通函数时，我们可以通过 `this` 访问到**整个 store 实例**，**但定义返回类型（在TypeScript中）是很有必要的**。这是 TypeScript 的一个已知限制，**不影响用箭头函数定义的 getter，也不会影响不使用 `this` 的 getter**。
+大多数时候，getter 只会依赖状态，不过，有时它们可能需要使用其他 getter。因此，在定义普通函数时，我们可以通过 `this` 访问到**整个 store 实例**，**但定义返回类型（在TypeScript中）是很有必要的**。这是 TypeScript 的一个已知限制，**不影响用箭头函数定义的 getter，也不会影响不使用 `this` 的 getter**。
 
 ```ts
 export const useStore = defineStore('main', {
@@ -193,7 +193,7 @@ const useCounterStore = defineStore('counterStore', {
 
 ### 使用 `setup()`{#with-setup}
 
-虽然组合式 API 并不适合所有人，但 `setup()` 钩子可以使 Pinia 在选项式 API 中更容易操作。不需要额外的 map helper 函数!
+虽然组合式 API 并不适合所有人，但 `setup()` 钩子可以使 Pinia 在选项式 API 中更容易操作。并且不需要额外的 map helper 函数!
 
 ```js
 import { useCounterStore } from '../stores/counterStore'
