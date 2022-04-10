@@ -1,8 +1,8 @@
-# Cookbook
+# 手册{#cookbook}
 
-- [Migrating from Vuex ≤4](./migration-vuex.md): A migration guide for converting Vuex ≤4 projects.
-- [HMR](./hot-module-replacement.md): How to activate hot module replacement and improve the developer experience.
-- [Testing Stores (WIP)](./testing.md): How to unit test Stores and mock them in component unit tests.
-- [Composing Stores](./composing-stores.md): How to cross use multiple stores. e.g. using the user store in the cart store.
-- [Options API](./options-api.md): How to use Pinia without the composition API, outside of `setup()`.
-- [Migrating from 0.0.7](./migration-0-0-7.md): A migration guide with more examples than the changelog.
+- [从 Vuex ≤4 迁移](./migration-vuex.md)。用于转换 Vuex ≤4 项目的迁移指南。
+- [HMR](./hot-module-replacement.md)：如何激活热更新并改善开发者体验。
+- [测试 Stores (WIP)](./testing.md): 如何对 Store 进行单元测试并在组件单元测试中模拟它们。
+- [Composing Stores](./composing-stores.md): 如何交叉使用多个 store，例如在购物车 store 中使用用户 store。
+- [选项式 API](./options-api.md): 如何在 `setup()` 外部使用 Pinia 而不使用组合式 API。
+- [从 0.0.7 迁移](./migration-0-0-7.md)。迁移指南，比更新日志有更多的例子。
