@@ -1,25 +1,25 @@
-# Testing stores
+# 测试 store {#testing-stores}
 
-Stores will, by design, be used at many places and can make testing much harder than it should be. Fortunately, this doesn't have to be the case. We need to take care of three things when testing stores:
+根据设计，store 将在许多地方使用，所以可能使测试比正常情况要难得多。幸运的是，这不一定是事实。在测试 store 时，我们需要注意三件事：
 
-- The `pinia` instance: Stores cannot work without it
-- `actions`: most of the time, they contain the most complex logic of our stores. Wouldn't it be nice if they were mocked by default?
-- Plugins: If you rely on plugins, you will have to install them for tests too
+- `pinia` 实例：没有它，store 不能工作
+- `actions`：大多数时候，它们包含了 store 最复杂的逻辑。如果它们默认就是被 mocked，那不是很好吗？
+- 插件：如果你依赖插件，你也必须为测试安装它们
 
-Depending on what or how you are testing, we need to take care of these three differently:
+根据测试的内容和方式，我们需要以不同的方式来处理这三个问题：
 
-- [Testing stores](#testing-stores)
-  - [Unit testing a store](#unit-testing-a-store)
-  - [Unit testing components](#unit-testing-components)
-    - [Initial State](#initial-state)
-    - [Customizing behavior of actions](#customizing-behavior-of-actions)
-    - [Specifying the createSpy function](#specifying-the-createspy-function)
-  - [E2E tests](#e2e-tests)
-  - [Unit test components (Vue 2)](#unit-test-components-vue-2)
+- [store 测试](#testing-stores)
+  - [对 store 单元测试](#unit-testing-a-store)
+  - [对组件单元测试](#unit-testing-components)
+    - [初始 state](#initial-state)
+    - [自定义 action 的行为](#customizing-behavior-of-actions)
+    - [指定 createSpy 函数](#specifying-the-creespy-function)
+  - [端到端测试](#e2e-tests)
+  - [对组件单元测试（Vue 2）](#unit-test-components-vue-2)
 
-## Unit testing a store
+## 对 store 进行单元测试{#unit-testing-a-store}
 
-To unit test a store, the most important part is creating a `pinia` instance:
+要对一个 store 进行单元测试，最重要的部分是创建一个 `pinia` 实例。
 
 ```js
 // counterStore.spec.ts
@@ -28,8 +28,8 @@ import { useCounter } from '../src/stores/counter'
 
 describe('Counter Store', () => {
   beforeEach(() => {
-    // creates a fresh pinia and make it active so it's automatically picked
-    // up by any useStore() call without having to pass it to it:
+    // 创建一个新 Pinia，并使其处于激活状态，这样它就会被任何 useStore() 调用自动拾取
+    // 而不需要手动传递：
     // `useStore(pinia)`
     setActivePinia(createPinia())
   })
@@ -49,16 +49,16 @@ describe('Counter Store', () => {
 })
 ```
 
-If you have any store plugins, there is one important thing to know: **plugins won't be used until `pinia` is installed in an App**. This can be solved by creating an empty App or a fake one:
+如果你有任何 store 的插件，有一件重要的事情需要了解：**直到 `pinia` 被安装在一个应用程序中，插件才会被使用**。这个问题可以通过创建一个空的应用程序或一个假的应用程序来解决：
 
 ```js
 import { setActivePinia, createPinia } from 'pinia'
 import { createApp } from 'vue'
 import { somePlugin } from '../src/stores/plugin'
 
-// same code as above...
+// 和前面一样的代码...
 
-// you don't need to create one app per test
+// 测试前你不需要创建应用程序
 const app = createApp({})
 beforeEach(() => {
   const pinia = createPinia().use(somePlugin)
@@ -67,17 +67,17 @@ beforeEach(() => {
 })
 ```
 
-## Unit testing components
+## 对组件单元测试{#unit-testing-components}
 
-This can be achieved with `createTestingPinia()`, which returns a pinia instance designed to help unit tests components.
+这可以通过 `createTestingPinia()` 实现，它会返回一个旨在帮助对组件单元测试的 pinia 实例。
 
-Start by installing `@pinia/testing`:
+从安装 `@pinia/testing` 开始。
 
 ```sh
 npm i -D @pinia/testing
 ```
 
-And make sure to create a testing pinia in your tests when mounting a component:
+并确保在安装组件时，在你的测试中创建一个测试的 pinia：
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -89,27 +89,27 @@ const wrapper = mount(Counter, {
   },
 })
 
-const store = useSomeStore() // uses the testing pinia!
+const store = useSomeStore() // 使用测试的 pinia！
 
-// state can be directly manipulated
+// state 可以直接被操作
 store.name = 'my new name'
-// can also be done through patch
+// 也可以通过 patch 来完成
 store.$patch({ name: 'new name' })
 expect(store.name).toBe('new name')
 
-// actions are stubbed by default, meaning they don't execute their code by default.
-// See below to customize this behavior.
+// action 默认是存根的，意味着它们默认不执行其代码。
+// 请看下面的内容来定制这一行为。
 store.someAction()
 
 expect(store.someAction).toHaveBeenCalledTimes(1)
 expect(store.someAction).toHaveBeenLastCalledWith()
 ```
 
-Please note that if you are using Vue 2, `@vue/test-utils` requires a [slightly different configuration](#unit-test-components-vue-2).
+请注意，如果你使用的是 Vue 2，`@vue/test-utils` 需要一个[稍有不同的配置](#unit-test-components-vue-2)。
 
-### Initial State
+### 初始 State{#initial-state}
 
-You can set the initial state of **all of your stores** when creating a testing pinia by passing an `initialState` object. This object will be used by the testing pinia to _patch_ stores when they are created. Let's say you want to initialize the state of this store:
+在创建测试 Pinia 时，你可以通过传递一个 `initialState` 对象来设置**所有 store 的初始状态**。这个对象将被测试 Pinia 用于在 store 被创建时 _patch_ store。比方说，你想初始化这个 store 的状态：
 
 ```ts
 import { defineStore } from 'pinia'
@@ -123,27 +123,27 @@ const useCounterStore = defineStore('counter', {
 Since the store is named _"counter"_, you need to add a matching object to `initialState`:
 
 ```ts
-// somewhere in your test
+// 在你的测试中的某处
 const wrapper = mount(Counter, {
   global: {
     plugins: [createTestingPinia(
 
   initialState: {
-    counter: { n: 20 }, // start the counter at 20 instead of 0
+    counter: { n: 20 }, //从 20 开始计数，而不是 0
   },
     )],
   },
 })
 
-const store = useSomeStore() // uses the testing pinia!
+const store = useSomeStore() // 使用测试 pinia!
 store.n // 20
 ```
 
-### Customizing behavior of actions
+### 自定义 action 的行为{#customizing-behavior-of-actions}
 
-`createTestingPinia` stubs out all store actions unless told otherwise. This allows you to test your components and stores separately.
+除非另有指示，`createTestingPinia` 会存根出所有的store action。这允许你独立测试你的组件和 store。
 
-If you want to revert this behavior and normally execute your actions during tests, specify `stubActions: false` when calling `createTestingPinia`:
+如果你想恢复这种行为，并在测试中正常执行你的动作，请在调用 `createTestingPinia` 时指定 `stubActions: false`：
 
 ```js
 const wrapper = mount(Counter, {
@@ -154,16 +154,16 @@ const wrapper = mount(Counter, {
 
 const store = useSomeStore()
 
-// Now this call WILL execute the implementation defined by the store
+// 现在，这个调用将由 store 定义的实现执行。
 store.someAction()
 
-// ...but it's still wrapped with a spy, so you can inspect calls
+// ...但它仍然被一个 spy 包装着，所以你可以检查调用
 expect(store.someAction).toHaveBeenCalledTimes(1)
 ```
 
-### Specifying the createSpy function
+### 指定 createSpy 函数 {#specifying-the-createSpy-function}
 
-When using Jest, or vitest with `globals: true`, `createTestingPinia` automatically stubs actions using the spy function based on the existing test framework (`jest.fn` or `vitest.fn`). If you are using a different framework, you'll need to provide a [createSpy](/api/interfaces/pinia_testing.testingoptions.html#createspy) option:
+当使用 Jest，或 vitest 且设置 `globals: true` 时，`createTestingPinia` 自动使用基于现有测试框架（`jest.fn` 或 `vitest.fn`）的 spy 函数存根 action。如果你使用了不同的框架，你需要提供一个 [createSpy](/api/interfaces/pinia_testing.testingoptions.html#createspy) 选项：
 
 ```js
 import sinon from 'sinon'
@@ -173,15 +173,15 @@ createTestingPinia({
 })
 ```
 
-You can find more examples in [the tests of the testing package](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts).
+你可以在[测试包的测试]（https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts）中找到更多的例子。
 
-## E2E tests
+## 端到端测试{#e2e-tests}
 
-When it comes to pinia, you don't need to change anything for e2e tests, that's the whole point of e2e tests! You could maybe test HTTP requests, but that's way beyond the scope of this guide 😄.
+说到 pinia，你不需要为端到端测试改变任何东西，这就是端到端测试的全部意义所在 你也许想测试 HTTP 请求，但这已经超出了本指南的范围😄。
 
-## Unit test components (Vue 2)
+## 对组件单元测试（Vue 2）{#unit-test-components-vue-2}
 
-When using [Vue Test Utils 1](https://v1.test-utils.vuejs.org/), install Pinia on a `localVue`:
+当使用 [Vue Test Utils 1](https://v1.test-utils.vuejs.org/) 时，请将 Pinia 安装在 `localVue` 上：
 
 ```js
 import { PiniaVuePlugin } from 'pinia'
@@ -196,5 +196,5 @@ const wrapper = mount(Counter, {
   pinia: createTestingPinia(),
 })
 
-const store = useSomeStore() // uses the testing pinia!
+const store = useSomeStore() // 使用测试 pinia！
 ```
