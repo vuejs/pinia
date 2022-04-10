@@ -1,42 +1,42 @@
-# Migrating from 0.x (v1) to v2
+# 从 0.x (v1) 迁移至 v2{#migrating-from-0-x-v1-to-v2}
 
-Starting at version `2.0.0-rc.4`, pinia supports both Vue 2 and Vue 3! This means, all new updates will be applied to this version 2 so both Vue 2 and Vue 3 users can benefit from it. If you are using Vue 3, this doesn't change anything for you as you were already using the rc and you can check [the CHANGELOG](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md) for a detailed explanation of everything that changed. Otherwise, **this guide is for you**!
+从 `2.0.0-rc.4` 版本开始，pinia 同时支持 Vue 2 和 Vue 3! 这意味着，所有更新都将应用于 v2，所以 Vue 2 和 Vue 3 的用户都可以从中受益。如果你使用的是 Vue 3，这对你来说没有任何改变，因为你已经在使用 rc，你可以查看[发布日志](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md)，了解所有变化的详细解释。否则，**这个指南是为你准备的**!
 
-## Deprecations
+## 弃用{#deprecations}
 
-Let's take a look at all the changes you need to apply to your code. First, make sure you are already running the latest 0.x version to see any deprecations:
+让我们来看看你需要应用于你代码的所有变更。首先，为了解所有弃用，确保你已经在运行最新的 0.x 版本：
 
 ```shell
 npm i 'pinia@^0.x.x'
-# or with yarn
+# 或者使用 yarn
 yarn add 'pinia@^0.x.x'
 ```
 
-If you are using ESLint, consider using [this plugin](https://github.com/gund/eslint-plugin-deprecation) to find all deprecated usages. Otherwise, you should be able to see them as they appear crossed. These are the APIs that were deprecated that were removed:
+如果你正在使用 ESLint，可以考虑使用[这个插件](https://github.com/gund/eslint-plugin-deprecation)，来查找所有废弃的用法。否则，你应该查看它们出现的交叉。这些都是被废弃的 API，被删除了：
 
-- `createStore()` becomes `defineStore()`
-- In subscriptions, `storeName` becomes `storeId`
-- `PiniaPlugin` was renamed `PiniaVuePlugin` (Pinia plugin for Vue 2)
-- `$subscribe()` no longer accepts a _boolean_ as second parameter, pass an object with `detached: true` instead.
-- Pinia plugins no longer directly receive the `id` of the store. Use `store.$id` instead.
+- `createStore()`变成`defineStore()`
+- 在订阅中，`storeName`变成`storeId`
+- `PiniaPlugin`更名为`PiniaVuePlugin`（Vue 2的Pinia插件）
+- `$subscribe()`不再接受 _boolean_ 作为第二个参数，而是传递一个带有 `detached: true` 的对象。
+- Pinia 插件不再直接接收 store 的 `id`。使用 `store.$id` 代替。
 
-## Breaking changes
+## 破坏性变更{#breaking-changes}
 
-After removing these, you can upgrade to v2 with:
+删除这些后，你可以用下面命令升级到 V2 版了：
 
 ```shell
 npm i 'pinia@^2.x.x'
-# or with yarn
+# 或者使用 yarn
 yarn add 'pinia@^2.x.x'
 ```
 
-And start updating your code.
+然后开始更新你的代码。
 
-### Generic Store type
+### 通用 Store 类型{#generic-store-type}
 
-Added in [2.0.0-rc.0](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md#200-rc0-2021-07-28)
+添加于 [2.0.0-rc.0](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md#200-rc0-2021-07-28)
 
-Replace any usage of the type `GenericStore` with `StoreGeneric`. This is the new generic store type that should accept any kind of store. If you were writing functions using the type `Store` without passing its generics (e.g. `Store<Id, State, Getters, Actions>`), you should also use `StoreGeneric` as the `Store` type without generics creates an empty store type.
+用 `StoreGeneric` 取代 `GenericStore` 类型的全部用法。这是新的通用 store 类型，应该接受任何类型的 store。如果你在写函数时使用 `Store` 类型而不想传递其泛型（例如`Store<Id, State, Getters, Actions>`），你也应该使用 `StoreGeneric`，因为没有泛型的 `Store` 类型会创建一个空的 store 类型：
 
 ```diff
 -function takeAnyStore(store: Store) {}
@@ -46,9 +46,9 @@ Replace any usage of the type `GenericStore` with `StoreGeneric`. This is the ne
 +function takeAnyStore(store: StoreGeneric) {}
 ```
 
-## `DefineStoreOptions` for plugins
+## 针对插件的 `DefineStoreOptions`{#definestoreoptions-for-plugins}
 
-If you were writing plugins, using TypeScript, and extending the type `DefineStoreOptions` to add custom options, you should rename it to `DefineStoreOptionsBase`. This type will apply to both setup and options stores.
+如果你在用 TypeScript 写插件并扩展了 `DefineStoreOptions` 类型来添加自定义选项，你应该把它改名为 `DefineStoreOptionsBase`。这个类型将同时适用于 setup 和 options stores。
 
 ```diff
  declare module 'pinia' {
@@ -61,9 +61,9 @@ If you were writing plugins, using TypeScript, and extending the type `DefineSto
  }
 ```
 
-## `PiniaStorePlugin` was renamed
+## `PiniaStorePlugin` 已被重命名{#piniastoreplugin-was-renamed}
 
-The type `PiniaStorePlugin` was renamed to `PiniaPlugin`.
+类型 `PiniaStorePlugin` 被重新命名为 `PiniaPlugin`。
 
 ```diff
 -import { PiniaStorePlugin } from 'pinia'
@@ -75,21 +75,21 @@ The type `PiniaStorePlugin` was renamed to `PiniaPlugin`.
  }
 ```
 
-**Note this change can only be done after upgrading to the latest version of Pinia without deprecations**.
+**注意这个变化只能在升级到最新的没有弃用的 Pinia 版本后进行**。
 
-## `@vue/composition-api` version
+## `@vue/composition-api` 版本{#vue-composition-api-version}
 
-Since pinia now relies on `effectScope()`, you must use at least the version `1.1.0` of `@vue/composition-api`:
+由于 pinia 现在依赖于 `effectScope()` ，你必须使用 `@vue/composition-api` 的 `1.1.0` 版本及以上：
 
 ```shell
 npm i @vue/composition-api@latest
-# or with yarn
+# 或者使用 yarn
 yarn add @vue/composition-api@latest
 ```
 
-## webpack 4 support
+## 支持 webpack 4{#webpack-4-support}
 
-If you are using webpack 4 (Vue CLI uses webpack 4), you might encounter an error like this:
+如果你使用的是 webpack 4（Vue CLI 使用 webpack 4），你可能会遇到这样的错误：
 
 ```
 ERROR  Failed to compile with 18 errors
@@ -99,10 +99,10 @@ ERROR  Failed to compile with 18 errors
 Can't import the named export 'computed' from non EcmaScript module (only default export is available)
 ```
 
-This is due to the modernization of dist files to support native ESM modules in Node.js. Files are now using the extension `.mjs` and `.cjs` to let Node benefit from this. To fix this issue you have two possibilities:
+这是由于 dist 文件为支持 Node.js 中的本地 ESM 模块进行的现代化。文件现在使用扩展名 `.mjs` 和 `.cjs` 来让 Node 从中受益。要解决这个问题，你有两种可能的方法：
 
-- If you are using Vue CLI 4.x, upgrade your dependencies. This should include the fix below.
-  - If upgrading is not possible for you, add this to your `vue.config.js`:
+- 如果你使用Vue CLI 4.x，升级你的依赖。这应该包括下面的修复。
+  - 如果你不可能升级，请将此代码添加到你的 `vue.config.js` 中：
     ```js
     // vue.config.js
     module.exports = {
@@ -119,7 +119,7 @@ This is due to the modernization of dist files to support native ESM modules in 
       },
     }
     ```
-- If you are manually handling webpack, you will have to let it know how to handle `.mjs` files:
+- 如果你手动处理 webpack，你将必须知道如何让它处理 `.mjs` 文件：
   ```js
   // webpack.config.js
   module.exports = {
@@ -137,21 +137,21 @@ This is due to the modernization of dist files to support native ESM modules in 
 
 ## Devtools
 
-Pinia v2 no longer hijacks Vue Devtools v5, it requires Vue Devtools v6. Find the download link on the [Vue Devtools documentation](https://devtools.vuejs.org/guide/installation.html#chrome) for the **beta channel** of the extension.
+Pinia v2 不再劫持 Vue Devtools v5，它需要的是 Vue Devtools v6。在 [Vue Devtools 文档](https://devtools.vuejs.org/guide/installation.html#chrome)上找到该扩展**beta 频道**中的下载链接。
 
 ## Nuxt
 
-If you are using Nuxt, pinia has now it's dedicated Nuxt package 🎉. Install it with:
+如果你正在使用 Nuxt，pinia 现在有了专门的 Nuxt 软件包🎉。请用以下方法安装它：
 
 ```shell
 npm i @pinia/nuxt
-# or with yarn
+# 或者使用 yarn
 yarn add @pinia/nuxt
 ```
 
-Also make sure to **update your `@nuxtjs/composition-api` package**.
+还要确保**更新你的 `@nuxtjs/composition-api` 包**。
 
-Then adapt your `nuxt.config.js` and your `tsconfig.json` if you are using TypeScript:
+如果你使用 TypeScript，还要调整你的 `nuxt.config.js` 和 `tsconfig.json`：
 
 ```diff
  // nuxt.config.js
@@ -175,4 +175,4 @@ Then adapt your `nuxt.config.js` and your `tsconfig.json` if you are using TypeS
  }
 ```
 
-It is also recommended to give [the dedicated Nuxt section](../ssr/nuxt.md) a read.
+还推荐阅读[ Nuxt 专用章节](../ssr/nuxt.md)。
