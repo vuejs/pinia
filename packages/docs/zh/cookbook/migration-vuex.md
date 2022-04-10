@@ -1,56 +1,56 @@
-# Migrating from Vuex ≤4
+# 从 Vuex ≤4 迁移{#migrating-from-vuex-≤4}
 
-Although the structure of Vuex and Pinia stores is different, a lot of the logic can be reused. This guide serves to help you through the process and point out some common gotchas that can appear.
+虽然 Vuex 和 Pinia store 的结构不同，但很多逻辑都可以复用。本指南的作用是帮助你完成迁移，并指出一些可能出现的常见问题。
 
-## Preparation
+## 准备{#Preparation}
 
-First, follow the [Getting Started guide](../getting-started.md) to install Pinia.
+首先，按照[入门指南](../getting-started.md)安装 Pinia。
 
-## Restructuring Modules to Stores
+## 重构 store 的模块{#restructuring-modules-to-stores}
 
-Vuex has the concept of a single store with multiple _modules_. These modules can optionally be namespaced and even nested within each other.
+Vuex有一个概念，带有多个模块的单一 store。这些模块可以被命名，甚至可以互相嵌套。
 
-The easiest way to transition that concept to be used with Pinia is that each module you used previously is now a _store_. Each store requires an `id` which is similar to a namespace in Vuex. This means that each store is namespaced by design. Nested modules can also each become their own store. Stores that depend on each other will simply import the other store.
+将这个概念过渡到 Pinia 最简单的方法是，你以前使用的每个模块现在都是一个 _store_。每个 store 都需要一个 `id`，类似于 Vuex 中的命名空间。这意味着每个 store 都有命名空间的设计。嵌套模块也可以成为自己的 store。互相依赖的 store 可以直接导入其他 store。
 
-How you choose to restructure your Vuex modules into Pinia stores is entirely up to you, but here is one suggestion:
+你如何将你的 Vuex 模块重构为 Pinia store，完全取决于你，但这里有一个建议：
 
 ```bash
-# Vuex example (assuming namespaced modules)
+# Vuex 示例（假设是命名模块）。
 src
 └── store
-    ├── index.js           # Initializes Vuex, imports modules
+    ├── index.js           # 初始化 Vuex，导入模块
     └── modules
-        ├── module1.js     # 'module1' namespace
+        ├── module1.js     # 命名模块 'module1'
         └── nested
-            ├── index.js   # 'nested' namespace, imports module2 & module3
-            ├── module2.js # 'nested/module2' namespace
-            └── module3.js # 'nested/module3' namespace
+            ├── index.js   # 命名模块 'nested'，导入 module2 & module3
+            ├── module2.js # 命名模块 'nested/module2'
+            └── module3.js # 命名模块 'nested/module3'
 
-# Pinia equivalent, note ids match previous namespaces
+# Pinia 示例，注意 ID 与之前的命名模块相匹配
 src
 └── stores
-    ├── index.js          # (Optional) Initializes Pinia, does not import stores
+    ├── index.js          # （可选） 初始化 Pinia，不必导入 store
     ├── module1.js        # 'module1' id
     ├── nested-module2.js # 'nested/module2' id
     ├── nested-module3.js # 'nested/module3' id
     └── nested.js         # 'nested' id
 ```
 
-This creates a flat structure for stores but also preserves the previous namespacing with equivalent `id`s. If you had some state/getters/actions/mutations in the root of the store (in the `store/index.js` file of Vuex) you may wish to create another store called something like `root` which holds all that information.
+这为 store 创建了一个扁平的结构，但也保留了和之前等价的 `id` 命名方式。如果你在 store 的根部（在 Vuex 的 `store/index.js` 文件中）有一些 state/getter/action/mutation，你可能想创建另一个名为 `root` 的 store，来保存这些信息。
 
-The directory for Pinia is generally called `stores` instead of `store`. This is to emphasize that Pinia uses multiple stores, instead of a single store in Vuex.
+Pinia 的目录一般被命名为 `stores`而不是 `store`。这是为了强调 Pinia 使用多个 store，而不是 Vuex 的单一 store。
 
-For large projects you may wish to do this conversion module by module rather than converting everything at once. You can actually mix Pinia and Vuex together during the migration so this approach can also work and is another reason for naming the Pinia directory `stores` instead.
+对于大型项目，你可能希望逐个模块进行转换，而不是一次性全部转换。在迁移过程中，你其实可以混合使用 Pinia 和 Vuex。这种方式完全可以工作，这也是将 Pinia 目录命名为 `stores` 的另一个原因。
 
-## Converting a Single Module
+## 转换单个模块{#converting-a-single-module}
 
-Here is a complete example of the before and after of converting a Vuex module to a Pinia store, see below for a step-by-step guide. The Pinia example uses an option store as the structure is most similar to Vuex:
+下面有一个完整的例子，介绍了将 Vuex 模块转换为 Pinia store 的前后经过，请看下面的逐步指南。Pinia 的例子使用了一个可选 store，因为其结构与 Vuex 最为相似。
 
 ```ts
-// Vuex module in the 'auth/user' namespace
+// 'auth/user' 命名空间中的 Vuex 模块
 import { Module } from 'vuex'
 import { api } from '@/api'
-import { RootState } from '@/types' // if using a Vuex type definition
+import { RootState } from '@/types' // 如果使用 Vuex 类型定义
 
 interface State {
   firstName: string
@@ -69,14 +69,14 @@ const storeModule: Module<State, RootState> = {
     firstName: (state) => state.firstName,
     fullName: (state) => `${state.firstName} ${state.lastName}`,
     loggedIn: (state) => state.userId !== null,
-    // combine with some state from other modules
+    // 与其他模块的一些状态相结合
     fullUserDetails: (state, getters, rootState, rootGetters) => {
       return {
         ...state,
         fullName: getters.fullName,
-        // read the state from another module named `auth`
+        // 读取另一个名为 `auth` 模块的 state
         ...rootState.auth.preferences,
-        // read a getter from a namespaced module called `email` nested under `auth`
+        // 读取嵌套于 `auth` 模块的 `email` 模块的 getter
         ...rootGetters['auth/email'].details
       }
     }
@@ -110,7 +110,7 @@ export default storeModule
 import { defineStore } from 'pinia'
 import { useAuthPreferencesStore } from './auth-preferences'
 import { useAuthEmailStore } from './auth-email'
-import vuexStore from '@/store' // for gradual conversion, see fullUserDetails
+import vuexStore from '@/store' // 逐步转换，见 fullUserDetails
 
 interface State {
   firstName: string
@@ -119,30 +119,30 @@ interface State {
 }
 
 export const useAuthUserStore = defineStore('auth/user', {
-  // convert to a function
+  // 转换为函数
   state: (): State => ({
     firstName: '',
     lastName: '',
     userId: null
   }),
   getters: {
-    // firstName getter removed, no longer needed
+    // 不在需要 firstName getter，移除
     fullName: (state) => `${state.firstName} ${state.lastName}`,
     loggedIn: (state) => state.userId !== null,
-    // must define return type because of using `this`
+    // 由于使用了 `this`，必须定义一个返回类型
     fullUserDetails (state): FullUserDetails {
-      // import from other stores
+      // 导入其他 stores
       const authPreferencesStore = useAuthPreferencesStore()
       const authEmailStore = useAuthEmailStore()
       return {
         ...state,
-        // other getters now on `this`
+        // 目前 `this` 上的其他 getters 
         fullName: this.fullName,
         ...authPreferencesStore.$state,
         ...authEmailStore.details
       }
 
-      // alternative if other modules are still in Vuex
+      // 如果其他模块仍在 Vuex 中，可替代为
       // return {
       //   ...state,
       //   fullName: this.fullName,
@@ -152,13 +152,13 @@ export const useAuthUserStore = defineStore('auth/user', {
     }
   },
   actions: {
-    // no context as first argument, use `this` instead
+    //没有作为第一个参数的上下文，用 `this` 代替
     async loadUser (id: number) {
       if (this.userId !== null) throw new Error('Already logged in')
       const res = await api.user.load(id)
       this.updateUser(res)
     },
-    // mutations can now become actions, instead of `state` as first argument use `this`
+    // mutation 现在可以成为 action 了，不再用 `state` 作为第一个参数，而是用 `this`。
     updateUser (payload) {
       this.firstName = payload.firstName
       this.lastName = payload.lastName
@@ -172,31 +172,31 @@ export const useAuthUserStore = defineStore('auth/user', {
 })
 ```
 
-Let's break the above down into steps:
+让我们把上述内容分解成几个步骤：
 
-1. Add a required `id` for the store, you may wish to keep this the same as the namespace before
-2. Convert `state` to a function if it was not one already
-3. Convert `getters`
-    1. Remove any getters that return state under the same name (eg. `firstName: (state) => state.firstName`), these are not necessary as you can access any state directly from the store instance
-    2. If you need to access other getters, they are on `this` instead of using the second argument. Remember that if you are using `this` then you will have to use a regular function instead of an arrow function. Also note that you will need to specify a return type because of TS limitations, see [here](../core-concepts/getters.md#accessing-other-getters) for more details
-    3. If using `rootState` or `rootGetters` arguments, replace them by importing the other store directly, or if they still exist in Vuex then access them directly from Vuex
-4. Convert `actions`
-    1. Remove the first `context` argument from each action. Everything should be accessible from `this` instead
-    2. If using other stores either import them directly or access them on Vuex, the same as for getters
-5. Convert `mutations`
-    1. Mutations do not exist any more. These can be converted to `actions` instead, or you can just assign directly to the store within your components (eg. `userStore.firstName = 'First'`)
-    2. If converting to actions, remove the first `state` argument and replace any assignments with `this` instead
-    3. A common mutation is to reset the state back to its initial state. This is built in functionality with the store's `$reset` method. Note that this functionality only exists for option stores.
+1. 为 store 添加一个必要的 `id`，你可能希望让它与之前的命名保持相同。
+2. 将 `state` 转换为一个函数，如果它不是一个函数的话。
+3. 转换 `getters`
+    1. 删除任何返回同名 state 的 getters（例如： `firstName: (state) => state.firstName`)，这些都不是必要的，因为你可以直接从 store 实例中访问任何状态。
+    2. 如果你需要访问其他的 getter，它们可通过 `this` 访问，而不是第二个参数。记住，如果你使用 `this`，那么你必须使用一个普通函数，而不是一个箭头函数。还要注意的是，由于 TS 的限制，你需要指定一个返回类型，更多细节阅读[这个](../core-concepts/getters.md#accessing-other-getters)
+    3. 如果使用 `rootState` 或 `rootGetters` 参数，可以直接导入其他 store 来替代它们，或者如果它们仍然存在于 Vuex ，则直接从 Vuex 中访问它们。
+4. 转换 `actions`
+    1. 从每个 action 中删除第一个 `context` 参数。所有的东西都应该可以从 `this` 中访问。
+    2. 如果使用其他 store，要么直接导入，要么与 getters 一样，在 Vuex 上访问。
+5. 转换 `mutations`
+    1. Mutation 已经不存在了。它们可以被转换为 `actions`，或者你可以在你的组件中直接分配给 store（例如，`userStore.firstName = 'First'`)
+    2. 如果转换为 action，删除第一个 `state` 参数，用 `this` 代替任何赋值操作中的 `state`。
+    3. 一个常见的 mutation 是将 state 重置为初始 state。这是 store 的 `$reset` 方法的内置功能。注意，这个功能只存在于 option stores。
 
-As you can see most of your code can be reused. Type safety should also help you identify what needs to be changed if anything is missed.
+正如你所看到的，你的大部分代码都可以被重复使用。如果有什么遗漏，类型安全也应该帮助你确定需要修改的地方。
 
-## Usage Inside Components
+## 组件内的使用{#usage-inside-components}
 
-Now that your Vuex module has been converted to a Pinia store, any component or other file that uses that module needs to be updated too.
+现在你的 Vuex 模块已经被转换为 Pinia store，任何使用该模块的组件或其他文件也需要更新。
 
-If you were using `map` helpers from Vuex before, it's worth looking at the [Usage without setup() guide](./options-api.md) as most of those helpers can be reused.
+如果你以前使用 Vuex 的 `map` helpers，值得看看[不使用 setup() 的用法指南](./options-api.md)，因为这些 helpers 大多都是可以复用。
 
-If you were using `useStore` then instead import the new store directly and access the state on it. For example:
+如果你使用 `useStore`，那么就直接导入新 store 并访问其上的 state。比如说：
 
 ```ts
 // Vuex
@@ -231,7 +231,7 @@ export default defineComponent({
     const fullName = computed(() => authUserStore.fullName)
 
     return {
-      // you can also access the whole store in your component by returning it
+      // 你也可以在你的组件中通过返回 store 来访问整个 store
       authUserStore,
       firstName,
       fullName
@@ -240,9 +240,9 @@ export default defineComponent({
 })
 ```
 
-## Usage Outside Components
+## 组件外的使用{#usage-outside-components}
 
-Updating usage outside of components should be simple as long as you're careful to _not use a store outside of functions_. Here is an example of using the store in a Vue Router navigation guard:
+只要你注意**不在函数外使用 store**，更新组件的使用应该很简单。下面是一个在 Vue Router 导航卫士中使用 store 的例子：
 
 ```ts
 // Vuex
@@ -259,29 +259,29 @@ router.beforeEach((to, from, next) => {
 import { useAuthUserStore } from '@/stores/auth-user'
 
 router.beforeEach((to, from, next) => {
-  // Must be used within the function!
+  // 必须再函数内部使用
   const authUserStore = useAuthUserStore()
   if (authUserStore.loggedIn) next()
   else next('/login')
 })
 ```
 
-More details can be found [here](../core-concepts/outside-component-usage.md).
+更多细节可在[这里](../core-concepts/outside-component-usage.md)找到。
 
-## Advanced Vuex Usage
+## Vuex 高级用法{#advanced-vuex-usage}
 
-In the case your Vuex store using some of the more advanced features it offers, here is some guidance on how to accomplish the same in Pinia. Some of these points are already covered in [this comparison summary](../introduction.md#comparison-with-vuex-3-x-4-x).
+如果你的 Vuex store 使用了它所提供的一些更高级的功能，这里有一些关于如何在 Pinia 中实现同样效果的指导。其中一些要点已经包含在这个[对比总结]（.../introduction.md#comparison-with-vuex-3-x-4-x）中了。
 
-### Dynamic Modules
+### 动态模块 {#dynamic-modules}
 
-There is no need to dynamically register modules in Pinia. Stores are dynamic by design and are only registered when they are needed. If a store is never used, it will never be "registered".
+在 Pinia 中不需要动态地注册模块。store 设计之初就是动态的，只有在需要时才会被注册。如果一个 store 从未被使用过，它就永远不会被 “注册”。
 
-### Hot Module Replacement
+### 热更新{#hot-module-replacement}
 
-HMR is also supported but will need to be replaced, see the [HMR Guide](./hot-module-replacement.md).
+也支持 HMR，但需要修改，见[HMR 指南](./hot-module-replacement.md)。
 
-### Plugins
+### 插件{#plugins}
 
-If you use a public Vuex plugin then check if there is a Pinia alternative. If not you will need to write your own or evaluate whether the plugin is still necessary.
+如果你使用一个公共的 Vuex 插件，那么请检查是否有一个 Pinia 的替代品。如果没有，你就需要自己写一个，或者评估一下是否还有必要使用这个插件。
 
-If you have written a plugin of your own, then it can likely be updated to work with Pinia. See the [Plugin Guide](../core-concepts/plugins.md).
+如果你已经写了一个自己的插件，那么它很可能已经更新成可以搭配 pinia 了，参考[插件指南](../core-concepts/plugins.md)。
