@@ -1,25 +1,25 @@
 # Nuxt.js
 
-Using Pinia with [Nuxt.js](https://nuxtjs.org/) is easier since Nuxt takes care of a lot of things when it comes to _server side rendering_. For instance, **you don't need to care about serialization nor XSS attacks**.
+将 Pinia 与 [Nuxt.js](https://nuxtjs.org/) 搭配更易用，因为 Nuxt 处理了很多与**服务器端渲染**有关的事情。例如，**你不需要关心序列化或 XSS 攻击**。
 
-## Installation
+## 安装{#installation}
 
-Make sure to install [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/) alongside `pinia`:
+确保在安装 `pinia` 的同时安装[`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/):
 
 ```bash
 yarn add pinia @pinia/nuxt @nuxtjs/composition-api
-# or with npm
+# 或者使用 npm
 npm install pinia @pinia/nuxt @nuxtjs/composition-api
 ```
 
-We supply a _module_ to handle everything for you, you only need to add it to `buildModules` in your `nuxt.config.js` file:
+我们提供了一个 _module_ 来为你处理一切，你只需要在 `nuxt.config.js` 文件的 `buildModules` 中添加它。
 
 ```js
 // nuxt.config.js
 export default {
-  // ... other options
+  // ... 其他配置
   buildModules: [
-    // Nuxt 2 only:
+    // 只支持 Nuxt 2：
     // https://composition-api.nuxtjs.org/getting-started/setup#quick-start
     '@nuxtjs/composition-api/module',
     '@pinia/nuxt',
@@ -27,11 +27,11 @@ export default {
 }
 ```
 
-And that's it, use your store as usual!
+配置完成了，像往常一样使用 store 吧!
 
-## Using the store outside of `setup()`
+## 在 `setup()` 外部使用 store{#using-the-store-outside-of-setup}
 
-If you want to use a store outside of `setup()`, remember to pass the `pinia` object to `useStore()`. We added it to [the context](https://nuxtjs.org/docs/2.x/internals-glossary/context) so you have access to it in `asyncData()` and `fetch()`:
+如果你想在 `setup()` 外部使用一个 store，记得把 `pinia` 对象传给 `useStore()`。我们会把它添加到[上下文](https://nuxtjs.org/docs/2.x/internals-glossary/context)中，所以你可以在 `asyncData()` 和 `fetch()` 中访问它。
 
 ```js
 import { useStore } from '~/stores/myStore'
@@ -43,9 +43,9 @@ export default {
 }
 ```
 
-## Using the Nuxt context in stores
+## 在 store 中使用 Nuxt 上下文{#using-the-nuxt-context-in-stores}
 
-You can also use [the context](https://nuxtjs.org/docs/2.x/internals-glossary/context) in any store by using the injected property `$nuxt`:
+你也可以通过使用注入属性 `$nuxt` 在任何 store 中使用[上下文](https://nuxtjs.org/docs/2.x/internals-glossary/context)：
 
 ```js
 import { useUserStore } from '~/stores/userStore'
@@ -62,9 +62,9 @@ defineStore('cart', {
 })
 ```
 
-## Using Pinia alongside Vuex
+## Pinia 搭配 Vuex 使用 {#using-pinia-alongside-vuex}
 
-It is recommended to **avoid using both Pinia and Vuex** but if you need to use both, you need to tell pinia to not disable it:
+建议**避免同时使用 Pinia 和 Vuex**，但如果你确实需要同时使用，你需要告诉 Pinia 不要禁用它：
 
 ```js
 // nuxt.config.js
@@ -73,13 +73,13 @@ export default {
     '@nuxtjs/composition-api/module',
     ['@pinia/nuxt', { disableVuex: false }],
   ],
-  // ... other options
+  // ... 其他配置
 }
 ```
 
 ## TypeScript
 
-If you are using TypeScript or have a `jsconfig.json`, you should also add the types for `context.pinia`:
+如果你使用 TypeScript 或者有 `jsconfig.json`，你也应该为 `context.pinia` 添加类型：
 
 ```json
 {
@@ -90,4 +90,4 @@ If you are using TypeScript or have a `jsconfig.json`, you should also add the t
 }
 ```
 
-This will also ensure you have autocompletion 😉 .
+这也将确保你可以使用自动补全😉。
