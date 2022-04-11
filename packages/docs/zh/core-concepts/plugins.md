@@ -358,7 +358,7 @@ declare module 'pinia' {
 
 ## Nuxt.js
 
-当[在 Nuxt 中使用 pinia](./ssr/nuxt.md)时，你必须先创建一个 [Nuxt 插件](https://nuxtjs.org/docs/2.x/directory-structure/plugins)。这样才能使你能够访问 `pinia` 实例：
+当[在 Nuxt 中使用 pinia](../ssr/nuxt.md)时，你必须先创建一个 [Nuxt 插件](https://nuxtjs.org/docs/2.x/directory-structure/plugins)。这样才能使你能够访问 `pinia` 实例：
 
 ```ts
 // plugins/myPiniaPlugin.js

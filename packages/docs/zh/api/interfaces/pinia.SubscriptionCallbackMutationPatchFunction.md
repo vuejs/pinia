@@ -39,7 +39,7 @@ ___
 
 执行 mutation 的 store 的 `id`
 
-#### 继承于{#inherited-from}
+#### 继承于
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 

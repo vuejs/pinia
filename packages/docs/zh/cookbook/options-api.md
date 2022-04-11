@@ -3,7 +3,7 @@
 即使你没有使用组合式 API，也可以使用 Pinia（如果你使用 Vue 2，你仍然需要安装`@vue/composition-api`插件）。虽然我们推荐你试着学习一下组合式 API，但对你和你的团队来说可能还不是时候，你可能正在迁移一个应用程序，或者有其他任何原因。有下面几个可用的函数：
 
 - [mapStores](#giving-access-the-whole-store)
-- [mapState](./core-concepts/state.md#options-api)
+- [mapState](../core-concepts/state.md#options-api)
 - [mapWritableState](../core-concepts/state.md#modifiable-state)
 - ⚠️ [mapGetters](../core-concepts/getters.md#options-api) (只是为了迁移方便，请用 `mapState()` 代替)
 - [mapActions](../core-concepts/actions.md#options-api)

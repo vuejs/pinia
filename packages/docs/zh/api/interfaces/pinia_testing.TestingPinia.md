@@ -39,7 +39,7 @@ ___
 
 root state
 
-#### 继承于{#inherited-from}
+#### 继承于
 
 [Pinia](pinia.Pinia.md).[state](pinia.Pinia.md#state)
 
@@ -63,7 +63,7 @@ root state
 
 `void`
 
-#### 继承于{#inherited-from}
+#### 继承于
 
 [Pinia](pinia.Pinia.md).[install](pinia.Pinia.md#install)
 
@@ -89,7 +89,7 @@ ___
 
 [`Pinia`](pinia.Pinia.md)
 
-#### 继承于{#inherited-from}
+#### 继承于
 
 [Pinia](pinia.Pinia.md).[use](pinia.Pinia.md#use)
 

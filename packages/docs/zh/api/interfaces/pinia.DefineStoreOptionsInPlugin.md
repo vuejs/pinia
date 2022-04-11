@@ -49,7 +49,7 @@ ___
 
 getter 的可选对象
 
-#### 继承于{#inherited-from}
+#### 继承于
 
 Omit.getters
 
@@ -93,7 +93,7 @@ const useStore = defineStore('main', {
 
 `void`
 
-#### 继承于{#inherited-from}
+#### 继承于
 
 Omit.hydrate
 
@@ -114,7 +114,7 @@ ___
 
 `S`
 
-#### 继承于{#inherited-from}
+#### 继承于
 
 Omit.state
 

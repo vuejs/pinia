@@ -163,7 +163,7 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 
 ### 指定 createSpy 函数 {#specifying-the-createSpy-function}
 
-当使用 Jest，或 vitest 且设置 `globals: true` 时，`createTestingPinia` 自动使用基于现有测试框架（`jest.fn` 或 `vitest.fn`）的 spy 函数存根 action。如果你使用了不同的框架，你需要提供一个 [createSpy](/api/interfaces/pinia_testing.testingoptions.html#createspy) 选项：
+当使用 Jest，或 vitest 且设置 `globals: true` 时，`createTestingPinia` 自动使用基于现有测试框架（`jest.fn` 或 `vitest.fn`）的 spy 函数存根 action。如果你使用了不同的框架，你需要提供一个 [createSpy](/zh/api/interfaces/pinia_testing.TestingOptions.html#createspy) 选项：
 
 ```js
 import sinon from 'sinon'

@@ -36,7 +36,7 @@ sidebarDepth: 3
 store 的唯一标识符
 
 
-#### 继承于{#inherited-from}
+#### 继承于
 
 [StoreProperties](pinia.StoreProperties.md).[$id](pinia.StoreProperties.md#$id)
 
