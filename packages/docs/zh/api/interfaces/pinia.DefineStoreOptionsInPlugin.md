@@ -4,40 +4,40 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptionsInPlugin
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptionsInPlugin
 
-# Interface: DefineStoreOptionsInPlugin<Id, S, G, A\>
+# 接口：DefineStoreOptionsInPlugin<Id, S, G, A\>
 
 [pinia](../modules/pinia.md).DefineStoreOptionsInPlugin
 
-Available `options` when creating a pinia plugin.
+创建 pinia 插件时可用的 `options`。
 
-## Type parameters
+## 类型参数
 
-| Name | Type |
+| 名字 | 类型 |
 | :------ | :------ |
 | `Id` | extends `string` |
 | `S` | extends [`StateTree`](../modules/pinia.md#statetree) |
 | `G` | `G` |
 | `A` | `A` |
 
-## Hierarchy
+## 层次结构{#hierarchy}
 
 - `Omit`<[`DefineStoreOptions`](pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\>, ``"id"`` \| ``"actions"``\>
 
   ↳ **`DefineStoreOptionsInPlugin`**
 
-## Properties
+## 属性{#properties}
 
 ### actions
 
 • **actions**: `A`
 
-Extracted object of actions. Added by useStore() when the store is built
-using the setup API, otherwise uses the one passed to `defineStore()`.
-Defaults to an empty object if no actions are defined.
+提取的 action 对象。当使用 setup API 建立 store 时，由 useStore() 添加，
+否则使用传递给 `defineStore()` 的对象。
+如果没有定义 action，则默认为一个空对象。
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:723](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L723)
 
@@ -47,29 +47,28 @@ ___
 
 • `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & `_StoreWithGetters`<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), `_GettersTree`<[`StateTree`](../modules/pinia.md#statetree)\>, `_ActionsTree`\>\> & `_GettersTree`<`S`\>
 
-Optional object of getters.
+getter 的可选对象
 
-#### Inherited from
+#### 继承于{#inherited-from}
 
 Omit.getters
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:647](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L647)
 
-## Methods
+## 方法
 
 ### hydrate
 
 ▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
 
-Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
-definition and copying the value from `pinia.state` isn't enough.
+当 store 定义中使用了复杂的状态（如仅客户端的引用），并且从 `pinia.state` 中复制值是不够时，允许在 SSR 期间对 store 进行 hydrating。
 
 **`example`**
-If in your `state`, you use any `customRef`s, any `computed`s, or any `ref`s that have a different value on
-Server and Client, you need to manually hydrate them. e.g., a custom ref that is stored in the local
-storage:
+如果在你的 `state` 中，你使用了任何 `customRef`，任何 `computed`，或任何在服务器和客户端有不同值的 `ref`，
+你需要手动对它们进行 hydrate。 
+例如，一个存储在本地存储的自定义 ref：
 
 ```ts
 const useStore = defineStore('main', {
@@ -83,22 +82,22 @@ const useStore = defineStore('main', {
 })
 ```
 
-#### Parameters
+#### 参数
 
-| Name | Type | Description |
+| 名字 | 类型 | Description |
 | :------ | :------ | :------ |
 | `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
 | `initialState` | `UnwrapRef`<`S`\> | initialState |
 
-#### Returns
+#### 返回值
 
 `void`
 
-#### Inherited from
+#### 继承于{#inherited-from}
 
 Omit.hydrate
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:687](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L687)
 
@@ -108,17 +107,17 @@ ___
 
 ▸ `Optional` **state**(): `S`
 
-Function to create a fresh state. **Must be an arrow function** to ensure
-correct typings!
+创建一个新 state 的函数。**必须是一个箭头函数**，
+以确保正确的类型检查!
 
-#### Returns
+#### 返回值
 
 `S`
 
-#### Inherited from
+#### 继承于{#inherited-from}
 
 Omit.state
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:642](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L642)

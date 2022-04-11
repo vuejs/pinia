@@ -4,15 +4,15 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / pinia
+[API 文档](../index.md) / pinia
 
-# Module: pinia
+# 模块：pinia
 
-## Enumerations
+## 枚举{#enumerations}
 
 - [MutationType](../enums/pinia.MutationType.md)
 
-## Interfaces
+## 接口{#interfaces}
 
 - [DefineSetupStoreOptions](../interfaces/pinia.DefineSetupStoreOptions.md)
 - [DefineStoreOptions](../interfaces/pinia.DefineStoreOptions.md)
@@ -32,17 +32,17 @@ sidebarDepth: 3
 - [\_StoreWithState](../interfaces/pinia._StoreWithState.md)
 - [\_SubscriptionCallbackMutationBase](../interfaces/pinia._SubscriptionCallbackMutationBase.md)
 
-## Type aliases
+## 类型别名{#type-aliases}
 
 ### PiniaStorePlugin
 
 Ƭ **PiniaStorePlugin**: [`PiniaPlugin`](../interfaces/pinia.PiniaPlugin.md)
 
-Plugin to extend every store.
+扩展每个 store 的插件。
 
-**`deprecated`** use PiniaPlugin instead
+**`deprecated`** 使用 PiniaPlugin 代替
 
-#### Defined in
+#### 定义于
 
 [pinia/src/rootStore.ts:149](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L149)
 
@@ -52,9 +52,9 @@ ___
 
 Ƭ **StateTree**: `Record`<`string` \| `number` \| `symbol`, `any`\>
 
-Generic state of a Store
+Store 的通用状态
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:13](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L13)
 
@@ -64,18 +64,18 @@ ___
 
 Ƭ **Store**<`Id`, `S`, `G`, `A`\>: [`_StoreWithState`](../interfaces/pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & `UnwrapRef`<`S`\> & `_StoreWithGetters`<`G`\> & `_ActionsTree` extends `A` ? {} : `A` & [`PiniaCustomProperties`](../interfaces/pinia.PiniaCustomProperties.md)<`Id`, `S`, `G`, `A`\> & `PiniaCustomStateProperties`<`S`\>
 
-Store type to build a store.
+建立一个 store 的 Store 类型。
 
-#### Type parameters
+#### 类型参数
 
-| Name | Type                                           |
+| 名称 | 类型                                           |
 | :--- | :--------------------------------------------- |
-| `Id` | extends `string` = `string`                    |
-| `S`  | extends [`StateTree`](pinia.md#statetree) = {} |
+| `Id` | 扩展自 `string` = `string`                    |
+| `S`  | 扩展自 [`StateTree`](pinia.md#statetree) = {} |
 | `G`  | {}                                             |
 | `A`  | {}                                             |
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:472](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L472)
 
@@ -85,16 +85,16 @@ ___
 
 Ƭ **StoreActions**<`SS`\>: `SS` extends [`Store`](pinia.md#store)<`string`, [`StateTree`](pinia.md#statetree), `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, infer A\> ? `A` : `_ExtractActionsFromSetupStore`<`SS`\>
 
-Extract the actions of a store type. Works with both a Setup Store or an
-Options Store.
+提取一个 store 类型的 action。
+对 Setup Store 或 Option Store都有效。
 
-#### Type parameters
+#### 类型参数
 
-| Name |
+| 名称 |
 | :--- |
 | `SS` |
 
-#### Defined in
+#### 定义于
 
 [pinia/src/store.ts:727](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L727)
 
@@ -104,11 +104,11 @@ ___
 
 Ƭ **StoreGeneric**: [`Store`](pinia.md#store)<`string`, [`StateTree`](pinia.md#statetree), `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, `_ActionsTree`\>
 
-Generic and type-unsafe version of Store. Doesn't fail on access with
-strings, making it much easier to write generic functions that do not care
-about the kind of store that is passed.
+通用的、类型不安全的 Store 版本。
+在访问字符串时不会失败，
+这使得编写不在意传递的 store 类型的通用函数更加容易。
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:491](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L491)
 
@@ -118,16 +118,16 @@ ___
 
 Ƭ **StoreGetters**<`SS`\>: `SS` extends [`Store`](pinia.md#store)<`string`, [`StateTree`](pinia.md#statetree), infer G, `_ActionsTree`\> ? `_StoreWithGetters`<`G`\> : `_ExtractGettersFromSetupStore`<`SS`\>
 
-Extract the getters of a store type. Works with both a Setup Store or an
-Options Store.
+提取一个 store 类型的 getter。
+对 Setup Store 或 Option Store都有效。
 
-#### Type parameters
+#### 类型参数
 
-| Name |
+| 名称 |
 | :--- |
 | `SS` |
 
-#### Defined in
+#### 定义于
 
 [pinia/src/store.ts:740](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L740)
 
@@ -137,32 +137,32 @@ ___
 
 Ƭ **StoreOnActionListener**<`Id`, `S`, `G`, `A`\>: (`context`: [`StoreOnActionListenerContext`](pinia.md#storeonactionlistenercontext)<`Id`, `S`, `G`, {} extends `A` ? `_ActionsTree` : `A`\>) => `void`
 
-#### Type parameters
+#### 类型参数
 
-| Name | Type                                      |
+| 名称 | 类型                                      |
 | :--- | :---------------------------------------- |
-| `Id` | extends `string`                          |
-| `S`  | extends [`StateTree`](pinia.md#statetree) |
+| `Id` | 扩展自 `string`                          |
+| `S`  | 扩展自 [`StateTree`](pinia.md#statetree) |
 | `G`  | `G`                                       |
 | `A`  | `A`                                       |
 
-#### Type declaration
+#### 类型{#type} declaration
 
 ▸ (`context`): `void`
 
-Argument of `store.$onAction()`
+`store.$onAction()` 的参数
 
-##### Parameters
+##### 参数
 
-| Name      | Type                                                                                                                            |
+| 名称      | 类型                                                                                                                            |
 | :-------- | :------------------------------------------------------------------------------------------------------------------------------ |
 | `context` | [`StoreOnActionListenerContext`](pinia.md#storeonactionlistenercontext)<`Id`, `S`, `G`, {} extends `A` ? `_ActionsTree` : `A`\> |
 
-##### Returns
+##### 返回值
 
 `void`
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:243](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L243)
 
@@ -175,16 +175,16 @@ ___
 Context object passed to callbacks of `store.$onAction(context => {})`
 TODO: should have only the Id, the Store and Actions to generate the proper object
 
-#### Type parameters
+#### 类型参数
 
-| Name | Type                                      |
+| 名称 | 类型                                      |
 | :--- | :---------------------------------------- |
-| `Id` | extends `string`                          |
-| `S`  | extends [`StateTree`](pinia.md#statetree) |
+| `Id` | 扩展自 `string`                          |
+| `S`  | 扩展自 [`StateTree`](pinia.md#statetree) |
 | `G`  | `G`                                       |
 | `A`  | `A`                                       |
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:227](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L227)
 
@@ -194,16 +194,16 @@ ___
 
 Ƭ **StoreState**<`SS`\>: `SS` extends [`Store`](pinia.md#store)<`string`, infer S, `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, `_ActionsTree`\> ? `UnwrapRef`<`S`\> : `_ExtractStateFromSetupStore`<`SS`\>
 
-Extract the state of a store type. Works with both a Setup Store or an
-Options Store. Note this unwraps refs.
+提取一个 store 类型的 state。
+对 Setup Store 或 Option Store 都有效。请注意，它会对 refs 解包。
 
-#### Type parameters
+#### 类型参数
 
-| Name |
+| 名称 |
 | :--- |
 | `SS` |
 
-#### Defined in
+#### 定义于
 
 [pinia/src/store.ts:753](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L753)
 
@@ -213,30 +213,30 @@ ___
 
 Ƭ **SubscriptionCallback**<`S`\>: (`mutation`: [`SubscriptionCallbackMutation`](pinia.md#subscriptioncallbackmutation)<`S`\>, `state`: `UnwrapRef`<`S`\>) => `void`
 
-#### Type parameters
+#### 类型参数
 
-| Name |
+| 名称 |
 | :--- |
 | `S`  |
 
-#### Type declaration
+#### 类型{#type} declaration
 
 ▸ (`mutation`, `state`): `void`
 
-Callback of a subscription
+订阅的回调
 
-##### Parameters
+##### 参数
 
-| Name       | Type                                                                          |
+| 名称       | 类型                                                                          |
 | :--------- | :---------------------------------------------------------------------------- |
 | `mutation` | [`SubscriptionCallbackMutation`](pinia.md#subscriptioncallbackmutation)<`S`\> |
 | `state`    | `UnwrapRef`<`S`\>                                                             |
 
-##### Returns
+##### 返回值
 
 `void`
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:148](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L148)
 
@@ -246,15 +246,15 @@ ___
 
 Ƭ **SubscriptionCallbackMutation**<`S`\>: [`SubscriptionCallbackMutationDirect`](../interfaces/pinia.SubscriptionCallbackMutationDirect.md) \| [`SubscriptionCallbackMutationPatchObject`](../interfaces/pinia.SubscriptionCallbackMutationPatchObject.md)<`S`\> \| [`SubscriptionCallbackMutationPatchFunction`](../interfaces/pinia.SubscriptionCallbackMutationPatchFunction.md)
 
-Context object passed to a subscription callback.
+传递给订阅回调的上下文对象。
 
-#### Type parameters
+#### 类型参数
 
-| Name |
+| 名称 |
 | :--- |
 | `S`  |
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:140](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L140)
 
@@ -264,25 +264,25 @@ ___
 
 Ƭ **\_Awaited**<`T`\>: `T` extends ``null`` \| `undefined` ? `T` : `T` extends `object` & { `then`: (`onfulfilled`: `F`) => `any`  } ? `F` extends (`value`: infer V, ...`args`: `any`) => `any` ? [`_Awaited`](pinia.md#_awaited)<`V`\> : `never` : `T`
 
-#### Type parameters
+#### 类型参数
 
-| Name |
+| 名称 |
 | :--- |
 | `T`  |
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:164](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L164)
 
-## Variables
+## 变量
 
 ### PiniaVuePlugin
 
 • **PiniaVuePlugin**: `Plugin`
 
-Vue 2 Plugin that must be installed for pinia to work. Note **you don't need
-this plugin if you are using Nuxt.js**. Use the `buildModule` instead:
-https://pinia.vuejs.org/ssr/nuxt.html.
+Vue 2 插件，必须安装该插件才能使 pinia 工作。注意
+**如果你使用的是 Nuxt.js，你不需要这个插件**。请使用 `buildModule` 代替：
+https://pinia.vuejs.org/ssr/nuxt.html。
 
 **`example`**
 ```js
@@ -299,19 +299,19 @@ new Vue({
 })
 ```
 
-**`param`** `Vue` imported from 'vue'.
+**`param`** 从 'vue' 导入的 `Vue`.
 
-#### Defined in
+#### 定义于
 
 [pinia/src/vue2-plugin.ts:28](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/vue2-plugin.ts#L28)
 
-## Functions
+## 函数
 
 ### acceptHMRUpdate
 
 ▸ **acceptHMRUpdate**(`initialUseStore`, `hot`): (`newModule`: `any`) => `any`
 
-Creates an _accept_ function to pass to `import.meta.hot` in Vite applications.
+创建一个 _accept_ 函数，在 Vite 应用程序中传递给 `import.meta.hot`。
 
 **`example`**
 ```js
@@ -321,30 +321,30 @@ if (import.meta.hot) {
 }
 ```
 
-#### Parameters
+#### 参数
 
-| Name              | Type                                                                                                                                                                          | Description                             |
+| 名称              | 类型                                                                                                                                                                          | 描述                            |
 | :---------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------- |
-| `initialUseStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`string`, [`StateTree`](pinia.md#statetree), `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, `_ActionsTree`\> | return of the defineStore to hot update |
+| `initialUseStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`string`, [`StateTree`](pinia.md#statetree), `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, `_ActionsTree`\> | 热更新 defineStore 的返回值 |
 | `hot`             | `any`                                                                                                                                                                         | `import.meta.hot`                       |
 
-#### Returns
+#### 返回值
 
 `fn`
 
 ▸ (`newModule`): `any`
 
-##### Parameters
+##### 参数
 
-| Name        | Type  |
+| 名称        | 类型  |
 | :---------- | :---- |
 | `newModule` | `any` |
 
-##### Returns
+##### 返回值
 
 `any`
 
-#### Defined in
+#### 定义于
 
 [pinia/src/hmr.ts:73](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/hmr.ts#L73)
 
@@ -354,13 +354,13 @@ ___
 
 ▸ **createPinia**(): [`Pinia`](../interfaces/pinia.Pinia.md)
 
-Creates a Pinia instance to be used by the application
+创建一个 Pinia 实例，供应用程序使用。
 
-#### Returns
+#### 返回值
 
 [`Pinia`](../interfaces/pinia.Pinia.md)
 
-#### Defined in
+#### 定义于
 
 [pinia/src/createPinia.ts:10](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/createPinia.ts#L10)
 
@@ -370,83 +370,83 @@ ___
 
 ▸ **defineStore**<`Id`, `S`, `G`, `A`\>(`id`, `options`): [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\>
 
-Creates a `useStore` function that retrieves the store instance
+创建一个 `useStore` 函数，检索 store 实例
 
-#### Type parameters
+#### 类型参数
 
-| Name | Type                                           |
+| 名称 | 类型                                           |
 | :--- | :--------------------------------------------- |
-| `Id` | extends `string`                               |
-| `S`  | extends [`StateTree`](pinia.md#statetree) = {} |
-| `G`  | extends `_GettersTree`<`S`\> = {}              |
+| `Id` | 扩展自 `string`                               |
+| `S`  | 扩展自 [`StateTree`](pinia.md#statetree) = {} |
+| `G`  | 扩展自 `_GettersTree`<`S`\> = {}              |
 | `A`  | {}                                             |
 
-#### Parameters
+#### 参数
 
-| Name      | Type                                                                                                       | Description                      |
+| 名称      | 类型                                                                                                       | 描述                     |
 | :-------- | :--------------------------------------------------------------------------------------------------------- | :------------------------------- |
 | `id`      | `Id`                                                                                                       | id of the store (must be unique) |
 | `options` | `Omit`<[`DefineStoreOptions`](../interfaces/pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\>, ``"id"``\> | options to define the store      |
 
-#### Returns
+#### 返回值
 
 [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/store.ts:776](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L776)
 
 ▸ **defineStore**<`Id`, `S`, `G`, `A`\>(`options`): [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\>
 
-Creates a `useStore` function that retrieves the store instance
+创建一个 `useStore` 函数，检索 store 实例
 
-#### Type parameters
+#### 类型参数
 
-| Name | Type                                           |
+| 名称 | 类型                                           |
 | :--- | :--------------------------------------------- |
-| `Id` | extends `string`                               |
-| `S`  | extends [`StateTree`](pinia.md#statetree) = {} |
-| `G`  | extends `_GettersTree`<`S`\> = {}              |
+| `Id` | 扩展自 `string`                               |
+| `S`  | 扩展自 [`StateTree`](pinia.md#statetree) = {} |
+| `G`  | 扩展自 `_GettersTree`<`S`\> = {}              |
 | `A`  | {}                                             |
 
-#### Parameters
+#### 参数
 
-| Name      | Type                                                                                    | Description                 |
+| 名称      | 类型                                                                                    | 描述                |
 | :-------- | :-------------------------------------------------------------------------------------- | :-------------------------- |
 | `options` | [`DefineStoreOptions`](../interfaces/pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\> | options to define the store |
 
-#### Returns
+#### 返回值
 
 [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/store.ts:792](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L792)
 
 ▸ **defineStore**<`Id`, `SS`\>(`id`, `storeSetup`, `options?`): [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `_ExtractStateFromSetupStore`<`SS`\>, `_ExtractGettersFromSetupStore`<`SS`\>, `_ExtractActionsFromSetupStore`<`SS`\>\>
 
-Creates a `useStore` function that retrieves the store instance
+创建一个 `useStore` 函数，检索 store 实例
 
-#### Type parameters
+#### 类型参数
 
-| Name | Type             |
+| 名称 | 类型             |
 | :--- | :--------------- |
-| `Id` | extends `string` |
+| `Id` | 扩展自 `string` |
 | `SS` | `SS`             |
 
-#### Parameters
+#### 参数
 
-| Name         | Type                                                                                                                                                                                                     | Description                      |
+| 名称         | 类型                                                                                                                                                                                                     | 描述                     |
 | :----------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------- |
 | `id`         | `Id`                                                                                                                                                                                                     | id of the store (must be unique) |
 | `storeSetup` | () => `SS`                                                                                                                                                                                               | function that defines the store  |
 | `options?`   | [`DefineSetupStoreOptions`](../interfaces/pinia.DefineSetupStoreOptions.md)<`Id`, `_ExtractStateFromSetupStore`<`SS`\>, `_ExtractGettersFromSetupStore`<`SS`\>, `_ExtractActionsFromSetupStore`<`SS`\>\> | extra options                    |
 
-#### Returns
+#### 返回值
 
 [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `_ExtractStateFromSetupStore`<`SS`\>, `_ExtractGettersFromSetupStore`<`SS`\>, `_ExtractActionsFromSetupStore`<`SS`\>\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/store.ts:807](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L807)
 
@@ -456,13 +456,13 @@ ___
 
 ▸ `Const` **getActivePinia**(): `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md)
 
-Get the currently active pinia if there is any.
+如果有的话，获取当前活跃的 pinia
 
-#### Returns
+#### 返回值
 
 `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md)
 
-#### Defined in
+#### 定义于
 
 [pinia/src/rootStore.ts:39](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L39)
 
@@ -472,17 +472,17 @@ ___
 
 ▸ **mapActions**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): `_MapActionsObjectReturn`<`A`, `KeyMapper`\>
 
-Allows directly using actions from your store without using the composition
-API (`setup()`) by generating an object to be spread in the `methods` field
-of a component. The values of the object are the actions while the keys are
-the names of the resulting methods.
+允许直接使用来自你的 store 的 action，而不需要使用组合式 API（`setup()`），
+通过生成一个对象来传播到组件的 `methods` 字段。
+该对象的值是 action，
+而键是产生的方法名称。
 
 **`example`**
 ```js
 export default {
   methods: {
-    // other methods properties
-    // useCounterStore has two actions named `increment` and `setCount`
+    // 其他方法属性
+    // useCounterStore 有两个 action，分别是 `increment` and `setCount`。
     ...mapActions(useCounterStore, { moar: 'increment', setIt: 'setCount' })
   },
 
@@ -493,73 +493,73 @@ export default {
 }
 ```
 
-#### Type parameters
+#### 类型参数
 
-| Name        | Type                                      |
+| 名称        | 类型                                      |
 | :---------- | :---------------------------------------- |
-| `Id`        | extends `string`                          |
-| `S`         | extends [`StateTree`](pinia.md#statetree) |
-| `G`         | extends `_GettersTree`<`S`\>              |
+| `Id`        | 扩展自 `string`                          |
+| `S`         | 扩展自 [`StateTree`](pinia.md#statetree) |
+| `G`         | 扩展自 `_GettersTree`<`S`\>              |
 | `A`         | `A`                                       |
-| `KeyMapper` | extends `Record`<`string`, keyof `A`\>    |
+| `KeyMapper` | 扩展自 `Record`<`string`, keyof `A`\>    |
 
-#### Parameters
+#### 参数
 
-| Name        | Type                                                                              | Description                                |
+| 名称        | 类型                                                                              | 描述                               |
 | :---------- | :-------------------------------------------------------------------------------- | :----------------------------------------- |
 | `useStore`  | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from                          |
 | `keyMapper` | `KeyMapper`                                                                       | object to define new names for the actions |
 
-#### Returns
+#### 返回值
 
 `_MapActionsObjectReturn`<`A`, `KeyMapper`\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/mapHelpers.ts:326](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L326)
 
 ▸ **mapActions**<`Id`, `S`, `G`, `A`\>(`useStore`, `keys`): `_MapActionsReturn`<`A`\>
 
-Allows directly using actions from your store without using the composition
-API (`setup()`) by generating an object to be spread in the `methods` field
-of a component.
+允许直接使用你 store 里的 action，
+而不需要使用组合式 API（`setup()`），
+通过生成一个对象，传播到组件的 `methods` 字段。
 
 **`example`**
 ```js
 export default {
   methods: {
-    // other methods properties
+    // 其他方法属性
     ...mapActions(useCounterStore, ['increment', 'setCount'])
   },
 
   created() {
     this.increment()
-    this.setCount(2) // pass arguments as usual
+    this.setCount(2) // 像往常一样传递参数
   }
 }
 ```
 
-#### Type parameters
+#### 类型参数
 
-| Name | Type                                      |
+| 名称 | 类型                                      |
 | :--- | :---------------------------------------- |
-| `Id` | extends `string`                          |
-| `S`  | extends [`StateTree`](pinia.md#statetree) |
-| `G`  | extends `_GettersTree`<`S`\>              |
+| `Id` | 扩展自 `string`                          |
+| `S`  | 扩展自 [`StateTree`](pinia.md#statetree) |
+| `G`  | 扩展自 `_GettersTree`<`S`\>              |
 | `A`  | `A`                                       |
 
-#### Parameters
+#### 参数
 
-| Name       | Type                                                                              | Description                  |
+| 名称       | 类型                                                                              | 描述                 |
 | :--------- | :-------------------------------------------------------------------------------- | :--------------------------- |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from            |
 | `keys`     | keyof `A`[]                                                                       | array of action names to map |
 
-#### Returns
+#### 返回值
 
 `_MapActionsReturn`<`A`\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/mapHelpers.ts:359](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L359)
 
@@ -569,63 +569,63 @@ ___
 
 ▸ `Const` **mapGetters**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): `_MapStateObjectReturn`<`Id`, `S`, `G`, `A`, `KeyMapper`\>
 
-Alias for `mapState()`. You should use `mapState()` instead.
+`mapState()` 的别名。你应该使用 `mapState()` 来代替。
 
-**`deprecated`** use `mapState()` instead.
+**`deprecated`** 使用 `mapState()` 代替
 
-#### Type parameters
+#### 类型参数
 
-| Name        | Type                                                                                                                       |
+| 名称        | 类型                                                                                                                       |
 | :---------- | :------------------------------------------------------------------------------------------------------------------------- |
-| `Id`        | extends `string`                                                                                                           |
-| `S`         | extends [`StateTree`](pinia.md#statetree)                                                                                  |
-| `G`         | extends `_GettersTree`<`S`\>                                                                                               |
+| `Id`        | 扩展自 `string`                                                                                                           |
+| `S`         | 扩展自 [`StateTree`](pinia.md#statetree)                                                                                  |
+| `G`         | 扩展自 `_GettersTree`<`S`\>                                                                                               |
 | `A`         | `A`                                                                                                                        |
 | `KeyMapper` | extends `Record`<`string`, keyof `S` \| keyof `G` \| (`store`: [`Store`](pinia.md#store)<`Id`, `S`, `G`, `A`\>) => `any`\> |
 
-#### Parameters
+#### 参数
 
-| Name        | Type                                                                              |
+| 名称        | 类型                                                                              |
 | :---------- | :-------------------------------------------------------------------------------- |
 | `useStore`  | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> |
 | `keyMapper` | `KeyMapper`                                                                       |
 
-#### Returns
+#### 返回值
 
 `_MapStateObjectReturn`<`Id`, `S`, `G`, `A`, `KeyMapper`\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/mapHelpers.ts:285](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L285)
 
 ▸ `Const` **mapGetters**<`Id`, `S`, `G`, `A`, `Keys`\>(`useStore`, `keys`): `_MapStateReturn`<`S`, `G`, `Keys`\>
 
-Alias for `mapState()`. You should use `mapState()` instead.
+`mapState()` 的别名。你应该使用 `mapState()` 来代替。
 
-**`deprecated`** use `mapState()` instead.
+**`deprecated`** 使用 `mapState()` 代替
 
-#### Type parameters
+#### 类型参数
 
-| Name   | Type                                      |
+| 名称   | 类型                                      |
 | :----- | :---------------------------------------- |
-| `Id`   | extends `string`                          |
-| `S`    | extends [`StateTree`](pinia.md#statetree) |
-| `G`    | extends `_GettersTree`<`S`\>              |
+| `Id`   | 扩展自 `string`                          |
+| `S`    | 扩展自 [`StateTree`](pinia.md#statetree) |
+| `G`    | 扩展自 `_GettersTree`<`S`\>              |
 | `A`    | `A`                                       |
-| `Keys` | extends `string` \| `number` \| `symbol`  |
+| `Keys` | 扩展自 `string` \| `number` \| `symbol`  |
 
-#### Parameters
+#### 参数
 
-| Name       | Type                                                                              |
+| 名称       | 类型                                                                              |
 | :--------- | :-------------------------------------------------------------------------------- |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> |
 | `keys`     | readonly `Keys`[]                                                                 |
 
-#### Returns
+#### 返回值
 
 `_MapStateReturn`<`S`, `G`, `Keys`\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/mapHelpers.ts:285](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L285)
 
@@ -635,24 +635,24 @@ ___
 
 ▸ **mapState**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): `_MapStateObjectReturn`<`Id`, `S`, `G`, `A`, `KeyMapper`\>
 
-Allows using state and getters from one store without using the composition
-API (`setup()`) by generating an object to be spread in the `computed` field
-of a component. The values of the object are the state properties/getters
-while the keys are the names of the resulting computed properties.
-Optionally, you can also pass a custom function that will receive the store
-as its first argument. Note that while it has access to the component
-instance via `this`, it won't be typed.
+允许在不使用组合式 API（`setup()`）的情况下使用一个 store的 state 和 getter，
+通过生成一个对象，传播至组件的`computed`字段。
+该对象的值是 state 属性/getter，
+而键是生成的计算属性名称。
+你也可以选择传递一个自定义函数，
+该函数将接收 store 作为其第一个参数。
+注意，虽然它可以通过 `this` 访问组件实例，但它不会被类型检查。
 
 **`example`**
 ```js
 export default {
   computed: {
-    // other computed properties
-    // useCounterStore has a state property named `count` and a getter `double`
+    // 其他计算属性
+    // useCounterStore 拥有一个名为 `count` 的 state 属性和一个名为 `double` 的 getter
     ...mapState(useCounterStore, {
       n: 'count',
       triple: store => store.n * 3,
-      // note we can't use an arrow function if we want to use `this`
+      // 如果想使用 `this`，就不能使用箭头函数
       custom(store) {
         return this.someComponentValue + store.n
       },
@@ -667,42 +667,42 @@ export default {
 }
 ```
 
-#### Type parameters
+#### 类型参数
 
-| Name        | Type                                                                                                                       |
+| 名称        | 类型                                                                                                                       |
 | :---------- | :------------------------------------------------------------------------------------------------------------------------- |
-| `Id`        | extends `string`                                                                                                           |
-| `S`         | extends [`StateTree`](pinia.md#statetree)                                                                                  |
-| `G`         | extends `_GettersTree`<`S`\>                                                                                               |
+| `Id`        | 扩展自 `string`                                                                                                           |
+| `S`         | 扩展自 [`StateTree`](pinia.md#statetree)                                                                                  |
+| `G`         | 扩展自 `_GettersTree`<`S`\>                                                                                               |
 | `A`         | `A`                                                                                                                        |
 | `KeyMapper` | extends `Record`<`string`, keyof `S` \| keyof `G` \| (`store`: [`Store`](pinia.md#store)<`Id`, `S`, `G`, `A`\>) => `any`\> |
 
-#### Parameters
+#### 参数
 
-| Name        | Type                                                                              | Description                           |
+| 名称        | 类型                                                                              | 描述                          |
 | :---------- | :-------------------------------------------------------------------------------- | :------------------------------------ |
 | `useStore`  | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from                     |
 | `keyMapper` | `KeyMapper`                                                                       | object of state properties or getters |
 
-#### Returns
+#### 返回值
 
 `_MapStateObjectReturn`<`Id`, `S`, `G`, `A`, `KeyMapper`\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/mapHelpers.ts:194](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L194)
 
 ▸ **mapState**<`Id`, `S`, `G`, `A`, `Keys`\>(`useStore`, `keys`): `_MapStateReturn`<`S`, `G`, `Keys`\>
 
-Allows using state and getters from one store without using the composition
-API (`setup()`) by generating an object to be spread in the `computed` field
-of a component.
+允许在不使用组合式 API（`setup()`）的情况下使用一个 store 的 state 和 getter，
+方法是生成一个对象，
+传播到组件的`computed`字段。
 
 **`example`**
 ```js
 export default {
   computed: {
-    // other computed properties
+    // 其他计算属性
     ...mapState(useCounterStore, ['count', 'double'])
   },
 
@@ -713,28 +713,28 @@ export default {
 }
 ```
 
-#### Type parameters
+#### 类型参数
 
-| Name   | Type                                      |
+| 名称   | 类型                                      |
 | :----- | :---------------------------------------- |
-| `Id`   | extends `string`                          |
-| `S`    | extends [`StateTree`](pinia.md#statetree) |
-| `G`    | extends `_GettersTree`<`S`\>              |
+| `Id`   | 扩展自 `string`                          |
+| `S`    | 扩展自 [`StateTree`](pinia.md#statetree) |
+| `G`    | 扩展自 `_GettersTree`<`S`\>              |
 | `A`    | `A`                                       |
-| `Keys` | extends `string` \| `number` \| `symbol`  |
+| `Keys` | 扩展自 `string` \| `number` \| `symbol`  |
 
-#### Parameters
+#### 参数
 
-| Name       | Type                                                                              | Description                          |
+| 名称       | 类型                                                                              | 描述                         |
 | :--------- | :-------------------------------------------------------------------------------- | :----------------------------------- |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from                    |
 | `keys`     | readonly `Keys`[]                                                                 | array of state properties or getters |
 
-#### Returns
+#### 返回值
 
 `_MapStateReturn`<`S`, `G`, `Keys`\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/mapHelpers.ts:231](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L231)
 
@@ -744,42 +744,42 @@ ___
 
 ▸ **mapStores**<`Stores`\>(...`stores`): `_Spread`<`Stores`\>
 
-Allows using stores without the composition API (`setup()`) by generating an
-object to be spread in the `computed` field of a component. It accepts a list
-of store definitions.
+允许在不使用组合式 API（`setup()`）的情况下使用 store，
+方法是生成一个对象，传播到组件的 `computed` 字段。
+它接受一个 store 定义的列表。
 
 **`example`**
 ```js
 export default {
   computed: {
-    // other computed properties
+    // 其他计算属性
     ...mapStores(useUserStore, useCartStore)
   },
 
   created() {
-    this.userStore // store with id "user"
-    this.cartStore // store with id "cart"
+    this.userStore // id 为 "user" 的 store
+    this.cartStore // id 为 "cart" 的 store
   }
 }
 ```
 
-#### Type parameters
+#### 类型参数
 
-| Name     | Type            |
+| 名称     | 类型            |
 | :------- | :-------------- |
-| `Stores` | extends `any`[] |
+| `Stores` | 扩展自 `any`[] |
 
-#### Parameters
+#### 参数
 
-| Name        | Type          | Description                        |
+| 名称        | 类型          | 描述                       |
 | :---------- | :------------ | :--------------------------------- |
 | `...stores` | [...Stores[]] | list of stores to map to an object |
 
-#### Returns
+#### 返回值
 
 `_Spread`<`Stores`\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/mapHelpers.ts:96](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L96)
 
@@ -789,62 +789,62 @@ ___
 
 ▸ **mapWritableState**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): `_MapWritableStateObjectReturn`<`S`, `KeyMapper`\>
 
-Same as `mapState()` but creates computed setters as well so the state can be
-modified. Differently from `mapState()`, only `state` properties can be
-added.
+与 `mapState()` 相同，但是也创建了计算的 stter，
+所以 state 可以被修改。
+与 `mapState()` 不同的是，只有 `state` 属性可以被添加。
 
-#### Type parameters
+#### 类型参数
 
-| Name        | Type                                      |
+| 名称        | 类型                                      |
 | :---------- | :---------------------------------------- |
-| `Id`        | extends `string`                          |
-| `S`         | extends [`StateTree`](pinia.md#statetree) |
-| `G`         | extends `_GettersTree`<`S`\>              |
+| `Id`        | 扩展自 `string`                          |
+| `S`         | 扩展自 [`StateTree`](pinia.md#statetree) |
+| `G`         | 扩展自 `_GettersTree`<`S`\>              |
 | `A`         | `A`                                       |
-| `KeyMapper` | extends `Record`<`string`, keyof `S`\>    |
+| `KeyMapper` | 扩展自 `Record`<`string`, keyof `S`\>    |
 
-#### Parameters
+#### 参数
 
-| Name        | Type                                                                              | Description                |
+| 名称        | 类型                                                                              | 描述               |
 | :---------- | :-------------------------------------------------------------------------------- | :------------------------- |
 | `useStore`  | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from          |
 | `keyMapper` | `KeyMapper`                                                                       | object of state properties |
 
-#### Returns
+#### 返回值
 
 `_MapWritableStateObjectReturn`<`S`, `KeyMapper`\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/mapHelpers.ts:440](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L440)
 
 ▸ **mapWritableState**<`Id`, `S`, `G`, `A`\>(`useStore`, `keys`): `_MapWritableStateReturn`<`S`\>
 
-Allows using state and getters from one store without using the composition
-API (`setup()`) by generating an object to be spread in the `computed` field
-of a component.
+允许在不使用组合式 API（`setup()`）的情况下
+使用来自一个 store 的 state 和 getter，
+方法是生成一个对象来传播到组件的`computed`字段。
 
-#### Type parameters
+#### 类型参数
 
-| Name | Type                                      |
+| 名称 | 类型                                      |
 | :--- | :---------------------------------------- |
-| `Id` | extends `string`                          |
-| `S`  | extends [`StateTree`](pinia.md#statetree) |
-| `G`  | extends `_GettersTree`<`S`\>              |
+| `Id` | 扩展自 `string`                          |
+| `S`  | 扩展自 [`StateTree`](pinia.md#statetree) |
+| `G`  | 扩展自 `_GettersTree`<`S`\>              |
 | `A`  | `A`                                       |
 
-#### Parameters
+#### 参数
 
-| Name       | Type                                                                              | Description               |
+| 名称       | 类型                                                                              | 描述              |
 | :--------- | :-------------------------------------------------------------------------------- | :------------------------ |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from         |
 | `keys`     | keyof `S`[]                                                                       | array of state properties |
 
-#### Returns
+#### 返回值
 
 `_MapWritableStateReturn`<`S`\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/mapHelpers.ts:458](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L458)
 
@@ -854,20 +854,20 @@ ___
 
 ▸ `Const` **setActivePinia**(`pinia`): `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md)
 
-Sets or unsets the active pinia. Used in SSR and internally when calling
-actions and getters
+设置或取消设置活跃的 pinia。
+在 SSR 和内部调用 action 和 getter 时使用。
 
-#### Parameters
+#### 参数
 
-| Name    | Type                                                   | Description    |
+| 名称    | 类型                                                   | 描述   |
 | :------ | :----------------------------------------------------- | :------------- |
 | `pinia` | `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md) | Pinia instance |
 
-#### Returns
+#### 返回值
 
 `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md)
 
-#### Defined in
+#### 定义于
 
 [pinia/src/rootStore.ts:33](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L33)
 
@@ -877,21 +877,21 @@ ___
 
 ▸ **setMapStoreSuffix**(`suffix`): `void`
 
-Changes the suffix added by `mapStores()`. Can be set to an empty string.
-Defaults to `"Store"`. Make sure to extend the MapStoresCustomization
-interface if you need are using TypeScript.
+改变由 `mapStores()` 添加的后缀。可以设置为空字符串。
+默认为`"Store"`。如果你需要使用 TypeScript，
+请确保扩展 MapStoresCustomization 接口。
 
-#### Parameters
+#### 参数
 
-| Name     | Type     | Description |
+| 名称     | 类型     | 描述|
 | :------- | :------- | :---------- |
 | `suffix` | `string` | new suffix  |
 
-#### Returns
+#### 返回值
 
 `void`
 
-#### Defined in
+#### 定义于
 
 [pinia/src/mapHelpers.ts:66](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/mapHelpers.ts#L66)
 
@@ -901,23 +901,23 @@ ___
 
 ▸ **skipHydrate**<`T`\>(`obj`): `T`
 
-#### Type parameters
+#### 类型参数
 
-| Name | Type  |
+| 名称 | 类型  |
 | :--- | :---- |
 | `T`  | `any` |
 
-#### Parameters
+#### 参数
 
-| Name  | Type |
+| 名称  | 类型 |
 | :---- | :--- |
 | `obj` | `T`  |
 
-#### Returns
+#### 返回值
 
 `T`
 
-#### Defined in
+#### 定义于
 
 [pinia/src/store.ts:85](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/store.ts#L85)
 
@@ -927,27 +927,27 @@ ___
 
 ▸ **storeToRefs**<`SS`\>(`store`): `ToRefs`<[`StoreState`](pinia.md#storestate)<`SS`\> & [`StoreGetters`](pinia.md#storegetters)<`SS`\> & [`PiniaCustomStateProperties`](../interfaces/pinia.PiniaCustomStateProperties.md)<[`StoreState`](pinia.md#storestate)<`SS`\>\>\>
 
-Creates an object of references with all the state, getters, and plugin-added
-state properties of the store. Similar to `toRefs()` but specifically
-designed for Pinia stores so methods and non reactive properties are
-completely ignored.
+创建一个引用对象，包含 store 的所有 state、
+getter 和 plugin 添加的 state 属性。
+类似于 `toRefs()`，但专门为 Pinia store 设计，
+所以 method 和非响应式属性会被完全忽略。
 
-#### Type parameters
+#### 类型参数
 
-| Name | Type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 名称 | 类型                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | :--- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `SS` | extends [`_StoreWithState`](../interfaces/pinia._StoreWithState.md)<`string`, [`StateTree`](pinia.md#statetree), `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, `_ActionsTree`, `SS`\> & {} & `_StoreWithGetters`<`_GettersTree`<[`StateTree`](pinia.md#statetree)\>\> & [`PiniaCustomProperties`](../interfaces/pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](pinia.md#statetree), `_GettersTree`<[`StateTree`](pinia.md#statetree)\>, `_ActionsTree`, `SS`\> & `PiniaCustomStateProperties`<[`StateTree`](pinia.md#statetree), `SS`\> |
 
-#### Parameters
+#### 参数
 
-| Name    | Type | Description                    |
+| 名称    | 类型 | 描述                   |
 | :------ | :--- | :----------------------------- |
 | `store` | `SS` | store to extract the refs from |
 
-#### Returns
+#### 返回值
 
 `ToRefs`<[`StoreState`](pinia.md#storestate)<`SS`\> & [`StoreGetters`](pinia.md#storegetters)<`SS`\> & [`PiniaCustomStateProperties`](../interfaces/pinia.PiniaCustomStateProperties.md)<[`StoreState`](pinia.md#storestate)<`SS`\>\>\>
 
-#### Defined in
+#### 定义于
 
 [pinia/src/storeToRefs.ts:13](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/storeToRefs.ts#L13)

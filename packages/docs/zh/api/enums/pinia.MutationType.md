@@ -4,13 +4,13 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / MutationType
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / MutationType
 
 # Enumeration: MutationType
 
 [pinia](../modules/pinia.md).MutationType
 
-Possible types for SubscriptionCallback
+SubscriptionCallback 的可能类型
 
 ## Enumeration members
 
@@ -24,7 +24,7 @@ Direct mutation of the state:
 - `store.$state.name = 'new name'`
 - `store.list.push('new item')`
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:50](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L50)
 
@@ -34,11 +34,11 @@ ___
 
 • **patchFunction** = `"patch function"`
 
-Mutated the state with `$patch` and a function
+用 `$patch` 和一个函数更改了 state：
 
 - `store.$patch(state => state.name = 'newName')`
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:64](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L64)
 
@@ -48,10 +48,10 @@ ___
 
 • **patchObject** = `"patch object"`
 
-Mutated the state with `$patch` and an object
+用 `$patch` 和一个函数更改了 state：
 
 - `store.$patch({ name: 'newName' })`
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:57](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L57)

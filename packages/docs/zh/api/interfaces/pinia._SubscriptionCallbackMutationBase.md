@@ -4,15 +4,15 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / \_SubscriptionCallbackMutationBase
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / \_SubscriptionCallbackMutationBase
 
-# Interface: \_SubscriptionCallbackMutationBase
+# 接口：\_SubscriptionCallbackMutationBase
 
 [pinia](../modules/pinia.md)._SubscriptionCallbackMutationBase
 
-Base type for the context passed to a subscription callback. Internal type.
+传递给订阅回调的上下文的基本类型。内部类型。
 
-## Hierarchy
+## 层次结构{#hierarchy}
 
 - **`_SubscriptionCallbackMutationBase`**
 
@@ -22,26 +22,26 @@ Base type for the context passed to a subscription callback. Internal type.
 
   ↳ [`SubscriptionCallbackMutationPatchObject`](pinia.SubscriptionCallbackMutationPatchObject.md)
 
-## Properties
+## 属性{#properties}
 
 ### storeId
 
 • **storeId**: `string`
 
-`id` of the store doing the mutation.
+执行 mutation 的 store 的`id`。
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:81](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L81)
 
 ___
 
-### type
+### 类型{#type}
 
 • **type**: [`MutationType`](../enums/pinia.MutationType.md)
 
-Type of the mutation.
+mutation 的类型
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:76](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L76)

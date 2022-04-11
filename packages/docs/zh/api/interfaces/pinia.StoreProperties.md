@@ -4,34 +4,34 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / StoreProperties
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / StoreProperties
 
-# Interface: StoreProperties<Id\>
+# 接口：StoreProperties<Id\>
 
 [pinia](../modules/pinia.md).StoreProperties
 
-Properties of a store.
+属性{#properties} of a store.
 
-## Type parameters
+## 类型参数
 
 | Name | Type |
 | :------ | :------ |
 | `Id` | extends `string` |
 
-## Hierarchy
+## 层次结构{#hierarchy}
 
 - **`StoreProperties`**
 
   ↳ [`_StoreWithState`](pinia._StoreWithState.md)
 
-## Properties
+## 属性{#properties}
 
 ### $id
 
 • **$id**: `Id`
 
-Unique identifier of the store
+store 的唯一标识符
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:265](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L265)

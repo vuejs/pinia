@@ -4,15 +4,15 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / PiniaCustomProperties
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / PiniaCustomProperties
 
-# Interface: PiniaCustomProperties<Id, S, G, A\>
+# 接口：PiniaCustomProperties<Id, S, G, A\>
 
 [pinia](../modules/pinia.md).PiniaCustomProperties
 
-Interface to be extended by the user when they add properties through plugins.
+当用户通过插件添加属性时，接口可被扩展。
 
-## Type parameters
+## 类型参数
 
 | Name | Type |
 | :------ | :------ |
@@ -21,15 +21,15 @@ Interface to be extended by the user when they add properties through plugins.
 | `G` | `_GettersTree`<`S`\> |
 | `A` | `_ActionsTree` |
 
-## Properties
+## 属性{#properties}
 
 ### $nuxt
 
 • **$nuxt**: `Context`
 
-Nuxt context.
+Nuxt 上下文
 
-#### Defined in
+#### 定义于
 
 [nuxt/src/module.ts:68](https://github.com/posva/pinia/blob/46c50b2/packages/nuxt/src/module.ts#L68)
 
@@ -39,7 +39,7 @@ ___
 
 • **double**: `number`
 
-#### Defined in
+#### 定义于
 
 [pinia/__tests__/storePlugins.spec.ts:14](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/__tests__/storePlugins.spec.ts#L14)
 
@@ -49,7 +49,7 @@ ___
 
 • **globalA**: `string`
 
-#### Defined in
+#### 定义于
 
 [pinia/__tests__/storePlugins.spec.ts:11](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/__tests__/storePlugins.spec.ts#L11)
 
@@ -59,7 +59,7 @@ ___
 
 • **globalB**: `string`
 
-#### Defined in
+#### 定义于
 
 [pinia/__tests__/storePlugins.spec.ts:12](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/__tests__/storePlugins.spec.ts#L12)
 
@@ -69,7 +69,7 @@ ___
 
 • **hasApp**: `boolean`
 
-#### Defined in
+#### 定义于
 
 [pinia/__tests__/storePlugins.spec.ts:9](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/__tests__/storePlugins.spec.ts#L9)
 
@@ -79,7 +79,7 @@ ___
 
 • **idFromPlugin**: `Id`
 
-#### Defined in
+#### 定义于
 
 [pinia/__tests__/storePlugins.spec.ts:10](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/__tests__/storePlugins.spec.ts#L10)
 
@@ -89,7 +89,7 @@ ___
 
 • **pluginN**: `number`
 
-#### Defined in
+#### 定义于
 
 [pinia/__tests__/storePlugins.spec.ts:7](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/__tests__/storePlugins.spec.ts#L7)
 
@@ -99,7 +99,7 @@ ___
 
 • **shared**: `number`
 
-#### Defined in
+#### 定义于
 
 [pinia/__tests__/storePlugins.spec.ts:13](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/__tests__/storePlugins.spec.ts#L13)
 
@@ -109,7 +109,7 @@ ___
 
 • **uid**: `number`
 
-#### Defined in
+#### 定义于
 
 [pinia/__tests__/storePlugins.spec.ts:8](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/__tests__/storePlugins.spec.ts#L8)
 
@@ -119,26 +119,26 @@ ___
 
 • `get` **route**(): `RouteLocationNormalized`
 
-#### Returns
+#### 返回值
 
 `RouteLocationNormalized`
 
-#### Defined in
+#### 定义于
 
 [playground/src/main.ts:17](https://github.com/posva/pinia/blob/46c50b2/packages/playground/src/main.ts#L17)
 
 • `set` **route**(`value`): `void`
 
-#### Parameters
+#### 参数
 
 | Name | Type |
 | :------ | :------ |
 | `value` | `RouteLocationNormalizedLoaded` \| `Ref`<`RouteLocationNormalizedLoaded`\> |
 
-#### Returns
+#### 返回值
 
 `void`
 
-#### Defined in
+#### 定义于
 
 [playground/src/main.ts:14](https://github.com/posva/pinia/blob/46c50b2/packages/playground/src/main.ts#L14)

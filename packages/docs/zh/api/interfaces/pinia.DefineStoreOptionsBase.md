@@ -4,24 +4,24 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptionsBase
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptionsBase
 
-# Interface: DefineStoreOptionsBase<S, Store\>
+# 接口：DefineStoreOptionsBase<S, Store\>
 
 [pinia](../modules/pinia.md).DefineStoreOptionsBase
 
-Options passed to `defineStore()` that are common between option and setup
-stores. Extend this interface if you want to add custom options to both kinds
-of stores.
+传递给 `defineStore()` 的选项，在 option store 和 setup store 之间是通用的。
+如果你想为这两种 store 添加自定义的选项，
+请扩展这个接口。
 
-## Type parameters
+## 类型参数
 
 | Name | Type |
 | :------ | :------ |
 | `S` | extends [`StateTree`](../modules/pinia.md#statetree) |
 | `Store` | `Store` |
 
-## Hierarchy
+## 层次结构{#hierarchy}
 
 - **`DefineStoreOptionsBase`**
 

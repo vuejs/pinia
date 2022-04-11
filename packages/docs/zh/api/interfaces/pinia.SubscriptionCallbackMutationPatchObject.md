@@ -4,36 +4,36 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / SubscriptionCallbackMutationPatchObject
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / SubscriptionCallbackMutationPatchObject
 
-# Interface: SubscriptionCallbackMutationPatchObject<S\>
+# 接口：SubscriptionCallbackMutationPatchObject<S\>
 
 [pinia](../modules/pinia.md).SubscriptionCallbackMutationPatchObject
 
-Context passed to a subscription callback when `store.$patch()` is called
-with an object.
+当 `store.$patch()` 与一个对象一起被调用时，
+传递给订阅回调的上下文。
 
-## Type parameters
+## 类型参数
 
 | Name |
 | :------ |
 | `S` |
 
-## Hierarchy
+## 层次结构{#hierarchy}
 
 - [`_SubscriptionCallbackMutationBase`](pinia._SubscriptionCallbackMutationBase.md)
 
   ↳ **`SubscriptionCallbackMutationPatchObject`**
 
-## Properties
+## 属性{#properties}
 
-### events
+### 事件{#events}
 
 • **events**: `DebuggerEvent`[]
 
-DEV ONLY. Array for patch calls.
+仅限 DEV， patch 调用的数组
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:110](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L110)
 
@@ -43,9 +43,9 @@ ___
 
 • **payload**: `_DeepPartial`<`S`\>
 
-Object passed to `store.$patch()`.
+传递给 `store.$patch()` 的对象
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:115](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L115)
 
@@ -55,28 +55,28 @@ ___
 
 • **storeId**: `string`
 
-`id` of the store doing the mutation.
+执行 mutation 的 store 的 `id`
 
-#### Inherited from
+#### 继承于{#inherited-from}
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:81](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L81)
 
 ___
 
-### type
+### 类型{#type}
 
 • **type**: [`patchObject`](../enums/pinia.MutationType.md#patchobject)
 
-Type of the mutation.
+mutation 的类型
 
-#### Overrides
+### 重写{#overrides}
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:105](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L105)

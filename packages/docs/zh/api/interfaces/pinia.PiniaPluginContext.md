@@ -4,15 +4,15 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / PiniaPluginContext
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / PiniaPluginContext
 
-# Interface: PiniaPluginContext<Id, S, G, A\>
+# 接口：PiniaPluginContext<Id, S, G, A\>
 
 [pinia](../modules/pinia.md).PiniaPluginContext
 
-Context argument passed to Pinia plugins.
+传递给 Pinia 插件的上下文参数。
 
-## Type parameters
+## 类型参数
 
 | Name | Type |
 | :------ | :------ |
@@ -21,15 +21,15 @@ Context argument passed to Pinia plugins.
 | `G` | `_GettersTree`<`S`\> |
 | `A` | `_ActionsTree` |
 
-## Properties
+## 属性{#properties}
 
 ### app
 
 • **app**: `App`<`any`\>
 
-Current app created with `Vue.createApp()`.
+用 `Vue.createApp() `创建的当前应用程序。
 
-#### Defined in
+#### 定义于
 
 [pinia/src/rootStore.ts:117](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L117)
 
@@ -39,9 +39,9 @@ ___
 
 • **options**: [`DefineStoreOptionsInPlugin`](pinia.DefineStoreOptionsInPlugin.md)<`Id`, `S`, `G`, `A`\>
 
-Current store being extended.
+目前正在扩展的 store 
 
-#### Defined in
+#### 定义于
 
 [pinia/src/rootStore.ts:127](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L127)
 
@@ -51,9 +51,9 @@ ___
 
 • **pinia**: [`Pinia`](pinia.Pinia.md)
 
-pinia instance.
+pinia 实例
 
-#### Defined in
+#### 定义于
 
 [pinia/src/rootStore.ts:112](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L112)
 
@@ -63,8 +63,8 @@ ___
 
 • **store**: [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
 
-Current store being extended.
+目前正在扩展的 store 
 
-#### Defined in
+#### 定义于
 
 [pinia/src/rootStore.ts:122](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L122)

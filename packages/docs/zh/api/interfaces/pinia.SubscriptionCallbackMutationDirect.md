@@ -4,31 +4,31 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / SubscriptionCallbackMutationDirect
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / SubscriptionCallbackMutationDirect
 
-# Interface: SubscriptionCallbackMutationDirect
+# 接口：SubscriptionCallbackMutationDirect
 
 [pinia](../modules/pinia.md).SubscriptionCallbackMutationDirect
 
-Context passed to a subscription callback when directly mutating the state of
-a store with `store.someState = newValue` or `store.$state.someState =
-newValue`.
+当用 `store.someState = newValue` 
+或 `store.$state.someState = newValue` 直接改变 store 的状态时，
+传递给订阅回调的上下文。
 
-## Hierarchy
+## 层次结构{#hierarchy}
 
 - [`_SubscriptionCallbackMutationBase`](pinia._SubscriptionCallbackMutationBase.md)
 
   ↳ **`SubscriptionCallbackMutationDirect`**
 
-## Properties
+## 属性{#properties}
 
-### events
+### 事件{#events}
 
 • **events**: `DebuggerEvent`
 
-DEV ONLY. Different mutation calls.
+只支持开发环境。不同的 mutation 调用。
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:96](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L96)
 
@@ -38,28 +38,28 @@ ___
 
 • **storeId**: `string`
 
-`id` of the store doing the mutation.
+执行 mutation 的 store 的 `id`
 
-#### Inherited from
+#### 继承于{#inherited-from}
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:81](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L81)
 
 ___
 
-### type
+### 类型{#type}
 
 • **type**: [`direct`](../enums/pinia.MutationType.md#direct)
 
-Type of the mutation.
+mutation 的类型
 
-#### Overrides
+### 重写{#overrides}
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:91](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L91)

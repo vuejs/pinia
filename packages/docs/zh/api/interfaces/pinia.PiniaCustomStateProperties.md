@@ -4,16 +4,16 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / PiniaCustomStateProperties
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / PiniaCustomStateProperties
 
-# Interface: PiniaCustomStateProperties<S\>
+# 接口：PiniaCustomStateProperties<S\>
 
 [pinia](../modules/pinia.md).PiniaCustomStateProperties
 
-Properties that are added to every `store.$state` by `pinia.use()`.
+通过 `pinia.use()` 添加到每个 `store.$state` 的属性。
 
-## Type parameters
+## 类型参数
 
-| Name | Type |
+| 名称 | 类型 |
 | :------ | :------ |
 | `S` | extends [`StateTree`](../modules/pinia.md#statetree) = [`StateTree`](../modules/pinia.md#statetree) |

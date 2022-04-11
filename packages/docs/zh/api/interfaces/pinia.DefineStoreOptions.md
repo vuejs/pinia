@@ -4,39 +4,39 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptions
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptions
 
-# Interface: DefineStoreOptions<Id, S, G, A\>
+# 接口：DefineStoreOptions<Id, S, G, A\>
 
 [pinia](../modules/pinia.md).DefineStoreOptions
 
-Options parameter of `defineStore()` for option stores. Can be extended to
-augment stores with the plugin API. @see [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
+`defineStore()` 的选项参数，用于设置 store。可以通过插件 API 扩展来增强 store 的功能。
+@查看 [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
-## Type parameters
+## 类型参数
 
-| Name | Type |
+| 名字 | 类型 |
 | :------ | :------ |
 | `Id` | extends `string` |
 | `S` | extends [`StateTree`](../modules/pinia.md#statetree) |
 | `G` | `G` |
 | `A` | `A` |
 
-## Hierarchy
+## 层次结构{#hierarchy}
 
 - [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
 
   ↳ **`DefineStoreOptions`**
 
-## Properties
+## 属性{#properties}
 
 ### actions
 
 • `Optional` **actions**: `A` & `ThisType`<`A` & `UnwrapRef`<`S`\> & [`_StoreWithState`](pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & `_StoreWithGetters`<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), `_GettersTree`<[`StateTree`](../modules/pinia.md#statetree)\>, `_ActionsTree`\>\>
 
-Optional object of actions.
+action 的可选对象
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:654](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L654)
 
@@ -46,11 +46,11 @@ ___
 
 • `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & `_StoreWithGetters`<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), `_GettersTree`<[`StateTree`](../modules/pinia.md#statetree)\>, `_ActionsTree`\>\> & `_GettersTree`<`S`\>
 
-Optional object of getters.
+getter 的可选对象
 
-#### Defined in
+#### 定义于
 
-[pinia/src/types.ts:647](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L647)
+[pinia/src/types. ts:647](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L647)
 
 ___
 
@@ -58,26 +58,24 @@ ___
 
 • **id**: `Id`
 
-Unique string key to identify the store across the application.
+唯一的字符串密钥，用于识别整个应用程序中的 store。
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:636](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L636)
 
-## Methods
+## 方法
 
 ### hydrate
 
 ▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
 
-Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
-definition and copying the value from `pinia.state` isn't enough.
+当 store 定义中使用了复杂的状态（如仅客户端的引用），并且从 `pinia.state` 中复制值是不够时，允许在 SSR 期间对 store 进行 hydrating。
 
 **`example`**
-If in your `state`, you use any `customRef`s, any `computed`s, or any `ref`s that have a different value on
-Server and Client, you need to manually hydrate them. e.g., a custom ref that is stored in the local
-storage:
-
+如果在你的 `state` 中，你使用了任何 `customRef`，任何 `computed`，或任何在服务器和客户端有不同值的 `ref`，
+你需要手动对它们进行 hydrate。 
+例如，一个存储在本地存储的自定义 ref：
 ```ts
 const useStore = defineStore('main', {
   state: () => ({
@@ -90,18 +88,18 @@ const useStore = defineStore('main', {
 })
 ```
 
-#### Parameters
+#### 参数
 
-| Name | Type | Description |
+| 名字 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
 | `initialState` | `UnwrapRef`<`S`\> | initialState |
 
-#### Returns
+#### 返回值
 
 `void`
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:687](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L687)
 
@@ -111,13 +109,13 @@ ___
 
 ▸ `Optional` **state**(): `S`
 
-Function to create a fresh state. **Must be an arrow function** to ensure
-correct typings!
+创建一个新 state 的函数。**必须是一个箭头函数**，
+以确保正确的类型检查!
 
-#### Returns
+#### 返回值
 
 `S`
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:642](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L642)

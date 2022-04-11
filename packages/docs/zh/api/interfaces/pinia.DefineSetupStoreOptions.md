@@ -4,40 +4,40 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / DefineSetupStoreOptions
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / DefineSetupStoreOptions
 
-# Interface: DefineSetupStoreOptions<Id, S, G, A\>
+# 接口：DefineSetupStoreOptions<Id, S, G, A\>
 
 [pinia](../modules/pinia.md).DefineSetupStoreOptions
 
-Options parameter of `defineStore()` for setup stores. Can be extended to
-augment stores with the plugin API. @see [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
+`defineStore()` 的选项参数，用于设置 store。可以通过插件 API 扩展来增强 store 的功能。
+@查看 [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
-## Type parameters
+## 类型参数
 
-| Name | Type |
+| 名称 | 类型 |
 | :------ | :------ |
 | `Id` | extends `string` |
 | `S` | extends [`StateTree`](../modules/pinia.md#statetree) |
 | `G` | `G` |
 | `A` | `A` |
 
-## Hierarchy
+## 层次结构{#hierarchy}
 
 - [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
 
   ↳ **`DefineSetupStoreOptions`**
 
-## Properties
+## 属性{#properties}
 
 ### actions
 
 • `Optional` **actions**: `A`
 
-Extracted actions. Added by useStore(). SHOULD NOT be added by the user when
-creating the store. Can be used in plugins to get the list of actions in a
-store defined with a setup function. Note this is always defined
+提取的 action。由 useStore() 添加。不应该由用户在创建 store 时添加。
+可以在插件中使用，以获得用设置函数定义的 store 中的 action 列表。
+注意这总会定义的
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:706](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L706)

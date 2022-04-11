@@ -4,30 +4,30 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / SubscriptionCallbackMutationPatchFunction
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / SubscriptionCallbackMutationPatchFunction
 
-# Interface: SubscriptionCallbackMutationPatchFunction
+# 接口：SubscriptionCallbackMutationPatchFunction
 
 [pinia](../modules/pinia.md).SubscriptionCallbackMutationPatchFunction
 
-Context passed to a subscription callback when `store.$patch()` is called
-with a function.
+当`store.$patch()`被一个函数调用时，
+传递给订阅回调的上下文。
 
-## Hierarchy
+## 层次结构{#hierarchy}
 
 - [`_SubscriptionCallbackMutationBase`](pinia._SubscriptionCallbackMutationBase.md)
 
   ↳ **`SubscriptionCallbackMutationPatchFunction`**
 
-## Properties
+## 属性{#properties}
 
-### events
+### 事件{#events}
 
 • **events**: `DebuggerEvent`[]
 
-DEV ONLY. Array of all the mutations done inside of the callback.
+仅限开发环境。在回调中已完成的所有 mutation 的数组。
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:129](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L129)
 
@@ -37,28 +37,28 @@ ___
 
 • **storeId**: `string`
 
-`id` of the store doing the mutation.
+执行 mutation 的 store 的 `id`
 
-#### Inherited from
+#### 继承于{#inherited-from}
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:81](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L81)
 
 ___
 
-### type
+### 类型{#type}
 
 • **type**: [`patchFunction`](../enums/pinia.MutationType.md#patchfunction)
 
-Type of the mutation.
+mutation 的类型
 
-#### Overrides
+### 重写{#overrides}
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)
 
-#### Defined in
+#### 定义于
 
 [pinia/src/types.ts:124](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L124)

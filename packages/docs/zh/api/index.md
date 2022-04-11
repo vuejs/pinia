@@ -1,8 +1,8 @@
-API Documentation
+API 文档
 
-# API Documentation
+# API 文档
 
-## Modules
+## 模块
 
 - [@pinia/testing](modules/pinia_testing.md)
 - [pinia](modules/pinia.md)

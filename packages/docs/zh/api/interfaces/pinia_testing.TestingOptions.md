@@ -4,24 +4,24 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [@pinia/testing](../modules/pinia_testing.md) / TestingOptions
+[API 文档](../index.md) / [@pinia/testing](../modules/pinia_testing.md) / TestingOptions
 
-# Interface: TestingOptions
+# 接口：TestingOptions
 
 [@pinia/testing](../modules/pinia_testing.md).TestingOptions
 
-## Properties
+## 属性{#properties}
 
 ### fakeApp
 
 • `Optional` **fakeApp**: `boolean`
 
-Creates an empty App and calls `app.use(pinia)` with the created testing
-pinia. This is allows you to use plugins while unit testing stores as
-plugins **will wait for pinia to be installed in order to be executed**.
-Defaults to false.
+创建一个空的 App，并通过创建的测试 pinia 调用 `app.use(pinia)`。
+这允许你在单元测试时使用插件，
+因为插件**会等待 pinia 安装好后才执行**。
+默认为false。
 
-#### Defined in
+#### 定义于
 
 [testing/src/testing.ts:45](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L45)
 
@@ -31,23 +31,23 @@ ___
 
 • `Optional` **initialState**: [`StateTree`](../modules/pinia.md#statetree)
 
-Allows defining a partial initial state of all your stores. This state gets applied after a store is created,
-allowing you to only set a few properties that are required in your test.
+允许定义你所有 store 的部分初始状态。
+这个状态应用于 store 被创建后，这允许你只设置测试中需要的几个属性。
 
-#### Defined in
+#### 定义于
 
 [testing/src/testing.ts:15](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L15)
 
 ___
 
-### plugins
+### 插件
 
 • `Optional` **plugins**: [`PiniaPlugin`](pinia.PiniaPlugin.md)[]
 
-Plugins to be installed before the testing plugin. Add any plugins used in
-your application that will be used while testing.
+在测试插件之前必装的插件。
+可以向你的应用程序添加测试时使用的任意插件。
 
-#### Defined in
+#### 定义于
 
 [testing/src/testing.ts:21](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L21)
 
@@ -57,13 +57,9 @@ ___
 
 • `Optional` **stubActions**: `boolean`
 
-When set to false, actions are only spied, they still get executed. When
-set to true, actions will be replaced with spies, resulting in their code
-not being executed. Defaults to true. NOTE: when providing `createSpy()`,
-it will **only** make the `fn` argument `undefined`. You still have to
-handle this in `createSpy()`.
+当设置为 false 时， action 只会被监听，它们仍然会执行。当设置为 true 时，action 将被替换为 spies，导致其代码不被执行。默认为 true。注意：当提供 `createSpy()` 时，它将**只**使 `fn` 参数 `undefined`。你仍然需要在 `createSpy()` 中处理这个问题。
 
-#### Defined in
+#### 定义于
 
 [testing/src/testing.ts:30](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L30)
 
@@ -73,45 +69,43 @@ ___
 
 • `Optional` **stubPatch**: `boolean`
 
-When set to true, calls to `$patch()` won't change the state. Defaults to
-false. NOTE: when providing `createSpy()`, it will **only** make the `fn`
-argument `undefined`. You still have to handle this in `createSpy()`.
+当设置为 true 时，对 `$patch()` 的调用将不会改变状态。默认为 false。注意：当提供 `createSpy()` 时，它将**只**使 `fn` 参数 `undefined`。你仍然需要在 `createSpy()` 中处理这个问题。
 
-#### Defined in
+#### 定义于
 
 [testing/src/testing.ts:37](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L37)
 
-## Methods
+## 方法
 
 ### createSpy
 
 ▸ `Optional` **createSpy**(`fn?`): (...`args`: `any`[]) => `any`
 
-Function used to create a spy for actions and `$patch()`. Pre-configured
-with `jest.fn()` in jest projects.
+用于创建 action 和 `$patch()` 的 spy 的函数。
+在 jest 项目中使用 `jest.fn()` 预先配置。
 
-#### Parameters
+#### 参数
 
 | Name | Type |
 | :------ | :------ |
 | `fn?` | (...`args`: `any`[]) => `any` |
 
-#### Returns
+#### 返回值
 
 `fn`
 
 ▸ (...`args`): `any`
 
-##### Parameters
+##### 参数
 
 | Name | Type |
 | :------ | :------ |
 | `...args` | `any`[] |
 
-##### Returns
+##### 返回值
 
 `any`
 
-#### Defined in
+#### 定义于
 
 [testing/src/testing.ts:51](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L51)
