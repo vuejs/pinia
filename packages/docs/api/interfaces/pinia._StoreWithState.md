@@ -41,7 +41,7 @@ Unique identifier of the store
 
 #### Defined in
 
-[pinia/src/types.ts:265](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L265)
+[pinia/src/types.ts:265](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L265)
 
 ___
 
@@ -53,7 +53,7 @@ State of the Store. Setting it will replace the whole state.
 
 #### Defined in
 
-[pinia/src/types.ts:335](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L335)
+[pinia/src/types.ts:335](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L335)
 
 ___
 
@@ -71,7 +71,7 @@ that should be displayed in devtools.
 
 #### Defined in
 
-[pinia/src/types.ts:293](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L293)
+[pinia/src/types.ts:293](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L293)
 
 ## Methods
 
@@ -89,7 +89,7 @@ e.g. devtools plugin stops displaying disposed stores from devtools.
 
 #### Defined in
 
-[pinia/src/types.ts:423](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L423)
+[pinia/src/types.ts:423](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L423)
 
 ___
 
@@ -182,7 +182,7 @@ function that removes the watcher
 
 #### Defined in
 
-[pinia/src/types.ts:413](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L413)
+[pinia/src/types.ts:413](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L413)
 
 ___
 
@@ -204,7 +204,7 @@ Applies a state patch to current state. Allows passing nested values
 
 #### Defined in
 
-[pinia/src/types.ts:342](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L342)
+[pinia/src/types.ts:342](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L342)
 
 ▸ **$patch**<`F`\>(`stateMutator`): `void`
 
@@ -230,7 +230,7 @@ to an array. The function passed to `$patch()` **must be synchronous**.
 
 #### Defined in
 
-[pinia/src/types.ts:351](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L351)
+[pinia/src/types.ts:351](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L351)
 
 ___
 
@@ -247,7 +247,7 @@ TODO: make this options only
 
 #### Defined in
 
-[pinia/src/types.ts:360](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L360)
+[pinia/src/types.ts:360](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L360)
 
 ___
 
@@ -286,4 +286,4 @@ function that removes the watcher
 
 #### Defined in
 
-[pinia/src/types.ts:372](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L372)
+[pinia/src/types.ts:372](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L372)

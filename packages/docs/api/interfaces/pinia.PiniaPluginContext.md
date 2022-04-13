@@ -31,7 +31,7 @@ Current app created with `Vue.createApp()`.
 
 #### Defined in
 
-[pinia/src/rootStore.ts:117](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/rootStore.ts#L117)
+[pinia/src/rootStore.ts:117](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/rootStore.ts#L117)
 
 ___
 
@@ -43,7 +43,7 @@ Current store being extended.
 
 #### Defined in
 
-[pinia/src/rootStore.ts:127](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/rootStore.ts#L127)
+[pinia/src/rootStore.ts:127](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/rootStore.ts#L127)
 
 ___
 
@@ -55,7 +55,7 @@ pinia instance.
 
 #### Defined in
 
-[pinia/src/rootStore.ts:112](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/rootStore.ts#L112)
+[pinia/src/rootStore.ts:112](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/rootStore.ts#L112)
 
 ___
 
@@ -67,4 +67,4 @@ Current store being extended.
 
 #### Defined in
 
-[pinia/src/rootStore.ts:122](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/rootStore.ts#L122)
+[pinia/src/rootStore.ts:122](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/rootStore.ts#L122)

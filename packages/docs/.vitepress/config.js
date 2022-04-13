@@ -26,6 +26,12 @@ const productionHead = [
  * @type {import('vitepress').UserConfig}
  */
 module.exports = {
+  markdown: {
+    attrs: {
+      leftDelimiter: '%{',
+      rightDelimiter: '}%',
+    },
+  },
   title: 'Pinia',
   lang: 'en-US',
   description: 'The Vue Store that you will enjoy using',

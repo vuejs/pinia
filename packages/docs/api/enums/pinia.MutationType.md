@@ -26,7 +26,7 @@ Direct mutation of the state:
 
 #### Defined in
 
-[pinia/src/types.ts:50](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L50)
+[pinia/src/types.ts:50](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L50)
 
 ___
 
@@ -40,7 +40,7 @@ Mutated the state with `$patch` and a function
 
 #### Defined in
 
-[pinia/src/types.ts:64](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L64)
+[pinia/src/types.ts:64](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L64)
 
 ___
 
@@ -54,4 +54,4 @@ Mutated the state with `$patch` and an object
 
 #### Defined in
 
-[pinia/src/types.ts:57](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L57)
+[pinia/src/types.ts:57](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L57)

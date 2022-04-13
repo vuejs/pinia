@@ -6,7 +6,7 @@ importers:
     specifiers:
       '@rollup/plugin-alias': ^3.1.8
       '@rollup/plugin-commonjs': ^21.0.1
-      '@rollup/plugin-node-resolve': ^13.0.6
+      '@rollup/plugin-node-resolve': ^13.2.0
       '@rollup/plugin-replace': ^3.0.0
       '@sucrase/jest-plugin': ^2.2.0
       '@types/jest': ^27.0.3
@@ -25,20 +25,20 @@ importers:
       minimist: ^1.2.5
       p-series: ^3.0.0
       pascalcase: ^1.0.0
-      prettier: ^2.5.1
+      prettier: ^2.6.2
       rimraf: ^3.0.2
       rollup: ^2.61.1
       rollup-plugin-terser: ^7.0.2
       rollup-plugin-typescript2: ^0.31.1
-      semver: ^7.3.5
-      typedoc: ^0.22.13
-      typedoc-plugin-markdown: ^3.11.7
+      semver: ^7.3.6
+      typedoc: ^0.22.15
+      typedoc-plugin-markdown: ^3.12.0
       typescript: ^4.5.3
       yorkie: ^2.0.0
     devDependencies:
       '@rollup/plugin-alias': 3.1.9_rollup@2.70.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
       '@rollup/plugin-replace': 3.1.0_rollup@2.70.1
       '@sucrase/jest-plugin': 2.2.0
       '@types/jest': 27.4.1
@@ -57,14 +57,14 @@ importers:
       minimist: 1.2.6
       p-series: 3.0.0
       pascalcase: 1.0.0
-      prettier: 2.6.1
+      prettier: 2.6.2
       rimraf: 3.0.2
       rollup: 2.70.1
       rollup-plugin-terser: 7.0.2_rollup@2.70.1
       rollup-plugin-typescript2: 0.31.2_c35c33224ba5c44ddc357107e4264a15
-      semver: 7.3.5
-      typedoc: 0.22.13_typescript@4.6.3
-      typedoc-plugin-markdown: 3.11.14_typedoc@0.22.13
+      semver: 7.3.6
+      typedoc: 0.22.15_typescript@4.6.3
+      typedoc-plugin-markdown: 3.12.0_typedoc@0.22.15
       typescript: 4.6.3
       yorkie: 2.0.0
 
@@ -1001,6 +1001,21 @@ packages:
 
   /@rollup/plugin-node-resolve/13.1.3_rollup@2.70.1:
     resolution: {integrity: sha512-BdxNk+LtmElRo5d06MGY4zoepyrXX1tkzX2hrnPEZ53k78GuOMWLqmJDGIIOPwVRIFZrLQOo+Yr6KtCuLIA0AQ==}
+    engines: {node: '>= 10.0.0'}
+    peerDependencies:
+      rollup: ^2.42.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.70.1
+      '@types/resolve': 1.17.1
+      builtin-modules: 3.2.0
+      deepmerge: 4.2.2
+      is-module: 1.0.0
+      resolve: 1.22.0
+      rollup: 2.70.1
+    dev: true
+
+  /@rollup/plugin-node-resolve/13.2.0_rollup@2.70.1:
+    resolution: {integrity: sha512-GuUIUyIKq7EjQxB51XSn6zPHYo+cILQQBYOGYvFFNxws2OVOqCBShAoof2hFrV8bAZzZGDBDQ8m2iUt8SLOUkg==}
     engines: {node: '>= 10.0.0'}
     peerDependencies:
       rollup: ^2.42.0
@@ -3226,7 +3241,7 @@ packages:
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.15.3
+      uglify-js: 3.15.4
     dev: true
 
   /hard-rejection/2.1.0:
@@ -3913,7 +3928,7 @@ packages:
       jest-util: 27.5.1
       natural-compare: 1.4.0
       pretty-format: 27.5.1
-      semver: 7.3.5
+      semver: 7.3.6
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4278,6 +4293,11 @@ packages:
       yallist: 4.0.0
     dev: true
 
+  /lru-cache/7.8.1:
+    resolution: {integrity: sha512-E1v547OCgJvbvevfjgK9sNKIVXO96NnsTsFPBlg4ZxjhsJSODoH9lk8Bm0OxvHNm6Vm5Yqkl/1fErDxhYL8Skg==}
+    engines: {node: '>=12'}
+    dev: true
+
   /lunr/2.3.9:
     resolution: {integrity: sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==}
     dev: true
@@ -4505,7 +4525,7 @@ packages:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.8.1
-      semver: 7.3.5
+      semver: 7.3.6
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -4822,8 +4842,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier/2.6.1:
-    resolution: {integrity: sha512-8UVbTBYGwN37Bs9LERmxCPjdvPxlEowx2urIL6urHzdb3SDq4B/Z6xLFCblrSnE4iKWcS6ziJ3aOYrc1kz/E2A==}
+  /prettier/2.6.2:
+    resolution: {integrity: sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
@@ -5208,6 +5228,14 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
+    dev: true
+
+  /semver/7.3.6:
+    resolution: {integrity: sha512-HZWqcgwLsjaX1HBD31msI/rXktuIhS+lWvdE4kN9z+8IVT4Itc7vqU2WvYsyD6/sjYCt4dEKH/m1M3dwI9CC5w==}
+    engines: {node: ^10.0.0 || ^12.0.0 || ^14.0.0 || >=16.0.0}
+    hasBin: true
+    dependencies:
+      lru-cache: 7.8.1
     dev: true
 
   /serialize-javascript/4.0.0:
@@ -5749,17 +5777,17 @@ packages:
       is-typedarray: 1.0.0
     dev: true
 
-  /typedoc-plugin-markdown/3.11.14_typedoc@0.22.13:
-    resolution: {integrity: sha512-lh47OQvl0079nB18YL9wuTRRhMpjo300SZKfx/xpQY8qG+GINeSxTod95QBELeI0NP81sNtUbemRDrn5nyef4Q==}
+  /typedoc-plugin-markdown/3.12.0_typedoc@0.22.15:
+    resolution: {integrity: sha512-yKl7/KWD8nP6Ot6OzMLLc8wBzN3CmkBoI/YQzxT62a9xmDgxyeTxGbHbkUoSzhKFqMI3SR0AqV6prAhVKbYnxw==}
     peerDependencies:
       typedoc: '>=0.22.0'
     dependencies:
       handlebars: 4.7.7
-      typedoc: 0.22.13_typescript@4.6.3
+      typedoc: 0.22.15_typescript@4.6.3
     dev: true
 
-  /typedoc/0.22.13_typescript@4.6.3:
-    resolution: {integrity: sha512-NHNI7Dr6JHa/I3+c62gdRNXBIyX7P33O9TafGLd07ur3MqzcKgwTvpg18EtvCLHJyfeSthAtCLpM7WkStUmDuQ==}
+  /typedoc/0.22.15_typescript@4.6.3:
+    resolution: {integrity: sha512-CMd1lrqQbFvbx6S9G6fL4HKp3GoIuhujJReWqlIvSb2T26vGai+8Os3Mde7Pn832pXYemd9BMuuYWhFpL5st0Q==}
     engines: {node: '>= 12.10.0'}
     hasBin: true
     peerDependencies:
@@ -5785,8 +5813,8 @@ packages:
     hasBin: true
     dev: true
 
-  /uglify-js/3.15.3:
-    resolution: {integrity: sha512-6iCVm2omGJbsu3JWac+p6kUiOpg3wFO2f8lIXjfEb8RrmLjzog1wTPMmwKB7swfzzqxj9YM+sGUM++u1qN4qJg==}
+  /uglify-js/3.15.4:
+    resolution: {integrity: sha512-vMOPGDuvXecPs34V74qDKk4iJ/SN4vL3Ow/23ixafENYvtrNvtbcgUeugTcUGRGsOF/5fU8/NYSL5Hyb3l1OJA==}
     engines: {node: '>=0.8.0'}
     hasBin: true
     requiresBuild: true

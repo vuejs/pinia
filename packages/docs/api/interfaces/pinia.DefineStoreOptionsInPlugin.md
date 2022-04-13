@@ -39,7 +39,7 @@ Defaults to an empty object if no actions are defined.
 
 #### Defined in
 
-[pinia/src/types.ts:721](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L721)
+[pinia/src/types.ts:721](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L721)
 
 ___
 
@@ -55,7 +55,7 @@ Omit.getters
 
 #### Defined in
 
-[pinia/src/types.ts:645](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L645)
+[pinia/src/types.ts:645](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L645)
 
 ## Methods
 
@@ -100,7 +100,7 @@ Omit.hydrate
 
 #### Defined in
 
-[pinia/src/types.ts:685](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L685)
+[pinia/src/types.ts:685](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L685)
 
 ___
 
@@ -121,4 +121,4 @@ Omit.state
 
 #### Defined in
 
-[pinia/src/types.ts:640](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/types.ts#L640)
+[pinia/src/types.ts:640](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L640)

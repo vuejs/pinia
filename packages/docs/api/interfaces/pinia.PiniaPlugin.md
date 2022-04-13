@@ -31,4 +31,4 @@ nothing.
 
 #### Defined in
 
-[pinia/src/rootStore.ts:140](https://github.com/vuejs/pinia/blob/d96dca2/packages/pinia/src/rootStore.ts#L140)
+[pinia/src/rootStore.ts:140](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/rootStore.ts#L140)

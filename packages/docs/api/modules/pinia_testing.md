@@ -40,4 +40,4 @@ a augmented pinia instance
 
 #### Defined in
 
-[testing/src/testing.ts:80](https://github.com/vuejs/pinia/blob/d96dca2/packages/testing/src/testing.ts#L80)
+[testing/src/testing.ts:92](https://github.com/vuejs/pinia/blob/6ce186f/packages/testing/src/testing.ts#L92)
