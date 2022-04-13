@@ -9,6 +9,6 @@ createTypeDocApp({
   entryPoints: [
     path.resolve(__dirname, '../pinia/src/index.ts'),
     path.resolve(__dirname, '../testing/src/index.ts'),
-    path.resolve(__dirname, '../nuxt/src/index.ts'),
+    path.resolve(__dirname, '../nuxt/src/module.ts'),
   ],
 }).build()

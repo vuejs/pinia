@@ -8,7 +8,7 @@
     "release": "node scripts/release.mjs",
     "size": "pnpm run -r size",
     "build": "pnpm run -r build",
-    "docs:build": "pnpm run -r docs:build --filter ./packages/docs",
+    "docs:build": "pnpm run docs:api && pnpm run -r docs:build --filter ./packages/docs",
     "play": "pnpm run -r play",
     "build:dts": "pnpm run -r build:dts --parallel",
     "lint": "prettier -c --parser typescript \"packages/*/{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
