@@ -90,6 +90,6 @@ If you are using TypeScript or have a `jsconfig.json`, you should also add the t
 }
 ```
 
-Make sure to set `strict: true` or at least `noImplicitAny: true` to get proper typing and completions when using `this.` in store definitions
-
 This will also ensure you have autocompletion 😉 .
+
+Make sure to set `strict: true` or at least `noImplicitAny: true` to avoid typing of `this.` as `any` in store definitions.
