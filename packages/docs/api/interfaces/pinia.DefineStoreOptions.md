@@ -38,7 +38,7 @@ Optional object of actions.
 
 #### Defined in
 
-[pinia/src/types.ts:652](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L652)
+[packages/pinia/src/types.ts:652](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L652)
 
 ___
 
@@ -50,7 +50,7 @@ Optional object of getters.
 
 #### Defined in
 
-[pinia/src/types.ts:645](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L645)
+[packages/pinia/src/types.ts:645](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L645)
 
 ___
 
@@ -62,7 +62,7 @@ Unique string key to identify the store across the application.
 
 #### Defined in
 
-[pinia/src/types.ts:634](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L634)
+[packages/pinia/src/types.ts:634](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L634)
 
 ## Methods
 
@@ -103,7 +103,7 @@ const useStore = defineStore('main', {
 
 #### Defined in
 
-[pinia/src/types.ts:685](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L685)
+[packages/pinia/src/types.ts:685](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L685)
 
 ___
 
@@ -120,4 +120,4 @@ correct typings!
 
 #### Defined in
 
-[pinia/src/types.ts:640](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L640)
+[packages/pinia/src/types.ts:640](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L640)

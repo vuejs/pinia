@@ -23,7 +23,7 @@ Defaults to false.
 
 #### Defined in
 
-[testing/src/testing.ts:57](https://github.com/vuejs/pinia/blob/6ce186f/packages/testing/src/testing.ts#L57)
+[packages/testing/src/testing.ts:57](https://github.com/vuejs/pinia/blob/2b998ee/packages/testing/src/testing.ts#L57)
 
 ___
 
@@ -36,7 +36,7 @@ allowing you to only set a few properties that are required in your test.
 
 #### Defined in
 
-[testing/src/testing.ts:27](https://github.com/vuejs/pinia/blob/6ce186f/packages/testing/src/testing.ts#L27)
+[packages/testing/src/testing.ts:27](https://github.com/vuejs/pinia/blob/2b998ee/packages/testing/src/testing.ts#L27)
 
 ___
 
@@ -49,7 +49,7 @@ your application that will be used while testing.
 
 #### Defined in
 
-[testing/src/testing.ts:33](https://github.com/vuejs/pinia/blob/6ce186f/packages/testing/src/testing.ts#L33)
+[packages/testing/src/testing.ts:33](https://github.com/vuejs/pinia/blob/2b998ee/packages/testing/src/testing.ts#L33)
 
 ___
 
@@ -65,7 +65,7 @@ handle this in `createSpy()`.
 
 #### Defined in
 
-[testing/src/testing.ts:42](https://github.com/vuejs/pinia/blob/6ce186f/packages/testing/src/testing.ts#L42)
+[packages/testing/src/testing.ts:42](https://github.com/vuejs/pinia/blob/2b998ee/packages/testing/src/testing.ts#L42)
 
 ___
 
@@ -79,7 +79,7 @@ argument `undefined`. You still have to handle this in `createSpy()`.
 
 #### Defined in
 
-[testing/src/testing.ts:49](https://github.com/vuejs/pinia/blob/6ce186f/packages/testing/src/testing.ts#L49)
+[packages/testing/src/testing.ts:49](https://github.com/vuejs/pinia/blob/2b998ee/packages/testing/src/testing.ts#L49)
 
 ## Methods
 
@@ -114,4 +114,4 @@ with `jest.fn()` in jest projects or `vi.fn()` in vitest projects.
 
 #### Defined in
 
-[testing/src/testing.ts:63](https://github.com/vuejs/pinia/blob/6ce186f/packages/testing/src/testing.ts#L63)
+[packages/testing/src/testing.ts:63](https://github.com/vuejs/pinia/blob/2b998ee/packages/testing/src/testing.ts#L63)

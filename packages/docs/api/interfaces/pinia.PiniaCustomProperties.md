@@ -31,7 +31,7 @@ Nuxt context.
 
 #### Defined in
 
-[nuxt/src/module.ts:68](https://github.com/vuejs/pinia/blob/6ce186f/packages/nuxt/src/module.ts#L68)
+[packages/nuxt/src/module.ts:68](https://github.com/vuejs/pinia/blob/2b998ee/packages/nuxt/src/module.ts#L68)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-[pinia/__tests__/storePlugins.spec.ts:14](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/__tests__/storePlugins.spec.ts#L14)
+[packages/pinia/__tests__/storePlugins.spec.ts:14](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L14)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-[pinia/__tests__/storePlugins.spec.ts:11](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/__tests__/storePlugins.spec.ts#L11)
+[packages/pinia/__tests__/storePlugins.spec.ts:11](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L11)
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 #### Defined in
 
-[pinia/__tests__/storePlugins.spec.ts:12](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/__tests__/storePlugins.spec.ts#L12)
+[packages/pinia/__tests__/storePlugins.spec.ts:12](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L12)
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-[pinia/__tests__/storePlugins.spec.ts:9](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/__tests__/storePlugins.spec.ts#L9)
+[packages/pinia/__tests__/storePlugins.spec.ts:9](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L9)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[pinia/__tests__/storePlugins.spec.ts:10](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/__tests__/storePlugins.spec.ts#L10)
+[packages/pinia/__tests__/storePlugins.spec.ts:10](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L10)
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-[pinia/__tests__/storePlugins.spec.ts:7](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/__tests__/storePlugins.spec.ts#L7)
+[packages/pinia/__tests__/storePlugins.spec.ts:7](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L7)
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 #### Defined in
 
-[pinia/__tests__/storePlugins.spec.ts:13](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/__tests__/storePlugins.spec.ts#L13)
+[packages/pinia/__tests__/storePlugins.spec.ts:13](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L13)
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[pinia/__tests__/storePlugins.spec.ts:8](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/__tests__/storePlugins.spec.ts#L8)
+[packages/pinia/__tests__/storePlugins.spec.ts:8](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L8)
 
 ## Accessors
 
@@ -125,7 +125,7 @@ ___
 
 #### Defined in
 
-[playground/src/main.ts:17](https://github.com/vuejs/pinia/blob/6ce186f/packages/playground/src/main.ts#L17)
+[packages/playground/src/main.ts:17](https://github.com/vuejs/pinia/blob/2b998ee/packages/playground/src/main.ts#L17)
 
 • `set` **route**(`value`): `void`
 
@@ -141,4 +141,4 @@ ___
 
 #### Defined in
 
-[playground/src/main.ts:14](https://github.com/vuejs/pinia/blob/6ce186f/packages/playground/src/main.ts#L14)
+[packages/playground/src/main.ts:14](https://github.com/vuejs/pinia/blob/2b998ee/packages/playground/src/main.ts#L14)

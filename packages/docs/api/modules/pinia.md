@@ -45,7 +45,7 @@ Plugin to extend every store.
 
 #### Defined in
 
-[pinia/src/rootStore.ts:149](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/rootStore.ts#L149)
+[packages/pinia/src/rootStore.ts:149](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L149)
 
 ___
 
@@ -57,7 +57,7 @@ Generic state of a Store
 
 #### Defined in
 
-[pinia/src/types.ts:13](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L13)
+[packages/pinia/src/types.ts:13](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L13)
 
 ___
 
@@ -78,7 +78,7 @@ Store type to build a store.
 
 #### Defined in
 
-[pinia/src/types.ts:470](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L470)
+[packages/pinia/src/types.ts:470](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L470)
 
 ___
 
@@ -97,7 +97,7 @@ Options Store.
 
 #### Defined in
 
-[pinia/src/store.ts:729](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/store.ts#L729)
+[packages/pinia/src/store.ts:729](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/store.ts#L729)
 
 ___
 
@@ -111,7 +111,7 @@ about the kind of store that is passed.
 
 #### Defined in
 
-[pinia/src/types.ts:489](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L489)
+[packages/pinia/src/types.ts:489](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L489)
 
 ___
 
@@ -130,7 +130,7 @@ Options Store.
 
 #### Defined in
 
-[pinia/src/store.ts:742](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/store.ts#L742)
+[packages/pinia/src/store.ts:742](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/store.ts#L742)
 
 ___
 
@@ -165,7 +165,7 @@ Argument of `store.$onAction()`
 
 #### Defined in
 
-[pinia/src/types.ts:243](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L243)
+[packages/pinia/src/types.ts:243](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L243)
 
 ___
 
@@ -187,7 +187,7 @@ TODO: should have only the Id, the Store and Actions to generate the proper obje
 
 #### Defined in
 
-[pinia/src/types.ts:227](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L227)
+[packages/pinia/src/types.ts:227](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L227)
 
 ___
 
@@ -206,7 +206,7 @@ Options Store. Note this unwraps refs.
 
 #### Defined in
 
-[pinia/src/store.ts:755](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/store.ts#L755)
+[packages/pinia/src/store.ts:755](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/store.ts#L755)
 
 ___
 
@@ -239,7 +239,7 @@ Callback of a subscription
 
 #### Defined in
 
-[pinia/src/types.ts:148](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L148)
+[packages/pinia/src/types.ts:148](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L148)
 
 ___
 
@@ -257,7 +257,7 @@ Context object passed to a subscription callback.
 
 #### Defined in
 
-[pinia/src/types.ts:140](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L140)
+[packages/pinia/src/types.ts:140](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L140)
 
 ___
 
@@ -270,7 +270,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:555](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L555)
+[packages/pinia/src/types.ts:555](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L555)
 
 ___
 
@@ -286,7 +286,7 @@ ___
 
 #### Defined in
 
-[pinia/src/types.ts:164](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L164)
+[packages/pinia/src/types.ts:164](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L164)
 
 ___
 
@@ -306,7 +306,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:35](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L35)
+[packages/pinia/src/types.ts:35](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L35)
 
 ___
 
@@ -324,7 +324,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:599](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L599)
+[packages/pinia/src/types.ts:599](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L599)
 
 ___
 
@@ -343,7 +343,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:569](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L569)
+[packages/pinia/src/types.ts:569](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L569)
 
 ___
 
@@ -361,7 +361,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:608](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L608)
+[packages/pinia/src/types.ts:608](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L608)
 
 ___
 
@@ -380,7 +380,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:577](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L577)
+[packages/pinia/src/types.ts:577](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L577)
 
 ___
 
@@ -398,7 +398,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:590](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L590)
+[packages/pinia/src/types.ts:590](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L590)
 
 ___
 
@@ -417,7 +417,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:561](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L561)
+[packages/pinia/src/types.ts:561](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L561)
 
 ___
 
@@ -436,7 +436,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:545](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L545)
+[packages/pinia/src/types.ts:545](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L545)
 
 ___
 
@@ -455,7 +455,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:297](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L297)
+[packages/pinia/src/mapHelpers.ts:297](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L297)
 
 ___
 
@@ -473,7 +473,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:290](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L290)
+[packages/pinia/src/mapHelpers.ts:290](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L290)
 
 ___
 
@@ -495,7 +495,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:141](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L141)
+[packages/pinia/src/mapHelpers.ts:141](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L141)
 
 ___
 
@@ -515,7 +515,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:125](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L125)
+[packages/pinia/src/mapHelpers.ts:125](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L125)
 
 ___
 
@@ -534,7 +534,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:422](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L422)
+[packages/pinia/src/mapHelpers.ts:422](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L422)
 
 ___
 
@@ -552,7 +552,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:412](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L412)
+[packages/pinia/src/mapHelpers.ts:412](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L412)
 
 ___
 
@@ -580,7 +580,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:439](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L439)
+[packages/pinia/src/types.ts:439](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L439)
 
 ___
 
@@ -598,7 +598,7 @@ For internal use **only**.
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:53](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L53)
+[packages/pinia/src/mapHelpers.ts:53](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L53)
 
 ___
 
@@ -616,7 +616,7 @@ For internal use **only**.
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:25](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L25)
+[packages/pinia/src/mapHelpers.ts:25](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L25)
 
 ___
 
@@ -635,7 +635,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:451](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L451)
+[packages/pinia/src/types.ts:451](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L451)
 
 ___
 
@@ -654,7 +654,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:461](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L461)
+[packages/pinia/src/types.ts:461](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L461)
 
 ___
 
@@ -673,7 +673,7 @@ For internal use **only**
 
 #### Defined in
 
-[pinia/src/types.ts:585](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L585)
+[packages/pinia/src/types.ts:585](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L585)
 
 ## Variables
 
@@ -704,7 +704,7 @@ new Vue({
 
 #### Defined in
 
-[pinia/src/vue2-plugin.ts:28](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/vue2-plugin.ts#L28)
+[packages/pinia/src/vue2-plugin.ts:28](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/vue2-plugin.ts#L28)
 
 ## Functions
 
@@ -747,7 +747,7 @@ if (import.meta.hot) {
 
 #### Defined in
 
-[pinia/src/hmr.ts:73](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/hmr.ts#L73)
+[packages/pinia/src/hmr.ts:73](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/hmr.ts#L73)
 
 ___
 
@@ -763,7 +763,7 @@ Creates a Pinia instance to be used by the application
 
 #### Defined in
 
-[pinia/src/createPinia.ts:10](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/createPinia.ts#L10)
+[packages/pinia/src/createPinia.ts:10](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/createPinia.ts#L10)
 
 ___
 
@@ -795,7 +795,7 @@ Creates a `useStore` function that retrieves the store instance
 
 #### Defined in
 
-[pinia/src/store.ts:778](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/store.ts#L778)
+[packages/pinia/src/store.ts:778](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/store.ts#L778)
 
 ▸ **defineStore**<`Id`, `S`, `G`, `A`\>(`options`): [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\>
 
@@ -822,7 +822,7 @@ Creates a `useStore` function that retrieves the store instance
 
 #### Defined in
 
-[pinia/src/store.ts:794](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/store.ts#L794)
+[packages/pinia/src/store.ts:794](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/store.ts#L794)
 
 ▸ **defineStore**<`Id`, `SS`\>(`id`, `storeSetup`, `options?`): [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, [`_ExtractStateFromSetupStore`](pinia.md#_extractstatefromsetupstore)<`SS`\>, [`_ExtractGettersFromSetupStore`](pinia.md#_extractgettersfromsetupstore)<`SS`\>, [`_ExtractActionsFromSetupStore`](pinia.md#_extractactionsfromsetupstore)<`SS`\>\>
 
@@ -849,7 +849,7 @@ Creates a `useStore` function that retrieves the store instance
 
 #### Defined in
 
-[pinia/src/store.ts:809](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/store.ts#L809)
+[packages/pinia/src/store.ts:809](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/store.ts#L809)
 
 ___
 
@@ -865,7 +865,7 @@ Get the currently active pinia if there is any.
 
 #### Defined in
 
-[pinia/src/rootStore.ts:39](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/rootStore.ts#L39)
+[packages/pinia/src/rootStore.ts:39](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L39)
 
 ___
 
@@ -917,7 +917,7 @@ export default {
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:326](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L326)
+[packages/pinia/src/mapHelpers.ts:326](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L326)
 
 ▸ **mapActions**<`Id`, `S`, `G`, `A`\>(`useStore`, `keys`): [`_MapActionsReturn`](pinia.md#_mapactionsreturn)<`A`\>
 
@@ -962,7 +962,7 @@ export default {
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:359](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L359)
+[packages/pinia/src/mapHelpers.ts:359](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L359)
 
 ___
 
@@ -997,7 +997,7 @@ Alias for `mapState()`. You should use `mapState()` instead.
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:285](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L285)
+[packages/pinia/src/mapHelpers.ts:285](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L285)
 
 ▸ **mapGetters**<`Id`, `S`, `G`, `A`, `Keys`\>(`useStore`, `keys`): [`_MapStateReturn`](pinia.md#_mapstatereturn)<`S`, `G`, `Keys`\>
 
@@ -1028,7 +1028,7 @@ Alias for `mapState()`. You should use `mapState()` instead.
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:285](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L285)
+[packages/pinia/src/mapHelpers.ts:285](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L285)
 
 ___
 
@@ -1091,7 +1091,7 @@ export default {
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:194](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L194)
+[packages/pinia/src/mapHelpers.ts:194](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L194)
 
 ▸ **mapState**<`Id`, `S`, `G`, `A`, `Keys`\>(`useStore`, `keys`): [`_MapStateReturn`](pinia.md#_mapstatereturn)<`S`, `G`, `Keys`\>
 
@@ -1137,7 +1137,7 @@ export default {
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:231](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L231)
+[packages/pinia/src/mapHelpers.ts:231](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L231)
 
 ___
 
@@ -1182,7 +1182,7 @@ export default {
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:96](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L96)
+[packages/pinia/src/mapHelpers.ts:96](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L96)
 
 ___
 
@@ -1217,7 +1217,7 @@ added.
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:440](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L440)
+[packages/pinia/src/mapHelpers.ts:440](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L440)
 
 ▸ **mapWritableState**<`Id`, `S`, `G`, `A`\>(`useStore`, `keys`): [`_MapWritableStateReturn`](pinia.md#_mapwritablestatereturn)<`S`\>
 
@@ -1247,7 +1247,7 @@ of a component.
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:458](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L458)
+[packages/pinia/src/mapHelpers.ts:458](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L458)
 
 ___
 
@@ -1270,7 +1270,7 @@ actions and getters
 
 #### Defined in
 
-[pinia/src/rootStore.ts:33](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/rootStore.ts#L33)
+[packages/pinia/src/rootStore.ts:33](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L33)
 
 ___
 
@@ -1294,7 +1294,7 @@ interface if you need are using TypeScript.
 
 #### Defined in
 
-[pinia/src/mapHelpers.ts:66](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/mapHelpers.ts#L66)
+[packages/pinia/src/mapHelpers.ts:66](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/mapHelpers.ts#L66)
 
 ___
 
@@ -1320,7 +1320,7 @@ ___
 
 #### Defined in
 
-[pinia/src/store.ts:87](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/store.ts#L87)
+[packages/pinia/src/store.ts:87](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/store.ts#L87)
 
 ___
 
@@ -1351,4 +1351,4 @@ completely ignored.
 
 #### Defined in
 
-[pinia/src/storeToRefs.ts:21](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/storeToRefs.ts#L21)
+[packages/pinia/src/storeToRefs.ts:21](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/storeToRefs.ts#L21)

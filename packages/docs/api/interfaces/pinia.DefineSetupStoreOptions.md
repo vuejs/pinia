@@ -40,4 +40,4 @@ store defined with a setup function. Note this is always defined
 
 #### Defined in
 
-[pinia/src/types.ts:704](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L704)
+[packages/pinia/src/types.ts:704](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L704)

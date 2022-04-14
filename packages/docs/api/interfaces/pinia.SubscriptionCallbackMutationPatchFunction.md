@@ -29,7 +29,7 @@ DEV ONLY. Array of all the mutations done inside of the callback.
 
 #### Defined in
 
-[pinia/src/types.ts:129](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L129)
+[packages/pinia/src/types.ts:129](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L129)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-[pinia/src/types.ts:81](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L81)
+[packages/pinia/src/types.ts:81](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L81)
 
 ___
 
@@ -61,4 +61,4 @@ Type of the mutation.
 
 #### Defined in
 
-[pinia/src/types.ts:124](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/types.ts#L124)
+[packages/pinia/src/types.ts:124](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L124)

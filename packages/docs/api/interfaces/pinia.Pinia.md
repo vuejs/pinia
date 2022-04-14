@@ -28,7 +28,7 @@ root state
 
 #### Defined in
 
-[pinia/src/rootStore.ts:51](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/rootStore.ts#L51)
+[packages/pinia/src/rootStore.ts:51](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L51)
 
 ## Methods
 
@@ -48,7 +48,7 @@ root state
 
 #### Defined in
 
-[pinia/src/rootStore.ts:46](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/rootStore.ts#L46)
+[packages/pinia/src/rootStore.ts:46](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L46)
 
 ___
 
@@ -70,4 +70,4 @@ Adds a store plugin to extend every store
 
 #### Defined in
 
-[pinia/src/rootStore.ts:58](https://github.com/vuejs/pinia/blob/6ce186f/packages/pinia/src/rootStore.ts#L58)
+[packages/pinia/src/rootStore.ts:58](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L58)
