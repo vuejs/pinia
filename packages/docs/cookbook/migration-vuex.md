@@ -175,7 +175,7 @@ export const useAuthUserStore = defineStore('auth/user', {
 Let's break the above down into steps:
 
 1. Add a required `id` for the store, you may wish to keep this the same as the namespace before
-2. Convert `state` to a function if it was not one already
+2. Convert `state` to a function if it was not done already
 3. Convert `getters`
     1. Remove any getters that return state under the same name (eg. `firstName: (state) => state.firstName`), these are not necessary as you can access any state directly from the store instance
     2. If you need to access other getters, they are on `this` instead of using the second argument. Remember that if you are using `this` then you will have to use a regular function instead of an arrow function. Also note that you will need to specify a return type because of TS limitations, see [here](../core-concepts/getters.md#accessing-other-getters) for more details
