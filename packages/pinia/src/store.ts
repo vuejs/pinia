@@ -216,7 +216,7 @@ function createSetupStore<
       if (isListening) {
         debuggerEvents = event
         // avoid triggering this while the store is being built and the state is being set in pinia
-      } else if (isListening == false && !store._hotUpdating) {
+      } else if (!isListening && !store._hotUpdating) {
         // let patch send all the events together later
         /* istanbul ignore else */
         if (Array.isArray(debuggerEvents)) {
