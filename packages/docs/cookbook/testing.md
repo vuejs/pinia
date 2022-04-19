@@ -127,12 +127,11 @@ Since the store is named _"counter"_, you need to add a matching object to `init
 // somewhere in your test
 const wrapper = mount(Counter, {
   global: {
-    plugins: [createTestingPinia(
-
-  initialState: {
-    counter: { n: 20 }, // start the counter at 20 instead of 0
-  },
-    )],
+    plugins: [createTestingPinia({
+      initialState: {
+        counter: { n: 20 }, // start the counter at 20 instead of 0
+      }
+    })],
   },
 })
 
