@@ -131,7 +131,7 @@ const wrapper = mount(Counter, {
       initialState: {
         counter: { n: 20 }, // start the counter at 20 instead of 0
       }
-  })],
+    })],
   },
 })
 
