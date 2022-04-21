@@ -39,7 +39,7 @@ ___
 
 • **options**: [`DefineStoreOptionsInPlugin`](pinia.DefineStoreOptionsInPlugin.md)<`Id`, `S`, `G`, `A`\>
 
-Current store being extended.
+Options object defining the store passed to `defineStore()`.
 
 #### Defined in
 
