@@ -4,6 +4,7 @@ import sponsors from '../components/sponsors.json'
 import './sponsors.css'
 import { darkStorageConfig } from '../theme/dark-theme'
 import { useDark } from '@vueuse/core'
+import Banner from '../components/Banner.vue'
 
 export const Layout = defineComponent({
   name: 'CustomLayout',
@@ -16,7 +17,8 @@ export const Layout = defineComponent({
         Theme.Layout,
         {},
         {
-          'home-hero': () =>
+          'home-hero': () => h('div', {}, [
+            h(Banner),
             h(
               'div',
               {
@@ -33,7 +35,9 @@ export const Layout = defineComponent({
                   [h('span', 'Watch Video Introduction')]
                 ),
               ]
-            ),
+            )
+          ]),
+          'page-top': () => h(Banner),
           'sidebar-top': () =>
             h('div', { class: 'sponsors sponsors-top' }, [
               h('span', 'Platinum Sponsors'),
