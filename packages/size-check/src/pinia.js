@@ -1,5 +1,5 @@
 import { createPinia, defineStore } from 'pinia'
 
-createPinia()
+export const pinia = createPinia()
 // @ts-ignore
-export default defineStore()
+export const useStore = defineStore()
