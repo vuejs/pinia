@@ -109,7 +109,8 @@ export function createTestingPinia({
   // allow computed to be manually overridden
   pinia._p.push(WritableComputed)
 
-  plugins.forEach((plugin) => pinia.use(plugin))
+  // bypass waiting for the app to be installed to ensure the action stubbing happens last
+  plugins.forEach((plugin) => pinia._p.push(plugin))
 
   const createSpy =
     _createSpy ||

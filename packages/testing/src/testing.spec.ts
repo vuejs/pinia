@@ -224,4 +224,61 @@ describe('Testing', () => {
     store.n++
     expect(store.double).toBe(6)
   })
+
+  it('actions are stubbed even when replaced by other plugins', () => {
+    const spy = jest.fn()
+    mount(Counter, {
+      global: {
+        plugins: [
+          createTestingPinia({
+            plugins: [
+              ({ store }) => {
+                const { increment } = store.increment
+                store.increment = spy
+                spy.mockImplementation(increment)
+              },
+            ],
+          }),
+        ],
+      },
+    })
+    const counter = useCounter()
+
+    counter.increment()
+    counter.increment(5)
+    expect(counter.n).toBe(0)
+    expect(counter.increment).toHaveBeenCalledTimes(2)
+    expect(counter.increment).toHaveBeenLastCalledWith(5)
+    // the actual spy is never called because we stub the action
+    expect(spy).toHaveBeenCalledTimes(0)
+  })
+
+  it('pass through replaced actions in plugins', () => {
+    const spy = jest.fn()
+    mount(Counter, {
+      global: {
+        plugins: [
+          createTestingPinia({
+            stubActions: false,
+            plugins: [
+              ({ store }) => {
+                const { increment } = store.increment
+                store.increment = spy
+                spy.mockImplementation(increment)
+              },
+            ],
+          }),
+        ],
+      },
+    })
+    const counter = useCounter()
+
+    counter.increment()
+    counter.increment(5)
+    expect(counter.n).toBe(0)
+    expect(counter.increment).toHaveBeenCalledTimes(2)
+    expect(counter.increment).toHaveBeenLastCalledWith(5)
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(spy).toHaveBeenLastCalledWith(5)
+  })
 })
