@@ -120,7 +120,8 @@ export function createTestingPinia({
     throw new Error('You must configure the `createSpy` option.')
   }
 
-  pinia.use(({ store, options }) => {
+  // stub actions
+  pinia._p.push(({ store, options }) => {
     Object.keys(options.actions).forEach((action) => {
       store[action] = stubActions ? createSpy() : createSpy(store[action])
     })
