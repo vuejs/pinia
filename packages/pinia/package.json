@@ -69,11 +69,10 @@
   "license": "MIT",
   "devDependencies": {
     "@microsoft/api-extractor": "7.19.2",
-    "@vue/compiler-sfc": "^3.2.30",
-    "@vue/server-renderer": "^3.2.30",
-    "@vue/test-utils": "^2.0.0-rc.17",
-    "vue": "^3.2.30",
-    "vue2": "npm:vue@2"
+    "@vue/compiler-sfc": "^3.2.33",
+    "@vue/server-renderer": "^3.2.33",
+    "@vue/test-utils": "^2.0.0-rc.21",
+    "vue": "^3.2.33"
   },
   "dependencies": {
     "@vue/devtools-api": "^6.1.4",
