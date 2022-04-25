@@ -15,6 +15,7 @@ Depending on what or how you are testing, we need to take care of these three di
     - [Customizing behavior of actions](#customizing-behavior-of-actions)
     - [Specifying the createSpy function](#specifying-the-createspy-function)
     - [Mocking getters](#mocking-getters)
+    - [Pinia Plugins](#pinia-plugins)
   - [E2E tests](#e2e-tests)
   - [Unit test components (Vue 2)](#unit-test-components-vue-2)
 
@@ -201,6 +202,27 @@ counter.double = 3 // 🪄 getters are writable only in tests
 // @ts-expect-error: usually it's a number
 counter.double = undefined
 counter.double // 2 (=1 x 2)
+```
+
+### Pinia Plugins
+
+If you have any pinia plugins, make sure to pass them when calling `createTestingPinia()` so they are properly applied. **Do not add them with `testingPinia.use(MyPlugin)`** like you would do with a regular pinia:
+
+```js
+import { createTestingPinia } from '@pinia/testing'
+import { somePlugin } from '../src/stores/plugin'
+
+// inside some test
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [
+      createTestingPinia({
+        stubActions: false,
+        plugins: [somePlugin],
+      }),
+    ],
+  },
+})
 ```
 
 ## E2E tests
