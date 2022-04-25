@@ -281,4 +281,35 @@ describe('Testing', () => {
     expect(spy).toHaveBeenCalledTimes(2)
     expect(spy).toHaveBeenLastCalledWith(5)
   })
+
+  it('can override computed added in plugins', () => {
+    const pinia = createTestingPinia({
+      plugins: [
+        ({ store }) => {
+          store.triple = computed(() => store.n * 3)
+        },
+      ],
+    })
+
+    const store = useCounter(pinia)
+    store.n++
+    // @ts-expect-error: non declared
+    expect(store.triple).toBe(3)
+    // once the getter is overridden, it stays
+    // @ts-expect-error: non declared
+    store.triple = 10
+    // @ts-expect-error: non declared
+    expect(store.triple).toBe(10)
+    store.n++
+    // @ts-expect-error: non declared
+    expect(store.triple).toBe(10)
+    // it can be set to undefined again to reset
+    // @ts-expect-error
+    store.triple = undefined
+    // @ts-expect-error: non declared
+    expect(store.triple).toBe(6)
+    store.n++
+    // @ts-expect-error: non declared
+    expect(store.triple).toBe(9)
+  })
 })
