@@ -117,7 +117,9 @@ export function createTestingPinia({
     (typeof vi !== 'undefined' && vi.fn)
   /* istanbul ignore if */
   if (!createSpy) {
-    throw new Error('You must configure the `createSpy` option.')
+    throw new Error(
+      '[@pinia/testing]: You must configure the `createSpy` option.'
+    )
   }
 
   // stub actions
