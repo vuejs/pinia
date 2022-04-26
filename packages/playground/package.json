@@ -12,12 +12,10 @@
     "vite": "^2.8.1"
   },
   "dependencies": {
-    "@vue/compiler-sfc": "^3.2.30",
     "@vueuse/core": "^7.6.1",
     "mande": "^1.0.0",
     "pinia": "^2.0.0-rc.4",
     "swrv": "^1.0.0-beta.8",
-    "vue": "^3.2.30",
     "vue-promised": "^2.2.0",
     "vue-router": "^4.0.12"
   }

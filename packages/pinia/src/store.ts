@@ -200,6 +200,7 @@ function createSetupStore<
   )
 
   /* istanbul ignore if */
+  // @ts-expect-error: active is an internal property
   if (__DEV__ && !pinia._e.active) {
     throw new Error('Pinia destroyed')
   }
