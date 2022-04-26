@@ -5,7 +5,7 @@ const useSetupStore = defineStore('name', () => {
   const count = ref(0)
   const double = computed(() => count.value * 2)
   const triple = computed({
-    get: () => count.value * 2,
+    get: () => count.value * 3,
     set: (tripled) => {
       count.value = Math.round(tripled / 3)
     },
