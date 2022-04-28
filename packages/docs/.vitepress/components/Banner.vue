@@ -39,7 +39,9 @@ export default {
     }
   },
   mounted () {
-    this.isVisible = !localStorage.getItem('VS_FW_22')
+    const now = new Date()
+    const end = new Date('2022-05-04T00:00:00+02:00')
+    this.isVisible = !localStorage.getItem('VS_FW_22') && (now < end)
     if (this.isVisible) document.body.classList.add('has-top-banner')
   },
   methods: {
