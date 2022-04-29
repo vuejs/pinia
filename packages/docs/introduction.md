@@ -99,7 +99,7 @@ export default {
     // other computed properties
     // ...
     // gives access to this.counterStore and this.userStore
-    ...mapStores(useCounterStore, useUserStore)
+    ...mapStores(useCounterStore, useUserStore),
     // gives read access to this.count and this.double
     ...mapState(useCounterStore, ['count', 'double']),
   },
