@@ -202,7 +202,7 @@ describe('Subscriptions', () => {
       expect(spy2).toHaveBeenCalledTimes(1)
     })
 
-    it.skip('triggers pre subscriptions only once on $patch', async () => {
+    it('triggers pre subscriptions only once on $patch', async () => {
       const s1 = useStore()
       const spy1 = jest.fn()
 
@@ -216,7 +216,7 @@ describe('Subscriptions', () => {
       // adding an extra await works
       // await false
       // adding any other delay also works
-      await delay(20)
+      // await delay(20)
       // await nextTick()
       expect(spy1).toHaveBeenCalledTimes(1)
       expect(spy1).not.toHaveBeenCalledWith(

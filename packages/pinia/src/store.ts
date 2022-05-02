@@ -252,6 +252,9 @@ function createSetupStore<
 
   const hotState = ref({} as S)
 
+  // avoid triggering too many listeners
+  // https://github.com/vuejs/pinia/issues/1129
+  let activeListener: Symbol | undefined
   function $patch(stateMutation: (state: UnwrapRef<S>) => void): void
   function $patch(partialState: _DeepPartial<UnwrapRef<S>>): void
   function $patch(
@@ -282,8 +285,11 @@ function createSetupStore<
         events: debuggerEvents as DebuggerEvent[],
       }
     }
+    const myListenerId = (activeListener = Symbol())
     nextTick().then(() => {
-      isListening = true
+      if (activeListener === myListenerId) {
+        isListening = true
+      }
     })
     isSyncListening = true
     // because we paused the watcher, we need to manually call the subscriptions
