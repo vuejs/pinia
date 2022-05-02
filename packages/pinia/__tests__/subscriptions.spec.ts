@@ -2,8 +2,6 @@ import { createPinia, defineStore, MutationType, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 
-const delay = (t: number) => new Promise((r) => setTimeout(r, t))
-
 describe('Subscriptions', () => {
   const useStore = defineStore({
     id: 'main',
