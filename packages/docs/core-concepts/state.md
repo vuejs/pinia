@@ -69,8 +69,6 @@ const useCounterStore = defineStore('counterStore', {
 })
 ```
 
-#### Without `setup()`
-
 If you are not using the Composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
 
 ```js
