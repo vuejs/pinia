@@ -163,7 +163,7 @@ function createOptionsStore<
     )
   }
 
-  store = createSetupStore(id, setup, options, pinia, hot)
+  store = createSetupStore(id, setup, options, pinia, hot, true)
 
   store.$reset = function $reset() {
     const newState = state ? state() : {}
@@ -189,10 +189,10 @@ function createSetupStore<
     | DefineSetupStoreOptions<Id, S, G, A>
     | DefineStoreOptions<Id, S, G, A> = {},
   pinia: Pinia,
-  hot?: boolean
+  hot?: boolean,
+  isOptionsStore?: boolean
 ): Store<Id, S, G, A> {
   let scope!: EffectScope
-  const buildState = (options as DefineStoreOptions<Id, S, G, A>).state
 
   const optionsForPlugin: DefineStoreOptionsInPlugin<Id, S, G, A> = assign(
     { actions: {} as A },
@@ -241,7 +241,7 @@ function createSetupStore<
 
   // avoid setting the state for option stores are it is set
   // by the setup
-  if (!buildState && !initialState && (!__DEV__ || !hot)) {
+  if (!isOptionsStore && !initialState && (!__DEV__ || !hot)) {
     /* istanbul ignore if */
     if (isVue2) {
       set(pinia.state.value, $id, {})
@@ -459,7 +459,7 @@ function createSetupStore<
         set(hotState.value, key, toRef(setupStore as any, key))
         // createOptionStore directly sets the state in pinia.state.value so we
         // can just skip that
-      } else if (!buildState) {
+      } else if (!isOptionsStore) {
         // in setup stores we must hydrate the state and sync pinia state tree with the refs the user just created
         if (initialState && shouldHydrate(prop)) {
           if (isRef(prop)) {
@@ -507,7 +507,7 @@ function createSetupStore<
     } else if (__DEV__) {
       // add getters for devtools
       if (isComputed(prop)) {
-        _hmrPayload.getters[key] = buildState
+        _hmrPayload.getters[key] = isOptionsStore
           ? // @ts-expect-error
             options.getters[key]
           : prop
@@ -605,7 +605,7 @@ function createSetupStore<
       // TODO: does this work in both setup and option store?
       for (const getterName in newStore._hmrPayload.getters) {
         const getter: _Method = newStore._hmrPayload.getters[getterName]
-        const getterValue = buildState
+        const getterValue = isOptionsStore
           ? // special handling of options api
             computed(() => {
               setActivePinia(pinia)
@@ -710,7 +710,7 @@ function createSetupStore<
   // only apply hydrate to option stores with an initial state in pinia
   if (
     initialState &&
-    buildState &&
+    isOptionsStore &&
     (options as DefineStoreOptions<Id, S, G, A>).hydrate
   ) {
     ;(options as DefineStoreOptions<Id, S, G, A>).hydrate!(
@@ -723,11 +723,6 @@ function createSetupStore<
   isSyncListening = true
   return store
 }
-
-// export function disposeStore(store: StoreGeneric) {
-//   store._e
-
-// }
 
 /**
  * Extract the actions of a store type. Works with both a Setup Store or an
