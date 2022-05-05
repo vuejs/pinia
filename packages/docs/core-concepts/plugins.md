@@ -109,20 +109,25 @@ If you want to add new state properties to a store or properties that are meant 
 - On the `store` so you can access it with `store.myState`
 - On `store.$state` so it can be used in devtools and, **be serialized during SSR**.
 
-Note that this allows you to share a `ref` or `computed` property:
+On top of that, you will certainly have to use a `ref()` (or other reactive API) in order to share the value across different accesses:
 
 ```js
-const globalSecret = ref('secret')
-pinia.use(({ store }) => {
-  // `secret` is shared among all stores
-  store.$state.secret = globalSecret
-  store.secret = globalSecret
-  // it gets automatically unwrapped
-  store.secret // 'secret'
+import { toRef, ref } from 'vue'
 
-  const hasError = ref(false)
-  store.$state.hasError = hasError
-  // this one must always be set
+pinia.use(({ store }) => {
+  // to correctly handle SSR, we need to make sure we are not overriding an
+  // existing value
+  if (!Object.prototype.hasOwnProperty(store.$state, 'hasError')) {
+    // hasError is defined within the plugin, so each store has their individual
+    // state property
+    const hasError = ref(false)
+    // setting the variable on `$state`, allows it be serialized during SSR
+    store.$state.hasError = hasError
+  }
+  // we need to transfer the ref from the state to the store, this way
+  // both accesses: store.hasError and store.$state.hasError will work
+  // and share the same variable
+  // See https://vuejs.org/api/reactivity-utilities.html#toref
   store.hasError = toRef(store.$state, 'hasError')
 
   // in this case it's better not to return `hasError` since it
@@ -137,19 +142,19 @@ Note that state changes or additions that occur within a plugin (that includes c
 If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats) as Vue. You will need to use `set` from `@vue/composition-api` when creating new state properties like `secret` and `hasError`:
 
 ```js
-import { set } from '@vue/composition-api'
+import { set, toRef } from '@vue/composition-api'
 pinia.use(({ store }) => {
-  if (!store.$state.hasOwnProperty('hello')) {
+  if (!Object.prototype.hasOwnProperty(store.$state, 'hello')) {
     const secretRef = ref('secret')
     // If the data is meant to be used during SSR, you should
     // set it on the `$state` property so it is serialized and
     // picked up during hydration
     set(store.$state, 'secret', secretRef)
-    // set it directly on the store too so you can access it
-    // both ways: `store.$state.secret` / `store.secret`
-    set(store, 'secret', secretRef)
-    store.secret // 'secret'
   }
+  // set it directly on the store too so you can access it
+  // both ways: `store.$state.secret` / `store.secret`
+  set(store, 'secret', toRef(store.$state, 'secret'))
+  store.secret // 'secret'
 })
 ```
 
