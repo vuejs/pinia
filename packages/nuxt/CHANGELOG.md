@@ -1,3 +1,7 @@
+## [0.1.9](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.1.8...@pinia/nuxt@0.1.9) (2022-05-05)
+
+Update build tools
+
 ## [0.1.8](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.1.7...@pinia/nuxt@0.1.8) (2021-12-24)
 
 Override the 0.1.7 version for convenience but no code changes since 0.1.6.

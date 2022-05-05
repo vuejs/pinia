@@ -1,3 +1,11 @@
+## [2.0.14](https://github.com/vuejs/pinia/compare/pinia@2.0.13...pinia@2.0.14) (2022-05-05)
+
+### Bug Fixes
+
+- avoid multiple subscriptions with empty promises ([6c17168](https://github.com/vuejs/pinia/commit/6c17168b03307f257491dbd6c0962d5bfade02cc)), closes [#1129](https://github.com/vuejs/pinia/issues/1129)
+- correctly detect option stores ([11b92fd](https://github.com/vuejs/pinia/commit/11b92fd9e4b1d2402df79de9fc47c32c1b9ce726)), closes [#1272](https://github.com/vuejs/pinia/issues/1272)
+- **devtools:** remove in tests environment ([4aeb0a5](https://github.com/vuejs/pinia/commit/4aeb0a539f7389a628e6c32bb6849ce3cd50cc17))
+
 ## [2.0.13](https://github.com/vuejs/pinia/compare/pinia@2.0.12...pinia@2.0.13) (2022-03-31)
 
 ### Bug Fixes

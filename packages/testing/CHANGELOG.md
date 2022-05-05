@@ -1,3 +1,11 @@
+## [0.0.12](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.11...@pinia/testing@0.0.12) (2022-05-05)
+
+### Bug Fixes
+
+- **testing:** allow overriding plugin computed properties ([ad90fd2](https://github.com/vuejs/pinia/commit/ad90fd24eecca8bd7bff238bcfa039e1a0a7f3d5))
+- **testing:** correct order of plugin installation ([0f789fe](https://github.com/vuejs/pinia/commit/0f789fe1591ef8d2d10a8616c7abac8ad09cdf98))
+- **testing:** stub actions without app ([2e4f6ca](https://github.com/vuejs/pinia/commit/2e4f6ca2e5ba92bc5ba835ebad4ab325a6428a5f))
+
 ## [0.0.11](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.10...@pinia/testing@0.0.11) (2022-03-31)
 
 ### Bug Fixes
