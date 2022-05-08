@@ -142,11 +142,6 @@ describe('Actions', () => {
     expect(() => store.throws()).toThrowError('fail')
   })
 
-  it('throws errors', () => {
-    const store = useStore()
-    expect(() => store.throws()).toThrowError('fail')
-  })
-
   it('throws async errors', async () => {
     const store = useStore()
     expect.assertions(1)
@@ -175,7 +170,7 @@ describe('Actions', () => {
       {
         $id: store.$id,
         simple,
-        // otherwise it would faial
+        // otherwise it would fail
         toggle() {},
       }.simple()
     ).toBe('simple')

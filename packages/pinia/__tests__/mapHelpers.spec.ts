@@ -52,7 +52,6 @@ describe('Map Helpers', () => {
       })
 
       const wrapper = mount(Component, { global: { plugins: [pinia] } })
-      // const store = useStore()
       // @ts-expect-error: by default this shouldn't exist
       expect(wrapper.vm.main).toBeDefined()
       expect(wrapper.vm.mainStore).not.toBeDefined()

@@ -78,7 +78,7 @@ describe('Getters', () => {
     setActivePinia(pinia1)
     const aStore = useA()
 
-    // simulate a different applications
+    // simulate a different application
     setActivePinia(pinia2)
     const bStore = useB()
     bStore.b = 'c'
@@ -151,16 +151,21 @@ describe('Getters', () => {
       expectType<() => number>(b.incrementA)
 
       expect(a.double).toBe(0)
+      expect(a.sum).toBe(0)
       b.incrementA()
       expect(a.double).toBe(2)
+      expect(a.sum).toBe(1)
       a.increment()
       expect(a.double).toBe(4)
+      expect(a.sum).toBe(2)
 
       expect(b.double).toBe(0)
       a.incrementB()
       expect(b.double).toBe(2)
+      expect(a.sum).toBe(3)
       b.increment()
       expect(b.double).toBe(4)
+      expect(a.sum).toBe(4)
     })
   })
 })
