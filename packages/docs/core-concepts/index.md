@@ -64,7 +64,7 @@ export default defineComponent({
       doubleCount,
       // this one will be reactive
       doubleValue: computed(() => store.doubleCount),
-      }
+    }
   },
 })
 ```
