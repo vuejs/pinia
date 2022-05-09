@@ -239,7 +239,7 @@ function createSetupStore<
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
 
-  // avoid setting the state for option stores are it is set
+  // avoid setting the state for option stores if it is set
   // by the setup
   if (!isOptionsStore && !initialState && (!__DEV__ || !hot)) {
     /* istanbul ignore if */
@@ -304,7 +304,7 @@ function createSetupStore<
   const $reset = __DEV__
     ? () => {
         throw new Error(
-          `🍍: Store "${$id}" is build using the setup syntax and does not implement $reset().`
+          `🍍: Store "${$id}" is built using the setup syntax and does not implement $reset().`
         )
       }
     : noop
