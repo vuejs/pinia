@@ -95,17 +95,6 @@ describe('State', () => {
     expect(pinia.state.value.main.nested.n).toBe(3)
   })
 
-  // it('watch', () => {
-  //   setActivePinia(createPinia())
-  //   defineStore({
-  //     id: 'main',
-  //     state: () => ({
-  //       name: 'Eduardo',
-  //       counter: 0,
-  //     }),
-  //   })()
-  // })
-
   it('state can be watched', async () => {
     const store = useStore()
     const spy = jest.fn()

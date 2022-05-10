@@ -78,7 +78,7 @@ describe('Getters', () => {
     setActivePinia(pinia1)
     const aStore = useA()
 
-    // simulate a different applications
+    // simulate a different application
     setActivePinia(pinia2)
     const bStore = useB()
     bStore.b = 'c'
