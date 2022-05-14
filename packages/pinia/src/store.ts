@@ -324,6 +324,29 @@ function createSetupStore<
    * @returns a wrapped action to handle subscriptions
    */
   function wrapAction(name: string, action: _Method) {
+    function triggerAfterCallbacks (
+      afterCallbackList: Array<(resolvedReturn: any) => any>,
+      value: any
+    ) {
+      const results = triggerSubscriptions(afterCallbackList, value).filter(result => result !== undefined)
+      if (results.length > 1) {
+        console.warn(`🍍: Action result was overwritten multiple times (${results.length}) with 'action.after()'.`)
+      }
+
+      // ? Return the last one.
+      return results.length > 0 ? results[results.length - 1] : value
+    }
+
+    function triggerOnErrorCallbacks (
+      onErrorCallbackList: Array<(error: unknown) => unknown>,
+      error: unknown
+    ) {
+      const onErrorResults = triggerSubscriptions(onErrorCallbackList, error)
+      if (!onErrorResults.includes(false)) {
+        throw error
+      }
+    }
+
     return function (this: any) {
       setActivePinia(pinia)
       const args = Array.from(arguments)
@@ -351,25 +374,21 @@ function createSetupStore<
         ret = action.apply(this && this.$id === $id ? this : store, args)
         // handle sync errors
       } catch (error) {
-        triggerSubscriptions(onErrorCallbackList, error)
-        throw error
+        triggerOnErrorCallbacks(onErrorCallbackList, error)
       }
 
       if (ret instanceof Promise) {
         return ret
           .then((value) => {
-            triggerSubscriptions(afterCallbackList, value)
-            return value
+            return triggerAfterCallbacks(afterCallbackList, value)
           })
           .catch((error) => {
-            triggerSubscriptions(onErrorCallbackList, error)
-            return Promise.reject(error)
+            triggerOnErrorCallbacks(onErrorCallbackList, error)
           })
       }
 
       // allow the afterCallback to override the return value
-      triggerSubscriptions(afterCallbackList, ret)
-      return ret
+      return triggerAfterCallbacks(afterCallbackList, ret)
     }
   }
 

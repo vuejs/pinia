@@ -202,6 +202,10 @@ const unsubscribe = someStore.$onAction(
           Date.now() - startTime
         }ms.\nResult: ${result}.`
       )
+
+      // returning a value will override action's return value.
+      // this should be done only once.
+      return result * 2
     })
 
     // this will trigger if the action throws or returns a promise that rejects
@@ -209,6 +213,9 @@ const unsubscribe = someStore.$onAction(
       console.warn(
         `Failed "${name}" after ${Date.now() - startTime}ms.\nError: ${error}.`
       )
+
+      // returning false will stop error from propagating.
+      return false;
     })
   }
 )

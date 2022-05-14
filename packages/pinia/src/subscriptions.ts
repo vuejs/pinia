@@ -29,8 +29,12 @@ export function addSubscription<T extends _Method>(
 export function triggerSubscriptions<T extends _Method>(
   subscriptions: T[],
   ...args: Parameters<T>
-) {
-  subscriptions.slice().forEach((callback) => {
-    callback(...args)
-  })
+) : any[] {
+    const allResults: Array<any> = []
+
+    subscriptions.slice().forEach((callback) => {
+      allResults.push(callback(...args))
+    })
+
+    return allResults
 }
