@@ -198,18 +198,11 @@ export interface _StoreOnActionListenerContext<
 
   /**
    * Sets up a hook once the action is finished. It receives the return value
-   * of the action, if it's a Promise, it will be unwrapped. Can return a
-   * value (other than `undefined`) to **override** the returned value.
+   * of the action, if it's a Promise, it will be unwrapped.
    */
   after: (
     callback: A extends Record<ActionName, _Method>
-      ? (
-          resolvedReturn: _Awaited<ReturnType<A[ActionName]>>
-          // allow the after callback to override the return value
-        ) =>
-          | void
-          | ReturnType<A[ActionName]>
-          | _Awaited<ReturnType<A[ActionName]>>
+      ? (resolvedReturn: _Awaited<ReturnType<A[ActionName]>>) => void
       : () => void
   ) => void
 
@@ -217,7 +210,7 @@ export interface _StoreOnActionListenerContext<
    * Sets up a hook if the action fails. Return `false` to catch the error and
    * stop it fro propagating.
    */
-  onError: (callback: (error: unknown) => unknown | false) => void
+  onError: (callback: (error: unknown) => void) => void
 }
 
 /**
