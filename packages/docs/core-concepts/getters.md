@@ -184,8 +184,8 @@ const useCounterStore = defineStore('counterStore', {
     counter: 0
   }),
   getters: {
-    doubleCounter() {
-      return this.counter * 2
+    doubleCounter(state) {
+      return state.counter * 2
     }
   }
 })
