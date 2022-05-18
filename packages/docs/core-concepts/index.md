@@ -86,7 +86,7 @@ export default defineComponent({
 
     return {
       name,
-      doubleCount
+      doubleCount,
       increment,
     }
   },
