@@ -84,6 +84,13 @@ const skipHydrateSymbol = __DEV__
   : /* istanbul ignore next */ Symbol()
 const skipHydrateMap = /*#__PURE__*/ new WeakMap<any, any>()
 
+/**
+ * Tells Pinia to skip the hydration process of a given object. This is useful in setup stores (only) when you return a
+ * stateful object in the store but it isn't really state. e.g. returning a router instance in a setup store.
+ *
+ * @param obj - target object
+ * @returns obj
+ */
 export function skipHydrate<T = any>(obj: T): T {
   return isVue2
     ? // in @vue/composition-api, the refs are sealed so defineProperty doesn't work...
