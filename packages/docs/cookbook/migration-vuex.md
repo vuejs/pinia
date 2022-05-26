@@ -208,7 +208,7 @@ export default defineComponent({
     const store = useStore()
 
     const firstName = computed(() => store.state.auth.user.firstName)
-    const fullName = computed(() => store.getters['auth/user/firstName'])
+    const fullName = computed(() => store.getters['auth/user/fullName'])
 
     return {
       firstName,
