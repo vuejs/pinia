@@ -362,5 +362,33 @@ describe('State', () => {
       expect(main.myCustom).toBe(1)
       expect(spy).toHaveBeenCalledTimes(4)
     })
+
+    // TODO: should warn of nested skipHydrate() calls
+    it.todo('hydrates custom nested refs setup', async () => {
+      const pinia = createPinia()
+      pinia.state.value.main = { a: { myCustom: 24 } }
+
+      setActivePinia(pinia)
+
+      const useMainOptions = defineStore('main', () => ({
+        a: ref({
+          myCustom: skipHydrate(useCustomRef()),
+        }),
+      }))
+
+      const main = useMainOptions()
+
+      // 0 because it skipped hydration
+      expect(main.a.myCustom).toBe(0)
+      expect(spy).toHaveBeenCalledTimes(0)
+      main.a.myCustom++
+      main.$state.a.myCustom++
+      main.$patch({ a: { myCustom: 0 } })
+      main.$patch((state) => {
+        state.a.myCustom++
+      })
+      expect(main.a.myCustom).toBe(1)
+      expect(spy).toHaveBeenCalledTimes(4)
+    })
   })
 })
