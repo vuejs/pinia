@@ -364,7 +364,7 @@ describe('State', () => {
     })
 
     // TODO: should warn of nested skipHydrate() calls
-    it.todo('hydrates custom nested refs setup', async () => {
+    it.skip('hydrates custom nested refs setup', async () => {
       const pinia = createPinia()
       pinia.state.value.main = { a: { myCustom: 24 } }
 
