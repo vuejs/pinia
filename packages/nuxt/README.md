@@ -13,9 +13,14 @@ npm i @pinia/nuxt
 Add to `buildModules` in `nuxt.config.js`:
 
 ```js
+// Nuxt 2
 export default {
   buildModules: [['@pinia/nuxt', { disableVuex: true }]],
 }
+// Nuxt 3
+export default defineNuxtConfig({
+    modules: ['@pinia/nuxt'],
+})
 ```
 
 Note you also need `@nuxtjs/composition-api` if you are using Nuxt 2 without Bridge. [Refer to docs for more](https://pinia.vuejs.org/ssr/nuxt.html).
