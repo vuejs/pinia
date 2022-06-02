@@ -10,7 +10,7 @@ npm i @pinia/nuxt
 
 ## Usage
 
-Add to `buildModules` in `nuxt.config.js`:
+Add to `modules` (Nuxt 3) or `buildModules` (Nuxt 2) in `nuxt.config.js`:
 
 ```js
 // Nuxt 2
