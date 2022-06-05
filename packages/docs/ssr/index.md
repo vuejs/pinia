@@ -60,7 +60,7 @@ const app = createApp(App)
 app.use(router)
 app.use(pinia)
 
-// after rendering the page, the root state is build and can be read directly
+// after rendering the page, the root state is built and can be read directly
 // on `pinia.state.value`.
 
 // serialize, escape (VERY important if the content of the state can be changed
