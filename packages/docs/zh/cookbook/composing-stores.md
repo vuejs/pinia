@@ -42,7 +42,7 @@ const useY = defineStore('y', () => {
 
 ## 嵌套 store{#nested-stores}
 
-请注意，如果一个 store 使用另一个 store，**没有必要在一个单独的文件中创建一个新的商店**，你可以直接导入它。把它看作是嵌套。
+请注意，如果一个 store 使用另一个 store，**没有必要在一个单独的文件中创建一个新的 store**，你可以直接导入它。把它看作是嵌套。
 
 你可以在任何 getter 或 action 的顶部调用 `useOtherStore()`：
 

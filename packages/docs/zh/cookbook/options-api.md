@@ -10,7 +10,7 @@
 
 ## 给予整个 store 的访问权{#giving-access-to-the-whole-store}
 
-如果你需要访问 store 里的几乎所有东西，映射 store 的每一个属性可能太麻烦。相反，你可以用 `mapStores()` 来获得对整个商店的访问。
+如果你需要访问 store 里的几乎所有东西，映射 store 的每一个属性可能太麻烦。相反，你可以用 `mapStores()` 来获得对整个 store 的访问。
 
 ```js
 import { mapStores } from 'pinia'

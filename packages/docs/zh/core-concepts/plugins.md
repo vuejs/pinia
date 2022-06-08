@@ -10,7 +10,7 @@
 - 实现副效果，如[本地存储](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 - **仅**适用于特定 store
 
-插件是通过 `pinia.use()` 添加到 pinia 实例的。最简单的例子是通过返回一个对象将一个静态属性添加到所有商店。
+插件是通过 `pinia.use()` 添加到 pinia 实例的。最简单的例子是通过返回一个对象将一个静态属性添加到所有 store。
 
 ```js
 import { createPinia } from 'pinia'
@@ -89,12 +89,12 @@ pinia.use(({ store }) => {
 ```js
 const sharedRef = ref('shared')
 pinia.use(({ store }) => {
-  // 每个商店都有其独立的 `hello` 属性
+  // 每个 store 都有其独立的 `hello` 属性
   store.hello = ref('secret')
   // 它会被自动解包
   store.hello // 'secret'
 
-  // 所有的商店都在共享 `shared` 属性的值
+  // 所有的 store 都在共享 `shared` 属性的值
   store.shared = sharedRef
   store.shared // 'shared'
 })
@@ -145,7 +145,7 @@ pinia.use(({ store }) => {
     // 你应该将其设置在`$state'属性上
     // 这样它就会被序列化并在 hydration 过程中被拾取
     set(store.$state, 'secret', secretRef)
-    // 直接在商店里设置，这样你就可以访问它了。
+    // 直接在 store 里设置，这样你就可以访问它了。
     // 两种方式都可以：`store.$state.secret` / `store.secret`。
     set(store, 'secret', secretRef)
     store.secret // 'secret'

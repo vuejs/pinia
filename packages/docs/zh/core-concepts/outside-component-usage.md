@@ -1,6 +1,6 @@
 # 在组件外使用一个 store{#using-a-store-outside-of-a-component}
 
-Pinia store 依靠 `pinia` 实例在所有调用中共享同一个商店实例。大多数时候，只需调用你的 `useStore()` 函数，非常开箱即用。例如，在 `setup()` 中，你不需要做任何其他事情。但在组件之外，情况就有点不同了。
+Pinia store 依靠 `pinia` 实例在所有调用中共享同一个 store 实例。大多数时候，只需调用你的 `useStore()` 函数，非常开箱即用。例如，在 `setup()` 中，你不需要做任何其他事情。但在组件之外，情况就有点不同了。
 在幕后，`useStore()` 给你的 `app` 注入了 `pinia` 实例。这意味着，如果 `pinia` 实例不能自动注入，你必须手动提供给 `useStore()` 函数。
 你可以根据你所写的应用程序的种类，以不同的方式解决这个问题。
 
