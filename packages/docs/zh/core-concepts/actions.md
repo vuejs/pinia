@@ -5,7 +5,7 @@
   title="Learn all about actions in Pinia"
 />
 
-Action 相当于组件中的 [method](https://v3.vuejs.org/guide/data-methods.html#methods)。它们可以通过 `defineStore()` 中的 `actions` 属性来定义，**它们也是定义业务逻辑的完美选择。**
+Actions 相当于组件中的 [method](https://v3.vuejs.org/guide/data-methods.html#methods)。它们可以通过 `defineStore()` 中的 `actions` 属性来定义，**它们也是定义业务逻辑的完美选择。**
 
 ```js
 export const useStore = defineStore('main', {
@@ -53,7 +53,7 @@ export const useUsers = defineStore('users', {
 
 你也可以完全自由地设置你想要的任何参数以及返回任何结果。当调用 action 时，一切都可以被自动推断出来。
 
-Action 可以像 methods 一样被调用：
+Actions 可以像 methods 一样被调用：
 
 ```js
 export default defineComponent({

@@ -12,14 +12,14 @@ Pinia [最初](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829
 Pinia 是专属 Vue 的 store 库，它允许你跨组件/页面共享状态。如果你熟悉 Composition API 的话，你可能会认为你可以通过一行简单的 `export const state = reactive({})`来共享一个全局状态。对于单页应用程序来说确实是这样的，但如果在服务器端渲染，这可能会使您的应用程序暴露出一些安全漏洞。 不过若是使用 Pinia，即使在小型单页应用程序中，你也可以获得很多好处：
 
 - Devtools 支持
-  - 追踪 action、mutation 的时间线
+  - 追踪 actions、mutations 的时间线
   - Store 可出现于使用它们的组件中
   - Time travel 以及更容易的调试
 - 热更新
   - 不必重载页面即可修改 Store
   - 开发时可保持现有状态
 - 插件：可通过插件扩展 Pinia 功能
-- 为JS 用户提供恰当的 TypeScript 支持或**自动补全**功能。
+- 为JS 用户提供适当的 TypeScript 支持或**自动补全**功能。
 - 支持服务端渲染
 
 ## 基本示例{#basic-example}

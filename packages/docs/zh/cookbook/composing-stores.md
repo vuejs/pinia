@@ -88,7 +88,7 @@ export const useCartStore = defineStore('cart', {
 })
 ```
 
-## 共享 Action {#shared-actions}
+## 共享 Actions {#shared-actions}
 
 The same applies to _actions_:
 
