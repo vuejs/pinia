@@ -11,7 +11,12 @@ export const useCounter = defineStore('counter-setup', () => {
     numbers: [] as number[],
   })
 
-  const double = computed(() => state.n * 2)
+  const double = computed({
+    get: () => state.n * 2,
+    set: (v) => {
+      state.n = v / 2
+    },
+  })
 
   function increment(amount = 1) {
     if (typeof amount !== 'number') {

@@ -24,6 +24,16 @@
     >
       Direct patch
     </button>
+    <button
+      @click="
+        counter.$patch((state) => {
+          state.double += 2
+          state.incrementedTimes++
+        })
+      "
+    >
+      Patch double
+    </button>
   </p>
 
   <p>

@@ -131,4 +131,34 @@ describe('store with setup syntax', () => {
     expect(store.counter).toBe(2)
     expect(counter.value).toBe(2)
   })
+
+  it('handles writeable computed refs', () => {
+    const counter = ref(1)
+    const double = computed({
+      get: () => counter.value * 2,
+      set(val) {
+        counter.value = val / 2
+      },
+    })
+    const useStore = defineStore('main', () => ({
+      counter,
+      double,
+    }))
+    const store = useStore()
+    expect(store.$state.counter).toBe(1)
+    expect(store.$state.double).toBe(2)
+
+    store.$patch({ counter: 2 })
+    expect(store.$state.double).toBe(4)
+    expect(store.double).toBe(4)
+    expect(double.value).toBe(4)
+
+    store.$patch({ double: 8 })
+    expect(store.$state.counter).toBe(4)
+    expect(store.counter).toBe(4)
+    expect(counter.value).toBe(4)
+    expect(store.$state.double).toBe(8)
+    expect(store.double).toBe(8)
+    expect(double.value).toBe(8)
+  })
 })

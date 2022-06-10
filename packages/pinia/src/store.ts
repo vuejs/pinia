@@ -10,6 +10,7 @@ import {
   markRaw,
   isRef,
   isReactive,
+  isReadonly,
   effectScope,
   EffectScope,
   ComputedRef,
@@ -105,11 +106,6 @@ function shouldHydrate(obj: any) {
 }
 
 const { assign } = Object
-
-function isComputed<T>(value: ComputedRef<T> | unknown): value is ComputedRef<T>
-function isComputed(o: any): o is ComputedRef {
-  return !!(isRef(o) && (o as any).effect)
-}
 
 function createOptionsStore<
   Id extends string,
@@ -460,7 +456,7 @@ function createSetupStore<
   for (const key in setupStore) {
     const prop = setupStore[key]
 
-    if ((isRef(prop) && !isComputed(prop)) || isReactive(prop)) {
+    if ((isRef(prop) || isReactive(prop)) && !isReadonly(prop)) {
       // mark it as a piece of state to be serialized
       if (__DEV__ && hot) {
         set(hotState.value, key, toRef(setupStore as any, key))
@@ -513,7 +509,7 @@ function createSetupStore<
       optionsForPlugin.actions[key] = prop
     } else if (__DEV__) {
       // add getters for devtools
-      if (isComputed(prop)) {
+      if (isReadonly(prop)) {
         _hmrPayload.getters[key] = isOptionsStore
           ? // @ts-expect-error
             options.getters[key]
