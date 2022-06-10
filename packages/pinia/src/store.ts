@@ -149,6 +149,17 @@ function createOptionsStore<
       localState,
       actions,
       Object.keys(getters || {}).reduce((computedGetters, name) => {
+        if (__DEV__) {
+          Object.keys(pinia.state.value[id] || {}).forEach((stateName) => {
+            if (name === stateName) {
+              console.error(
+                `[🍍]: "state" property name cannot be the same as "getters" property name.\n` +
+                  `\tGetter "${name}" is the same as state "${stateName}" in "${id}" store.`
+              )
+            }
+          })
+        }
+
         computedGetters[name] = markRaw(
           computed(() => {
             setActivePinia(pinia)
