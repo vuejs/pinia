@@ -33,12 +33,13 @@ export default defineConfig({
       ],
       exclude: [
         '/node_modules/',
-        'src/index.ts',
+        'packages/**/src/index.ts',
         '\\.d\\.ts$',
-        'src/devtools',
-        'src/hmr',
+        'packages/pinia/src/devtools',
+        'packages/pinia/src/hmr.ts',
+        'packages/pinia/src/globalExtensions.ts',
         'src/deprecated.ts',
-        'src/vue2-plugin.ts',
+        'packages/pinia/src/vue2-plugin.ts',
       ],
     },
     include: [
