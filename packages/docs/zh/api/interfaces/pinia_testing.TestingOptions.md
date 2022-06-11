@@ -57,7 +57,7 @@ ___
 
 • `Optional` **stubActions**: `boolean`
 
-当设置为 false 时， action 只会被监听，它们仍然会执行。当设置为 true 时，action 将被替换为 spies，导致其代码不被执行。默认为 true。注意：当提供 `createSpy()` 时，它将**只**使 `fn` 参数 `undefined`。你仍然需要在 `createSpy()` 中处理这个问题。
+当设置为 false 时， actions 只会被监听，它们仍然会执行。当设置为 true 时，actions 将被替换为 spies，导致其代码不被执行。默认为 true。注意：当提供 `createSpy()` 时，它将**只**使 `fn` 参数 `undefined`。你仍然需要在 `createSpy()` 中处理这个问题。
 
 #### 定义于
 
@@ -81,7 +81,7 @@ ___
 
 ▸ `Optional` **createSpy**(`fn?`): (...`args`: `any`[]) => `any`
 
-用于创建 action 和 `$patch()` 的 spy 的函数。
+用于创建 actions 和 `$patch()` 的 spy 的函数。
 在 jest 项目中使用 `jest.fn()` 预先配置。
 
 #### 参数

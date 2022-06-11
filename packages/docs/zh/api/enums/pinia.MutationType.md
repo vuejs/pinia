@@ -34,7 +34,7 @@ ___
 
 • **patchFunction** = `"patch function"`
 
-用 `$patch` 和一个函数更改了 state：
+通过 `$patch` 和一个函数更改 state：
 
 - `store.$patch(state => state.name = 'newName')`
 
@@ -48,7 +48,7 @@ ___
 
 • **patchObject** = `"patch object"`
 
-用 `$patch` 和一个函数更改了 state：
+通过 `$patch` 和一个对象更改 state：
 
 - `store.$patch({ name: 'newName' })`
 
