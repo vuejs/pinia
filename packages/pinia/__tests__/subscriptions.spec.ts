@@ -16,7 +16,7 @@ describe('Subscriptions', () => {
 
   it('fires callback when patch is applied', () => {
     const store = useStore()
-    const spy = jest.fn()
+    const spy = vitest.fn()
     store.$subscribe(spy, { flush: 'sync' })
     store.$state.user = 'Cleiton'
     expect(spy).toHaveBeenCalledTimes(1)
@@ -31,7 +31,7 @@ describe('Subscriptions', () => {
 
   it('subscribe to changes done via patch', () => {
     const store = useStore()
-    const spy = jest.fn()
+    const spy = vitest.fn()
     store.$subscribe(spy, { flush: 'sync' })
 
     const patch = { user: 'Cleiton' }
@@ -53,7 +53,7 @@ describe('Subscriptions', () => {
     it('calls once inside components with flush ' + flush, async () => {
       const pinia = createPinia()
       setActivePinia(pinia)
-      const spy1 = jest.fn()
+      const spy1 = vitest.fn()
 
       mount(
         {
@@ -90,9 +90,9 @@ describe('Subscriptions', () => {
   })
 
   it('works with multiple different flush', async () => {
-    const spyPre = jest.fn()
-    const spyPost = jest.fn()
-    const spySync = jest.fn()
+    const spyPre = vitest.fn()
+    const spyPost = vitest.fn()
+    const spySync = vitest.fn()
 
     const s1 = useStore()
     s1.$subscribe(spyPre, { flush: 'pre' })
@@ -135,9 +135,9 @@ describe('Subscriptions', () => {
   })
 
   it('works with multiple different flush and multiple state changes', async () => {
-    const spyPre = jest.fn()
-    const spyPost = jest.fn()
-    const spySync = jest.fn()
+    const spyPre = vitest.fn()
+    const spyPost = vitest.fn()
+    const spySync = vitest.fn()
 
     const s1 = useStore()
     s1.$subscribe(spyPre, { flush: 'pre' })
@@ -159,7 +159,7 @@ describe('Subscriptions', () => {
   })
 
   it('unsubscribes callback when unsubscribe is called', () => {
-    const spy = jest.fn()
+    const spy = vitest.fn()
     const store = useStore()
     const unsubscribe = store.$subscribe(spy, { flush: 'sync' })
     unsubscribe()
@@ -168,8 +168,8 @@ describe('Subscriptions', () => {
   })
 
   it('listeners are not affected when unsubscribe is called multiple times', () => {
-    const func1 = jest.fn()
-    const func2 = jest.fn()
+    const func1 = vitest.fn()
+    const func2 = vitest.fn()
     const store = useStore()
     const unsubscribe1 = store.$subscribe(func1, { flush: 'sync' })
     store.$subscribe(func2, { flush: 'sync' })
@@ -185,8 +185,8 @@ describe('Subscriptions', () => {
       const s1 = useStore()
       const s2 = useStore()
 
-      const spy1 = jest.fn()
-      const spy2 = jest.fn()
+      const spy1 = vitest.fn()
+      const spy2 = vitest.fn()
 
       s1.$subscribe(spy1, { flush: 'sync' })
       s2.$subscribe(spy2, { flush: 'sync' })
@@ -202,7 +202,7 @@ describe('Subscriptions', () => {
 
     it('triggers pre subscriptions only once on $patch', async () => {
       const s1 = useStore()
-      const spy1 = jest.fn()
+      const spy1 = vitest.fn()
 
       s1.$subscribe(spy1, { flush: 'pre' })
 
@@ -235,8 +235,8 @@ describe('Subscriptions', () => {
     it('removes on unmount', async () => {
       const pinia = createPinia()
       setActivePinia(pinia)
-      const spy1 = jest.fn()
-      const spy2 = jest.fn()
+      const spy1 = vitest.fn()
+      const spy2 = vitest.fn()
 
       const wrapper = mount(
         {
@@ -289,7 +289,7 @@ describe('Subscriptions', () => {
   })
 
   it('subscribe is post by default', async () => {
-    const spy = jest.fn()
+    const spy = vitest.fn()
     const store = useStore()
     store.$subscribe(spy)
     store.$state.user = 'Cleiton'
@@ -306,8 +306,8 @@ describe('Subscriptions', () => {
   })
 
   it('subscribe once with patch', () => {
-    const spy1 = jest.fn()
-    const spy2 = jest.fn()
+    const spy1 = vitest.fn()
+    const spy2 = vitest.fn()
     const store = useStore()
     function once() {
       const unsubscribe = store.$subscribe(

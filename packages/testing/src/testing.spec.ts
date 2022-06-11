@@ -136,7 +136,8 @@ describe('Testing', () => {
     const counter = useCounter(pinia)
 
     expect(counter.pluginN).toBe(0)
-    expect(pinia.app).toHaveProperty('mount', expect.any(Function))
+    expect(pinia.app).toHaveProperty('mount')
+    expect(pinia.app.mount).toBeTypeOf('function')
   })
 
   it('bypass useStore(pinia)', () => {
@@ -226,7 +227,7 @@ describe('Testing', () => {
   })
 
   it('actions are stubbed even when replaced by other plugins', () => {
-    const spy = jest.fn()
+    const spy = vitest.fn()
     mount(Counter, {
       global: {
         plugins: [
@@ -254,7 +255,7 @@ describe('Testing', () => {
   })
 
   it('pass through replaced actions in plugins', () => {
-    const spy = jest.fn()
+    const spy = vitest.fn()
     mount(Counter, {
       global: {
         plugins: [

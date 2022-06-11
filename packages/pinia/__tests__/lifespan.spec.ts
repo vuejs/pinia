@@ -70,7 +70,7 @@ describe('Store Lifespan', () => {
   it.skip('state reactivity outlives component life', async () => {
     const useStore = defineMyStore()
 
-    const inComponentWatch = jest.fn()
+    const inComponentWatch = vitest.fn()
 
     const Component = defineComponent({
       render: () => null,
@@ -119,7 +119,7 @@ describe('Store Lifespan', () => {
     let n: Ref<number>
     const pinia = createPinia()
     setActivePinia(pinia)
-    const globalWatch = jest.fn()
+    const globalWatch = vitest.fn()
     const destroy = watch(() => pinia.state.value.a?.n, globalWatch)
 
     const useStore = defineStore({

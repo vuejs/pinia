@@ -1,5 +1,5 @@
 import { createPinia, defineStore } from '../src'
-import { mockWarn } from 'jest-mock-warn'
+import { mockWarn } from './mock-warn'
 
 describe('Root State', () => {
   mockWarn()

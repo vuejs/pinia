@@ -1,5 +1,5 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
 import { createPinia, defineStore } from '../src'
 import { Component, createSSRApp, inject, ref, computed, customRef } from 'vue'

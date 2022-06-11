@@ -1,7 +1,7 @@
 import { createPinia, defineStore, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
 import { defineComponent, getCurrentInstance, nextTick, watch } from 'vue'
-import { mockWarn } from 'jest-mock-warn'
+import { mockWarn } from './mock-warn'
 
 describe('Store', () => {
   mockWarn()
@@ -80,7 +80,7 @@ describe('Store', () => {
   it('can be reset', () => {
     const store = useStore()
     store.$state.a = false
-    const spy = jest.fn()
+    const spy = vitest.fn()
     store.$subscribe(spy, { flush: 'sync' })
     expect(spy).not.toHaveBeenCalled()
     store.$reset()
@@ -139,7 +139,7 @@ describe('Store', () => {
 
   it('can replace its state', () => {
     const store = useStore()
-    const spy = jest.fn()
+    const spy = vitest.fn()
     watch(() => store.a, spy, { flush: 'sync' })
     expect(store.a).toBe(true)
 
@@ -202,7 +202,7 @@ describe('Store', () => {
 
     const store = useStore(pinia)
 
-    const spy = jest.fn()
+    const spy = vitest.fn()
     watch(() => store.n, spy)
 
     expect(spy).toHaveBeenCalledTimes(0)
@@ -319,7 +319,7 @@ describe('Store', () => {
     })
 
     const store = useStore(pinia)
-    const spy = jest.fn()
+    const spy = vitest.fn()
 
     store.$subscribe(spy, { flush: 'sync' })
     pinia.state.value.main.n++

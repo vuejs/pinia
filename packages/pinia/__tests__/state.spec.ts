@@ -1,5 +1,6 @@
 import { createPinia, defineStore, setActivePinia, skipHydrate } from '../src'
 import { computed, nextTick, reactive, ref, watch, customRef } from 'vue'
+import { SpyInstance } from 'vitest'
 
 describe('State', () => {
   beforeEach(() => {
@@ -97,7 +98,7 @@ describe('State', () => {
 
   it('state can be watched', async () => {
     const store = useStore()
-    const spy = jest.fn()
+    const spy = vitest.fn()
     watch(() => store.name, spy)
     expect(spy).not.toHaveBeenCalled()
     store.name = 'Ed'
@@ -107,7 +108,7 @@ describe('State', () => {
 
   it('state can be watched when a ref is given', async () => {
     const store = useStore()
-    const spy = jest.fn()
+    const spy = vitest.fn()
     watch(() => store.name, spy)
     expect(spy).not.toHaveBeenCalled()
     const nameRef = ref('Ed')
@@ -279,12 +280,12 @@ describe('State', () => {
   })
 
   describe('custom refs', () => {
-    let spy!: jest.SpyInstance
+    let spy!: SpyInstance
     function useCustomRef() {
       let value = 0
 
       return customRef((track, trigger) => {
-        spy = jest.fn(function (newValue: number) {
+        spy = vitest.fn(function (newValue: number) {
           value = newValue
           trigger()
         })

@@ -158,7 +158,7 @@ describe('store plugins', () => {
     expect(store2.shared).toBe(1)
   })
 
-  it('passes the options of the options store', (done) => {
+  it('passes the options of the options store', async () => {
     const options = {
       id: 'main',
       state: () => ({ n: 0 }),
@@ -178,14 +178,17 @@ describe('store plugins', () => {
     const pinia = createPinia()
     mount({ template: 'none' }, { global: { plugins: [pinia] } })
 
-    pinia.use((context) => {
-      expect(context.options).toEqual(options)
-      done()
+    new Promise((resolve) => {
+      pinia.use((context) => {
+        expect(context.options).toEqual(options)
+        resolve('')
+      })
     })
+
     useStore(pinia)
   })
 
-  it('passes the options of a setup store', (done) => {
+  it('passes the options of a setup store', async () => {
     const useStore = defineStore('main', () => {
       const n = ref(0)
 
@@ -199,15 +202,17 @@ describe('store plugins', () => {
     const pinia = createPinia()
     mount({ template: 'none' }, { global: { plugins: [pinia] } })
 
-    pinia.use((context) => {
-      expect(context.options).toEqual({
-        actions: {
-          increment: expect.any(Function),
-        },
+    new Promise((resolve) => {
+      pinia.use((context) => {
+        expect(context.options).toEqual({
+          actions: {
+            increment: expect.any(Function),
+          },
+        })
+        ;(context.store as any).increment()
+        expect((context.store as any).n).toBe(1)
+        resolve('')
       })
-      ;(context.store as any).increment()
-      expect((context.store as any).n).toBe(1)
-      done()
     })
 
     useStore()
@@ -239,7 +244,7 @@ describe('store plugins', () => {
 
     const store = useStore(pinia)
 
-    const spy = jest.fn()
+    const spy = vitest.fn()
     watch(() => store.double, spy, { flush: 'sync' })
 
     expect(spy).toHaveBeenCalledTimes(0)
@@ -251,7 +256,7 @@ describe('store plugins', () => {
   it('only executes plugins once after multiple installs', async () => {
     const pinia = createPinia()
 
-    const spy = jest.fn()
+    const spy = vitest.fn()
     pinia.use(spy)
 
     for (let i = 0; i < 3; i++) {

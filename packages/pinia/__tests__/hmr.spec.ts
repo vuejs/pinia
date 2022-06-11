@@ -115,8 +115,8 @@ describe('HMR', () => {
         const useStore = defineStore('id', baseSetup)
         const store: any = useStore()
 
-        const directSpy = jest.fn()
-        const $stateSpy = jest.fn()
+        const directSpy = vitest.fn()
+        const $stateSpy = vitest.fn()
 
         watch(() => store.n, directSpy, { flush: 'sync' })
         watch(() => store.$state.n, $stateSpy, { flush: 'sync' })
@@ -232,7 +232,7 @@ describe('HMR', () => {
         const useStore = defineStore('id', baseSetup)
         const store: any = useStore()
 
-        const spy = jest.fn()
+        const spy = vitest.fn()
 
         watch(
           () => {
@@ -357,8 +357,8 @@ describe('HMR', () => {
         const useStore = defineStore('id', baseOptions)
         const store: any = useStore()
 
-        const directSpy = jest.fn()
-        const $stateSpy = jest.fn()
+        const directSpy = vitest.fn()
+        const $stateSpy = vitest.fn()
 
         watch(() => store.n, directSpy, { flush: 'sync' })
         watch(() => store.$state.n, $stateSpy, { flush: 'sync' })
@@ -458,7 +458,7 @@ describe('HMR', () => {
         const useStore = defineStore('id', baseOptions)
         const store: any = useStore()
 
-        const spy = jest.fn()
+        const spy = vitest.fn()
 
         watch(
           () => {
