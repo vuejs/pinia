@@ -123,7 +123,7 @@ Here is a more complete example of the API you will be using with Pinia **with t
 ```js
 import { defineStore } from 'pinia'
 
-export const todos = defineStore('todos', {
+export const useTodos = defineStore('todos', {
   state: () => ({
     /** @type {{ text: string, id: number, isFinished: boolean }[]} */
     todos: [],
