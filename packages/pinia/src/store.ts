@@ -153,8 +153,7 @@ function createOptionsStore<
           Object.keys(pinia.state.value[id] || {}).forEach((stateName) => {
             if (name === stateName) {
               console.warn(
-                `[🍍]: "state" property name cannot be the same as "getters" property name.\n` +
-                  `\tGetter "${name}" is the same as state "${stateName}" in "${id}" store.`
+                `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "${name}" in store "${id}".`
               )
             }
           })
