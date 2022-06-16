@@ -150,7 +150,7 @@ function createOptionsStore<
       actions,
       Object.keys(getters || {}).reduce((computedGetters, name) => {
         if (__DEV__) {
-          Object.keys(pinia.state.value[id] || {}).forEach((stateName) => {
+          Object.keys(localState || {}).forEach((stateName) => {
             if (name === stateName) {
               console.warn(
                 `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "${name}" in store "${id}".`
