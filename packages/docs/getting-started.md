@@ -30,7 +30,7 @@ app.mount('#app')
 
 If you are using Vue 2, you also need to install a plugin and inject the created `pinia` at the root of the app:
 
-```js
+```js{1,3-4,12}
 import { createPinia, PiniaVuePlugin } from 'pinia'
 
 Vue.use(PiniaVuePlugin)
