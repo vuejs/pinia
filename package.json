@@ -10,7 +10,7 @@
     "build": "pnpm run -r build",
     "docs:build": "pnpm run docs:api && pnpm run -r docs:build --filter ./packages/docs",
     "play": "pnpm run -r play",
-    "build:dts": "pnpm run -r build:dts --parallel",
+    "build:dts": "pnpm run -r --parallel build:dts",
     "lint": "prettier -c --parser typescript \"packages/*/{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
     "lint:fix": "pnpm run lint --write",
     "test": "pnpm run test:types && pnpm run test:jest && pnpm run -r test && pnpm run build && pnpm run build:dts && pnpm test:dts",
