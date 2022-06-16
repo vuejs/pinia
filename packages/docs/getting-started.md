@@ -14,12 +14,18 @@ If your app is using Vue 2, you also need to install the composition api: `@vue/
 
 If you are using the Vue CLI, you can instead give this [**unofficial plugin**](https://github.com/wobsoriano/vue-cli-plugin-pinia) a try.
 
-Create a pinia (the root store) and pass it to the app:
+Create a pinia instance (the root store) and pass it to the app as a plugin:
 
-```js
+```js{2,5-6,8}
+import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import App from './App.vue'
 
-app.use(createPinia())
+const pinia = createPinia()
+const app = createApp(App)
+
+app.use(pinia)
+app.mount('#app')
 ```
 
 If you are using Vue 2, you also need to install a plugin and inject the created `pinia` at the root of the app:
