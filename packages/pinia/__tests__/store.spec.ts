@@ -367,9 +367,8 @@ describe('Store', () => {
     expect(warnTextCheckPlainObject('poInit')).toHaveBeenWarnedTimes(0)
   })
 
-  it('only warns when state name conflicts with getters name', () => {
-    const useStore = defineStore({
-      id: 'main',
+  it('warns when state name conflicts with getters name (with id as first argument)', () => {
+    const useStore = defineStore('main', {
       state: () => ({ anyName: 0 }),
       getters: { anyName: (state) => state.anyName },
     })
