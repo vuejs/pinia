@@ -149,6 +149,12 @@ function createOptionsStore<
       localState,
       actions,
       Object.keys(getters || {}).reduce((computedGetters, name) => {
+        if (__DEV__ && name in localState) {
+          console.warn(
+            `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "${name}" in store "${id}".`
+          )
+        }
+
         computedGetters[name] = markRaw(
           computed(() => {
             setActivePinia(pinia)
