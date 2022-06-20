@@ -61,6 +61,7 @@
   --c-yellow: #ffd859;
   --c-yellow-light: #f7d336;
   --c-white-dark: #f8f8f8;
+  --c-white-darker: #e8ede6;
   --c-black: #111827;
   --c-black-light: #161f32;
   --c-black-lighter: #262a44;
@@ -74,6 +75,7 @@
   --c-brand-text: var(--c-text-light-1);
   --c-bg-accent: var(--c-white-dark);
   --code-bg-color: var(--c-white-dark);
+  --code-highlight-bg-color: var(--c-white-darker);
   --code-inline-bg-color: var(--c-white-dark);
   --code-font-family: 'dm', source-code-pro, Menlo, Monaco, Consolas,
     'Courier New', monospace;
@@ -119,6 +121,7 @@ html:not(.light):root {
   --c-bg: var(--c-black);
   --c-bg-accent: var(--c-black-light);
   --code-bg-color: var(--c-black-light);
+  --code-highlight-bg-color: var(--c-black-lighter);
   --code-inline-bg-color: var(--c-black-light);
 }
 

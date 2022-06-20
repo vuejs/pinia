@@ -302,3 +302,7 @@ html.light .token.bold {
 html.light .token.italic {
   font-style: italic;
 }
+
+.highlight-lines .highlighted {
+  background-color: var(--code-highlight-bg-color);
+}
