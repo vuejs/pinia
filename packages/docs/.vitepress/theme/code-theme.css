@@ -303,6 +303,11 @@ html.light .token.italic {
   font-style: italic;
 }
 
+/* Fix https://github.com/vuejs/vitepress/issues/63 */
+.highlight-lines {
+  padding: 20px 0 0 0;
+}
+
 .highlight-lines .highlighted {
   background-color: var(--code-highlight-bg-color);
 }

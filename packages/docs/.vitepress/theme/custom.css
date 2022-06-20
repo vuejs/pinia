@@ -80,6 +80,7 @@
   --code-font-family: 'dm', source-code-pro, Menlo, Monaco, Consolas,
     'Courier New', monospace;
   --code-font-size: 16px;
+  --code-line-height: 1.7;
 }
 
 .custom-block.tip {
