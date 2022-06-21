@@ -1,6 +1,6 @@
-## Installation
+## 설치
 
-Install `pinia` with your favorite package manager:
+선호하는 패키지 관리자를 통해 `pinia`를 설치하세요:
 
 ```bash
 yarn add pinia
@@ -9,12 +9,12 @@ npm install pinia
 ```
 
 :::tip
-If your app is using Vue 2, you also need to install the composition api: `@vue/composition-api`. If you are using Nuxt, you should follow [these instructions](/ssr/nuxt.md).
+만약 당신의 앱이 Vue2를 사용 중이라면, composition api: `@vue/composition-api` 또한 다운받을 필요가 있습니다. 만약 당신의 앱이 Nuxt를 사용 중이라면, 이것을 따르세요 [these instructions](/ssr/nuxt.md).
 :::
 
-If you are using the Vue CLI, you can instead give this [**unofficial plugin**](https://github.com/wobsoriano/vue-cli-plugin-pinia) a try.
+Vue CLI를 사용하는 경우 이 [**비공식 플러그인**](https://github.com/wobsoriano/vue-cli-plugin-pinia)을 대신 사용해 볼 수 있습니다.
 
-Create a pinia instance (the root store) and pass it to the app as a plugin:
+pinia 인스턴스(최상위 저장소)를 만들고 앱에 플러그인으로 전달합니다:
 
 ```js{2,5-6,8}
 import { createApp } from 'vue'
@@ -28,7 +28,7 @@ app.use(pinia)
 app.mount('#app')
 ```
 
-If you are using Vue 2, you also need to install a plugin and inject the created `pinia` at the root of the app:
+만약 앱이 Vue 2를 사용 중이라면, 플러그인을 설치한 후 최상위 앱에 생성된 `pinia`를 삽입해야 합니다:
 
 ```js{1,3-4,12}
 import { createPinia, PiniaVuePlugin } from 'pinia'
@@ -46,16 +46,16 @@ new Vue({
 })
 ```
 
-This will also add devtools support. In Vue 3, some features like time traveling and editing are still not supported because vue-devtools doesn't expose the necessary APIs yet but the devtools have way more features and the developer experience as a whole is far superior. In Vue 2, Pinia uses the existing interface for Vuex (and can therefore not be used alongside it).
+이것은 또한 devtools 지원을 도와줍니다. Vue 3에서는 vue-devtools가 아직 필요한 API를 노출하지 않기 때문에 시간 여행 디버깅 및 편집과 같은 일부 기능이 여전히 지원되지 않지만 devtools에는 훨씬 더 많은 기능이 있고 전체적으로 개발자 경험이 훨씬 우수합니다. Vue 2에서 Pinia는 Vuex용 기존 인터페이스를 사용합니다(따라서 함께 사용할 수 없음).
 
-## What is a Store?
+## Store가 무엇인가요?
 
-A Store (like Pinia) is an entity holding state and business logic that isn't bound to your Component tree. In other words, **it hosts global state**. It's a bit like a component that is always there and that everybody can read off and write to. It has **three concepts**, the [state](./core-concepts/state.md), [getters](./core-concepts/getters.md) and [actions](./core-concepts/actions.md) and it's safe to assume these concepts are the equivalent of `data`, `computed` and `methods` in components.
+Store(Pinia와 같은)는 컴포넌트 트리에 바인딩되지 않은 상태 및 비즈니스 논리를 보유하는 엔터티입니다. 즉, **전역 상태를 호스트합니다**. 항상 존재하고 모든 사람이 읽고 쓸 수 있는 구성 요소와 비슷합니다. [state](./core-concepts/state.md), [getters](./core-concepts/getters.md) 그리고 [actions](./core-concepts/actions.md)의 **세 가지 개념**이 있으며 이러한 개념이 컴포넌트의  `data`, `computed` 및 `methods`와 동일하다고 가정하는 것이 안전합니다.
 
-## When should I use a Store
+## 언제 Store를 사용해야 하나요?
 
-A store should contain data that can be accessed throughout your application. This includes data that is used in many places, e.g. User information that is displayed in the navbar, as well as data that needs to be preserved through pages, e.g. a very complicated multi-step form.
+Store에는 애플리케이션 전체에서 액세스할 수 있는 데이터가 포함되어야 합니다. 여기에는 여러 곳에서 사용되는 데이터가 포함됩니다, 예) 탐색 모음에 표시되는 사용자 정보와 페이지를 통해 보존해야 하는 데이터, 예) 매우 복잡한 다단계 형식.
 
-On the other hand, you should avoid including in the store local data that could be hosted in a component instead, e.g. the visibility of an element local to a page.
+반면에 구성 요소에서 호스팅될 수 있는 로컬 데이터를 스토어에 포함하는 것을 피해야 합니다, e.g. 페이지에 로컬 요소의 가시성.
 
-Not all applications need access to a global state, but if yours need one, Pinia will make your life easier.
+모든 애플리케이션이 전역 상태에 대한 액세스를 필요로 하는 것은 아니지만 필요한 경우 Pinia가 당신의 삶을 더 쉽게 만들어 줄 것입니다.
