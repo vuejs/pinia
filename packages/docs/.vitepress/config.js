@@ -38,7 +38,7 @@ module.exports = {
     '/kr/': {
       lang: 'ko-KR',
       title: 'Pinia',
-      description: '值得你喜欢的 Vue Store',
+      description: '즐겁게 사용할 수 있는 Vue Store',
     },
   },
 
