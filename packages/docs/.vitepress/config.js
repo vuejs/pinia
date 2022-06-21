@@ -266,7 +266,7 @@ module.exports = {
         selectText: '언어',
         editLinkText: '이 페이지에 대한 변경 제안',
         lastUpdated: '마지막 업데이트',
-      
+
         nav: [
           { text: '가이드', link: '/kr/introduction.html' },
           { text: 'API', link: '/kr/api/' },
@@ -294,10 +294,10 @@ module.exports = {
             ],
           },
         ],
-      
+
         sidebar: [
           {
-            text: '소계',
+            text: '소개',
             children: [
               {
                 text: 'Pinia가 무엇인가요？',
