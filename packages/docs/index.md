@@ -10,7 +10,7 @@ altActionLink: https://stackblitz.com/github/piniajs/example-vue-3-vite
 features:
   - title: 💡 직관적인
     details: Store는 컴포넌트와 친숙합니다. 잘 정리된 상점을 작성할 수 있도록 설계된 API입니다.
-  - title: 🔑 Type Safe
+  - title: 🔑 타입에 안정적인
     details: 타입이 자동으로 유추됩니다, 이것은 Store가 자바스크립트에서도 자동 완성 기능을 제공한다는 것을 의미합니다!
   - title: ⚙️ Devtools 지원
     details: Vue2이든 Vue3이든 관계없이 Vue devtools와 함께 사용하는 Pinia는 더 나은 개발 경험을 제공할 수 있습니다.
