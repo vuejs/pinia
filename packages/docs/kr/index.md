@@ -2,7 +2,7 @@
 home: true
 heroImage: /logo.svg
 actionText: 시작하기
-actionLink: /introduction.html
+actionLink: /kr/introduction.html
 
 altActionText: Demo 데모
 altActionLink: https://stackblitz.com/github/piniajs/example-vue-3-vite
