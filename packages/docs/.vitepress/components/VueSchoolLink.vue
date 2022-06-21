@@ -6,12 +6,19 @@
       rel="sponsored noopener"
       :title="title"
     >
-      <slot>Watch a free video lesson on Vue School</slot>
+      <slot>{{ translations[site.lang]}}</slot>
     </a>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useData } from 'vitepress'
+
+const { site } = useData()
+const translations = {
+  'en-US': 'Watch a free video lesson on Vue School',
+  'ko-KR': 'Vue School에서 무료 비디오 강의 보기',
+}
 defineProps<{ href: string; title: string }>()
 </script>
 
