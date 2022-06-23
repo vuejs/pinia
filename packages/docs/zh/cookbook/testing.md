@@ -120,7 +120,7 @@ const useCounterStore = defineStore('counter', {
 })
 ```
 
-Since the store is named _"counter"_, you need to add a matching object to `initialState`:
+由于 store 的名字叫 _"counter"_，所以你需要传递相应的对象给 `initialState`：
 
 ```ts
 // 在你的测试中的某处
@@ -169,11 +169,11 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 import sinon from 'sinon'
 
 createTestingPinia({
-  createSpy: sinon.spy, // use sinon's spy to wrap actions
+  createSpy: sinon.spy, // 使用 sinon's spy 包装 actions
 })
 ```
 
-你可以在[测试包的测试]（https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts）中找到更多的例子。
+你可以在[测试包的测试](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts)中找到更多的例子。
 
 ## 端到端测试{#e2e-tests}
 

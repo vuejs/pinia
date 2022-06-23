@@ -90,7 +90,7 @@ export const useCartStore = defineStore('cart', {
 
 ## 共享 Actions {#shared-actions}
 
-The same applies to _actions_:
+同样适用于 _actions_：
 
 ```js
 import { defineStore } from 'pinia'
