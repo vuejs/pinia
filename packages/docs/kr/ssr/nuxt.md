@@ -1,10 +1,10 @@
 # Nuxt.js
 
-Using Pinia with [Nuxt.js](https://nuxtjs.org/) is easier since Nuxt takes care of a lot of things when it comes to _server side rendering_. For instance, **you don't need to care about serialization nor XSS attacks**.
+Nuxt는 *서버 사이드 렌더링*과 관련하여 많은 것을 처리하므로 [Nuxt.js](https://nuxtjs.org/)와 함께 Pinia를 사용하는 것이 더 쉽습니다 . 예를 들어 직렬화나 XSS 공격에 대해 걱정할 필요가 없습니다 .
 
-## Installation
+## 설치
 
-Make sure to install [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/) alongside `pinia`:
+[`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/)를 `pinia`와 함께 설치해야 합니다.
 
 ```bash
 yarn add pinia @pinia/nuxt @nuxtjs/composition-api
@@ -12,7 +12,7 @@ yarn add pinia @pinia/nuxt @nuxtjs/composition-api
 npm install pinia @pinia/nuxt @nuxtjs/composition-api
 ```
 
-We supply a _module_ to handle everything for you, you only need to add it to `buildModules` in your `nuxt.config.js` file:
+모든 것을 처리할 수 있는 *모듈*을 제공하므로 `nuxt.config.js` 파일의 `buildModules`에 추가하기만 하면 됩니다:
 
 ```js
 // nuxt.config.js
@@ -27,11 +27,11 @@ export default {
 }
 ```
 
-And that's it, use your store as usual!
+그게 전부입니다. 평소와 같이 저장소를 사용하세요!
 
-## Using the store outside of `setup()`
+## 저장소를 `setup()` 밖에서 사용하는 법
 
-If you want to use a store outside of `setup()`, remember to pass the `pinia` object to `useStore()`. We added it to [the context](https://nuxtjs.org/docs/2.x/internals-glossary/context) so you have access to it in `asyncData()` and `fetch()`:
+저장소를 `setup()` 외부에서 사용하려 한다면, `pinia`를 `useStore()`에 전달하는 것을 잊지 마세요. 우리는 [context](https://nuxtjs.org/docs/2.x/internals-glossary/context)에 추가하여 `asyncData()` 및 `fetch()`에서 액세스할 수 있도록 했습니다:
 
 ```js
 import { useStore } from '~/stores/myStore'
@@ -43,9 +43,9 @@ export default {
 }
 ```
 
-## Using the Nuxt context in stores
+## 저장소에서 Nuxt context 사용하기
 
-You can also use [the context](https://nuxtjs.org/docs/2.x/internals-glossary/context) in any store by using the injected property `$nuxt`:
+`$nuxt`를 사용하여 어느 저장소에서나 [context](https://nuxtjs.org/docs/2.x/internals-glossary/context)를 사용할 수도 있습니다:
 
 ```js
 import { useUserStore } from '~/stores/userStore'
@@ -62,9 +62,9 @@ defineStore('cart', {
 })
 ```
 
-## Using Pinia alongside Vuex
+## Vuex와 함께 Pinia 사용하기
 
-It is recommended to **avoid using both Pinia and Vuex** but if you need to use both, you need to tell pinia to not disable it:
+**Pinia와 Vuex를 모두 사용하지 않는 것**이 좋지만 둘 다 사용해야 하는 경우, pinia에게 비활성화하지 않도록 알려야 합니다:
 
 ```js
 // nuxt.config.js
@@ -79,7 +79,7 @@ export default {
 
 ## TypeScript
 
-If you are using TypeScript or have a `jsconfig.json`, you should also add the types for `context.pinia`:
+TypeScript를 사용하거나 `jsconfig.json`이 있는 경우 `context.pinia`에 대한 유형도 추가해야 합니다:
 
 ```json
 {
@@ -90,4 +90,4 @@ If you are using TypeScript or have a `jsconfig.json`, you should also add the t
 }
 ```
 
-This will also ensure you have autocompletion 😉 .
+이렇게만 하면 자동 완성 기능도 보장됩니다 😉.
