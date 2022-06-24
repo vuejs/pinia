@@ -1,11 +1,11 @@
-# Defining a Store
+# Store 정의
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/define-your-first-pinia-store"
   title="Learn how to define and use stores in Pinia"
 />
 
-Before diving into core concepts, we need to know that a store is defined using `defineStore()` and that it requires a **unique** name, passed as the first argument:
+핵심 개념에 대해 알아보기 전에 저장소가 `defineStore()`를 사용하여 정의되고 첫 번째 인수로 전달되는 **고유한** 이름이 필요하다는 것을 알아야 합니다:
 
 ```js
 import { defineStore } from 'pinia'
@@ -17,11 +17,11 @@ export const useStore = defineStore('main', {
 })
 ```
 
-This _name_, also referred as _id_, is necessary and is used by Pinia to connect the store to the devtools. Naming the returned function _use..._ is a convention across composables to make its usage idiomatic.
+*id*라고도 하는 *name*이 필요하며, Pinia에서 스토어를 devtools에 연결하는 데 사용됩니다. 반환된 함수의 이름을 *use...*으로 지정하는 것은 사용법을 관용적으로 만들기 위한 composable 전반에 걸친 규칙입니다.
 
-## Using the store
+## 저장소 사용하기
 
-We are _defining_ a store because the store won't be created until `useStore()` is called inside of `setup()`:
+`setup()` 내부에서 `useStore()`가 호출될 때까지 스토어가 생성되지 않기 때문에 우리는 저장소를 *정의*하고 있습니다:
 
 ```js
 import { useStore } from '@/stores/counter'
@@ -38,13 +38,13 @@ export default {
 }
 ```
 
-You can define as many stores as you want and **you should define each store in a different file** to get the most out of pinia (like automatically allow your bundle to code split and TypeScript inference).
+원하는 만큼 상점을 정의할 수 있으며 pinia를 최대한 활용하려면 (자동으로 번들이 코드 분할을 허용하거나 Typescript 추론하는 등등...) **각 상점을 다른 파일에 정의**해야 합니다.
 
-If you are not using `setup` components yet, [you can still use Pinia with _map helpers_](../cookbook/options-api.md).
+아직 `setup` 컴포넌트를 사용하지 않는 경우에도 [*map helpers*와 함께 Pinia를 사용할 수 있습니다](../cookbook/options-api.md).
 
-Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will see these in detail in the next pages but autocompletion will help you.
+상점이 인스턴스화되면 상점에서 직접 'state', 'getters' 및 'actions'에 정의된 모든 속성에 액세스할 수 있습니다. 다음 페이지에서 자세히 살펴보겠지만 자동 완성이 도움이 될 것입니다.
 
-Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it**:
+`store`는 `reactive`로 래핑된 객체입니다. 즉, getter 뒤에 `.value`를 쓸 필요가 없지만 `setup`의 `props`와 같이 **구조화할 수 없습니다**:
 
 ```js
 export default defineComponent({
@@ -69,7 +69,7 @@ export default defineComponent({
 })
 ```
 
-In order to extract properties from the store while keeping its reactivity, you need to use `storeToRefs()`. It will create refs for every reactive property. This is useful when you are only using state from the store but not calling any action. Note you can destructure actions directly from the store as they are bound to the store itself too:
+반응성을 유지하면서 저장소에서 속성을 추출하려면 `storeToRefs()`를 사용해야 합니다. 이것은 모든 반응 속성에 대한 참조를 생성합니다. 이것은 저장소의 상태만 사용하고 작업을 호출하지 않을 때 유용합니다. 저장소 자체에도 바인딩되므로 저장소에서 직접 작업을 구조화할 수 있습니다:
 
 ```js
 import { storeToRefs } from 'pinia'
