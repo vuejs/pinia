@@ -18,6 +18,8 @@ export function createPinia(): Pinia {
   let _p: Pinia['_p'] = []
   // plugins added before calling app.use(pinia)
   let toBeInstalled: PiniaPlugin[] = []
+  let afterInitializeCallbacks: ((app: App) => void)[] = []
+  let _a: App | null = null
 
   const pinia: Pinia = markRaw({
     install(app: App) {
@@ -47,9 +49,27 @@ export function createPinia(): Pinia {
     },
 
     _p,
-    // it's actually undefined here
-    // @ts-expect-error
-    _a: null,
+
+    get _a() {
+      return _a!
+    },
+    set _a(app) {
+      _a = app
+
+      if (app) {
+        afterInitializeCallbacks.forEach((cb) => cb(app))
+        afterInitializeCallbacks = []
+      }
+    },
+
+    afterAppInit(cb: (app: App) => void) {
+      if (_a) {
+        cb(_a)
+      } else {
+        afterInitializeCallbacks.push(cb)
+      }
+    },
+
     _e: scope,
     _s: new Map<string, StoreGeneric>(),
     state,
