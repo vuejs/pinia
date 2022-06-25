@@ -18,7 +18,7 @@ export function createPinia(): Pinia {
   let _p: Pinia['_p'] = []
   // plugins added before calling app.use(pinia)
   let toBeInstalled: PiniaPlugin[] = []
-  let afterInitializeCallbacks: ((app: App) => void)[] = []
+  let onInstallCallbacks: ((app: App) => void)[] = []
   let _a: App | null = null
 
   const pinia: Pinia = markRaw({
@@ -57,16 +57,16 @@ export function createPinia(): Pinia {
       _a = app
 
       if (app) {
-        afterInitializeCallbacks.forEach((cb) => cb(app))
-        afterInitializeCallbacks = []
+        onInstallCallbacks.forEach((cb) => cb(app))
+        onInstallCallbacks = []
       }
     },
 
-    afterAppInit(cb: (app: App) => void) {
+    onInstall(cb: (app: App) => void) {
       if (_a) {
         cb(_a)
       } else {
-        afterInitializeCallbacks.push(cb)
+        onInstallCallbacks.push(cb)
       }
     },
 

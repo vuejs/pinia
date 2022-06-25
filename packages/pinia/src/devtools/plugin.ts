@@ -521,7 +521,7 @@ export function devtoolsPlugin<
   S extends StateTree = StateTree,
   G /* extends GettersTree<S> */ = _GettersTree<S>,
   A /* extends ActionsTree */ = _ActionsTree
->({ app, store, options }: PiniaPluginContext<Id, S, G, A>) {
+>({ store, options, pinia }: PiniaPluginContext<Id, S, G, A>) {
   // HMR module
   if (store.$id.startsWith('__hot:')) {
     return
@@ -553,9 +553,11 @@ export function devtoolsPlugin<
     }
   }
 
-  addStoreToDevtools(
-    app,
-    // FIXME: is there a way to allow the assignment from Store<Id, S, G, A> to StoreGeneric?
-    store as StoreGeneric
+  pinia.onInstall((app) =>
+    addStoreToDevtools(
+      app,
+      // FIXME: is there a way to allow the assignment from Store<Id, S, G, A> to StoreGeneric?
+      store as StoreGeneric
+    )
   )
 }

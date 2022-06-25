@@ -58,12 +58,12 @@ export interface Pinia {
   use(plugin: PiniaPlugin): Pinia
 
   /**
-   * Executes callback after pinia._a is set, or immediately, if it is set already
+   * Executes callback after Pinia is installed into Vue app
    *
    * @internal
    * @param cb - callback to execute
    */
-  afterAppInit(cb: (app: App) => void): void
+  onInstall(cb: (app: App) => void): void
 
   /**
    * Installed store plugins

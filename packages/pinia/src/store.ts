@@ -676,36 +676,34 @@ function createSetupStore<
   }
 
   // apply all plugins
-  pinia.afterAppInit((app) => {
-    pinia._p.forEach((extender) => {
-      /* istanbul ignore else */
-      if (__DEV__ && IS_CLIENT) {
-        const extensions = scope.run(() =>
+  pinia._p.forEach((extender) => {
+    /* istanbul ignore else */
+    if (__DEV__ && IS_CLIENT) {
+      const extensions = scope.run(() =>
+        extender({
+          store,
+          app: pinia._a,
+          pinia,
+          options: optionsForPlugin,
+        })
+      )!
+      Object.keys(extensions || {}).forEach((key) =>
+        store._customProperties.add(key)
+      )
+      assign(store, extensions)
+    } else {
+      assign(
+        store,
+        scope.run(() =>
           extender({
             store,
-            app,
+            app: pinia._a,
             pinia,
             options: optionsForPlugin,
           })
         )!
-        Object.keys(extensions || {}).forEach((key) =>
-          store._customProperties.add(key)
-        )
-        assign(store, extensions)
-      } else {
-        assign(
-          store,
-          scope.run(() =>
-            extender({
-              store,
-              app,
-              pinia,
-              options: optionsForPlugin,
-            })
-          )!
-        )
-      }
-    })
+      )
+    }
   })
 
   if (
