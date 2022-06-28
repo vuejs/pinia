@@ -11,10 +11,10 @@
 import { defineStore } from 'pinia'
 
 const useStore = defineStore('storeId', {
-  // arrow function recommended for full type inference
+  // 전체 type 추론에 권장되는 화살표 함수
   state: () => {
     return {
-      // all these properties will have their type inferred automatically
+      // 이러한 모든 속성의 type은 자동으로 유추됩니다.
       counter: 0,
       name: 'Eduardo',
       isAdmin: true,
@@ -57,7 +57,7 @@ store.$reset()
 다음 예제에선 다음과 같은 저장소를 만들었다고 가정하겠습니다:
 
 ```js
-// Example File Path:
+// 예제 파일 위치:
 // ./src/stores/counterStore.js
 
 import { defineStore } from 'pinia'
@@ -77,15 +77,15 @@ import { useCounterStore } from '../stores/counterStore'
 
 export default {
   computed: {
-    // gives access to this.counter inside the component
-    // same as reading from store.counter
+    // 컴포넌트 내부의 this.counter에 대한 액세스를 제공합니다
+    // store.counter에서 읽는 것과 동일합니다
     ...mapState(useCounterStore, ['counter'])
-    // same as above but registers it as this.myOwnName
+    // 위와 같지만 this.myOwnName으로 등록합니다
     ...mapState(useCounterStore, {
       myOwnName: 'counter',
-      // you can also write a function that gets access to the store
+      // 스토어에 액세스하는 함수를 작성할 수도 있습니다
       double: store => store.counter * 2,
-      // it can have access to `this` but it won't be typed correctly...
+      // `this`에 액세스할 수 있지만 올바르게 입력되지 않습니다...
       magicValue(store) {
         return store.someGetter + this.counter + this.double
       },
@@ -104,11 +104,11 @@ import { useCounterStore } from '../stores/counterStore'
 
 export default {
   computed: {
-    // gives access to this.counter inside the component and allows setting it
+    // 컴포넌트 내부의 this.counter에 대한 액세스를 제공하고 설정을 허용합니다
     // this.counter++
-    // same as reading from store.counter
+    // store.counter에서 읽는 것과 동일합니다
     ...mapWritableState(useCounterStore, ['counter'])
-    // same as above but registers it as this.myOwnName
+    // 위와 같지만 this.myOwnName으로 등록합니다
     ...mapWritableState(useCounterStore, {
       myOwnName: 'counter',
     }),
@@ -168,12 +168,12 @@ Vuex의 [subscribe 메소드](https://vuex.vuejs.org/api/#subscribe)와 마찬�
 cartStore.$subscribe((mutation, state) => {
   // import { MutationType } from 'pinia'
   mutation.type // 'direct' | 'patch object' | 'patch function'
-  // same as cartStore.$id
+  // cartStore.$id 와 동일
   mutation.storeId // 'cart'
-  // only available with mutation.type === 'patch object'
-  mutation.payload // patch object passed to cartStore.$patch()
+  // mutation.type === 'patch object'일때만 사용 가능
+  mutation.payload // cartStore.$patch()에 전달된 패치 객체
 
-  // persist the whole state to the local storage whenever it changes
+  // 변경될 때마다 전체 상태를 로컬 저장소에 유지
   localStorage.setItem('cart', JSON.stringify(state))
 })
 ```
@@ -185,7 +185,7 @@ export default {
   setup() {
     const someStore = useSomeStore()
 
-    // this subscription will be kept after the component is unmounted
+    // 이 구독은 컴포넌트가 unmounted된 이후에도 유지됩니다
     someStore.$subscribe(callback, { detached: true })
 
     // ...
@@ -200,7 +200,7 @@ export default {
 watch(
   pinia.state,
   (state) => {
-    // persist the whole state to the local storage whenever it changes
+    // 변경될 때마다 전체 상태를 로컬 저장소에 유지
     localStorage.setItem('piniaState', JSON.stringify(state))
   },
   { deep: true }

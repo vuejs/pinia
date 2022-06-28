@@ -34,7 +34,7 @@ export const useCounterStore = defineStore('counter', {
   state: () => {
     return { count: 0 }
   },
-  // could also be defined as
+  // 다음과 같이 정의할 수도 있습니다
   // state: () => ({ count: 0 })
   actions: {
     increment() {
@@ -54,9 +54,9 @@ export default {
     const counter = useCounterStore()
 
     counter.count++
-    // with autocompletion ✨
+    // 자동 완성과 함께 ✨
     counter.$patch({ count: counter.count + 1 })
-    // or using an action instead
+    // 아니면 action 사용해서
     counter.increment()
   },
 }
@@ -96,15 +96,15 @@ const useUserStore = defineStore('user', {
 
 export default {
   computed: {
-    // other computed properties
+    // 다른 computed 속성
     // ...
-    // gives access to this.counterStore and this.userStore
+    // this.counterStore 및 this.userStore에 대한 액세스를 제공합니다
     ...mapStores(useCounterStore, useUserStore),
-    // gives read access to this.count and this.double
+    // this.count 및 this.double에 대한 읽기 액세스 권한을 부여합니다
     ...mapState(useCounterStore, ['count', 'double']),
   },
   methods: {
-    // gives access to this.increment()
+    // this.increment()에 대한 액세스를 제공합니다
     ...mapActions(useCounterStore, ['increment']),
   },
 }
@@ -130,12 +130,12 @@ export const useTodos = defineStore('todos', {
     todos: [],
     /** @type {'all' | 'finished' | 'unfinished'} */
     filter: 'all',
-    // type will be automatically inferred to number
+    // type은 자동으로 숫자로 유추됩니다.
     nextId: 0,
   }),
   getters: {
     finishedTodos(state) {
-      // autocompletion! ✨
+      // 자동 완성! ✨
       return state.todos.filter((todo) => todo.isFinished)
     },
     unfinishedTodos(state) {
@@ -146,7 +146,7 @@ export const useTodos = defineStore('todos', {
      */
     filteredTodos(state) {
       if (this.filter === 'finished') {
-        // call other getters with autocompletion ✨
+        // 자동 완성 기능으로 다른 getter 호출 ✨
         return this.finishedTodos
       } else if (this.filter === 'unfinished') {
         return this.unfinishedTodos
@@ -155,9 +155,9 @@ export const useTodos = defineStore('todos', {
     },
   },
   actions: {
-    // any amount of arguments, return a promise or not
+    // 인수의 양에 관계없이 promise를 반환할지 여부
     addTodo(text) {
-      // you can directly mutate the state
+      // 상태를 직접 변경할 수 있습니다
       this.todos.push({ text, id: this.nextId++, isFinished: false })
     },
   },

@@ -26,13 +26,13 @@ export const useStore = defineStore('main', {
     counter: 0,
   }),
   getters: {
-    // automatically infers the return type as a number
+    // 자동으로 반환 type을 숫자로 유추합니다.
     doubleCount(state) {
       return state.counter * 2
     },
-    // the return type **must** be explicitly set
+    // 반환 type은 **반드시** 명시적으로 설정되어야 합니다.
     doublePlusOne(): number {
-      // autocompletion and typings for the whole store ✨
+      // 전체 저장소에 대한 자동 완성 및 입력 ✨
       return this.doubleCount + 1
     },
   },
@@ -67,12 +67,12 @@ export const useStore = defineStore('main', {
     counter: 0,
   }),
   getters: {
-    // type is automatically inferred because we are not using `this`
+    // `this`를 사용하지 않기 때문에 type이 자동으로 유추됩니다.
     doubleCount: (state) => state.counter * 2,
-    // here we need to add the type ourselves (using JSDoc in JS). We can also
-    // use this to document the getter
+    // 여기에 type을 직접 추가해야 합니다(JS에서 JSDoc 사용).
+    // 이것을 사용하여 getter를 문서화할 수도 있습니다.
     /**
-     * Returns the counter value times two plus one.
+     * counter 곱하기 2 더하기 1을 반환합니다.
      *
      * @returns {number}
      */
@@ -174,7 +174,7 @@ export default {
 다음 예제에서는 다음과 같은 저장소가 생성되었다고 가정하겠습니다:
 
 ```js
-// Example File Path:
+// 예제 파일 위치:
 // ./src/stores/counterStore.js
 
 import { defineStore } from 'pinia',
@@ -222,13 +222,13 @@ import { useCounterStore } from '../stores/counterStore'
 
 export default {
   computed: {
-    // gives access to this.doubleCounter inside the component
-    // same as reading from store.doubleCounter
+    // 컨포넌트 내부의 this.doubleCounter에 대한 액세스를 제공합니다
+    // store.doubleCounter에서 읽는 것과 동일합니다
     ...mapState(useCounterStore, ['doubleCount'])
-    // same as above but registers it as this.myOwnName
+    // 위와 같지만 this.myOwnName으로 등록합니다
     ...mapState(useCounterStore, {
       myOwnName: 'doubleCounter',
-      // you can also write a function that gets access to the store
+      // 저장소에 액세스하는 함수를 작성할 수도 있습니다
       double: store => store.doubleCount,
     }),
   },

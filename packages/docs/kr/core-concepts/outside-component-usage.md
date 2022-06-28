@@ -13,14 +13,14 @@ import { useUserStore } from '@/stores/user'
 import { createApp } from 'vue'
 import App from './App.vue'
 
-// ❌  fails because it's called before the pinia is created
+// ❌  pinia가 생성되기 전에 호출되기 때문에 실패합니다.
 const userStore = useUserStore()
 
 const pinia = createPinia()
 const app = createApp(App)
 app.use(pinia)
 
-// ✅ works because the pinia instance is now active
+// ✅ pinia 인스턴스가 현재 활성화되어 있기 때문에 작동합니다.
 const userStore = useUserStore()
 ```
 
@@ -34,18 +34,18 @@ const router = createRouter({
   // ...
 })
 
-// ❌ Depending on the order of imports this will fail
+// ❌ import 순서에 따라 실패할 것입니다
 const store = useStore()
 
 router.beforeEach((to, from, next) => {
-  // we wanted to use the store here
+  // 우리는 여기 상점을 사용하고 싶었습니다
   if (store.isLoggedIn) next()
   else next('/login')
 })
 
 router.beforeEach((to) => {
-  // ✅ This will work because the router starts its navigation after
-  // the router is installed and pinia will be installed too
+  // ✅ 라우터가 탐색을 시작하기 때문에 작동합니다
+  // 라우터가 설치되고 pinia도 설치됩니다
   const store = useStore()
 
   if (to.meta.requiresAuth && !store.isLoggedIn) return '/login'

@@ -38,10 +38,10 @@ const pinia = createPinia()
 
 new Vue({
   el: '#app',
-  // other options...
+  // 다른 옵션...
   // ...
-  // note the same `pinia` instance can be used across multiple Vue apps on
-  // the same page
+  // 동일한 'pinia' 인스턴스를 여러 Vue 앱에서 사용할 수 있습니다.
+  // 같은 페이지
   pinia,
 })
 ```

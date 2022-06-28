@@ -10,10 +10,10 @@
 ```js
 import { defineStore } from 'pinia'
 
-// useStore could be anything like useUser, useCart
-// the first argument is a unique id of the store across your application
+// useStore는 useUser, useCart와 같을 수 있습니다.
+// 첫 번째 인수는 애플리케이션 전체에서 스토어의 고유 ID입니다
 export const useStore = defineStore('main', {
-  // other options...
+  // 다른 옵션...
 })
 ```
 
@@ -31,7 +31,7 @@ export default {
     const store = useStore()
 
     return {
-      // you can return the whole store instance to use it in the template
+      // 템플릿에서 사용하기 위해 전체 상점 인스턴스를 반환할 수 있습니다
       store,
     }
   },
@@ -50,19 +50,19 @@ export default {
 export default defineComponent({
   setup() {
     const store = useStore()
-    // ❌ This won't work because it breaks reactivity
-    // it's the same as destructuring from `props`
+    // ❌ 반응성을 깨뜨리기 때문에 작동하지 않습니다
+    // `props`에서 구조화하는 것과 동일합니다
     const { name, doubleCount } = store
 
     name // "eduardo"
     doubleCount // 2
 
     return {
-      // will always be "eduardo"
+      // 항상 "eduardo" 일 것이다
       name,
-      // will always be 2
+      // 항상 2 일 것이다
       doubleCount,
-      // this one will be reactive
+      // 이것은 반응 할 것입니다
       doubleValue: computed(() => store.doubleCount),
     }
   },
@@ -77,11 +77,11 @@ import { storeToRefs } from 'pinia'
 export default defineComponent({
   setup() {
     const store = useStore()
-    // `name` and `doubleCount` are reactive refs
-    // This will also create refs for properties added by plugins
-    // but skip any action or non reactive (non ref/reactive) property
+    // `name` 및 `doubleCount`는 반응형 참조입니다
+    // 플러그인에 의해 추가된 속성에 대한 참조도 생성됩니다
+    // 그러나 모든 작업 또는 비반응성(비 참조/반응성) 속성을 건너뜁니다
     const { name, doubleCount } = storeToRefs(store)
-    // the increment action can be just extracted
+    // increment 동작을 추출할 수 있습니다.
     const { increment } = store
 
     return {
