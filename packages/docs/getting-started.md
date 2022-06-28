@@ -16,7 +16,7 @@ If you are using the Vue CLI, you can instead give this [**unofficial plugin**](
 
 Create a pinia instance (the root store) and pass it to the app as a plugin:
 
-```js{2,5-6,8}
+```js {2,5-6,8}
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
@@ -30,7 +30,7 @@ app.mount('#app')
 
 If you are using Vue 2, you also need to install a plugin and inject the created `pinia` at the root of the app:
 
-```js{1,3-4,12}
+```js {1,3-4,12}
 import { createPinia, PiniaVuePlugin } from 'pinia'
 
 Vue.use(PiniaVuePlugin)
