@@ -59,7 +59,7 @@ export default {
 
 ## 다른 getters에 엑서스
 
-As with computed properties, you can combine multiple getters. Access any other getter via `this`. Even if you are not using TypeScript, you can hint your IDE for types with the [JSDoc](https://jsdoc.app/tags-returns.html):
+computed 속성과 마찬가지로 여러 getter를 결합할 수 있습니다. `this`를 통해 다른 getter에 액세스합니다. TypeScript를 사용하지 않더라도 [JSDoc](https://jsdoc.app/tags-returns.html)를 사용하여 type에 대한 IDE에 힌트를 줄 수 있습니다:
 
 ```js
 export const useStore = defineStore('main', {
@@ -86,7 +86,7 @@ export const useStore = defineStore('main', {
 
 ## getters에 인수 전달
 
-_Getters_ are just _computed_ properties behind the scenes, so it's not possible to pass any parameters to them. However, you can return a function from the _getter_ to accept any arguments:
+*Getters*는 뒤에서는 _computed_ 속성일 뿐이므로 매개변수를 전달할 수 없습니다. 그러나 *getter*에서 함수를 반환하여 모든 인수를 받아들일 수 있습니다:
 
 ```js
 export const useStore = defineStore('main', {
@@ -116,7 +116,7 @@ export default {
 </template>
 ```
 
-Note that when doing this, **getters are not cached anymore**, they are simply functions that you invoke. You can however cache some results inside of the getter itself, which is uncommon but should prove more performant:
+이 작업을 수행할 때 **getters는 더 이상 캐시되지 않습니다**, 단순히 호술하는 함수입니다. 그러나 getter 자체 내부에 일부 결과를 캐시할 수 있습니다. 이는 드물지만 더 성능이 좋을 것입니다:
 
 ```js
 export const useStore = defineStore('main', {
