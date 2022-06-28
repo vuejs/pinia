@@ -77,7 +77,7 @@ export const useCounterStore = defineStore('counter', () => {
 
 아직 Composition API의 `setup()`에 익숙하지 않더라도 걱정하지 마세요. Pinia는 [Vuex와 유사한 맵 도우미](https://vuex.vuejs.org/guide/state.html#the-mapstate-helper) 세트 또한 지원합니다. 같은 방법으로 `mapStores()`, `mapState()`, or `mapActions()`를 정의할 수 있습니다:
 
-```js{22,24,28}
+```js {22,24,28}
 const useCounterStore = defineStore('counter', {
   state: () => ({ count: 0 }),
   getters: {
