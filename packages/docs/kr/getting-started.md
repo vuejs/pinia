@@ -16,7 +16,7 @@ Vue CLI를 사용하는 경우 이 [**비공식 플러그인**](https://github.c
 
 pinia 인스턴스(최상위 저장소)를 만들고 앱에 플러그인으로 전달합니다:
 
-```js{2,5-6,8}
+```js {2,5-6,8}
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
@@ -30,7 +30,7 @@ app.mount('#app')
 
 만약 앱이 Vue 2를 사용 중이라면, 플러그인을 설치한 후 최상위 앱에 생성된 `pinia`를 삽입해야 합니다:
 
-```js{1,3-4,12}
+```js {1,3-4,12}
 import { createPinia, PiniaVuePlugin } from 'pinia'
 
 Vue.use(PiniaVuePlugin)

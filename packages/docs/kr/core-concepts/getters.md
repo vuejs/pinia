@@ -5,7 +5,7 @@
   title="Learn all about getters in Pinia"
 />
 
-Getters are exactly the equivalent of [computed values](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values) for the state of a Store. They can be defined with the `getters` property in `defineStore()`. They receive the `state` as the first parameter **to encourage** the usage of arrow function:
+Getter는 Store 상태에 대한 [computed 값](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values)과 정확히 동일합니다. `defineStore()`의 `getters` 속성으로 정의할 수 있습니다. 화살표 함수의 사용을 **장려하기 위해** 첫 번째 매개변수로 `state`를 받습니다:
 
 ```js
 export const useStore = defineStore('main', {
@@ -18,7 +18,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-Most of the time, getters will only rely on the state, however, they might need to use other getters. Because of this, we can get access to the _whole store instance_ through `this` when defining a regular function **but it is necessary to define the type of the return type (in TypeScript)**. This is due to a known limitation in TypeScript and **doesn't affect getters defined with an arrow function nor getters not using `this`**:
+대부분의 경우 getter는 상태에만 의존하지만 다른 getter를 사용해야 할 수도 있습니다. 이 때문에 일반 함수를 정의할 때 `this`를 통해 _전체 저장소 인스턴스_에 액세스할 수 있지만 **반환 유형(TypeScript 에서)의 유형을 정의해야 합니다**. 이것은 TypeScript의 알려진 제한으로 인한 것이며 **화살표 함수로 정의된 getter나 `this`를 사용하지 않는 getter에 영향을 미치지 않습니다**:
 
 ```ts
 export const useStore = defineStore('main', {
@@ -39,7 +39,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-Then you can access the getter directly on the store instance:
+그런 다음 저장소 인스턴스에서 직접 getter에 액세스할 수 있습니다:
 
 ```vue
 <template>
@@ -57,7 +57,7 @@ export default {
 </script>
 ```
 
-## Accessing other getters
+## 다른 getters에 엑서스
 
 As with computed properties, you can combine multiple getters. Access any other getter via `this`. Even if you are not using TypeScript, you can hint your IDE for types with the [JSDoc](https://jsdoc.app/tags-returns.html):
 
@@ -84,7 +84,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## Passing arguments to getters
+## getters에 인수 전달
 
 _Getters_ are just _computed_ properties behind the scenes, so it's not possible to pass any parameters to them. However, you can return a function from the _getter_ to accept any arguments:
 
@@ -98,7 +98,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-and use in component:
+그리고 컴포넌트에서 사용하세요:
 
 ```vue
 <script>
@@ -129,9 +129,9 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## Accessing other stores getters
+## 다른 저장소의 getters에 엑서스
 
-To use another store getters, you can directly _use it_ inside of the _getter_:
+다른 저장소의 getters를 사용하려면 _getter_ 내부에서 직접 *사용*할 수 있습니다:
 
 ```js
 import { useOtherStore } from './other-store'
@@ -149,9 +149,9 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## Usage with `setup()`
+## `setup()`과 함께 사용하기
 
-You can directly access any getter as a property of the store (exactly like state properties):
+저장소의 속성으로 모든 getter에 직접 액세스할 수 있습니다(상태 속성과 정확히 동일함):
 
 ```js
 export default {
@@ -164,14 +164,14 @@ export default {
 }
 ```
 
-## Usage with the Options API
+## Options API와 함께 사용하기
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-getters-in-the-options-api"
   title="Access Pinia Getters via the Options API"
 />
 
-For the following examples, you can assume the following store was created:
+다음 예제에서는 다음과 같은 저장소가 생성되었다고 가정하겠습니다:
 
 ```js
 // Example File Path:
@@ -191,9 +191,9 @@ const useCounterStore = defineStore('counterStore', {
 })
 ```
 
-### With `setup()`
+### `setup()`과 함께
 
-While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
+Composition API가 모두를 위한 것은 아니지만 `setup()` 후크를 사용하면 Options API에서 Pinia를 더 쉽게 사용할 수 있습니다. 추가적인 map helper 함수들도 필요하지 않습니다!
 
 ```js
 import { useCounterStore } from '../stores/counterStore'
@@ -212,9 +212,9 @@ export default {
 }
 ```
 
-### Without `setup()`
+### `setup()` 없이
 
-You can use the same `mapState()` function used in the [previous section of state](./state.md#options-api) to map to getters:
+[상태의 이전 섹션](./state.md#options-api)에서 사용한 것과 동일한 `mapState()` 함수를 사용하여 getter에 매핑할 수 있습니다:
 
 ```js
 import { mapState } from 'pinia'
