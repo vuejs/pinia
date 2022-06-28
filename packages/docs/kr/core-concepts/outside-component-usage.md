@@ -1,12 +1,12 @@
-# Using a store outside of a component
+# component 외부에서 저장소 사용하기
 
-Pinia stores rely on the `pinia` instance to share the same store instance across all calls. Most of the time, this works out of the box by just calling your `useStore()` function. For example, in `setup()`, you don't need to do anything else. But things are a bit different outside of a component.
-Behind the scenes, `useStore()` _injects_ the `pinia` instance you gave to your `app`. This means that if the `pinia` instance cannot be automatically injected, you have to manually provide it to the `useStore()` function.
-You can solve this differently depending on the kind of application you are writing.
+Pinia 스토어는 모든 호출에서 동일한 스토어 인스턴스를 공유하기 위해 `pinia` 인스턴스에 의존합니다. 대부분의 경우 이것은 `useStore()` 함수를 호출하는 것만으로도 작동합니다. 예를 들어 `setup()`에서는 다른 작업을 수행할 필요가 없습니다. 그러나 구성 요소 외부에서는 상황이 약간 다릅니다.
+`useStore()`는 뒤에서 `app`에 제공한 `pinia` 인스턴스를 *주입*합니다. 즉, `pinia` 인스턴스를 자동으로 삽입할 수 없는 경우 `useStore()` 함수에 수동으로 제공해야 합니다.
+작성하는 애플리케이션의 종류에 따라 다르게 해결할 수 있습니다.
 
 ## Single Page Applications
 
-If you are not doing any SSR (Server Side Rendering), any call of `useStore()` after installing the pinia plugin with `app.use(pinia)` will work:
+SSR(Server Side Rendering)을 수행하지 않는 경우 `app.use(pinia)`로 pinia 플러그인을 설치한 후 `useStore()`를 호출하면 다음과 같이 작동합니다:
 
 ```js
 import { useUserStore } from '@/stores/user'
@@ -24,9 +24,9 @@ app.use(pinia)
 const userStore = useUserStore()
 ```
 
-The easiest way to ensure this is always applied is to _defer_ calls of `useStore()` by placing them inside functions that will always run after pinia is installed.
+이것이 항상 적용되도록 하는 가장 쉬운 방법은 `useStore()` 호출을 pinia가 설치된 후에 항상 실행될 함수 내부에 배치하여 *지연*시키는 것입니다.
 
-Let's take a look at this example of using a store inside of a navigation guard with Vue Router:
+Vue Router와 함께 navigation guard 내부에서 저장소를 사용하는 이 예제를 살펴보겠습니다:
 
 ```js
 import { createRouter } from 'vue-router'
@@ -54,6 +54,6 @@ router.beforeEach((to) => {
 
 ## SSR Apps
 
-When dealing with Server Side Rendering, you will have to pass the `pinia` instance to `useStore()`. This prevents pinia from sharing global state between different application instances.
+서버 사이드 렌더링을 처리할 때 `pinia` 인스턴스를 `useStore()`에 전달해야 합니다. 이것은 pinia가 서로 다른 애플리케이션 인스턴스 간에 전역 상태를 공유하는 것을 방지합니다.
 
-There is a whole section dedicated to it in the [SSR guide](/ssr/index.md), this is just a short explanation:
+이것은 간단한 설명일 뿐이고 [SSR 가이드](/ssr/index.md)에 이에 대한 전체 섹션이 있습니다:
