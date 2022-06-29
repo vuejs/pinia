@@ -43,7 +43,7 @@ export const useUsers = defineStore('users', {
         showTooltip(`Welcome back ${this.userData.name}!`)
       } catch (error) {
         showTooltip(error)
-        // let the form component display the error
+        // 폼 컴포넌트에 error가 표시되게 함
         return error
       }
     },
@@ -59,7 +59,7 @@ export const useUsers = defineStore('users', {
 export default defineComponent({
   setup() {
     const main = useMainStore()
-    // call the action as a method of the store
+    // 액션을 스토어의 메소드로 호출
     main.randomizeCounter()
 
     return {}
@@ -116,7 +116,7 @@ export default {
 다음으로 나올 예제에서는 다음과 같은 저장소가 생성되었다고 가정하겠습니다:
 
 ```js
-// Example File Path:
+// 예제 파일 위치:
 // ./src/stores/counterStore.js
 
 import { defineStore } from 'pinia',
@@ -165,10 +165,10 @@ import { useCounterStore } from '../stores/counterStore'
 
 export default {
   methods: {
-    // gives access to this.increment() inside the component
-    // same as calling from store.increment()
+    // 컴포넌트 내부에서 this.increment()에 대한 액세스를 제공
+    // store.increment()를 호출하는 것과 동일 
     ...mapActions(useCounterStore, ['increment'])
-    // same as above but registers it as this.myOwnName()
+    // 위와 같지만 this.myOwnName()로 등록
     ...mapActions(useCounterStore, { myOwnName: 'doubleCounter' }),
   },
 }
@@ -183,19 +183,19 @@ export default {
 ```js
 const unsubscribe = someStore.$onAction(
   ({
-    name, // name of the action
-    store, // store instance, same as `someStore`
-    args, // array of parameters passed to the action
-    after, // hook after the action returns or resolves
-    onError, // hook if the action throws or rejects
+    name, // 액션의 이름
+    store, // 저장소 인스턴스, `someStore`와 동일
+    args, // 액션에 전달된 매개변수의 배열
+    after, // 액션이 return 되거나 resolve 된 후 후크
+    onError, // 액션이 throw 되거나 reject 된 후 후크
   }) => {
-    // a shared variable for this specific action call
+    // 특정 액션 호출에 대한 공유 변수
     const startTime = Date.now()
-    // this will trigger before an action on `store` is executed
+    // 이것은 `store`에 대한 작업이 실행되기 전에 트리거됩니다.
     console.log(`Start "${name}" with params [${args.join(', ')}].`)
 
-    // this will trigger if the action succeeds and after it has fully run.
-    // it waits for any returned promised
+    // 액션이 성공하고 완전히 실행된 후에 트리거됩니다.
+    // promise의 return을 기다림
     after((result) => {
       console.log(
         `Finished "${name}" after ${
@@ -204,7 +204,7 @@ const unsubscribe = someStore.$onAction(
       )
     })
 
-    // this will trigger if the action throws or returns a promise that rejects
+    // 액션이 throw 되거나 reject이 될 경우 트리거됩니다.
     onError((error) => {
       console.warn(
         `Failed "${name}" after ${Date.now() - startTime}ms.\nError: ${error}.`
@@ -213,7 +213,7 @@ const unsubscribe = someStore.$onAction(
   }
 )
 
-// manually remove the listener
+// 리스너를 수동으로 제거
 unsubscribe()
 ```
 
@@ -224,7 +224,7 @@ export default {
   setup() {
     const someStore = useSomeStore()
 
-    // this subscription will be kept after the component is unmounted
+    // 이 구독은 컴포넌트가 unmounted 된 후에도 유지됩니다.
     someStore.$onAction(callback, true)
 
     // ...
