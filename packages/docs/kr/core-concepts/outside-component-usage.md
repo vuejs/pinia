@@ -4,7 +4,7 @@ Pinia 스토어는 모든 호출에서 동일한 스토어 인스턴스를 공�
 `useStore()`는 뒤에서 `app`에 제공한 `pinia` 인스턴스를 *주입*합니다. 즉, `pinia` 인스턴스를 자동으로 삽입할 수 없는 경우 `useStore()` 함수에 수동으로 제공해야 합니다.
 작성하는 애플리케이션의 종류에 따라 다르게 해결할 수 있습니다.
 
-## Single Page Applications
+## 싱글 페이지 애플리케이션
 
 SSR(Server Side Rendering)을 수행하지 않는 경우 `app.use(pinia)`로 pinia 플러그인을 설치한 후 `useStore()`를 호출하면 다음과 같이 작동합니다:
 

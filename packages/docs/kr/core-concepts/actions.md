@@ -1,11 +1,11 @@
-# Actions
+# 액션
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/synchronous-and-asynchronous-actions-in-pinia"
   title="Learn all about actions in Pinia"
 />
 
-Actions are the equivalent of [methods](https://v3.vuejs.org/guide/data-methods.html#methods) in components. They can be defined with the `actions` property in `defineStore()` and **they are perfect to define business logic**:
+작업은 구성 요소의 [메서드](https://v3.vuejs.org/guide/data-methods.html#methods)와 동일합니다. 이들은 `defineStore()`의 `actions` 속성으로 정의할 수 있으며 **비즈니스 로직을 정의하는 데 완벽합니다**:
 
 ```js
 export const useStore = defineStore('main', {
@@ -23,7 +23,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-Like [getters](./getters.md), actions get access to the _whole store instance_ through `this` with **full typing (and autocompletion ✨) support**. **Unlike getters, `actions` can be asynchronous**, you can `await` inside of actions any API call or even other actions! Here is an example using [Mande](https://github.com/posva/mande). Note the library you use doesn't matter as long as you get a `Promise`, you could even use the native `fetch` function (browser only):
+[getters](./getters.md)와 마찬가지로 작업은 **전체 입력(및 자동 완성 ✨) 지원**과 함께 `this`를 통해 _전체 저장소 인스턴스_에 액세스할 수 있습니다. **getters와 달리 `actions`는 비동기식일 수 있습니다.** 액션 내에서 API 호출이나 다른 작업을 `await` 할 수 있습니다! 여기 [Mande](https://github.com/posva/mande)를 사용한 예시가 있습니다. 참고로 사용하는 라이브러리는 `Promise`를 얻는 한 중요하지 않습니다. 기본 `fetch` 기능을 사용할 수도 있습니다(브라우저만 해당):
 
 ```js
 import { mande } from 'mande'
@@ -51,9 +51,9 @@ export const useUsers = defineStore('users', {
 })
 ```
 
-You are also completely free to set whatever arguments you want and return anything. When calling actions, everything will be automatically inferred!
+또한 원하는 인수를 자유롭게 설정하고 무엇이든 반환할 수 있습니다. 작업을 호출하면 모든 것이 자동으로 추론됩니다!
 
-Actions are invoked like methods:
+작업은 메서드처럼 호출됩니다:
 
 ```js
 export default defineComponent({
@@ -67,9 +67,9 @@ export default defineComponent({
 })
 ```
 
-## Accessing other stores actions
+## 다른 저장소의 액션에 엑서스
 
-To use another store, you can directly _use it_ inside of the _action_:
+다른 저장소를 사용하려면 _action_ 내부에서 직접 *사용*할 수 있습니다.
 
 ```js
 import { useAuthStore } from './auth-store'
@@ -92,9 +92,9 @@ export const useSettingsStore = defineStore('settings', {
 })
 ```
 
-## Usage with `setup()`
+## `setup()`과 함께 사용
 
-You can directly call any action as a method of the store:
+저장소의 메소드로 모든 작업을 직접 호출할 수 있습니다:
 
 ```js
 export default {
@@ -106,14 +106,14 @@ export default {
 }
 ```
 
-## Usage with the Options API
+## Options API와 함께 사용
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-actions-in-the-options-api"
   title="Access Pinia Getters via the Options API"
 />
 
-For the following examples, you can assume the following store was created:
+다음으로 나올 예제에서는 다음과 같은 저장소가 생성되었다고 가정하겠습니다:
 
 ```js
 // Example File Path:
@@ -133,9 +133,9 @@ const useCounterStore = defineStore('counterStore', {
 })
 ```
 
-### With `setup()`
+### `setup()`와 함께
 
-While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
+Composition API가 모두를 위한 것은 아니지만 `setup()` 후크를 사용하면 Options API에서 Pinia를 더 쉽게 사용할 수 있습니다. 추가적인 map helper 함수들도 필요하지 않습니다!
 
 ```js
 import { useCounterStore } from '../stores/counterStore'
@@ -155,9 +155,9 @@ export default {
 }
 ```
 
-### Without `setup()`
+### `setup()` 없이
 
-If you would prefer not to use Composition API at all, you can use the `mapActions()` helper to map actions properties as methods in your component:
+Composition API를 전혀 사용하지 않으려면 `mapActions()` 도우미를 사용하여 컴포넌트의 메서드로 액션 속성을 매핑할 수 있습니다:
 
 ```js
 import { mapActions } from 'pinia'
@@ -174,11 +174,11 @@ export default {
 }
 ```
 
-## Subscribing to actions
+## 액션 구독
 
-It is possible to observe actions and their outcome with `store.$onAction()`. The callback passed to it is executed before the action itself. `after` handle promises and allows you to execute a function after the action resolves. In a similar way, `onError` allows you execute a function if the action throws or rejects. These are useful for tracking errors at runtime, similar to [this tip in the Vue docs](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors).
+`store.$onAction()`으로 액션과 그 결과를 관찰할 수 있습니다. 전달된 콜백은 액션 자체보다 먼저 실행됩니다. `after`는 Promise을 처리하고 액션이 resolve된 후 함수를 실행할 수 있도록 합니다. 비슷한 방식으로 `onError`를 사용하면 액션이 throw 되거나 reject 되는 경우 함수를 실행할 수 있습니다. 이는 [Vue 문서의 이 팁](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors)과 유사하게 런타임에 오류를 추적하는 데 유용합니다.
 
-Here is an example that logs before running actions and after they resolve/reject.
+여기 액션을 실행하기 전과 resolve/reject 한 후 로그를 띄우는 예제입니다.
 
 ```js
 const unsubscribe = someStore.$onAction(
@@ -217,7 +217,7 @@ const unsubscribe = someStore.$onAction(
 unsubscribe()
 ```
 
-By default, _action subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you want to keep them after the component is unmounted, pass `true` as the second argument to _detach_ the _action subscription_ from the current component:
+기본적으로 *action subscriptions*는 추가된 컴포넌트에 바인딩됩니다(스토어가 구성 요소의 `setup()` 내부에 있는 경우). 즉, 컴포넌트가 unmounted되면 자동으로 제거됩니다. 컴포넌트가 unmounted된 이후에도 유지하려면 현재 컴포넌트의 *action subscription*의 *detach*에 두 번째 인수로 `true`를 전달하세요.
 
 ```js
 export default {
