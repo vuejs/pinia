@@ -1,6 +1,7 @@
 # Migrating from Vuex ≤4
 
-Although the structure of Vuex and Pinia stores is different, a lot of the logic can be reused. This guide serves to help you through the process and point out some common gotchas that can appear.
+Although the structure of Vuex and Pinia stores is different, a lot of the logic can be reused. This guide serves to help you through the process and point out some common gotchas that can appear. Likewise, [this article from VueSchool](https://vueschool.io/articles/vuejs-tutorials/how-to-migrate-from-vuex-to-pinia/) 
+is a great case study of migrating a real application one step at a time.
 
 ## Preparation
 
