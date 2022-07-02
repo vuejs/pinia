@@ -24,7 +24,7 @@ const useStore = defineStore('storeId', {
 ```
 
 :::tip
-If you are using Vue 2, the data you create in `state` follows the same rules as the `data` in a Vue instance, ie the state object must be plain and you need to call `Vue.set()` when **adding new** properties to it. **See also: [Vue#data](https://vuejs.org/v2/api/#data)**.
+If you are using Vue 2, the data you create in `state` follows the same rules as the `data` in a Vue instance, ie the state object must be plain and you need to call `Vue.set()` when **adding new** properties to it. **See also: [Vue#data](https://v2.vuejs.org/v2/api/#data)**.
 :::
 
 ## Accessing the `state`
@@ -60,7 +60,7 @@ For the following examples, you can assume the following store was created:
 // Example File Path:
 // ./src/stores/counterStore.js
 
-import { defineStore } from 'pinia',
+import { defineStore } from 'pinia'
 
 const useCounterStore = defineStore('counterStore', {
   state: () => ({

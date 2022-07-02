@@ -366,4 +366,16 @@ describe('Store', () => {
     useMyStore()
     expect(warnTextCheckPlainObject('poInit')).toHaveBeenWarnedTimes(0)
   })
+
+  it('warns when state name conflicts with getters name (with id as first argument)', () => {
+    const useStore = defineStore('main', {
+      state: () => ({ anyName: 0 }),
+      getters: { anyName: (state) => state.anyName },
+    })
+    useStore()
+
+    expect(
+      `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "anyName" in store "main".`
+    ).toHaveBeenWarnedTimes(1)
+  })
 })

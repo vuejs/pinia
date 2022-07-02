@@ -36,15 +36,6 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
 - [One-time donation via PayPal](https://paypal.me/posva)
 
 <!--sponsors start-->
-<h3 align="center">Platinum Sponsors</h3>
-<p align="center">
-    <a href="https://www.finclip.com/#/home?from=vue" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/fincliplogo_white_svg.svg" media="(prefers-color-scheme: dark)" height="96px" alt="Finogeeks" />
-      <img src="https://posva-sponsors.pages.dev/logos/fincliplogo_black_svg.svg" height="96px" alt="Finogeeks" />
-    </picture>
-  </a>
-</p>
 
 <h4 align="center">Gold Sponsors</h4>
 <p align="center">
@@ -68,12 +59,6 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
     <picture>
       <source srcset="https://posva-sponsors.pages.dev/logos/prefectlogo-dark.svg" media="(prefers-color-scheme: dark)" height="42px" alt="Prefect" />
       <img src="https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg" height="42px" alt="Prefect" />
-    </picture>
-  </a>
-    <a href="https://birdeatsbug.com/?utm_source=vuerouter&utm_medium=sponsor&utm_campaign=silver" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/birdeatsbug-light.svg" media="(prefers-color-scheme: dark)" height="42px" alt="Bird Eats Bug" />
-      <img src="https://posva-sponsors.pages.dev/logos/birdeatsbug-dark.svg" height="42px" alt="Bird Eats Bug" />
     </picture>
   </a>
 </p>
@@ -220,4 +205,3 @@ To learn more about Pinia, check [its documentation](https://pinia.vuejs.org).
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
-
