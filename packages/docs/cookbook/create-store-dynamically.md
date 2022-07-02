@@ -9,18 +9,11 @@ An usecase of multiple tables that require pagination and filter. And all need t
 We can have a creator function like this
 
 ```js
-export const createPagingStore = (endpoint) => {
-  const currentPage = ref(0)
+export const createPagingStore = (initialCurrentPage?: number) => {
+  const currentPage = ref(initialCurrentPage ?? 0)
   const totalPage = ref(0)
-  const tableContent = ref()
-  const fetchData = async (page) => {
-    const data = await api.get(`https://example.com/${endpoint}?page=${page}`)
-    currentPage.value = page
-    totalPage.value = data.totalPage
-    tableContent = data.content
-  }
 
-  return {currentPage, totalPage, tableContent, fetchData}
+  return { currentPage, totalPage }
 }
 ```
 
@@ -29,15 +22,27 @@ Inside the `defineStore` option function you will have access to all the state a
 ```js
 
 export const usePagingWeather = defineStore('pagingWeather, () => {
-  const pagingStore = createPagingStore('weather')
-  
-  // Extra logics for this store
+  const pagingStore = createPagingStore(1)
+  const content = ref()
+
+  // Logics for this store
+
+  const fetchData = async (page) => {
+    const data = await api.get(`https://example.com/?page=${page}`)
+    currentPage.value = page
+    totalPage.value = data.totalPage
+    content.value = data.content
+  }
+
   const sundays = computed(() => {
-    return pagingStore.tableContent.days.filter(day === 'sunday')
+    return pagingStore.content.value.days.filter(day === 'sunday')
   })
 
   return {
-    ...pagingStore,
+    ...pagingStore, // currentPage, totalPage
+    fetchData,
+    content,
+
     sundays,
   }
 })
