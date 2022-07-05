@@ -1,18 +1,18 @@
-# Composing Stores
+# 통합 Stores
 
-Composing stores is about having stores that use each other and there is one rule to follow:
+통합 Stores는 서로를 사용하는 상점을 갖는 것에 관한 것이고 따라야 할 한 가지 규칙이 있습니다:
 
-If **two or more stores use each other**, they cannot create an infinite loop through _getters_ or _actions_. They cannot **both** directly read each other state in their setup function:
+**두 개 이상의 저장소를 서로 사용**하는 경우 _getters_ 또는 *actions*를 통해 무한 루프를 만들 수 없습니다. **둘다** setup function에서 서로의 상태를 직접 읽을 수 없습니다:
 
 ```js
 const useX = defineStore('x', () => {
   const y = useY()
 
-  // ❌ This is not possible because y also tries to read x.name
+  // ❌ y도 x.name을 읽으려고 하기 때문에 불가능합니다
   y.name
 
   function doSomething() {
-    // ✅ Read y properties in computed or actions
+    // ✅ cumputed 또는 actions에서 y 속성 읽기
     const yName = y.name
     // ...
   }
@@ -25,11 +25,11 @@ const useX = defineStore('x', () => {
 const useY = defineStore('y', () => {
   const x = useX()
 
-  // ❌ This is not possible because x also tries to read y.name
+  // ❌ x도 y.name을 읽으려고 하기 때문에 불가능합니다
   x.name
 
   function doSomething() {
-    // ✅ Read x properties in computed or actions
+    // ✅ cumputed 또는 actions에서 x 속성 읽기
     const xName = x.name
     // ...
   }
@@ -42,16 +42,16 @@ const useY = defineStore('y', () => {
 
 ## Nested stores
 
-Note that if one store uses another store, **there is no need to create a new store in a separate file**, you can directly import it. Think of it as nesting.
+한 스토어에서 다른 스토어를 사용하는 경우 **별도의 파일에 새 스토어를 생성할 필요가 없으며** 직접 가져올 수 있습니다. 중첩이라고 생각하십시오.
 
-You can call `useOtherStore()` at the top of any getter or action:
+getter 또는 액션의 맨 위에서 `useOtherStore()`를 호출할 수 있습니다:
 
 ```js
 import { useUserStore } from './user'
 
 export const cartStore = defineStore('cart', {
   getters: {
-    // ... other getters
+    // ... 다른 getters
     summary(state) {
       const user = useUserStore()
 
@@ -71,7 +71,7 @@ export const cartStore = defineStore('cart', {
 
 ## Shared Getters
 
-You can simply call `useOtherStore()` inside a _getter_:
+_getter_ 내부에서 간단히 `useOtherStore()`를 호출할 수 있습니다:
 
 ```js
 import { defineStore } from 'pinia'
@@ -90,7 +90,7 @@ export const useCartStore = defineStore('cart', {
 
 ## Shared Actions
 
-The same applies to _actions_:
+*액션*에도 동일하게 적용됩니다:
 
 ```js
 import { defineStore } from 'pinia'
@@ -103,7 +103,7 @@ export const useCartStore = defineStore('cart', {
 
       try {
         await apiOrderCart(user.token, this.items)
-        // another action
+        // 다른 액션
         this.emptyCart()
       } catch (err) {
         displayError(err)
