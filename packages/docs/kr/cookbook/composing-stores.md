@@ -40,7 +40,7 @@ const useY = defineStore('y', () => {
 })
 ```
 
-## Nested stores
+## 저장소 중첩
 
 한 스토어에서 다른 스토어를 사용하는 경우 **별도의 파일에 새 스토어를 생성할 필요가 없으며** 직접 가져올 수 있습니다. 중첩이라고 생각하십시오.
 
@@ -69,7 +69,7 @@ export const cartStore = defineStore('cart', {
 })
 ```
 
-## Shared Getters
+## Getters 공유
 
 _getter_ 내부에서 간단히 `useOtherStore()`를 호출할 수 있습니다:
 
@@ -88,7 +88,7 @@ export const useCartStore = defineStore('cart', {
 })
 ```
 
-## Shared Actions
+## Actions 공유
 
 *액션*에도 동일하게 적용됩니다:
 
