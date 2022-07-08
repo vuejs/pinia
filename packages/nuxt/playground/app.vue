@@ -9,8 +9,6 @@ if (process.server) {
 <template>
   <div>
     <p>Count: {{ counter.$state.count }}</p>
-    <button @click="counter.increment()">
-      +
-    </button>
+    <button @click="counter.increment()">+</button>
   </div>
 </template>

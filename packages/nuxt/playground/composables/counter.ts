@@ -1,13 +1,13 @@
 export const useCounter = definePiniaStore('counter', {
   state: () => ({
-    count: 100
+    count: 100,
   }),
   actions: {
-    increment () {
+    increment() {
       this.count++
-    }
+    },
   },
   getters: {
-    getCount: state => state.count
-  }
+    getCount: (state) => state.count,
+  },
 })
