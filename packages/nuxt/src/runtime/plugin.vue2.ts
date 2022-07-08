@@ -1,8 +1,5 @@
-import { install } from 'vue-demi'
 import _Vue2 from 'vue'
 import { createPinia, setActivePinia, PiniaVuePlugin } from 'pinia'
-
-install()
 
 // TODO: workaround that should probably be removed in the future
 const Vue = 'default' in _Vue2 ? (_Vue2 as any).default : _Vue2
