@@ -1,6 +1,4 @@
-import { resolve } from 'path'
-import { fileURLToPath } from 'url'
-import { defineNuxtModule, addPlugin, isNuxt2, addAutoImport } from '@nuxt/kit'
+import { defineNuxtModule, addPlugin, isNuxt2, addAutoImport, createResolver } from '@nuxt/kit'
 
 export interface ModuleOptions {
   /**
@@ -25,7 +23,7 @@ export default defineNuxtModule<ModuleOptions>({
     disableVuex: true,
   },
   setup(options, nuxt) {
-    const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
+    const resolver = createResolver(import.meta.url)
 
     // Disable default Vuex store (Nuxt v2.10+ only)
     if (nuxt.options.features && options.disableVuex && isNuxt2()) {
@@ -33,20 +31,20 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     // Transpile runtime
-    nuxt.options.build.transpile.push(runtimeDir)
+    nuxt.options.build.transpile.push(resolver.resolve('./runtime'))
 
     // Make sure we use the mjs build for pinia
     nuxt.options.alias.pinia = 'pinia/dist/pinia.mjs'
 
     // Add runtime plugin
     if (isNuxt2()) {
-      addPlugin(resolve(runtimeDir, './plugin.vue2'))
+      addPlugin(resolver.resolve('./runtime/plugin.vue2'))
     } else {
-      addPlugin(resolve(runtimeDir, './plugin'))
+      addPlugin(resolver.resolve('./runtime/plugin.vue3'))
     }
 
     // Add auto imports
-    const composables = resolve(runtimeDir, './composables')
+    const composables = resolver.resolve('./runtime/composables')
     addAutoImport([
       { from: composables, name: 'usePinia' },
       { from: composables, name: 'definePiniaStore' }
