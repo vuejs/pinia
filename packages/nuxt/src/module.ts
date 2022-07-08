@@ -9,7 +9,7 @@ export interface ModuleOptions {
    *
    * @default `true`
    */
-   disableVuex?: boolean
+  disableVuex?: boolean
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -18,13 +18,13 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'pinia',
     compatibility: {
       nuxt: '^2.0.0 || ^3.0.0',
-      bridge: true
-    }
+      bridge: true,
+    },
   },
   defaults: {
-    disableVuex: true
+    disableVuex: true,
   },
-  setup (options: ModuleOptions, nuxt) {
+  setup(options, nuxt) {
     const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
 
     // Disable default Vuex store (Nuxt v2.10+ only)
@@ -47,7 +47,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Add auto imports
     addAutoImport([
-      { from: 'pinia', name: 'defineStore', as: 'definePiniaStore' }
+      { from: 'pinia', name: 'defineStore', as: 'definePiniaStore' },
     ])
-  }
+  },
 })
