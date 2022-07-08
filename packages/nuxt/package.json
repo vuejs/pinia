@@ -45,15 +45,12 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/nuxt -r 1"
   },
   "dependencies": {
-    "vue-demi": "*"
+    "@nuxt/kit": "^3.0.0-rc.4",
+    "pinia": ">=2.0.14"
   },
   "devDependencies": {
     "@nuxt/module-builder": "latest",
-    "nuxt": "^3.0.0-rc.4",
-    "pinia": "^2.0.0"
-  },
-  "peerDependencies": {
-    "pinia": ">=2.0.16"
+    "nuxt": "^3.0.0-rc.4"
   },
   "publishConfig": {
     "access": "public"
