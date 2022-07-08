@@ -51,7 +51,8 @@
   },
   "devDependencies": {
     "@nuxt/module-builder": "latest",
-    "nuxt": "^3.0.0-rc.4"
+    "nuxt": "^3.0.0-rc.4",
+    "vue-tsc": "^0.38.3"
   },
   "publishConfig": {
     "access": "public"
