@@ -1,3 +1,6 @@
+/**
+ * @module @pinia/nuxt
+ */
 import {
   defineNuxtModule,
   addPlugin,

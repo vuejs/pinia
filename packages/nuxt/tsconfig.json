@@ -1,6 +1,4 @@
 {
   "extends": "./playground/.nuxt/tsconfig.json",
-  "include": [
-    "./shims.d.ts",
-  ]
+  "include": ["./shims.d.ts", "./src"]
 }
