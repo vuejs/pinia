@@ -33,7 +33,7 @@ export const PiniaVuePlugin: Plugin = function (_Vue) {
       const options = this.$options
       if (options.pinia) {
         const pinia = options.pinia as Pinia
-        // HACK: taken from provide(): https://github.com/vuejs/composition-api/blob/master/src/apis/inject.ts#L30
+        // HACK: taken from provide(): https://github.com/vuejs/composition-api/blob/main/src/apis/inject.ts#L31
         /* istanbul ignore else */
         if (!(this as any)._provided) {
           const provideCache = {}
