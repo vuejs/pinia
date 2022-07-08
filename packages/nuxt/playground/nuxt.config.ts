@@ -1,11 +1,8 @@
 import { defineNuxtConfig } from 'nuxt'
-import MyModule from '..'
+import piniaModule from '../src/module'
 
 export default defineNuxtConfig({
   modules: [
-    MyModule
-  ],
-  myModule: {
-    addPlugin: true
-  }
+    piniaModule
+  ]
 })

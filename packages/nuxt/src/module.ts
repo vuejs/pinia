@@ -46,8 +46,10 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     // Add auto imports
+    const composables = resolve(runtimeDir, './composables')
     addAutoImport([
-      { from: 'pinia', name: 'defineStore', as: 'definePiniaStore' },
+      { from: composables, name: 'usePinia' },
+      { from: composables, name: 'definePiniaStore' }
     ])
   },
 })
