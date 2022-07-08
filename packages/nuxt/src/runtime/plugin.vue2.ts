@@ -10,6 +10,13 @@ export default (context: any, inject: any) => {
   context.app.pinia = pinia
   setActivePinia(pinia)
 
+  // add access to `$nuxt`
+  // @ts-expect-error: _p is internal
+  pinia._p.push(({ store }) => {
+    // make it non enumerable so it avoids any serialization and devtools
+    Object.defineProperty(store, '$nuxt', { value: context })
+  })
+
   if (process.server) {
     context.beforeNuxtRender((ctx: any) => {
       ctx.nuxtState.pinia = pinia.state.value
@@ -20,4 +27,14 @@ export default (context: any, inject: any) => {
 
   // Inject $pinia
   inject('pinia', pinia)
+}
+
+declare module 'pinia' {
+  export interface PiniaCustomProperties {
+    /**
+     * Nuxt context.
+     */
+    // FIXME: where is this type?
+    // $nuxt: import('@nuxt/types').Context
+  }
 }
