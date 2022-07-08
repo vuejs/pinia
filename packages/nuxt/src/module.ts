@@ -1,4 +1,10 @@
-import { defineNuxtModule, addPlugin, isNuxt2, addAutoImport, createResolver } from '@nuxt/kit'
+import {
+  defineNuxtModule,
+  addPlugin,
+  isNuxt2,
+  addAutoImport,
+  createResolver,
+} from '@nuxt/kit'
 
 export interface ModuleOptions {
   /**
@@ -47,7 +53,7 @@ export default defineNuxtModule<ModuleOptions>({
     const composables = resolver.resolve('./runtime/composables')
     addAutoImport([
       { from: composables, name: 'usePinia' },
-      { from: composables, name: 'definePiniaStore' }
+      { from: composables, name: 'definePiniaStore' },
     ])
   },
 })

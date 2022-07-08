@@ -15,7 +15,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   // Inject $pinia
   return {
     provide: {
-      pinia
-    }
+      pinia,
+    },
   }
 })
