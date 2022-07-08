@@ -15,7 +15,7 @@
     "lint:fix": "pnpm run lint --write",
     "test": "pnpm run test:types && pnpm run test:jest && pnpm run -r test && pnpm run build && pnpm run build:dts && pnpm test:dts",
     "test:jest": "jest --coverage",
-    "test:types": "tsc --build ./tsconfig.json",
+    "test:types": "tsc --build ./tsconfig.json && pnpm run -C packages/nuxt test:types",
     "test:dts": "pnpm run -r test:dts",
     "docs:api": "pnpm run -r docs:api --filter ./packages/docs"
   },
