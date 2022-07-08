@@ -92,12 +92,14 @@ importers:
       '@nuxt/module-builder': latest
       nuxt: ^3.0.0-rc.4
       pinia: '>=2.0.14'
+      vue-tsc: ^0.38.3
     dependencies:
       '@nuxt/kit': 3.0.0-rc.4
       pinia: link:../pinia
     devDependencies:
       '@nuxt/module-builder': 0.1.7
       nuxt: 3.0.0-rc.4
+      vue-tsc: 0.38.3
 
   packages/pinia:
     specifiers:
@@ -1877,6 +1879,36 @@ packages:
     dependencies:
       vite: 2.9.14
       vue: 3.2.37
+    dev: true
+
+  /@volar/code-gen/0.38.3:
+    resolution: {integrity: sha512-0yCkDtaxffyfC9e2dSLGXJmG3b0rCfTa6vqxjr70ZFTtcf/VytmMBwboFicnm+Zoen9EI8wUNfw4upw9Slz5RQ==}
+    dependencies:
+      '@volar/source-map': 0.38.3
+    dev: true
+
+  /@volar/source-map/0.38.3:
+    resolution: {integrity: sha512-8aVM+r4lsHnLjhvnjQ6kn4J++3I6VXtJblcGzWuIOn9M8pJmRGW6Si/eOVjayLWfvPCxXUM7e3sg4Nm2tufTmg==}
+    dev: true
+
+  /@volar/vue-code-gen/0.38.3:
+    resolution: {integrity: sha512-euVuKtwV/KurRSVwNz5bZbCBJLwVOE56+Uh2PhsHcAM5Wzlt82cwLj07FbFagCftoC3IC/bsn43yuLc2I+ZjAQ==}
+    dependencies:
+      '@volar/code-gen': 0.38.3
+      '@volar/source-map': 0.38.3
+      '@vue/compiler-core': 3.2.37
+      '@vue/compiler-dom': 3.2.37
+      '@vue/shared': 3.2.37
+    dev: true
+
+  /@volar/vue-typescript/0.38.3:
+    resolution: {integrity: sha512-rXh4RQBZrNfkiSnpBYbHrsxg7vBbZeYsGFgE/n8FVLcZfGlelsdXFIINsr/aZGUCJre9I15wQ44eEmXnc4+qww==}
+    dependencies:
+      '@volar/code-gen': 0.38.3
+      '@volar/source-map': 0.38.3
+      '@volar/vue-code-gen': 0.38.3
+      '@vue/compiler-sfc': 3.2.37
+      '@vue/reactivity': 3.2.37
     dev: true
 
   /@vue/babel-helper-vue-transform-on/1.0.2:
@@ -9018,6 +9050,15 @@ packages:
     dependencies:
       '@vue/devtools-api': 6.1.4
       vue: 3.2.37
+    dev: true
+
+  /vue-tsc/0.38.3:
+    resolution: {integrity: sha512-mWlneSF+PG2kXYGJI12N4XEAG4ljAkae7IcB93fspqSkEt/oKwDbWy3DzcPSgUm0LsXqOUprTMaZkwDVSRBIvw==}
+    hasBin: true
+    peerDependencies:
+      typescript: '*'
+    dependencies:
+      '@volar/vue-typescript': 0.38.3
     dev: true
 
   /vue/3.2.31:
