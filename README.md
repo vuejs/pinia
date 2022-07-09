@@ -117,7 +117,10 @@ A few notes about the project and possible questions:
 ## Installation
 
 ```bash
+# with yarn
 yarn add pinia
+```
+```bash
 # or with npm
 npm install pinia
 ```
