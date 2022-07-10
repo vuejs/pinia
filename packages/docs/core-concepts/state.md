@@ -129,7 +129,7 @@ Apart from directly mutating the store with `store.counter++`, you can also call
 ```js
 store.$patch({
   counter: store.counter + 1,
-  name: 'Abalam',
+  name: 'Grapefuit',
 })
 ```
 
@@ -151,7 +151,7 @@ The main difference here is that `$patch()` allows you to group multiple changes
 You can replace the whole state of a store by setting its `$state` property to a new object:
 
 ```js
-store.$state = { counter: 666, name: 'Paimon' }
+store.$state = { counter: 1, name: 'Pineapple' }
 ```
 
 You can also replace the whole state of your application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).
