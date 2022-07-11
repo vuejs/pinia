@@ -22,7 +22,12 @@ const PiniaNuxtPlugin: Plugin = (context, inject) => {
   // make sure to inject pinia after installing the plugin because in Nuxt 3, inject defines a non configurable getter
   // on app.config.globalProperties
   // add $pinia to the context
-  inject('pinia', pinia)
+  if (isVue2) {
+    inject('pinia', pinia)
+  } else {
+    // @ts-expect-error: vue 3 only
+    context.provide('pinia', pinia)
+  }
   // to allow accessing pinia without the $
   // TODO: remove this in deprecation
   context.pinia = pinia
@@ -43,10 +48,14 @@ const PiniaNuxtPlugin: Plugin = (context, inject) => {
       })
     } else {
       // there is no beforeNuxtRender in Nuxt 3
-      context.nuxtState.pinia = pinia.state.value
+      // @ts-expect-error: vue 3 only
+      context.ssrContext.payload.pinia = pinia.state.value
     }
-  } else if (context.nuxtState && context.nuxtState.pinia) {
-    pinia.state.value = context.nuxtState.pinia
+  } else {
+    const source = isVue2 ? context.nuxtState : context.payload
+    if (source && source.pinia) {
+      pinia.state.value = source.pinia
+    }
   }
 }
 
