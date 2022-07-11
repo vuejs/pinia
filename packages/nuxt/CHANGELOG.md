@@ -1,3 +1,9 @@
+# [0.2.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.1.9...@pinia/nuxt@0.2.0) (2022-07-11)
+
+### Bug Fixes
+
+- **nuxt:** plugin injection on latest Nuxt 3 context ([#1433](https://github.com/vuejs/pinia/issues/1433)) ([bd0c52f](https://github.com/vuejs/pinia/commit/bd0c52f75645a49226f0473d4b0d3ad1a65635c7))
+
 ## [0.1.9](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.1.8...@pinia/nuxt@0.1.9) (2022-05-05)
 
 Update build tools

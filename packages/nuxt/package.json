@@ -1,6 +1,6 @@
 {
   "name": "@pinia/nuxt",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "Nuxt Module for pinia",
   "keywords": [
     "pinia",
@@ -52,7 +52,7 @@
     "unbuild": "^0.7.4"
   },
   "peerDependencies": {
-    "pinia": ">=2.0.14"
+    "pinia": ">=2.0.15"
   },
   "publishConfig": {
     "access": "public"
