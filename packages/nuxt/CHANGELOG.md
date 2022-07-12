@@ -1,3 +1,10 @@
+## [0.2.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.2.0...@pinia/nuxt@0.2.1) (2022-07-12)
+
+### Bug Fixes
+
+- **nuxt:** add back the nuxtState ([0f68174](https://github.com/vuejs/pinia/commit/0f6817459959c28d53130ac74f8da137a5f26860)), closes [#1447](https://github.com/vuejs/pinia/issues/1447)
+- **nuxt:** use context.payload ([46775cf](https://github.com/vuejs/pinia/commit/46775cf77785102921ad233f63febf2f05102977)), closes [#1442](https://github.com/vuejs/pinia/issues/1442)
+
 # [0.2.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.1.9...@pinia/nuxt@0.2.0) (2022-07-11)
 
 ### Bug Fixes

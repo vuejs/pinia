@@ -1,3 +1,9 @@
+## [2.0.16](https://github.com/vuejs/pinia/compare/pinia@2.0.15...pinia@2.0.16) (2022-07-12)
+
+### Bug Fixes
+
+- add missing require in exports ([96c0dbc](https://github.com/vuejs/pinia/commit/96c0dbc66ee166e6bd11be60c8486f239d83af40))
+
 ## [2.0.15](https://github.com/vuejs/pinia/compare/pinia@2.0.14...pinia@2.0.15) (2022-07-11)
 
 ### Features
