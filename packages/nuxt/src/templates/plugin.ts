@@ -48,13 +48,10 @@ const PiniaNuxtPlugin: Plugin = (context, inject) => {
       })
     } else {
       // there is no beforeNuxtRender in Nuxt 3
-      context.payload.pinia = pinia.state.value
+      context.nuxtState.pinia = pinia.state.value
     }
-  } else {
-    const source = isVue2 ? context.nuxtState : context.payload
-    if (source && source.pinia) {
-      pinia.state.value = source.pinia
-    }
+  } else if (context.nuxtState && context.nuxtState.pinia) {
+    pinia.state.value = context.nuxtState.pinia
   }
 }
 
