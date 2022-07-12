@@ -23,6 +23,7 @@
         }
       },
       "import": "./dist/pinia.mjs",
+      "require": "./index.js",
       "types": "./dist/pinia.d.ts"
     },
     "./package.json": "./package.json",
