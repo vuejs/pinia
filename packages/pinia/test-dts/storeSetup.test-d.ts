@@ -11,13 +11,17 @@ const useSetupStore = defineStore('name', () => {
     },
   })
 
+  const multiply = computed(() => (n: number) => {
+    return count.value * n;
+  });
+
   function increment(amount = 1) {
     count.value += amount
 
     return count.value
   }
 
-  return { count, double, increment, triple }
+  return { count, double, increment, triple, multiply }
 })
 
 const setupStore = useSetupStore()
@@ -26,4 +30,5 @@ expectType<number>(setupStore.count)
 expectType<number>(setupStore.$state.count)
 expectType<number>(setupStore.double)
 expectType<number>(setupStore.triple)
+expectType<(n: number) => number>(setupStore.multiply);
 expectType<(amount?: number) => number>(setupStore.increment)
