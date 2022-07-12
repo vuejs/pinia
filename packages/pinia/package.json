@@ -22,7 +22,8 @@
           "default": "./index.js"
         }
       },
-      "import": "./dist/pinia.mjs"
+      "import": "./dist/pinia.mjs",
+      "types": "./dist/pinia.d.ts"
     },
     "./package.json": "./package.json",
     "./dist/*": "./dist/*"
