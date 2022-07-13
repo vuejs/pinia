@@ -91,7 +91,7 @@ importers:
       '@nuxt/kit': ^3.0.0-rc.4
       '@nuxt/module-builder': latest
       nuxt: ^3.0.0-rc.4
-      pinia: '>=2.0.16'
+      pinia: '>=2.0.14'
       typescript: ^4.6.3
       vue-tsc: ^0.38.3
     dependencies:
