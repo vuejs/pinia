@@ -91,7 +91,8 @@ importers:
       '@nuxt/kit': ^3.0.0-rc.4
       '@nuxt/module-builder': latest
       nuxt: ^3.0.0-rc.4
-      pinia: '>=2.0.14'
+      pinia: '>=2.0.16'
+      typescript: ^4.6.3
       vue-tsc: ^0.38.3
     dependencies:
       '@nuxt/kit': 3.0.0-rc.4
@@ -99,7 +100,8 @@ importers:
     devDependencies:
       '@nuxt/module-builder': 0.1.7
       nuxt: 3.0.0-rc.4
-      vue-tsc: 0.38.3
+      typescript: 4.6.3
+      vue-tsc: 0.38.3_typescript@4.6.3
 
   packages/pinia:
     specifiers:
@@ -9010,8 +9012,8 @@ packages:
         optional: true
     dev: false
 
-  /vue-demi/0.13.2:
-    resolution: {integrity: sha512-41ukrclEbMddAyP7PvxMSYqnOSzPV6r7GNnyTSKSCNTaz19GehxmTiXyP9kwHSUv2+Dr6hHqiUiF7L1VAw2KdQ==}
+  /vue-demi/0.13.4:
+    resolution: {integrity: sha512-KP4lq9uSz0KZbaqCllRhnxMV3mYRsRWJfdsAhZyt5bV5O1RTpoeDptBRV9NOa/JgOpfaA9ane88VF7OjWNK/DA==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
@@ -9032,7 +9034,7 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
-      vue-demi: 0.13.2
+      vue-demi: 0.13.4
     dev: false
 
   /vue-router/4.0.14:
@@ -9052,13 +9054,14 @@ packages:
       vue: 3.2.37
     dev: true
 
-  /vue-tsc/0.38.3:
+  /vue-tsc/0.38.3_typescript@4.6.3:
     resolution: {integrity: sha512-mWlneSF+PG2kXYGJI12N4XEAG4ljAkae7IcB93fspqSkEt/oKwDbWy3DzcPSgUm0LsXqOUprTMaZkwDVSRBIvw==}
     hasBin: true
     peerDependencies:
       typescript: '*'
     dependencies:
       '@volar/vue-typescript': 0.38.3
+      typescript: 4.6.3
     dev: true
 
   /vue/3.2.31:
