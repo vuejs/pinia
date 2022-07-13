@@ -17,6 +17,22 @@ export interface ModuleOptions {
    * @default `true`
    */
   disableVuex?: boolean
+
+  /**
+   * Array of auto imports to be added to the nuxt.config.js file.
+   *
+   * @example
+   * ```js
+   * autoImports: [
+   *  // automatically import `defineStore`
+   *  'defineStore',
+   *  // automatically import `defineStore` as `definePiniaStore`
+   *  ['defineStore', 'definePiniaStore',
+   * ]
+   * ```
+   *
+   */
+  autoImports?: Array<string | [string, string]>
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -30,6 +46,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: {
     disableVuex: true,
+    autoImports: [],
   },
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
@@ -56,7 +73,11 @@ export default defineNuxtModule<ModuleOptions>({
     const composables = resolver.resolve('./runtime/composables')
     addAutoImport([
       { from: composables, name: 'usePinia' },
-      { from: composables, name: 'definePiniaStore' },
+      ...options.autoImports.map((imports) =>
+        typeof imports === 'string'
+          ? { from: composables, name: imports }
+          : { from: composables, name: imports[0], as: imports[1] }
+      ),
     ])
   },
 })
