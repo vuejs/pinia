@@ -81,12 +81,12 @@ This will also ensure you have autocompletion 😉 .
 
 ## Nuxt 2 without bridge
 
-Pinia supports Nuxt 2 until `@pinia/nuxt` v0.1.9. Make sure to also install [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/) alongside `pinia`:
+Pinia supports Nuxt 2 until `@pinia/nuxt` v0.2.1. Make sure to also install [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/) alongside `pinia`:
 
 ```bash
-yarn add pinia @pinia/nuxt @nuxtjs/composition-api
+yarn add pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
 # or with npm
-npm install pinia @pinia/nuxt @nuxtjs/composition-api
+npm install pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
 ```
 
 We supply a _module_ to handle everything for you, you only need to add it to `buildModules` in your `nuxt.config.js` file:
