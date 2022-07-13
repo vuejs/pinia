@@ -33,8 +33,9 @@ declare module 'pinia' {
   export interface PiniaCustomProperties {
     /**
      * Nuxt context.
+     *
+     * @deprecated use `useNuxtApp()` and global `$fetch()` instead. See https://v3.nuxtjs.org/bridge/bridge-composition-api/
      */
-    // FIXME: where is this type?
-    // $nuxt: import('@nuxt/types').Context
+    $nuxt: import('@nuxt/schema').NuxtApp
   }
 }
