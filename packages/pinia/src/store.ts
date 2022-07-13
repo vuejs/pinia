@@ -50,6 +50,7 @@ import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
 import { IS_CLIENT } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
+import { toastMessage } from './devtools/utils'
 
 type _ArrayType<AT> = AT extends Array<infer T> ? T : never
 
@@ -866,6 +867,7 @@ export function defineStore(
     options = idOrOptions
     id = idOrOptions.id
   }
+  // push id into stores array
 
   function useStore(pinia?: Pinia | null, hot?: StoreGeneric): StoreGeneric {
     const currentInstance = getCurrentInstance()
@@ -900,6 +902,11 @@ export function defineStore(
         // @ts-expect-error: not the right inferred type
         useStore._pinia = pinia
       }
+    } else {
+      toastMessage(
+        `Store with id: ${id} already exists. Stores shoud have unique id.`,
+        'warn'
+      )
     }
 
     const store: StoreGeneric = pinia._s.get(id)!
