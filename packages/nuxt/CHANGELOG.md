@@ -1,3 +1,52 @@
+# [0.3.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.2.1...@pinia/nuxt@0.3.0) (2022-07-13)
+
+**Please read the release notes if you are upgrading from a previous version.**
+
+### Bug Fixes
+
+- **nuxt:** correct type for `$nuxt` ([4f1a514](https://github.com/vuejs/pinia/commit/4f1a5149a189d2f36e3c57cb5bf79eafb6544856))
+
+### Features
+
+- **nuxt:** add `autoImports` option in module ([42be2fc](https://github.com/vuejs/pinia/commit/42be2fc22aa99353821d9595061ca991d42127ff))
+- **nuxt:** deprecate old `$nuxt` context ([3e3041a](https://github.com/vuejs/pinia/commit/3e3041a84d2a1c7c4e6e62ac6c54ade949a1be94))
+- **nuxt:** remove wrong `$nuxt` in Nuxt 3 ([67e5417](https://github.com/vuejs/pinia/commit/67e5417708d1ade18f42c16f6f0085e3787d06bf))
+- usePinia composable ([c7debd6](https://github.com/vuejs/pinia/commit/c7debd692cf2034968dbaf7a72c39e621a3c5511))
+
+### BREAKING CHANGES
+
+- **nuxt:** `$nuxt` usage in stores defaults to type `any` unless
+  you install the `@nuxt/types` package. This is because that package is
+  quite heavy and can cause conflicts in projects not requiring it. Note
+  `$nuxt` is deprecated and shouldn't be used (cf the other breaking
+  changes notes).
+- **nuxt:** Starting on this version, `@pinia/nuxt` only works with
+  Nuxt 2 + Bridge and Nuxt 3, it no longer works with Nuxt 2 only. This is
+  necessary to have one single plugin that works well with the different
+  versions of Nuxt. If you aren't using bridge with Nuxt 2, check out the
+  [migration guide](https://v3.nuxtjs.org/bridge/overview) or pin your
+  `@pinia/nuxt` dependency in your:
+
+  ```diff
+  -    "@pinia/nuxt": "^0.2.1",
+  +    "@pinia/nuxt": "0.2.1",
+  ```
+
+  The `$nuxt` context usage should be replaced with globals like
+  `$fetch()` and `useNuxtApp()`. You can find more information about this
+  in Nuxt documentation:
+
+  - https://v3.nuxtjs.org/bridge/bridge-composition-api/
+  - https://v3.nuxtjs.org/bridge/overview
+
+- **nuxt:** in Nuxt 3, `$nuxt` is no longer available in stores.
+  This is because it was removed in Nuxt 3 and it is no longer the
+  _context_ as it used to be. Most of the features used there, like
+  `$fetch` are now globally available and therefore remove the need of it.
+  You can also use
+  [`useNuxtApp()`](https://v3.nuxtjs.org/bridge/bridge-composition-api/)
+  when necessary.
+
 ## [0.2.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.2.0...@pinia/nuxt@0.2.1) (2022-07-12)
 
 ### Bug Fixes
