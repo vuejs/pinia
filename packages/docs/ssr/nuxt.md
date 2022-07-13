@@ -43,25 +43,6 @@ export default {
 }
 ```
 
-## Using the Nuxt context in stores
-
-You can also use [the context](https://nuxtjs.org/docs/2.x/internals-glossary/context) in any store by using the injected property `$nuxt`:
-
-```js
-import { useUserStore } from '~/stores/userStore'
-
-defineStore('cart', {
-  actions: {
-    purchase() {
-      const user = useUserStore()
-      if (!user.isAuthenticated()) {
-        this.$nuxt.redirect('/login')
-      }
-    },
-  },
-})
-```
-
 ## Using Pinia alongside Vuex
 
 It is recommended to **avoid using both Pinia and Vuex** but if you need to use both, you need to tell pinia to not disable it:
