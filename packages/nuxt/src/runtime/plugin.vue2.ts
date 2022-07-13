@@ -34,7 +34,8 @@ declare module 'pinia' {
     /**
      * Nuxt context.
      *
-     * @deprecated use `useNuxtApp()` and global `$fetch()` instead. See https://v3.nuxtjs.org/bridge/bridge-composition-api/
+     * @deprecated use `useNuxtApp()` and global `$fetch()` instead. See
+     * https://v3.nuxtjs.org/bridge/bridge-composition-api/
      */
     $nuxt: import('@nuxt/schema').NuxtApp
   }
