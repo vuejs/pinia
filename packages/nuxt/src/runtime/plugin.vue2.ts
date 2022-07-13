@@ -32,11 +32,12 @@ export default (context: any, inject: any) => {
 declare module 'pinia' {
   export interface PiniaCustomProperties {
     /**
-     * Nuxt context.
+     * Nuxt context. Requires you to install `@nuxt/types` to have types.
      *
      * @deprecated use `useNuxtApp()` and global `$fetch()` instead. See
      * https://v3.nuxtjs.org/bridge/bridge-composition-api/
      */
-    $nuxt: import('@nuxt/schema').NuxtApp
+    // @ts-ignore: heavy types, must be added by the user
+    $nuxt: import('@nuxt/types').Context
   }
 }
