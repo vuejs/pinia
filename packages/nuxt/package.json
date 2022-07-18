@@ -1,6 +1,6 @@
 {
   "name": "@pinia/nuxt",
-  "version": "0.1.9",
+  "version": "0.3.0",
   "description": "Nuxt Module for pinia",
   "keywords": [
     "pinia",
@@ -24,35 +24,35 @@
     "email": "posva13@gmail.com"
   },
   "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/module.mjs",
-      "require": "./module.cjs"
-    },
-    "./dist/*": "./dist/*"
+      "require": "./dist/module.cjs"
+    }
   },
-  "main": "./module.cjs",
-  "types": "./dist/module.d.ts",
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
   "files": [
-    "module.cjs",
-    "dist/*.js",
-    "dist/*.mjs",
-    "dist/*.d.ts"
+    "dist"
   ],
   "scripts": {
-    "build": "unbuild",
+    "build": "pnpm dev:prepare && nuxt-module-build",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "test:types": "pnpm dev:prepare && nuxi typecheck",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/nuxt -r 1"
   },
   "dependencies": {
-    "vue-demi": "*"
+    "@nuxt/kit": "^3.0.0-rc.4",
+    "pinia": ">=2.0.14"
   },
   "devDependencies": {
-    "@nuxt/types": "^2.15.8",
-    "pinia": "^2.0.0",
-    "unbuild": "^0.7.4"
-  },
-  "peerDependencies": {
-    "pinia": ">=2.0.14"
+    "@nuxt/module-builder": "latest",
+    "nuxt": "^3.0.0-rc.4",
+    "typescript": "^4.6.3",
+    "vue-tsc": "^0.38.3"
   },
   "publishConfig": {
     "access": "public"

@@ -64,8 +64,8 @@ import { defineStore } from 'pinia'
 
 const useCounterStore = defineStore('counterStore', {
   state: () => ({
-    counter: 0
-  })
+    counter: 0,
+  }),
 })
 ```
 
@@ -129,7 +129,8 @@ Apart from directly mutating the store with `store.counter++`, you can also call
 ```js
 store.$patch({
   counter: store.counter + 1,
-  name: 'Abalam',
+  age: 120,
+  name: 'DIO',
 })
 ```
 
@@ -144,14 +145,14 @@ cartStore.$patch((state) => {
 
 <!-- TODO: disable this with `strictMode`, `{ noDirectPatch: true }` -->
 
-The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note **both, direct changes to `state` and `$patch()` appear in the devtools** and can be time travelled (not yet in Vue 3).
+The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note **both, direct changes to `state` and `$patch()` appear in the devtools** and can be time traveled (not yet in Vue 3).
 
 ## Replacing the `state`
 
 You can replace the whole state of a store by setting its `$state` property to a new object:
 
 ```js
-store.$state = { counter: 666, name: 'Paimon' }
+store.$state = { counter: 24 }
 ```
 
 You can also replace the whole state of your application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).

@@ -1,6 +1,6 @@
 {
   "name": "pinia",
-  "version": "2.0.14",
+  "version": "2.0.16",
   "description": "Intuitive, type safe and flexible Store for Vue",
   "main": "index.js",
   "module": "dist/pinia.mjs",
@@ -22,7 +22,9 @@
           "default": "./index.js"
         }
       },
-      "import": "./dist/pinia.mjs"
+      "import": "./dist/pinia.mjs",
+      "require": "./index.js",
+      "types": "./dist/pinia.d.ts"
     },
     "./package.json": "./package.json",
     "./dist/*": "./dist/*"

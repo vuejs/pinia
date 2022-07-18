@@ -294,6 +294,7 @@ async function publishPackage(pkg) {
       [
         'publish',
         ...(optionTag ? ['--tag', optionTag] : []),
+        ...(skipCleanGitCheck ? ['--no-git-checks'] : []),
         '--access',
         'public',
         // specific to pinia
