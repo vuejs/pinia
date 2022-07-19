@@ -904,7 +904,7 @@ export function defineStore(
       }
     } else {
       toastMessage(
-        `Store with id: ${id} already exists. Stores shoud have unique id.`,
+        `Store with id: ${id} already exists. Stores should have unique id.`,
         'warn'
       )
     }
