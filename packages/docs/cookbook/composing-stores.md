@@ -42,7 +42,7 @@ const useY = defineStore('y', () => {
 
 ## Using a store within another store
 
-Note that if one store uses another store, you can directly import and call the `use${storeName}Store` method, and access methods on the store object, just like you would access them from within a Vue component.
+Note that if one store uses another store, you can directly import and call the `use${storeName}Store` method, then access methods on the returned store object, just like you would access them from within a Vue component.
 
 You can call `useOtherStore()` inside any getter or action:
 
