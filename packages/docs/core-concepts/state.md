@@ -27,6 +27,10 @@ const useStore = defineStore('storeId', {
 If you are using Vue 2, the data you create in `state` follows the same rules as the `data` in a Vue instance, ie the state object must be plain and you need to call `Vue.set()` when **adding new** properties to it. **See also: [Vue#data](https://v2.vuejs.org/v2/api/#data)**.
 :::
 
+:::tip
+If you want to use optional state properties (declared via a typescript interface), you need the explicitely initiate them with `undefined` or else getters and accessing the state won't work properly.
+:::
+
 ## Accessing the `state`
 
 By default, you can directly read and write to the state by accessing it through the `store` instance:
