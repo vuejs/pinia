@@ -192,9 +192,9 @@ cartStore.$patch((state) => {
 
 The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note **both, direct changes to `state` and `$patch()` appear in the devtools** and can be time traveled (not yet in Vue 3).
 
-## Replacing the `state`
+## Merging the `state`
 
-You can replace the whole state of a store by setting its `$state` property to a new object:
+You can merge a new object into a state of store by setting its `$state` property:
 
 ```js
 store.$state = { counter: 24 }
