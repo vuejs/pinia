@@ -26,7 +26,6 @@ This _name_, also referred as _id_, is necessary and is used by Pinia to connect
 Similar to the Vue Composition API's [setup function](https://vuejs.org/api/composition-api-setup.html), we can pass in a `storeSetup` function that defines reactive properties and methods. 
 
 ```js
-
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
   function increment() {
