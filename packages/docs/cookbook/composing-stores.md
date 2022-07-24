@@ -44,6 +44,26 @@ const useY = defineStore('y', () => {
 
 Note that if one store uses another store, you can directly import and call the `useStore()` function within _actions_ and _getters_. Then you can interact with the store just like you would from within a Vue component. See [Shared Getters](#shared-getters) and [Shared Actions](#shared-actions).
 
+When it comes to _setup stores_, you can simply use one of the stores **at the top** of the store function:
+
+```ts
+import { useUserStore } from './user'
+
+export const useCartStore = defineStore('cart', () => {
+  const user = useUserStore()
+
+  const summary = computed(() => {
+    return `Hi ${user.name}, you have ${state.list.length} items in your cart. It costs ${state.price}.`
+  })
+
+  function purchase() {
+    return apiPurchase(user.id, this.list)
+  }
+
+  return { summary, purchase }
+})
+```
+
 ## Shared Getters
 
 You can simply call `useOtherStore()` inside a _getter_:
