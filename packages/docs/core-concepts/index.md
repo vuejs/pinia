@@ -10,7 +10,7 @@ Before diving into core concepts, we need to know that a store is defined using 
 ```js
 import { defineStore } from 'pinia'
 
-// useStore could be anything like useUser, useCart
+// useStore is an arbitrary name but a good convention- it could be anything like useUserStore, useCartStore
 // the first argument is a unique id of the store across your application
 export const useStore = defineStore('main', {
   // other options...
@@ -19,7 +19,43 @@ export const useStore = defineStore('main', {
 
 This _name_, also referred as _id_, is necessary and is used by Pinia to connect the store to the devtools. Naming the returned function _use..._ is a convention across composables to make its usage idiomatic.
 
-## Using the store
+`defineStore()` accepts two distinct values for its second argument: a Setup function or an Options object.
+
+## Defining a store using Setup Function
+
+Similar to the Vue Composition API's [setup function](https://vuejs.org/api/composition-api-setup.html), we can pass in a `storeSetup` function that defines reactive properties and methods. 
+
+```js
+
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+  function increment() {
+    count.value++
+  }
+
+  return { count, increment }
+})
+```
+
+## Defining a Store using an Options object
+
+Similar to Vue's Options API, we can also pass an Options Object with `state`, `actions`, and `getters` properties. 
+
+```js {22,24,28}
+export const useCounterStore = defineStore('counter', {
+  state: () => ({ count: 0 }),
+  getters: {
+    double: (state) => state.count * 2,
+  },
+  actions: {
+    increment() {
+      this.count++
+    },
+  },
+})
+```
+
+# Using the store
 
 We are _defining_ a store because the store won't be created until `useStore()` is called inside of `setup()`:
 
