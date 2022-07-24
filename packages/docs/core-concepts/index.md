@@ -10,7 +10,7 @@ Before diving into core concepts, we need to know that a store is defined using 
 ```js
 import { defineStore } from 'pinia'
 
-// useStore could be anything like useUser, useCart
+// You can name the return value of `defineStore()` anything you want, but it's best to use the name of the store and surround it with `use` and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
 export const useStore = defineStore('main', {
   // other options...
@@ -18,6 +18,57 @@ export const useStore = defineStore('main', {
 ```
 
 This _name_, also referred as _id_, is necessary and is used by Pinia to connect the store to the devtools. Naming the returned function _use..._ is a convention across composables to make its usage idiomatic.
+
+`defineStore()` accepts two distinct values for its second argument: a Setup function or an Options object.
+
+## Option Stores
+
+Similar to Vue's Options API, we can also pass an Options Object with `state`, `actions`, and `getters` properties.
+
+```js {2-10}
+export const useCounterStore = defineStore('counter', {
+  state: () => ({ count: 0 }),
+  getters: {
+    double: (state) => state.count * 2,
+  },
+  actions: {
+    increment() {
+      this.count++
+    },
+  },
+})
+```
+
+You can think of `state` as the `data` of the store, and `getters` as the `computed` properties of the store, and `actions` as the `methods`.
+
+Options stores should feel intuitive and simple to get started with.
+
+## Setup Stores
+
+There is also another possible syntax to define stores. Similar to the Vue Composition API's [setup function](https://vuejs.org/api/composition-api-setup.html), we can pass in a function that defines reactive properties and methods and returns an object with the properties and methods we want to expose.
+
+```js
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+  function increment() {
+    count.value++
+  }
+
+  return { count, increment }
+})
+```
+
+In _Setup Stores_:
+
+- `ref()`s become `state` properties
+- `computed()`s become `getters`
+- `function()`s become `actions`
+
+Setup stores bring a lot more flexibility than [Options Stores](#option-stores) as you can create watchers within a store and freely use any [composable](https://vuejs.org/guide/reusability/composables.html#composables). However, keep in mind that using composables will complexify [SSR](../ssr/advanced.md).
+
+## What syntax should I pick?
+
+As with [Vue's Composition API and Option API](https://vuejs.org/guide/introduction.html#which-to-choose), pick the one that you feel the most comfortable with. If you're not sure, try the [Option Stores](#option-stores) first.
 
 ## Using the store
 
