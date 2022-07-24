@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://pinia.vuejs.org" target="_blank" rel="noopener noreferrer">
+  <a href="https://pinia.vuejs.kr" target="_blank" rel="noopener noreferrer">
     <img width="180" src="https://pinia.vuejs.org/logo.svg" alt="Pinia logo">
   </a>
 </p>
@@ -13,14 +13,32 @@
 
 # Pinia
 
-> Intuitive, type safe and flexible Store for Vue
+> 여기는 Vue 상태관리 라이브러리 Pinia 웹 페이지 한글화를 위해 포크한 저장소 입니다.
 
-- 💡 Intuitive
-- 🔑 Type Safe
-- ⚙️ Devtools support
-- 🔌 Extensible
-- 🏗 Modular by design
-- 📦 Extremely light
+> 최신 Vitepress를 사용하여 웹 페이지를 생성하므로,
+공식 사이트와 시각적으로 달라보일 수 있으나,
+내용은 동일하게 유지됩니다.
+
+---
+
+웹 페이지 바로가기: [한글화 문서](https://pinia.vuejs.kr/)
+
+## 브랜치 구조
+
+- `main-korean`: 최신 한글화 문서 브랜치 입니다. 모든 번역 작업은 최종적으로 이곳으로 병합됩니다.
+- `v2`: Fetch upstream으로 `vuejs/pinia`의 최신 원본 문서를 주기적으로 추적합니다.
+- 그외: 포크된 `vuejs/pinia`의 브랜치들 입니다.
+
+---
+
+> 직관적이고 유형이 안전하고 유연한 Vue용 Store
+
+- 💡 직관적
+- 🔑 유형 보호
+- ⚙️Devtools 지원
+- 🔌 확장가능
+- 🏗 모듈식 디자인
+- 📦 매우 가벼움
 
 Pinia works both for Vue 2.x and Vue 3.x. It requires Vue 2 with the latest `@vue/composition-api` or Vue `^3.2.0-0`.
 
@@ -29,71 +47,6 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
 ## 👉 [Demo with Vue 3 on StackBlitz](https://stackblitz.com/github/piniajs/example-vue-3-vite)
 
 ## 👉 [Demo with Nuxt 3 on StackBlitz](https://stackblitz.com/github/piniajs/example-nuxt-3)
-
-## Help me keep working on this project 💚
-
-- [Become a Sponsor on GitHub](https://github.com/sponsors/posva)
-- [One-time donation via PayPal](https://paypal.me/posva)
-
-<!--sponsors start-->
-
-<h4 align="center">Gold Sponsors</h4>
-<p align="center">
-    <a href="https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/vuejobs.svg" media="(prefers-color-scheme: dark)" height="72px" alt="VueJobs" />
-      <img src="https://posva-sponsors.pages.dev/logos/vuejobs.svg" height="72px" alt="VueJobs" />
-    </picture>
-  </a>
-</p>
-
-<h4 align="center">Silver Sponsors</h4>
-<p align="center">
-    <a href="https://www.vuemastery.com/" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/vuemastery-dark.png" media="(prefers-color-scheme: dark)" height="42px" alt="VueMastery" />
-      <img src="https://posva-sponsors.pages.dev/logos/vuemastery-light.svg" height="42px" alt="VueMastery" />
-    </picture>
-  </a>
-    <a href="https://www.prefect.io/" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/prefectlogo-dark.svg" media="(prefers-color-scheme: dark)" height="42px" alt="Prefect" />
-      <img src="https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg" height="42px" alt="Prefect" />
-    </picture>
-  </a>
-</p>
-
-<h4 align="center">Bronze Sponsors</h4>
-<p align="center">
-    <a href="https://stormier.ninja" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4" media="(prefers-color-scheme: dark)" height="26px" alt="Stanislas OrmiÃ¨res" />
-      <img src="https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4" height="26px" alt="Stanislas OrmiÃ¨res" />
-    </picture>
-  </a>
-    <a href="www.vuejs.de" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4" media="(prefers-color-scheme: dark)" height="26px" alt="Antony Konstantinidis" />
-      <img src="https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4" height="26px" alt="Antony Konstantinidis" />
-    </picture>
-  </a>
-    <a href="https://storyblok.com" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/storyblok.png" media="(prefers-color-scheme: dark)" height="26px" alt="Storyblok" />
-      <img src="https://posva-sponsors.pages.dev/logos/storyblok.png" height="26px" alt="Storyblok" />
-    </picture>
-  </a>
-    <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/nuxt-dark.svg" media="(prefers-color-scheme: dark)" height="26px" alt="NuxtJS" />
-      <img src="https://posva-sponsors.pages.dev/logos/nuxt-light.svg" height="26px" alt="NuxtJS" />
-    </picture>
-  </a>
-</p>
-
-<!--sponsors end-->
-
----
 
 ## FAQ
 
@@ -106,13 +59,6 @@ A few notes about the project and possible questions:
 **Q**: _What about dynamic modules?_
 
 **A**: Dynamic modules are not type safe, so instead [we allow creating different stores](https://pinia.vuejs.org/cookbook/composing-stores.html) that can be imported anywhere
-
-## Roadmap / Ideas
-
-- [x] Should the state be merged at the same level as actions and getters?
-- [ ] ~~Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)~~
-      You can directly call `useOtherStore()` inside of a getter or action.
-- [ ] ~~Getter with params that act like computed properties (@ktsn)~~ Can be implement through a custom composable and passed directly to state.
 
 ## Installation
 
@@ -197,11 +143,3 @@ export default defineComponent({
   },
 })
 ```
-
-## Documentation
-
-To learn more about Pinia, check [its documentation](https://pinia.vuejs.org).
-
-## License
-
-[MIT](http://opensource.org/licenses/MIT)
