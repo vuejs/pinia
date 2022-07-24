@@ -217,6 +217,10 @@ module.exports = {
               text: 'Nuxt.js',
               link: '/ssr/nuxt.html',
             },
+            {
+              text: 'Dealing with composables',
+              link: '/cookbook/composables.html#ssr',
+            },
           ],
         },
         {
@@ -246,6 +250,10 @@ module.exports = {
             {
               text: 'Migration from v0/v1 to v2',
               link: '/cookbook/migration-v1-v2.html',
+            },
+            {
+              text: 'Dealing with composables',
+              link: '/cookbook/composables.html',
             },
           ],
         },
