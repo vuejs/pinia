@@ -27,6 +27,51 @@ const useStore = defineStore('storeId', {
 If you are using Vue 2, the data you create in `state` follows the same rules as the `data` in a Vue instance, i.e. the state object must be plain and you need to call `Vue.set()` when **adding new** properties to it. **See also: [Vue#data](https://v2.vuejs.org/v2/api/#data)**.
 :::
 
+## TypeScript
+
+You don't need to do much in order to make your state compatible with TS. Pinia will infer the type of your state automatically but there are a few cases where you should give it a hand with some casting:
+
+```ts
+const useStore = defineStore('storeId', {
+  state: () => {
+    return {
+      // for initially empty lists
+      userList: [] as UserInfo[],
+      // for data that is not yet loaded
+      user: null as UserInfo | null,
+    }
+  },
+})
+
+interface UserInfo {
+  name: string
+  age: number
+}
+```
+
+If you prefer, you can define the state with an interface and type the return value of `state()`:
+
+```ts
+interface State {
+  userList: UserInfo[]
+  user: UserInfo | null
+}
+
+const useStore = defineStore('storeId', {
+  state: (): State => {
+    return {
+      userList: [],
+      user: null,
+    }
+  },
+})
+
+interface UserInfo {
+  name: string
+  age: number
+}
+```
+
 ## Accessing the `state`
 
 By default, you can directly read and write to the state by accessing it through the `store` instance:
