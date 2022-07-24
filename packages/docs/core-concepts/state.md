@@ -192,15 +192,18 @@ cartStore.$patch((state) => {
 
 The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note **both, direct changes to `state` and `$patch()` appear in the devtools** and can be time traveled (not yet in Vue 3).
 
-## Merging the `state`
+## Replacing the `state`
 
-You can merge a new object into a state of store by setting its `$state` property:
+You **cannot exactly replace** the state of a store as that would break reactivity. You can however _patch it_:
 
 ```js
+// this doesn't actually replace `$state`
 store.$state = { counter: 24 }
+// it internally calls `$patch()`:
+store.$patch({ counter: 24 })
 ```
 
-You can also replace the whole state of your application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).
+You can also **set the initial state** of your whole application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).
 
 ```js
 pinia.state.value = {}
