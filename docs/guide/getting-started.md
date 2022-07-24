@@ -9,7 +9,7 @@ npm install pinia
 ```
 
 :::tip
-If your app is using Vue 2, you also need to install the composition api: `@vue/composition-api`. If you are using Nuxt, you should follow [these instructions](/ssr/nuxt.md).
+If your app is using Vue 2, you also need to install the composition api: `@vue/composition-api`. If you are using Nuxt, you should follow [these instructions](/guide/ssr/nuxt.md).
 :::
 
 If you are using the Vue CLI, you can instead give this [**unofficial plugin**](https://github.com/wobsoriano/vue-cli-plugin-pinia) a try.
@@ -50,7 +50,7 @@ This will also add devtools support. In Vue 3, some features like time traveling
 
 ## What is a Store?
 
-A Store (like Pinia) is an entity holding state and business logic that isn't bound to your Component tree. In other words, **it hosts global state**. It's a bit like a component that is always there and that everybody can read off and write to. It has **three concepts**, the [state](core-conceptstate.md), [getters](core-conceptsetters.md) and [actions](core-conceptsctions.md) and it's safe to assume these concepts are the equivalent of `data`, `computed` and `methods` in components.
+A Store (like Pinia) is an entity holding state and business logic that isn't bound to your Component tree. In other words, **it hosts global state**. It's a bit like a component that is always there and that everybody can read off and write to. It has **three concepts**, the [state](/guide/core-concepts/state.md), [getters](/guide/core-concepts/getters.md) and [actions](/guide/core-concepts/actions.md) and it's safe to assume these concepts are the equivalent of `data`, `computed` and `methods` in components.
 
 ## When should I use a Store
 

@@ -1,10 +1,5 @@
 # Introduction
 
-<VueSchoolLink
-  href="https://vueschool.io/lessons/introduction-to-pinia"
-  title="Get started with Pinia"
-/>
-
 Pinia [started](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e) as an experiment to redesign what a Store for Vue could look like with the [Composition API](https://github.com/vuejs/composition-api) around November 2019. Since then, the initial principles are still the same, but Pinia works for both Vue 2 and Vue 3 **and doesn't require you to use the composition API**. The API is the same for both except for _installation_ and _SSR_, and these docs are targeted to Vue 3 **with notes about Vue 2** whenever necessary so it can be read by Vue 2 and Vue 3 users!
 
 ## Why should I use Pinia?
@@ -189,4 +184,4 @@ Pinia API is very different from Vuex ≤4, namely:
 - No more nested structuring of _modules_. You can still nest stores implicitly by importing and _using_ a store inside another but Pinia offers a flat structuring by design while still enabling ways of cross composition among stores. **You can even have circular dependencies of stores**.
 - No _namespaced modules_. Given the flat architecture of stores, "namespacing" stores is inherent to how they are defined and you could say all stores are namespaced.
 
-For more detailed instructions on how to convert an existing Vuex ≤4 project to use Pinia, see the [Migration from Vuex Guide](cookbookigration-vuex.md).
+For more detailed instructions on how to convert an existing Vuex ≤4 project to use Pinia, see the [Migration from Vuex Guide](/guide/cookbook/migration-vuex.md).
