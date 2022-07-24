@@ -601,7 +601,7 @@ export type _ExtractActionsFromSetupStore<SS> = SS extends undefined | void
 export type _ExtractGettersFromSetupStore<SS> = SS extends undefined | void
   ? {}
   : _ExtractGettersFromSetupStore_Keys<SS> extends keyof SS
-  ? _UnwrapAll<Pick<SS, _ExtractGettersFromSetupStore_Keys<SS>>>
+  ? Pick<SS, _ExtractGettersFromSetupStore_Keys<SS>>
   : never
 
 /**
