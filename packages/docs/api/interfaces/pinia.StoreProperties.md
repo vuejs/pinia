@@ -34,7 +34,7 @@ Unique identifier of the store
 
 #### Defined in
 
-[packages/pinia/src/types.ts:265](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L265)
+[packages/pinia/src/types.ts:258](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L258)
 
 ___
 
@@ -48,4 +48,4 @@ that should be displayed in devtools.
 
 #### Defined in
 
-[packages/pinia/src/types.ts:293](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L293)
+[packages/pinia/src/types.ts:286](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L286)

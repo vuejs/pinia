@@ -39,7 +39,7 @@ Defaults to an empty object if no actions are defined.
 
 #### Defined in
 
-[packages/pinia/src/types.ts:721](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L721)
+[packages/pinia/src/types.ts:714](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L714)
 
 ___
 
@@ -55,7 +55,32 @@ Omit.getters
 
 #### Defined in
 
-[packages/pinia/src/types.ts:645](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L645)
+[packages/pinia/src/types.ts:638](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L638)
+
+___
+
+### state
+
+• `Optional` **state**: () => `S`
+
+#### Type declaration
+
+▸ (): `S`
+
+Function to create a fresh state. **Must be an arrow function** to ensure
+correct typings!
+
+##### Returns
+
+`S`
+
+#### Inherited from
+
+Omit.state
+
+#### Defined in
+
+[packages/pinia/src/types.ts:633](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L633)
 
 ## Methods
 
@@ -66,7 +91,8 @@ Omit.getters
 Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
 definition and copying the value from `pinia.state` isn't enough.
 
-**`example`**
+**`Example`**
+
 If in your `state`, you use any `customRef`s, any `computed`s, or any `ref`s that have a different value on
 Server and Client, you need to manually hydrate them. e.g., a custom ref that is stored in the local
 storage:
@@ -100,25 +126,4 @@ Omit.hydrate
 
 #### Defined in
 
-[packages/pinia/src/types.ts:685](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L685)
-
-___
-
-### state
-
-▸ `Optional` **state**(): `S`
-
-Function to create a fresh state. **Must be an arrow function** to ensure
-correct typings!
-
-#### Returns
-
-`S`
-
-#### Inherited from
-
-Omit.state
-
-#### Defined in
-
-[packages/pinia/src/types.ts:640](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L640)
+[packages/pinia/src/types.ts:678](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L678)

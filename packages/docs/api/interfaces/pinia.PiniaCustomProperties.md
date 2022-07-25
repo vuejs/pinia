@@ -21,98 +21,6 @@ Interface to be extended by the user when they add properties through plugins.
 | `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
 | `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
 
-## Properties
-
-### $nuxt
-
-• **$nuxt**: `Context`
-
-Nuxt context.
-
-#### Defined in
-
-[packages/nuxt/src/module.ts:68](https://github.com/vuejs/pinia/blob/2b998ee/packages/nuxt/src/module.ts#L68)
-
-___
-
-### double
-
-• **double**: `number`
-
-#### Defined in
-
-[packages/pinia/__tests__/storePlugins.spec.ts:14](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L14)
-
-___
-
-### globalA
-
-• **globalA**: `string`
-
-#### Defined in
-
-[packages/pinia/__tests__/storePlugins.spec.ts:11](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L11)
-
-___
-
-### globalB
-
-• **globalB**: `string`
-
-#### Defined in
-
-[packages/pinia/__tests__/storePlugins.spec.ts:12](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L12)
-
-___
-
-### hasApp
-
-• **hasApp**: `boolean`
-
-#### Defined in
-
-[packages/pinia/__tests__/storePlugins.spec.ts:9](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L9)
-
-___
-
-### idFromPlugin
-
-• **idFromPlugin**: `Id`
-
-#### Defined in
-
-[packages/pinia/__tests__/storePlugins.spec.ts:10](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L10)
-
-___
-
-### pluginN
-
-• **pluginN**: `number`
-
-#### Defined in
-
-[packages/pinia/__tests__/storePlugins.spec.ts:7](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L7)
-
-___
-
-### shared
-
-• **shared**: `number`
-
-#### Defined in
-
-[packages/pinia/__tests__/storePlugins.spec.ts:13](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L13)
-
-___
-
-### uid
-
-• **uid**: `number`
-
-#### Defined in
-
-[packages/pinia/__tests__/storePlugins.spec.ts:8](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/__tests__/storePlugins.spec.ts#L8)
-
 ## Accessors
 
 ### route
@@ -125,7 +33,7 @@ ___
 
 #### Defined in
 
-[packages/playground/src/main.ts:17](https://github.com/vuejs/pinia/blob/2b998ee/packages/playground/src/main.ts#L17)
+[packages/playground/src/main.ts:17](https://github.com/vuejs/pinia/blob/aa0192a/packages/playground/src/main.ts#L17)
 
 • `set` **route**(`value`): `void`
 
@@ -141,4 +49,4 @@ ___
 
 #### Defined in
 
-[packages/playground/src/main.ts:14](https://github.com/vuejs/pinia/blob/2b998ee/packages/playground/src/main.ts#L14)
+[packages/playground/src/main.ts:14](https://github.com/vuejs/pinia/blob/aa0192a/packages/playground/src/main.ts#L14)

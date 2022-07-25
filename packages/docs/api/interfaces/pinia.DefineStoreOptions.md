@@ -11,7 +11,11 @@ sidebarDepth: 3
 [pinia](../modules/pinia.md).DefineStoreOptions
 
 Options parameter of `defineStore()` for option stores. Can be extended to
-augment stores with the plugin API. @see [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
+augment stores with the plugin API.
+
+**`See`**
+
+[DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
 ## Type parameters
 
@@ -38,7 +42,7 @@ Optional object of actions.
 
 #### Defined in
 
-[packages/pinia/src/types.ts:652](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L652)
+[packages/pinia/src/types.ts:645](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L645)
 
 ___
 
@@ -50,7 +54,7 @@ Optional object of getters.
 
 #### Defined in
 
-[packages/pinia/src/types.ts:645](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L645)
+[packages/pinia/src/types.ts:638](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L638)
 
 ___
 
@@ -62,7 +66,28 @@ Unique string key to identify the store across the application.
 
 #### Defined in
 
-[packages/pinia/src/types.ts:634](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L634)
+[packages/pinia/src/types.ts:627](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L627)
+
+___
+
+### state
+
+• `Optional` **state**: () => `S`
+
+#### Type declaration
+
+▸ (): `S`
+
+Function to create a fresh state. **Must be an arrow function** to ensure
+correct typings!
+
+##### Returns
+
+`S`
+
+#### Defined in
+
+[packages/pinia/src/types.ts:633](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L633)
 
 ## Methods
 
@@ -73,7 +98,8 @@ Unique string key to identify the store across the application.
 Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
 definition and copying the value from `pinia.state` isn't enough.
 
-**`example`**
+**`Example`**
+
 If in your `state`, you use any `customRef`s, any `computed`s, or any `ref`s that have a different value on
 Server and Client, you need to manually hydrate them. e.g., a custom ref that is stored in the local
 storage:
@@ -103,21 +129,4 @@ const useStore = defineStore('main', {
 
 #### Defined in
 
-[packages/pinia/src/types.ts:685](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L685)
-
-___
-
-### state
-
-▸ `Optional` **state**(): `S`
-
-Function to create a fresh state. **Must be an arrow function** to ensure
-correct typings!
-
-#### Returns
-
-`S`
-
-#### Defined in
-
-[packages/pinia/src/types.ts:640](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L640)
+[packages/pinia/src/types.ts:678](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L678)

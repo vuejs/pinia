@@ -30,7 +30,7 @@ DEV ONLY. Different mutation calls.
 
 #### Defined in
 
-[packages/pinia/src/types.ts:96](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L96)
+[packages/pinia/src/types.ts:96](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L96)
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 #### Defined in
 
-[packages/pinia/src/types.ts:81](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L81)
+[packages/pinia/src/types.ts:81](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L81)
 
 ___
 
@@ -62,4 +62,4 @@ Type of the mutation.
 
 #### Defined in
 
-[packages/pinia/src/types.ts:91](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L91)
+[packages/pinia/src/types.ts:91](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L91)

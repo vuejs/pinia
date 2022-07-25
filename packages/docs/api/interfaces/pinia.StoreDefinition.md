@@ -40,7 +40,7 @@ Returns a store, creates it if necessary.
 
 #### Defined in
 
-[packages/pinia/src/types.ts:511](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L511)
+[packages/pinia/src/types.ts:504](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L504)
 
 ## Properties
 
@@ -52,4 +52,4 @@ Id of the store. Used by map helpers.
 
 #### Defined in
 
-[packages/pinia/src/types.ts:516](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L516)
+[packages/pinia/src/types.ts:509](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L509)

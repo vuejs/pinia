@@ -11,7 +11,11 @@ sidebarDepth: 3
 [pinia](../modules/pinia.md).DefineSetupStoreOptions
 
 Options parameter of `defineStore()` for setup stores. Can be extended to
-augment stores with the plugin API. @see [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
+augment stores with the plugin API.
+
+**`See`**
+
+[DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
 ## Type parameters
 
@@ -40,4 +44,4 @@ store defined with a setup function. Note this is always defined
 
 #### Defined in
 
-[packages/pinia/src/types.ts:704](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L704)
+[packages/pinia/src/types.ts:697](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L697)

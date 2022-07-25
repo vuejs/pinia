@@ -12,11 +12,11 @@ sidebarDepth: 3
 
 Possible types for SubscriptionCallback
 
-## Enumeration members
+## Enumeration Members
 
 ### direct
 
-• **direct** = `"direct"`
+• **direct** = ``"direct"``
 
 Direct mutation of the state:
 
@@ -26,13 +26,13 @@ Direct mutation of the state:
 
 #### Defined in
 
-[packages/pinia/src/types.ts:50](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L50)
+[packages/pinia/src/types.ts:50](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L50)
 
 ___
 
 ### patchFunction
 
-• **patchFunction** = `"patch function"`
+• **patchFunction** = ``"patch function"``
 
 Mutated the state with `$patch` and a function
 
@@ -40,13 +40,13 @@ Mutated the state with `$patch` and a function
 
 #### Defined in
 
-[packages/pinia/src/types.ts:64](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L64)
+[packages/pinia/src/types.ts:64](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L64)
 
 ___
 
 ### patchObject
 
-• **patchObject** = `"patch object"`
+• **patchObject** = ``"patch object"``
 
 Mutated the state with `$patch` and an object
 
@@ -54,4 +54,4 @@ Mutated the state with `$patch` and an object
 
 #### Defined in
 
-[packages/pinia/src/types.ts:57](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L57)
+[packages/pinia/src/types.ts:57](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L57)

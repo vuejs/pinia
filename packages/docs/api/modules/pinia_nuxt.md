@@ -10,20 +10,21 @@ sidebarDepth: 3
 
 ## Interfaces
 
-- [PiniaNuxtOptions](../interfaces/pinia_nuxt.PiniaNuxtOptions.md)
+- [ModuleOptions](../interfaces/pinia_nuxt.ModuleOptions.md)
 
 ## Functions
 
 ### default
 
-▸ **default**(`this`, `moduleOptions`): `void` \| `Promise`<`void`\>
+▸ **default**(`this`, `inlineOptions`, `nuxt`): `void` \| `Promise`<`void`\>
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `this` | `ModuleThis` |
-| `moduleOptions` | `any` |
+| `this` | `void` |
+| `inlineOptions` | [`ModuleOptions`](../interfaces/pinia_nuxt.ModuleOptions.md) |
+| `nuxt` | `Nuxt` |
 
 #### Returns
 
@@ -31,4 +32,4 @@ sidebarDepth: 3
 
 #### Defined in
 
-node_modules/.pnpm/@nuxt+types@2.15.8/node_modules/@nuxt/types/config/module.d.ts:29
+node_modules/.pnpm/@nuxt+schema@3.0.0-rc.4/node_modules/@nuxt/schema/dist/index.d.ts:470

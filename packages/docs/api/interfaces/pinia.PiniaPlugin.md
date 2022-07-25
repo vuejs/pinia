@@ -14,7 +14,7 @@ sidebarDepth: 3
 
 ### PiniaPlugin
 
-▸ **PiniaPlugin**(`context`): `void` \| `Partial`<[`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\> & `PiniaCustomStateProperties`<[`StateTree`](../modules/pinia.md#statetree)\>\>
+▸ **PiniaPlugin**(`context`): `void` \| `Partial`<[`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\> & [`PiniaCustomStateProperties`](pinia.PiniaCustomStateProperties.md)<[`StateTree`](../modules/pinia.md#statetree)\>\>
 
 Plugin to extend every store. Returns an object to extend the store or
 nothing.
@@ -27,8 +27,8 @@ nothing.
 
 #### Returns
 
-`void` \| `Partial`<[`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\> & `PiniaCustomStateProperties`<[`StateTree`](../modules/pinia.md#statetree)\>\>
+`void` \| `Partial`<[`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\> & [`PiniaCustomStateProperties`](pinia.PiniaCustomStateProperties.md)<[`StateTree`](../modules/pinia.md#statetree)\>\>
 
 #### Defined in
 
-[packages/pinia/src/rootStore.ts:140](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L140)
+[packages/pinia/src/rootStore.ts:140](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/rootStore.ts#L140)
