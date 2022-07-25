@@ -17,6 +17,6 @@
     "pinia": "^2.0.0-rc.4",
     "swrv": "^1.0.0-beta.8",
     "vue-promised": "^2.2.0",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.1.2"
   }
 }

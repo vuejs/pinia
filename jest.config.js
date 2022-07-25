@@ -34,4 +34,8 @@ module.exports = {
     __TEST__: true,
     __BROWSER__: true,
   },
+  // https://github.com/vuejs/test-utils/issues/1525#issuecomment-1134620421
+  testEnvironmentOptions: {
+    customExportConditions: ['node', 'node-addons'],
+  },
 }

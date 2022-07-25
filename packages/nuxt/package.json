@@ -52,7 +52,7 @@
     "@nuxt/module-builder": "latest",
     "nuxt": "^3.0.0-rc.4",
     "typescript": "^4.6.3",
-    "vue-tsc": "^0.38.3"
+    "vue-tsc": "^0.39.0"
   },
   "publishConfig": {
     "access": "public"
