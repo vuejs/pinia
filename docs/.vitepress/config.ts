@@ -133,6 +133,10 @@ const config = defineConfig({
               text: 'Nuxt.js',
               link: '/guide/ssr/nuxt.html',
             },
+            {
+              text: 'Dealing with composables',
+              link: '/guide/cookbook/composables.html#ssr',
+            },
           ],
         },
         {

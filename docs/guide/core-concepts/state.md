@@ -19,8 +19,53 @@ const useStore = defineStore('storeId', {
 ```
 
 :::tip
-If you are using Vue 2, the data you create in `state` follows the same rules as the `data` in a Vue instance, ie the state object must be plain and you need to call `Vue.set()` when **adding new** properties to it. **See also: [Vue#data](https://v2.vuejs.org/v2/api/#data)**.
+If you are using Vue 2, the data you create in `state` follows the same rules as the `data` in a Vue instance, i.e. the state object must be plain and you need to call `Vue.set()` when **adding new** properties to it. **See also: [Vue#data](https://v2.vuejs.org/v2/api/#data)**.
 :::
+
+## TypeScript
+
+You don't need to do much in order to make your state compatible with TS. Pinia will infer the type of your state automatically but there are a few cases where you should give it a hand with some casting:
+
+```ts
+const useStore = defineStore('storeId', {
+  state: () => {
+    return {
+      // for initially empty lists
+      userList: [] as UserInfo[],
+      // for data that is not yet loaded
+      user: null as UserInfo | null,
+    }
+  },
+})
+
+interface UserInfo {
+  name: string
+  age: number
+}
+```
+
+If you prefer, you can define the state with an interface and type the return value of `state()`:
+
+```ts
+interface State {
+  userList: UserInfo[]
+  user: UserInfo | null
+}
+
+const useStore = defineStore('storeId', {
+  state: (): State => {
+    return {
+      userList: [],
+      user: null,
+    }
+  },
+})
+
+interface UserInfo {
+  name: string
+  age: number
+}
+```
 
 ## Accessing the `state`
 
@@ -139,13 +184,16 @@ The main difference here is that `$patch()` allows you to group multiple changes
 
 ## Replacing the `state`
 
-You can replace the whole state of a store by setting its `$state` property to a new object:
+You **cannot exactly replace** the state of a store as that would break reactivity. You can however _patch it_:
 
 ```js
+// this doesn't actually replace `$state`
 store.$state = { counter: 24 }
+// it internally calls `$patch()`:
+store.$patch({ counter: 24 })
 ```
 
-You can also replace the whole state of your application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).
+You can also **set the initial state** of your whole application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).
 
 ```js
 pinia.state.value = {}

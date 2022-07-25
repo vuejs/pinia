@@ -37,10 +37,6 @@ Extracted object of actions. Added by useStore() when the store is built
 using the setup API, otherwise uses the one passed to `defineStore()`.
 Defaults to an empty object if no actions are defined.
 
-#### Defined in
-
-[packages/pinia/src/types.ts:721](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L721)
-
 ___
 
 ### getters
@@ -53,9 +49,26 @@ Optional object of getters.
 
 Omit.getters
 
-#### Defined in
+___
 
-[packages/pinia/src/types.ts:645](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L645)
+### state
+
+• `Optional` **state**: () => `S`
+
+#### Type declaration
+
+▸ (): `S`
+
+Function to create a fresh state. **Must be an arrow function** to ensure
+correct typings!
+
+##### Returns
+
+`S`
+
+#### Inherited from
+
+Omit.state
 
 ## Methods
 
@@ -66,7 +79,8 @@ Omit.getters
 Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
 definition and copying the value from `pinia.state` isn't enough.
 
-**`example`**
+**`Example`**
+
 If in your `state`, you use any `customRef`s, any `computed`s, or any `ref`s that have a different value on
 Server and Client, you need to manually hydrate them. e.g., a custom ref that is stored in the local
 storage:
@@ -97,28 +111,3 @@ const useStore = defineStore('main', {
 #### Inherited from
 
 Omit.hydrate
-
-#### Defined in
-
-[packages/pinia/src/types.ts:685](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L685)
-
-___
-
-### state
-
-▸ `Optional` **state**(): `S`
-
-Function to create a fresh state. **Must be an arrow function** to ensure
-correct typings!
-
-#### Returns
-
-`S`
-
-#### Inherited from
-
-Omit.state
-
-#### Defined in
-
-[packages/pinia/src/types.ts:640](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L640)

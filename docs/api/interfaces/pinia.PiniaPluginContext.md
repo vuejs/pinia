@@ -29,21 +29,13 @@ Context argument passed to Pinia plugins.
 
 Current app created with `Vue.createApp()`.
 
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:117](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L117)
-
 ___
 
 ### options
 
 • **options**: [`DefineStoreOptionsInPlugin`](pinia.DefineStoreOptionsInPlugin.md)<`Id`, `S`, `G`, `A`\>
 
-Options object defining the store passed to `defineStore()`.
-
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:127](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L127)
+Initial options defining the store when calling `defineStore()`.
 
 ___
 
@@ -53,10 +45,6 @@ ___
 
 pinia instance.
 
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:112](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L112)
-
 ___
 
 ### store
@@ -64,7 +52,3 @@ ___
 • **store**: [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
 
 Current store being extended.
-
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:122](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L122)
