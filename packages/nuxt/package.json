@@ -1,6 +1,6 @@
 {
   "name": "@pinia/nuxt",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Nuxt Module for pinia",
   "keywords": [
     "pinia",
@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "3.0.0-rc.6",
-    "pinia": ">=2.0.14"
+    "pinia": ">=2.0.17"
   },
   "devDependencies": {
     "@nuxt/module-builder": "latest",

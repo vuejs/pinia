@@ -1,3 +1,7 @@
+## [0.3.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.3.0...@pinia/nuxt@0.3.1) (2022-07-25)
+
+- doc generation changes
+
 # [0.3.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.2.1...@pinia/nuxt@0.3.0) (2022-07-13)
 
 **Please read the release notes if you are upgrading from a previous version.**
