@@ -96,22 +96,22 @@ const config = defineConfig({
     sidebar: {
       '/guide/': [
         {
-          text: 'Introduction',
+          text: '소개',
           items: [
             {
-              text: 'What is Pinia?',
+              text: 'Pinia란?',
               link: '/guide/introduction.html',
             },
             {
-              text: 'Getting Started',
+              text: '시작하기',
               link: '/guide/getting-started.html',
             },
           ],
         },
         {
-          text: 'Core Concepts',
+          text: '핵심 개념',
           items: [
-            { text: 'Defining a Store', link: '/guide/core-concepts/' },
+            { text: 'Store 다루기', link: '/guide/core-concepts/' },
             { text: 'State', link: '/guide/core-concepts/state.html' },
             { text: 'Getters', link: '/guide/core-concepts/getters.html' },
             { text: 'Actions', link: '/guide/core-concepts/actions.html' },
@@ -123,10 +123,10 @@ const config = defineConfig({
           ],
         },
         {
-          text: 'Server-Side Rendering (SSR)',
+          text: '서버 사이드 렌더링 (SSR)',
           items: [
             {
-              text: 'Vue and Vite',
+              text: 'Vue와 Vite',
               link: '/guide/ssr/',
             },
             {
@@ -134,7 +134,7 @@ const config = defineConfig({
               link: '/guide/ssr/nuxt.html',
             },
             {
-              text: 'Dealing with composables',
+              text: '컴포저블 다루기',
               link: '/guide/cookbook/composables.html#ssr',
             },
           ],

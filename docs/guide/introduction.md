@@ -1,8 +1,8 @@
-# Introduction
+# 소개 %{#introduction}%
 
 Pinia [started](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e) as an experiment to redesign what a Store for Vue could look like with the [Composition API](https://github.com/vuejs/composition-api) around November 2019. Since then, the initial principles are still the same, but Pinia works for both Vue 2 and Vue 3 **and doesn't require you to use the composition API**. The API is the same for both except for _installation_ and _SSR_, and these docs are targeted to Vue 3 **with notes about Vue 2** whenever necessary so it can be read by Vue 2 and Vue 3 users!
 
-## Why should I use Pinia?
+## 왜 피니아를 사용해야 하나요? %{#why-should-i-use-pinia}%
 
 Pinia is a store library for Vue, it allows you to share a state across components/pages. If you are familiar with the Composition API, you might be thinking you can already share a global state with a simple `export const state = reactive({})`. This is true for single page applications but **exposes your application to [security vulnerabilities](https://vuejs.org/guide/scaling-up/ssr.html#cross-request-state-pollution)** if it is server side rendered. But even in small single page applications, you get a lot from using Pinia:
 
@@ -17,7 +17,7 @@ Pinia is a store library for Vue, it allows you to share a state across componen
 - Proper TypeScript support or **autocompletion** for JS users
 - Server Side Rendering Support
 
-## Basic example
+## 기본 예제 %{#basic-example}%
 
 This is what using pinia looks like in terms of API (make sure to check the [Getting Started](getting-started.md) for complete instructions). You start by creating a store:
 
@@ -107,11 +107,11 @@ export default {
 
 You will find more information about each _map helper_ in the core concepts.
 
-## Why _Pinia_
+## 왜 피니아인가? %{#why-pinia}%
 
 Pinia (pronounced `/piːnjʌ/`, like "peenya" in English) is the closest word to _piña_ (_pineapple_ in Spanish) that is a valid package name. A pineapple is in reality a group of individual flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
 
-## A more realistic example
+## 좀 더 현실적인 예졔 %{#a-more-realistic-example}%
 
 Here is a more complete example of the API you will be using with Pinia **with types even in JavaScript**. For some people, this might be enough to get started without reading further but we still recommend checking the rest of the documentation or even skipping this example and coming back once you have read about all of the _Core Concepts_.
 
@@ -158,20 +158,20 @@ export const useTodos = defineStore('todos', {
 })
 ```
 
-## Comparison with Vuex
+## Vuex와 비교 %{#comparison-with-vuex}%
 
 Pinia started out as an exploration of what the next iteration of Vuex could look like, incorporating many ideas from core team discussions for Vuex 5. Eventually, we realized that Pinia already implements most of what we wanted in Vuex 5, and decided to make it the new recommendation instead.
 
 Compared to Vuex, Pinia provides a simpler API with less ceremony, offers Composition-API-style APIs, and most importantly, has solid type inference support when used with TypeScript.
 
-### RFCs
+### RFCs %{#rfcs}%
 
 Initially Pinia didn't go through any RFC. I tested out ideas based on my experience developing applications, reading other people's code, working for clients who use Pinia, and answering questions on Discord.
 This allowed me to provide a solution that works and is adapted to a variety of cases and application sizes. I used to publish often and made the library evolve while keeping its core API the same.
 
 Now that Pinia has become the default state management solution, it is subject to the same RFC process as other core libraries in the Vue ecosystem and its API has entered a stable state.
 
-### Comparison with Vuex 3.x/4.x
+### Vuex 3.x/4.x와 비교 %{#comparison-with-vuex-3-x-4-x}%
 
 > Vuex 3.x is Vuex for Vue 2 while Vuex 4.x is for Vue 3
 
