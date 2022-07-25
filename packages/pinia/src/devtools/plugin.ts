@@ -134,7 +134,7 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
               value: store._isOptionsAPI
                 ? {
                     _custom: {
-                      value: store.$state,
+                      value: toRaw(store.$state),
                       actions: [
                         {
                           icon: 'restore',
@@ -144,7 +144,11 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
                       ],
                     },
                   }
-                : store.$state,
+                : // NOTE: workaround to unwrap transferred refs
+                  Object.keys(store.$state).reduce((state, key) => {
+                    state[key] = store.$state[key]
+                    return state
+                  }, {} as StateTree),
             })
 
             if (store._getters && store._getters.length) {
