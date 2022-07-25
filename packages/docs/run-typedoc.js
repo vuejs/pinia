@@ -3,7 +3,7 @@ const path = require('path')
 
 createTypeDocApp({
   name: 'API Documentation',
-  // tsconfig: path.resolve(__dirname, '../../tsconfig.json'),
+  tsconfig: path.resolve(__dirname, './typedoc.tsconfig.json'),
   // entryPointStrategy: 'packages',
   githubPages: false,
   entryPoints: [

@@ -28,7 +28,7 @@ export function isPlainObject(
 }
 
 /**
- * Recursive `Partial<T>`. Used by {@link Store.$patch}.
+ * Recursive `Partial<T>`. Used by {@link Store['$patch']}.
  *
  * For internal use **only**
  */

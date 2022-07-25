@@ -73,7 +73,7 @@ export default defineNuxtModule<ModuleOptions>({
     const composables = resolver.resolve('./runtime/composables')
     addAutoImport([
       { from: composables, name: 'usePinia' },
-      ...options.autoImports.map((imports) =>
+      ...options.autoImports!.map((imports) =>
         typeof imports === 'string'
           ? { from: composables, name: imports }
           : { from: composables, name: imports[0], as: imports[1] }

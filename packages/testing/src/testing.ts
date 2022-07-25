@@ -65,7 +65,7 @@ export interface TestingOptions {
 
 /**
  * Pinia instance specifically designed for testing. Extends a regular
- * {@link Pinia} instance with test specific properties.
+ * `Pinia` instance with test specific properties.
  */
 export interface TestingPinia extends Pinia {
   /** App used by Pinia */

@@ -177,6 +177,16 @@ module.exports = {
     ],
 
     sidebar: {
+      '/api/': [
+        {
+          text: 'packages',
+          children: [
+            { text: 'pinia', link: '/api/modules/pinia.html' },
+            { text: '@pinia/nuxt', link: '/api/modules/pinia_nuxt.html' },
+            { text: '@pinia/testing', link: '/api/modules/pinia_testing.html' },
+          ],
+        },
+      ],
       // catch-all fallback
       '/': [
         {
