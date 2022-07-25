@@ -33,10 +33,6 @@ with an object.
 
 DEV ONLY. Array for patch calls.
 
-#### Defined in
-
-[packages/pinia/src/types.ts:110](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L110)
-
 ___
 
 ### payload
@@ -44,10 +40,6 @@ ___
 • **payload**: [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`S`\>
 
 Object passed to `store.$patch()`.
-
-#### Defined in
-
-[packages/pinia/src/types.ts:115](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L115)
 
 ___
 
@@ -61,10 +53,6 @@ ___
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
-#### Defined in
-
-[packages/pinia/src/types.ts:81](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L81)
-
 ___
 
 ### type
@@ -76,7 +64,3 @@ Type of the mutation.
 #### Overrides
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)
-
-#### Defined in
-
-[packages/pinia/src/types.ts:105](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L105)

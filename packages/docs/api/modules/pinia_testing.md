@@ -37,7 +37,3 @@ they are replaced with `jest.fn()`, otherwise, you must provide your own
 [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 
 a augmented pinia instance
-
-#### Defined in
-
-[packages/testing/src/testing.ts:92](https://github.com/vuejs/pinia/blob/aa0192a/packages/testing/src/testing.ts#L92)

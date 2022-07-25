@@ -29,7 +29,3 @@ sidebarDepth: 3
 #### Returns
 
 `void` \| `Promise`<`void`\>
-
-#### Defined in
-
-node_modules/.pnpm/@nuxt+schema@3.0.0-rc.4/node_modules/@nuxt/schema/dist/index.d.ts:470

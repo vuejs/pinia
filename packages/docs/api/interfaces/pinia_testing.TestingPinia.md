@@ -11,7 +11,7 @@ sidebarDepth: 3
 [@pinia/testing](../modules/pinia_testing.md).TestingPinia
 
 Pinia instance specifically designed for testing. Extends a regular
-Pinia instance with test specific properties.
+`Pinia` instance with test specific properties.
 
 ## Hierarchy
 
@@ -26,10 +26,6 @@ Pinia instance with test specific properties.
 • **app**: `App`<`any`\>
 
 App used by Pinia
-
-#### Defined in
-
-[packages/testing/src/testing.ts:72](https://github.com/vuejs/pinia/blob/aa0192a/packages/testing/src/testing.ts#L72)
 
 ___
 
@@ -55,10 +51,6 @@ ___
 
 [Pinia](pinia.Pinia.md).[install](pinia.Pinia.md#install)
 
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:46](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/rootStore.ts#L46)
-
 ___
 
 ### state
@@ -70,10 +62,6 @@ root state
 #### Inherited from
 
 [Pinia](pinia.Pinia.md).[state](pinia.Pinia.md#state)
-
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:51](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/rootStore.ts#L51)
 
 ## Methods
 
@@ -96,7 +84,3 @@ Adds a store plugin to extend every store
 #### Inherited from
 
 [Pinia](pinia.Pinia.md).[use](pinia.Pinia.md#use)
-
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:58](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/rootStore.ts#L58)

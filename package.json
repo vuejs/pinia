@@ -39,7 +39,7 @@
     "jest": "^28.1.3",
     "jest-environment-jsdom": "^28.1.3",
     "jest-mock-warn": "^1.1.0",
-    "lint-staged": "^12.5.0",
+    "lint-staged": "^13.0.3",
     "lodash.kebabcase": "^4.1.1",
     "minimist": "^1.2.6",
     "p-series": "^3.0.0",
@@ -52,7 +52,7 @@
     "semver": "^7.3.7",
     "typedoc": "^0.23.9",
     "typedoc-plugin-markdown": "^3.13.4",
-    "typescript": "^4.6.3",
+    "typescript": "^4.7.4",
     "vue": "^3.2.37",
     "yorkie": "^2.0.0"
   },

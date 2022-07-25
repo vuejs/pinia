@@ -41,7 +41,3 @@ augment stores with the plugin API.
 Extracted actions. Added by useStore(). SHOULD NOT be added by the user when
 creating the store. Can be used in plugins to get the list of actions in a
 store defined with a setup function. Note this is always defined
-
-#### Defined in
-
-[packages/pinia/src/types.ts:697](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L697)

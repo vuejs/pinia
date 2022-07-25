@@ -24,10 +24,6 @@ Direct mutation of the state:
 - `store.$state.name = 'new name'`
 - `store.list.push('new item')`
 
-#### Defined in
-
-[packages/pinia/src/types.ts:50](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L50)
-
 ___
 
 ### patchFunction
@@ -38,10 +34,6 @@ Mutated the state with `$patch` and a function
 
 - `store.$patch(state => state.name = 'newName')`
 
-#### Defined in
-
-[packages/pinia/src/types.ts:64](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L64)
-
 ___
 
 ### patchObject
@@ -51,7 +43,3 @@ ___
 Mutated the state with `$patch` and an object
 
 - `store.$patch({ name: 'newName' })`
-
-#### Defined in
-
-[packages/pinia/src/types.ts:57](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L57)

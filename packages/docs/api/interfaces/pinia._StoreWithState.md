@@ -39,10 +39,6 @@ Unique identifier of the store
 
 [StoreProperties](pinia.StoreProperties.md).[$id](pinia.StoreProperties.md#$id)
 
-#### Defined in
-
-[packages/pinia/src/types.ts:258](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L258)
-
 ___
 
 ### $state
@@ -50,10 +46,6 @@ ___
 • **$state**: `UnwrapRef`<`S`\> & [`PiniaCustomStateProperties`](pinia.PiniaCustomStateProperties.md)<`S`\>
 
 State of the Store. Setting it will replace the whole state.
-
-#### Defined in
-
-[packages/pinia/src/types.ts:328](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L328)
 
 ___
 
@@ -69,10 +61,6 @@ that should be displayed in devtools.
 
 [StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#_customproperties)
 
-#### Defined in
-
-[packages/pinia/src/types.ts:286](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L286)
-
 ## Methods
 
 ### $dispose
@@ -86,10 +74,6 @@ e.g. devtools plugin stops displaying disposed stores from devtools.
 #### Returns
 
 `void`
-
-#### Defined in
-
-[packages/pinia/src/types.ts:416](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L416)
 
 ___
 
@@ -180,10 +164,6 @@ store.$onAction(({ after, onError }) => {
 
 function that removes the watcher
 
-#### Defined in
-
-[packages/pinia/src/types.ts:406](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L406)
-
 ___
 
 ### $patch
@@ -201,10 +181,6 @@ Applies a state patch to current state. Allows passing nested values
 #### Returns
 
 `void`
-
-#### Defined in
-
-[packages/pinia/src/types.ts:335](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L335)
 
 ▸ **$patch**<`F`\>(`stateMutator`): `void`
 
@@ -228,10 +204,6 @@ to an array. The function passed to `$patch()` **must be synchronous**.
 
 `void`
 
-#### Defined in
-
-[packages/pinia/src/types.ts:344](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L344)
-
 ___
 
 ### $reset
@@ -244,10 +216,6 @@ TODO: make this options only
 #### Returns
 
 `void`
-
-#### Defined in
-
-[packages/pinia/src/types.ts:353](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L353)
 
 ___
 
@@ -283,7 +251,3 @@ component gets unmounted unless `detached` is set to true.
 `void`
 
 function that removes the watcher
-
-#### Defined in
-
-[packages/pinia/src/types.ts:365](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L365)

@@ -31,10 +31,6 @@ Interface to be extended by the user when they add properties through plugins.
 
 `RouteLocationNormalized`
 
-#### Defined in
-
-[packages/playground/src/main.ts:17](https://github.com/vuejs/pinia/blob/aa0192a/packages/playground/src/main.ts#L17)
-
 • `set` **route**(`value`): `void`
 
 #### Parameters
@@ -46,7 +42,3 @@ Interface to be extended by the user when they add properties through plugins.
 #### Returns
 
 `void`
-
-#### Defined in
-
-[packages/playground/src/main.ts:14](https://github.com/vuejs/pinia/blob/aa0192a/packages/playground/src/main.ts#L14)

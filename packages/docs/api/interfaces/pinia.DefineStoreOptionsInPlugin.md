@@ -37,10 +37,6 @@ Extracted object of actions. Added by useStore() when the store is built
 using the setup API, otherwise uses the one passed to `defineStore()`.
 Defaults to an empty object if no actions are defined.
 
-#### Defined in
-
-[packages/pinia/src/types.ts:714](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L714)
-
 ___
 
 ### getters
@@ -52,10 +48,6 @@ Optional object of getters.
 #### Inherited from
 
 Omit.getters
-
-#### Defined in
-
-[packages/pinia/src/types.ts:638](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L638)
 
 ___
 
@@ -77,10 +69,6 @@ correct typings!
 #### Inherited from
 
 Omit.state
-
-#### Defined in
-
-[packages/pinia/src/types.ts:633](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L633)
 
 ## Methods
 
@@ -123,7 +111,3 @@ const useStore = defineStore('main', {
 #### Inherited from
 
 Omit.hydrate
-
-#### Defined in
-
-[packages/pinia/src/types.ts:678](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L678)

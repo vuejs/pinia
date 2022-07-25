@@ -38,10 +38,6 @@ Every application must own its own pinia to be able to create stores
 
 `void`
 
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:46](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/rootStore.ts#L46)
-
 ___
 
 ### state
@@ -49,10 +45,6 @@ ___
 • **state**: `Ref`<`Record`<`string`, [`StateTree`](../modules/pinia.md#statetree)\>\>
 
 root state
-
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:51](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/rootStore.ts#L51)
 
 ## Methods
 
@@ -71,7 +63,3 @@ Adds a store plugin to extend every store
 #### Returns
 
 [`Pinia`](pinia.Pinia.md)
-
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:58](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/rootStore.ts#L58)

@@ -28,10 +28,6 @@ newValue`.
 
 DEV ONLY. Different mutation calls.
 
-#### Defined in
-
-[packages/pinia/src/types.ts:96](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L96)
-
 ___
 
 ### storeId
@@ -44,10 +40,6 @@ ___
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
-#### Defined in
-
-[packages/pinia/src/types.ts:81](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L81)
-
 ___
 
 ### type
@@ -59,7 +51,3 @@ Type of the mutation.
 #### Overrides
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)
-
-#### Defined in
-
-[packages/pinia/src/types.ts:91](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L91)

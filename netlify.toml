@@ -2,6 +2,6 @@
 NPM_FLAGS="--version"
 
 [build]
-command = "npx pnpm@6 i --store=node_modules/.pnpm-store && npx pnpm@6 run docs:build"
+command = "npx pnpm@7 i --store=node_modules/.pnpm-store && npx pnpm@6 run docs:build"
 ignore = "./scripts/docs-check.sh"
 publish = "packages/docs/.vitepress/dist"

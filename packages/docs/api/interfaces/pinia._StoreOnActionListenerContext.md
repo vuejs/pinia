@@ -45,10 +45,6 @@ of the action, if it's a Promise, it will be unwrapped.
 
 `void`
 
-#### Defined in
-
-[packages/pinia/src/types.ts:203](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L203)
-
 ___
 
 ### args
@@ -57,10 +53,6 @@ ___
 
 Parameters passed to the action
 
-#### Defined in
-
-[packages/pinia/src/types.ts:195](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L195)
-
 ___
 
 ### name
@@ -68,10 +60,6 @@ ___
 • **name**: `ActionName`
 
 Name of the action
-
-#### Defined in
-
-[packages/pinia/src/types.ts:185](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L185)
 
 ___
 
@@ -96,10 +84,6 @@ stop it fro propagating.
 
 `void`
 
-#### Defined in
-
-[packages/pinia/src/types.ts:213](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L213)
-
 ___
 
 ### store
@@ -107,7 +91,3 @@ ___
 • **store**: `Store`
 
 Store that is invoking the action
-
-#### Defined in
-
-[packages/pinia/src/types.ts:190](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L190)

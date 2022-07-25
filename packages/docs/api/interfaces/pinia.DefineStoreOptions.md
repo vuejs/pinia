@@ -40,10 +40,6 @@ augment stores with the plugin API.
 
 Optional object of actions.
 
-#### Defined in
-
-[packages/pinia/src/types.ts:645](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L645)
-
 ___
 
 ### getters
@@ -52,10 +48,6 @@ ___
 
 Optional object of getters.
 
-#### Defined in
-
-[packages/pinia/src/types.ts:638](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L638)
-
 ___
 
 ### id
@@ -63,10 +55,6 @@ ___
 • **id**: `Id`
 
 Unique string key to identify the store across the application.
-
-#### Defined in
-
-[packages/pinia/src/types.ts:627](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L627)
 
 ___
 
@@ -84,10 +72,6 @@ correct typings!
 ##### Returns
 
 `S`
-
-#### Defined in
-
-[packages/pinia/src/types.ts:633](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L633)
 
 ## Methods
 
@@ -126,7 +110,3 @@ const useStore = defineStore('main', {
 #### Returns
 
 `void`
-
-#### Defined in
-
-[packages/pinia/src/types.ts:678](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L678)

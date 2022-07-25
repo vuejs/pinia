@@ -38,10 +38,6 @@ Returns a store, creates it if necessary.
 
 [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
 
-#### Defined in
-
-[packages/pinia/src/types.ts:504](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L504)
-
 ## Properties
 
 ### $id
@@ -49,7 +45,3 @@ Returns a store, creates it if necessary.
 • **$id**: `Id`
 
 Id of the store. Used by map helpers.
-
-#### Defined in
-
-[packages/pinia/src/types.ts:509](https://github.com/vuejs/pinia/blob/aa0192a/packages/pinia/src/types.ts#L509)
