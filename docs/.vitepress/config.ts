@@ -4,17 +4,6 @@ const head: UserConfig['head'] = [
   ['link', { rel: 'icon', href: `/logo.png` }],
 ]
 
-// @ts-ignore
-if (process.env.NODE_ENV === 'production') {
-  head.push([
-    'script',
-    {
-      src: 'https://unpkg.com/thesemetrics@latest',
-      async: '',
-    },
-  ])
-}
-
 const config = defineConfig({
   markdown: {
     attrs: {
