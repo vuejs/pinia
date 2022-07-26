@@ -21,7 +21,7 @@ This _name_, also referred as _id_, is necessary and is used by Pinia to connect
 
 `defineStore()` accepts two distinct values for its second argument: a Setup function or an Options object.
 
-## Option Stores
+## Stores using the Options API Syntax
 
 Similar to Vue's Options API, we can also pass an Options Object with `state`, `actions`, and `getters` properties.
 
@@ -43,7 +43,7 @@ You can think of `state` as the `data` of the store, and `getters` as the `compu
 
 Options stores should feel intuitive and simple to get started with.
 
-## Setup Stores
+## Stores using the Composition API Syntax
 
 There is also another possible syntax to define stores. Similar to the Vue Composition API's [setup function](https://vuejs.org/api/composition-api-setup.html), we can pass in a function that defines reactive properties and methods and returns an object with the properties and methods we want to expose.
 
