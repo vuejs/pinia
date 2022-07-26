@@ -1,3 +1,7 @@
+---
+title: 소개
+---
+
 # 소개 %{#introduction}%
 
 피니아는 2019년 11월경에 [컴포지션 API](https://github.com/vuejs/composition-api)로 Vue용 스토어가 어떻게 생겼는지 재설계하기 위한 실험으로 [시작](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e)했습니다.
