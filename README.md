@@ -11,7 +11,7 @@
 </p>
 <br/>
 
-# Pinia
+# 피니아
 
 > 여기는 Vue 상태관리 라이브러리 Pinia 웹 페이지 한글화를 위해 포크한 저장소 입니다.
 
@@ -40,45 +40,49 @@
 - 🏗 모듈식 디자인
 - 📦 매우 가벼움
 
-Pinia works both for Vue 2.x and Vue 3.x. It requires Vue 2 with the latest `@vue/composition-api` or Vue `^3.2.0-0`.
+피니아는 Vue 2.x와 Vue 3.x 모두에서 작동합니다.
+최신 `@vue/composition-api`를 사용하는 Vue 2 또는 Vue `^3.2.0-0`가 필요합니다.
 
-Pinia is the most similar English pronunciation of the word _pineapple_ in Spanish: _piña_. A pineapple is in reality a group of individual flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
+피니아(pinia)는 스페인어 _pineapple_의 영어 발음과 가장 유사한 _piña_입니다.
+파인애플은 실제로 각각의 꽃들이 하나의 그룹으로 된 과일입니다.
+꽃은 각각 피어나지만, 결국 모두 합쳐지는 모습이 마치 스토어 같습니다.
+남아메리카가 원산지인 맛있는 열대 과일이기도 합니다.
 
-## 👉 [Demo with Vue 3 on StackBlitz](https://stackblitz.com/github/piniajs/example-vue-3-vite)
+## 👉 [StackBlitz에서 Vue 3 데모](https://stackblitz.com/github/piniajs/example-vue-3-vite)
 
-## 👉 [Demo with Nuxt 3 on StackBlitz](https://stackblitz.com/github/piniajs/example-nuxt-3)
+## 👉 [StackBlitz에서 Nuxt 3 데모](https://stackblitz.com/github/piniajs/example-nuxt-3)
 
 ## FAQ
 
-A few notes about the project and possible questions:
+프로젝트 및 가능한 질문에 대한 몇 가지 참고 사항:
 
-**Q**: _Is Pinia the successor of Vuex?_
+**Q**: 피니아는 Vuex의 차세대 라이브러리입니까?
 
-**A**: [Yes](https://vuejs.org/guide/scaling-up/state-management.html#pinia)
+**A**: [맞습니다!](https://vuejs.org/guide/scaling-up/state-management.html#pinia)
 
-**Q**: _What about dynamic modules?_
+**Q**: 동적 모듈은 어떻습니까?
 
-**A**: Dynamic modules are not type safe, so instead [we allow creating different stores](https://pinia.vuejs.org/cookbook/composing-stores.html) that can be imported anywhere
+**A**: 동적 모듈은 유형이 안전하지 않지만, 어디에서나 가져올 수 있는 [다른 저장소를 만들 수 있습니다](https://pinia.vuejs.kr/guide/cookbook/composing-stores.html).
 
-## Installation
+## 설치
 
 ```bash
 yarn add pinia
-# or with npm
+# 또는 npm으로
 npm install pinia
 ```
 
-If you are using Vue 2, make sure to install latest `@vue/composition-api`:
+Vue 2를 사용하는 경우 최신 `@vue/composition-api`를 설치해야 합니다:
 
 ```bash
 npm install pinia @vue/composition-api
 ```
 
-## Usage
+## 사용법
 
-### Install the plugin
+### 플러그인 설치
 
-Create a pinia (the root store) and pass it to app:
+피니아(루트 스토어)를 만들고 앱에 전달합니다:
 
 ```js
 import { createPinia } from 'pinia'
@@ -86,41 +90,41 @@ import { createPinia } from 'pinia'
 app.use(createPinia())
 ```
 
-### Create a Store
+### 스토어 저장소 만들기
 
-You can create as many stores as you want, and they should each exist in different files:
+원하는 만큼 스토어를 만들 수 있으며, 각각 다른 파일로 존재해야 합니다:
 
 ```ts
 import { defineStore } from 'pinia'
 
-// main is the name of the store. It is unique across your application
-// and will appear in devtools
+// main은 스토어 이름.
+// 앱 전체에서 고유하며, devtools에 표시됨.
 export const useMainStore = defineStore('main', {
-  // a function that returns a fresh state
+  // 새로운 상태를 반환하는 함수
   state: () => ({
     counter: 0,
     name: 'Eduardo',
   }),
-  // optional getters
+  // getters (선택적)
   getters: {
-    // getters receive the state as first parameter
+    // getter는 상태를 첫 번째 파라미터로 받음.
     doubleCount: (state) => state.counter * 2,
-    // use getters in other getters
+    // 다른 getter 내부에서 getter 사용.
     doubleCountPlusOne(): number {
       return this.doubleCount + 1
     },
   },
-  // optional actions
+  // actions (선택적)
   actions: {
     reset() {
-      // `this` is the store instance
+      // `this`는 스토어 인스턴스
       this.counter = 0
     },
   },
 })
 ```
 
-`defineStore` returns a function that has to be called to get access to the store:
+`defineStore`는 저장소에 접근하기 위해 호출해야 하는 함수를 반환합니다:
 
 ```ts
 import { useMainStore } from '@/stores/main'
@@ -130,13 +134,13 @@ export default defineComponent({
   setup() {
     const main = useMainStore()
 
-    // extract specific store properties
+    // 특정 스토어 속성 추출
     const { counter, doubleCount } = storeToRefs(main)
 
     return {
-      // gives access to the whole store in the template
+      // 템플릿에서 스토어 전체에 접근 가능
       main,
-      // gives access only to specific state or getter
+      // 특정 상태와 getter에만 접근 권한 부여
       counter,
       doubleCount,
     }
