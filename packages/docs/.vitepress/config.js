@@ -229,7 +229,7 @@ module.exports = {
             },
             {
               text: 'Dealing with composables',
-              link: '/cookbook/composables.html#ssr',
+              link: '/cookbook/composables.html',
             },
           ],
         },

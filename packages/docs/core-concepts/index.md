@@ -64,7 +64,7 @@ In _Setup Stores_:
 - `computed()`s become `getters`
 - `function()`s become `actions`
 
-Setup stores bring a lot more flexibility than [Options Stores](#option-stores) as you can create watchers within a store and freely use any [composable](https://vuejs.org/guide/reusability/composables.html#composables). However, keep in mind that using composables will get more complex [SSR](../cookbook//composables.md).
+Setup stores bring a lot more flexibility than [Options Stores](#option-stores) as you can create watchers within a store and freely use any [composable](https://vuejs.org/guide/reusability/composables.html#composables). However, keep in mind that using composables will get more complex [SSR](../cookbook/composables.md).
 
 ## What syntax should I pick?
 
