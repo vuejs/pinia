@@ -73,7 +73,7 @@ export const useCounterStore = defineStore('counter', () => {
 - `function()`은 `actions`가 됨.
 
 
-셋업 스토어는 스토어 내에서 감시자를 만들고 [컴포저블](https://vuejs.org/guide/reusability/composables.html#composables)을 자유롭게 사용할 수 있으므로,
+셋업 스토어는 스토어 내에서 감시자를 만들고 [컴포저블](https://vuejs.kr/guide/reusability/composables.html#composables)을 자유롭게 사용할 수 있으므로,
 [옵션 스토어](#option-stores)보다 훨씬 더 많은 유연성을 제공합니다.
 그러나 컴포저블을 사용하면 [SSR](/guide/cookbook/composables.md)이 더 복잡해집니다.
 

@@ -58,7 +58,7 @@
 
 **Q**: 피니아는 Vuex의 차세대 라이브러리입니까?
 
-**A**: [맞습니다!](https://vuejs.org/guide/scaling-up/state-management.html#pinia)
+**A**: [맞습니다!](https://vuejs.kr/guide/scaling-up/state-management.html#pinia)
 
 **Q**: 동적 모듈은 어떻습니까?
 
