@@ -136,7 +136,7 @@ function createConfig(buildName, output, plugins = []) {
         isProductionBuild,
         isBundlerESMBuild,
         // isBrowserBuild?
-        isGlobalBuild || isRawESMBuild || isBundlerESMBuild,
+        isRawESMBuild,
         isGlobalBuild,
         isNodeBuild
       ),
@@ -155,7 +155,7 @@ function createConfig(buildName, output, plugins = []) {
 function createReplacePlugin(
   isProduction,
   isBundlerESMBuild,
-  isBrowserBuild,
+  isRawESMBuild,
   isGlobalBuild,
   isNodeBuild
 ) {
@@ -163,18 +163,18 @@ function createReplacePlugin(
     __COMMIT__: `"${process.env.COMMIT}"`,
     __VERSION__: `"${pkg.version}"`,
     __DEV__:
-      isBundlerESMBuild || (isNodeBuild && !isProduction)
+      (isBundlerESMBuild && !isRawESMBuild) || (isNodeBuild && !isProduction)
         ? // preserve to be handled by bundlers
           `(process.env.NODE_ENV !== 'production')`
         : // hard coded dev/prod builds
           JSON.stringify(!isProduction),
     // this is only used during tests
     __TEST__:
-      isBundlerESMBuild || isNodeBuild
+      (isBundlerESMBuild && !isRawESMBuild) || isNodeBuild
         ? `(process.env.NODE_ENV === 'test')`
         : 'false',
     // If the build is expected to run directly in the browser (global / esm builds)
-    __BROWSER__: JSON.stringify(isBrowserBuild),
+    __BROWSER__: JSON.stringify(isRawESMBuild),
     // is targeting bundlers?
     __BUNDLER__: JSON.stringify(isBundlerESMBuild),
     __GLOBAL__: JSON.stringify(isGlobalBuild),
