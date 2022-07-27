@@ -100,10 +100,10 @@ const config = defineConfig({
         {
           text: '핵심 개념',
           items: [
-            { text: 'Store 다루기', link: '/guide/core-concepts/' },
-            { text: 'State', link: '/guide/core-concepts/state.html' },
-            { text: 'Getters', link: '/guide/core-concepts/getters.html' },
-            { text: 'Actions', link: '/guide/core-concepts/actions.html' },
+            { text: 'Store (스토어) 다루기', link: '/guide/core-concepts/' },
+            { text: 'State (상태)', link: '/guide/core-concepts/state.html' },
+            { text: 'Getters (게터)', link: '/guide/core-concepts/getters.html' },
+            { text: 'Actions (액션)', link: '/guide/core-concepts/actions.html' },
             { text: 'Plugins', link: '/guide/core-concepts/plugins.html' },
             {
               text: 'Stores outside of components',
