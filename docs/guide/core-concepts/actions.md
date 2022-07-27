@@ -1,4 +1,4 @@
-# Actions
+# Actions (액션) %{#actions}%
 
 Actions are the equivalent of [methods](https://v3.vuejs.org/guide/data-methods.html#methods) in components. They can be defined with the `actions` property in `defineStore()` and **they are perfect to define business logic**:
 
@@ -62,7 +62,7 @@ export default defineComponent({
 })
 ```
 
-## Accessing other stores actions
+## 다른 스토어 액션에 접근 %{#accessing-other-stores-actions}%
 
 To use another store, you can directly _use it_ inside of the _action_:
 
@@ -87,7 +87,7 @@ export const useSettingsStore = defineStore('settings', {
 })
 ```
 
-## Usage with `setup()`
+## `setup()`에서 사용 %{#usage-with-setup}%
 
 You can directly call any action as a method of the store:
 
@@ -101,7 +101,7 @@ export default {
 }
 ```
 
-## Usage with the Options API
+## 옵션 API에서 사용 %{#usage-with-the-options-api}%
 
 For the following examples, you can assume the following store was created:
 
@@ -109,7 +109,7 @@ For the following examples, you can assume the following store was created:
 // Example File Path:
 // ./src/stores/counterStore.js
 
-import { defineStore } from 'pinia',
+import { defineStore } from 'pinia'
 
 const useCounterStore = defineStore('counterStore', {
   state: () => ({
@@ -123,7 +123,7 @@ const useCounterStore = defineStore('counterStore', {
 })
 ```
 
-### With `setup()`
+### `setup()`에서 %{#with-setup}%
 
 While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
 
@@ -145,7 +145,7 @@ export default {
 }
 ```
 
-### Without `setup()`
+### `setup()` 없이 %{#without-setup}%
 
 If you would prefer not to use Composition API at all, you can use the `mapActions()` helper to map actions properties as methods in your component:
 
@@ -157,14 +157,14 @@ export default {
   methods: {
     // gives access to this.increment() inside the component
     // same as calling from store.increment()
-    ...mapActions(useCounterStore, ['increment'])
+    ...mapActions(useCounterStore, ['increment']),
     // same as above but registers it as this.myOwnName()
     ...mapActions(useCounterStore, { myOwnName: 'doubleCounter' }),
   },
 }
 ```
 
-## Subscribing to actions
+## 액션 구독하기 %{#subscribing-to-actions}%
 
 It is possible to observe actions and their outcome with `store.$onAction()`. The callback passed to it is executed before the action itself. `after` handle promises and allows you to execute a function after the action resolves. In a similar way, `onError` allows you execute a function if the action throws or rejects. These are useful for tracking errors at runtime, similar to [this tip in the Vue docs](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors).
 
