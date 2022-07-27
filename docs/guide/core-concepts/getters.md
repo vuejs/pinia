@@ -1,4 +1,8 @@
-# Getters
+---
+title: 게터
+---
+
+# Getters (게터) %{#getters}%
 
 Getters are exactly the equivalent of [computed values](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values) for the state of a Store. They can be defined with the `getters` property in `defineStore()`. They receive the `state` as the first parameter **to encourage** the usage of arrow function:
 
@@ -52,7 +56,7 @@ export default {
 </script>
 ```
 
-## Accessing other getters
+## 다른 getter에 접근 %{#accessing-other-getters}%
 
 As with computed properties, you can combine multiple getters. Access any other getter via `this`. Even if you are not using TypeScript, you can hint your IDE for types with the [JSDoc](https://jsdoc.app/tags-returns.html):
 
@@ -79,7 +83,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## Passing arguments to getters
+## getter에 인자 전달 %{#passing-arguments-to-getters}%
 
 _Getters_ are just _computed_ properties behind the scenes, so it's not possible to pass any parameters to them. However, you can return a function from the _getter_ to accept any arguments:
 
@@ -124,7 +128,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## Accessing other stores getters
+## 다른 스토어 getter에 접근 %{#accessing-other-stores-getters}%
 
 To use another store getters, you can directly _use it_ inside of the _getter_:
 
@@ -144,7 +148,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## Usage with `setup()`
+## `setup()`에서 사용 %{#usage-with-setup}%
 
 You can directly access any getter as a property of the store (exactly like state properties):
 
@@ -159,7 +163,7 @@ export default {
 }
 ```
 
-## Usage with the Options API
+## 옵션 API에서 사용 %{#usage-with-the-options-api}%
 
 For the following examples, you can assume the following store was created:
 
@@ -181,7 +185,7 @@ const useCounterStore = defineStore('counterStore', {
 })
 ```
 
-### With `setup()`
+### `setup()`에서 %{#with-setup}%
 
 While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
 
@@ -202,7 +206,7 @@ export default {
 }
 ```
 
-### Without `setup()`
+### `setup()` 없이 %{#without-setup}%
 
 You can use the same `mapState()` function used in the [previous section of state](state.md#options-api) to map to getters:
 
