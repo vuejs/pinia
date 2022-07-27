@@ -5,7 +5,7 @@
   title="Learn all about getters in Pinia"
 />
 
-Getters are exactly the equivalent of [computed values](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values) for the state of a Store. They can be defined with the `getters` property in `defineStore()`. They receive the `state` as the first parameter **to encourage** the usage of arrow function:
+Getters are exactly the equivalent of [computed values](https://vuejs.org/guide/essentials/computed.html) for the state of a Store. They can be defined with the `getters` property in `defineStore()`. They receive the `state` as the first parameter **to encourage** the usage of arrow function:
 
 ```js
 export const useStore = defineStore('main', {
@@ -177,7 +177,7 @@ For the following examples, you can assume the following store was created:
 // Example File Path:
 // ./src/stores/counterStore.js
 
-import { defineStore } from 'pinia',
+import { defineStore } from 'pinia'
 
 const useCounterStore = defineStore('counterStore', {
   state: () => ({
@@ -224,7 +224,7 @@ export default {
   computed: {
     // gives access to this.doubleCounter inside the component
     // same as reading from store.doubleCounter
-    ...mapState(useCounterStore, ['doubleCount'])
+    ...mapState(useCounterStore, ['doubleCount']),
     // same as above but registers it as this.myOwnName
     ...mapState(useCounterStore, {
       myOwnName: 'doubleCounter',
