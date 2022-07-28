@@ -88,7 +88,7 @@ const config = defineConfig({
           text: '소개',
           items: [
             {
-              text: 'Pinia란?',
+              text: '피니아란?',
               link: '/guide/introduction.html',
             },
             {
@@ -104,7 +104,7 @@ const config = defineConfig({
             { text: 'State (상태)', link: '/guide/core-concepts/state.html' },
             { text: 'Getters (게터)', link: '/guide/core-concepts/getters.html' },
             { text: 'Actions (액션)', link: '/guide/core-concepts/actions.html' },
-            { text: 'Plugins', link: '/guide/core-concepts/plugins.html' },
+            { text: 'Plugins (플러그인)', link: '/guide/core-concepts/plugins.html' },
             {
               text: 'Stores outside of components',
               link: '/guide/core-concepts/outside-component-usage.html',
