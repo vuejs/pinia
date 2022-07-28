@@ -114,10 +114,10 @@ export default {
 
 ## 옵션 API에서 사용 %{#usage-with-the-options-api}%
 
-For the following examples, you can assume the following store was created:
+다음 예제는 아래와 같이 저장소가 생성되었다고 가정합니다:
 
 ```js
-// Example File Path:
+// 예제 파일 경로:
 // ./src/stores/counterStore.js
 
 import { defineStore } from 'pinia'
