@@ -1,158 +1,174 @@
-# Plugins
+---
+title: 플러그인
+---
 
-Pinia stores can be fully extended thanks to a low level API. Here is a list of things you can do:
+# Plugins (플러그인) %{#plugins}%
 
-- Add new properties to stores
-- Add new options when defining stores
-- Add new methods to stores
-- Wrap existing methods
-- Change or even cancel actions
-- Implement side effects like [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
-- Apply **only** to specific stores
+피니아 스토어는 저수준 API 덕분에 완전히 확장할 수 있습니다.
+다음은 수행할 수 있는 작업 목록입니다:
 
-Plugins are added to the pinia instance with `pinia.use()`. The simplest example is adding a static property to all stores by returning an object:
+- 스토어에 새 속성 추가
+- 스토어를 정의할 때 새로운 옵션 추가
+- 스토어에 새로운 메서드 추가
+- 기존 메서드 랩핑
+- 액션 변경 또는 취소
+- [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)와 같은 사이드 이팩트 구현
+- 특정 **스토어에만** 적용
+
+플러그인은 `pinia.use()`를 사용하여 피니아 인스턴스에 추가합니다.
+가장 간단한 예제로는 객체를 반환하여 모든 스토어에 정적 속성을 추가하는 것입니다:
 
 ```js
 import { createPinia } from 'pinia'
 
-// add a property named `secret` to every store that is created after this plugin is installed
-// this could be in a different file
+// 이 플러그인이 설치된 후 생성되는 모든 스토어에 `secret`이라는 속성을 추가됨.
+// 이것은 다른 파일에 작성할 수 있음.
 function SecretPiniaPlugin() {
-  return { secret: 'the cake is a lie' }
+  return { secret: '임금님 귀는 당나귀 귀!' }
 }
 
 const pinia = createPinia()
-// give the plugin to pinia
+// 플러그인을 피니아에 제공
 pinia.use(SecretPiniaPlugin)
 
-// in another file
+// 다른 파일에서
 const store = useStore()
-store.secret // 'the cake is a lie'
+store.secret // '임금님 귀는 당나귀 귀!'
 ```
 
-This is useful to add global objects like the router, modal, or toast managers.
+이것은 라우터나 모달 또는 토스트 상태를 관리할 전역 객체를 추가하는 데 유용합니다.
 
-## Introduction
+## 소개 %{#introduction}%
 
-A Pinia plugin is a function that optionally returns properties to be added to a store. It takes one optional argument, a _context_:
+피니아 플러그인은 스토어에 추가할 속성을 선택적으로 반환하는 함수입니다.
+하나의 선택적 인자인 `context`가 필요합니다:
 
 ```js
 export function myPiniaPlugin(context) {
-  context.pinia // the pinia created with `createPinia()`
-  context.app // the current app created with `createApp()` (Vue 3 only)
-  context.store // the store the plugin is augmenting
-  context.options // the options object defining the store passed to `defineStore()`
+  context.pinia // `createPinia()`로 생성된 피니아
+  context.app // `createApp()`으로 생성된 현재 앱(Vue 3만 해당)
+  context.store // 플러그인이 확장되는 스토어
+  context.options // `defineStore()`에 전달된 스토어를 정의하는 옵션 객체
   // ...
 }
 ```
 
-This function is then passed to `pinia` with `pinia.use()`:
+이 함수는 `pinia.use()`를 사용하여 `pinia`에 전달됩니다:
 
 ```js
 pinia.use(myPiniaPlugin)
 ```
 
-Plugins are only applied to stores **created after `pinia` is passed to the app**, otherwise they won't be applied.
+플러그인은 **`pinia`가 앱에 전달된 후 생성된** 스토어에만 적용됩니다.
+그렇지 않으면 적용되지 않습니다.
 
-## Augmenting a Store
+## 스토어 확장하기 %{#augmenting-a-store}%
 
-You can add properties to every store by simply returning an object of them in a plugin:
+플러그인에서 객체를 반환하기만 하면,
+모든 스토어에 속성을 추가할 수 있습니다:
 
 ```js
-pinia.use(() => ({ hello: 'world' }))
+pinia.use(() => ({ hello: '멋진 뷰!' }))
 ```
 
-You can also set the property directly on the `store` but **if possible use the return version so they can be automatically tracked by devtools**:
+`store`에서 직접 속성을 설정할 수도 있지만,
+**가능한 경우 반환 버전을 사용하여 devtools에서 자동으로 추적할 수 있도록 합니다**:
 
 ```js
 pinia.use(({ store }) => {
-  store.hello = 'world'
+  store.hello = '멋진 뷰!'
 })
 ```
 
-Any property _returned_ by a plugin will be automatically tracked by devtools so in order to make `hello` visible in devtools, make sure to add it to `store._customProperties` **in dev mode only** if you want to debug it in devtools:
+플러그인이 반환하는 모든 속성은 devtools에서 자동으로 추적하므로 devtools에서 `hello`를 볼 수 있습니다.
+devtools에서 디버그하려는 경우에만 dev 모드의 `store._customProperties`에 추가해야 합니다:
 
 ```js
-// from the example above
+// 위의 예제에서
 pinia.use(({ store }) => {
-  store.hello = 'world'
-  // make sure your bundler handle this. webpack and vite should do it by default
+  store.hello = '멋진 뷰!'
+  // 번들러가 이것을 처리하는지 확인 해야함.
+  // webpack 및 vite는 기본적으로 처리함.
   if (process.env.NODE_ENV === 'development') {
-    // add any keys you set on the store
+    // 스토어에서 설정한 키를 추가합니다.
     store._customProperties.add('hello')
   }
 })
 ```
 
-Note that every store is wrapped with [`reactive`](https://v3.vuejs.org/api/basic-reactivity.html#reactive), automatically unwrapping any Ref (`ref()`, `computed()`, ...) it contains:
+모든 스토어는 [`reactive`](https://vuejs.kr/api/reactivity-core.html#reactive)로 래핑되며,
+모든 Ref(`ref()`, `computed()`, . ..)는 자동으로 언래핑됩니다:
 
 ```js
 const sharedRef = ref('shared')
 pinia.use(({ store }) => {
-  // each store has its individual `hello` property
+  // 각 스토어에는 개별 `hello` 속성이 있음.
   store.hello = ref('secret')
-  // it gets automatically unwrapped
+  // 자동으로 언래핑 됨.
   store.hello // 'secret'
 
-  // all stores are sharing the value `shared` property
+  // 모든 스토어는 `shared` 속성의 값을 공유함.
   store.shared = sharedRef
   store.shared // 'shared'
 })
 ```
 
-This is why you can access all computed properties without `.value` and why they are reactive.
+따라서 `.value` 없이 모든 계산된 속성에 접근할 수 있으며, 이러한 속성이 반응형인 것입니다.
 
-### Adding new state
+### 새로운 상태 추가하기 %{#adding-new-state}%
 
-If you want to add new state properties to a store or properties that are meant to be used during hydration, **you will have to add it in two places**:
+스토어에 새로운 상태 속성을 추가하거나 하이드레이션 중에 사용할 속성을 추가하려면 **두 위치에 추가해야 합니다**:
 
-- On the `store` so you can access it with `store.myState`
-- On `store.$state` so it can be used in devtools and, **be serialized during SSR**.
+- `store`: 따라서 `store.myState`로 접근할 수 있음.
+- `store.$state`: 따라서 devtools에서 사용할 수 있고, **SSR 동안 직렬화될 수 있음**.
 
-On top of that, you will certainly have to use a `ref()` (or other reactive API) in order to share the value across different accesses:
+게다가 다른 접근 간에 값을 공유하려면 `ref()`(또는 다른 반응형 API)를 사용해야 합니다:
 
 ```js
 import { toRef, ref } from 'vue'
 
 pinia.use(({ store }) => {
-  // to correctly handle SSR, we need to make sure we are not overriding an
-  // existing value
+  // SSR을 올바르게 처리하려면 기존 값을 재정의하지 않는지 확인해야 함.
   if (!Object.prototype.hasOwnProperty(store.$state, 'hasError')) {
-    // hasError is defined within the plugin, so each store has their individual
-    // state property
+    // hasError는 플러그인 내에서 정의되므로,
+    // 각 스토어에는 개별 상태 속성이 있음.
     const hasError = ref(false)
-    // setting the variable on `$state`, allows it be serialized during SSR
+    // 변수를 `$state`에 설정하면 SSR 동안 직렬화할 수 있음.
     store.$state.hasError = hasError
   }
-  // we need to transfer the ref from the state to the store, this way
-  // both accesses: store.hasError and store.$state.hasError will work
-  // and share the same variable
-  // See https://vuejs.org/api/reactivity-utilities.html#toref
+  // ref를 state에서 stroe로 옮겨야 하며,
+  // 이 방법으로 두 곳에서 모두 접근 가능해짐:
+  // "store.hasError"와 "store.$state.hasError"가 작동하고 동일한 변수를 공유.
+  // 참고: https://vuejs.kr/api/reactivity-utilities.html#toref
   store.hasError = toRef(store.$state, 'hasError')
-
-  // in this case it's better not to return `hasError` since it
-  // will be displayed in the `state` section in the devtools
-  // anyway and if we return it, devtools will display it twice.
+  
+  // 이 경우 devtools의 `state` 섹션에 표시될 것이기 때문에,
+  // `hasError`를 반환하지 않는 것이 좋음.
+  // 어쨌든 그것을 반환하면 devtools는 그것을 두 번 표시함.
+  
 })
 ```
 
-Note that state changes or additions that occur within a plugin (that includes calling `store.$patch()`) happen before the store is active and therefore **do not trigger any subscriptions**.
+플러그인 내에서 발생하는 상태 변경 또는 추가(`store.$patch()` 호출 포함)는 스토어가 활성화되기 전에 발생하므로 **구독을 트리거하지 않습니다**.
 
 :::warning
-If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats) as Vue. You will need to use `set` from `@vue/composition-api` when creating new state properties like `secret` and `hasError`:
+**Vue 2**를 사용하는 경우,
+피니아는 Vue와 [동일한 반응형 주의 사항](https://v3-docs.vuejs-korea.org/guide/extras/reactivity-in-depth.html#Change-Detection-Caveats)이 적용됩니다.
+`secret` 및 `hasError`와 같은 새 상태 속성을 생성할 때,
+`@vue/composition-api`에서 `set`을 사용해야 합니다:
 
 ```js
 import { set, toRef } from '@vue/composition-api'
 pinia.use(({ store }) => {
   if (!Object.prototype.hasOwnProperty(store.$state, 'hello')) {
     const secretRef = ref('secret')
-    // If the data is meant to be used during SSR, you should
-    // set it on the `$state` property so it is serialized and
-    // picked up during hydration
+    // 데이터가 SSR 동안 사용되어야 하는 경우,
+    // 이것을 `$state` 속성에 설정하여,
+    // 하이드레이션 중에 직렬화되고 선택되도록 해야 함.
     set(store.$state, 'secret', secretRef)
   }
-  // set it directly on the store too so you can access it
-  // both ways: `store.$state.secret` / `store.secret`
+  // `store.$state.secret` / `store.secret`처럼
+  // 두 방법 모두로 접근할 수 있도록, 스토어에도 직접 설정해야 함.
   set(store, 'secret', toRef(store.$state, 'secret'))
   store.secret // 'secret'
 })
@@ -160,13 +176,14 @@ pinia.use(({ store }) => {
 
 :::
 
-## Adding new external properties
+## 새로운 외부 속성 추가하기 %{#adding-new-external-properties}%
 
-When adding external properties, class instances that come from other libraries, or simply things that are not reactive, you should wrap the object with `markRaw()` before passing it to pinia. Here is an example adding the router to every store:
+외부 속성, 다른 라이브러리에서 가져온 클래스 인스턴스 또는 단순히 반응하지 않는 것을 추가할 때,
+객체를 피니아에 전달하기 전에 `markRaw()`로 래핑해야 합니다.
+다음은 모든 스토어에 라우터를 추가하는 예제입니다:
 
 ```js
 import { markRaw } from 'vue'
-// adapt this based on where your router is
 import { router } from './router'
 
 pinia.use(({ store }) => {
@@ -174,24 +191,26 @@ pinia.use(({ store }) => {
 })
 ```
 
-## Calling `$subscribe` inside plugins
+## 플러그인 내에서 `$subscribe` 호출하기 %{#calling-subscribe-inside-plugins}%
 
-You can use [store.$subscribe](state.md#subscribing-to-the-state) and [store.$onAction](actions.md#subscribing-to-actions) inside plugins too:
+플러그인 내에서도 [store.$subscribe](state.md#subscribe-to-the-state) 및 [store.$onAction](actions.md#subscribe-to-actions)을 사용할 수 있습니다:
 
 ```ts
 pinia.use(({ store }) => {
   store.$subscribe(() => {
-    // react to store changes
+    // 스토어 변경 사항에 반응
   })
   store.$onAction(() => {
-    // react to store actions
+    // 스토어 액션에 반응
   })
 })
 ```
 
-## Adding new options
+## 새로운 옵션 추가하기 %{#adding-new-options}%
 
-It is possible to create new options when defining stores to later on consume them from plugins. For example, you could create a `debounce` option that allows you to debounce any action:
+나중에 플러그인에서 소비하기 위해,
+스토어를 정의할 때 새로운 옵션을 생성하는 것이 가능합니다.
+예를 들어 모든 작업을 디바운스할 수 있는 `debounce` 옵션을 만들 수 있습니다:
 
 ```js
 defineStore('search', {
@@ -201,23 +220,23 @@ defineStore('search', {
     },
   },
 
-  // this will be read by a plugin later on
+  // 이것은 나중에 플러그인에서 읽을 것임.
   debounce: {
-    // debounce the action searchContacts by 300ms
+    // searchContacts 액션을 300ms로 디바운스함.
     searchContacts: 300,
   },
 })
 ```
 
-The plugin can then read that option to wrap actions and replace the original ones:
+그런 다음 플러그인은 해당 옵션을 읽고 액션을 래핑하고 원래 옵션을 교체할 수 있습니다:
 
 ```js
-// use any debounce library
+// 아무 디바운스 라이브러리 사용
 import debounce from 'lodash/debounce'
 
 pinia.use(({ options, store }) => {
   if (options.debounce) {
-    // we are overriding the actions with new ones
+    // 새로운 것으로 액션을 재정의 함.
     return Object.keys(options.debounce).reduce((debouncedActions, action) => {
       debouncedActions[action] = debounce(
         store[action],
@@ -229,7 +248,7 @@ pinia.use(({ options, store }) => {
 })
 ```
 
-Note that custom options are passed as the 3rd argument when using the setup syntax:
+셋업 문법을 사용하는 경우, 커스텀 옵션이 세 번째 인자로 전달됩니다:
 
 ```js
 defineStore(
@@ -238,9 +257,9 @@ defineStore(
     // ...
   },
   {
-    // this will be read by a plugin later on
+    // 이것은 나중에 플러그인에서 읽을 것임.
     debounce: {
-      // debounce the action searchContacts by 300ms
+      // searchContacts 액션을 300ms로 디바운스함.
       searchContacts: 300,
     },
   }
@@ -249,11 +268,12 @@ defineStore(
 
 ## TypeScript
 
-Everything shown above can be done with typing support, so you don't ever need to use `any` or `@ts-ignore`.
+위에 표시된 모든 것은 타이핑(유형 감지)이 지원되므로,
+`any` 또는 `@ts-ignore`를 사용할 필요가 없습니다.
 
-### Typing plugins
+### Typing plugins %{#typing-plugins}%
 
-A Pinia plugin can be typed as follows:
+피니아 플러그인은 다음과 같이 typed 할 수 있습니다:
 
 ```ts
 import { PiniaPluginContext } from 'pinia'
@@ -263,45 +283,46 @@ export function myPiniaPlugin(context: PiniaPluginContext) {
 }
 ```
 
-### Typing new store properties
+### Typing new store properties %{#typing-new-store-properties}%
 
-When adding new properties to stores, you should also extend the `PiniaCustomProperties` interface.
+스토어에 새 속성을 추가할 때, `PiniaCustomProperties` 인터페이스도 확장해야 합니다.
 
 ```ts
 import 'pinia'
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
-    // by using a setter we can allow both strings and refs
+    // setter를 사용하여 문자열과 참조를 모두 허용할 수 있음.
     set hello(value: string | Ref<string>)
     get hello(): string
 
-    // you can define simpler values too
+    // 더 간단한 값도 정의할 수 있음.
     simpleNumber: number
   }
 }
 ```
 
-It can then be written and read safely:
+그런 다음 안전하게 쓰고 읽을 수 있습니다:
 
 ```ts
 pinia.use(({ store }) => {
-  store.hello = 'Hola'
-  store.hello = ref('Hola')
+  store.hello = '안녕하세요'
+  store.hello = ref('하이')
 
   store.simpleNumber = Math.random()
-  // @ts-expect-error: we haven't typed this correctly
+  // @ts-expect-error: 올바른 타입이 아님.
   store.simpleNumber = ref(Math.random())
 })
 ```
 
-`PiniaCustomProperties` is a generic type that allows you to reference properties of a store. Imagine the following example where we copy over the initial options as `$options` (this would only work for option stores):
+`PiniaCustomProperties`는 스토어의 속성을 참조할 수 있는 일반 유형입니다.
+다음 예제는 초기 옵션을 `$options`로 복사한다고 가정합니다(옵션 스토어에서만 작동함):
 
 ```ts
 pinia.use(({ options }) => ({ $options: options }))
 ```
 
-We can properly type this by using the 4 generic types of `PiniaCustomProperties`:
+`PiniaCustomProperties`의 4가지 일반 유형을 사용하여 올바르게 입력할 수 있습니다:
 
 ```ts
 import 'pinia'
@@ -319,7 +340,10 @@ declare module 'pinia' {
 ```
 
 :::tip
-When extending types in generics, they must be named **exactly as in the source code**. `Id` cannot be named `id` or `I`, and `S` cannot be named `State`. Here is what every letter stands for:
+제네릭에서 유형을 확장할 때는 **소스 코드에서와 똑같이** 이름을 지정해야 합니다.
+`Id`는 `id` 또는 `I`로 이름을 지정할 수 없으며,
+`S`는 `State`로 이름을 지정할 수 없습니다.
+모든 문자가 의미하는 것은 다음과 같습니다.
 
 - S: State
 - G: Getters
@@ -328,9 +352,11 @@ When extending types in generics, they must be named **exactly as in the source 
 
 :::
 
-### Typing new state
+### Typing new state %{#typing-new-state}%
 
-When adding new state properties (to both, the `store` and `store.$state`), you need to add the type to `PiniaCustomStateProperties` instead. Differently from `PiniaCustomProperties`, it only receives the `State` generic:
+새로운 상태 속성을 추가할 때(`store`와 `store.$state` 모두에),
+`PiniaCustomStateProperties`에 유형을 추가해야 합니다.
+`PiniaCustomProperties`와 달리 `State` 제네릭만 수신합니다:
 
 ```ts
 import 'pinia'
@@ -342,41 +368,47 @@ declare module 'pinia' {
 }
 ```
 
-### Typing new creation options
+### Typing new creation options %{#typing-new-creation-options}%
 
-When creating new options for `defineStore()`, you should extend the `DefineStoreOptionsBase`. Differently from `PiniaCustomProperties`, it only exposes two generics: the State and the Store type, allowing you to limit what can be defined. For example, you can use the names of the actions:
+`defineStore()`에 대한 새 옵션을 만들 때, `DefineStoreOptionsBase`를 확장해야 합니다.
+`PiniaCustomProperties`와 달리 두 개의 제네릭만 노출합니다:
+State 및 Store 유형으로 정의할 수 있는 것을 제한할 수 있습니다.
+예를 들어 액션의 이름을 사용할 수 있습니다:
 
 ```ts
 import 'pinia'
 
 declare module 'pinia' {
   export interface DefineStoreOptionsBase<S, Store> {
-    // allow defining a number of ms for any of the actions
+    // 모든 액션의 ms 값을 정의할 수 있음.
     debounce?: Partial<Record<keyof StoreActions<Store>, number>>
   }
 }
 ```
 
 :::tip
-There is also a `StoreGetters` type to extract the _getters_ from a Store type. You can also extend the options of _setup stores_ or _option stores_ **only** by extending the types `DefineStoreOptions` and `DefineSetupStoreOptions` respectively.
+Store 유형에서 게터를 추출하는 `StoreGetters` 유형도 있습니다.
+또한 `DefineStoreOptions` 및 `DefineSetupStoreOptions` 유형을 각각 확장하여 [셋업 스토어](/guide/core-concepts/#setup-stores) 또는 [옵션 스토어](/guide/core-concepts/#option-stores)의 옵션을 확장할 수도 있습니다.
 :::
 
 ## Nuxt.js
 
-When [using pinia alongside Nuxt](../ssr/nuxt.md), you will have to create a [Nuxt plugin](https://nuxtjs.org/docs/2.x/directory-structure/plugins) first. This will give you access to the `pinia` instance:
+[Nuxt와 함께 피니아를 사용](/guide/ssr/nuxt.md)하는 경우,
+먼저 [Nuxt 플러그인](https://nuxtjs.org/docs/2.x/directory-structure/plugins)을 만들어야 합니다.
+이렇게 하면 `pinia` 인스턴스에 접근할 수 있습니다:
 
 ```ts
-// plugins/myPiniaPlugin.js
+// plugins/myPiniaPlugin.ts
 import { PiniaPluginContext } from 'pinia'
 import { Plugin } from '@nuxt/types'
 
 function MyPiniaPlugin({ store }: PiniaPluginContext) {
   store.$subscribe((mutation) => {
-    // react to store changes
+    // 스토어 변경에 반응.
     console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
   })
 
-  // Note this has to be typed if you are using TS
+  // TS를 사용하는 경우 typed 해야 함.
   return { creationTime: new Date() }
 }
 
@@ -387,4 +419,6 @@ const myPlugin: Plugin = ({ $pinia }) => {
 export default myPlugin
 ```
 
-Note the above example is using TypeScript, you have to remove the type annotations `PiniaPluginContext` and `Plugin` as well as their imports if you are using a `.js` file.
+위의 예는 TypeScript를 사용하고 있으므로,
+`.js` 파일을 사용하는 경우,
+`PiniaPluginContext`와 `Plugin`를 유형 주석으로 사용하는 부분과 `import` 부분을 제거해야 합니다.
