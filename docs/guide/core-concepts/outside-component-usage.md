@@ -12,7 +12,7 @@ title: 컴포넌트 외부에서 스토어 사용
 따라서 `pinia` 인스턴스를 자동으로 삽입할 수 없는 경우, `useStore()` 함수에 수동으로 제공해야 합니다.
 작성하는 앱의 종류에 따라 이 문제를 다르게 해결할 수 있습니다.
 
-## 싱글 페이지 애플리케이션 (SPA) %{#single-page-applications}
+## 싱글 페이지 애플리케이션 (SPA) %{#single-page-applications}%
 
 SSR을 수행하지 않는 경우,
 `app.use(pinia)`로 피니아 플러그인을 설치한 후,
@@ -62,7 +62,7 @@ router.beforeEach((to) => {
 })
 ```
 
-## SSR 앱 %{#ssr-apps}
+## SSR 앱 %{#ssr-apps}%
 
 SSR을 처리할 때, `pinia` 인스턴스를 `useStore()`에 전달해야 합니다.
 이것은 피니아가 서로 다른 앱 인스턴스 간에 전역 상태를 공유하는 것을 방지합니다.
