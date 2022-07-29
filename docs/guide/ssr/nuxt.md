@@ -1,21 +1,24 @@
 # Nuxt.js
 
-Using Pinia with [Nuxt.js](https://nuxtjs.org/) is easier since Nuxt takes care of a lot of things when it comes to _server side rendering_. For instance, **you don't need to care about serialization nor XSS attacks**. Pinia supports Nuxt Bridge and Nuxt 3, for bare Nuxt 2 support, [See below](#nuxt-2-without-bridge).
+[Nuxt.js](https://nuxtjs.org/)와 피니아를 함께 사용하는 것은 Nuxt가 SSR과 관련하여 많은 것을 처리하기 때문에 더 쉽습니다.
+예를 들어 **직렬화나 XSS 공격에 신경 쓸 필요가 없습니다**.
+피니아는 Nuxt Bridge 및 Nuxt 3를 지원하며, Nuxt 2 지원은 [아래를 참조](#nuxt-2-without-bridge)합시다.
 
-## Installation
+## 설치 %{#installation}%
 
 ```bash
 yarn add @pinia/nuxt
-# or with npm
+# 또는 npm으로
 npm install @pinia/nuxt
 ```
 
-We supply a _module_ to handle everything for you, you only need to add it to `buildModules` in your `nuxt.config.js` file:
+모든 것을 처리할 수 있는 모듈을 제공하므로,
+`nuxt.config.js` 파일의 `buildModules`에 추가하기만 하면 됩니다:
 
 ```js
 // nuxt.config.js
 export default {
-  // ... other options
+  // ... 다른 옵션들
   buildModules: [
     // ...
     '@pinia/nuxt',
@@ -23,11 +26,13 @@ export default {
 }
 ```
 
-And that's it, use your store as usual!
+이게 전부입니다, 평소처럼 스토어를 사용하세요!
 
-## Using the store outside of `setup()`
+## `setup()` 외부에서 스토어 사용 %{#using-the-store-outside-of-setup}%
 
-If you want to use a store outside of `setup()`, remember to pass the `pinia` object to `useStore()`. We added it to [the context](https://nuxtjs.org/docs/2.x/internals-glossary/context) so you have access to it in `asyncData()` and `fetch()`:
+`setup()` 외부에서 스토어를 사용하려면,
+`pinia` 객체를 `useStore()`에 전달하는 것을 잊지 마십시오.
+`asyncData()` 및 `fetch()`에서 접근할 수 있도록 [컨텍스트](https://nuxtjs.org/docs/2.x/internals-glossary/context)에 추가되어 있습니다.
 
 ```js
 import { useStore } from '~/stores/myStore'
@@ -39,23 +44,25 @@ export default {
 }
 ```
 
-## Auto imports
+## 오토 임포트 (import) %{#auto-imports}%
 
-By default `@pinia/nuxt` exposes one single auto import: `usePinia()`, which is similar to `getActivePinia()` but works better with Nuxt. You can add auto imports to make your life easier:
+기본적으로 `@pinia/nuxt`는 싱글 오토 임포트 `usePinia()`를 노출합니다.
+이것은 `getActivePinia()`와 유사하지만 Nuxt에서 더 잘 작동합니다.
+오토 임포트를 추가하여 개발을 더 쉽게 할 수 있습니다:
 
 ```js
 // nuxt.config.js
 export default {
-  // ... other options
+  // ... 다른 옵션들
   buildModules: [
     // ...
     [
       '@pinia/nuxt',
       {
         autoImports: [
-          // automatically imports `usePinia()`
+          // `usePinia()`를 자동으로 임포트함.
           'defineStore',
-          // automatically imports `usePinia()` as `usePiniaStore()`
+          // `usePinia()`를 `usePiniaStore()`로 자동으로 임포트함.
           ['defineStore', 'definePiniaStore'],
         ],
       },
@@ -66,7 +73,8 @@ export default {
 
 ## TypeScript
 
-If you are using TypeScript or have a `jsconfig.json`, you should also add the types for `context.pinia`:
+TypeScript를 사용하거나 `jsconfig.json`이 있는 경우,
+`context.pinia`에 대한 유형을 추가해야 합니다:
 
 ```json
 {
@@ -77,26 +85,27 @@ If you are using TypeScript or have a `jsconfig.json`, you should also add the t
 }
 ```
 
-This will also ensure you have autocompletion 😉 .
+이렇게 하면 자동 완성 기능이 보장됩니다 😉 .
 
-## Nuxt 2 without bridge
+## Nuxt 2 without bridge %{#nuxt-2-without-bridge}%
 
-Pinia supports Nuxt 2 until `@pinia/nuxt` v0.2.1. Make sure to also install [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/) alongside `pinia`:
+피니아는 `@pinia/nuxt` v0.2.1부터 Nuxt 2를 지원합니다.
+`pinia`와 더불어 [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/)도 설치해야 합니다:
 
 ```bash
 yarn add pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
-# or with npm
+# 또는 npm으로
 npm install pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
 ```
 
-We supply a _module_ to handle everything for you, you only need to add it to `buildModules` in your `nuxt.config.js` file:
+모든 것을 처리할 수 있는 모듈을 제공하므로, `nuxt.config.js` 파일의 `buildModules`에 추가하기만 하면 됩니다:
 
 ```js
 // nuxt.config.js
 export default {
-  // ... other options
+  // ... 다른 옵션들
   buildModules: [
-    // Nuxt 2 only:
+    // Nuxt 2 에서만:
     // https://composition-api.nuxtjs.org/getting-started/setup#quick-start
     '@nuxtjs/composition-api/module',
     '@pinia/nuxt',
@@ -104,9 +113,10 @@ export default {
 }
 ```
 
-### Using Pinia alongside Vuex
+### Vuex와 함께 피니아 사용 %{#using-pinia-alongside-vuex}%
 
-It is recommended to **avoid using both Pinia and Vuex** but if you need to use both, you need to tell pinia to not disable it:
+**피니아와 Vuex를 함께 사용하지 않는 것이 좋지만** 둘 다 사용해야 하는 경우,
+피니아가 Vuex를 비활성화하지 않도록 알려야 합니다:
 
 ```js
 // nuxt.config.js
@@ -115,6 +125,6 @@ export default {
     '@nuxtjs/composition-api/module',
     ['@pinia/nuxt', { disableVuex: false }],
   ],
-  // ... other options
+  // ... 다른 옵션들
 }
 ```
