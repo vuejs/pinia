@@ -106,7 +106,7 @@ const config = defineConfig({
             { text: 'Actions (액션)', link: '/guide/core-concepts/actions.html' },
             { text: 'Plugins (플러그인)', link: '/guide/core-concepts/plugins.html' },
             {
-              text: 'Stores outside of components',
+              text: '컴포넌트 외부의 스토어',
               link: '/guide/core-concepts/outside-component-usage.html',
             },
           ],
