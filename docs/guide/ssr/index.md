@@ -1,25 +1,30 @@
-# Server Side Rendering (SSR)
+---
+title: 서버 사이드 렌더링
+---
+
+# 서버 사이드 렌더링 (SSR) %{#server-side-rendering-ssr}%
 
 :::tip
-If you are using **Nuxt.js,** you need to read [**these instructions**](nuxt.md) instead.
+**Nuxt.js**를 사용하는 경우, 이 섹션 대신 [**Nuxt.js**](nuxt.md)를 읽어야 합니다.
 :::
 
-Creating stores with Pinia should work out of the box for SSR as long as you call your `useStore()` functions at the top of `setup` functions, `getters` and `actions`:
+피니아로 스토어를 만드는 것은 `setup` 함수, `getters`, `actions`의 상단에서 `useStore()` 함수를 호출하는 한 SSR에서 즉시 사용할 수 있습니다:
 
 ```js
 export default defineComponent({
   setup() {
-    // this works because pinia knows what application is running inside of
-    // `setup()`
+    // 이것은 피니아가 `setup()`
+    // 내부에서 실행 중인 앱이라는 것을 알고 있으므로 작동함.
     const main = useMainStore()
     return { main }
   },
 })
 ```
 
-## Using the store outside of `setup()`
+## `setup()` 외부에서 스토어 사용 %{#using-the-store-outside-of-setup}%
 
-If you need to use the store somewhere else, you need to pass the `pinia` instance [that was passed to the app](#install-the-plugin) to the `useStore()` function call:
+다른 곳에서 스토어를 사용해야 하는 경우,
+[앱에 전달된](#install-the-plugin) `pinia` 인스턴스를 `useStore()` 함수 호출에 전달해야 합니다:
 
 ```js
 const pinia = createPinia()
@@ -29,15 +34,14 @@ app.use(router)
 app.use(pinia)
 
 router.beforeEach((to) => {
-  // ✅ This will work make sure the correct store is used for the
-  // current running app
+  // ✅ 이렇게 하면 현재 실행 중인 앱의 저장소가 사용됨.
   const main = useMainStore(pinia)
 
   if (to.meta.requiresAuth && !main.isLoggedIn) return '/login'
 })
 ```
 
-Pinia conveniently adds itself as `$pinia` to your app so you can use it in functions like `serverPrefetch()`:
+피니아는 앱에 `$pinia`로 추가되므로, 편리하게 `serverPrefetch()`와 같은 함수에서 사용할 수 있습니다:
 
 ```js
 export default {
@@ -47,9 +51,13 @@ export default {
 }
 ```
 
-## State hydration
+## 상태 하이드레이션 %{#state-hydration}%
 
-To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on. Depending on what you are using for SSR, **you should escape the state for security reasons**. We recommend using [@nuxt/devalue](https://github.com/nuxt-contrib/devalue) which is the one used by Nuxt.js:
+초기 상태를 하이드레이션하려면,
+피니아가 나중에 rootState를 선택할 수 있도록,
+rootState가 HTML의 어딘가에 포함되어 있는지 확인해야 합니다.
+SSR에 사용하는 항목에 따라 **보안상의 이유로 상태를 이스케이프해야 합니다**.
+Nuxt.js에서 사용하는 [@nuxt/devalue](https://github.com/nuxt-contrib/devalue)를 사용하는 것이 좋습니다:
 
 ```js
 import devalue from '@nuxt/devalue'
@@ -69,7 +77,10 @@ app.use(pinia)
 devalue(pinia.state.value)
 ```
 
-Depending on what you are using for SSR, you will set an _initial state_ variable that will be serialized in the HTML. You should also protect yourself from XSS attacks. For example, with [vite-ssr](https://github.com/frandiox/vite-ssr) you can use the [`transformState` option](https://github.com/frandiox/vite-ssr#state-serialization) and `@nuxt/devalue`:
+SSR에 사용하는 항목에 따라 HTML에서 직렬화될 초기 상태 변수를 설정합니다.
+또한 XSS 공격으로부터 자신을 보호해야 합니다.
+예를 들어, [vite-ssr](https://github.com/frandiox/vite-ssr)을 사용하면,
+[`transformState` 옵션](https://github.com/frandiox/vite-ssr#state-serialization) 및 `@nuxt/devalue`를 사용할 수 있습니다;
 
 ```js
 import devalue from '@nuxt/devalue'
@@ -95,9 +106,13 @@ export default viteSSR(
 )
 ```
 
-You can use [other alternatives](https://github.com/nuxt-contrib/devalue#see-also) to `@nuxt/devalue` depending on what you need, e.g. if you can serialize and parse your state with `JSON.stringify()`/`JSON.parse()`, **you could improve your performance by a lot**.
+필요에 따라 `@nuxt/devalue`의 [다른 대안](https://github.com/nuxt-contrib/devalue#see-also)을 사용할 수 있습니다.
+예를 들어 `JSON.stringify()`/`JSON.parse()`로 상태를 직렬화하고 파싱할 수 있다면, **성능을 크게 향상시킬 수 있습니다**.
 
-Adapt this strategy to your environment. Make sure to hydrate pinia's state before calling any `useStore()` function on client side. For example, if we serialize the state into a `<script>` tag to make it accessible globally on client side through `window.__pinia`, we can write this:
+이 전략을 환경에 맞게 조정하십시오.
+클라이언트 측에서 `useStore()` 함수를 호출하기 전에 피니아의 상태를 하이드레이션해야 합니다.
+예를 들어 상태를 `<script>` 태그로 직렬화하여,
+`window.__pinia`를 통해 클라이언트 측에서 전역적으로 접근할 수 있도록 하려면 다음과 같이 작성합니다:
 
 ```js
 const pinia = createPinia()
