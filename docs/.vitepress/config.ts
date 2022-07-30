@@ -129,7 +129,7 @@ const config = defineConfig({
           ],
         },
         {
-          text: 'Cookbook',
+          text: '자세한 해설서',
           items: [
             {
               text: '개요',
