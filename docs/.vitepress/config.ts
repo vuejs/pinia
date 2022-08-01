@@ -136,7 +136,7 @@ const config = defineConfig({
               link: '/guide/cookbook/',
             },
             {
-              text: 'Migration from Vuex ≤4',
+              text: 'Vuex ≤4에서 마이그레이션',
               link: '/guide/cookbook/migration-vuex.html',
             },
             {
