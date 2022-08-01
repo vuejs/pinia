@@ -1,3 +1,7 @@
+---
+title: HMR
+---
+
 # 핫 모듈 교체 (HMR) %{#hmr-hot-module-replacement}%
 
 피니아는 핫 모듈 교체(HMR: Hot Module Replacement)를 지원하므로,

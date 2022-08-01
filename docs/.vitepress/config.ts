@@ -144,7 +144,7 @@ const config = defineConfig({
               link: '/guide/cookbook/hot-module-replacement.html',
             },
             {
-              text: 'Testing',
+              text: '⚠️테스팅 (번역중)',
               link: '/guide/cookbook/testing.html',
             },
             {
@@ -154,10 +154,6 @@ const config = defineConfig({
             {
               text: '스토어 구성하기',
               link: '/guide/cookbook/composing-stores.html',
-            },
-            {
-              text: 'Migration from v0/v1 to v2',
-              link: '/guide/cookbook/migration-v1-v2.html',
             },
           ],
         },
