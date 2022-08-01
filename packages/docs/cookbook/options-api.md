@@ -3,10 +3,10 @@
 Pinia can be used even if you are not using the composition API (if you are using Vue 2, you still need to install the `@vue/composition-api` plugin though). While we recommend you to give the Composition API a try and learn it, it might not be the time for you and your team yet, you might be in the process of migrating an application, or any other reason. There are a few functions:
 
 - [mapStores](#giving-access-to-the-whole-store)
-- [mapState](../core-concepts/state.md#options-api)
+- [mapState](../core-concepts/state.md#usage-with-the-options-api)
 - [mapWritableState](../core-concepts/state.md#modifiable-state)
-- ⚠️ [mapGetters](../core-concepts/getters.md#options-api) (just for migration convenience, use `mapState()` instead)
-- [mapActions](../core-concepts/actions.md#options-api)
+- ⚠️ [mapGetters](../core-concepts/getters.md#without-setup) (just for migration convenience, use `mapState()` instead)
+- [mapActions](../core-concepts/actions.md#without-setup)
 
 ## Giving access to the whole store
 
