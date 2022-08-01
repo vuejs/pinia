@@ -148,7 +148,7 @@ const config = defineConfig({
               link: '/guide/cookbook/testing.html',
             },
             {
-              text: 'Usage without setup()',
+              text: 'setup() 없이 사용하기',
               link: '/guide/cookbook/options-api.html',
             },
             {
