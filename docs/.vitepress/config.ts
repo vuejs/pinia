@@ -152,7 +152,7 @@ const config = defineConfig({
               link: '/guide/cookbook/options-api.html',
             },
             {
-              text: 'Composing Stores',
+              text: '스토어 구성하기',
               link: '/guide/cookbook/composing-stores.html',
             },
             {
