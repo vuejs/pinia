@@ -140,7 +140,7 @@ const config = defineConfig({
               link: '/guide/cookbook/migration-vuex.html',
             },
             {
-              text: 'Hot Module Replacement',
+              text: '핫 모듈 교체 (HMR)',
               link: '/guide/cookbook/hot-module-replacement.html',
             },
             {
