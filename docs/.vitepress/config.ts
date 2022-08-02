@@ -144,7 +144,7 @@ const config = defineConfig({
               link: '/guide/cookbook/hot-module-replacement.html',
             },
             {
-              text: '⚠️테스팅 (번역중)',
+              text: '테스팅 (번역중)',
               link: '/guide/cookbook/testing.html',
             },
             {
