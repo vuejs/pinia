@@ -57,8 +57,8 @@ export function createPinia(): Pinia {
 
   // pinia devtools rely on dev only features so they cannot be forced unless
   // the dev build of Vue is used
-  // We also don't need devtools in test mode
-  if (__DEV__ && IS_CLIENT && !__TEST__) {
+  // We also don't need devtools in test mode or anywhere where Proxy isn't supported (like IE)
+  if (__DEV__ && IS_CLIENT && !__TEST__ && typeof Proxy !== 'undefined') {
     pinia.use(devtoolsPlugin)
   }
 
