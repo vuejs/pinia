@@ -37,7 +37,7 @@ ___
 
 ### payload
 
-• **payload**: [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`S`\>
+• **payload**: [`_DeepPartial`](../modules/pinia.md#deeppartial)<`S`\>
 
 Object passed to `store.$patch()`.
 

@@ -26,7 +26,7 @@ For internal use **only**
 
 ### after
 
-• **after**: (`callback`: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void`) => `void`
+• **after**: (`callback`: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void`) => `void`
 
 #### Type declaration
 
@@ -39,7 +39,7 @@ of the action, if it's a Promise, it will be unwrapped.
 
 | Name | Type |
 | :------ | :------ |
-| `callback` | `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void` |
+| `callback` | `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void` |
 
 ##### Returns
 
@@ -49,7 +49,7 @@ ___
 
 ### args
 
-• **args**: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? `Parameters`<`A`[`ActionName`]\> : `unknown`[]
+• **args**: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#method)\> ? `Parameters`<`A`[`ActionName`]\> : `unknown`[]
 
 Parameters passed to the action
 

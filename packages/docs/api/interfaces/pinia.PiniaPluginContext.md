@@ -18,8 +18,8 @@ Context argument passed to Pinia plugins.
 | :------ | :------ |
 | `Id` | extends `string` = `string` |
 | `S` | extends [`StateTree`](../modules/pinia.md#statetree) = [`StateTree`](../modules/pinia.md#statetree) |
-| `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
-| `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
+| `G` | [`_GettersTree`](../modules/pinia.md#getterstree)<`S`\> |
+| `A` | [`_ActionsTree`](../modules/pinia.md#actionstree) |
 
 ## Properties
 

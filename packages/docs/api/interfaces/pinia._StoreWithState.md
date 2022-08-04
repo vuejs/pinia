@@ -59,7 +59,7 @@ that should be displayed in devtools.
 
 #### Inherited from
 
-[StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#_customproperties)
+[StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#customproperties)
 
 ## Methods
 
@@ -176,7 +176,7 @@ Applies a state patch to current state. Allows passing nested values
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `partialState` | [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`UnwrapRef`<`S`\>\> | patch to apply to the state |
+| `partialState` | [`_DeepPartial`](../modules/pinia.md#deeppartial)<`UnwrapRef`<`S`\>\> | patch to apply to the state |
 
 #### Returns
 
