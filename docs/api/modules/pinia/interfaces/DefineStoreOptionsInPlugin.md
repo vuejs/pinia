@@ -1,14 +1,4 @@
----
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
----
-
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptionsInPlugin
-
 # Interface: DefineStoreOptionsInPlugin<Id, S, G, A\>
-
-[pinia](../modules/pinia.md).DefineStoreOptionsInPlugin
 
 Available `options` when creating a pinia plugin.
 
@@ -17,13 +7,13 @@ Available `options` when creating a pinia plugin.
 | Name | Type |
 | :------ | :------ |
 | `Id` | extends `string` |
-| `S` | extends [`StateTree`](../modules/pinia.md#statetree) |
+| `S` | extends [`StateTree`](../type_aliases.md#statetree) |
 | `G` | `G` |
 | `A` | `A` |
 
 ## Hierarchy
 
-- `Omit`<[`DefineStoreOptions`](pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\>, ``"id"`` \| ``"actions"``\>
+- `Omit`<[`DefineStoreOptions`](DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\>, ``"id"`` \| ``"actions"``\>
 
   ↳ **`DefineStoreOptionsInPlugin`**
 
@@ -41,7 +31,7 @@ ___
 
 ### getters
 
-• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
+• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../type_aliases.md#storewithgetters)<`G`\> & [`PiniaCustomProperties`](PiniaCustomProperties.md)<`string`, [`StateTree`](../type_aliases.md#statetree), [`_GettersTree`](../type_aliases.md#getterstree)<[`StateTree`](../type_aliases.md#statetree)\>, [`_ActionsTree`](../type_aliases.md#actionstree)\>\> & [`_GettersTree`](../type_aliases.md#getterstree)<`S`\>
 
 Optional object of getters.
 

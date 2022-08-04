@@ -1,14 +1,4 @@
----
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
----
-
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / MutationType
-
 # Enumeration: MutationType
-
-[pinia](../modules/pinia.md).MutationType
 
 Possible types for SubscriptionCallback
 

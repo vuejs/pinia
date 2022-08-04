@@ -1,23 +1,15 @@
----
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
----
-
-[API Documentation](../index.md) / @pinia/testing
-
 # Module: @pinia/testing
 
 ## Interfaces
 
-- [TestingOptions](../interfaces/pinia_testing.TestingOptions.md)
-- [TestingPinia](../interfaces/pinia_testing.TestingPinia.md)
+- [TestingOptions](interfaces/TestingOptions.md)
+- [TestingPinia](interfaces/TestingPinia.md)
 
 ## Functions
 
 ### createTestingPinia
 
-▸ **createTestingPinia**(`options?`): [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
+▸ **createTestingPinia**(`options?`): [`TestingPinia`](interfaces/TestingPinia.md)
 
 Creates a pinia instance designed for unit tests that **requires mocking**
 the stores. By default, **all actions are mocked** and therefore not
@@ -30,10 +22,10 @@ they are replaced with `jest.fn()`, otherwise, you must provide your own
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `options` | [`TestingOptions`](../interfaces/pinia_testing.TestingOptions.md) | options to configure the testing pinia |
+| `options` | [`TestingOptions`](interfaces/TestingOptions.md) | options to configure the testing pinia |
 
 #### Returns
 
-[`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
+[`TestingPinia`](interfaces/TestingPinia.md)
 
 a augmented pinia instance

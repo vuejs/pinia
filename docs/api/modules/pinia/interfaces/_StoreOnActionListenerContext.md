@@ -1,16 +1,6 @@
----
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
----
-
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / \_StoreOnActionListenerContext
-
 # Interface: \_StoreOnActionListenerContext<Store, ActionName, A\>
 
-[pinia](../modules/pinia.md)._StoreOnActionListenerContext
-
-Actual type for [StoreOnActionListenerContext](../modules/pinia.md#storeonactionlistenercontext). Exists for refactoring
+Actual type for [StoreOnActionListenerContext](../index.md#storeonactionlistenercontext). Exists for refactoring
 purposes. For internal use only.
 For internal use **only**
 
@@ -26,7 +16,7 @@ For internal use **only**
 
 ### after
 
-• **after**: (`callback`: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void`) => `void`
+• **after**: (`callback`: `A` extends `Record`<`ActionName`, [`_Method`](../index.md#method)\> ? (`resolvedReturn`: [`_Awaited`](../index.md#awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void`) => `void`
 
 #### Type declaration
 
@@ -39,7 +29,7 @@ of the action, if it's a Promise, it will be unwrapped.
 
 | Name | Type |
 | :------ | :------ |
-| `callback` | `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void` |
+| `callback` | `A` extends `Record`<`ActionName`, [`_Method`](../index.md#method)\> ? (`resolvedReturn`: [`_Awaited`](../index.md#awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void` |
 
 ##### Returns
 
@@ -49,7 +39,7 @@ ___
 
 ### args
 
-• **args**: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? `Parameters`<`A`[`ActionName`]\> : `unknown`[]
+• **args**: `A` extends `Record`<`ActionName`, [`_Method`](../index.md#method)\> ? `Parameters`<`A`[`ActionName`]\> : `unknown`[]
 
 Parameters passed to the action
 

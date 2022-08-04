@@ -1,34 +1,24 @@
----
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
----
-
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptions
-
 # Interface: DefineStoreOptions<Id, S, G, A\>
-
-[pinia](../modules/pinia.md).DefineStoreOptions
 
 Options parameter of `defineStore()` for option stores. Can be extended to
 augment stores with the plugin API.
 
 **`See`**
 
-[DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
+[DefineStoreOptionsBase](DefineStoreOptionsBase.md).
 
 ## Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `Id` | extends `string` |
-| `S` | extends [`StateTree`](../modules/pinia.md#statetree) |
+| `S` | extends [`StateTree`](../index.md#statetree) |
 | `G` | `G` |
 | `A` | `A` |
 
 ## Hierarchy
 
-- [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
+- [`DefineStoreOptionsBase`](DefineStoreOptionsBase.md)<`S`, [`Store`](../index.md#store)<`Id`, `S`, `G`, `A`\>\>
 
   ↳ **`DefineStoreOptions`**
 
@@ -36,7 +26,7 @@ augment stores with the plugin API.
 
 ### actions
 
-• `Optional` **actions**: `A` & `ThisType`<`A` & `UnwrapRef`<`S`\> & [`_StoreWithState`](pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\>
+• `Optional` **actions**: `A` & `ThisType`<`A` & `UnwrapRef`<`S`\> & [`_StoreWithState`](_StoreWithState.md)<`Id`, `S`, `G`, `A`\> & [`_StoreWithGetters`](../type_aliases.md#storewithgetters)<`G`\> & [`PiniaCustomProperties`](PiniaCustomProperties.md)<`string`, [`StateTree`](../type_aliases.md#statetree), [`_GettersTree`](../type_aliases.md#getterstree)<[`StateTree`](../type_aliases.md#statetree)\>, [`_ActionsTree`](../type_aliases.md#actionstree)\>\>
 
 Optional object of actions.
 
@@ -44,7 +34,7 @@ ___
 
 ### getters
 
-• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
+• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../type_aliases.md#storewithgetters)<`G`\> & [`PiniaCustomProperties`](PiniaCustomProperties.md)<`string`, [`StateTree`](../type_aliases.md#statetree), [`_GettersTree`](../type_aliases.md#getterstree)<[`StateTree`](../type_aliases.md#statetree)\>, [`_ActionsTree`](../type_aliases.md#actionstree)\>\> & [`_GettersTree`](../type_aliases.md#getterstree)<`S`\>
 
 Optional object of getters.
 

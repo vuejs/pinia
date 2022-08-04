@@ -183,7 +183,7 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 
 Jest 또는 vitest를 `globals: true`와 함께 사용할 때,
 `createTestingPinia`는 기존 테스트 프레임워크(`jest.fn` 또는 `vitest.fn`)를 기반으로 하는 스파이 함수를 사용하여 액션을 자동으로 스텁합니다.
-다른 프레임워크를 사용하는 경우 [createSpy](/api/interfaces/pinia_testing.TestingOptions.html#createspy) 옵션을 제공해야 합니다:
+다른 프레임워크를 사용하는 경우 [createSpy](/api/modules/pinia_testing/interfaces/TestingOptions.html#createspy) 옵션을 제공해야 합니다:
 
 ```js
 // 참고: sinon는 테스트 프레임워크에 한 종류임.

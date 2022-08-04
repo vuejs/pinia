@@ -1,14 +1,4 @@
----
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
----
-
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / StoreProperties
-
 # Interface: StoreProperties<Id\>
-
-[pinia](../modules/pinia.md).StoreProperties
 
 Properties of a store.
 
@@ -22,7 +12,7 @@ Properties of a store.
 
 - **`StoreProperties`**
 
-  ↳ [`_StoreWithState`](pinia._StoreWithState.md)
+  ↳ [`_StoreWithState`](_StoreWithState.md)
 
 ## Properties
 

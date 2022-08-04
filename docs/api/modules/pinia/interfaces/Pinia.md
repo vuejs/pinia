@@ -1,14 +1,4 @@
----
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
----
-
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / Pinia
-
 # Interface: Pinia
-
-[pinia](../modules/pinia.md).Pinia
 
 Every application must own its own pinia to be able to create stores
 
@@ -16,7 +6,7 @@ Every application must own its own pinia to be able to create stores
 
 - **`Pinia`**
 
-  ↳ [`TestingPinia`](pinia_testing.TestingPinia.md)
+  ↳ [`TestingPinia`](../../pinia_testing/interfaces/TestingPinia.md)
 
 ## Properties
 
@@ -42,7 +32,7 @@ ___
 
 ### state
 
-• **state**: `Ref`<`Record`<`string`, [`StateTree`](../modules/pinia.md#statetree)\>\>
+• **state**: `Ref`<`Record`<`string`, [`StateTree`](../type_aliases.md#statetree)\>\>
 
 root state
 
@@ -50,7 +40,7 @@ root state
 
 ### use
 
-▸ **use**(`plugin`): [`Pinia`](pinia.Pinia.md)
+▸ **use**(`plugin`): [`Pinia`](Pinia.md)
 
 Adds a store plugin to extend every store
 
@@ -58,8 +48,8 @@ Adds a store plugin to extend every store
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | store plugin to add |
+| `plugin` | [`PiniaPlugin`](PiniaPlugin.md) | store plugin to add |
 
 #### Returns
 
-[`Pinia`](pinia.Pinia.md)
+[`Pinia`](Pinia.md)

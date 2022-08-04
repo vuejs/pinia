@@ -1,16 +1,8 @@
----
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
----
-
-[API Documentation](../index.md) / @pinia/nuxt
-
 # Module: @pinia/nuxt
 
 ## Interfaces
 
-- [ModuleOptions](../interfaces/pinia_nuxt.ModuleOptions.md)
+- [ModuleOptions](interfaces/ModuleOptions.md)
 
 ## Functions
 
@@ -23,7 +15,7 @@ sidebarDepth: 3
 | Name | Type |
 | :------ | :------ |
 | `this` | `void` |
-| `inlineOptions` | [`ModuleOptions`](../interfaces/pinia_nuxt.ModuleOptions.md) |
+| `inlineOptions` | [`ModuleOptions`](interfaces/ModuleOptions.md) |
 | `nuxt` | `Nuxt` |
 
 #### Returns

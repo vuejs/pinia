@@ -1,14 +1,4 @@
----
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
----
-
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / PiniaCustomProperties
-
 # Interface: PiniaCustomProperties<Id, S, G, A\>
-
-[pinia](../modules/pinia.md).PiniaCustomProperties
 
 Interface to be extended by the user when they add properties through plugins.
 
@@ -17,9 +7,9 @@ Interface to be extended by the user when they add properties through plugins.
 | Name | Type |
 | :------ | :------ |
 | `Id` | extends `string` = `string` |
-| `S` | extends [`StateTree`](../modules/pinia.md#statetree) = [`StateTree`](../modules/pinia.md#statetree) |
-| `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
-| `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
+| `S` | extends [`StateTree`](../type_aliases.md#statetree) = [`StateTree`](../type_aliases.md#statetree) |
+| `G` | [`_GettersTree`](../type_aliases.md#getterstree)<`S`\> |
+| `A` | [`_ActionsTree`](../type_aliases.md#actionstree) |
 
 ## Accessors
 
