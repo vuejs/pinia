@@ -82,12 +82,17 @@ npm i -D @pinia/testing
 And make sure to create a testing pinia in your tests when mounting a component:
 
 ```js
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
 
 const wrapper = mount(Counter, {
   global: {
-    plugins: [createTestingPinia()],
+    plugins: [
+      createTestingPinia({
+        createSpy: vi.fn,
+      }),
+    ],
   },
 })
 
