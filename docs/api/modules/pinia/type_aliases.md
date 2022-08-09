@@ -10,15 +10,11 @@ Plugin to extend every store.
 
 use PiniaPlugin instead
 
-___
-
 ## StateTree
 
 Ƭ **StateTree**: `Record`<`string` \| `number` \| `symbol`, `any`\>
 
 Generic state of a Store
-
-___
 
 ## Store
 
@@ -35,8 +31,6 @@ Store type to build a store.
 | `G` | {} |
 | `A` | {} |
 
-___
-
 ## StoreActions
 
 Ƭ **StoreActions**<`SS`\>: `SS` extends [`Store`](#store)<`string`, [`StateTree`](#statetree), [`_GettersTree`](#getterstree)<[`StateTree`](#statetree)\>, infer A\> ? `A` : [`_ExtractActionsFromSetupStore`](#extractactionsfromsetupstore)<`SS`\>
@@ -50,8 +44,6 @@ Options Store.
 | :------ |
 | `SS` |
 
-___
-
 ## StoreGeneric
 
 Ƭ **StoreGeneric**: [`Store`](#store)<`string`, [`StateTree`](#statetree), [`_GettersTree`](#getterstree)<[`StateTree`](#statetree)\>, [`_ActionsTree`](#actionstree)\>
@@ -59,8 +51,6 @@ ___
 Generic and type-unsafe version of Store. Doesn't fail on access with
 strings, making it much easier to write generic functions that do not care
 about the kind of store that is passed.
-
-___
 
 ## StoreGetters
 
@@ -74,8 +64,6 @@ Options Store.
 | Name |
 | :------ |
 | `SS` |
-
-___
 
 ## StoreOnActionListener
 
@@ -106,8 +94,6 @@ Argument of `store.$onAction()`
 
 `void`
 
-___
-
 ## StoreOnActionListenerContext
 
 Ƭ **StoreOnActionListenerContext**<`Id`, `S`, `G`, `A`\>: [`_ActionsTree`](#actionstree) extends `A` ? [`_StoreOnActionListenerContext`](/api/modules/pinia/interfaces/_StoreOnActionListenerContext.md)<[`StoreGeneric`](#storegeneric), `string`, [`_ActionsTree`](#actionstree)\> : { [Name in keyof A]: Name extends string ? \_StoreOnActionListenerContext<Store<Id, S, G, A\>, Name, A\> : never }[keyof `A`]
@@ -124,8 +110,6 @@ TODO: should have only the Id, the Store and Actions to generate the proper obje
 | `G` | `G` |
 | `A` | `A` |
 
-___
-
 ## StoreState
 
 Ƭ **StoreState**<`SS`\>: `SS` extends [`Store`](#store)<`string`, infer S, [`_GettersTree`](#getterstree)<[`StateTree`](#statetree)\>, [`_ActionsTree`](#actionstree)\> ? `UnwrapRef`<`S`\> : [`_ExtractStateFromSetupStore`](#extractstatefromsetupstore)<`SS`\>
@@ -138,8 +122,6 @@ Options Store. Note this unwraps refs.
 | Name |
 | :------ |
 | `SS` |
-
-___
 
 ## SubscriptionCallback
 
@@ -168,8 +150,6 @@ Callback of a subscription
 
 `void`
 
-___
-
 ## SubscriptionCallbackMutation
 
 Ƭ **SubscriptionCallbackMutation**<`S`\>: [`SubscriptionCallbackMutationDirect`](/api/modules/pinia/interfaces/SubscriptionCallbackMutationDirect.md) \| [`SubscriptionCallbackMutationPatchObject`](/api/modules/pinia/interfaces/SubscriptionCallbackMutationPatchObject.md)<`S`\> \| [`SubscriptionCallbackMutationPatchFunction`](/api/modules/pinia/interfaces/SubscriptionCallbackMutationPatchFunction.md)
@@ -182,16 +162,12 @@ Context object passed to a subscription callback.
 | :------ |
 | `S` |
 
-___
-
 ## \_ActionsTree
 
 Ƭ **\_ActionsTree**: `Record`<`string`, [`_Method`](#method)\>
 
 Type of an object of Actions. For internal usage only.
 For internal use **only**
-
-___
 
 ## \_Awaited
 
@@ -202,8 +178,6 @@ ___
 | Name |
 | :------ |
 | `T` |
-
-___
 
 ## \_DeepPartial
 
@@ -219,8 +193,6 @@ For internal use **only**
 | :------ |
 | `T` |
 
-___
-
 ## \_ExtractActionsFromSetupStore
 
 Ƭ **\_ExtractActionsFromSetupStore**<`SS`\>: `SS` extends `undefined` \| `void` ? {} : [`_ExtractActionsFromSetupStore_Keys`](#extractactionsfromsetupstore_keys)<`SS`\> extends keyof `SS` ? `Pick`<`SS`, [`_ExtractActionsFromSetupStore_Keys`](#extractactionsfromsetupstore_keys)<`SS`\>\> : `never`
@@ -232,8 +204,6 @@ For internal use **only**
 | Name |
 | :------ |
 | `SS` |
-
-___
 
 ## \_ExtractActionsFromSetupStore\_Keys
 
@@ -248,8 +218,6 @@ For internal use **only**
 | :------ |
 | `SS` |
 
-___
-
 ## \_ExtractGettersFromSetupStore
 
 Ƭ **\_ExtractGettersFromSetupStore**<`SS`\>: `SS` extends `undefined` \| `void` ? {} : [`_ExtractGettersFromSetupStore_Keys`](#extractgettersfromsetupstore_keys)<`SS`\> extends keyof `SS` ? `Pick`<`SS`, [`_ExtractGettersFromSetupStore_Keys`](#extractgettersfromsetupstore_keys)<`SS`\>\> : `never`
@@ -261,8 +229,6 @@ For internal use **only**
 | Name |
 | :------ |
 | `SS` |
-
-___
 
 ## \_ExtractGettersFromSetupStore\_Keys
 
@@ -277,8 +243,6 @@ For internal use **only**
 | :------ |
 | `SS` |
 
-___
-
 ## \_ExtractStateFromSetupStore
 
 Ƭ **\_ExtractStateFromSetupStore**<`SS`\>: `SS` extends `undefined` \| `void` ? {} : [`_ExtractStateFromSetupStore_Keys`](#extractstatefromsetupstore_keys)<`SS`\> extends keyof `SS` ? [`_UnwrapAll`](#unwrapall)<`Pick`<`SS`, [`_ExtractStateFromSetupStore_Keys`](#extractstatefromsetupstore_keys)<`SS`\>\>\> : `never`
@@ -290,8 +254,6 @@ For internal use **only**
 | Name |
 | :------ |
 | `SS` |
-
-___
 
 ## \_ExtractStateFromSetupStore\_Keys
 
@@ -306,8 +268,6 @@ For internal use **only**
 | :------ |
 | `SS` |
 
-___
-
 ## \_GettersTree
 
 Ƭ **\_GettersTree**<`S`\>: `Record`<`string`, (`state`: `UnwrapRef`<`S`\> & `UnwrapRef`<[`PiniaCustomStateProperties`](/api/modules/pinia/interfaces/PiniaCustomStateProperties.md)<`S`\>\>) => `any` \| () => `any`\>
@@ -320,8 +280,6 @@ For internal use **only**
 | Name | Type |
 | :------ | :------ |
 | `S` | extends [`StateTree`](#statetree) |
-
-___
 
 ## \_MapActionsObjectReturn
 
@@ -336,8 +294,6 @@ For internal use **only**
 | `A` | `A` |
 | `T` | extends `Record`<`string`, keyof `A`\> |
 
-___
-
 ## \_MapActionsReturn
 
 Ƭ **\_MapActionsReturn**<`A`\>: { [key in keyof A]: A[key] }
@@ -349,8 +305,6 @@ For internal use **only**
 | Name |
 | :------ |
 | `A` |
-
-___
 
 ## \_MapStateObjectReturn
 
@@ -368,8 +322,6 @@ For internal use **only**
 | `A` | `A` |
 | `T` | extends `Record`<`string`, keyof `S` \| keyof `G` \| (`store`: [`Store`](#store)<`Id`, `S`, `G`, `A`\>) => `any`\> = {} |
 
-___
-
 ## \_MapStateReturn
 
 Ƭ **\_MapStateReturn**<`S`, `G`, `Keys`\>: { [key in Keys]: Function }
@@ -384,8 +336,6 @@ For internal use **only**
 | `G` | extends [`_GettersTree`](#getterstree)<`S`\> |
 | `Keys` | extends keyof `S` \| keyof `G` = keyof `S` \| keyof `G` |
 
-___
-
 ## \_MapWritableStateObjectReturn
 
 Ƭ **\_MapWritableStateObjectReturn**<`S`, `T`\>: { [key in keyof T]: Object }
@@ -399,8 +349,6 @@ For internal use **only**
 | `S` | extends [`StateTree`](#statetree) |
 | `T` | extends `Record`<`string`, keyof `S`\> |
 
-___
-
 ## \_MapWritableStateReturn
 
 Ƭ **\_MapWritableStateReturn**<`S`\>: { [key in keyof S]: Object }
@@ -412,8 +360,6 @@ For internal use **only**
 | Name | Type |
 | :------ | :------ |
 | `S` | extends [`StateTree`](#statetree) |
-
-___
 
 ## \_Method
 
@@ -437,8 +383,6 @@ For internal use **only**
 
 `any`
 
-___
-
 ## \_Spread
 
 Ƭ **\_Spread**<`A`\>: `A` extends [infer L, ...(infer R)] ? [`_StoreObject`](#storeobject)<`L`\> & [`_Spread`](#spread)<`R`\> : `unknown`
@@ -451,8 +395,6 @@ For internal use **only**.
 | :------ | :------ |
 | `A` | extends readonly `any`[] |
 
-___
-
 ## \_StoreObject
 
 Ƭ **\_StoreObject**<`S`\>: `S` extends [`StoreDefinition`](/api/modules/pinia/interfaces/StoreDefinition.md)<infer Ids, infer State, infer Getters, infer Actions\> ? { [Id in \`${Ids}${MapStoresCustomization extends Record<"suffix", string\> ? MapStoresCustomization["suffix"] : "Store"}\`]: Function } : {}
@@ -464,8 +406,6 @@ For internal use **only**.
 | Name |
 | :------ |
 | `S` |
-
-___
 
 ## \_StoreWithActions
 
@@ -480,8 +420,6 @@ For internal use **only**
 | :------ |
 | `A` |
 
-___
-
 ## \_StoreWithGetters
 
 Ƭ **\_StoreWithGetters**<`G`\>: { readonly [k in keyof G]: G[k] extends Function ? R : UnwrapRef<G[k]\> }
@@ -494,8 +432,6 @@ For internal use **only**
 | Name |
 | :------ |
 | `G` |
-
-___
 
 ## \_UnwrapAll
 

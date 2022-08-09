@@ -38,8 +38,6 @@ if (import.meta.hot) {
 
 `any`
 
-___
-
 ## createPinia
 
 ▸ **createPinia**(): [`Pinia`](/api/modules/pinia/interfaces/Pinia.md)
@@ -49,8 +47,6 @@ Creates a Pinia instance to be used by the application
 ### Returns
 
 [`Pinia`](/api/modules/pinia/interfaces/Pinia.md)
-
-___
 
 ## defineStore
 
@@ -124,8 +120,6 @@ Creates a `useStore` function that retrieves the store instance
 
 [`StoreDefinition`](/api/modules/pinia/interfaces/StoreDefinition.md)<`Id`, [`_ExtractStateFromSetupStore`](type_aliases.md#extractstatefromsetupstore)<`SS`\>, [`_ExtractGettersFromSetupStore`](type_aliases.md#extractgettersfromsetupstore)<`SS`\>, [`_ExtractActionsFromSetupStore`](type_aliases.md#extractactionsfromsetupstore)<`SS`\>\>
 
-___
-
 ## getActivePinia
 
 ▸ **getActivePinia**(): `undefined` \| [`Pinia`](/api/modules/pinia/interfaces/Pinia.md)
@@ -135,8 +129,6 @@ Get the currently active pinia if there is any.
 ### Returns
 
 `undefined` \| [`Pinia`](/api/modules/pinia/interfaces/Pinia.md)
-
-___
 
 ## mapActions
 
@@ -226,8 +218,6 @@ export default {
 ### Returns
 
 [`_MapActionsReturn`](type_aliases.md#mapactionsreturn)<`A`\>
-
-___
 
 ## mapGetters
 
@@ -330,8 +320,6 @@ export default {
 
 [`_MapStateReturn`](type_aliases.md#mapstatereturn)<`S`, `G`, `Keys`\>
 
-___
-
 ## mapState
 
 ▸ **mapState**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): [`_MapStateObjectReturn`](type_aliases.md#mapstateobjectreturn)<`Id`, `S`, `G`, `A`, `KeyMapper`\>
@@ -433,8 +421,6 @@ export default {
 
 [`_MapStateReturn`](type_aliases.md#mapstatereturn)<`S`, `G`, `Keys`\>
 
-___
-
 ## mapStores
 
 ▸ **mapStores**<`Stores`\>(...`stores`): [`_Spread`](type_aliases.md#spread)<`Stores`\>
@@ -474,8 +460,6 @@ export default {
 ### Returns
 
 [`_Spread`](type_aliases.md#spread)<`Stores`\>
-
-___
 
 ## mapWritableState
 
@@ -532,8 +516,6 @@ of a component.
 
 [`_MapWritableStateReturn`](type_aliases.md#mapwritablestatereturn)<`S`\>
 
-___
-
 ## setActivePinia
 
 ▸ **setActivePinia**(`pinia`): `undefined` \| [`Pinia`](/api/modules/pinia/interfaces/Pinia.md)
@@ -550,8 +532,6 @@ actions and getters
 ### Returns
 
 `undefined` \| [`Pinia`](/api/modules/pinia/interfaces/Pinia.md)
-
-___
 
 ## setMapStoreSuffix
 
@@ -570,8 +550,6 @@ interface if you are using TypeScript.
 ### Returns
 
 `void`
-
-___
 
 ## skipHydrate
 
@@ -597,8 +575,6 @@ stateful object in the store but it isn't really state. e.g. returning a router 
 `T`
 
 obj
-
-___
 
 ## storeToRefs
 

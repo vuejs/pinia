@@ -159,21 +159,21 @@ const config = defineConfig({
           text: '',
           items: [
             {
-              text: 'Type Aliases',
+              text: 'Type Aliases (타입 별칭)',
               link: '/api/modules/pinia/type_aliases'
             },
             {
-              text: 'Variables',
+              text: 'Variables (변수)',
               link: '/api/modules/pinia/variables'
             },
             {
-              text: 'Functions',
+              text: 'Functions (함수)',
               link: '/api/modules/pinia/functions'
             },
           ]
         },
         {
-          text: 'Enumerations',
+          text: 'Enumerations (열거형)',
           items: [
             {
               text: 'MutationType',
@@ -182,7 +182,7 @@ const config = defineConfig({
           ],
         },
         {
-          text: 'Interfaces',
+          text: 'Interfaces (인터페이스)',
           items: [
             {
               text: 'DefineSetupStoreOptions',
