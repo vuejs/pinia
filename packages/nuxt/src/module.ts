@@ -7,6 +7,7 @@ import {
   isNuxt2,
   addAutoImport,
   createResolver,
+  resolveModule,
 } from '@nuxt/kit'
 
 export interface ModuleOptions {
@@ -60,7 +61,9 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(resolver.resolve('./runtime'))
 
     // Make sure we use the mjs build for pinia
-    nuxt.options.alias.pinia = 'pinia/dist/pinia.mjs'
+    nuxt.options.alias.pinia = resolveModule('pinia/dist/pinia.mjs', {
+      paths: [nuxt.options.rootDir, import.meta.url],
+    })
 
     // Add runtime plugin
     if (isNuxt2()) {
