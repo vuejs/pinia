@@ -16,7 +16,7 @@ npm install pinia
 ```
 
 :::tip
-앱이 Vue 2를 사용하는 경우, 컴포지션 API도 설치해야 합니다: `@vue/composition-api`.
+앱이 Vue 2.6.x 이하 버전을 사용하는 경우, 컴포지션 API도 설치해야 합니다: `@vue/composition-api`.
 Nuxt를 사용하는 경우, [이 지침](/guide/ssr/nuxt.md)을 따라야 합니다.
 :::
 
