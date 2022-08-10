@@ -62,7 +62,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Make sure we use the mjs build for pinia
     nuxt.options.alias.pinia = resolveModule('pinia/dist/pinia.mjs', {
-      paths: [nuxt.options.rootDir, import.meta.url]
+      paths: [nuxt.options.rootDir, import.meta.url],
     })
 
     // Add runtime plugin
