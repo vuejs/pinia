@@ -1,3 +1,9 @@
+## [2.0.18](https://github.com/vuejs/pinia/compare/pinia@2.0.17...pinia@2.0.18) (2022-08-10)
+
+### Bug Fixes
+
+- **ie:** completely skip devtools in dev for IE ([ca73db9](https://github.com/vuejs/pinia/commit/ca73db964b56205d43aa798e10d5c5bb5c4ea847)), closes [#1440](https://github.com/vuejs/pinia/issues/1440)
+
 ## [2.0.17](https://github.com/vuejs/pinia/compare/pinia@2.0.16...pinia@2.0.17) (2022-07-25)
 
 ### Bug Fixes

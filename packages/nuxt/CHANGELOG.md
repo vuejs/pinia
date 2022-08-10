@@ -1,3 +1,9 @@
+# [0.4.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.3.1...@pinia/nuxt@0.4.0) (2022-08-10)
+
+### Bug Fixes
+
+- **nuxt:** fully resolve pinia path ([#1537](https://github.com/vuejs/pinia/issues/1537)) ([9c3b521](https://github.com/vuejs/pinia/commit/9c3b5213663555b1c21f8ca5ef22b386a96ed916))
+
 ## [0.3.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.3.0...@pinia/nuxt@0.3.1) (2022-07-25)
 
 - doc generation changes
