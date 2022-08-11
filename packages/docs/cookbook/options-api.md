@@ -1,6 +1,6 @@
 # Usage without `setup()`
 
-Pinia can be used even if you are not using the composition API (if you are using Vue 2, you still need to install the `@vue/composition-api` plugin though). While we recommend you to give the Composition API a try and learn it, it might not be the time for you and your team yet, you might be in the process of migrating an application, or any other reason. There are a few functions:
+Pinia can be used even if you are not using the composition API (if you are using Vue <2.7, you still need to install the `@vue/composition-api` plugin though). While we recommend you give the Composition API a try and learn it, it might not be the time for you and your team yet, you might be in the process of migrating an application, or any other reason. There are a few functions:
 
 - [mapStores](#giving-access-to-the-whole-store)
 - [mapState](../core-concepts/state.md#usage-with-the-options-api)
