@@ -75,11 +75,11 @@ As with [Vue's Composition API and Option API](https://vuejs.org/guide/introduct
 We are _defining_ a store because the store won't be created until `useStore()` is called inside of `setup()`:
 
 ```js
-import { useStore } from '@/stores/counter'
+import { useCounterStore } from '@/stores/counter'
 
 export default {
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
 
     return {
       // you can return the whole store instance to use it in the template
@@ -100,7 +100,7 @@ Note that `store` is an object wrapped with `reactive`, meaning there is no need
 ```js
 export default defineComponent({
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
     // ❌ This won't work because it breaks reactivity
     // it's the same as destructuring from `props`
     const { name, doubleCount } = store
@@ -127,7 +127,7 @@ import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
     // `name` and `doubleCount` are reactive refs
     // This will also create refs for properties added by plugins
     // but skip any action or non reactive (non ref/reactive) property
