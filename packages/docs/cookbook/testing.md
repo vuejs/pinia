@@ -84,6 +84,7 @@ And make sure to create a testing pinia in your tests when mounting a component:
 ```js
 import { mount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
+import { useSomeStore } from '@/stores/some.js' // or wherever else you defined the store
 
 const wrapper = mount(Counter, {
   global: {
