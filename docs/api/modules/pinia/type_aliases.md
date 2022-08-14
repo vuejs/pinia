@@ -1,30 +1,30 @@
-# Type Aliases
+# Type Aliases (타입 별칭) %{#type-aliases}%
 
 ## PiniaStorePlugin
 
 Ƭ **PiniaStorePlugin**: [`PiniaPlugin`](/api/modules/pinia/interfaces/PiniaPlugin.md)
 
-Plugin to extend every store.
+모든 스토어를 확장하는 플러그인.
 
-**`Deprecated`**
+**`이제 사용되지 않음`**
 
-use PiniaPlugin instead
+대신에 PiniaPlugin 사용을 사용하십시오.
 
 ## StateTree
 
 Ƭ **StateTree**: `Record`<`string` \| `number` \| `symbol`, `any`\>
 
-Generic state of a Store
+스토어의 제네릭(Generic) 상태.
 
 ## Store
 
 Ƭ **Store**<`Id`, `S`, `G`, `A`\>: [`_StoreWithState`](/api/modules/pinia/interfaces/_StoreWithState.md)<`Id`, `S`, `G`, `A`\> & `UnwrapRef`<`S`\> & [`_StoreWithGetters`](#storewithgetters)<`G`\> & [`_ActionsTree`](#actionstree) extends `A` ? {} : `A` & [`PiniaCustomProperties`](/api/modules/pinia/interfaces/PiniaCustomProperties.md)<`Id`, `S`, `G`, `A`\> & [`PiniaCustomStateProperties`](/api/modules/pinia/interfaces/PiniaCustomStateProperties.md)<`S`\>
 
-Store type to build a store.
+스토어를 만들기 위한 스토어의 타입.
 
-### Type parameters
+### 타입 파라미터
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `Id` | extends `string` = `string` |
 | `S` | extends [`StateTree`](#statetree) = {} |
@@ -35,12 +35,11 @@ Store type to build a store.
 
 Ƭ **StoreActions**<`SS`\>: `SS` extends [`Store`](#store)<`string`, [`StateTree`](#statetree), [`_GettersTree`](#getterstree)<[`StateTree`](#statetree)\>, infer A\> ? `A` : [`_ExtractActionsFromSetupStore`](#extractactionsfromsetupstore)<`SS`\>
 
-Extract the actions of a store type. Works with both a Setup Store or an
-Options Store.
+스토어 유형의 액션을 추출합니다. 셋업 스토어 또는 옵션 스토어 모두에서 작동합니다.
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `SS` |
 
@@ -48,20 +47,20 @@ Options Store.
 
 Ƭ **StoreGeneric**: [`Store`](#store)<`string`, [`StateTree`](#statetree), [`_GettersTree`](#getterstree)<[`StateTree`](#statetree)\>, [`_ActionsTree`](#actionstree)\>
 
-Generic and type-unsafe version of Store. Doesn't fail on access with
-strings, making it much easier to write generic functions that do not care
-about the kind of store that is passed.
+스토어의 제네릭 및 type-unsafe 버전입니다.
+문자열 접근에 실패하지 않으므로,
+전달되는 스토어의 종류를 신경 쓰지 않는 제네릭 함수를 훨씬 쉽게 작성할 수 있습니다.
 
 ## StoreGetters
 
 Ƭ **StoreGetters**<`SS`\>: `SS` extends [`Store`](#store)<`string`, [`StateTree`](#statetree), infer G, [`_ActionsTree`](#actionstree)\> ? [`_StoreWithGetters`](#storewithgetters)<`G`\> : [`_ExtractGettersFromSetupStore`](#extractgettersfromsetupstore)<`SS`\>
 
-Extract the getters of a store type. Works with both a Setup Store or an
-Options Store.
+스토어 유형의 getter를 추출합니다.
+셋업 스토어 또는 옵션 스토어 모두에서 작동합니다.
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `SS` |
 
@@ -69,9 +68,9 @@ Options Store.
 
 Ƭ **StoreOnActionListener**<`Id`, `S`, `G`, `A`\>: (`context`: [`StoreOnActionListenerContext`](#storeonactionlistenercontext)<`Id`, `S`, `G`, {} extends `A` ? [`_ActionsTree`](#actionstree) : `A`\>) => `void`
 
-### Type parameters
+### 타입 파라미터
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `Id` | extends `string` |
 | `S` | extends [`StateTree`](#statetree) |
@@ -86,7 +85,7 @@ Argument of `store.$onAction()`
 
 #### Parameters
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `context` | [`StoreOnActionListenerContext`](#storeonactionlistenercontext)<`Id`, `S`, `G`, {} extends `A` ? [`_ActionsTree`](#actionstree) : `A`\> |
 
@@ -101,9 +100,9 @@ Argument of `store.$onAction()`
 Context object passed to callbacks of `store.$onAction(context => {})`
 TODO: should have only the Id, the Store and Actions to generate the proper object
 
-### Type parameters
+### 타입 파라미터
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `Id` | extends `string` |
 | `S` | extends [`StateTree`](#statetree) |
@@ -114,12 +113,13 @@ TODO: should have only the Id, the Store and Actions to generate the proper obje
 
 Ƭ **StoreState**<`SS`\>: `SS` extends [`Store`](#store)<`string`, infer S, [`_GettersTree`](#getterstree)<[`StateTree`](#statetree)\>, [`_ActionsTree`](#actionstree)\> ? `UnwrapRef`<`S`\> : [`_ExtractStateFromSetupStore`](#extractstatefromsetupstore)<`SS`\>
 
-Extract the state of a store type. Works with both a Setup Store or an
-Options Store. Note this unwraps refs.
+스토어 유형의 상태를 추출합니다.
+셋업 스토어 또는 옵션 스토어 모두에서 작동합니다.
+이것은 refs를 언래핑합니다.
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `SS` |
 
@@ -127,9 +127,9 @@ Options Store. Note this unwraps refs.
 
 Ƭ **SubscriptionCallback**<`S`\>: (`mutation`: [`SubscriptionCallbackMutation`](#subscriptioncallbackmutation)<`S`\>, `state`: `UnwrapRef`<`S`\>) => `void`
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `S` |
 
@@ -141,7 +141,7 @@ Callback of a subscription
 
 #### Parameters
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `mutation` | [`SubscriptionCallbackMutation`](#subscriptioncallbackmutation)<`S`\> |
 | `state` | `UnwrapRef`<`S`\> |
@@ -156,9 +156,9 @@ Callback of a subscription
 
 Context object passed to a subscription callback.
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `S` |
 
@@ -173,9 +173,9 @@ For internal use **only**
 
 Ƭ **\_Awaited**<`T`\>: `T` extends ``null`` \| `undefined` ? `T` : `T` extends `object` & { `then`: (`onfulfilled`: `F`) => `any`  } ? `F` extends (`value`: infer V, ...`args`: `any`) => `any` ? [`_Awaited`](#awaited)<`V`\> : `never` : `T`
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `T` |
 
@@ -187,9 +187,9 @@ Recursive `Partial<T>`. Used by [['$patch']](#store).
 
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `T` |
 
@@ -199,9 +199,9 @@ For internal use **only**
 
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `SS` |
 
@@ -212,9 +212,9 @@ For internal use **only**
 Type that enables refactoring through IDE.
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `SS` |
 
@@ -224,9 +224,9 @@ For internal use **only**
 
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `SS` |
 
@@ -237,9 +237,9 @@ For internal use **only**
 Type that enables refactoring through IDE.
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `SS` |
 
@@ -249,9 +249,9 @@ For internal use **only**
 
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `SS` |
 
@@ -262,9 +262,9 @@ For internal use **only**
 Type that enables refactoring through IDE.
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `SS` |
 
@@ -275,9 +275,9 @@ For internal use **only**
 Type of an object of Getters that infers the argument. For internal usage only.
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `S` | extends [`StateTree`](#statetree) |
 
@@ -287,9 +287,9 @@ For internal use **only**
 
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `A` | `A` |
 | `T` | extends `Record`<`string`, keyof `A`\> |
@@ -300,9 +300,9 @@ For internal use **only**
 
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `A` |
 
@@ -312,9 +312,9 @@ For internal use **only**
 
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `Id` | extends `string` |
 | `S` | extends [`StateTree`](#statetree) |
@@ -328,9 +328,9 @@ For internal use **only**
 
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `S` | extends [`StateTree`](#statetree) |
 | `G` | extends [`_GettersTree`](#getterstree)<`S`\> |
@@ -342,9 +342,9 @@ For internal use **only**
 
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `S` | extends [`StateTree`](#statetree) |
 | `T` | extends `Record`<`string`, keyof `S`\> |
@@ -355,9 +355,9 @@ For internal use **only**
 
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `S` | extends [`StateTree`](#statetree) |
 
@@ -375,7 +375,7 @@ For internal use **only**
 
 #### Parameters
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `...args` | `any`[] |
 
@@ -389,9 +389,9 @@ For internal use **only**
 
 For internal use **only**.
 
-### Type parameters
+### 타입 파라미터
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `A` | extends readonly `any`[] |
 
@@ -401,9 +401,9 @@ For internal use **only**.
 
 For internal use **only**.
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `S` |
 
@@ -414,9 +414,9 @@ For internal use **only**.
 Store augmented for actions. For internal usage only.
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `A` |
 
@@ -427,9 +427,9 @@ For internal use **only**
 Store augmented with getters. For internal usage only.
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `G` |
 
@@ -440,8 +440,8 @@ For internal use **only**
 Type that enables refactoring through IDE.
 For internal use **only**
 
-### Type parameters
+### 타입 파라미터
 
-| Name |
+| 이름 |
 | :------ |
 | `SS` |
