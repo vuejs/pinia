@@ -87,11 +87,11 @@ export const useCounterStore = defineStore('counter', () => {
 `setup()` 내부에서 `useStore()`가 호출될 때까지 스토어가 생성되지 않으므로, 스토어를 정의합니다:
 
 ```js
-import { useStore } from '@/stores/counter'
+import { useCounterStore } from '@/stores/counter'
 
 export default {
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
 
     return {
       // 템플릿에서 사용하기 위해 스토어 인스턴스를 반환할 수 있음
@@ -119,7 +119,7 @@ export default {
 ```js
 export default defineComponent({
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
     // ❌ 이것은 반응형을 깨뜨리기 때문에 작동하지 않음.
     const { name, doubleCount } = store
 
@@ -148,7 +148,7 @@ import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
     // `name`과 `doubleCount`는 반응형 refs임.
     // 이것은 플러그인에 의해 추가된 속성에 대한 'refs'도 생성함.
     // 그러나 모든 액션 또는 비반응형(ref/반응형이 아닌) 속성을 건너뜀.
