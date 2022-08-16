@@ -224,7 +224,7 @@ export default {
   computed: {
     // gives access to this.doubleCounter inside the component
     // same as reading from store.doubleCounter
-    ...mapState(useCounterStore, ['doubleCount']),
+    ...mapState(useCounterStore, ['doubleCounter']),
     // same as above but registers it as this.myOwnName
     ...mapState(useCounterStore, {
       myOwnName: 'doubleCounter',
