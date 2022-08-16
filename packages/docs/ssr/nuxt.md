@@ -14,13 +14,13 @@ We supply a _module_ to handle everything for you, you only need to add it to `b
 
 ```js
 // nuxt.config.js
-export default {
+export default defineNuxtConfig({
   // ... other options
-  buildModules: [
+  modules: [
     // ...
     '@pinia/nuxt',
   ],
-}
+})
 ```
 
 And that's it, use your store as usual!
@@ -64,21 +64,6 @@ export default {
 }
 ```
 
-## TypeScript
-
-If you are using TypeScript or have a `jsconfig.json`, you should also add the types for `context.pinia`:
-
-```json
-{
-  "types": [
-    // ...
-    "@pinia/nuxt"
-  ]
-}
-```
-
-This will also ensure you have autocompletion 😉 .
-
 ## Nuxt 2 without bridge
 
 Pinia supports Nuxt 2 until `@pinia/nuxt` v0.2.1. Make sure to also install [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/) alongside `pinia`:
@@ -103,6 +88,21 @@ export default {
   ],
 }
 ```
+
+### TypeScript
+
+If you are using Nuxt 2 (`@pinia/nuxt` < 0.3.0) with TypeScript or have a `jsconfig.json`, you should also add the types for `context.pinia`:
+
+```json
+{
+  "types": [
+    // ...
+    "@pinia/nuxt"
+  ]
+}
+```
+
+This will also ensure you have autocompletion 😉 .
 
 ### Using Pinia alongside Vuex
 

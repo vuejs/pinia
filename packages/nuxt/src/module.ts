@@ -65,6 +65,10 @@ export default defineNuxtModule<ModuleOptions>({
       paths: [nuxt.options.rootDir, import.meta.url],
     })
 
+    nuxt.hook('prepare:types', ({ references }) => {
+      references.push({ types: '@pinia/nuxt' })
+    })
+
     // Add runtime plugin
     if (isNuxt2()) {
       addPlugin(resolver.resolve('./runtime/plugin.vue2'))
