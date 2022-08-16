@@ -10,7 +10,7 @@ yarn add @pinia/nuxt
 npm install @pinia/nuxt
 ```
 
-We supply a _module_ to handle everything for you, you only need to add it to `buildModules` in your `nuxt.config.js` file:
+We supply a _module_ to handle everything for you, you only need to add it to `modules` in your `nuxt.config.js` file:
 
 ```js
 // nuxt.config.js
@@ -47,7 +47,7 @@ By default `@pinia/nuxt` exposes one single auto import: `usePinia()`, which is 
 // nuxt.config.js
 export default {
   // ... other options
-  buildModules: [
+  modules: [
     // ...
     [
       '@pinia/nuxt',
