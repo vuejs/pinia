@@ -91,7 +91,7 @@ export default {
 
 ### TypeScript
 
-If you are using TypeScript or have a `jsconfig.json`, you should also add the types for `context.pinia`:
+If you are using Nuxt 2 (`@pinia/nuxt` < 0.3.0) with TypeScript or have a `jsconfig.json`, you should also add the types for `context.pinia`:
 
 ```json
 {
