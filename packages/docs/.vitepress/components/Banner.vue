@@ -14,10 +14,10 @@
     <div class="vs-core">
       <div class="vs-slogan-wrapper">
         <div class="vs-slogan">
-          Join the second edition of the biggest hands-on Vue.js Event.
+          Join the 2nd edition of the largest hands-on Vue.js Event
         </div>
         <div class="vs-subline">
-          Build a realistic e-commerce app in two days.
+          Starts 30 Aug. Build your own e-commerce app!
         </div>
       </div>
       <div class="vs-button">
