@@ -179,7 +179,7 @@ For the following examples, you can assume the following store was created:
 
 import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counter', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
   }),
