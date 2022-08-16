@@ -10,10 +10,10 @@ Getters are exactly the equivalent of [computed values](https://vuejs.org/guide/
 ```js
 export const useStore = defineStore('main', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
   getters: {
-    doubleCount: (state) => state.counter * 2,
+    doubleCount: (state) => state.count * 2,
   },
 })
 ```
@@ -23,12 +23,12 @@ Most of the time, getters will only rely on the state, however, they might need 
 ```ts
 export const useStore = defineStore('main', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
   getters: {
     // automatically infers the return type as a number
     doubleCount(state) {
-      return state.counter * 2
+      return state.count * 2
     },
     // the return type **must** be explicitly set
     doublePlusOne(): number {
@@ -64,15 +64,15 @@ As with computed properties, you can combine multiple getters. Access any other 
 ```js
 export const useStore = defineStore('main', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
   getters: {
     // type is automatically inferred because we are not using `this`
-    doubleCount: (state) => state.counter * 2,
+    doubleCount: (state) => state.count * 2,
     // here we need to add the type ourselves (using JSDoc in JS). We can also
     // use this to document the getter
     /**
-     * Returns the counter value times two plus one.
+     * Returns the count value times two plus one.
      *
      * @returns {number}
      */
@@ -158,7 +158,7 @@ export default {
   setup() {
     const store = useStore()
 
-    store.counter = 3
+    store.count = 3
     store.doubleCount // 6
   },
 }
@@ -175,19 +175,19 @@ For the following examples, you can assume the following store was created:
 
 ```js
 // Example File Path:
-// ./src/stores/counterStore.js
+// ./src/stores/counter.js
 
 import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counterStore', {
+const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0
+    count: 0,
   }),
   getters: {
-    doubleCounter(state) {
-      return state.counter * 2
-    }
-  }
+    doubleCount(state) {
+      return state.count * 2
+    },
+  },
 })
 ```
 
@@ -196,7 +196,7 @@ const useCounterStore = defineStore('counterStore', {
 While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
 
 ```js
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   setup() {
@@ -206,7 +206,7 @@ export default {
   },
   computed: {
     quadrupleCounter() {
-      return this.counterStore.doubleCounter * 2
+      return this.counterStore.doubleCount * 2
     },
   },
 }
@@ -218,18 +218,18 @@ You can use the same `mapState()` function used in the [previous section of stat
 
 ```js
 import { mapState } from 'pinia'
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   computed: {
-    // gives access to this.doubleCounter inside the component
-    // same as reading from store.doubleCounter
-    ...mapState(useCounterStore, ['doubleCounter']),
+    // gives access to this.doubleCount inside the component
+    // same as reading from store.doubleCount
+    ...mapState(useCounterStore, ['doubleCount']),
     // same as above but registers it as this.myOwnName
     ...mapState(useCounterStore, {
-      myOwnName: 'doubleCounter',
+      myOwnName: 'doubleCount',
       // you can also write a function that gets access to the store
-      double: store => store.doubleCount,
+      double: (store) => store.doubleCount,
     }),
   },
 }

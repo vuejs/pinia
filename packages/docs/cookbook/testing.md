@@ -24,7 +24,7 @@ Depending on what or how you are testing, we need to take care of these three di
 To unit test a store, the most important part is creating a `pinia` instance:
 
 ```js
-// counterStore.spec.ts
+// stores/counter.spec.ts
 import { setActivePinia, createPinia } from 'pinia'
 import { useCounter } from '../src/stores/counter'
 
