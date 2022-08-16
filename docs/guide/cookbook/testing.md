@@ -95,6 +95,8 @@ npm i -D @pinia/testing
 ```js
 import { mount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
+// 테스트에서 상호 작용하려는 모든 상점 import 하기
+import { useSomeStore } from '@/stores/myStore'
 
 const wrapper = mount(Counter, {
   global: {
