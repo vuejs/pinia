@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from 'vitest'
 import { createTestingPinia, TestingOptions } from './testing'
 import { createPinia, defineStore, setActivePinia } from 'pinia'
 import { mount } from '@vue/test-utils'
@@ -226,7 +227,7 @@ describe('Testing', () => {
   })
 
   it('actions are stubbed even when replaced by other plugins', () => {
-    const spy = jest.fn()
+    const spy = vi.fn()
     mount(Counter, {
       global: {
         plugins: [
@@ -254,7 +255,7 @@ describe('Testing', () => {
   })
 
   it('pass through replaced actions in plugins', () => {
-    const spy = jest.fn()
+    const spy = vi.fn()
     mount(Counter, {
       global: {
         plugins: [

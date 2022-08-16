@@ -1,5 +1,6 @@
+import { describe, it, expect } from 'vitest'
 import { createPinia, defineStore } from '../src'
-import { mockWarn } from 'jest-mock-warn'
+import { mockWarn } from './vitest-mock-warn'
 
 describe('Root State', () => {
   mockWarn()

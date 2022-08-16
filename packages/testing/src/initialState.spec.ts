@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { createTestingPinia, TestingOptions } from './testing'
 import { defineStore } from 'pinia'
 import { mount } from '@vue/test-utils'
