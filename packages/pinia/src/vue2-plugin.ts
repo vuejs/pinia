@@ -1,6 +1,6 @@
 import type { Plugin } from 'vue-demi'
 import { registerPiniaDevtools } from './devtools'
-import { IS_CLIENT } from './env'
+import { IS_CLIENT, USE_DEVTOOLS } from './env'
 import { Pinia, piniaSymbol, setActivePinia } from './rootStore'
 
 /**
@@ -56,9 +56,9 @@ export const PiniaVuePlugin: Plugin = function (_Vue) {
           // this allows calling useStore() outside of a component setup after
           // installing pinia's plugin
           setActivePinia(pinia)
-          if (__DEV__) {
-            registerPiniaDevtools(pinia._a, pinia)
-          }
+        }
+        if (USE_DEVTOOLS) {
+          registerPiniaDevtools(pinia._a, pinia)
         }
       } else if (!this.$pinia && options.parent && options.parent.$pinia) {
         this.$pinia = options.parent.$pinia

@@ -173,6 +173,9 @@ function createReplacePlugin(
       (isBundlerESMBuild && !isRawESMBuild) || isNodeBuild
         ? `(process.env.NODE_ENV === 'test')`
         : 'false',
+    __FEATURE_PROD_DEVTOOLS__: isBundlerESMBuild
+      ? `__VUE_PROD_DEVTOOLS__`
+      : 'false',
     // If the build is expected to run directly in the browser (global / esm builds)
     __BROWSER__: JSON.stringify(isRawESMBuild),
     // is targeting bundlers?
