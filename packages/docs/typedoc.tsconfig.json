@@ -41,6 +41,6 @@
     "removeComments": false,
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
-    "types": ["jest", "node", "vite/client"]
+    "types": ["vitest", "node", "vite/client"]
   }
 }

@@ -27,7 +27,7 @@ jobs:
       - run: pnpm install
       - run: pnpm run lint
       - run: pnpm run test:types
-      - run: pnpm run test:jest
+      - run: pnpm run test:vitest
       - run: pnpm run build
       - run: pnpm run build:dts
       - run: pnpm run test:dts

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import {
   createPinia,
   defineStore,
@@ -10,7 +11,7 @@ import {
 } from '../src'
 import { mount } from '@vue/test-utils'
 import { nextTick, defineComponent } from 'vue'
-import { mockWarn } from 'jest-mock-warn'
+import { mockWarn } from './vitest-mock-warn'
 
 describe('Map Helpers', () => {
   const useStore = defineStore({

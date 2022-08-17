@@ -1,3 +1,4 @@
+import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
@@ -45,7 +46,7 @@ describe('Subscriptions', () => {
   })
 
   it('fires callback when action is called', () => {
-    const spy = jest.fn()
+    const spy = vi.fn()
     store.$onAction(spy)
     store.direct('Cleiton')
     expect(spy).toHaveBeenCalledTimes(1)
@@ -59,7 +60,7 @@ describe('Subscriptions', () => {
   })
 
   it('removes the callback when unsubscribe is called', () => {
-    const spy = jest.fn()
+    const spy = vi.fn()
     const unsubscribe = store.$onAction(spy)
     unsubscribe()
     store.direct('Cleiton')
@@ -67,8 +68,8 @@ describe('Subscriptions', () => {
   })
 
   it('can register multiple onAction', async () => {
-    const spy1 = jest.fn()
-    const spy2 = jest.fn()
+    const spy1 = vi.fn()
+    const spy2 = vi.fn()
     store.$onAction(({ after }) => {
       after(spy1)
     })
@@ -82,7 +83,7 @@ describe('Subscriptions', () => {
   })
 
   it('calls after with the returned value', async () => {
-    const spy = jest.fn()
+    const spy = vi.fn()
     // Cannot destructure because of https://github.com/microsoft/TypeScript/issues/38020
     store.$onAction((context) => {
       if (context.name === 'upperName') {
@@ -101,7 +102,7 @@ describe('Subscriptions', () => {
   })
 
   it('calls after with the resolved value', async () => {
-    const spy = jest.fn()
+    const spy = vi.fn()
     store.$onAction(({ after }) => {
       after(spy)
     })
@@ -111,7 +112,7 @@ describe('Subscriptions', () => {
   })
 
   it('calls onError when it throws', () => {
-    const spy = jest.fn()
+    const spy = vi.fn()
     store.$onAction(({ onError }) => {
       onError(spy)
     })
@@ -121,7 +122,7 @@ describe('Subscriptions', () => {
   })
 
   it('calls onError when it rejects', async () => {
-    const spy = jest.fn()
+    const spy = vi.fn()
     expect.assertions(3)
     store.$onAction(({ onError }) => {
       onError(spy)
@@ -132,8 +133,8 @@ describe('Subscriptions', () => {
   })
 
   it('listeners are not affected when unsubscribe is called multiple times', () => {
-    const func1 = jest.fn()
-    const func2 = jest.fn()
+    const func1 = vi.fn()
+    const func2 = vi.fn()
     const unsubscribe1 = store.$onAction(func1)
     store.$onAction(func2)
     unsubscribe1()
@@ -164,8 +165,8 @@ describe('Subscriptions', () => {
 
       expect(s2).toBe(s1)
 
-      const spy1 = jest.fn()
-      const spy2 = jest.fn()
+      const spy1 = vi.fn()
+      const spy2 = vi.fn()
 
       s1.$onAction(spy1)
       s2.$onAction(spy2)
@@ -181,8 +182,8 @@ describe('Subscriptions', () => {
 
     it('removes on unmount', async () => {
       const pinia = createPinia()
-      const spy1 = jest.fn()
-      const spy2 = jest.fn()
+      const spy1 = vi.fn()
+      const spy2 = vi.fn()
 
       const wrapper = mount(
         {

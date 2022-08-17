@@ -114,7 +114,8 @@ export function createTestingPinia({
 
   const createSpy =
     _createSpy ||
-    (typeof jest !== 'undefined' && jest.fn) ||
+    // @ts-ignore
+    (typeof jest !== 'undefined' && (jest.fn as typeof _createSpy)) ||
     (typeof vi !== 'undefined' && vi.fn)
   /* istanbul ignore if */
   if (!createSpy) {
