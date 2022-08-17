@@ -32,7 +32,7 @@ title: 스토어 테스트
 스토어를 단위 테스트하려면 `pinia` 인스턴스를 만드는 것이 가장 중요합니다:
 
 ```js
-// counterStore.spec.ts
+// stores/counter.spec.ts
 import { setActivePinia, createPinia } from 'pinia'
 import { useCounter } from '../src/stores/counter'
 

@@ -108,10 +108,10 @@ export const useMainStore = defineStore('main', {
   // getters (선택적)
   getters: {
     // getter는 상태를 첫 번째 파라미터로 받음.
-    doubleCount: (state) => state.counter * 2,
+    doubleCounter: (state) => state.counter * 2,
     // 다른 getter 내부에서 getter 사용.
-    doubleCountPlusOne(): number {
-      return this.doubleCount + 1
+    doubleCounterPlusOne(): number {
+      return this.doubleCounter + 1
     },
   },
   // actions (선택적)
@@ -135,14 +135,14 @@ export default defineComponent({
     const main = useMainStore()
 
     // 특정 스토어 속성 추출
-    const { counter, doubleCount } = storeToRefs(main)
+    const { counter, doubleCounter } = storeToRefs(main)
 
     return {
       // 템플릿에서 스토어 전체에 접근 가능
       main,
       // 특정 상태와 getter에만 접근 권한 부여
       counter,
-      doubleCount,
+      doubleCounter,
     }
   },
 })

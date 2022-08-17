@@ -16,7 +16,7 @@ const useStore = defineStore('storeId', {
   state: () => {
     return {
       // 이 모든 속성은 자동으로 유형이 유추됨.
-      counter: 0,
+      count: 0,
       name: 'Eduardo',
       isAdmin: true,
     }
@@ -89,7 +89,7 @@ interface UserInfo {
 ```js
 const store = useStore()
 
-store.counter++
+store.count++
 ```
 
 ## 상태 재설정 %{#resetting-the-state}%
@@ -108,13 +108,13 @@ store.$reset()
 
 ```js
 // 예제 파일 경로:
-// ./src/stores/counterStore.js
+// ./src/stores/counter.js
 
 import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counterStore', {
+const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
 })
 ```
@@ -124,21 +124,21 @@ const useCounterStore = defineStore('counterStore', {
 
 ```js
 import { mapState } from 'pinia'
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   computed: {
-    // 컴포넌트 내부에서 `this.counter`로 접근할 수 있게 함.
-    // `store.counter`로 읽는 것과 동일.
-    ...mapState(useCounterStore, ['counter'])
+    // 컴포넌트 내부에서 `this.count`로 접근할 수 있게 함.
+    // `store.count`로 읽는 것과 동일.
+    ...mapState(useCounterStore, ['counter']),
     // 위와 같지만 `this.myOwnName`으로 등록.
     ...mapState(useCounterStore, {
-      myOwnName: 'counter',
+      myOwnName: 'count',
       // 스토어에 접근하는 함수를 작성할 수도 있음
-      double: store => store.counter * 2,
+      double: store => store.count * 2,
       // `this`에 접근할 수 있지만, 올바르게 입력되지 않음...
       magicValue(store) {
-        return store.someGetter + this.counter + this.double
+        return store.someGetter + this.count + this.double
       },
     }),
   },
@@ -153,17 +153,17 @@ export default {
 
 ```js
 import { mapWritableState } from 'pinia'
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   computed: {
-    // 컴포넌트 내부에서 `this.counter`로 접근할 수 있게 하고,
-    // `this.counter++`와 같이 수정도 허용함.
-    // `store.counter`에서 읽는 것과 동일.
-    ...mapWritableState(useCounterStore, ['counter'])
+    // 컴포넌트 내부에서 `this.count`로 접근할 수 있게 하고,
+    // `this.count++`와 같이 수정도 허용함.
+    // `store.count`에서 읽는 것과 동일.
+    ...mapWritableState(useCounterStore, ['count']),
     // 위와 같지만 `this.myOwnName`으로 등록.
     ...mapWritableState(useCounterStore, {
-      myOwnName: 'counter',
+      myOwnName: 'count',
     }),
   },
 }
@@ -179,13 +179,13 @@ export default {
 
 <!-- TODO: disable this with `strictMode` -->
 
-`store.counter++`로 스토어를 직접 변경하는 방법 외에도,
+`store.count++`로 스토어를 직접 변경하는 방법 외에도,
 `$patch` 메소드를 호출할 수도 있습니다.
 이것을 사용하여 `state` 객체의 일부분을 동시에 변경할 수 있습니다:
 
 ```js
 store.$patch({
-  counter: store.counter + 1,
+  count: store.count + 1,
   age: 120,
   name: 'DIO',
 })
@@ -215,9 +215,9 @@ cartStore.$patch((state) => {
 
 ```js
 // 이것은 실제로 `$state`를 교체하지 않음.
-store.$state = { counter: 24 }
+store.$state = { count: 24 }
 // 아래와 같이 내부적으로 `$patch()`를 호출함:
-store.$patch({ counter: 24 })
+store.$patch({ count: 24 })
 ```
 
 피니아 인스턴스의 `state`를 변경하여,

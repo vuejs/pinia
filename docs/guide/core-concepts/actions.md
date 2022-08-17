@@ -11,14 +11,14 @@ title: 액션
 ```js
 export const useStore = defineStore('main', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
   actions: {
     increment() {
-      this.counter++
+      this.count++
     },
     randomizeCounter() {
-      this.counter = Math.round(100 * Math.random())
+      this.count = Math.round(100 * Math.random())
     },
   },
 })
@@ -118,17 +118,17 @@ export default {
 
 ```js
 // 예제 파일 경로:
-// ./src/stores/counterStore.js
+// ./src/stores/counter.js
 
 import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counterStore', {
+const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0
+    count: 0
   }),
   actions: {
     increment() {
-      this.counter++
+      this.count++
     }
   }
 })
@@ -141,7 +141,7 @@ const useCounterStore = defineStore('counterStore', {
 추가 맵 헬퍼 함수가 필요하지 않습니다!
 
 ```js
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   setup() {
@@ -165,7 +165,7 @@ export default {
 
 ```js
 import { mapActions } from 'pinia'
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   methods: {
@@ -173,7 +173,7 @@ export default {
     // `store.increment()`처럼 호출하는 것과 동일.
     ...mapActions(useCounterStore, ['increment']),
     // 위와 같지만 `this.myOwnName()`으로 등록.
-    ...mapActions(useCounterStore, { myOwnName: 'doubleCounter' }),
+    ...mapActions(useCounterStore, { myOwnName: 'doubleCount' }),
   },
 }
 ```
