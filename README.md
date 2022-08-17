@@ -40,8 +40,7 @@
 - 🏗 모듈식 디자인
 - 📦 매우 가벼움
 
-피니아는 Vue 2.x와 Vue 3.x 모두에서 작동합니다.
-최신 `@vue/composition-api`를 사용하는 Vue 2 또는 Vue `^3.2.0-0`가 필요합니다.
+피니아는 Vue 2와 Vue 3 모두에서 작동합니다.
 
 피니아(pinia)는 스페인어 _pineapple_의 영어 발음과 가장 유사한 _piña_입니다.
 파인애플은 실제로 각각의 꽃들이 하나의 그룹으로 된 과일입니다.
@@ -72,7 +71,7 @@ yarn add pinia
 npm install pinia
 ```
 
-Vue 2를 사용하는 경우 최신 `@vue/composition-api`를 설치해야 합니다:
+Vue <2.7을 사용하는 경우 최신 `@vue/composition-api`를 설치해야 합니다:
 
 ```bash
 npm install pinia @vue/composition-api
