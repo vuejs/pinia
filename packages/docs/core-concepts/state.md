@@ -15,7 +15,7 @@ const useStore = defineStore('storeId', {
   state: () => {
     return {
       // all these properties will have their type inferred automatically
-      counter: 0,
+      count: 0,
       name: 'Eduardo',
       isAdmin: true,
     }
@@ -79,7 +79,7 @@ By default, you can directly read and write to the state by accessing it through
 ```js
 const store = useStore()
 
-store.counter++
+store.count++
 ```
 
 ## Resetting the state
@@ -103,13 +103,13 @@ For the following examples, you can assume the following store was created:
 
 ```js
 // Example File Path:
-// ./src/stores/counterStore.js
+// ./src/stores/counter.js
 
 import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counterStore', {
+const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
 })
 ```
@@ -118,21 +118,21 @@ If you are not using the Composition API, and you are using `computed`, `methods
 
 ```js
 import { mapState } from 'pinia'
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   computed: {
-    // gives access to this.counter inside the component
-    // same as reading from store.counter
-    ...mapState(useCounterStore, ['counter'])
+    // gives access to this.count inside the component
+    // same as reading from store.count
+    ...mapState(useCounterStore, ['count'])
     // same as above but registers it as this.myOwnName
     ...mapState(useCounterStore, {
-      myOwnName: 'counter',
+      myOwnName: 'count',
       // you can also write a function that gets access to the store
-      double: store => store.counter * 2,
+      double: store => store.count * 2,
       // it can have access to `this` but it won't be typed correctly...
       magicValue(store) {
-        return store.someGetter + this.counter + this.double
+        return store.someGetter + this.count + this.double
       },
     }),
   },
@@ -145,17 +145,17 @@ If you want to be able to write to these state properties (e.g. if you have a fo
 
 ```js
 import { mapWritableState } from 'pinia'
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   computed: {
-    // gives access to this.counter inside the component and allows setting it
-    // this.counter++
-    // same as reading from store.counter
-    ...mapWritableState(useCounterStore, ['counter'])
+    // gives access to this.count inside the component and allows setting it
+    // this.count++
+    // same as reading from store.count
+    ...mapWritableState(useCounterStore, ['count'])
     // same as above but registers it as this.myOwnName
     ...mapWritableState(useCounterStore, {
-      myOwnName: 'counter',
+      myOwnName: 'count',
     }),
   },
 }
@@ -169,11 +169,11 @@ You don't need `mapWritableState()` for collections like arrays unless you are r
 
 <!-- TODO: disable this with `strictMode` -->
 
-Apart from directly mutating the store with `store.counter++`, you can also call the `$patch` method. It allows you to apply multiple changes at the same time with a partial `state` object:
+Apart from directly mutating the store with `store.count++`, you can also call the `$patch` method. It allows you to apply multiple changes at the same time with a partial `state` object:
 
 ```js
 store.$patch({
-  counter: store.counter + 1,
+  count: store.count + 1,
   age: 120,
   name: 'DIO',
 })
@@ -198,9 +198,9 @@ You **cannot exactly replace** the state of a store as that would break reactivi
 
 ```js
 // this doesn't actually replace `$state`
-store.$state = { counter: 24 }
+store.$state = { count: 24 }
 // it internally calls `$patch()`:
-store.$patch({ counter: 24 })
+store.$patch({ count: 24 })
 ```
 
 You can also **set the initial state** of your whole application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).

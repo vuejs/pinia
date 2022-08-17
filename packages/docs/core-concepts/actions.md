@@ -10,14 +10,14 @@ Actions are the equivalent of [methods](https://v3.vuejs.org/guide/data-methods.
 ```js
 export const useStore = defineStore('main', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
   actions: {
     increment() {
-      this.counter++
+      this.count++
     },
     randomizeCounter() {
-      this.counter = Math.round(100 * Math.random())
+      this.count = Math.round(100 * Math.random())
     },
   },
 })
@@ -117,17 +117,17 @@ For the following examples, you can assume the following store was created:
 
 ```js
 // Example File Path:
-// ./src/stores/counterStore.js
+// ./src/stores/counter.js
 
 import { defineStore } from 'pinia',
 
-const useCounterStore = defineStore('counterStore', {
+const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0
+    count: 0
   }),
   actions: {
     increment() {
-      this.counter++
+      this.count++
     }
   }
 })
@@ -138,7 +138,7 @@ const useCounterStore = defineStore('counterStore', {
 While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
 
 ```js
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   setup() {
@@ -161,7 +161,7 @@ If you would prefer not to use Composition API at all, you can use the `mapActio
 
 ```js
 import { mapActions } from 'pinia'
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   methods: {
@@ -169,7 +169,7 @@ export default {
     // same as calling from store.increment()
     ...mapActions(useCounterStore, ['increment'])
     // same as above but registers it as this.myOwnName()
-    ...mapActions(useCounterStore, { myOwnName: 'doubleCounter' }),
+    ...mapActions(useCounterStore, { myOwnName: 'doubleCount' }),
   },
 }
 ```

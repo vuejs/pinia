@@ -158,10 +158,10 @@ export const useMainStore = defineStore('main', {
   // optional getters
   getters: {
     // getters receive the state as first parameter
-    doubleCount: (state) => state.counter * 2,
+    doubleCounter: (state) => state.counter * 2,
     // use getters in other getters
-    doubleCountPlusOne(): number {
-      return this.doubleCount + 1
+    doubleCounterPlusOne(): number {
+      return this.doubleCounter + 1
     },
   },
   // optional actions
@@ -185,14 +185,14 @@ export default defineComponent({
     const main = useMainStore()
 
     // extract specific store properties
-    const { counter, doubleCount } = storeToRefs(main)
+    const { counter, doubleCounter } = storeToRefs(main)
 
     return {
       // gives access to the whole store in the template
       main,
       // gives access only to specific state or getter
       counter,
-      doubleCount,
+      doubleCounter,
     }
   },
 })
