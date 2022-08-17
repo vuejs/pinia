@@ -9,19 +9,14 @@ export default defineConfig({
   test: {
     coverage: {
       reporter: ['html', 'lcov', 'text'],
-      include: [
-        'packages/pinia/src/**/*.ts',
-        'packages/testing/src/**/*.ts',
-        '!packages/testing/**/*.spec.ts',
-      ],
+      include: ['packages/pinia/src/**/*.ts', 'packages/testing/src/**/*.ts'],
       exclude: [
-        '/node_modules/',
-        'src/index.ts',
-        '\\.d\\.ts$',
-        'src/devtools',
-        'src/hmr',
-        'src/deprecated.ts',
-        'src/vue2-plugin.ts',
+        '**/src/index.ts',
+        '**/*.d.ts',
+        '**/src/devtools',
+        '**/src/hmr.ts',
+        '**/src/deprecated.ts',
+        '**/src/vue2-plugin.ts',
       ],
     },
     environment: 'happy-dom',
