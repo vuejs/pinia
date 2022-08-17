@@ -46,7 +46,7 @@
     "vue-demi": "*"
   },
   "devDependencies": {
-    "pinia": "^2.0.0-0",
+    "pinia": "workspace:^2.0.18",
     "siroc": "^0.16.0"
   },
   "peerDependencies": {

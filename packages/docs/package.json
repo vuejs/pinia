@@ -8,9 +8,9 @@
     "docs:build": "vitepress build ."
   },
   "dependencies": {
-    "@chenfengyuan/vue-countdown": "2",
+    "@chenfengyuan/vue-countdown": "^2.1.0",
     "@vueuse/core": "^8.9.4",
-    "pinia": "^2.0.0",
-    "vitepress": "^0.22.2"
+    "pinia": "workspace:^2.0.18",
+    "vitepress": "^0.22.4"
   }
 }

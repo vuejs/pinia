@@ -1,5 +1,6 @@
 {
   "name": "@pinia/root",
+  "packageManager": "pnpm@7.9.0",
   "private": true,
   "workspaces": [
     "packages/*"
@@ -21,11 +22,11 @@
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.9",
-    "@rollup/plugin-commonjs": "^22.0.1",
+    "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-replace": "^4.0.0",
     "@types/lodash.kebabcase": "^4.1.7",
-    "@types/node": "^16.11.41",
+    "@types/node": "^16.11.49",
     "@vitest/coverage-c8": "^0.22.0",
     "@vue/compiler-sfc": "^3.2.37",
     "@vue/server-renderer": "^3.2.37",
@@ -44,11 +45,11 @@
     "pascalcase": "^1.0.0",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
-    "rollup": "^2.77.0",
+    "rollup": "^2.78.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.32.1",
     "semver": "^7.3.7",
-    "typedoc": "^0.23.9",
+    "typedoc": "^0.23.10",
     "typedoc-plugin-markdown": "^3.13.4",
     "typescript": "^4.7.4",
     "vitest": "^0.22.0",

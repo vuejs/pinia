@@ -9,10 +9,10 @@
     "size:check": "node scripts/check-size.mjs"
   },
   "devDependencies": {
-    "brotli-wasm": "^1.2.0",
+    "brotli-wasm": "^1.3.0",
     "zlib": "^1.0.5"
   },
   "dependencies": {
-    "pinia": "^2.0.0-rc.4"
+    "pinia": "workspace:^2.0.18"
   }
 }
