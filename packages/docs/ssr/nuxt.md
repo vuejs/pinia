@@ -45,7 +45,7 @@ By default `@pinia/nuxt` exposes one single auto import: `usePinia()`, which is 
 
 ```js
 // nuxt.config.js
-export default {
+export default defineNuxtConfig({
   // ... other options
   modules: [
     // ...
@@ -61,7 +61,7 @@ export default {
       },
     ],
   ],
-}
+})
 ```
 
 ## Nuxt 2 without bridge
