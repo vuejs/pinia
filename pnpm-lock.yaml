@@ -90,6 +90,7 @@ importers:
     specifiers:
       '@nuxt/kit': 3.0.0-rc.6
       '@nuxt/module-builder': latest
+      '@nuxt/test-utils': ^3.0.0-rc.8
       nuxt: ^3.0.0-rc.8
       pinia: workspace:^2.0.18
       typescript: ^4.7.4
@@ -99,6 +100,7 @@ importers:
       pinia: link:../pinia
     devDependencies:
       '@nuxt/module-builder': 0.1.7
+      '@nuxt/test-utils': 3.0.0-rc.8
       nuxt: 3.0.0-rc.8
       typescript: 4.7.4
       vue-tsc: 0.39.5_typescript@4.7.4
@@ -961,6 +963,27 @@ packages:
       parse-git-config: 3.0.0
       rc9: 1.2.2
       std-env: 3.2.1
+    transitivePeerDependencies:
+      - esbuild
+      - rollup
+      - supports-color
+      - vite
+      - webpack
+    dev: true
+
+  /@nuxt/test-utils/3.0.0-rc.8:
+    resolution: {integrity: sha512-YdTkMVensrWpMoDnUX4oNRZbaMarNTxDNYjRvZOe1QFtEc8zjqrBhkUfwzA9n9bTzN0xiDxrSLnVNndEY5mfOg==}
+    engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0 || ^18.0.0}
+    peerDependencies:
+      vue: ^3.2.37
+    dependencies:
+      '@nuxt/kit': 3.0.0-rc.8
+      '@nuxt/schema': 3.0.0-rc.8
+      defu: 6.1.0
+      execa: 6.1.0
+      get-port-please: 2.6.1
+      jiti: 1.14.0
+      ohmyfetch: 0.4.18
     transitivePeerDependencies:
       - esbuild
       - rollup
