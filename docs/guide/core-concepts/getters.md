@@ -11,10 +11,10 @@ title: 게터
 ```js
 export const useStore = defineStore('main', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
   getters: {
-    doubleCount: (state) => state.counter * 2,
+    doubleCount: (state) => state.count * 2,
   },
 })
 ```
@@ -29,12 +29,12 @@ export const useStore = defineStore('main', {
 ```ts
 export const useStore = defineStore('main', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
   getters: {
     // 자동으로 반환 유형을 숫자로 유추함.
     doubleCount(state) {
-      return state.counter * 2
+      return state.count * 2
     },
     // 반환 유형은 **반드시** 명시적으로 설정되어야 함.
     doublePlusOne(): number {
@@ -72,15 +72,15 @@ TypeScript를 사용하지 않는 경우에도 [JSDoc](https://jsdoc.app/tags-re
 ```js
 export const useStore = defineStore('main', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
   getters: {
     // `this`를 사용하지 않기 때문에 유형이 자동으로 유추됨.
-    doubleCount: (state) => state.counter * 2,
+    doubleCount: (state) => state.count * 2,
     // 여기에 유형을 직접 추가해야 함(JS에서 JSDoc 사용).
     // 이것을 사용하여 게터를 문서화할 수도 있음.
     /**
-     * 카운터에 2를 곱한 값에 1을 더해 반환.
+     * count에 2를 곱한 값에 1을 더해 반환.
      *
      * @returns {number}
      */
@@ -169,7 +169,7 @@ export default {
   setup() {
     const store = useStore()
 
-    store.counter = 3
+    store.count = 3
     store.doubleCount // 6
   },
 }
@@ -182,17 +182,17 @@ export default {
 
 ```js
 // 예제 파일 경로:
-// ./src/stores/counterStore.js
+// ./src/stores/count.js
 
 import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counterStore', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0
+    count: 0
   }),
   getters: {
-    doubleCounter(state) {
-      return state.counter * 2
+    doubleCount(state) {
+      return state.count * 2
     }
   }
 })
@@ -205,7 +205,7 @@ const useCounterStore = defineStore('counterStore', {
 추가 맵 헬퍼 함수가 필요하지 않습니다!
 
 ```js
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   setup() {
@@ -215,7 +215,7 @@ export default {
   },
   computed: {
     quadrupleCounter() {
-      return this.counterStore.doubleCounter * 2
+      return this.counterStore.doubleCount * 2
     },
   },
 }
@@ -227,18 +227,18 @@ export default {
 
 ```js
 import { mapState } from 'pinia'
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   computed: {
-    // 컴포넌트 내부에서 `this.doubleCounter`로 접근할 수 있게 함.
-    // `store.doubleCounter`로 읽는 것과 동일.
-    ...mapState(useCounterStore, ['doubleCount'])
+    // 컴포넌트 내부에서 `this.doubleCount`로 접근할 수 있게 함.
+    // `store.doubleCount`로 읽는 것과 동일.
+    ...mapState(useCounterStore, ['doubleCount']),
     // 위와 같지만 `this.myOwnName`으로 등록.
     ...mapState(useCounterStore, {
-      myOwnName: 'doubleCounter',
+      myOwnName: 'doubleCount',
       // 스토어에 접근하는 함수를 작성할 수도 있음.
-      double: store => store.doubleCount,
+      double: (store) => store.doubleCount,
     }),
   },
 }
