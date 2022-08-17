@@ -2,39 +2,26 @@
   <a
     v-if="isVisible"
     id="vs"
-    href="https://vueschool.io/sales/summer-vue/?friend=vuerouter"
+    href="https://vuejsforge.com/?friend=vuerouter&utm_source=pinia&utm_medium=website&utm_campaign=affiliate&utm_content=top_banner"
     target="_blank"
     rel="noreferrer">
     <div class="vs-iso">
-      <img src="/images/vueschool/vs-iso.svg" alt="Vue School Logo">
+      <img src="/images/vueschool/vf-iso.svg" alt="Vue Forge Logo">
     </div>
     <div class="vs-logo">
-      <img src="/images/vueschool/vs-logo.svg" alt="Vue School Logo">
+      <img src="/images/vueschool/vf-logo.svg" alt="Vue Forge Logo">
     </div>
     <div class="vs-core">
-      <div class="vs-backpack">
-        <img src="/images/vueschool/vs-backpack.png" alt="Backpack">
-      </div>
       <div class="vs-slogan-wrapper">
         <div class="vs-slogan">
-          Learn Vue this summer and <span class="vs-slogan-light">save 40%</span>
+          Join the 2nd edition of the largest hands-on Vue.js Event
         </div>
         <div class="vs-subline">
-          <span
-            v-if="isExtended"
-            :style="{ fontWeight: 'bold', marginRight: '8px' }">
-            Extended!
-          </span>
-          <span
-            v-else>
-            Limited time offer
-          </span>
-          <BannerCountdown
-            v-bind="{ remaining }" />
+          Starts 30 Aug. Build your own e-commerce app!
         </div>
       </div>
       <div class="vs-button">
-        Get Offer
+        JOIN FOR FREE
       </div>
     </div>
     <div
@@ -47,49 +34,39 @@
 </template>
 
 <script>
-import BannerCountdown from './BannerCountdown.vue'
-
 export default {
-  components: {
-    BannerCountdown
-  },
   data () {
     return {
-      isActive: null,
-      isExtended: null,
       isVisible: false,
       remaining: 0
     }
   },
   mounted () {
     const now = new Date()
-    const extension = new Date('2022-07-27T00:00:00+02:00')
-    const end = new Date('2022-07-29T00:00:00+02:00')
-
-    this.isActive = now < end
-    this.isExtended = now > extension && now < end
-
-    this.remaining = (this.isExtended ? end : extension) - now
-    this.isVisible = !localStorage.getItem('VS_SUMMER_22') && this.remaining > 0
+    const end = new Date('2022-09-01T00:00:00+02:00')
+    this.remaining = end - now
+    this.isVisible = !localStorage.getItem('VF2') && this.remaining > 0
     if (this.isVisible) document.body.classList.add('has-top-banner')
   },
   methods: {
     close () {
       this.isVisible = false
       document.body.classList.remove('has-top-banner')
-      localStorage.setItem('VS_SUMMER_22', 1)
+      localStorage.setItem('VF2', 1)
     }
   }
 }
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 #vs {
   align-items: center;
-  background-color: #202A5A;
+  background-color: #0A1124;
   box-sizing: border-box;
   color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   justify-content: center;
   position: fixed;
   padding: 0 10px;
@@ -97,50 +74,31 @@ export default {
   right: 0;
   top: 0;
   z-index: 100;
-  height: 5rem;
+  height: 72px;
   display: flex;
+  background-image: url(/images/vueschool/bg-mobile.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top right;
 }
 
 #vs:hover {
   text-decoration: none;
 }
 
-@media (min-width: 680px) {
-  #vs {
-    height: 5rem;
-  }
-}
-
 #vs:hover .vs-core .vs-button {
-  background: #f22606;
+  background: rgb(240, 80, 35);
+  color: #FFF;
 }
 
 #vs .vs-iso {
   position: absolute;
-  left: 20px;
-  height: 26px;
-  display: none;
+  left: 10px;
+  height: 28px;
 }
 
 #vs .vs-iso img {
-  height: 26px;
-}
-
-@media (min-width: 680px) {
-  #vs .vs-iso {
-    left: 40px;
-    height: 40px;
-    display: inline-block;
-  }
-  #vs .vs-iso img {
-    height: 40px;
-  }
-}
-
-@media (min-width: 900px) {
-  #vs .vs-iso {
-    display: none;
-  }
+  height: 28px;
 }
 
 #vs .vs-logo {
@@ -149,131 +107,142 @@ export default {
   left: 40px;
 }
 
-@media (min-width: 900px) {
-  #vs .vs-logo {
-    display: block;
-  }
-}
-
 #vs .vs-core {
   display: flex;
   align-items: center;
-}
-
-#vs .vs-core .vs-backpack {
-  margin-right: 26px;
-}
-
-#vs .vs-core .vs-backpack img {
-  height: 44px;
-}
-
-#vs .vs-core .vs-slogan-wrapper {
-  margin-right: 26px;
+  width: 288px;
 }
 
 #vs .vs-core .vs-slogan {
   color: #FFF;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 12px;
   text-align: center;
-}
-
-@media (min-width: 680px) {
-  #vs .vs-core .vs-slogan {
-    font-size: 18px;
-  }
-}
-
-#vs .vs-core .vs-slogan > .vs-slogan-light {
-  color: #00b5ff;
-  display: block;
 }
 
 #vs .vs-core .vs-slogan-wrapper .vs-subline {
-  color: #FFF;
+  color: #cfc1e3;
   text-align: center;
-  font-size: 12px;
-}
-
-@media (min-width: 680px) {
-  #vs .vs-core .vs-slogan-wrapper .vs-subline {
-    font-size: 16px;
-  }
-}
-
-@media (min-width: 900px) {
-  #vs .vs-core .vs-slogan > .vs-slogan-light {
-    text-align: center;
-    display: inline;
-  }
+  font-size: 10px;
+  margin-top: 4px;
+  font-weight: bold;
 }
 
 #vs .vs-core .vs-button {
-  color: #fff;
-  padding: 13px 24px;
-  border-radius: 40px;
-  display: none;
-  background: #ff5338;
+  color: #000;
+  padding: 8px 6px;
+  border-radius: 4px;
+  background: #ffbb27;
   font-weight: bold;
   text-transform: uppercase;
-}
-
-@media (min-width: 680px) {
-  #vs .vs-core .vs-button {
-    display: inline-block;
-  }
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.3px;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 #vs .vs-close {
-  right: 10px;
+  right: 0;
   position: absolute;
   padding: 10px;
-}
-
-@media (min-width: 680px) {
-  #vs .vs-close {
-    right: 20px;
-  }
 }
 
 #vs .vs-close:hover {
   color: #56d8ff;
 }
 
+@media (min-width: 680px) {
+  #vs {
+    background-image: url(/images/vueschool/bg-tablet.png);
+  }
+
+  #vs .vs-iso {
+    display: inline-block;
+  }
+
+  #vs .vs-core {
+    width: auto;
+  }
+
+  #vs .vs-core .vs-slogan-wrapper {
+    margin-right: 26px;
+  }
+
+  #vs .vs-core .vs-slogan {
+    font-size: 16px;
+  }
+
+  #vs .vs-core .vs-slogan-wrapper .vs-subline {
+    font-size: 16px;
+  }
+
+  #vs .vs-core {
+    margin-right: 40px;
+  }
+
+  #vs .vs-core .vs-button {
+    font-size: 13px;
+    padding: 8px 15px;
+  }
+
+  #vs .vs-close {
+    right: 20px;
+  }
+}
+
+@media (min-width: 900px) {
+  #vs {
+    background-image: url(/images/vueschool/bg-desktop.png);
+  }
+
+  #vs .vs-iso {
+    display: none;
+  }
+
+  #vs .vs-logo {
+    display: block;
+  }
+
+  #vs .vs-core {
+    margin-right: 0;
+  }
+}
+
 /********************************************/
 
 .has-top-banner .theme {
-  margin-top: 80px;
+  margin-top: 72px;
 }
 
 .has-top-banner .theme .nav-bar {
-  margin-top: 80px;
+  margin-top: 72px;
 }
 
 .has-top-banner .theme .sidebar {
-  margin-top: 80px;
+  margin-top: 72px;
 }
 
 .has-top-banner .theme .page {
-  margin-top: 80px;
+  margin-top: 72px;
 }
 
 @media (min-width: 680px) {
   .has-top-banner .theme {
-    margin-top: 80px;
+    margin-top: 72px;
   }
 
   .has-top-banner .theme .nav-bar {
-    margin-top: 80px;
+    margin-top: 72px;
   }
 
   .has-top-banner .theme .sidebar {
-    margin-top: 80px;
+    margin-top: 72px;
   }
 
   .has-top-banner .theme .page {
-    margin-top: 80px;
+    margin-top: 72px;
   }
 }
 
