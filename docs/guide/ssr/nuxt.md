@@ -13,17 +13,17 @@ npm install @pinia/nuxt
 ```
 
 모든 것을 처리할 수 있는 모듈을 제공하므로,
-`nuxt.config.js` 파일의 `buildModules`에 추가하기만 하면 됩니다:
+`nuxt.config.js` 파일의 `modules`에 추가하기만 하면 됩니다:
 
 ```js
 // nuxt.config.js
-export default {
+export default defineNuxtConfig({
   // ... 다른 옵션들
-  buildModules: [
+  modules: [
     // ...
     '@pinia/nuxt',
   ],
-}
+})
 ```
 
 이게 전부입니다, 평소처럼 스토어를 사용하세요!
@@ -52,9 +52,9 @@ export default {
 
 ```js
 // nuxt.config.js
-export default {
+export default defineNuxtConfig({
   // ... 다른 옵션들
-  buildModules: [
+  modules: [
     // ...
     [
       '@pinia/nuxt',
@@ -68,24 +68,8 @@ export default {
       },
     ],
   ],
-}
+})
 ```
-
-## TypeScript
-
-TypeScript를 사용하거나 `jsconfig.json`이 있는 경우,
-`context.pinia`에 대한 유형을 추가해야 합니다:
-
-```json
-{
-  "types": [
-    // ...
-    "@pinia/nuxt"
-  ]
-}
-```
-
-이렇게 하면 자동 완성 기능이 보장됩니다 😉 .
 
 ## Nuxt 2 without bridge %{#nuxt-2-without-bridge}%
 
@@ -112,6 +96,22 @@ export default {
   ],
 }
 ```
+
+## TypeScript
+
+TypeScript와 함께 Nuxt2(`@pinia/nuxt` < 0.3.0)를 사용하거나 `jsconfig.json`이 있는 경우,
+`context.pinia`에 대한 유형을 추가해야 합니다:
+
+```json
+{
+  "types": [
+    // ...
+    "@pinia/nuxt"
+  ]
+}
+```
+
+이렇게 하면 자동 완성 기능이 보장됩니다 😉 .
 
 ### Vuex와 함께 피니아 사용 %{#using-pinia-alongside-vuex}%
 
