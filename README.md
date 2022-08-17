@@ -22,7 +22,9 @@
 - 🏗 Modular by design
 - 📦 Extremely light
 
-Pinia works both for Vue 2.x and Vue 3.x. It requires Vue 2 with the latest `@vue/composition-api` or Vue `^3.2.0-0`.
+Pinia works with both :-
+- Vue 2.x(For Vue <2.7 latest `@vue/composition-api` also needs to be installed)
+- Vue 3.x(Vue `^3.2.0-0` required)
 
 Pinia is the most similar English pronunciation of the word _pineapple_ in Spanish: _piña_. A pineapple is in reality a group of individual flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
 
@@ -122,7 +124,7 @@ yarn add pinia
 npm install pinia
 ```
 
-If you are using Vue 2, make sure to install latest `@vue/composition-api`:
+If you are using Vue <2.7, make sure to install latest `@vue/composition-api`:
 
 ```bash
 npm install pinia @vue/composition-api
