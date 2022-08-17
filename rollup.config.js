@@ -119,7 +119,7 @@ function createConfig(buildName, output, plugins = []) {
   hasTSChecked = true
 
   const external = ['vue-demi', 'vue', '@vue/composition-api']
-  if (!isGlobalBuild) {
+  if (!isGlobalBuild && !(isProductionBuild && isNodeBuild /* pinia.prod.cjs */)) {
     external.push('@vue/devtools-api')
   }
 
@@ -191,6 +191,7 @@ function createReplacePlugin(
       replacements[key] = process.env[key]
     }
   })
+
   return replace({
     preventAssignment: true,
     values: replacements,
