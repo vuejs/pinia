@@ -1,3 +1,9 @@
+## [0.4.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.0...@pinia/nuxt@0.4.1) (2022-08-18)
+
+### Features
+
+- **nuxt:** automatically add pinia types ([#1551](https://github.com/vuejs/pinia/issues/1551)) ([5ebfcd8](https://github.com/vuejs/pinia/commit/5ebfcd8bbaaaacba7d03c66ac67775448fb02363))
+
 # [0.4.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.3.1...@pinia/nuxt@0.4.0) (2022-08-10)
 
 ### Bug Fixes
