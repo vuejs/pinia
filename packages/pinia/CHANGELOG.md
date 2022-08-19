@@ -1,3 +1,7 @@
+## [2.0.20](https://github.com/vuejs/pinia/compare/pinia@2.0.19...pinia@2.0.20) (2022-08-19)
+
+- **build**: support vue 2 devtools flag
+
 ## [2.0.19](https://github.com/vuejs/pinia/compare/pinia@2.0.18...pinia@2.0.19) (2022-08-18)
 
 ### Bug Fixes
