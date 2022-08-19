@@ -178,7 +178,7 @@ function createReplacePlugin(
         ? `(process.env.NODE_ENV === 'test')`
         : 'false',
     __FEATURE_PROD_DEVTOOLS__: isBundlerESMBuild
-      ? `__VUE_PROD_DEVTOOLS__`
+      ? `(typeof __VUE_PROD_DEVTOOLS__ !== 'undefined' && __VUE_PROD_DEVTOOLS__)`
       : 'false',
     // If the build is expected to run directly in the browser (global / esm builds)
     __BROWSER__: JSON.stringify(isRawESMBuild),
