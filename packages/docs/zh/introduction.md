@@ -5,11 +5,11 @@
   title="Get started with Pinia"
 />
 
-Pinia [最初](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e)是在 2019 年 11 月左右作为一个使用 [Composition API](https://github.com/vuejs/composition-api) 的实验进行设计的。从那时起，同时支持 Vue2 和 Vue3 以及不强制要求使用 composition API 的初始原则保留至今。除了**安装**和**SSR**之外，支持 Vue3 和 Vue2 的 API 都是相同的。虽然这些文档主要是面向 Vue3，但在必要时会标注出 Vue2 的内容，因此 Vue2 和 Vue3 的用户都可以阅读本文档。
+Pinia [最初](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e)是在 2019 年 11 月左右作为一个使用 [组合式 API](https://github.com/vuejs/composition-api) 的实验进行设计的。从那时起，同时支持 Vue2 和 Vue3 以及不强制要求使用组合式 API 的初始原则保留至今。除了**安装**和 **SSR** 之外，支持 Vue3 和 Vue2 的 API 都是相同的。虽然这些文档主要是面向 Vue3，但在必要时会标注出 Vue2 的内容，因此 Vue2 和 Vue3 的用户都可以阅读本文档。
 
 ## 为什么要使用 Pinia？{#why-should-i-use-pinia}
 
-Pinia 是专属 Vue 的 store 库，它允许你跨组件/页面共享状态。如果你熟悉 Composition API 的话，你可能会认为你可以通过一行简单的 `export const state = reactive({})`来共享一个全局状态。对于单页应用程序来说确实是这样的，但如果在服务器端渲染，这可能会使您的应用程序暴露出一些安全漏洞。 不过若是使用 Pinia，即使在小型单页应用程序中，你也可以获得很多好处：
+Pinia 是专属 Vue 的状态管理库，它允许你跨组件/页面共享状态。如果你熟悉组合式 API 的话，你可能会认为你可以通过一行简单的 `export const state = reactive({})`来共享一个全局状态。对于单页应用程序来说确实是这样的，但如果在服务器端渲染，这可能会使您的应用程序暴露出一些安全漏洞。 不过若是使用 Pinia，即使在小型单页应用程序中，你也可以获得很多好处：
 
 - Devtools 支持
   - 追踪 actions、mutations 的时间线
@@ -114,7 +114,7 @@ export default {
 
 ## 为什么命名为 _Pinia_？{#Why-pinia}
 
-Pinia (发音为 `/piːnjʌ/`，类似英文中的 “peenya”) 是最接近有效包名 piña（西班牙语中的 _pineapple_）的词。 菠萝实际上是一组各自独立的花朵，它们结合在一起，由此形成一个多重的水果。 与 Store 类似，每一个都是独立诞生的，但最终它们都是相互联系的。 它也是一种原产于南美洲的美味热带水果。
+Pinia (发音为 `/piːnjʌ/`，类似英文中的 “peenya”) 是最接近有效包名 piña（西班牙语中的 _pineapple_，即“菠萝”）的词。 菠萝花实际上是一组各自独立的花朵，它们结合在一起，由此形成一个多重的水果。 与 Store 类似，每一个都是独立诞生的，但最终它们都是相互联系的。 它（菠萝）也是一种原产于南美洲的美味热带水果。
 
 ## 更真实的示例{#a-more-realistic-example}
 
@@ -171,10 +171,10 @@ Pinia 最初是为了探索 Vuex 的下一次迭代会是什么样子，结合�
 
 ### RFCs
 
-最初，Pinia 没有经过任何 RFC。我根据自己开发应用程序的经验，同时阅读其他人的代码，为使用 Pinia 的客户工作，以及在 Discord 上回答问题，测试了一些想法。
+最初，Pinia 没有经过任何 RFC 的流程。我根据自己开发应用程序的经验，同时阅读其他人的代码，为使用 Pinia 的客户工作，以及在 Discord 上回答问题，验证了一些想法。
 这些使我能够产出了这样一个可行的解决方案，并适应各种情况和应用规模。我曾经常发表文章，并在保持其核心 API 不变的情况下不断优化本库。
 
-现在 Pinea 已经成为默认的状态管理解决方案，它和 Vue 生态系统中的其他核心库一样，都要经过 RFC 流程，其 API 已经进入稳定状态。
+现在 Pinia 已经成为默认的状态管理解决方案，它和 Vue 生态系统中的其他核心库一样，都要经过 RFC 流程，其 API 已经变得稳定。
 
 ### 与 Vuex 3.x/4.x 对比{#comparison-with-vuex-3-x-4-x}
 
@@ -182,7 +182,7 @@ Pinia 最初是为了探索 Vuex 的下一次迭代会是什么样子，结合�
 
 Pinia API 与 Vuex ≤4 有很大不同，即：
 
-- _mutation_ 不再存在。它们经常被认为是**极其冗长的**。它们最初带来了 devtools 的集成，但这已不再是一个问题了。
+- _mutation_ 不再存在。它们经常被认为是**极其冗长的**。它们最初带来了 devtools 的集成方案，但这已不再是一个问题了。
 - 无需要创建自定义的复杂包装器来支持 TypeScript，一切都被类型化了，API 的设计方式是尽可能地利用 TS 类型推理。
 - 无过多的魔法字符串注入，导入函数。只需要调用它们，享受自动补全的乐趣就好。
 - 无需要动态添加 Store，它们默认都是动态的，甚至你都不会注意到这点。注意，你仍然可以在任何时候手动使用一个 Store 来注册它，但因为它是自动的，所以你不需要担心它。
