@@ -114,6 +114,29 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
             tooltip: 'Import the state from a JSON file',
           },
         ],
+        nodeActions: [
+          {
+            icon: 'restore',
+            tooltip: 'Reset the state (option store only)',
+            action: (nodeId) => {
+              const store = pinia._s.get(nodeId)
+              if (!store) {
+                toastMessage(
+                  `Cannot reset "${nodeId}" store because it wasn't found.`,
+                  'warn'
+                )
+              } else if (!store._isOptionsAPI) {
+                toastMessage(
+                  `Cannot reset "${nodeId}" store because it's a setup store.`,
+                  'warn'
+                )
+              } else {
+                store.$reset()
+                toastMessage(`Store "${nodeId}" reset.`)
+              }
+            },
+          },
+        ],
       })
 
       api.on.inspectComponent((payload, ctx) => {
@@ -134,7 +157,7 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
               value: store._isOptionsAPI
                 ? {
                     _custom: {
-                      value: store.$state,
+                      value: toRaw(store.$state),
                       actions: [
                         {
                           icon: 'restore',
@@ -144,7 +167,11 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
                       ],
                     },
                   }
-                : store.$state,
+                : // NOTE: workaround to unwrap transferred refs
+                  Object.keys(store.$state).reduce((state, key) => {
+                    state[key] = store.$state[key]
+                    return state
+                  }, {} as StateTree),
             })
 
             if (store._getters && store._getters.length) {

@@ -59,7 +59,7 @@ export let mapStoreSuffix = 'Store'
 /**
  * Changes the suffix added by `mapStores()`. Can be set to an empty string.
  * Defaults to `"Store"`. Make sure to extend the MapStoresCustomization
- * interface if you need are using TypeScript.
+ * interface if you are using TypeScript.
  *
  * @param suffix - new suffix
  */

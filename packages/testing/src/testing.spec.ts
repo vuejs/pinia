@@ -1,7 +1,8 @@
+import { describe, expect, it, vi } from 'vitest'
 import { createTestingPinia, TestingOptions } from './testing'
-import { createPinia, defineStore } from 'pinia'
+import { createPinia, defineStore, setActivePinia } from 'pinia'
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, ref, computed } from 'vue'
 
 describe('Testing', () => {
   const useCounter = defineStore('counter', {
@@ -170,5 +171,146 @@ describe('Testing', () => {
     })
 
     expect(wrapper.text()).toBe('empty')
+  })
+
+  it('works with nested stores', () => {
+    const useA = defineStore('a', () => {
+      const n = ref(0)
+      return { n }
+    })
+
+    const useB = defineStore('b', () => {
+      const a = useA()
+      const n = ref(0)
+      const doubleA = computed(() => a.n * 2)
+      return { n, doubleA }
+    })
+
+    const pinia = createTestingPinia()
+    setActivePinia(pinia)
+
+    const b = useB()
+    const a = useA()
+
+    expect(a.n).toBe(0)
+    a.n++
+    expect(b.doubleA).toBe(2)
+    expect(pinia.state.value).toEqual({
+      a: { n: 1 },
+      b: { n: 0 },
+    })
+  })
+
+  it('allows overriding computed properties', () => {
+    const useStore = defineStore('lol', {
+      state: () => ({ n: 0 }),
+      getters: {
+        double: (state) => state.n * 2,
+      },
+    })
+    const pinia = createTestingPinia()
+    const store = useStore(pinia)
+
+    store.n++
+    expect(store.double).toBe(2)
+    // once the getter is overridden, it stays
+    store.double = 3
+    expect(store.double).toBe(3)
+    store.n++
+    expect(store.double).toBe(3)
+    // it can be set to undefined again to reset
+    // @ts-expect-error
+    store.double = undefined
+    expect(store.double).toBe(4)
+    store.n++
+    expect(store.double).toBe(6)
+  })
+
+  it('actions are stubbed even when replaced by other plugins', () => {
+    const spy = vi.fn()
+    mount(Counter, {
+      global: {
+        plugins: [
+          createTestingPinia({
+            plugins: [
+              ({ store }) => {
+                const { increment } = store.increment
+                store.increment = spy
+                spy.mockImplementation(increment)
+              },
+            ],
+          }),
+        ],
+      },
+    })
+    const counter = useCounter()
+
+    counter.increment()
+    counter.increment(5)
+    expect(counter.n).toBe(0)
+    expect(counter.increment).toHaveBeenCalledTimes(2)
+    expect(counter.increment).toHaveBeenLastCalledWith(5)
+    // the actual spy is never called because we stub the action
+    expect(spy).toHaveBeenCalledTimes(0)
+  })
+
+  it('pass through replaced actions in plugins', () => {
+    const spy = vi.fn()
+    mount(Counter, {
+      global: {
+        plugins: [
+          createTestingPinia({
+            stubActions: false,
+            plugins: [
+              ({ store }) => {
+                const { increment } = store.increment
+                store.increment = spy
+                spy.mockImplementation(increment)
+              },
+            ],
+          }),
+        ],
+      },
+    })
+    const counter = useCounter()
+
+    counter.increment()
+    counter.increment(5)
+    expect(counter.n).toBe(0)
+    expect(counter.increment).toHaveBeenCalledTimes(2)
+    expect(counter.increment).toHaveBeenLastCalledWith(5)
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(spy).toHaveBeenLastCalledWith(5)
+  })
+
+  it('can override computed added in plugins', () => {
+    const pinia = createTestingPinia({
+      plugins: [
+        ({ store }) => {
+          store.triple = computed(() => store.n * 3)
+        },
+      ],
+    })
+
+    const store = useCounter(pinia)
+    store.n++
+    // @ts-expect-error: non declared
+    expect(store.triple).toBe(3)
+    // once the getter is overridden, it stays
+    // @ts-expect-error: non declared
+    store.triple = 10
+    // @ts-expect-error: non declared
+    expect(store.triple).toBe(10)
+    store.n++
+    // @ts-expect-error: non declared
+    expect(store.triple).toBe(10)
+    // it can be set to undefined again to reset
+    // @ts-expect-error
+    store.triple = undefined
+    // @ts-expect-error: non declared
+    expect(store.triple).toBe(6)
+    store.n++
+    // @ts-expect-error: non declared
+    expect(store.triple).toBe(9)
   })
 })

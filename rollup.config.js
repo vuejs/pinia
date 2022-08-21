@@ -119,7 +119,11 @@ function createConfig(buildName, output, plugins = []) {
   hasTSChecked = true
 
   const external = ['vue-demi', 'vue', '@vue/composition-api']
-  if (!isGlobalBuild) {
+  if (
+    !isGlobalBuild &&
+    // pinia.prod.cjs should not require `@vue/devtools-api` (like Vue)
+    !(isProductionBuild && isNodeBuild)
+  ) {
     external.push('@vue/devtools-api')
   }
 
@@ -136,7 +140,7 @@ function createConfig(buildName, output, plugins = []) {
         isProductionBuild,
         isBundlerESMBuild,
         // isBrowserBuild?
-        isGlobalBuild || isRawESMBuild || isBundlerESMBuild,
+        isRawESMBuild,
         isGlobalBuild,
         isNodeBuild
       ),
@@ -155,7 +159,7 @@ function createConfig(buildName, output, plugins = []) {
 function createReplacePlugin(
   isProduction,
   isBundlerESMBuild,
-  isBrowserBuild,
+  isRawESMBuild,
   isGlobalBuild,
   isNodeBuild
 ) {
@@ -163,18 +167,21 @@ function createReplacePlugin(
     __COMMIT__: `"${process.env.COMMIT}"`,
     __VERSION__: `"${pkg.version}"`,
     __DEV__:
-      isBundlerESMBuild || (isNodeBuild && !isProduction)
+      (isBundlerESMBuild && !isRawESMBuild) || (isNodeBuild && !isProduction)
         ? // preserve to be handled by bundlers
           `(process.env.NODE_ENV !== 'production')`
         : // hard coded dev/prod builds
           JSON.stringify(!isProduction),
     // this is only used during tests
     __TEST__:
-      isBundlerESMBuild || isNodeBuild
+      (isBundlerESMBuild && !isRawESMBuild) || isNodeBuild
         ? `(process.env.NODE_ENV === 'test')`
         : 'false',
+    __FEATURE_PROD_DEVTOOLS__: isBundlerESMBuild
+      ? `(typeof __VUE_PROD_DEVTOOLS__ !== 'undefined' && __VUE_PROD_DEVTOOLS__)`
+      : 'false',
     // If the build is expected to run directly in the browser (global / esm builds)
-    __BROWSER__: JSON.stringify(isBrowserBuild),
+    __BROWSER__: JSON.stringify(isRawESMBuild),
     // is targeting bundlers?
     __BUNDLER__: JSON.stringify(isBundlerESMBuild),
     __GLOBAL__: JSON.stringify(isGlobalBuild),
@@ -188,6 +195,7 @@ function createReplacePlugin(
       replacements[key] = process.env[key]
     }
   })
+
   return replace({
     preventAssignment: true,
     values: replacements,

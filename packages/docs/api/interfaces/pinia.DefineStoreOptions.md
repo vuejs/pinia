@@ -11,7 +11,11 @@ sidebarDepth: 3
 [pinia](../modules/pinia.md).DefineStoreOptions
 
 Options parameter of `defineStore()` for option stores. Can be extended to
-augment stores with the plugin API. @see [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
+augment stores with the plugin API.
+
+**`See`**
+
+[DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
 ## Type parameters
 
@@ -32,25 +36,17 @@ augment stores with the plugin API. @see [DefineStoreOptionsBase](pinia.DefineSt
 
 ### actions
 
-• `Optional` **actions**: `A` & `ThisType`<`A` & `UnwrapRef`<`S`\> & [`_StoreWithState`](pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & `_StoreWithGetters`<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), `_GettersTree`<[`StateTree`](../modules/pinia.md#statetree)\>, `_ActionsTree`\>\>
+• `Optional` **actions**: `A` & `ThisType`<`A` & `UnwrapRef`<`S`\> & [`_StoreWithState`](pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\>
 
 Optional object of actions.
-
-#### Defined in
-
-[pinia/src/types.ts:654](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L654)
 
 ___
 
 ### getters
 
-• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & `_StoreWithGetters`<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), `_GettersTree`<[`StateTree`](../modules/pinia.md#statetree)\>, `_ActionsTree`\>\> & `_GettersTree`<`S`\>
+• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
 
 Optional object of getters.
-
-#### Defined in
-
-[pinia/src/types.ts:647](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L647)
 
 ___
 
@@ -60,9 +56,22 @@ ___
 
 Unique string key to identify the store across the application.
 
-#### Defined in
+___
 
-[pinia/src/types.ts:636](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L636)
+### state
+
+• `Optional` **state**: () => `S`
+
+#### Type declaration
+
+▸ (): `S`
+
+Function to create a fresh state. **Must be an arrow function** to ensure
+correct typings!
+
+##### Returns
+
+`S`
 
 ## Methods
 
@@ -73,7 +82,8 @@ Unique string key to identify the store across the application.
 Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
 definition and copying the value from `pinia.state` isn't enough.
 
-**`example`**
+**`Example`**
+
 If in your `state`, you use any `customRef`s, any `computed`s, or any `ref`s that have a different value on
 Server and Client, you need to manually hydrate them. e.g., a custom ref that is stored in the local
 storage:
@@ -100,24 +110,3 @@ const useStore = defineStore('main', {
 #### Returns
 
 `void`
-
-#### Defined in
-
-[pinia/src/types.ts:687](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L687)
-
-___
-
-### state
-
-▸ `Optional` **state**(): `S`
-
-Function to create a fresh state. **Must be an arrow function** to ensure
-correct typings!
-
-#### Returns
-
-`S`
-
-#### Defined in
-
-[pinia/src/types.ts:642](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L642)

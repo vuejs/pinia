@@ -1,3 +1,4 @@
+import { beforeEach, describe, it, expect } from 'vitest'
 import { ref, computed } from 'vue'
 import { createPinia, defineStore, setActivePinia } from '../src'
 
@@ -78,7 +79,7 @@ describe('Getters', () => {
     setActivePinia(pinia1)
     const aStore = useA()
 
-    // simulate a different applications
+    // simulate a different application
     setActivePinia(pinia2)
     const bStore = useB()
     bStore.b = 'c'

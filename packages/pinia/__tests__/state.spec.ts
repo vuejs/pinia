@@ -1,3 +1,4 @@
+import { beforeEach, describe, it, expect, vi, Mock } from 'vitest'
 import { createPinia, defineStore, setActivePinia, skipHydrate } from '../src'
 import { computed, nextTick, reactive, ref, watch, customRef } from 'vue'
 
@@ -95,20 +96,9 @@ describe('State', () => {
     expect(pinia.state.value.main.nested.n).toBe(3)
   })
 
-  // it('watch', () => {
-  //   setActivePinia(createPinia())
-  //   defineStore({
-  //     id: 'main',
-  //     state: () => ({
-  //       name: 'Eduardo',
-  //       counter: 0,
-  //     }),
-  //   })()
-  // })
-
   it('state can be watched', async () => {
     const store = useStore()
-    const spy = jest.fn()
+    const spy = vi.fn()
     watch(() => store.name, spy)
     expect(spy).not.toHaveBeenCalled()
     store.name = 'Ed'
@@ -118,7 +108,7 @@ describe('State', () => {
 
   it('state can be watched when a ref is given', async () => {
     const store = useStore()
-    const spy = jest.fn()
+    const spy = vi.fn()
     watch(() => store.name, spy)
     expect(spy).not.toHaveBeenCalled()
     const nameRef = ref('Ed')
@@ -290,12 +280,12 @@ describe('State', () => {
   })
 
   describe('custom refs', () => {
-    let spy!: jest.SpyInstance
+    let spy!: Mock
     function useCustomRef() {
       let value = 0
 
       return customRef((track, trigger) => {
-        spy = jest.fn(function (newValue: number) {
+        spy = vi.fn(function (newValue: number) {
           value = newValue
           trigger()
         })
@@ -371,6 +361,34 @@ describe('State', () => {
         state.myCustom++
       })
       expect(main.myCustom).toBe(1)
+      expect(spy).toHaveBeenCalledTimes(4)
+    })
+
+    // TODO: should warn of nested skipHydrate() calls
+    it.skip('hydrates custom nested refs setup', async () => {
+      const pinia = createPinia()
+      pinia.state.value.main = { a: { myCustom: 24 } }
+
+      setActivePinia(pinia)
+
+      const useMainOptions = defineStore('main', () => ({
+        a: ref({
+          myCustom: skipHydrate(useCustomRef()),
+        }),
+      }))
+
+      const main = useMainOptions()
+
+      // 0 because it skipped hydration
+      expect(main.a.myCustom).toBe(0)
+      expect(spy).toHaveBeenCalledTimes(0)
+      main.a.myCustom++
+      main.$state.a.myCustom++
+      main.$patch({ a: { myCustom: 0 } })
+      main.$patch((state) => {
+        state.a.myCustom++
+      })
+      expect(main.a.myCustom).toBe(1)
       expect(spy).toHaveBeenCalledTimes(4)
     })
   })

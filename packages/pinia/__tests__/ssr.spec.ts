@@ -1,6 +1,7 @@
 /**
- * @jest-environment node
+ * @vitest-environment node
  */
+import { describe, it, expect } from 'vitest'
 import { createPinia, defineStore } from '../src'
 import { Component, createSSRApp, inject, ref, computed, customRef } from 'vue'
 import { renderToString, ssrInterpolate } from '@vue/server-renderer'
@@ -142,6 +143,13 @@ describe('SSR', () => {
         }
       ]</div>"
     `)
+  })
+
+  it('accepts a store with no state', () => {
+    const pinia = createPinia()
+    pinia.state.value.a = { start: 'start' }
+    const store = defineStore('a', {})(pinia)
+    expect(store.$state).toEqual({ start: 'start' })
   })
 
   describe('Setup Store', () => {

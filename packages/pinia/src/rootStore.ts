@@ -122,7 +122,7 @@ export interface PiniaPluginContext<
   store: Store<Id, S, G, A>
 
   /**
-   * Current store being extended.
+   * Initial options defining the store when calling `defineStore()`.
    */
   options: DefineStoreOptionsInPlugin<Id, S, G, A>
 }

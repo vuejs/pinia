@@ -16,7 +16,7 @@ Given a store defined with:
 ```js
 const useStore({
   id: 'main',
-  state: () => ({ counter: 0 })
+  state: () => ({ count: 0 })
 })
 ```
 
@@ -25,8 +25,8 @@ Do
 ```diff
  const store = useStore()
 
--store.state.counter++
-+store.counter.++
+-store.state.count++
++store.count.++
 ```
 
 You can still access the whole store state with `$state` when needed:
@@ -42,8 +42,8 @@ All store properties (`id`, `patch`, `reset`, etc) are now prefixed with `$` to 
 
 ```diff
  const store = useStore()
--store.patch({ counter: 0 })
-+store.$patch({ counter: 0 })
+-store.patch({ count: 0 })
++store.$patch({ count: 0 })
 
 -store.reset()
 +store.$reset()

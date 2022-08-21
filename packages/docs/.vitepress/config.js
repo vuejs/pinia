@@ -26,9 +26,12 @@ const productionHead = [
  * @type {import('vitepress').UserConfig}
  */
 module.exports = {
-  title: 'Pinia',
-  lang: 'en-US',
-  description: 'The Vue Store that you will enjoy using',
+  markdown: {
+    attrs: {
+      leftDelimiter: '%{',
+      rightDelimiter: '}%',
+    },
+  },
   locales: {
     '/': {
       title: 'Pinia',
@@ -188,78 +191,98 @@ module.exports = {
           },
         ],
 
-        sidebar: [
-          {
-            text: 'Introduction',
-            children: [
-              {
-                text: 'What is Pinia?',
-                link: '/introduction.html',
-              },
-              {
-                text: 'Getting Started',
-                link: '/getting-started.html',
-              },
-            ],
-          },
-          {
-            text: 'Core Concepts',
-            children: [
-              { text: 'Defining a Store', link: '/core-concepts/' },
-              { text: 'State', link: '/core-concepts/state.html' },
-              { text: 'Getters', link: '/core-concepts/getters.html' },
-              { text: 'Actions', link: '/core-concepts/actions.html' },
-              { text: 'Plugins', link: '/core-concepts/plugins.html' },
-              {
-                text: 'Stores outside of components',
-                link: '/core-concepts/outside-component-usage.html',
-              },
-            ],
-          },
-          {
-            text: 'Server-Side Rendering (SSR)',
-            children: [
-              {
-                text: 'Vue and Vite',
-                link: '/ssr/',
-              },
-              {
-                text: 'Nuxt.js',
-                link: '/ssr/nuxt.html',
-              },
-            ],
-          },
-          {
-            text: 'Cookbook',
-            link: '/cookbook/',
-            children: [
-              {
-                text: 'Migration from Vuex ≤4',
-                link: '/cookbook/migration-vuex.html',
-              },
-              {
-                text: 'Hot Module Replacement',
-                link: '/cookbook/hot-module-replacement.html',
-              },
-              {
-                text: 'Testing',
-                link: '/cookbook/testing.html',
-              },
-              {
-                text: 'Usage without setup()',
-                link: '/cookbook/options-api.html',
-              },
-              {
-                text: 'Composing Stores',
-                link: '/cookbook/composing-stores.html',
-              },
-              {
-                text: 'Migration from v0/v1 to v2',
-                link: '/cookbook/migration-v1-v2.html',
-              },
-            ],
-          },
-        ],
+        sidebar: {
+          '/api/': [
+            {
+              text: 'packages',
+              children: [
+                { text: 'pinia', link: '/api/modules/pinia.html' },
+                { text: '@pinia/nuxt', link: '/api/modules/pinia_nuxt.html' },
+                {
+                  text: '@pinia/testing',
+                  link: '/api/modules/pinia_testing.html',
+                },
+              ],
+            },
+          ],
+          // catch-all fallback
+          '/': [
+            {
+              text: 'Introduction',
+              children: [
+                {
+                  text: 'What is Pinia?',
+                  link: '/introduction.html',
+                },
+                {
+                  text: 'Getting Started',
+                  link: '/getting-started.html',
+                },
+              ],
+            },
+            {
+              text: 'Core Concepts',
+              children: [
+                { text: 'Defining a Store', link: '/core-concepts/' },
+                { text: 'State', link: '/core-concepts/state.html' },
+                { text: 'Getters', link: '/core-concepts/getters.html' },
+                { text: 'Actions', link: '/core-concepts/actions.html' },
+                { text: 'Plugins', link: '/core-concepts/plugins.html' },
+                {
+                  text: 'Stores outside of components',
+                  link: '/core-concepts/outside-component-usage.html',
+                },
+              ],
+            },
+            {
+              text: 'Server-Side Rendering (SSR)',
+              children: [
+                {
+                  text: 'Vue and Vite',
+                  link: '/ssr/',
+                },
+                {
+                  text: 'Nuxt.js',
+                  link: '/ssr/nuxt.html',
+                },
+              ],
+            },
+            {
+              text: 'Cookbook',
+              link: '/cookbook/',
+              children: [
+                {
+                  text: 'Migration from Vuex ≤4',
+                  link: '/cookbook/migration-vuex.html',
+                },
+                {
+                  text: 'Hot Module Replacement',
+                  link: '/cookbook/hot-module-replacement.html',
+                },
+                {
+                  text: 'Testing',
+                  link: '/cookbook/testing.html',
+                },
+                {
+                  text: 'Usage without setup()',
+                  link: '/cookbook/options-api.html',
+                },
+                {
+                  text: 'Composing Stores',
+                  link: '/cookbook/composing-stores.html',
+                },
+                {
+                  text: 'Migration from v0/v1 to v2',
+                  link: '/cookbook/migration-v1-v2.html',
+                },
+                {
+                  text: 'Dealing with composables',
+                  link: '/cookbook/composables.html',
+                },
+              ],
+            },
+          ],
+        },
       },
       '/zh/': {
         label: '简体中文',
@@ -295,78 +318,97 @@ module.exports = {
           },
         ],
 
-        sidebar: [
-          {
-            text: '介绍',
-            children: [
-              {
-                text: 'Pinia 是什么？',
-                link: '/zh/introduction.html',
-              },
-              {
-                text: '开始',
-                link: '/zh/getting-started.html',
-              },
-            ],
-          },
-          {
-            text: '核心概念',
-            children: [
-              { text: '定义一个 Store', link: '/zh/core-concepts/' },
-              { text: 'State', link: '/zh/core-concepts/state.html' },
-              { text: 'Getters', link: '/zh/core-concepts/getters.html' },
-              { text: 'Actions', link: '/zh/core-concepts/actions.html' },
-              { text: '插件', link: '/zh/core-concepts/plugins.html' },
-              {
-                text: '组件外的 Stores',
-                link: '/zh/core-concepts/outside-component-usage.html',
-              },
-            ],
-          },
-          {
-            text: '服务端渲染 (SSR)',
-            children: [
-              {
-                text: 'Vue 与 Vite',
-                link: '/zh/ssr/',
-              },
-              {
-                text: 'Nuxt.js',
-                link: '/zh/ssr/nuxt.html',
-              },
-            ],
-          },
-          {
-            text: '手册',
-            link: '/zh/cookbook/',
-            children: [
-              {
-                text: '从 Vuex ≤4 迁移',
-                link: '/zh/cookbook/migration-vuex.html',
-              },
-              {
-                text: '热更新',
-                link: '/zh/cookbook/hot-module-replacement.html',
-              },
-              {
-                text: '测试',
-                link: '/zh/cookbook/testing.html',
-              },
-              {
-                text: '不使用 setup() 的用法',
-                link: '/zh/cookbook/options-api.html',
-              },
-              {
-                text: '组合式 Stores',
-                link: '/zh/cookbook/composing-stores.html',
-              },
-              {
-                text: '从 v0/v1 迁移至 v2',
-                link: '/zh/cookbook/migration-v1-v2.html',
-              },
-            ],
-          },
-        ],
+        sidebar: {
+          '/zh/api/': [
+            {
+              text: 'packages',
+              children: [
+                { text: 'pinia', link: '/api/modules/pinia.html' },
+                { text: '@pinia/nuxt', link: '/api/modules/pinia_nuxt.html' },
+                {
+                  text: '@pinia/testing',
+                  link: '/api/modules/pinia_testing.html',
+                },
+              ],
+            },
+          ],
+          '/zh/': [
+            {
+              text: '介绍',
+              children: [
+                {
+                  text: 'Pinia 是什么？',
+                  link: '/zh/introduction.html',
+                },
+                {
+                  text: '开始',
+                  link: '/zh/getting-started.html',
+                },
+              ],
+            },
+            {
+              text: '核心概念',
+              children: [
+                { text: '定义一个 Store', link: '/zh/core-concepts/' },
+                { text: 'State', link: '/zh/core-concepts/state.html' },
+                { text: 'Getters', link: '/zh/core-concepts/getters.html' },
+                { text: 'Actions', link: '/zh/core-concepts/actions.html' },
+                { text: '插件', link: '/zh/core-concepts/plugins.html' },
+                {
+                  text: '组件外的 Stores',
+                  link: '/zh/core-concepts/outside-component-usage.html',
+                },
+              ],
+            },
+            {
+              text: '服务端渲染 (SSR)',
+              children: [
+                {
+                  text: 'Vue 与 Vite',
+                  link: '/zh/ssr/',
+                },
+                {
+                  text: 'Nuxt.js',
+                  link: '/zh/ssr/nuxt.html',
+                },
+              ],
+            },
+            {
+              text: '手册',
+              link: '/zh/cookbook/',
+              children: [
+                {
+                  text: '从 Vuex ≤4 迁移',
+                  link: '/zh/cookbook/migration-vuex.html',
+                },
+                {
+                  text: '热更新',
+                  link: '/zh/cookbook/hot-module-replacement.html',
+                },
+                {
+                  text: '测试',
+                  link: '/zh/cookbook/testing.html',
+                },
+                {
+                  text: '不使用 setup() 的用法',
+                  link: '/zh/cookbook/options-api.html',
+                },
+                {
+                  text: '组合式 Stores',
+                  link: '/zh/cookbook/composing-stores.html',
+                },
+                {
+                  text: '从 v0/v1 迁移至 v2',
+                  link: '/zh/cookbook/migration-v1-v2.html',
+                },
+                {
+                  text: 'Dealing with composables',
+                  link: '/zh/cookbook/composables.html',
+                },
+              ],
+            },
+          ],
+        },
       },
     },
   },

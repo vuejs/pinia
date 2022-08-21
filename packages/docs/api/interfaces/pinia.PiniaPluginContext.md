@@ -18,8 +18,8 @@ Context argument passed to Pinia plugins.
 | :------ | :------ |
 | `Id` | extends `string` = `string` |
 | `S` | extends [`StateTree`](../modules/pinia.md#statetree) = [`StateTree`](../modules/pinia.md#statetree) |
-| `G` | `_GettersTree`<`S`\> |
-| `A` | `_ActionsTree` |
+| `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
+| `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
 
 ## Properties
 
@@ -29,21 +29,13 @@ Context argument passed to Pinia plugins.
 
 Current app created with `Vue.createApp()`.
 
-#### Defined in
-
-[pinia/src/rootStore.ts:117](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L117)
-
 ___
 
 ### options
 
 • **options**: [`DefineStoreOptionsInPlugin`](pinia.DefineStoreOptionsInPlugin.md)<`Id`, `S`, `G`, `A`\>
 
-Current store being extended.
-
-#### Defined in
-
-[pinia/src/rootStore.ts:127](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L127)
+Initial options defining the store when calling `defineStore()`.
 
 ___
 
@@ -53,10 +45,6 @@ ___
 
 pinia instance.
 
-#### Defined in
-
-[pinia/src/rootStore.ts:112](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L112)
-
 ___
 
 ### store
@@ -64,7 +52,3 @@ ___
 • **store**: [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
 
 Current store being extended.
-
-#### Defined in
-
-[pinia/src/rootStore.ts:122](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L122)

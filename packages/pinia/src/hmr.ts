@@ -71,6 +71,10 @@ export function patchObject(
  * @param hot - `import.meta.hot`
  */
 export function acceptHMRUpdate(initialUseStore: StoreDefinition, hot: any) {
+  // strip as much as possible from iife.prod
+  if (!__DEV__) {
+    return () => {}
+  }
   return (newModule: any) => {
     const pinia: Pinia | undefined = hot.data.pinia || initialUseStore._pinia
 

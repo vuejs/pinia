@@ -32,6 +32,12 @@ Properties of a store.
 
 Unique identifier of the store
 
-#### Defined in
+___
 
-[pinia/src/types.ts:265](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L265)
+### \_customProperties
+
+• **\_customProperties**: `Set`<`string`\>
+
+Used by devtools plugin to retrieve properties added with plugins. Removed
+in production. Can be used by the user to add property keys of the store
+that should be displayed in devtools.

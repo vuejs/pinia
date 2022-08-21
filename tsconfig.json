@@ -4,7 +4,7 @@
     "packages/*/src/**/*.ts",
     "packages/*/__tests__/**/*.ts"
   ],
-  "exclude": ["packages/test-vue-2", "packages/pinia/__tests__/test-utils.ts"],
+  "exclude": ["packages/test-vue-2", "packages/pinia/__tests__/test-utils.ts", "packages/pinia/test-dts", "packages/nuxt"],
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
@@ -36,6 +36,6 @@
     "removeComments": false,
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
-    "types": ["jest", "node", "vite/client"]
+    "types": ["vitest", "node", "vite/client"]
   }
 }

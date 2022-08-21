@@ -1,10 +1,22 @@
-import { App, createApp } from 'vue-demi'
+import {
+  App,
+  createApp,
+  customRef,
+  isReactive,
+  isRef,
+  isVue2,
+  set,
+  toRaw,
+} from 'vue-demi'
+import type { ComputedRef, WritableComputedRef } from 'vue-demi'
 import {
   Pinia,
   PiniaPlugin,
   setActivePinia,
   createPinia,
   StateTree,
+  _DeepPartial,
+  PiniaPluginContext,
 } from 'pinia'
 
 export interface TestingOptions {
@@ -53,7 +65,7 @@ export interface TestingOptions {
 
 /**
  * Pinia instance specifically designed for testing. Extends a regular
- * {@link Pinia} instance with test specific properties.
+ * `Pinia` instance with test specific properties.
  */
 export interface TestingPinia extends Pinia {
   /** App used by Pinia */
@@ -87,24 +99,33 @@ export function createTestingPinia({
 }: TestingOptions = {}): TestingPinia {
   const pinia = createPinia()
 
-  pinia.use(({ store }) => {
+  // allow adding initial state
+  pinia._p.push(({ store }) => {
     if (initialState[store.$id]) {
-      store.$patch(initialState[store.$id])
+      mergeReactiveObjects(store.$state, initialState[store.$id])
     }
   })
 
-  plugins.forEach((plugin) => pinia.use(plugin))
+  // bypass waiting for the app to be installed to ensure the action stubbing happens last
+  plugins.forEach((plugin) => pinia._p.push(plugin))
+
+  // allow computed to be manually overridden
+  pinia._p.push(WritableComputed)
 
   const createSpy =
     _createSpy ||
-    (typeof jest !== 'undefined' && jest.fn) ||
+    // @ts-ignore
+    (typeof jest !== 'undefined' && (jest.fn as typeof _createSpy)) ||
     (typeof vi !== 'undefined' && vi.fn)
   /* istanbul ignore if */
   if (!createSpy) {
-    throw new Error('You must configure the `createSpy` option.')
+    throw new Error(
+      '[@pinia/testing]: You must configure the `createSpy` option.'
+    )
   }
 
-  pinia.use(({ store, options }) => {
+  // stub actions
+  pinia._p.push(({ store, options }) => {
     Object.keys(options.actions).forEach((action) => {
       store[action] = stubActions ? createSpy() : createSpy(store[action])
     })
@@ -130,4 +151,75 @@ export function createTestingPinia({
   })
 
   return pinia as TestingPinia
+}
+
+function mergeReactiveObjects<T extends StateTree>(
+  target: T,
+  patchToApply: _DeepPartial<T>
+): T {
+  // no need to go through symbols because they cannot be serialized anyway
+  for (const key in patchToApply) {
+    if (!patchToApply.hasOwnProperty(key)) continue
+    const subPatch = patchToApply[key]
+    const targetValue = target[key]
+    if (
+      isPlainObject(targetValue) &&
+      isPlainObject(subPatch) &&
+      target.hasOwnProperty(key) &&
+      !isRef(subPatch) &&
+      !isReactive(subPatch)
+    ) {
+      target[key] = mergeReactiveObjects(targetValue, subPatch)
+    } else {
+      if (isVue2) {
+        set(target, key, subPatch)
+      } else {
+        // @ts-expect-error: subPatch is a valid value
+        target[key] = subPatch
+      }
+    }
+  }
+
+  return target
+}
+
+function isPlainObject<S extends StateTree>(value: S | unknown): value is S
+function isPlainObject(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  o: any
+): o is StateTree {
+  return (
+    o &&
+    typeof o === 'object' &&
+    Object.prototype.toString.call(o) === '[object Object]' &&
+    typeof o.toJSON !== 'function'
+  )
+}
+
+function isComputed<T>(
+  v: ComputedRef<T> | WritableComputedRef<T> | unknown
+): v is ComputedRef<T> | WritableComputedRef<T> {
+  return !!v && isRef(v) && 'effect' in v
+}
+
+function WritableComputed({ store }: PiniaPluginContext) {
+  const rawStore = toRaw(store)
+  for (const key in rawStore) {
+    const value = rawStore[key]
+    if (isComputed(value)) {
+      rawStore[key] = customRef((track, trigger) => {
+        let internalValue: any
+        return {
+          get: () => {
+            track()
+            return internalValue !== undefined ? internalValue : value.value
+          },
+          set: (newValue) => {
+            internalValue = newValue
+            trigger()
+          },
+        }
+      })
+    }
+  }
 }

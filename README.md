@@ -22,7 +22,7 @@
 - 🏗 Modular by design
 - 📦 Extremely light
 
-Pinia works both for Vue 2.x and Vue 3.x. It requires Vue 2 with the latest `@vue/composition-api` or Vue `^3.2.0-0`.
+Pinia works with both Vue 2 and Vue 3.
 
 Pinia is the most similar English pronunciation of the word _pineapple_ in Spanish: _piña_. A pineapple is in reality a group of individual flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
 
@@ -37,57 +37,60 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
 
 <!--sponsors start-->
 
-<h3 align="center">Platinum Sponsors</h3>
-  <p align="center">
-    <a href="https://www.finclip.com/#/home?from=vue" target="_blank" rel="noopener noreferrer">
-      <picture>
-        <source srcset="https://posva-sponsors.pages.dev/logos/fincliplogo_white_svg.svg" media="(prefers-color-scheme: dark)" height="96px" alt="Finogeeks" />
-        <img src="https://posva-sponsors.pages.dev/logos/fincliplogo_black_svg.svg" height="96px" alt="Finogeeks" />
-      </picture>
-    </a>
-  </p>
-
 <h4 align="center">Gold Sponsors</h4>
-  <p align="center">
+<p align="center">
     <a href="https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor" target="_blank" rel="noopener noreferrer">
-      <picture>
-        <source srcset="https://posva-sponsors.pages.dev/logos/vuejobs.svg" media="(prefers-color-scheme: dark)" height="72px" alt="VueJobs" />
-        <img src="https://posva-sponsors.pages.dev/logos/vuejobs.svg" height="72px" alt="VueJobs" />
-      </picture>
-    </a>
-  </p>
+    <picture>
+      <source srcset="https://posva-sponsors.pages.dev/logos/vuejobs.svg" media="(prefers-color-scheme: dark)" height="72px" alt="VueJobs" />
+      <img src="https://posva-sponsors.pages.dev/logos/vuejobs.svg" height="72px" alt="VueJobs" />
+    </picture>
+  </a>
+</p>
 
 <h4 align="center">Silver Sponsors</h4>
-  <p align="center">
+<p align="center">
     <a href="https://www.vuemastery.com/" target="_blank" rel="noopener noreferrer">
-      <picture>
-        <source srcset="https://posva-sponsors.pages.dev/logos/vuemastery-dark.png" media="(prefers-color-scheme: dark)" height="42px" alt="VueMastery" />
-        <img src="https://posva-sponsors.pages.dev/logos/vuemastery-light.svg" height="42px" alt="VueMastery" />
-      </picture>
-    </a>
-    <a href="https://birdeatsbug.com/?utm_source=vuerouter&utm_medium=sponsor&utm_campaign=silver" target="_blank" rel="noopener noreferrer">
-      <picture>
-        <source srcset="https://posva-sponsors.pages.dev/logos/birdeatsbug-light.svg" media="(prefers-color-scheme: dark)" height="42px" alt="Bird Eats Bug" />
-        <img src="https://posva-sponsors.pages.dev/logos/birdeatsbug-dark.svg" height="42px" alt="Bird Eats Bug" />
-      </picture>
-    </a>
-  </p>
+    <picture>
+      <source srcset="https://posva-sponsors.pages.dev/logos/vuemastery-dark.png" media="(prefers-color-scheme: dark)" height="42px" alt="VueMastery" />
+      <img src="https://posva-sponsors.pages.dev/logos/vuemastery-light.svg" height="42px" alt="VueMastery" />
+    </picture>
+  </a>
+    <a href="https://www.prefect.io/" target="_blank" rel="noopener noreferrer">
+    <picture>
+      <source srcset="https://posva-sponsors.pages.dev/logos/prefectlogo-dark.svg" media="(prefers-color-scheme: dark)" height="42px" alt="Prefect" />
+      <img src="https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg" height="42px" alt="Prefect" />
+    </picture>
+  </a>
+</p>
 
 <h4 align="center">Bronze Sponsors</h4>
-  <p align="center">
+<p align="center">
+    <a href="https://stormier.ninja" target="_blank" rel="noopener noreferrer">
+    <picture>
+      <source srcset="https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4" media="(prefers-color-scheme: dark)" height="26px" alt="Stanislas OrmiÃ¨res" />
+      <img src="https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4" height="26px" alt="Stanislas OrmiÃ¨res" />
+    </picture>
+  </a>
+    <a href="www.vuejs.de" target="_blank" rel="noopener noreferrer">
+    <picture>
+      <source srcset="https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4" media="(prefers-color-scheme: dark)" height="26px" alt="Antony Konstantinidis" />
+      <img src="https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4" height="26px" alt="Antony Konstantinidis" />
+    </picture>
+  </a>
     <a href="https://storyblok.com" target="_blank" rel="noopener noreferrer">
-      <picture>
-        <source srcset="https://posva-sponsors.pages.dev/logos/storyblok.png" media="(prefers-color-scheme: dark)" height="26px" alt="Storyblok" />
-        <img src="https://posva-sponsors.pages.dev/logos/storyblok.png" height="26px" alt="Storyblok" />
-      </picture>
-    </a>
+    <picture>
+      <source srcset="https://posva-sponsors.pages.dev/logos/storyblok.png" media="(prefers-color-scheme: dark)" height="26px" alt="Storyblok" />
+      <img src="https://posva-sponsors.pages.dev/logos/storyblok.png" height="26px" alt="Storyblok" />
+    </picture>
+  </a>
     <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer">
-      <picture>
-        <source srcset="https://posva-sponsors.pages.dev/logos/nuxt-dark.svg" media="(prefers-color-scheme: dark)" height="26px" alt="NuxtJS" />
-        <img src="https://posva-sponsors.pages.dev/logos/nuxt-light.svg" height="26px" alt="NuxtJS" />
-      </picture>
-    </a>
-  </p>
+    <picture>
+      <source srcset="https://posva-sponsors.pages.dev/logos/nuxt-dark.svg" media="(prefers-color-scheme: dark)" height="26px" alt="NuxtJS" />
+      <img src="https://posva-sponsors.pages.dev/logos/nuxt-light.svg" height="26px" alt="NuxtJS" />
+    </picture>
+  </a>
+</p>
+
 <!--sponsors end-->
 
 ---
@@ -119,7 +122,7 @@ yarn add pinia
 npm install pinia
 ```
 
-If you are using Vue 2, make sure to install latest `@vue/composition-api`:
+If you are using Vue <2.7, make sure to install latest `@vue/composition-api`:
 
 ```bash
 npm install pinia @vue/composition-api
@@ -155,10 +158,10 @@ export const useMainStore = defineStore('main', {
   // optional getters
   getters: {
     // getters receive the state as first parameter
-    doubleCount: (state) => state.counter * 2,
+    doubleCounter: (state) => state.counter * 2,
     // use getters in other getters
-    doubleCountPlusOne(): number {
-      return this.doubleCount + 1
+    doubleCounterPlusOne(): number {
+      return this.doubleCounter + 1
     },
   },
   // optional actions
@@ -182,14 +185,14 @@ export default defineComponent({
     const main = useMainStore()
 
     // extract specific store properties
-    const { counter, doubleCount } = storeToRefs(main)
+    const { counter, doubleCounter } = storeToRefs(main)
 
     return {
       // gives access to the whole store in the template
       main,
       // gives access only to specific state or getter
       counter,
-      doubleCount,
+      doubleCounter,
     }
   },
 })
@@ -202,4 +205,3 @@ To learn more about Pinia, check [its documentation](https://pinia.vuejs.org).
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
-

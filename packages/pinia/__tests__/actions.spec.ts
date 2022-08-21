@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia } from '../src'
 
 describe('Actions', () => {
@@ -142,11 +143,6 @@ describe('Actions', () => {
     expect(() => store.throws()).toThrowError('fail')
   })
 
-  it('throws errors', () => {
-    const store = useStore()
-    expect(() => store.throws()).toThrowError('fail')
-  })
-
   it('throws async errors', async () => {
     const store = useStore()
     expect.assertions(1)
@@ -156,7 +152,7 @@ describe('Actions', () => {
   it('can catch async errors', async () => {
     const store = useStore()
     expect.assertions(3)
-    const spy = jest.fn()
+    const spy = vi.fn()
     await expect(store.rejects().catch(spy)).resolves.toBe(undefined)
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('fail')
@@ -175,7 +171,7 @@ describe('Actions', () => {
       {
         $id: store.$id,
         simple,
-        // otherwise it would faial
+        // otherwise it would fail
         toggle() {},
       }.simple()
     ).toBe('simple')

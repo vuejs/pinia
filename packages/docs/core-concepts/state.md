@@ -15,7 +15,7 @@ const useStore = defineStore('storeId', {
   state: () => {
     return {
       // all these properties will have their type inferred automatically
-      counter: 0,
+      count: 0,
       name: 'Eduardo',
       isAdmin: true,
     }
@@ -24,8 +24,53 @@ const useStore = defineStore('storeId', {
 ```
 
 :::tip
-If you are using Vue 2, the data you create in `state` follows the same rules as the `data` in a Vue instance, ie the state object must be plain and you need to call `Vue.set()` when **adding new** properties to it. **See also: [Vue#data](https://vuejs.org/v2/api/#data)**.
+If you are using Vue 2, the data you create in `state` follows the same rules as the `data` in a Vue instance, i.e. the state object must be plain and you need to call `Vue.set()` when **adding new** properties to it. **See also: [Vue#data](https://v2.vuejs.org/v2/api/#data)**.
 :::
+
+## TypeScript
+
+You don't need to do much in order to make your state compatible with TS. Pinia will infer the type of your state automatically but there are a few cases where you should give it a hand with some casting:
+
+```ts
+const useStore = defineStore('storeId', {
+  state: () => {
+    return {
+      // for initially empty lists
+      userList: [] as UserInfo[],
+      // for data that is not yet loaded
+      user: null as UserInfo | null,
+    }
+  },
+})
+
+interface UserInfo {
+  name: string
+  age: number
+}
+```
+
+If you prefer, you can define the state with an interface and type the return value of `state()`:
+
+```ts
+interface State {
+  userList: UserInfo[]
+  user: UserInfo | null
+}
+
+const useStore = defineStore('storeId', {
+  state: (): State => {
+    return {
+      userList: [],
+      user: null,
+    }
+  },
+})
+
+interface UserInfo {
+  name: string
+  age: number
+}
+```
 
 ## Accessing the `state`
 
@@ -34,7 +79,7 @@ By default, you can directly read and write to the state by accessing it through
 ```js
 const store = useStore()
 
-store.counter++
+store.count++
 ```
 
 ## Resetting the state
@@ -58,59 +103,36 @@ For the following examples, you can assume the following store was created:
 
 ```js
 // Example File Path:
-// ./src/stores/counterStore.js
+// ./src/stores/counter.js
 
-import { defineStore } from 'pinia',
+import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counterStore', {
+const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0
-  })
+    count: 0,
+  }),
 })
 ```
-
-### With `setup()`
-
-While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
-
-```js
-import { useCounterStore } from '../stores/counterStore'
-
-export default {
-  setup() {
-    const counterStore = useCounterStore()
-
-    return { counterStore }
-  },
-  computed: {
-    tripleCounter() {
-      return this.counterStore.counter * 3
-    },
-  },
-}
-```
-
-### Without `setup()`
 
 If you are not using the Composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
 
 ```js
 import { mapState } from 'pinia'
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   computed: {
-    // gives access to this.counter inside the component
-    // same as reading from store.counter
-    ...mapState(useCounterStore, ['counter'])
+    // gives access to this.count inside the component
+    // same as reading from store.count
+    ...mapState(useCounterStore, ['count'])
     // same as above but registers it as this.myOwnName
     ...mapState(useCounterStore, {
-      myOwnName: 'counter',
+      myOwnName: 'count',
       // you can also write a function that gets access to the store
-      double: store => store.counter * 2,
+      double: store => store.count * 2,
       // it can have access to `this` but it won't be typed correctly...
       magicValue(store) {
-        return store.someGetter + this.counter + this.double
+        return store.someGetter + this.count + this.double
       },
     }),
   },
@@ -123,17 +145,17 @@ If you want to be able to write to these state properties (e.g. if you have a fo
 
 ```js
 import { mapWritableState } from 'pinia'
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   computed: {
-    // gives access to this.counter inside the component and allows setting it
-    // this.counter++
-    // same as reading from store.counter
-    ...mapWritableState(useCounterStore, ['counter'])
+    // gives access to this.count inside the component and allows setting it
+    // this.count++
+    // same as reading from store.count
+    ...mapWritableState(useCounterStore, ['count'])
     // same as above but registers it as this.myOwnName
     ...mapWritableState(useCounterStore, {
-      myOwnName: 'counter',
+      myOwnName: 'count',
     }),
   },
 }
@@ -147,12 +169,13 @@ You don't need `mapWritableState()` for collections like arrays unless you are r
 
 <!-- TODO: disable this with `strictMode` -->
 
-Apart from directly mutating the store with `store.counter++`, you can also call the `$patch` method. It allows you to apply multiple changes at the same time with a partial `state` object:
+Apart from directly mutating the store with `store.count++`, you can also call the `$patch` method. It allows you to apply multiple changes at the same time with a partial `state` object:
 
 ```js
 store.$patch({
-  counter: store.counter + 1,
-  name: 'Abalam',
+  count: store.count + 1,
+  age: 120,
+  name: 'DIO',
 })
 ```
 
@@ -167,17 +190,20 @@ cartStore.$patch((state) => {
 
 <!-- TODO: disable this with `strictMode`, `{ noDirectPatch: true }` -->
 
-The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note **both, direct changes to `state` and `$patch()` appear in the devtools** and can be time travelled (not yet in Vue 3).
+The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note **both, direct changes to `state` and `$patch()` appear in the devtools** and can be time traveled (not yet in Vue 3).
 
 ## Replacing the `state`
 
-You can replace the whole state of a store by setting its `$state` property to a new object:
+You **cannot exactly replace** the state of a store as that would break reactivity. You can however _patch it_:
 
 ```js
-store.$state = { counter: 666, name: 'Paimon' }
+// this doesn't actually replace `$state`
+store.$state = { count: 24 }
+// it internally calls `$patch()`:
+store.$patch({ count: 24 })
 ```
 
-You can also replace the whole state of your application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).
+You can also **set the initial state** of your whole application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).
 
 ```js
 pinia.state.value = {}

@@ -10,4 +10,4 @@
 # - changes in netlify conf
 # - a commit message that starts with docs like docs: ... or docs(nuxt): ...
 
-git diff --quiet 'HEAD^' HEAD ./packages/docs/ && ! git diff 'HEAD^' HEAD ./yarn.lock | grep --quiet vite && git diff --quiet 'HEAD^' HEAD netlify.toml && ! git log -1 --pretty=%B | grep '^docs'
+git diff --quiet 'HEAD^' HEAD ./packages/docs/ && ! git diff 'HEAD^' HEAD ./pnpm-lock.yaml | grep --quiet vitepress && git diff --quiet 'HEAD^' HEAD netlify.toml && ! git log -1 --pretty=%B | grep '^docs'

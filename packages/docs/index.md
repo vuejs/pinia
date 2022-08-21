@@ -23,8 +23,10 @@ features:
 footer: MIT Licensed | Copyright © 2019-present Eduardo San Martin Morote
 ---
 
-<ThemeToggle/>
-<!-- <TestStore/> -->
+<ClientOnly>
+  <ThemeToggle/>
+  <!-- <TestStore/> -->
+</ClientOnly>
 
 <HomeSponsors />
 

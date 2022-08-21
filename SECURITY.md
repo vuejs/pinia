@@ -5,13 +5,13 @@
 This is the list of versions of Pinia which are
 currently being supported with security updates.
 
-| Version         | Supported          |
-| --------------- | ------------------ |
-| 2.x.x           | :white_check_mark: |
-| 2.0.0-rc.x      | :white_check_mark: |
-| 0.5.x           | :white_check_mark: |
-| < 0.5.0         | :x:                |
-| <= 2.0.0-beta.x | :x:                |
+| Version            | Supported          |
+| ------------------ | ------------------ |
+| 2.0.x              | :white_check_mark: |
+| 2.0.0-rc.x         | :x:                |
+| 0.5.x              | :x:                |
+| &lt; 0.5.0         | :x:                |
+| &lt;= 2.0.0-beta.x | :x:                |
 
 ## Reporting a Vulnerability
 

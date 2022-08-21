@@ -37,15 +37,11 @@ Extracted object of actions. Added by useStore() when the store is built
 using the setup API, otherwise uses the one passed to `defineStore()`.
 Defaults to an empty object if no actions are defined.
 
-#### Defined in
-
-[pinia/src/types.ts:723](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L723)
-
 ___
 
 ### getters
 
-• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & `_StoreWithGetters`<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), `_GettersTree`<[`StateTree`](../modules/pinia.md#statetree)\>, `_ActionsTree`\>\> & `_GettersTree`<`S`\>
+• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
 
 Optional object of getters.
 
@@ -53,9 +49,26 @@ Optional object of getters.
 
 Omit.getters
 
-#### Defined in
+___
 
-[pinia/src/types.ts:647](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L647)
+### state
+
+• `Optional` **state**: () => `S`
+
+#### Type declaration
+
+▸ (): `S`
+
+Function to create a fresh state. **Must be an arrow function** to ensure
+correct typings!
+
+##### Returns
+
+`S`
+
+#### Inherited from
+
+Omit.state
 
 ## Methods
 
@@ -66,7 +79,8 @@ Omit.getters
 Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
 definition and copying the value from `pinia.state` isn't enough.
 
-**`example`**
+**`Example`**
+
 If in your `state`, you use any `customRef`s, any `computed`s, or any `ref`s that have a different value on
 Server and Client, you need to manually hydrate them. e.g., a custom ref that is stored in the local
 storage:
@@ -97,28 +111,3 @@ const useStore = defineStore('main', {
 #### Inherited from
 
 Omit.hydrate
-
-#### Defined in
-
-[pinia/src/types.ts:687](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L687)
-
-___
-
-### state
-
-▸ `Optional` **state**(): `S`
-
-Function to create a fresh state. **Must be an arrow function** to ensure
-correct typings!
-
-#### Returns
-
-`S`
-
-#### Inherited from
-
-Omit.state
-
-#### Defined in
-
-[pinia/src/types.ts:642](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L642)

@@ -1,5 +1,5 @@
 import { StoreGeneric, defineStore, expectType } from './'
-import { watch } from 'vue'
+import { UnwrapRef, watch } from 'vue'
 
 const useStore = defineStore({
   id: 'name',
@@ -79,6 +79,32 @@ defineStore({
     },
   },
 })
+
+interface Model {
+  id: number
+}
+
+// Define generic factory function
+export function init<User extends Model>(name = 'settings') {
+  return defineStore(name, {
+    state: () => {
+      return {
+        // Set one of the properties to the generic type
+        user: {} as User,
+      }
+    },
+    actions: {
+      // Add action which accepts argument with our generic type
+      set(u: UnwrapRef<User>) {
+        // See linter error when trying to assign arg value to the state
+        this.user = u
+      },
+    },
+  })
+}
+
+const s = init()()
+s.set({ id: 1 })
 
 // getters on not existing properties
 defineStore({

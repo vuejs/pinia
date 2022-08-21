@@ -4,6 +4,7 @@ import sponsors from '../components/sponsors.json'
 import './sponsors.css'
 import { darkStorageConfig } from '../theme/dark-theme'
 import { useDark } from '@vueuse/core'
+import Banner from '../components/Banner.vue'
 
 export const Layout = defineComponent({
   name: 'CustomLayout',
@@ -17,23 +18,27 @@ export const Layout = defineComponent({
         {},
         {
           'home-hero': () =>
-            h(
-              'div',
-              {
-                class: 'vue-school-homepage-link',
-              },
-              [
-                h(
-                  'a',
-                  {
-                    href: 'https://vueschool.io/lessons/introduction-to-pinia?friend=vuerouter&utm_source=pinia&utm_medium=link&utm_campaign=homepage',
-                    target: '_blank',
-                    rel: 'noopener',
-                  },
-                  [h('span', 'Watch Video Introduction')]
-                ),
-              ]
-            ),
+            h('div', {}, [
+              h(Banner),
+              h(
+                'div',
+                {
+                  class: 'vue-school-homepage-link',
+                },
+                [
+                  h(
+                    'a',
+                    {
+                      href: 'https://vueschool.io/lessons/introduction-to-pinia?friend=vuerouter&utm_source=pinia&utm_medium=link&utm_campaign=homepage',
+                      target: '_blank',
+                      rel: 'noopener',
+                    },
+                    [h('span', 'Watch Video Introduction')]
+                  ),
+                ]
+              ),
+            ]),
+          'page-top': () => h(Banner),
           'sidebar-top': () =>
             h('div', { class: 'sponsors sponsors-top' }, [
               h('span', 'Platinum Sponsors'),

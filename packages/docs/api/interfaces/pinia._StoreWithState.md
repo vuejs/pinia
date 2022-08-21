@@ -39,21 +39,27 @@ Unique identifier of the store
 
 [StoreProperties](pinia.StoreProperties.md).[$id](pinia.StoreProperties.md#$id)
 
-#### Defined in
-
-[pinia/src/types.ts:265](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L265)
-
 ___
 
 ### $state
 
-• **$state**: `UnwrapRef`<`S`\> & `PiniaCustomStateProperties`<`S`\>
+• **$state**: `UnwrapRef`<`S`\> & [`PiniaCustomStateProperties`](pinia.PiniaCustomStateProperties.md)<`S`\>
 
 State of the Store. Setting it will replace the whole state.
 
-#### Defined in
+___
 
-[pinia/src/types.ts:337](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L337)
+### \_customProperties
+
+• **\_customProperties**: `Set`<`string`\>
+
+Used by devtools plugin to retrieve properties added with plugins. Removed
+in production. Can be used by the user to add property keys of the store
+that should be displayed in devtools.
+
+#### Inherited from
+
+[StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#_customproperties)
 
 ## Methods
 
@@ -68,10 +74,6 @@ e.g. devtools plugin stops displaying disposed stores from devtools.
 #### Returns
 
 `void`
-
-#### Defined in
-
-[pinia/src/types.ts:425](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L425)
 
 ___
 
@@ -93,7 +95,7 @@ It also returns a function to remove the callback. Note than when calling
 `store.$onAction()` inside of a component, it will be automatically cleaned
 up when the component gets unmounted unless `detached` is set to true.
 
-**`example`**
+**`Example`**
 
 ```js
 store.$onAction(({ after, onError }) => {
@@ -139,7 +141,7 @@ It also returns a function to remove the callback. Note than when calling
 `store.$onAction()` inside of a component, it will be automatically cleaned
 up when the component gets unmounted unless `detached` is set to true.
 
-**`example`**
+**`Example`**
 
 ```js
 store.$onAction(({ after, onError }) => {
@@ -162,10 +164,6 @@ store.$onAction(({ after, onError }) => {
 
 function that removes the watcher
 
-#### Defined in
-
-[pinia/src/types.ts:415](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L415)
-
 ___
 
 ### $patch
@@ -178,15 +176,11 @@ Applies a state patch to current state. Allows passing nested values
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `partialState` | `_DeepPartial`<`UnwrapRef`<`S`\>\> | patch to apply to the state |
+| `partialState` | [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`UnwrapRef`<`S`\>\> | patch to apply to the state |
 
 #### Returns
 
 `void`
-
-#### Defined in
-
-[pinia/src/types.ts:344](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L344)
 
 ▸ **$patch**<`F`\>(`stateMutator`): `void`
 
@@ -210,10 +204,6 @@ to an array. The function passed to `$patch()` **must be synchronous**.
 
 `void`
 
-#### Defined in
-
-[pinia/src/types.ts:353](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L353)
-
 ___
 
 ### $reset
@@ -227,10 +217,6 @@ TODO: make this options only
 
 `void`
 
-#### Defined in
-
-[pinia/src/types.ts:362](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L362)
-
 ___
 
 ### $subscribe
@@ -238,7 +224,7 @@ ___
 ▸ **$subscribe**(`callback`, `options?`): () => `void`
 
 Setups a callback to be called whenever the state changes. It also returns a function to remove the callback. Note
-than when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
+that when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
 component gets unmounted unless `detached` is set to true.
 
 #### Parameters
@@ -257,7 +243,7 @@ function that removes the watcher
 ▸ (): `void`
 
 Setups a callback to be called whenever the state changes. It also returns a function to remove the callback. Note
-than when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
+that when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
 component gets unmounted unless `detached` is set to true.
 
 ##### Returns
@@ -265,7 +251,3 @@ component gets unmounted unless `detached` is set to true.
 `void`
 
 function that removes the watcher
-
-#### Defined in
-
-[pinia/src/types.ts:374](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L374)

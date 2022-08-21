@@ -11,7 +11,11 @@ sidebarDepth: 3
 [pinia](../modules/pinia.md).DefineSetupStoreOptions
 
 Options parameter of `defineStore()` for setup stores. Can be extended to
-augment stores with the plugin API. @see [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
+augment stores with the plugin API.
+
+**`See`**
+
+[DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
 ## Type parameters
 
@@ -37,7 +41,3 @@ augment stores with the plugin API. @see [DefineStoreOptionsBase](pinia.DefineSt
 Extracted actions. Added by useStore(). SHOULD NOT be added by the user when
 creating the store. Can be used in plugins to get the list of actions in a
 store defined with a setup function. Note this is always defined
-
-#### Defined in
-
-[pinia/src/types.ts:706](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L706)

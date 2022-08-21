@@ -1,3 +1,61 @@
+## [2.0.20](https://github.com/vuejs/pinia/compare/pinia@2.0.19...pinia@2.0.20) (2022-08-19)
+
+- **build**: support vue 2 devtools flag
+
+## [2.0.19](https://github.com/vuejs/pinia/compare/pinia@2.0.18...pinia@2.0.19) (2022-08-18)
+
+### Bug Fixes
+
+- **devtools:** use flag to include devtools ([4e92c36](https://github.com/vuejs/pinia/commit/4e92c360a4b4b8a39b2e3c284f31560120742b6f))
+
+## [2.0.18](https://github.com/vuejs/pinia/compare/pinia@2.0.17...pinia@2.0.18) (2022-08-10)
+
+### Bug Fixes
+
+- **ie:** completely skip devtools in dev for IE ([ca73db9](https://github.com/vuejs/pinia/commit/ca73db964b56205d43aa798e10d5c5bb5c4ea847)), closes [#1440](https://github.com/vuejs/pinia/issues/1440)
+
+## [2.0.17](https://github.com/vuejs/pinia/compare/pinia@2.0.16...pinia@2.0.17) (2022-07-25)
+
+### Bug Fixes
+
+- **devtools:** state formatting ([b01f5c2](https://github.com/vuejs/pinia/commit/b01f5c2a5cb62cfd3e0df9da5570925f3a6f077a)), closes [#1358](https://github.com/vuejs/pinia/issues/1358)
+- setupStore getter types ([#1430](https://github.com/vuejs/pinia/issues/1430)) ([#1444](https://github.com/vuejs/pinia/issues/1444)) ([6be93f2](https://github.com/vuejs/pinia/commit/6be93f2301a7711873f49c94999913947e3896b8))
+
+### Features
+
+- **devtools:** allow resetting fromp pinia inspector ([cee0e16](https://github.com/vuejs/pinia/commit/cee0e16e0ea343f97fa6b96f80ff32380637110b))
+
+## [2.0.16](https://github.com/vuejs/pinia/compare/pinia@2.0.15...pinia@2.0.16) (2022-07-12)
+
+### Bug Fixes
+
+- add missing require in exports ([96c0dbc](https://github.com/vuejs/pinia/commit/96c0dbc66ee166e6bd11be60c8486f239d83af40))
+
+## [2.0.15](https://github.com/vuejs/pinia/compare/pinia@2.0.14...pinia@2.0.15) (2022-07-11)
+
+### Features
+
+- warn when a getter conflicts with the state ([#1356](https://github.com/vuejs/pinia/issues/1356)) ([667b81d](https://github.com/vuejs/pinia/commit/667b81dfd7888bbae562bbd02c3670d4c664a8e2))
+
+## [2.0.14](https://github.com/vuejs/pinia/compare/pinia@2.0.13...pinia@2.0.14) (2022-05-05)
+
+### Bug Fixes
+
+- avoid multiple subscriptions with empty promises ([6c17168](https://github.com/vuejs/pinia/commit/6c17168b03307f257491dbd6c0962d5bfade02cc)), closes [#1129](https://github.com/vuejs/pinia/issues/1129)
+- correctly detect option stores ([11b92fd](https://github.com/vuejs/pinia/commit/11b92fd9e4b1d2402df79de9fc47c32c1b9ce726)), closes [#1272](https://github.com/vuejs/pinia/issues/1272)
+- **devtools:** remove in tests environment ([4aeb0a5](https://github.com/vuejs/pinia/commit/4aeb0a539f7389a628e6c32bb6849ce3cd50cc17))
+
+## [2.0.13](https://github.com/vuejs/pinia/compare/pinia@2.0.12...pinia@2.0.13) (2022-03-31)
+
+### Bug Fixes
+
+- avoid prototype pollution ([e4858f9](https://github.com/vuejs/pinia/commit/e4858f9d5f447ba6162ca9f2472608a8bac3eca7))
+- **vue2:** use toRefs in storeToRefs ([0f24ad2](https://github.com/vuejs/pinia/commit/0f24ad27f16bd473e20a8671cd24877d2603cbcf)), closes [#852](https://github.com/vuejs/pinia/issues/852)
+
+### Features
+
+- update devtools-api ([5334222](https://github.com/vuejs/pinia/commit/53342222c536b0dc122f491525ca1c5ad8d25a05))
+
 ## [2.0.12](https://github.com/vuejs/pinia/compare/pinia@2.0.11...pinia@2.0.12) (2022-03-14)
 
 ### Bug Fixes

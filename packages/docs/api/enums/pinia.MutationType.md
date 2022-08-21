@@ -12,11 +12,11 @@ sidebarDepth: 3
 
 Possible types for SubscriptionCallback
 
-## Enumeration members
+## Enumeration Members
 
 ### direct
 
-• **direct** = `"direct"`
+• **direct** = ``"direct"``
 
 Direct mutation of the state:
 
@@ -24,34 +24,22 @@ Direct mutation of the state:
 - `store.$state.name = 'new name'`
 - `store.list.push('new item')`
 
-#### Defined in
-
-[pinia/src/types.ts:50](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L50)
-
 ___
 
 ### patchFunction
 
-• **patchFunction** = `"patch function"`
+• **patchFunction** = ``"patch function"``
 
 Mutated the state with `$patch` and a function
 
 - `store.$patch(state => state.name = 'newName')`
 
-#### Defined in
-
-[pinia/src/types.ts:64](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L64)
-
 ___
 
 ### patchObject
 
-• **patchObject** = `"patch object"`
+• **patchObject** = ``"patch object"``
 
 Mutated the state with `$patch` and an object
 
 - `store.$patch({ name: 'newName' })`
-
-#### Defined in
-
-[pinia/src/types.ts:57](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L57)

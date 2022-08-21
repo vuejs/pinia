@@ -1,3 +1,4 @@
+import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia } from '../src'
 import { computed, nextTick, ref, watch } from 'vue'
 
@@ -66,7 +67,7 @@ describe('store with setup syntax', () => {
 
   it('state can be watched', async () => {
     const store = useStore()
-    const spy = jest.fn()
+    const spy = vi.fn()
     watch(() => store.name, spy)
     expect(spy).not.toHaveBeenCalled()
     store.name = 'Ed'
@@ -77,7 +78,7 @@ describe('store with setup syntax', () => {
   // TODO: could be fixed by using computed or getters + setters in store
   it.skip('state refs can be watched', async () => {
     const store = useStore()
-    const spy = jest.fn()
+    const spy = vi.fn()
     watch(() => store.name, spy)
     expect(spy).not.toHaveBeenCalled()
     const nameRef = ref('Ed')

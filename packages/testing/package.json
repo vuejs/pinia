@@ -1,6 +1,6 @@
 {
   "name": "@pinia/testing",
-  "version": "0.0.10",
+  "version": "0.0.14",
   "description": "Testing module for Pinia",
   "keywords": [
     "vue",
@@ -46,11 +46,11 @@
     "vue-demi": "*"
   },
   "devDependencies": {
-    "pinia": "^2.0.0-0",
+    "pinia": "workspace:^2.0.18",
     "siroc": "^0.16.0"
   },
   "peerDependencies": {
-    "pinia": "~2.0.12"
+    "pinia": ">=2.0.19"
   },
   "publishConfig": {
     "access": "public"

@@ -14,6 +14,8 @@ Depending on what or how you are testing, we need to take care of these three di
     - [Initial State](#initial-state)
     - [Customizing behavior of actions](#customizing-behavior-of-actions)
     - [Specifying the createSpy function](#specifying-the-createspy-function)
+    - [Mocking getters](#mocking-getters)
+    - [Pinia Plugins](#pinia-plugins)
   - [E2E tests](#e2e-tests)
   - [Unit test components (Vue 2)](#unit-test-components-vue-2)
 
@@ -22,7 +24,7 @@ Depending on what or how you are testing, we need to take care of these three di
 To unit test a store, the most important part is creating a `pinia` instance:
 
 ```js
-// counterStore.spec.ts
+// stores/counter.spec.ts
 import { setActivePinia, createPinia } from 'pinia'
 import { useCounter } from '../src/stores/counter'
 
@@ -73,7 +75,7 @@ This can be achieved with `createTestingPinia()`, which returns a pinia instance
 
 Start by installing `@pinia/testing`:
 
-```sh
+```shell
 npm i -D @pinia/testing
 ```
 
@@ -82,6 +84,8 @@ And make sure to create a testing pinia in your tests when mounting a component:
 ```js
 import { mount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
+// import any store you want to interact with in tests
+import { useSomeStore } from '@/stores/myStore'
 
 const wrapper = mount(Counter, {
   global: {
@@ -126,12 +130,13 @@ Since the store is named _"counter"_, you need to add a matching object to `init
 // somewhere in your test
 const wrapper = mount(Counter, {
   global: {
-    plugins: [createTestingPinia(
-
-  initialState: {
-    counter: { n: 20 }, // start the counter at 20 instead of 0
-  },
-    )],
+    plugins: [
+      createTestingPinia({
+        initialState: {
+          counter: { n: 20 }, // start the counter at 20 instead of 0
+        },
+      }),
+    ],
   },
 })
 
@@ -174,6 +179,53 @@ createTestingPinia({
 ```
 
 You can find more examples in [the tests of the testing package](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts).
+
+### Mocking getters
+
+By default, any getter will be computed like regular usage but you can manually force a value by setting the getter to anything you want:
+
+```ts
+import { defineStore } from 'pinia'
+import { createTestingPinia } from '@pinia/testing'
+
+const useCounter = defineStore('counter', {
+  state: () => ({ n: 1 }),
+  getters: {
+    double: (state) => state.n * 2,
+  },
+})
+
+const pinia = createTestingPinia()
+const counter = useCounter(pinia)
+
+counter.double = 3 // 🪄 getters are writable only in tests
+
+// set to undefined to reset the default behavior
+// @ts-expect-error: usually it's a number
+counter.double = undefined
+counter.double // 2 (=1 x 2)
+```
+
+### Pinia Plugins
+
+If you have any pinia plugins, make sure to pass them when calling `createTestingPinia()` so they are properly applied. **Do not add them with `testingPinia.use(MyPlugin)`** like you would do with a regular pinia:
+
+```js
+import { createTestingPinia } from '@pinia/testing'
+import { somePlugin } from '../src/stores/plugin'
+
+// inside some test
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [
+      createTestingPinia({
+        stubActions: false,
+        plugins: [somePlugin],
+      }),
+    ],
+  },
+})
+```
 
 ## E2E tests
 

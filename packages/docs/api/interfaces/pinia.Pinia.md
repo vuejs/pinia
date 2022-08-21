@@ -20,37 +20,33 @@ Every application must own its own pinia to be able to create stores
 
 ## Properties
 
+### install
+
+• **install**: (`app`: `App`<`any`\>) => `void`
+
+#### Type declaration
+
+▸ (`app`): `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `app` | `App`<`any`\> |
+
+##### Returns
+
+`void`
+
+___
+
 ### state
 
 • **state**: `Ref`<`Record`<`string`, [`StateTree`](../modules/pinia.md#statetree)\>\>
 
 root state
 
-#### Defined in
-
-[pinia/src/rootStore.ts:51](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L51)
-
 ## Methods
-
-### install
-
-▸ **install**(`app`): `void`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `app` | `App`<`any`\> |
-
-#### Returns
-
-`void`
-
-#### Defined in
-
-[pinia/src/rootStore.ts:46](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L46)
-
-___
 
 ### use
 
@@ -67,7 +63,3 @@ Adds a store plugin to extend every store
 #### Returns
 
 [`Pinia`](pinia.Pinia.md)
-
-#### Defined in
-
-[pinia/src/rootStore.ts:58](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L58)

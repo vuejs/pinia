@@ -37,7 +37,6 @@
           v-else
           class="max-w-full m-auto max-h-[75vh]"
           :src="image.url"
-          :key="image.url"
           :alt="image.title"
         />
         <figcaption class="mt-2">{{ image.explanation }}</figcaption>

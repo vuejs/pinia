@@ -9,7 +9,7 @@ Pinia [started](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c6282
 
 ## Why should I use Pinia?
 
-Pinia is a store library for Vue, it allows you to share a state across components/pages. If you are familiar with the Composition API, you might be thinking you can already share a global state with a simple `export const state = reactive({})`. This is true for single page applications but **exposes your application to security vulnerabilities** if it is server side rendered. But even in small single page applications, you get a lot from using Pinia:
+Pinia is a store library for Vue, it allows you to share a state across components/pages. If you are familiar with the Composition API, you might be thinking you can already share a global state with a simple `export const state = reactive({})`. This is true for single page applications but **exposes your application to [security vulnerabilities](https://vuejs.org/guide/scaling-up/ssr.html#cross-request-state-pollution)** if it is server side rendered. But even in small single page applications, you get a lot from using Pinia:
 
 - Devtools support
   - A timeline to track actions, mutations
@@ -77,7 +77,7 @@ export const useCounterStore = defineStore('counter', () => {
 
 If you are still not into `setup()` and Composition API, don't worry, Pinia also support a similar set of [_map helpers_ like Vuex](https://vuex.vuejs.org/guide/state.html#the-mapstate-helper). You define stores the same way but then use `mapStores()`, `mapState()`, or `mapActions()`:
 
-```js
+```js {22,24,28}
 const useCounterStore = defineStore('counter', {
   state: () => ({ count: 0 }),
   getters: {
@@ -86,8 +86,8 @@ const useCounterStore = defineStore('counter', {
   actions: {
     increment() {
       this.count++
-    }
-  }
+    },
+  },
 })
 
 const useUserStore = defineStore('user', {
@@ -99,7 +99,7 @@ export default {
     // other computed properties
     // ...
     // gives access to this.counterStore and this.userStore
-    ...mapStores(useCounterStore, useUserStore)
+    ...mapStores(useCounterStore, useUserStore),
     // gives read access to this.count and this.double
     ...mapState(useCounterStore, ['count', 'double']),
   },
@@ -123,7 +123,7 @@ Here is a more complete example of the API you will be using with Pinia **with t
 ```js
 import { defineStore } from 'pinia'
 
-export const todos = defineStore('todos', {
+export const useTodos = defineStore('todos', {
   state: () => ({
     /** @type {{ text: string, id: number, isFinished: boolean }[]} */
     todos: [],
