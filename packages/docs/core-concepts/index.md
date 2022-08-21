@@ -105,15 +105,24 @@ export default defineComponent({
     // it's the same as destructuring from `props`
     const { name, doubleCount } = store
 
-    name // "eduardo"
-    doubleCount // 2
+    name // "Eduardo"
+    doubleCount // 0
+
+    setTimeout(() => {
+      store.increment()
+    }, 1000)
 
     return {
-      // will always be "eduardo"
+      // will always be "Eduardo"
       name,
-      // will always be 2
+      // will always be 0
       doubleCount,
-      // this one will be reactive
+      // will always be 0
+      doubleNumber: store.doubleCount,
+
+      // ✅ this one will be reactive
+      // will be 0 on initial render
+      // and will be 2 on re-render after setTimeout callback is executed
       doubleValue: computed(() => store.doubleCount),
     }
   },
