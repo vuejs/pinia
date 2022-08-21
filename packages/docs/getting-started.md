@@ -28,7 +28,7 @@ app.use(pinia)
 app.mount('#app')
 ```
 
-If you are using Vue 2, you also need to 'install' a plugin(`PiniaVuePlugin`) provided by Pinia and inject the created `pinia` at the root of the app:
+If you are using Vue 2, you also need to 'install' a plugin(`PiniaVuePlugin`) provided by pinia and inject the created `pinia` at the root of the app:
 
 ```js {1,3-4,12}
 import { createPinia, PiniaVuePlugin } from 'pinia'
