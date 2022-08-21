@@ -170,7 +170,7 @@ export default {
     // same as calling from store.increment()
     ...mapActions(useCounterStore, ['increment'])
     // same as above but registers it as this.myOwnName()
-    ...mapActions(useCounterStore, { myOwnName: 'doubleCount' }),
+    ...mapActions(useCounterStore, { myOwnName: 'increment' }),
   },
 }
 ```
