@@ -29,7 +29,7 @@ If you are using Vue 2, the data you create in `state` follows the same rules as
 
 ## TypeScript
 
-You don't need to do much in order to make your state compatible with TS. Pinia will infer the type of your state automatically but there are a few cases where you should give it a hand with some casting:
+You don't need to do much in order to make your state compatible with TS. Option of TS ["noImplicitThis"](https://www.typescriptlang.org/tsconfig#noImplicitThis) should be enabled, if enabled option ["strict"](https://www.typescriptlang.org/tsconfig#strict), ["noImplicitThis"](https://www.typescriptlang.org/tsconfig#noImplicitThis) automatically enabled. Pinia will infer the type of your state automatically but there are a few cases where you should give it a hand with some casting:
 
 ```ts
 const useStore = defineStore('storeId', {
