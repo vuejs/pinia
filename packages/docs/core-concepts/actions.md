@@ -13,6 +13,7 @@ export const useStore = defineStore('main', {
     count: 0,
   }),
   actions: {
+    // use normal function syntax to define actions, arrow function syntax won't work
     increment() {
       this.count++
     },
