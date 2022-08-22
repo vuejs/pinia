@@ -101,7 +101,7 @@ export const useAuthStore = defineStore('auth', {
 import { defineStore, skipHydrate } from 'pinia'
 import { useEyeDropper, useLocalStorage } from '@vueuse/core'
 
-const useColorStore = defineStore('colors', () => {
+export const useColorStore = defineStore('colors', () => {
   const { isSupported, open, sRGBHex } = useEyeDropper()
   const lastColor = useLocalStorage('lastColor', sRGBHex)
   // ...

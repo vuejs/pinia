@@ -9,11 +9,12 @@ title: 액션
 **처리해야 할 작업의 로직을 정의하는 데 완벽합니다**:
 
 ```js
-export const useStore = defineStore('main', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
   }),
   actions: {
+    // `this`에 의존하므로, 화살표 함수를 사용할 수 없음.
     increment() {
       this.count++
     },
@@ -64,9 +65,9 @@ export const useUsers = defineStore('users', {
 ```js
 export default defineComponent({
   setup() {
-    const main = useMainStore()
+    const store = useCounterStore()
     // 스토어의 액션을 메서드처럼 호출
-    main.randomizeCounter()
+    store.randomizeCounter()
 
     return {}
   },
@@ -105,7 +106,7 @@ export const useSettingsStore = defineStore('settings', {
 ```js
 export default {
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
 
     store.randomizeCounter()
   },
@@ -122,7 +123,7 @@ export default {
 
 import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counter', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0
   }),
@@ -173,7 +174,7 @@ export default {
     // `store.increment()`처럼 호출하는 것과 동일.
     ...mapActions(useCounterStore, ['increment']),
     // 위와 같지만 `this.myOwnName()`으로 등록.
-    ...mapActions(useCounterStore, { myOwnName: 'doubleCount' }),
+    ...mapActions(useCounterStore, { myOwnName: 'increment' }),
   },
 }
 ```

@@ -9,7 +9,7 @@ title: 게터
 화살표 함수의 사용을 **권장하기 위해**, 첫 번째 인자로 `state`를 받습니다:
 
 ```js
-export const useStore = defineStore('main', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
   }),
@@ -27,7 +27,7 @@ export const useStore = defineStore('main', {
 **화살표 함수로 정의된 게터나 `this`를 사용하지 않는 게터에 영향을 미치지 않습니다**:
 
 ```ts
-export const useStore = defineStore('main', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
   }),
@@ -55,7 +55,7 @@ export const useStore = defineStore('main', {
 <script>
 export default {
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
 
     return { store }
   },
@@ -70,7 +70,7 @@ export default {
 TypeScript를 사용하지 않는 경우에도 [JSDoc](https://jsdoc.app/tags-returns.html)를 사용하여 유형에 대해 IDE에 힌트를 줄 수 있습니다:
 
 ```js
-export const useStore = defineStore('main', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
   }),
@@ -167,7 +167,7 @@ export const useStore = defineStore('main', {
 ```js
 export default {
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
 
     store.count = 3
     store.doubleCount // 6
