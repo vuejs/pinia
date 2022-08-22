@@ -121,12 +121,11 @@ export default defineComponent({
       name,
       // will always be 0
       doubleCount,
-      // will always be 0
+      // will also always be 0
       doubleNumber: store.doubleCount,
 
       // ✅ this one will be reactive
-      // will be 0 on initial render
-      // and will be 2 on re-render after setTimeout callback is executed
+      // will be 0 and then 2 after setTimeout callback is executed
       doubleValue: computed(() => store.doubleCount),
     }
   },
