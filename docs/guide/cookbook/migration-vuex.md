@@ -41,8 +41,8 @@ src
 └── stores
     ├── index.ts          # (선택 사항) 피니아 초기화, 스토어 가져오지 않음.
     ├── module1.js        # id: 'module1'
-    ├── nested-module2.js # id: 'nested/module2'
-    ├── nested-module3.js # id: 'nested/module3'
+    ├── nested-module2.js # id: 'nestedModule2'
+    ├── nested-module3.js # id: 'nestedModule3'
     └── nested.js         # id: 'nested'
 ```
 
@@ -137,7 +137,7 @@ interface State {
   userId: number | null
 }
 
-export const useAuthUserStore = defineStore('auth/user', {
+export const useAuthUserStore = defineStore('authUser', {
   // 함수로 변환
   state: (): State => ({
     firstName: '',
@@ -195,29 +195,30 @@ export const useAuthUserStore = defineStore('auth/user', {
 위의 과정을 단계벌로 나누어 보겠습니다:
 
 1. 스토어에 필요한 `id`를 추가. 이전의 사용한 네임스페이스와 동일하게 유지하는 것이 좋음.
+   또한 `mapStores()`와 함께 사용하기 쉽도록 `id`가 camelCase에 있는지 확인하는 것이 좋음.
 2. `state`가 함수가 아닌 경우, 함수로 변환.
 3. `getters` 변환.
-1. 동일한 이름으로 상태를 반환하는 모든 게터 제거(예: `firstName: (state) => state.firstName`).
-   스토어 인스턴스에서 직접 상태에 접근할 수 있으므로 필요하지 않음.
-2. 다른 게터에 접근해야 하는 경우, 두 번째 인자를 사용하는 대신 `this`로 접근.
-   `this`를 사용하는 경우, 화살표 함수 대신 일반 함수를 사용해야 함.
-   또한 TS 제한사항으로 반환 유형을 지정해야 함.
-   자세한 내용은 [여기](/guide/core-concepts/getters.md#accessing-other-getters)를 참고.
-3. `rootState` 또는 `rootGetters` 인자를 사용하는 경우,
-   다른 스토어를 직접 가져와서 대체하거나,
-   여전히 Vuex에 있는 상태일 경우에는 Vuex에 직접 접근.
+   1. 동일한 이름으로 상태를 반환하는 모든 게터 제거(예: `firstName: (state) => state.firstName`).
+      스토어 인스턴스에서 직접 상태에 접근할 수 있으므로 필요하지 않음.
+   2. 다른 게터에 접근해야 하는 경우, 두 번째 인자를 사용하는 대신 `this`로 접근.
+      `this`를 사용하는 경우, 화살표 함수 대신 일반 함수를 사용해야 함.
+      또한 TS 제한사항으로 반환 유형을 지정해야 함.
+      자세한 내용은 [여기](/guide/core-concepts/getters.md#accessing-other-getters)를 참고.
+   3. `rootState` 또는 `rootGetters` 인자를 사용하는 경우,
+      다른 스토어를 직접 가져와서 대체하거나,
+      여전히 Vuex에 있는 상태일 경우에는 Vuex에 직접 접근.
 4. `actions` 변환.
-1. 각 액션에서 첫 번째 `context` 인자를 제거.
-   대신 `this`에서 모든 것에 접근할 수 있어야 함.
-2. 다른 스토어를 사용하는 경우,
-   직접 가져오거나 Vuex에서 접근할 수 있음.
+   1. 각 액션에서 첫 번째 `context` 인자를 제거.
+      대신 `this`에서 모든 것에 접근할 수 있어야 함.
+   2. 다른 스토어를 사용하는 경우,
+      직접 가져오거나 Vuex에서 접근할 수 있음.
 5. `mutations` 변환.
-1. 뮤테이션은 더 이상 존재하지 않으며, 대신 `actions`로 변환될 수 있음.
-   또는 컴포넌트 내에서 스토어에 직접 할당할 수 있음(예: `userStore.firstName = 'First'`)
-2. 액션으로 변환하는 경우, 첫 번째 `state` 인자를 제거하고 `this`로 대체.
-3. 일반적인 뮤테이션의 상태 초기 상태로 재설정하는 것은,
-   스토어의 내장 함수 `$reset` 메소드로 대체됨.
-   이 함수는 옵션 스토어에만 존재함.
+   1. 뮤테이션은 더 이상 존재하지 않으며, 대신 `actions`로 변환될 수 있음.
+      또는 컴포넌트 내에서 스토어에 직접 할당할 수 있음(예: `userStore.firstName = 'First'`)
+   2. 액션으로 변환하는 경우, 첫 번째 `state` 인자를 제거하고 `this`로 대체.
+   3. 일반적인 뮤테이션의 상태 초기 상태로 재설정하는 것은,
+      스토어의 내장 함수 `$reset` 메소드로 대체됨.
+      이 함수는 옵션 스토어에만 존재함.
 
 보시다시피 대부분의 코드를 재사용할 수 있습니다.
 유형 검사는 누락된 것이 있는 경우, 변경해야 할 사항을 식별하는 데 도움이 됩니다.
