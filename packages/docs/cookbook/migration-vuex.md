@@ -31,8 +31,8 @@ src
 └── stores
     ├── index.js          # (Optional) Initializes Pinia, does not import stores
     ├── module1.js        # 'module1' id
-    ├── nested-module2.js # 'nested/module2' id
-    ├── nested-module3.js # 'nested/module3' id
+    ├── nested-module2.js # 'nestedModule2' id
+    ├── nested-module3.js # 'nestedModule3' id
     └── nested.js         # 'nested' id
 ```
 
@@ -118,7 +118,7 @@ interface State {
   userId: number | null
 }
 
-export const useAuthUserStore = defineStore('auth/user', {
+export const useAuthUserStore = defineStore('authUser', {
   // convert to a function
   state: (): State => ({
     firstName: '',
@@ -174,7 +174,7 @@ export const useAuthUserStore = defineStore('auth/user', {
 
 Let's break the above down into steps:
 
-1. Add a required `id` for the store, you may wish to keep this the same as the namespace before
+1. Add a required `id` for the store, you may wish to keep this the same as the namespace before. It is also recommended to make sure the `id` is in _camelCase_ as it makes it easier to use with `mapStores()`.
 2. Convert `state` to a function if it was not one already
 3. Convert `getters`
     1. Remove any getters that return state under the same name (eg. `firstName: (state) => state.firstName`), these are not necessary as you can access any state directly from the store instance
