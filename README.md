@@ -135,9 +135,33 @@ npm install pinia @vue/composition-api
 Create a pinia (the root store) and pass it to app:
 
 ```js
+// Vue 3
+import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import App from './App.vue'
 
-app.use(createPinia())
+const pinia = createPinia()
+const app = createApp(App)
+
+app.use(pinia)
+app.mount('#app')
+```
+
+```js
+// Vue 2
+import { createPinia, PiniaVuePlugin } from 'pinia'
+
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
+
+new Vue({
+  el: '#app',
+  // other options...
+  // ...
+  // note the same `pinia` instance can be used across multiple Vue apps on
+  // the same page
+  pinia,
+})
 ```
 
 ### Create a Store

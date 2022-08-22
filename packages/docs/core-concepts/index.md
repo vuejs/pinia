@@ -27,9 +27,9 @@ Similar to Vue's Options API, we can also pass an Options Object with `state`, `
 
 ```js {2-10}
 export const useCounterStore = defineStore('counter', {
-  state: () => ({ count: 0 }),
+  state: () => ({ count: 0, name: 'Eduardo' }),
   getters: {
-    double: (state) => state.count * 2,
+    doubleCount: (state) => state.count * 2,
   },
   actions: {
     increment() {
@@ -50,11 +50,13 @@ There is also another possible syntax to define stores. Similar to the Vue Compo
 ```js
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
+  const name = ref('Eduardo')
+  const doubleCount = computed(() => count.value * 2)
   function increment() {
     count.value++
   }
 
-  return { count, increment }
+  return { count, name, doubleCount, increment }
 })
 ```
 
@@ -72,7 +74,7 @@ As with [Vue's Composition API and Option API](https://vuejs.org/guide/introduct
 
 ## Using the store
 
-We are _defining_ a store because the store won't be created until `useStore()` is called inside of `setup()`:
+We are _defining_ a store because the store won't be created until `use...Store()` is called inside of `setup()`:
 
 ```js
 import { useCounterStore } from '@/stores/counter'
@@ -89,9 +91,11 @@ export default {
 }
 ```
 
-You can define as many stores as you want and **you should define each store in a different file** to get the most out of pinia (like automatically allow your bundle to code split and TypeScript inference).
-
+:::tip
 If you are not using `setup` components yet, [you can still use Pinia with _map helpers_](../cookbook/options-api.md).
+:::
+
+You can define as many stores as you want and **you should define each store in a different file** to get the most out of pinia (like automatically allow your bundler to code split and TypeScript inference).
 
 Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will see these in detail in the next pages but autocompletion will help you.
 
@@ -105,15 +109,22 @@ export default defineComponent({
     // it's the same as destructuring from `props`
     const { name, doubleCount } = store
 
-    name // "eduardo"
-    doubleCount // 2
+    name // "Eduardo"
+    doubleCount // 0
+
+    setTimeout(() => {
+      store.increment()
+    }, 1000)
 
     return {
-      // will always be "eduardo"
+      // will always be "Eduardo"
       name,
-      // will always be 2
+      // will always be 0
       doubleCount,
-      // this one will be reactive
+      // will also always be 0
+      doubleNumber: store.doubleCount,
+
+      // ✅ this one will be reactive
       doubleValue: computed(() => store.doubleCount),
     }
   },

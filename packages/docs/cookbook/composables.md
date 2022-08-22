@@ -86,7 +86,7 @@ In [Setup Stores](#setup-stores), you need to use a helper named `skipHydrate()`
 import { defineStore, skipHydrate } from 'pinia'
 import { useEyeDropper, useLocalStorage } from '@vueuse/core'
 
-const useColorStore = defineStore('colors', () => {
+export const useColorStore = defineStore('colors', () => {
   const { isSupported, open, sRGBHex } = useEyeDropper()
   const lastColor = useLocalStorage('lastColor', sRGBHex)
   // ...
