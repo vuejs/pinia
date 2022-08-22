@@ -125,7 +125,6 @@ export default defineComponent({
       doubleNumber: store.doubleCount,
 
       // ✅ this one will be reactive
-      // will be 0 and then 2 after setTimeout callback is executed
       doubleValue: computed(() => store.doubleCount),
     }
   },
