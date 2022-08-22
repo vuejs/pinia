@@ -32,9 +32,9 @@ Vue의 옵션 API와 유사하게 `state`, `actions` 및 `getters` 속성을 사
 
 ```js {2-10}
 export const useCounterStore = defineStore('counter', {
-  state: () => ({ count: 0 }),
+  state: () => ({ count: 0, name: 'Eduardo' }),
   getters: {
-    double: (state) => state.count * 2,
+    doubleCount: (state) => state.count * 2,
   },
   actions: {
     increment() {
@@ -58,11 +58,13 @@ Vue 컴포지션 API의 [셋업 함수](https://vuejs.kr/api/composition-api-set
 ```js
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
+  const name = ref('Eduardo')
+  const doubleCount = computed(() => count.value * 2)
   function increment() {
     count.value++
   }
 
-  return { count, increment }
+  return { count, name, doubleCount, increment }
 })
 ```
 
@@ -84,7 +86,7 @@ export const useCounterStore = defineStore('counter', () => {
 
 ## 스토어 이용하기 %{#using-the-store}%
 
-`setup()` 내부에서 `useStore()`가 호출될 때까지 스토어가 생성되지 않으므로, 스토어를 정의합니다:
+`setup()` 내부에서 `use...Store()`가 호출될 때까지 스토어가 생성되지 않으므로, 스토어를 정의합니다:
 
 ```js
 import { useCounterStore } from '@/stores/counter'
@@ -101,12 +103,14 @@ export default {
 }
 ```
 
+:::tip
+아직 `setup` 컴포넌트를 사용하지 않는 경우,
+["맵 헬퍼"로 피니아를 사용할 수 있습니다](/guide/cookbook/options-api.md).
+:::
+
 원하는 만큼 스토어를 정의할 수 있습니다.
 피니아를 최대한 활용하려면(예: 번들이나 코드분할 및 TypeScript 추론을 자동으로 허용),
 **각 스토어는 다른 파일에 정의해야** 합니다.
-
-아직 `setup` 컴포넌트를 사용하지 않는 경우,
-["맵 헬퍼"로 피니아를 사용할 수 있습니다](/guide/cookbook/options-api.md).
 
 스토어가 인스턴스화되면,
 스토어에서 직접 `state`, `getters`, `actions`에 정의된 모든 속성에 접근할 수 있습니다.
@@ -124,14 +128,21 @@ export default defineComponent({
     const { name, doubleCount } = store
 
     name // "홍길동"
-    doubleCount // 2
+    doubleCount // 0
+
+    setTimeout(() => {
+      store.increment()
+    }, 1000)
 
     return {
       // 항상 "홍길동"이 될 것임.
       name,
-      // 항상 2가 될 것임.
+      // 항상 0이 될 것임.
       doubleCount,
-      // 이것은 반응 할 것임.
+      // 이것 또한 항상 0일 것임.
+      doubleNumber: store.doubleCount,
+
+      // ✅ 이것은 반응 할 것임.
       doubleValue: computed(() => store.doubleCount),
     }
   },
