@@ -33,7 +33,7 @@ If you are using Vue 2, you also need to 'install' a plugin(`PiniaVuePlugin`) pr
 ```js {1,3-4,12}
 import { createPinia, PiniaVuePlugin } from 'pinia'
 
-Vue.use(PiniaVuePlugin) // installs the plugin
+Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
 
 new Vue({
