@@ -11,7 +11,7 @@ title: 상태
 ```js
 import { defineStore } from 'pinia'
 
-const useStore = defineStore('storeId', {
+export const useStore = defineStore('storeId', {
   // 화살표 함수는 전체 유형 유추을 위해 권장됨. 
   state: () => {
     return {
@@ -35,12 +35,12 @@ Vue 2를 사용하는 경우,
 
 ## TypeScript
 
-TS와 호환되는 상태를 만들기 위해 많은 작업을 수행할 필요가 없습니다.
-피니아는 상태 유형을 자동으로 유추하지만,
-몇몇 경우에는 캐스팅으로 보조해야 합니다:
+TS와 호환되는 상태를 만들기 위해 많은 작업을 수행할 필요가 없습니다:
+[`strict`](https://www.typescriptlang.org/tsconfig#strict) 또는 최소한 [`noImplicitThis`](https://www.typescriptlang.org/tsconfig#noImplicitThis)가 활성화되어 있는지 확인하고 피니아가 자동으로 상태 유형을 추론합니다!
+그러나 몇몇 경우에는 캐스팅으로 보조해야 합니다:
 
 ```ts
-const useStore = defineStore('storeId', {
+export const useUserStore = defineStore('user', {
   state: () => {
     return {
       // 처음에 비어 있는 목록의 경우.
@@ -67,7 +67,7 @@ interface State {
   user: UserInfo | null
 }
 
-const useStore = defineStore('storeId', {
+export const useUserStore = defineStore('user', {
   state: (): State => {
     return {
       userList: [],
@@ -112,7 +112,7 @@ store.$reset()
 
 import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counter', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
   }),
