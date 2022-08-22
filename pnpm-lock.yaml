@@ -92,7 +92,7 @@ importers:
       '@nuxt/module-builder': latest
       '@nuxt/test-utils': ^3.0.0-rc.8
       nuxt: ^3.0.0-rc.8
-      pinia: workspace:^2.0.18
+      pinia: '>=2.0.19'
       typescript: ^4.7.4
       vue-tsc: ^0.39.5
     dependencies:
