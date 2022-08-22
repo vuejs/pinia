@@ -84,9 +84,32 @@ npm install pinia @vue/composition-api
 피니아(루트 스토어)를 만들고 앱에 전달합니다:
 
 ```js
+// Vue 3
+import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import App from './App.vue'
 
-app.use(createPinia())
+const pinia = createPinia()
+const app = createApp(App)
+
+app.use(pinia)
+app.mount('#app')
+```
+
+```js
+// Vue 2
+import { createPinia, PiniaVuePlugin } from 'pinia'
+
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
+
+new Vue({
+  el: '#app',
+  // 다른 옵션들...
+  // ...
+  // 동일한 'pinia' 인스턴스는 동일한 페이지의 여러 Vue 앱에서 사용할 수 있음.
+  pinia,
+})
 ```
 
 ### 스토어 저장소 만들기
