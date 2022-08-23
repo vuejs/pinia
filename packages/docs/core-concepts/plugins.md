@@ -368,7 +368,6 @@ When [using pinia alongside Nuxt](../ssr/nuxt.md), you will have to create a [Nu
 ```ts
 // plugins/myPiniaPlugin.js
 import { PiniaPluginContext } from 'pinia'
-import { Plugin } from '@nuxt/types'
 
 function MyPiniaPlugin({ store }: PiniaPluginContext) {
   store.$subscribe((mutation) => {
@@ -380,11 +379,9 @@ function MyPiniaPlugin({ store }: PiniaPluginContext) {
   return { creationTime: new Date() }
 }
 
-const myPlugin: Plugin = ({ $pinia }) => {
+export default defineNuxtPlugin(({ $pinia }) => {
   $pinia.use(MyPiniaPlugin)
-}
-
-export default myPlugin
+})
 ```
 
 Note the above example is using TypeScript, you have to remove the type annotations `PiniaPluginContext` and `Plugin` as well as their imports if you are using a `.js` file.
