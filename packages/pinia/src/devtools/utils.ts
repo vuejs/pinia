@@ -46,6 +46,19 @@ export const realTypeOf = (subject: any) => {
   return 'object';
 }
 
+export function deepCopy<R>(object: R) {
+  const objectCopy: R = {} as R
+  for (const key in object) {
+    if (realTypeOf(object[key]) === 'object') {
+      objectCopy[key] = deepCopy(object[key])
+    } else {
+      objectCopy[key] = object[key]
+    }
+  }
+
+  return objectCopy
+}
+
 export function formatStateDifferences(
   initialState: StateTree,
   newState: StateTree,
@@ -58,7 +71,7 @@ export function formatStateDifferences(
 
     if (oldType !== newType) {
       stateDifferences[key] = newState[key]
-      break
+      continue
     }
 
     switch (newType) {
