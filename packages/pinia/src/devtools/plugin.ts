@@ -329,7 +329,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
       store.$onAction(({ after, onError, name, args }) => {
         const groupId = runningActionId++
 
-        const initialState = copy(store.$state);
+        const initialState = copy(store.$state)
 
         api.addTimelineEvent({
           layerId: MUTATIONS_LAYER_ID,

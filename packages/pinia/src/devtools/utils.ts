@@ -29,26 +29,29 @@ export function isPinia(o: any): o is Pinia {
 }
 
 export const realTypeOf = (subject: any) => {
-  const type = typeof subject;
-  if (type !== 'object') return type;
+  const type = typeof subject
+  if (type !== 'object') return type
 
   if (subject === Math) {
-    return 'math';
+    return 'math'
   } else if (subject === null) {
-    return 'null';
+    return 'null'
   } else if (Array.isArray(subject)) {
-    return 'array';
+    return 'array'
   } else if (Object.prototype.toString.call(subject) === '[object Date]') {
-    return 'date';
-  } else if (typeof subject.toString === 'function' && /^\/.*\//.test(subject.toString())) {
-    return 'regexp';
+    return 'date'
+  } else if (
+    typeof subject.toString === 'function' &&
+    /^\/.*\//.test(subject.toString())
+  ) {
+    return 'regexp'
   }
-  return 'object';
+  return 'object'
 }
 
 export function formatStateDifferences(
   initialState: StateTree,
-  newState: StateTree,
+  newState: StateTree
 ): StateTree {
   const stateDifferences: StateTree = {}
 
@@ -87,7 +90,7 @@ export function formatStateDifferences(
         if (initialState[key].toString() !== newState[key].toString()) {
           stateDifferences[key] = newState[key]
         }
-        break;
+        break
       default:
         if (initialState[key] !== newState[key]) {
           stateDifferences[key] = newState[key]
@@ -95,7 +98,7 @@ export function formatStateDifferences(
     }
   }
 
-  Object.keys(initialState).forEach(key => {
+  Object.keys(initialState).forEach((key) => {
     if (!(key in newState)) {
       stateDifferences[key] = undefined
     }
