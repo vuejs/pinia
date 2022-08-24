@@ -28,6 +28,7 @@ import {
   PINIA_ROOT_LABEL,
 } from './formatting'
 import { isPinia, toastMessage, formatStateDifferences } from './utils'
+import copy from './fastCopy'
 
 // timeline can be paused when directly changing the state
 let isTimelineActive = true
@@ -328,7 +329,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
       store.$onAction(({ after, onError, name, args }) => {
         const groupId = runningActionId++
 
-        const initialState = JSON.parse(JSON.stringify(toRaw(store.$state)));
+        const initialState = copy(store.$state);
 
         api.addTimelineEvent({
           layerId: MUTATIONS_LAYER_ID,
@@ -348,7 +349,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
 
         after((result) => {
           activeAction = undefined
-          const newState = toRaw(store.$state)
+          const newState = store.$state
           const differences = formatStateDifferences(initialState, newState)
 
           api.addTimelineEvent({
