@@ -1,3 +1,9 @@
+## [2.0.21](https://github.com/vuejs/pinia/compare/pinia@2.0.20...pinia@2.0.21) (2022-08-26)
+
+### Bug Fixes
+
+- **build:** remove problematic browser export ([6efa780](https://github.com/vuejs/pinia/commit/6efa780f2c6e401e1d82a80a2aeceeac962f1c4e)), closes [#1593](https://github.com/vuejs/pinia/issues/1593)
+
 ## [2.0.20](https://github.com/vuejs/pinia/compare/pinia@2.0.19...pinia@2.0.20) (2022-08-19)
 
 - **build**: support vue 2 devtools flag
