@@ -9,7 +9,6 @@
   "types": "dist/pinia.d.ts",
   "exports": {
     ".": {
-      "browser": "./dist/pinia.esm-browser.js",
       "node": {
         "import": {
           "production": "./dist/pinia.prod.cjs",
