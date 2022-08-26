@@ -107,18 +107,10 @@ A few notes about the project and possible questions:
 
 **A**: Dynamic modules are not type safe, so instead [we allow creating different stores](https://pinia.vuejs.org/cookbook/composing-stores.html) that can be imported anywhere
 
-## Roadmap / Ideas
-
-- [x] Should the state be merged at the same level as actions and getters?
-- [ ] ~~Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)~~
-      You can directly call `useOtherStore()` inside of a getter or action.
-- [ ] ~~Getter with params that act like computed properties (@ktsn)~~ Can be implement through a custom composable and passed directly to state.
-
 ## Installation
 
 ```bash
-yarn add pinia
-# or with npm
+# or pnpm or yarn
 npm install pinia
 ```
 
