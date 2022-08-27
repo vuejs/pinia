@@ -66,8 +66,7 @@
 ## 설치
 
 ```bash
-yarn add pinia
-# 또는 npm으로
+# 또는 npm이나 yarn으로
 npm install pinia
 ```
 

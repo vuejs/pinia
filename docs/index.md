@@ -35,5 +35,5 @@ features:
     details: 여러 스토어를 구축하고, 번들러 코드가 자동으로 스토어를 분할하도록 합니다.
   - icon: 📦
     title: 매우 가벼움
-    details: Pinia는 약 1kb로, 사용 중이라는 사실조차 잊게 될 것입니다!
+    details: Pinia는 약 ~1.5kb로, 사용 중이라는 사실조차 잊게 될 것입니다!
 ---
