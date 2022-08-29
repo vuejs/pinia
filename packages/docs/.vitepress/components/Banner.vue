@@ -2,57 +2,78 @@
   <a
     v-if="isVisible"
     id="vs"
-    href="https://vuejsforge.com/?friend=vuerouter&utm_source=pinia&utm_medium=website&utm_campaign=affiliate&utm_content=top_banner"
+    href="https://vueschool.com/sales/vuejsforge?friend=vuerouter&utm_source=vuerouter&utm_medium=website&utm_campaign=affiliate&utm_content=top_banner"
     target="_blank"
     rel="noreferrer">
-    <div class="vs-iso">
-      <img src="/images/vueschool/vf-iso.svg" alt="Vue Forge Logo">
-    </div>
-    <div class="vs-logo">
-      <img src="/images/vueschool/vf-logo.svg" alt="Vue Forge Logo">
-    </div>
-    <div class="vs-core">
-      <div class="vs-slogan-wrapper">
-        <div class="vs-slogan">
-          Join the 2nd edition of the largest hands-on Vue.js Event
-        </div>
-        <div class="vs-subline">
-          Starts 30 Aug. Build your own e-commerce app!
-        </div>
-      </div>
-      <div class="vs-button">
-        JOIN FOR FREE
-      </div>
-    </div>
     <div
-      id="vs-close"
-      class="vs-close"
-      @click.stop.prevent="close">
-      <img src="/images/vueschool/close.svg" alt="Close">
+      class="vs-background-wrapper">
+      <div class="vs-core">
+        <div class="vs-backpack">
+          <img src="/images/vueschool/vs-backpack.png" alt="Backpack">
+        </div>
+        <div class="vs-slogan-wrapper">
+          <div class="vs-slogan">
+            Save 50% for a limited time
+            <span
+              v-if="isExtended">
+              &middot; Extended!
+            </span>
+          </div>
+          <div class="vs-subline">
+            Vue.js Premium Video Courses
+          </div>
+          <BannerCountdownMobile
+            v-bind="{ remaining }" />
+        </div>
+        <BannerCountdown
+          v-bind="{ remaining }" />
+        <div class="vs-button">
+          BUY NOW
+        </div>
+      </div>
+      <div
+        id="vs-close"
+        class="vs-close"
+        @click.stop.prevent="close">
+        <img src="/images/vueschool/close.svg" alt="Close">
+      </div>
     </div>
   </a>
 </template>
 
 <script>
+import BannerCountdown from './BannerCountdown.vue'
+import BannerCountdownMobile from './BannerCountdownMobile.vue'
+
 export default {
+  components: {
+    BannerCountdown,
+    BannerCountdownMobile
+  },
   data () {
     return {
+      isVisible: false,
+      isActive: null,
+      isExtended: null,
       isVisible: false,
       remaining: 0
     }
   },
   mounted () {
     const now = new Date()
-    const end = new Date('2022-09-01T00:00:00+02:00')
-    this.remaining = end - now
-    this.isVisible = !localStorage.getItem('VF2') && this.remaining > 0
+    const extension = new Date('2022-09-01T00:00:00+02:00')
+    const end = new Date('2022-09-02T00:00:00+02:00')
+    this.isActive = now < end
+    this.isExtended = now > extension && now < end
+    this.remaining = (this.isExtended ? end : extension) - now
+    this.isVisible = !localStorage.getItem('VF_OFFER') && this.remaining > 0
     if (this.isVisible) document.body.classList.add('has-top-banner')
   },
   methods: {
     close () {
       this.isVisible = false
       document.body.classList.remove('has-top-banner')
-      localStorage.setItem('VF2', 1)
+      localStorage.setItem('VF_OFFER', 1)
     }
   }
 }
@@ -62,20 +83,26 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 #vs {
-  align-items: center;
   background-color: #0A1124;
   box-sizing: border-box;
   color: #fff;
   font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  justify-content: center;
   position: fixed;
-  padding: 0 10px;
   left: 0;
   right: 0;
   top: 0;
   z-index: 100;
   height: 72px;
+  background: radial-gradient(circle at 98% 31%, #1f4491, #050a1e 56%);
+}
+
+.vs-background-wrapper {
+  align-items: center;
+  justify-content: center;
   display: flex;
+  padding: 0 10px;
+  height: 100%;
+  width: 100%;
   background-image: url(/images/vueschool/bg-mobile.png);
   background-repeat: no-repeat;
   background-size: cover;
@@ -91,37 +118,33 @@ export default {
   color: #FFF;
 }
 
-#vs .vs-iso {
-  position: absolute;
-  left: 10px;
-  height: 28px;
-}
-
-#vs .vs-iso img {
-  height: 28px;
-}
-
-#vs .vs-logo {
-  position: absolute;
-  display: none;
-  left: 40px;
-}
-
 #vs .vs-core {
   display: flex;
   align-items: center;
   width: 288px;
 }
 
-#vs .vs-core .vs-slogan {
-  color: #FFF;
-  font-weight: bold;
-  font-size: 12px;
-  text-align: center;
+#vs .vs-core .vs-backpack {
+  height: 46px;
+  margin-right: 16px;
 }
 
-#vs .vs-core .vs-slogan-wrapper .vs-subline {
-  color: #cfc1e3;
+#vs .vs-core .vs-backpack img {
+  height: 100%;
+}
+
+#vs .vs-core .vs-slogan-wrapper {
+  margin-right: 12px;
+}
+
+#vs .vs-core .vs-slogan {
+  color: #fdb92c;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+#vs .vs-core .vs-subline {
+  color: #FFF;
   text-align: center;
   font-size: 10px;
   margin-top: 4px;
@@ -154,7 +177,7 @@ export default {
 }
 
 @media (min-width: 680px) {
-  #vs {
+  .vs-background-wrapper {
     background-image: url(/images/vueschool/bg-tablet.png);
   }
 
@@ -167,15 +190,16 @@ export default {
   }
 
   #vs .vs-core .vs-slogan-wrapper {
-    margin-right: 26px;
+    margin-right: 32px;
   }
 
   #vs .vs-core .vs-slogan {
     font-size: 16px;
   }
 
-  #vs .vs-core .vs-slogan-wrapper .vs-subline {
+  #vs .vs-core .vs-subline {
     font-size: 16px;
+    text-align: left;
   }
 
   #vs .vs-core {
@@ -193,7 +217,7 @@ export default {
 }
 
 @media (min-width: 900px) {
-  #vs {
+  .vs-background-wrapper {
     background-image: url(/images/vueschool/bg-desktop.png);
   }
 
