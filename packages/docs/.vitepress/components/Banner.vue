@@ -14,6 +14,10 @@
         <div class="vs-slogan-wrapper">
           <div class="vs-slogan">
             Save 50% for a limited time
+            <span
+              v-if="isExtended">
+              &middot; Extended!
+            </span>
           </div>
           <div class="vs-subline">
             Vue.js Premium Video Courses
@@ -120,9 +124,13 @@ export default {
   width: 288px;
 }
 
-#vs .vs-core .vs-backpack img {
-  height: 52px;
+#vs .vs-core .vs-backpack {
+  height: 46px;
   margin-right: 16px;
+}
+
+#vs .vs-core .vs-backpack img {
+  height: 100%;
 }
 
 #vs .vs-core .vs-slogan-wrapper {
@@ -189,8 +197,9 @@ export default {
     font-size: 16px;
   }
 
-  #vs .vs-core .vs-slogan-wrapper .vs-subline {
+  #vs .vs-core .vs-subline {
     font-size: 16px;
+    text-align: left;
   }
 
   #vs .vs-core {
