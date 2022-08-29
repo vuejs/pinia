@@ -3,10 +3,11 @@
     <VueCountdown
       v-if="remaining"
       :time="remaining"
+      :transform="countdownTransform"
       v-slot="data"
       class="vs-countdown-wrapper">
       <div
-        v-for="part in ['days', 'hours', 'minutes', 'seconds']"
+        v-for="part in ['days', 'hours', 'minutes', 'seconds'].filter(part => part !== 'days' || data[part] !== '00')"
         :key="part"
         class="vs-countdown-item">
         <div
@@ -53,6 +54,9 @@ export default {
     isVisible () {
       return this.remaining > 0
     }
+  },
+  methods: {
+    countdownTransform
   }
 }
 </script>
