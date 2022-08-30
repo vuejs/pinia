@@ -2,7 +2,6 @@
  * @module @pinia/nuxt
  */
  import { existsSync, statSync } from 'fs';
- import { resolve } from 'path';
  import {
   defineNuxtModule,
   addPlugin,
@@ -50,8 +49,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: {
     disableVuex: true,
-    autoImports: [],
-    autoImportDir: 'stores'
+    autoImports: []
   },
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
@@ -84,23 +82,19 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Add auto imports
     const composables = resolver.resolve('./runtime/composables')
-    addAutoImport([
-      { from: composables, name: 'usePinia' },
-      ...options.autoImports!.map((imports) =>
-        typeof imports === 'string'
-          ? { from: composables, name: imports }
-          : { from: composables, name: imports[0], as: imports[1] }
-      ),
-    ])
-
-    // Treat "stores" as a directory to autoImport by default
-    // (only if it exists)
-    const { autoImportDir = 'stores' } = options
-    const fullStoreDir = resolve(nuxt.options.srcDir, autoImportDir)
-    if (existsSync(fullStoreDir) && statSync(fullStoreDir).isDirectory()) {
-      addAutoImportDir(fullStoreDir)
-      nuxt.options.watch.push(fullStoreDir) // Hmm, it triggers the Nuxt restart, but we don't re-import the stores...
-    }
-
+    addAutoImport({ from: composables, name: 'usePinia' })
+    options.autoImports.forEach((imports) => {
+      const fullPath = resolver.resolve(imports)  
+      if (existsSync(fullPath) &&
+          statSync(fullPath).isDirectory()) {
+          // Auto import the full dir
+          addAutoImportDir(fullPath)
+      } else {
+        // Import from composables
+        addAutoImport(typeof imports === 'string'
+        ? { from: composables, name: imports }
+        : { from: composables, name: imports[0], as: imports[1] })
+      }
+    })
   },
 })
