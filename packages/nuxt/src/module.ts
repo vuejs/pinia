@@ -1,11 +1,14 @@
 /**
  * @module @pinia/nuxt
  */
-import {
+ import { existsSync, statSync } from 'fs';
+ import { resolve } from 'path';
+ import {
   defineNuxtModule,
   addPlugin,
   isNuxt2,
   addAutoImport,
+  addAutoImportDir,
   createResolver,
   resolveModule,
 } from '@nuxt/kit'
@@ -88,5 +91,15 @@ export default defineNuxtModule<ModuleOptions>({
           : { from: composables, name: imports[0], as: imports[1] }
       ),
     ])
+
+    // Treat "stores" as a directory to autoImport by default
+    // (only if it exists)
+    const { autoImportDir = 'stores' } = options
+    const fullStoreDir = resolve(nuxt.options.srcDir, autoImportDir)
+    if (existsSync(fullStoreDir) && statSync(fullStoreDir).isDirectory()) {
+      addAutoImportDir(fullStoreDir)
+      nuxt.options.watch.push(fullStoreDir) // Hmm, it triggers the Nuxt restart, but we don't re-import the stores...
+    }
+
   },
 })
