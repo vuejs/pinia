@@ -51,6 +51,7 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     disableVuex: true,
     autoImports: [],
+    autoImportDir: 'stores'
   },
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
