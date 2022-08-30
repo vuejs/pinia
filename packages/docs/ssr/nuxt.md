@@ -53,10 +53,10 @@ export default defineNuxtConfig({
       '@pinia/nuxt',
       {
         autoImports: [
-          // automatically imports `usePinia()`
-          'defineStore',
-          // automatically imports `usePinia()` as `usePiniaStore()`
-          ['defineStore', 'definePiniaStore'],
+          // automatically imports `defineStore`
+          'defineStore', // import { defineStore } from 'pinia'
+          // automatically imports `defineStore` as `definePiniaStore`
+          ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
         ],
       },
     ],
