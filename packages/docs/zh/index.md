@@ -9,7 +9,7 @@ altActionLink: https://stackblitz.com/github/piniajs/example-vue-3-vite
 
 features:
   - title: 💡 所见即所得
-    details: Store 与组件类似。其 API 的设计旨在让你编写出更易组织的 store 。
+    details: 与组件类似的 Store。其 API 的设计旨在让你编写出更易组织的 store 。
   - title: 🔑 类型安全
     details: 类型可自动推断，即使在 JavaScript 中亦可为你提供自动补全功能！
   - title: ⚙️ 开发工具支持
@@ -23,8 +23,10 @@ features:
 footer: MIT Licensed | Copyright © 2019-present Eduardo San Martin Morote
 ---
 
-<ThemeToggle/>
-<!-- <TestStore/> -->
+<ClientOnly>
+  <ThemeToggle/>
+  <!-- <TestStore/> -->
+</ClientOnly>
 
 <HomeSponsors />
 
