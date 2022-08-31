@@ -5,26 +5,26 @@
   title="Get started with Pinia"
 />
 
-Pinia [最初](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e)是在 2019 年 11 月左右作为一个使用 [组合式 API](https://github.com/vuejs/composition-api) 的实验进行设计的。从那时起，同时支持 Vue2 和 Vue3 以及不强制要求使用组合式 API 的初始原则保留至今。除了**安装**和 **SSR** 之外，支持 Vue3 和 Vue2 的 API 都是相同的。虽然这些文档主要是面向 Vue3，但在必要时会标注出 Vue2 的内容，因此 Vue2 和 Vue3 的用户都可以阅读本文档。
+Pinia [起始](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e)于 2019 年 11 月左右的一场实验，该实验的目的是设计一个拥有 [组合式 API](https://github.com/vuejs/composition-api) 的 Store。从那时起，同时支持 Vue2 和 Vue3 以及不强制要求使用组合式 API 的初心被保留至今。除了**安装**和 **SSR** 等章节之外，其余章节内容的 API 均支持 Vue3 和 Vue2。虽然本文档主要是面向 Vue3，但在必要时会标注出 Vue2 的内容，因此 Vue2 和 Vue3 的用户都可以阅读本文档。
 
-## 为什么要使用 Pinia？{#why-should-i-use-pinia}
+## 为什么你应该使用 Pinia？{#why-should-i-use-pinia}
 
-Pinia 是专属 Vue 的状态管理库，它允许你跨组件/页面共享状态。如果你熟悉组合式 API 的话，你可能会认为你可以通过一行简单的 `export const state = reactive({})`来共享一个全局状态。对于单页应用程序来说确实是这样的，但如果在服务器端渲染，这可能会使您的应用程序暴露出一些安全漏洞。 不过若是使用 Pinia，即使在小型单页应用程序中，你也可以获得很多好处：
+Pinia 是 Vue 的专属状态管理库，它允许你跨组件/页面共享状态。如果你熟悉组合式 API 的话，你可能会认为你可以通过一行简单的 `export const state = reactive({})`来共享一个全局状态。对于单页应用程序来说确实是这样的，但如果在服务器端渲染，这可能会使您的应用程序暴露出一些安全漏洞。 若是使用 Pinia，即使在小型单页应用程序中，你也可以获得如下功能：
 
 - Devtools 支持
   - 追踪 actions、mutations 的时间线
-  - Store 可出现于使用它们的组件中
-  - Time travel 以及更容易的调试
+  - Store 可呈现于使用到它们的组件中
+  - Time travel 让调试更容易
 - 热更新
   - 不必重载页面即可修改 Store
-  - 开发时可保持现有状态
+  - 开发时可保持当前的 State
 - 插件：可通过插件扩展 Pinia 功能
-- 为JS 用户提供适当的 TypeScript 支持或**自动补全**功能。
+- 为 JS 开发者提供适当的 TypeScript 支持以及 **autocompletion** 功能。
 - 支持服务端渲染
 
-## 基本示例{#basic-example}
+## 基础示例{#basic-example}
 
-下面就是以 API 使用 pinia 的基本用法（为继续阅读本简介请确保你已阅读过了[开始](./getting-started.md)章节）。你可以先创建一个 Store：
+下面就是以 API 使用 pinia 的基本用法。（为继续阅读本简介请确保你已阅读过了[开始](./getting-started.md)章节）你可以先创建一个 Store：
 
 ```js
 // stores/counter.js
@@ -44,7 +44,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-然后你就可以在一个组件中使用该 store 了:
+然后你就可以在一个组件中使用该 store 了：
 
 ```js
 import { useCounterStore } from '@/stores/counter'
@@ -54,7 +54,7 @@ export default {
     const counter = useCounterStore()
 
     counter.count++
-    // 使用自动补全 ✨
+    // with autocompletion ✨
     counter.$patch({ count: counter.count + 1 })
     // 或者使用 action 代替
     counter.increment()
@@ -75,9 +75,9 @@ export const useCounterStore = defineStore('counter', () => {
 })
 ```
 
-如果你还不熟悉 setup() 和 Composition API，别担心，Pinia 也提供了一组类似 Vuex 的[map helpers](https://vuex.vuejs.org/guide/state.html#the-mapstate-helper)。你可以同样的方式定义 Store，然后通过 `mapStores()`、`mapState()` 或 `mapActions()`使用：
+如果你还不熟悉 setup() 和组合式 API，别担心，Pinia 也提供了一组类似 Vuex 的 [map helpers](https://vuex.vuejs.org/guide/state.html#the-mapstate-helper)。你可以用和之前一样的方式来定义 Store，然后通过 `mapStores()`、`mapState()` 或 `mapActions()`使用：
 
-```js
+```js {22,24,28}
 const useCounterStore = defineStore('counter', {
   state: () => ({ count: 0 }),
   getters: {
@@ -86,8 +86,8 @@ const useCounterStore = defineStore('counter', {
   actions: {
     increment() {
       this.count++
-    }
-  }
+    },
+  },
 })
 
 const useUserStore = defineStore('user', {
@@ -96,21 +96,21 @@ const useUserStore = defineStore('user', {
 
 export default {
   computed: {
-    // other computed properties
+    // 其他计算属性
     // ...
-    // gives access to this.counterStore and this.userStore
+    // 允许访问 this.counterStore 和 this.userStore
     ...mapStores(useCounterStore, useUserStore)
-    // gives read access to this.count and this.double
+    // 允许读取 this.count 和 this.double
     ...mapState(useCounterStore, ['count', 'double']),
   },
   methods: {
-    // gives access to this.increment()
+    // 允许读取 this.increment()
     ...mapActions(useCounterStore, ['increment']),
   },
 }
 ```
 
-你将会在核心概念部分了解到更多关于 _map helper_ 的信息。
+你将会在核心概念部分了解到更多关于每个 _map helper_ 的信息。
 
 ## 为什么命名为 _Pinia_？{#Why-pinia}
 
@@ -123,7 +123,7 @@ Pinia (发音为 `/piːnjʌ/`，类似英文中的 “peenya”) 是最接近有
 ```js
 import { defineStore } from 'pinia'
 
-export const todos = defineStore('todos', {
+export const useTodos = defineStore('todos', {
   state: () => ({
     /** @type {{ text: string, id: number, isFinished: boolean }[]} */
     todos: [],
@@ -134,7 +134,7 @@ export const todos = defineStore('todos', {
   }),
   getters: {
     finishedTodos(state) {
-      // 自动补全！ ✨
+      // autocompletion! ✨
       return state.todos.filter((todo) => todo.isFinished)
     },
     unfinishedTodos(state) {
@@ -145,7 +145,7 @@ export const todos = defineStore('todos', {
      */
     filteredTodos(state) {
       if (this.filter === 'finished') {
-        // call other getters with autocompletion ✨
+        // 调用其他带有 autocompletion 的 getters ✨
         return this.finishedTodos
       } else if (this.filter === 'unfinished') {
         return this.unfinishedTodos
@@ -163,30 +163,30 @@ export const todos = defineStore('todos', {
 })
 ```
 
-## 与 Vuex 对比{#comparison-with-vuex}
+## 对比 Vuex {#comparison-with-vuex}
 
-Pinia 最初是为了探索 Vuex 的下一次迭代会是什么样子，结合了 Vuex 5 核心团队讨论中的许多想法。最终，我们意识到 Pinia 已经实现了我们在 Vuex 5 中想要的大部分功能，并决定将其作为新的推荐来代替 Vuex。
+Pinia 起源于一场探索 Vuex 下一个迭代的实验，所以其结合了 Vuex 5 核心团队讨论中的许多想法。最终，我们意识到 Pinia 已经实现了我们在 Vuex 5 中想要的大部分功能，所以决定将其作为新的推荐方案来代替 Vuex。
 
-与 Vuex 相比，Pinia 不仅提供了一个更简单的 API，也提供了Composition-API 风格的 API，最重要的是，与 TypeScript 一起使用时有坚实的类型推断支持。
+与 Vuex 相比，Pinia 不仅提供了一个更简单的 API，也提供了符合组合式 API 风格的 API，最重要的是，搭配 TypeScript 一起使用时有非常可靠的类型推断支持。
 
 ### RFCs
 
-最初，Pinia 没有经过任何 RFC 的流程。我根据自己开发应用程序的经验，同时阅读其他人的代码，为使用 Pinia 的客户工作，以及在 Discord 上回答问题，验证了一些想法。
-这些使我能够产出了这样一个可行的解决方案，并适应各种情况和应用规模。我曾经常发表文章，并在保持其核心 API 不变的情况下不断优化本库。
+最初，Pinia 没有经过任何 RFC 的流程。我基于自己开发应用程序的经验，同时通过阅读其他人的代码，为使用 Pinia 的客户工作，以及在 Discord 上回答问题等方式验证了一些想法。
+这些使我能够产出了这样一个可行的解决方案，并适应各种情况和应用规模。我一直在保持其核心 API 不变的情况下发布新版本同时不断优化本库。
 
-现在 Pinia 已经成为默认的状态管理解决方案，它和 Vue 生态系统中的其他核心库一样，都要经过 RFC 流程，其 API 已经变得稳定。
+现在 Pinia 已经成为默认的状态管理解决方案，它和 Vue 生态系统中的其他核心库一样，都要经过 RFC 流程，其 API 进入稳定状态。
 
-### 与 Vuex 3.x/4.x 对比{#comparison-with-vuex-3-x-4-x}
+### 对比 Vuex 3.x/4.x {#comparison-with-vuex-3-x-4-x}
 
-> Vuex 3.x 是适配 Vue2 的 Vuex，而 Vuex 4.x 是适配 Vue3 的。
+> Vuex 3.x 只适配 Vue2，而 Vuex 4.x 是适配 Vue3 的。
 
 Pinia API 与 Vuex ≤4 有很大不同，即：
 
-- _mutation_ 不再存在。它们经常被认为是**极其冗长的**。它们最初带来了 devtools 的集成方案，但这已不再是一个问题了。
+- _mutations_ 已弃用。它们经常被认为是**极其冗长的**。它们初衷是带来 devtools 的集成方案，但这已不再是一个问题了。
 - 无需要创建自定义的复杂包装器来支持 TypeScript，一切都被类型化了，API 的设计方式是尽可能地利用 TS 类型推理。
-- 无过多的魔法字符串注入，导入函数。只需要调用它们，享受自动补全的乐趣就好。
+- 无过多的魔法字符串注入，只需要导入函数并调用它们，然后享受 autocompletion 的乐趣就好。
 - 无需要动态添加 Store，它们默认都是动态的，甚至你都不会注意到这点。注意，你仍然可以在任何时候手动使用一个 Store 来注册它，但因为它是自动的，所以你不需要担心它。
-- 不再有嵌套结构的**模块**。你仍然可以通过导入和使用另一个 Store 来隐含地嵌套存储空间，但是 Pinia 在设计上提供了一个扁平的结构，同时仍然能够在 Store 之间进行交叉组合。**你甚至可以有 Store 的循环依赖关系**。
-- 没有**命名的模块**。考虑到 Store 的扁平架构，“命名” Store 是与生俱来的，你可以说所有 Store 都是命名的。
+- 不再有嵌套结构的**模块**。你仍然可以通过导入和使用另一个 Store 来隐含地嵌套 stores 空间，虽然是 Pinia 从设计上提供的是一个扁平的结构，但仍然能够在 Store 之间进行交叉组合。**你甚至可以让 Stores 有循环依赖关系**。
+- 没有**命名的模块**。考虑到 Store 的扁平架构，Store 的命名取决于它们的定义方式，你甚至可以说所有 Store 都应该命名。
 
-关于如何将现有 Vuex ≤4 项目转化为使用 Pinia 的更多详细说明，请参阅[从 Vuex 迁移指南](./cookbook/migration-vuex.md)。
+关于如何将现有 Vuex ≤4 项目转化为使用 Pinia 的更多详细说明，请参阅[ Vuex 迁移指南](./cookbook/migration-vuex.md)。
