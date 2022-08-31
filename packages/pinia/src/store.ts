@@ -142,7 +142,7 @@ function createOptionsStore<
     const localState =
       __DEV__ && hot
         ? // use ref() to unwrap refs inside state TODO: check if this is still necessary
-          toRefs(ref(state ? state() : {}).value)
+        toRefs(ref(state ? state() : {}).value)
         : toRefs(pinia.state.value[id])
 
     return assign(
@@ -316,10 +316,10 @@ function createSetupStore<
   /* istanbul ignore next */
   const $reset = __DEV__
     ? () => {
-        throw new Error(
-          `🍍: Store "${$id}" is built using the setup syntax and does not implement $reset().`
-        )
-      }
+      throw new Error(
+        `🍍: Store "${$id}" is built using the setup syntax and does not implement $reset().`
+      )
+    }
     : noop
 
   function $dispose() {
@@ -441,10 +441,10 @@ function createSetupStore<
     assign(
       __DEV__ && IS_CLIENT
         ? // devtools custom properties
-          {
-            _customProperties: markRaw(new Set<string>()),
-            _hmrPayload,
-          }
+        {
+          _customProperties: markRaw(new Set<string>()),
+          _hmrPayload,
+        }
         : {},
       partialStore
       // must be added later
@@ -522,7 +522,7 @@ function createSetupStore<
       if (isComputed(prop)) {
         _hmrPayload.getters[key] = isOptionsStore
           ? // @ts-expect-error
-            options.getters[key]
+          options.getters[key]
           : prop
         if (IS_CLIENT) {
           const getters: string[] =
@@ -620,10 +620,10 @@ function createSetupStore<
         const getter: _Method = newStore._hmrPayload.getters[getterName]
         const getterValue = isOptionsStore
           ? // special handling of options api
-            computed(() => {
-              setActivePinia(pinia)
-              return getter.call(store, store)
-            })
+          computed(() => {
+            setActivePinia(pinia)
+            return getter.call(store, store)
+          })
           : getter
 
         set(store, getterName, getterValue)
@@ -715,8 +715,8 @@ function createSetupStore<
   ) {
     console.warn(
       `[🍍]: The "state" must be a plain object. It cannot be\n` +
-        `\tstate: () => new MyClass()\n` +
-        `Found in store "${store.$id}".`
+      `\tstate: () => new MyClass()\n` +
+      `Found in store "${store.$id}".`
     )
   }
 
@@ -845,17 +845,17 @@ export function defineStore(
   let id: string
   let options:
     | DefineStoreOptions<
-        string,
-        StateTree,
-        _GettersTree<StateTree>,
-        _ActionsTree
-      >
+      string,
+      StateTree,
+      _GettersTree<StateTree>,
+      _ActionsTree
+    >
     | DefineSetupStoreOptions<
-        string,
-        StateTree,
-        _GettersTree<StateTree>,
-        _ActionsTree
-      >
+      string,
+      StateTree,
+      _GettersTree<StateTree>,
+      _ActionsTree
+    >
 
   const isSetupStore = typeof setup === 'function'
   if (typeof idOrOptions === 'string') {
@@ -880,9 +880,9 @@ export function defineStore(
     if (__DEV__ && !activePinia) {
       throw new Error(
         `[🍍]: getActivePinia was called with no active Pinia. Did you forget to install pinia?\n` +
-          `\tconst pinia = createPinia()\n` +
-          `\tapp.use(pinia)\n` +
-          `This will fail in production.`
+        `\tconst pinia = createPinia()\n` +
+        `\tapp.use(pinia)\n` +
+        `This will fail in production.`
       )
     }
 
@@ -902,9 +902,8 @@ export function defineStore(
         useStore._pinia = pinia
       }
     } else {
-      console.warn(
-        `Store with id: ${id} already exists. Stores should have unique id.`,
-        'warn'
+      if (__DEV__) console.warn(
+        `Store with id: ${id} already exists. Stores should have unique id.`
       )
     }
 
