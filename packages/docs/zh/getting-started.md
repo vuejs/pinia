@@ -9,22 +9,28 @@ npm install pinia
 ```
 
 :::tip
-如果你的 App 使用的是 Vue2，你还需要安装组合式 API 包：`@vue/composition-api`。如果你使用的是 Nuxt，你应该参考[这篇指南](/ssr/nuxt.md)。
+如果你的应用使用的是 Vue2，你还需要安装组合式 API 包：`@vue/composition-api`。如果你使用的是 Nuxt，你应该参考[这篇指南](/ssr/nuxt.md)。
 :::
 
 如果你正在使用 Vue CLI，你可以试试这个[**非官方插件**]（https://github.com/wobsoriano/vue-cli-plugin-pinia）。
 
-创建一个 pinia（根 Store）并将其传递给应用程序：
+创建一个 pinia 实例（根 store）并将其传递给应用程序：
 
-```js
+```js {2,5-6,8}
+import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import App from './App.vue'
 
-app.use(createPinia())
+const pinia = createPinia()
+const app = createApp(App)
+
+app.use(pinia)
+app.mount('#app')
 ```
 
 如果你使用的是 Vue2，你还需要安装一个插件，并在应用程序的根部注入创建的 `pinia`：
 
-```js
+```js {1,3-4,12}
 import { createPinia, PiniaVuePlugin } from 'pinia'
 
 Vue.use(PiniaVuePlugin)
@@ -40,7 +46,7 @@ new Vue({
 })
 ```
 
-这也将增加 devtools 支持。在 Vue3 中，一些功能如 time traveling 和编辑仍然不被支持，因为 vue-devtools 还没有相关的 API，但是 devtools 有更多的功能，而且开发者的体验整体上要好得多。在 Vue2 中，Pinia 使用 Vuex 的现有接口（因此不能与它一起使用）。
+这也将提供 devtools 支持。在 Vue3 中，虽然一些功能仍然不被支持，如 time traveling 和编辑，这是因为 vue-devtools 还没有相关的 API，但是 devtools 有更多针对 Vue3 的功能，而且就开发者的体验来说，Vue3 整体上要好得多。在 Vue2 中，Pinia 使用的是 Vuex 的现有接口（因此不能与 Vuex 一起使用）。
 
 ## Store 是什么？{#what-is-a-store}
 
@@ -50,6 +56,6 @@ Store（如 Pinia）是一个保存状态和业务逻辑的实体，它并不与
 
 一个 Store 应该包含可以在整个应用程序中访问的数据。这包括在许多地方使用的数据，例如显示在导航栏中的用户信息，以及需要通过页面保存的数据，例如一个非常复杂的多步骤表单。
 
-另一方面，你应该避免在 Store 中包括那些可以在组件中托管的本地数据，例如，一个元素在页面中的可见性。
+另一方面，你应该避免在 Store 中引入那些原本可以在组件中保存的本地数据，例如，一个元素在页面中的可见性。
 
-并非所有的应用程序都需要访问全局状态，但如果你的应用程序需要一个全局状态，Pinia 将使你的开发更轻松。
+并非所有的应用程序都需要访问全局状态，但如果你的应用程序确实需要一个全局状态，Pinia 将使你的开发更轻松。
