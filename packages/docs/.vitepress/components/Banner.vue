@@ -2,7 +2,7 @@
   <a
     v-if="isVisible"
     id="vs"
-    href="https://vueschool.com/sales/vuejsforge?friend=vuerouter&utm_source=vuerouter&utm_medium=website&utm_campaign=affiliate&utm_content=top_banner"
+    href="https://vueschool.io/sales/vuejsforge?friend=vuerouter&utm_source=vuerouter&utm_medium=website&utm_campaign=affiliate&utm_content=top_banner"
     target="_blank"
     rel="noreferrer">
     <div
