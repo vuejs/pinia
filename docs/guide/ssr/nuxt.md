@@ -60,10 +60,10 @@ export default defineNuxtConfig({
       '@pinia/nuxt',
       {
         autoImports: [
-          // `usePinia()`를 자동으로 임포트함.
-          'defineStore',
-          // `usePinia()`를 `usePiniaStore()`로 자동으로 임포트함.
-          ['defineStore', 'definePiniaStore'],
+          // `defineStore`를 자동으로 임포트함.
+          'defineStore', // import { defineStore } from 'pinia'
+          // `defineStore`를 `definePiniaStore`로 자동으로 임포트함.
+          ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
         ],
       },
     ],
