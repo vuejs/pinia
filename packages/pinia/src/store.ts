@@ -57,6 +57,15 @@ function mergeReactiveObjects<T extends StateTree>(
   target: T,
   patchToApply: _DeepPartial<T>
 ): T {
+  // Handle Map instances
+  if (target instanceof Map && patchToApply instanceof Map) {
+    patchToApply.forEach((value, key) => target.set(key, value))
+  }
+  // Handle Set instances
+  if (target instanceof Set && patchToApply instanceof Set) {
+    patchToApply.forEach(target.add, target)
+  }
+
   // no need to go through symbols because they cannot be serialized anyway
   for (const key in patchToApply) {
     if (!patchToApply.hasOwnProperty(key)) continue
@@ -69,6 +78,9 @@ function mergeReactiveObjects<T extends StateTree>(
       !isRef(subPatch) &&
       !isReactive(subPatch)
     ) {
+      // NOTE: here I wanted to warn about inconsistent types but it's not possible because in setup stores one might
+      // start the value of a property as a certain type e.g. a Map, and then for some reason, during SSR, change that
+      // to `undefined`. When trying to hydrate, we want to override the Map with `undefined`.
       target[key] = mergeReactiveObjects(targetValue, subPatch)
     } else {
       // @ts-expect-error: subPatch is a valid value
