@@ -1,3 +1,9 @@
+## [2.0.22](https://github.com/vuejs/pinia/compare/pinia@2.0.21...pinia@2.0.22) (2022-09-06)
+
+### Features
+
+- **ssr:** handle Maps and Sets ([f9843eb](https://github.com/vuejs/pinia/commit/f9843eb589ea9752f9021f9ebcfc49f6659350d2)), closes [#1608](https://github.com/vuejs/pinia/issues/1608)
+
 ## [2.0.21](https://github.com/vuejs/pinia/compare/pinia@2.0.20...pinia@2.0.21) (2022-08-26)
 
 ### Bug Fixes
