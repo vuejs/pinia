@@ -153,7 +153,7 @@ pinia.use(({ store }) => {
 
 :::warning
 **Vue 2**를 사용하는 경우,
-피니아는 Vue와 [동일한 반응형 주의 사항](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats)이 적용됩니다.
+피니아는 Vue와 [동일한 반응형 주의 사항](https://v2.vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats)이 적용됩니다.
 `secret` 및 `hasError`와 같은 새 상태 속성을 생성할 때,
 (Vue 2.7의 경우)`Vue.set()` 또는 (Vue < 2.7의 경우 `@vue/composition-api`에서)`set()`을 사용해야 합니다:
 
