@@ -92,7 +92,7 @@ importers:
       '@nuxt/module-builder': latest
       '@nuxt/test-utils': ^3.0.0-rc.9
       nuxt: ^3.0.0-rc.9
-      pinia: '>=2.0.19'
+      pinia: '>=2.0.22'
       typescript: ^4.7.4
       vue-tsc: ^0.39.5
     dependencies:
@@ -1125,20 +1125,20 @@ packages:
       rollup: 2.78.0
     dev: true
 
-  /@rollup/plugin-commonjs/21.1.0_rollup@2.78.0:
+  /@rollup/plugin-commonjs/21.1.0_rollup@2.79.0:
     resolution: {integrity: sha512-6ZtHx3VHIp2ReNNDxHjuUml6ur+WcQ28N1yHgCQwsbNkQg2suhxGMDQGJOn/KuDxKtd1xuZP5xSTwBA4GQ8hbA==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       rollup: ^2.38.3
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.78.0
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.0
       commondir: 1.0.1
       estree-walker: 2.0.2
       glob: 7.2.3
       is-reference: 1.2.1
       magic-string: 0.25.9
       resolve: 1.22.1
-      rollup: 2.78.0
+      rollup: 2.79.0
     dev: true
 
   /@rollup/plugin-commonjs/22.0.2_rollup@2.78.0:
@@ -1240,6 +1240,16 @@ packages:
       '@rollup/pluginutils': 3.1.0_rollup@2.78.0
       magic-string: 0.25.9
       rollup: 2.78.0
+    dev: true
+
+  /@rollup/plugin-replace/3.1.0_rollup@2.79.0:
+    resolution: {integrity: sha512-pA3XRUrSKybVYqmH5TqWNZpGxF+VV+1GrYchKgCNIj2vsSOX7CVm2RCtx8p2nrC7xvkziYyK+lSi74T93MU3YA==}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.79.0
+      magic-string: 0.25.9
+      rollup: 2.79.0
     dev: true
 
   /@rollup/plugin-replace/4.0.0_rollup@2.78.0:
@@ -4081,10 +4091,6 @@ packages:
     hasBin: true
     dev: true
 
-  /hookable/5.1.1:
-    resolution: {integrity: sha512-7qam9XBFb+DijNBthaL1k/7lHU2TEMZkWSyuqmU3sCQze1wFm5w9AlEx30PD7a+QVAjOy6Ec2goFwe1YVyk2uA==}
-    dev: true
-
   /hookable/5.3.0:
     resolution: {integrity: sha512-4gTA2q08HT8G32uIW7Jpro3rSXgT2ZTM8R6+r7H7joq90eZlqFPPTvHD6w8WZUohIrbXbDperL96ilb6dkNxNw==}
     dev: true
@@ -6274,7 +6280,7 @@ packages:
       '@babel/code-frame': 7.18.6
     dev: true
 
-  /rollup-plugin-dts/4.2.2_nm5mlcuxlwr6samvke7b2fz27i:
+  /rollup-plugin-dts/4.2.2_xdb5ss5ub2cemhlks3szmapm6q:
     resolution: {integrity: sha512-A3g6Rogyko/PXeKoUlkjxkP++8UDVpgA7C+Tdl77Xj4fgEaIjPSnxRmR53EzvoYy97VMVwLAOcWJudaVAuxneQ==}
     engines: {node: '>=v12.22.11'}
     peerDependencies:
@@ -6282,7 +6288,7 @@ packages:
       typescript: ^4.1
     dependencies:
       magic-string: 0.26.3
-      rollup: 2.78.0
+      rollup: 2.79.0
       typescript: 4.7.4
     optionalDependencies:
       '@babel/code-frame': 7.18.6
@@ -6302,7 +6308,7 @@ packages:
       rollup: 2.78.0
     dev: true
 
-  /rollup-plugin-esbuild/4.9.3_2yhceorlees6ev364fcurqi67q:
+  /rollup-plugin-esbuild/4.9.3_gcmxrjsrrogx33qclilb6bbcqe:
     resolution: {integrity: sha512-bxfUNYTa9Tw/4kdFfT9gtidDtqXyRdCW11ctZM7D8houCCVqp5qHzQF7hhIr31rqMA0APbG47fgVbbCGXgM49Q==}
     engines: {node: '>=12'}
     peerDependencies:
@@ -6315,7 +6321,7 @@ packages:
       esbuild: 0.14.54
       joycon: 3.1.1
       jsonc-parser: 3.1.0
-      rollup: 2.78.0
+      rollup: 2.79.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -7140,17 +7146,17 @@ packages:
     resolution: {integrity: sha512-IALhVj6cLWAxFqX5qcuR932Y3OKFgWcZXPeQ0qU1YAuBucWzpY171GHMi+rXot3C4V7JwD0khGmjvu41E980mQ==}
     hasBin: true
     dependencies:
-      '@rollup/plugin-alias': 3.1.9_rollup@2.78.0
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.78.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.78.0
-      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.78.0
-      '@rollup/plugin-replace': 3.1.0_rollup@2.78.0
+      '@rollup/plugin-alias': 3.1.9_rollup@2.79.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.0
+      '@rollup/plugin-replace': 3.1.0_rollup@2.79.0
       '@rollup/pluginutils': 4.2.1
       chalk: 5.0.1
       consola: 2.15.3
       defu: 5.0.1
       esbuild: 0.14.54
-      hookable: 5.1.1
+      hookable: 5.3.0
       jiti: 1.14.0
       magic-string: 0.25.9
       mkdirp: 1.0.4
@@ -7161,9 +7167,9 @@ packages:
       pkg-types: 0.3.4
       pretty-bytes: 5.6.0
       rimraf: 3.0.2
-      rollup: 2.78.0
-      rollup-plugin-dts: 4.2.2_nm5mlcuxlwr6samvke7b2fz27i
-      rollup-plugin-esbuild: 4.9.3_2yhceorlees6ev364fcurqi67q
+      rollup: 2.79.0
+      rollup-plugin-dts: 4.2.2_xdb5ss5ub2cemhlks3szmapm6q
+      rollup-plugin-esbuild: 4.9.3_gcmxrjsrrogx33qclilb6bbcqe
       scule: 0.2.1
       typescript: 4.7.4
       untyped: 0.3.0
