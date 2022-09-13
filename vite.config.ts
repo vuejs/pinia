@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   define: {
     __DEV__: true,
+    __USE_DEVTOOLS__: false,
     __TEST__: true,
     __BROWSER__: true,
   },
