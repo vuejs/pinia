@@ -56,7 +56,7 @@ const config = defineConfig({
         link: '/guide/getting-started.md',
       },
       {
-        text: 'API (모듈별: 번역 준비중)',
+        text: 'API (모듈별)',
         items: [
           {
             text: 'pinia',
