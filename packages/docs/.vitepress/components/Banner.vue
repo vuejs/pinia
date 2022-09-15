@@ -2,33 +2,28 @@
   <a
     v-if="isVisible"
     id="vs"
-    href="https://vueschool.io/sales/vuejsforge?friend=vuerouter&utm_source=vuerouter&utm_medium=website&utm_campaign=affiliate&utm_content=top_banner"
+    href="https://vueschool.io/free-weekend?friend=vuerouter&utm_source=vuerouter&utm_medium=website&utm_campaign=affiliate&utm_content=top_banner"
     target="_blank"
     rel="noreferrer">
     <div
       class="vs-background-wrapper">
+      <div class="vs-logo">
+        <img src="/images/vueschool/vs-iso.svg" class="logo-small">
+        <img src="/images/vueschool/vs-logo.svg" class="logo-big">
+      </div>
       <div class="vs-core">
-        <div class="vs-backpack">
-          <img src="/images/vueschool/vs-backpack.png" alt="Backpack">
-        </div>
         <div class="vs-slogan-wrapper">
           <div class="vs-slogan">
-            Save 50% for a limited time
-            <span
-              v-if="isExtended">
-              &middot; Extended!
-            </span>
+            Free Weekend 1st & 2nd of October
           </div>
           <div class="vs-subline">
-            Vue.js Premium Video Courses
+            Get Access to ALL Vue School premium courses
           </div>
-          <BannerCountdownMobile
-            v-bind="{ remaining }" />
         </div>
-        <BannerCountdown
-          v-bind="{ remaining }" />
-        <div class="vs-button">
-          BUY NOW
+        <div class="vs-button-wrapper">
+          <div class="vs-button">
+            Book my spot
+          </div>
         </div>
       </div>
       <div
@@ -42,38 +37,27 @@
 </template>
 
 <script>
-import BannerCountdown from './BannerCountdown.vue'
-import BannerCountdownMobile from './BannerCountdownMobile.vue'
-
 export default {
-  components: {
-    BannerCountdown,
-    BannerCountdownMobile
-  },
   data () {
     return {
       isVisible: false,
       isActive: null,
-      isExtended: null,
-      isVisible: false,
       remaining: 0
     }
   },
   mounted () {
     const now = new Date()
-    const extension = new Date('2022-09-01T00:00:00+02:00')
-    const end = new Date('2022-09-02T00:00:00+02:00')
+    const end = new Date('2022-10-07T00:00:00+02:00')
     this.isActive = now < end
-    this.isExtended = now > extension && now < end
-    this.remaining = (this.isExtended ? end : extension) - now
-    this.isVisible = !localStorage.getItem('VF_OFFER') && this.remaining > 0
+    this.remaining = end - now
+    this.isVisible = !localStorage.getItem('VS_FREE_WEEKEND') && this.remaining > 0
     if (this.isVisible) document.body.classList.add('has-top-banner')
   },
   methods: {
     close () {
       this.isVisible = false
       document.body.classList.remove('has-top-banner')
-      localStorage.setItem('VF_OFFER', 1)
+      localStorage.setItem('VS_FREE_WEEKEND', 1)
     }
   }
 }
@@ -93,10 +77,10 @@ export default {
   top: 0;
   z-index: 100;
   height: 72px;
-  background: radial-gradient(circle at 98% 31%, #1f4491, #050a1e 56%);
+  background: linear-gradient(to left, #161a35, #283065);
 }
 
-.vs-background-wrapper {
+#vs .vs-background-wrapper {
   align-items: center;
   justify-content: center;
   display: flex;
@@ -114,8 +98,16 @@ export default {
 }
 
 #vs:hover .vs-core .vs-button {
-  background: rgb(240, 80, 35);
-  color: #FFF;
+  background-image: linear-gradient(to bottom, #5ccc45, #419E2D), linear-gradient(to bottom, #388f26, #50b83b);
+}
+
+#vs .vs-logo {
+  position: absolute;
+  left: 10px;
+}
+
+#vs .vs-logo .logo-big {
+  display: none;
 }
 
 #vs .vs-core {
@@ -124,46 +116,42 @@ export default {
   width: 288px;
 }
 
-#vs .vs-core .vs-backpack {
-  height: 46px;
-  margin-right: 16px;
-}
-
-#vs .vs-core .vs-backpack img {
-  height: 100%;
-}
-
 #vs .vs-core .vs-slogan-wrapper {
-  margin-right: 12px;
+  text-align: center;
+  width: 170px;
+  margin: 0 auto;
 }
 
 #vs .vs-core .vs-slogan {
-  color: #fdb92c;
+  color: #fff;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 10px;
 }
 
 #vs .vs-core .vs-subline {
-  color: #FFF;
-  text-align: center;
+  color: #c6cdf7;
   font-size: 10px;
   margin-top: 4px;
-  font-weight: bold;
+}
+
+#vs .vs-core .vs-button-wrapper {
+  padding: 2px;
+  background-image: linear-gradient(to bottom, #388f26, #50b83b);
+  border-radius: 60px;
+  overflow: hidden;
 }
 
 #vs .vs-core .vs-button {
-  color: #000;
+  border-radius: 60px;
+  color: #FFF;
   padding: 8px 6px;
-  border-radius: 4px;
-  background: #ffbb27;
+  background-image: linear-gradient(to bottom, #5ccc45, #368c24), linear-gradient(to bottom, #388f26, #50b83b);
   font-weight: bold;
   text-transform: uppercase;
   text-align: center;
   font-size: 10px;
   letter-spacing: 0.3px;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+  white-space: nowrap;
 }
 
 #vs .vs-close {
@@ -177,20 +165,31 @@ export default {
 }
 
 @media (min-width: 680px) {
-  .vs-background-wrapper {
-    background-image: url(/images/vueschool/bg-tablet.png);
+  #vs .vs-background-wrapper {
+    background-image: url(/images/vueschool/bg-tablet.svg);
   }
 
-  #vs .vs-iso {
+  #vs .vs-logo {
+    left: 20px;
+  }
+
+  #vs .vs-logo .logo-small {
+    display: none;
+  }
+
+  #vs .vs-logo .logo-big {
     display: inline-block;
+    width: 90px;
   }
 
   #vs .vs-core {
     width: auto;
+    margin-right: -60px;
   }
 
   #vs .vs-core .vs-slogan-wrapper {
-    margin-right: 32px;
+    margin: 0 12px 0 0;
+    width: auto;
   }
 
   #vs .vs-core .vs-slogan {
@@ -198,12 +197,8 @@ export default {
   }
 
   #vs .vs-core .vs-subline {
-    font-size: 16px;
+    font-size: 15px;
     text-align: left;
-  }
-
-  #vs .vs-core {
-    margin-right: 40px;
   }
 
   #vs .vs-core .vs-button {
@@ -217,20 +212,24 @@ export default {
 }
 
 @media (min-width: 900px) {
-  .vs-background-wrapper {
-    background-image: url(/images/vueschool/bg-desktop.png);
+  #vs .vs-background-wrapper {
+    background-image: url(/images/vueschool/bg-desktop.svg);
+    background-position: top right -300px;
   }
 
-  #vs .vs-iso {
-    display: none;
-  }
-
-  #vs .vs-logo {
-    display: block;
+  #vs .vs-logo .logo-big {
+    display: inline-block;
+    width: auto;
   }
 
   #vs .vs-core {
     margin-right: 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  #vs .vs-background-wrapper {
+    background-position: top right;
   }
 }
 
@@ -251,23 +250,4 @@ export default {
 .has-top-banner .theme .page {
   margin-top: 72px;
 }
-
-@media (min-width: 680px) {
-  .has-top-banner .theme {
-    margin-top: 72px;
-  }
-
-  .has-top-banner .theme .nav-bar {
-    margin-top: 72px;
-  }
-
-  .has-top-banner .theme .sidebar {
-    margin-top: 72px;
-  }
-
-  .has-top-banner .theme .page {
-    margin-top: 72px;
-  }
-}
-
 </style>
