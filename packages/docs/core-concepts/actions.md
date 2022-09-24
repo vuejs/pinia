@@ -24,7 +24,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-Like [getters](./getters.md), actions get access to the _whole store instance_ through `this` with **full typing (and autocompletion ✨) support**. **Unlike getters, `actions` can be asynchronous**, you can `await` inside of actions any API call or even other actions! Here is an example using [Mande](https://github.com/posva/mande). Note the library you use doesn't matter as long as you get a `Promise`, you could even use the native `fetch` function (browser only):
+Like [getters](./getters.md), actions get access to the _whole store instance_ through `this` with **full typing (and autocompletion ✨) support**. **Unlike getters, `actions` can be asynchronous**, you can `await` any API call inside of actions or even other actions! Here is an example using [Mande](https://github.com/posva/mande). Note the library you use doesn't matter as long as you get a `Promise`, you could even use the native `fetch` function (browser only):
 
 ```js
 import { mande } from 'mande'
