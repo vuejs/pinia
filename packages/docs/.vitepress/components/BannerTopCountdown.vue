@@ -1,17 +1,19 @@
 <template>
   <ClientOnly>
     <VueCountdown
-      v-if="remaining"
+      v-if="remaining && remaining > 0"
       :time="remaining"
-      :transform="countdownTransform"
+      :transform="countdownTransformDaysToHours"
       v-slot="data"
-      class="vs-countdown-wrapper">
+      class="vs-countdown-wrapper"
+      :style="{ color }">
       <div
         v-for="part in ['days', 'hours', 'minutes', 'seconds'].filter(part => part !== 'days' || data[part] !== '00')"
         :key="part"
         class="vs-countdown-item">
         <div
-          class="vs-countdown-part">
+          class="vs-countdown-part"
+          :style="{ background }">
           <div class="vs-countdown-number">
             {{ data[part] }}
           </div>
@@ -32,14 +34,6 @@
 <script>
 import VueCountdown from '@chenfengyuan/vue-countdown'
 
-const countdownTransform = (props) => {
-  Object.entries(props).forEach(([key, value]) => {
-    const digits = value < 10 ? `0${value}` : value
-    props[key] = digits
-  })
-  return props
-}
-
 export default {
   components: {
     VueCountdown
@@ -48,24 +42,29 @@ export default {
     remaining: {
       type: Number,
       default: 0
+    },
+    color: {
+      type: String,
+      default: '#ff2556'
+    },
+    background: {
+      type: String,
+      default: 'rgba(255, 37, 86, 0.25)'
+    },
+    countdownTransformDaysToHours: {
+      type: Function,
+      required: true
     }
-  },
-  computed: {
-    isVisible () {
-      return this.remaining > 0
-    }
-  },
-  methods: {
-    countdownTransform
   }
 }
 </script>
 
 <style>
 .vs-countdown-wrapper {
+  font-family: 'Roboto', sans-serif;
   align-items: center;
   gap: 4px;
-  margin-right: 32px;
+  margin-right: 12px;
   line-height: 1;
   display: none;
 }
@@ -77,10 +76,8 @@ export default {
 }
 
 .vs-countdown-wrapper .vs-countdown-part {
-  background: rgba(68, 249, 137, 0.5);
   border-radius: 2px;
   padding: 4px 0;
-  color: #44F989;
   text-align: center;
   width: 42px;
 }
@@ -97,7 +94,6 @@ export default {
 }
 
 .vs-countdown-colon {
-  color: #44F989;
   font-weight: bold;
 }
 
