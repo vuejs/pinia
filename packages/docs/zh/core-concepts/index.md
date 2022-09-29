@@ -17,11 +17,11 @@ export const useStore = defineStore('main', {
 })
 ```
 
-这个 _name_ ，也被用作 _id_ ，是必须传入的， Pinia 将用它来连接 store 和 devtools。为了养成习惯性的用法，将返回的函数命名为 _use..._ 是一个常见的惯例。
+这个 _name_ ，也被用作 _id_ ，是必须传入的， Pinia 将用它来连接 store 和 devtools。为了养成习惯性的用法，将返回的函数命名为 _use..._ 是一个符合组合式函数的惯例。
 
-`defineStore()` 的第二个参数可接受两类值：一个设置函数或一个配置对象。
+`defineStore()` 的第二个参数可接受两类值：Setup 函数或 Option 对象。
 
-## 选项式 Stores
+## Option Stores
 
 与 Vue 的选项式 API 类似，我们也可以传入一个带有 `state`、`actions` 与 `getters` 属性的配置对象
 
@@ -45,7 +45,7 @@ export const useCounterStore = defineStore('counter', {
 
 ## Setup Stores
 
-There is also another possible syntax to define stores. Similar to the Vue Composition API's [setup function](https://vuejs.org/api/composition-api-setup.html), we can pass in a function that defines reactive properties and methods and returns an object with the properties and methods we want to expose.
+也存在另一种定义 store 的可用语法。与 Vue 组合式 API 的 [setup 函数](https://vuejs.org/api/composition-api-setup.html) 相似，我们可以传入一个函数，该函数定义了一些响应式属性和方法，并且返回一个带有我们想暴露出去的属性和方法的对象。
 
 ```js
 export const useCounterStore = defineStore('counter', () => {
@@ -58,27 +58,27 @@ export const useCounterStore = defineStore('counter', () => {
 })
 ```
 
-In _Setup Stores_:
+在 _Setup Stores_ 中：
 
-- `ref()`s become `state` properties
-- `computed()`s become `getters`
-- `function()`s become `actions`
+- `ref()`s 就是 `state` 属性
+- `computed()`s 就是 `getters`
+- `function()`s 就是 `actions`
 
-Setup stores bring a lot more flexibility than [Options Stores](#option-stores) as you can create watchers within a store and freely use any [composable](https://vuejs.org/guide/reusability/composables.html#composables). However, keep in mind that using composables will get more complex [SSR](../cookbook/composables.md).
+Setup stores 比 [Options Stores](#option-stores) 带来了更多的灵活性，因为你可以在一个 store 内创建 watchers，并自由地使用任何[组合式函数](https://vuejs.org/guide/reusability/composables.html#composables)。然而，请记住，使用组合式函数会让 [SSR](../cookbook/composables.md) 变得更加复杂。
 
-## What syntax should I pick?
+## 你应该选用哪种语法？{#what-syntax-should-i-pick}
 
-As with [Vue's Composition API and Option API](https://vuejs.org/guide/introduction.html#which-to-choose), pick the one that you feel the most comfortable with. If you're not sure, try the [Option Stores](#option-stores) first.
-## 使用 Stroe {#using-the-store}
+和 [Vue 的组合式 API 与选项式 API](https://vuejs.org/guide/introduction.html#which-to-choose) 一样，选择你觉得最舒服的那一个就好。如果你还不确实，可以先试试 [Option Stores](#option-stores)。
+## 使用 Store {#using-the-store}
 
-虽然我们定义了一个 Store，但在 `setup()` 中调用 `useStore()` 之前，Store 不会被创建：
+虽然我们前面定义了一个 store，但在 `setup()` 调用 `useStore()` 之前，store 实例是不会被创建的：
 
 ```js
-import { useStore } from '@/stores/counter'
+import { useCounterStore } from '@/stores/counter'
 
 export default {
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
 
     return {
       // 为了能在模板中使用它，你可以返回整个 Store 实例。
@@ -88,18 +88,18 @@ export default {
 }
 ```
 
-你可以定义任意多的 Store，**但你应该在不同的文件中定义每个 Store，**以发挥使用 pinia 的最大益处（比如自动允许你构建工具进行代码分割和 TypeScript 推断）。
+你可以定义任意多的 store，但为了让使用 pinia 的益处最大化（比如允许构建工具自动进行代码分割以及 TypeScript 推断），**你应该在不同的文件中去定义 store**。
 
 如果你还不会使用 `setup` 组件，[你仍然可以通过 _map helpers_ 来使用 Pinia](../cookbook/options-api.md)。
 
-一旦 store 被实例化，你可以直接访问在 store `state`、`getters` 和 `actions` 中定义的任何属性。我们将在接下来的页面中看到这些细节，但自动补全将对你有所帮助。
+一旦 store 被实例化，你可以直接访问在 store 的 `state`、`getters` 和 `actions` 中定义的任何属性。我们将在后续章节继续了解这些细节，目前 autocompletion 将帮助你使用相关属性。
 
-注意 `store` 是一个用 `reactive` 包装的对象，这意味着不需要在 getters 后面写 `.value`，就像 `setup` 中的 `props` 一样，**我们也不能解构它**。
+请注意，`store` 是一个用 `reactive` 包装的对象，这意味着不需要在 getters 后面写 `.value`，就像 `setup` 中的 `props` 一样，**如果你写了，我们也不能解构它**：
 
 ```js
 export default defineComponent({
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
     // ❌ 这将无法生效，因为它破坏了响应式
     // 这与从 `props` 中解构是一样的。
     const { name, doubleCount } = store
@@ -119,14 +119,14 @@ export default defineComponent({
 })
 ```
 
-为了从 stroe 中提取属性，同时保持其反应性，你需要使用 `storeToRefs()`。它将为每一个响应式属性创建引用。当你只使用 stroe 的状态而不调用任何 action 时，它非常有用。请注意，你可以直接从 store 中解构 action，因为它们也被绑定到 stroe 上：
+为了从 store 中提取属性时保持其响应性，你需要使用 `storeToRefs()`。它将为每一个响应式属性创建引用。当你只使用 store 的状态而不调用任何 action 时，它会非常有用。请注意，你可以直接从 store 中解构 action，因为它们也被绑定到 store 上：
 
 ```js
 import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
     // `name` and `doubleCount` 都是响应式 refs
     // 这也将为由插件添加的属性创建 refs
     // 同时会跳过任何 action 或非响应式（非 ref/响应式）属性
@@ -136,7 +136,7 @@ export default defineComponent({
 
     return {
       name,
-      doubleCount
+      doubleCount,
       increment,
     }
   },
