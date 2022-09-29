@@ -5,20 +5,70 @@
   title="Learn how to define and use stores in Pinia"
 />
 
-在深入研究核心概念之前，我们需要知道 Store 是用 `defineStore()` 定义的，它需要一个**独一无二的**名称，作为第一个参数传递：
+在深入研究核心概念之前，我们得知道 Store 是用 `defineStore()` 定义的，它的第一个参数要求是一个**独一无二的**名字：
 
 ```js
 import { defineStore } from 'pinia'
 
-// useStore 可以是任意名称，比如useUser，useCart。
+// 你可以对 `defineStore()` 的返回值进行任意命名，但最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾。（比如 `useUserStore`，`useCartStore`，`useProductStore`）
 // 第一个参数是你的应用程序中 Store 的唯一 ID。
 export const useStore = defineStore('main', {
   // 其他配置...
 })
 ```
 
-这个 _name_ ，也被称为 _id_ ，是非常必要的，被 Pinia 用来连接 Store 和 devtools。将返回的函数命名为 _use..._ 是一个跨组合物的惯例，以使其用法符合习惯。
+这个 _name_ ，也被用作 _id_ ，是必须传入的， Pinia 将用它来连接 store 和 devtools。为了养成习惯性的用法，将返回的函数命名为 _use..._ 是一个常见的惯例。
 
+`defineStore()` 的第二个参数可接受两类值：一个设置函数或一个配置对象。
+
+## 选项式 Stores
+
+与 Vue 的选项式 API 类似，我们也可以传入一个带有 `state`、`actions` 与 `getters` 属性的配置对象
+
+```js {2-10}
+export const useCounterStore = defineStore('counter', {
+  state: () => ({ count: 0 }),
+  getters: {
+    double: (state) => state.count * 2,
+  },
+  actions: {
+    increment() {
+      this.count++
+    },
+  },
+})
+```
+
+你可以认为 `state` 是 store 的数据（`data`），`getters` 是 store 的计算属性（`computed`），而 `actions` 则是方法（`methods`）
+
+为方便上手使用，选项式 Store 应尽可能直观简单。
+
+## Setup Stores
+
+There is also another possible syntax to define stores. Similar to the Vue Composition API's [setup function](https://vuejs.org/api/composition-api-setup.html), we can pass in a function that defines reactive properties and methods and returns an object with the properties and methods we want to expose.
+
+```js
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+  function increment() {
+    count.value++
+  }
+
+  return { count, increment }
+})
+```
+
+In _Setup Stores_:
+
+- `ref()`s become `state` properties
+- `computed()`s become `getters`
+- `function()`s become `actions`
+
+Setup stores bring a lot more flexibility than [Options Stores](#option-stores) as you can create watchers within a store and freely use any [composable](https://vuejs.org/guide/reusability/composables.html#composables). However, keep in mind that using composables will get more complex [SSR](../cookbook/composables.md).
+
+## What syntax should I pick?
+
+As with [Vue's Composition API and Option API](https://vuejs.org/guide/introduction.html#which-to-choose), pick the one that you feel the most comfortable with. If you're not sure, try the [Option Stores](#option-stores) first.
 ## 使用 Stroe {#using-the-store}
 
 虽然我们定义了一个 Store，但在 `setup()` 中调用 `useStore()` 之前，Store 不会被创建：
