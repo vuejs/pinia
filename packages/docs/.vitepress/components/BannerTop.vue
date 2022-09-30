@@ -101,7 +101,7 @@ export default {
     BannerTopCountdownMobile
   },
   data () {
-    const now = new Date()
+    const now = new Date('2022-10-06')
     return {
       isVisible: false,
       now
@@ -178,6 +178,9 @@ export default {
   left: 10px;
   width: 36px;
   height: 42px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 #vs-top .vs-core {
@@ -188,19 +191,19 @@ export default {
 
 #vs-top .vs-core .vs-slogan-wrapper {
   text-align: center;
-  width: 178px;
+  width: 184px;
   margin: 0 auto;
 }
 
 #vs-top .vs-core .vs-slogan {
   font-weight: bold;
   font-size: 12px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
 }
 
 #vs-top .vs-core .vs-subline {
   font-size: 10px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
   text-align: center;
 }
 
@@ -235,10 +238,6 @@ export default {
 }
 
 @media (min-width: 680px) {
-  #vs-top .vs-logo {
-    left: 20px;
-  }
-
   #vs-top .vs-core {
     width: auto;
   }
@@ -249,7 +248,7 @@ export default {
   }
 
   #vs-top .vs-core .vs-slogan {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   #vs-top .vs-core .vs-subline {
@@ -261,13 +260,14 @@ export default {
     font-size: 13px;
     padding: 8px 15px;
   }
-
-  #vs-top .vs-close {
-    right: 20px;
-  }
 }
 
 @media (min-width: 1280px) {
+  #vs-top .vs-logo {
+    left: 20px;
+    width: 104px;
+  }
+
   #vs-top .vs-core {
     margin-right: 0;
   }
@@ -290,7 +290,7 @@ export default {
 }
 
 #vs-top.FREE_WEEKEND .vs-logo {
-  background: url(https://vueschool.io/images/mark-vueschool-white.svg) no-repeat;
+  background-image: url(https://vueschool.io/images/mark-vueschool-white.svg);
 }
 
 #vs-top.FREE_WEEKEND .vs-core .vs-slogan {
@@ -319,6 +319,10 @@ export default {
 }
 
 @media (min-width: 1280px) {
+  #vs-top.FREE_WEEKEND .vs-logo {
+    background-image: url(https://vueschool.io/images/icons/logo-white.svg);
+  }
+
   #vs-top.FREE_WEEKEND .vs-background-wrapper {
     background-image: url(https://vueschool.io/images/banners/assets/FREE_WEEKEND/bg-desktop.svg);
     background-position: top right -60px;
@@ -334,7 +338,7 @@ export default {
 }
 
 #vs-top.LEVELUP2022 .vs-logo {
-  background: url(https://vueschool.io/images/mark-vueschool.svg) no-repeat;
+  background-image: url(https://vueschool.io/images/mark-vueschool.svg);
 }
 
 #vs-top.LEVELUP2022 .vs-core .vs-slogan {
@@ -367,6 +371,10 @@ export default {
 }
 
 @media (min-width: 1280px) {
+  #vs-top.LEVELUP2022 .vs-logo {
+    background-image: url(https://vueschool.io/images/icons/logo.svg);
+  }
+
   #vs-top.LEVELUP2022 .vs-background-wrapper {
     background-image:
       url(https://vueschool.io/images/banners/assets/LEVELUP2022/bg-desktop-left.png),
