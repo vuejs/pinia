@@ -101,7 +101,7 @@ export default {
     BannerTopCountdownMobile
   },
   data () {
-    const now = new Date('2022-10-06')
+    const now = new Date()
     return {
       isVisible: false,
       now
