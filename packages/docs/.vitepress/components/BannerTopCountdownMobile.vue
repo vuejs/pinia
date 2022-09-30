@@ -1,10 +1,12 @@
 <template>
   <ClientOnly>
     <VueCountdown
-      v-if="remaining"
+      v-if="remaining && remaining > 0"
       :time="remaining"
+      :transform="countdownTransformDaysToHours"
       v-slot="data"
-      class="vs-countdown-mobile-wrapper">
+      class="vs-countdown-mobile-wrapper"
+      :style="{ color }">
       <span
         v-for="part in ['days', 'hours', 'minutes', 'seconds']"
         :key="part">
@@ -21,14 +23,6 @@
 <script>
 import VueCountdown from '@chenfengyuan/vue-countdown'
 
-const countdownTransform = (props) => {
-  Object.entries(props).forEach(([key, value]) => {
-    const digits = value < 10 ? `0${value}` : value
-    props[key] = digits
-  })
-  return props
-}
-
 export default {
   components: {
     VueCountdown
@@ -37,11 +31,14 @@ export default {
     remaining: {
       type: Number,
       default: 0
-    }
-  },
-  computed: {
-    isVisible () {
-      return this.remaining > 0
+    },
+    color: {
+      type: String,
+      default: '#ff2556'
+    },
+    countdownTransformDaysToHours: {
+      type: Function,
+      required: true
     }
   }
 }
@@ -49,8 +46,8 @@ export default {
 
 <style>
 .vs-countdown-mobile-wrapper {
+  font-family: 'Roboto', sans-serif;
   display: block;
-  color: #40f98a;
   text-align: center;
   font-weight: bold;
   font-size: 12px;
