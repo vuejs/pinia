@@ -54,7 +54,7 @@ const phases = [
   {
     banner: {
       assets: "FREE_WEEKEND",
-      cta: "JOIN FOR FREE",
+      cta: "WATCH FOR FREE",
       link: "/free-weekend",
       static: "FREE_WEEKEND_LIVE",
       subtitle: "Get Access to ALL Vue School premium courses",
