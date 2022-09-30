@@ -227,14 +227,14 @@ cartStore.$subscribe((mutation, state) => {
 })
 ```
 
-默认情况下，_state subscriptions_ 会被绑定到添加它们的组件上（如果 store 在组件的 `setup()` 里面）。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后保留它们，请将 `{ detached: true }` 作为第二个参数，以将 _state subscription_ 从当前组件中 _detach_：
+默认情况下，_state subscriptions_ 会被绑定到添加它们的组件上（如果 store 在组件的 `setup()` 里面）。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `{ detached: true }` 作为第二个参数，以将 _state subscription_ 从当前组件中 _detach_：
 
 ```js
 export default {
   setup() {
     const someStore = useSomeStore()
 
-    // 在组件被卸载后，该订阅将被保留。
+    // 在组件被卸载后，该订阅依旧会被保留。
     someStore.$subscribe(callback, { detached: true })
 
     // ...

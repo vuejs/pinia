@@ -193,7 +193,7 @@ export const useCounterStore = defineStore('counter', {
 
 ### 使用 `setup()`{#with-setup}
 
-因为并不是每个人都会使用组合式 API，但 `setup()` 钩子可以使 Pinia 在选项式 API 中更容易使用。并且不需要额外的 map helper 函数!
+虽然并不是每个人都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易使用。并且不需要额外的 map helper 函数!
 
 ```js
 import { useCounterStore } from '../stores/counter'

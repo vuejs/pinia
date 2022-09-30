@@ -5,25 +5,25 @@
   title="Learn all about actions in Pinia"
 />
 
-Actions 相当于组件中的 [method](https://v3.vuejs.org/guide/data-methods.html#methods)。它们可以通过 `defineStore()` 中的 `actions` 属性来定义，**它们也是定义业务逻辑的完美选择。**
+Actions 相当于组件中的 [method](https://v3.vuejs.org/guide/data-methods.html#methods)。它们可以通过 `defineStore()` 中的 `actions` 属性来定义，**并且它们也是定义业务逻辑的完美选择。**
 
 ```js
 export const useStore = defineStore('main', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
   actions: {
     increment() {
-      this.counter++
+      this.count++
     },
     randomizeCounter() {
-      this.counter = Math.round(100 * Math.random())
+      this.count = Math.round(100 * Math.random())
     },
   },
 })
 ```
 
-与 [getter](./getters.md) 一样，action 也可通过 `this` 访问整个 store 实例，并支持**完整的类型（以及自动补全✨）**。**不同的是，`action` 可以是异步的**，你可以在它们里面 `await` 任何 API 调用，甚至是其他 action！下面是一个使用 [Mande](https://github.com/posva/mande) 的例子。注意你使用什么库并不重要，只要你得到一个`Promise`，你甚至可以使用原生 `fetch` 函数（仅限浏览器）。
+类似 [getter](./getters.md)，action 也可通过 `this` 访问**整个 store 实例**，并支持**完整的类型约束（以及自动补全✨）**。**不同的是，`action` 可以是异步的**，你可以在它们里面 `await` 调用任何 API，以及其他 action！下面是一个使用 [Mande](https://github.com/posva/mande) 的例子。请注意，你使用什么库并不重要，只要你得到的是一个`Promise`，你甚至可以使用原生 `fetch` 函数（在浏览器中）：
 
 ```js
 import { mande } from 'mande'
@@ -51,7 +51,7 @@ export const useUsers = defineStore('users', {
 })
 ```
 
-你也可以完全自由地设置你想要的任何参数以及返回任何结果。当调用 action 时，一切都可以被自动推断出来。
+你也完全可以自由地设置任何你想要的参数以及返回任何结果。当调用 action 时，一切类型也都是可以被自动推断出来的。
 
 Actions 可以像 methods 一样被调用：
 
@@ -69,7 +69,7 @@ export default defineComponent({
 
 ## 访问其他 store 的 action {#accessing-other-stores-actions}
 
-要使用另一个 store，你可以直接在 _action_ 中使用它：
+想要使用另一个 store 的话，那你可以直接在 _action_ 中调用就好了：
 
 ```js
 import { useAuthStore } from './auth-store'
@@ -113,21 +113,21 @@ export default {
   title="Access Pinia Getters via the Options API"
 />
 
-对于下面的例子，你可以假设相关的 store 已经创建了：
+在下面的例子中，你可以假设相关的 store 已经创建了：
 
 ```js
 // 示例文件路径：
-// ./src/stores/counterStore.js
+// ./src/stores/counter.js
 
 import { defineStore } from 'pinia',
 
-const useCounterStore = defineStore('counterStore', {
+const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0
+    count: 0
   }),
   actions: {
     increment() {
-      this.counter++
+      this.count++
     }
   }
 })
@@ -135,10 +135,10 @@ const useCounterStore = defineStore('counterStore', {
 
 ### 使用 `setup()`{#with-setup}
 
-虽然组合式 API 并不适合所有人，但 `setup()` 钩子可以使 Pinia 在选项式 API 中更容易操作。并且不需要额外的 map helper 函数!
+虽然并不是每个人都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易使用。并且不需要额外的 map helper 函数!
 
 ```js
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   setup() {
@@ -157,11 +157,11 @@ export default {
 
 ### 不使用 `setup()`{#without-setup}
 
-如果你不喜欢使用组合式 API，你可以使用 `mapActions()` helper 将 action 属性映射为你组件中的方法。
+如果你不喜欢使用组合式 API，你也可以使用 `mapActions()` helper 将 action 属性映射为你组件中的方法。
 
 ```js
 import { mapActions } from 'pinia'
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   methods: {
@@ -169,16 +169,16 @@ export default {
     // 与从 store.increment() 调用相同
     ...mapActions(useCounterStore, ['increment'])
     // 与上述相同，但将其注册为this.myOwnName()
-    ...mapActions(useCounterStore, { myOwnName: 'doubleCounter' }),
+    ...mapActions(useCounterStore, { myOwnName: 'doubleCount' }),
   },
 }
 ```
 
 ## 订阅 action {#subscribing-to-actions}
 
-可以通过 `store.$onAction()` 来监测 action 和它们的结果。传递给它的回调会在 action 本身之前执行。`after` 处理 promise，允许你在action 解决后执行一个函数。同样地，`onError` 允许你在 action 抛出或拒绝时执行一个函数。这些追踪运行时错误非常有用，类似于[Vue docs 中的这个提示](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors)。
+你可以通过 `store.$onAction()` 来监测 action 和它们的结果。传递给它的回调函数会在 action 本身之前执行。`after` 表示在 promise 解决之后，允许你在 action 解决后执行一个一个回调函数。同样地，`onError` 允许你在 action 抛出错误或 reject 时执行一个回调函数。这些函数对于追踪运行时错误非常有用，类似于[Vue docs 中的这个提示](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors)。
 
-这里有一个例子，在运行 action 之前和 action 解决/拒绝之后都有记录。
+这里有一个例子，在运行 action 之前以及 action resolve/reject 之后打印日志记录。
 
 ```js
 const unsubscribe = someStore.$onAction(
@@ -204,7 +204,7 @@ const unsubscribe = someStore.$onAction(
       )
     })
 
-    // 如果动作抛出或返回一个拒绝的 promise，这将触发
+    // 如果 action 抛出或返回一个拒绝的 promise，这将触发
     onError((error) => {
       console.warn(
         `Failed "${name}" after ${Date.now() - startTime}ms.\nError: ${error}.`
@@ -217,14 +217,14 @@ const unsubscribe = someStore.$onAction(
 unsubscribe()
 ```
 
-默认情况下，_action subscriptions_ 会被绑定到它们被添加的组件上（如果 store 在组件的 `setup()` 内）。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后保留它们，请将 `true` 作为第二个参数传递给 _action subscription_，以便从当前组件中剥离。
+默认情况下，_action 订阅器_ 会被绑定到添加它们的组件上（如果 store 在组件的 `setup()` 内）。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `true` 作为第二个参数传递给 _action 订阅器_，以便将其从当前组件中剥离（_detach_）：
 
 ```js
 export default {
   setup() {
     const someStore = useSomeStore()
 
-    // 在组件被卸载后，这个订阅将被保留。
+    // 在组件被卸载后，这个订阅依旧会被保留。
     someStore.$onAction(callback, true)
 
     // ...
