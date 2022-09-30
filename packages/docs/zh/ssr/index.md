@@ -4,7 +4,7 @@
 如果你使用的是 **Nuxt.js**，你需要阅读的是[**这些说明文档**](./nuxt.md)。
 :::
 
-只要你在 `setup` 函数、`getters` 和 `actions` 的顶部调用 `useStore()` 函数，使用 Pinia 创建 store 对于 SSR 来说应该是开箱即用。
+只要你在 `setup` 函数、`getters` 和 `actions` 的顶部调用 `useStore()` 函数，使用 Pinia 创建 store 对于 SSR 来说应该是开箱即用的。
 
 ```js
 export default defineComponent({
