@@ -1,14 +1,14 @@
 # Plugins
 
-由于有了底层 API，Pinia store 可以被完全扩展。下面是一个你可以实现的清单。
+由于有了底层 API 的支持，Pinia store 现在完全可以被扩展。以下是你可以做的事情的清单：
 
 - 为 store 添加新的属性
 - 定义 store 时增加新的选项
 - 为 store 增加新的方法
 - 包装现有的方法
 - 改变或甚至取消 action
-- 实现副效果，如[本地存储](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
-- **仅**适用于特定 store
+- 实现副作用，如[本地存储](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
+- **仅**应用插件于特定 store
 
 插件是通过 `pinia.use()` 添加到 pinia 实例的。最简单的例子是通过返回一个对象将一个静态属性添加到所有 store。
 
@@ -16,7 +16,7 @@
 import { createPinia } from 'pinia'
 
 // 在安装此插件后创建的每个 store 中都会添加一个名为 `secret` 的属性。
-// 这可以在不同的文件中
+// 插件可以保存在不同的文件中
 function SecretPiniaPlugin() {
   return { secret: 'the cake is a lie' }
 }
@@ -30,16 +30,16 @@ const store = useStore()
 store.secret // 'the cake is a lie'
 ```
 
-这对添加全局对象很有用，如路由器、模态或 toast 管理器。
+这对添加全局对象很有用，如路由器、modal 或 toast 管理器。
 
 ## 简介{#introduction}
 
-Pinia 插件是一个函数，可以选择性地返回要添加到 store 的属性。它接收一个可选的参数，即 _context_。
+Pinia 插件是一个函数，可以选择性地返回要添加到 store 的属性。它接收一个可选参数，即 _context_。
 
 ```js
 export function myPiniaPlugin(context) {
   context.pinia // 用 `createPinia()` 创建的 pinia。 
-  context.app // 用 `createApp()` 创建的当前应用程序（仅Vue 3）。
+  context.app // 用 `createApp()` 创建的当前应用程序（仅 Vue 3）。
   context.store // 该插件想扩展的 store
   context.options // 定义传给 `defineStore()` 的 store 的可选对象。
   // ...
@@ -52,11 +52,11 @@ export function myPiniaPlugin(context) {
 pinia.use(myPiniaPlugin)
 ```
 
-插件只适用于**在 `pinia` 传递给应用程序后**创建的 store，否则它们不会被应用。
+插件只会应用于**在 `pinia` 传递给应用程序后**创建的 store，否则它们不会生效。
 
 ## 扩展 Store{#augmenting-a-store}
 
-你可以通过简单地在一个插件中返回它们的对象来为每个 store 添加属性：
+你可以直接通过在一个插件中返回包含特定属性的对象来为每个 store 都添加上特定属性：
 
 ```js
 pinia.use(() => ({ hello: 'world' }))
@@ -70,7 +70,7 @@ pinia.use(({ store }) => {
 })
 ```
 
-任何由插件返回的属性都会被 devtools 自动跟踪，所以如果你想在 devtools 中调试，为了使 `hello` 在 devtools 中可见，请确保**在 dev 模式下**将其添加到 `store._customProperties` 中。
+任何由插件返回的属性都会被 devtools 自动追踪，所以如果你想在 devtools 中调试 `hello` 属性，为了使 devtools 能追踪到 `hello`，请确保**在 dev 模式下**将其添加到 `store._customProperties` 中：
 
 ```js
 // 上文示例
