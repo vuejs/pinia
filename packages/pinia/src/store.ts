@@ -47,7 +47,7 @@ import {
   _StoreWithState,
 } from './types'
 import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
-import { IS_CLIENT } from './env'
+import { IS_CLIENT, USE_DEVTOOLS } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
 
@@ -451,7 +451,7 @@ function createSetupStore<
 
   const store: Store<Id, S, G, A> = reactive(
     assign(
-      __DEV__ && IS_CLIENT
+      USE_DEVTOOLS
         ? // devtools custom properties
           {
             _customProperties: markRaw(new Set<string>()),
