@@ -866,7 +866,6 @@ export function defineStore(
     options = idOrOptions
     id = idOrOptions.id
   }
-  // push id into stores array
 
   function useStore(pinia?: Pinia | null, hot?: StoreGeneric): StoreGeneric {
     const currentInstance = getCurrentInstance()

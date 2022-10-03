@@ -379,7 +379,7 @@ describe('Store', () => {
       `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "anyName" in store "main".`
     ).toHaveBeenWarnedTimes(1)
   })
-  it('warns when create store with exsist id', async () => {
+  it('warns when creating store with existing id', async () => {
     const id = 'test id';
     const useFirstStore = defineStore(id, {});
     const useSecondStore = defineStore(id, {});
