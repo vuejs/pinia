@@ -451,12 +451,16 @@ function createSetupStore<
 
   const store: Store<Id, S, G, A> = reactive(
     assign(
-      USE_DEVTOOLS
-        ? // devtools custom properties
+      __DEV__ && IS_CLIENT
+        ?
           {
-            _customProperties: markRaw(new Set<string>()),
             _hmrPayload,
           }
+        : {},
+      USE_DEVTOOLS 
+        ? {
+          _customProperties: markRaw(new Set<string>()), // devtools custom properties
+        }
         : {},
       partialStore
       // must be added later
@@ -690,7 +694,7 @@ function createSetupStore<
   // apply all plugins
   pinia._p.forEach((extender) => {
     /* istanbul ignore else */
-    if (__DEV__ && IS_CLIENT) {
+    if (USE_DEVTOOLS) {
       const extensions = scope.run(() =>
         extender({
           store,
