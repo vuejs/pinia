@@ -82,6 +82,8 @@ const store = useStore()
 store.count++
 ```
 
+Note you cannot add a new state property **if you don't define it in `state()`**, it must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
+
 ## Resetting the state
 
 You can _reset_ the state to its initial value by calling the `$reset()` method on the store:
