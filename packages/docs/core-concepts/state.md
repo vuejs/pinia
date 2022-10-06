@@ -82,64 +82,7 @@ const store = useStore()
 store.count++
 ```
 
-
-## Reactivity and initial state values
-
-Sometimes you might have a store or property that inherit a specific model, for example the _user model_ that will be filled from your backend after an api call. After that api call you wish to set the state of the store/property with it's value :
-
-```ts
-type IUser = {
-  name: string;
-  ....
-}
-export const useExampleStore = defineStore('example', {
-  state: () => {
-    return {} as IUser;
-  },
-  actions: {
-    async fetchAndSetUser(): void {
-      const userData = await myApiCall();
-      this.$patch(userData); // won't be reactive
-      this.$patch({...userData});  // won't be reactive
-      this.$state = Object.assign(this.$state, userData); // won't be reactive
-    }
-  }
-```
-Nothing will be reactive in our example, why ? Because you **must declare every property** in the state to benefit reactivty.
-
-
-If you don't, in your Vue debug tool you will see that the **state is correctly set, however it won't be reactive** in the place you are mirroring the values.
-
-In your component:
-```
-//script
-const exampleStore = useExampleStore();
-const { name } = storeToRefs(exampleStore);
-const { fetchAndSetUser } = exampleStore;
-
-fetchAndSetUser()
-....
-//template
-Won't have the value set: {{ exampleStore.name }}
-Won't have the value set: {{ name }}
-Will be reactive, but not advised to access properties like this in your app: {{ exampleStore.$state.name }}
-```
-
-**How it should be:**
-```ts
-type IUser = {
-  name: string;
-  ....
-}
-export const useExampleStore = defineStore('example', {
-  state: () => {
-    return {
-    // by declaring each properties, you will benefit reactivity on them
-      name: '',
-      ...
-    } as IUser;
-  },
-```
+Note you cannot add a new state property **if you don't define it in `state()`**, it must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
 
 ## Resetting the state
 
