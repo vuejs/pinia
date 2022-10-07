@@ -65,11 +65,11 @@ export default {
         children: [
           { text: '定义一个 Store', link: '/zh/core-concepts/' },
           { text: 'State', link: '/zh/core-concepts/state.html' },
-          { text: 'Getters', link: '/zh/core-concepts/getters.html' },
-          { text: 'Actions', link: '/zh/core-concepts/actions.html' },
+          { text: 'Getter', link: '/zh/core-concepts/getters.html' },
+          { text: 'Action', link: '/zh/core-concepts/actions.html' },
           { text: '插件', link: '/zh/core-concepts/plugins.html' },
           {
-            text: '组件外的 Stores',
+            text: '组件外的 Store',
             link: '/zh/core-concepts/outside-component-usage.html',
           },
         ],
