@@ -28,7 +28,7 @@ import { useCounter } from '../src/stores/counter'
 
 describe('Counter Store', () => {
   beforeEach(() => {
-    // 创建一个新 Pinia，并使其处于激活状态，这样它就会被任何 useStore() 调用自动拾取
+    // 创建一个新 Pinia，并使其处于激活状态，这样它就会被任何 useStore() 调用自动接收
     // 而不需要手动传递：
     // `useStore(pinia)`
     setActivePinia(createPinia())

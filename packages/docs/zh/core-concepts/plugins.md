@@ -148,7 +148,7 @@ pinia.use(({ store }) => {
     const secretRef = ref('secret')
     // 如果这些数据是要在 SSR 过程中使用的
     // 你应该将其设置在 `$state' 属性上
-    // 这样它就会被序列化并在 hydration 过程中被拾取(picked up)
+    // 这样它就会被序列化并在 hydration 过程中被接收
     set(store.$state, 'secret', secretRef)
     // 直接在 store 里设置，这样你就可以访问它了。
     // 两种方式都可以：`store.$state.secret` / `store.secret`。
