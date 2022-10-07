@@ -1,12 +1,12 @@
-# 在组件外使用一个 store{#using-a-store-outside-of-a-component}
+# 在组件外使用 store{#using-a-store-outside-of-a-component}
 
-Pinia store 依靠 `pinia` 实例在所有调用中共享同一个 store 实例。大多数时候，只需调用你的 `useStore()` 函数，非常开箱即用。例如，在 `setup()` 中，你不需要做任何其他事情。但在组件之外，情况就有点不同了。
-在幕后，`useStore()` 给你的 `app` 注入了 `pinia` 实例。这意味着，如果 `pinia` 实例不能自动注入，你必须手动提供给 `useStore()` 函数。
-你可以根据你所写的应用程序的种类，以不同的方式解决这个问题。
+Pinia store 依靠 `pinia` 实例在所有调用中共享同一个 store 实例。大多数时候，只需调用你定义的 `useStore()` 函数，非常开箱即用。例如，在 `setup()` 中，你不需要再做任何事情。但在组件之外，情况就有点不同了。
+实际上，`useStore()` 给你的 `app` 自动注入了 `pinia` 实例。这意味着，如果 `pinia` 实例不能自动注入，你必须手动提供给 `useStore()` 函数。
+你可以根据不同的应用，以不同的方式解决这个问题。
 
 ## 单页面应用{#single-page-applications}
 
-如果你不做任何 SSR（服务器端渲染），在用 `app.use(pinia)` 安装pinia 插件后，任何对 `useStore()` 的调用都会有效：
+如果你不做任何 SSR（服务器端渲染），在用 `app.use(pinia)` 安装 pinia 插件后，对 `useStore()` 的任何调用都会正常工作：
 
 ```js
 import { useUserStore } from '@/stores/user'
@@ -24,7 +24,7 @@ app.use(pinia)
 const userStore = useUserStore()
 ```
 
-最简单的方法是将 `useStore()` 的调用放在 pinia 安装后一直运行的函数中，以确保其始终被应用。
+为确保 pinia 实例被激活，最简单的方法就是将 `useStore()` 的调用放在 pinia 安装后才会执行的函数中。
 
 让我们来看看这个在 Vue Router 的导航卫士中使用 store 的例子。
 
@@ -34,7 +34,7 @@ const router = createRouter({
   // ...
 })
 
-// ❌ 取决于引入的顺序，这将失败
+// ❌ 由于引入顺序的问题，这将失败
 const store = useStore()
 
 router.beforeEach((to, from, next) => {
