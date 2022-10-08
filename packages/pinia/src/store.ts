@@ -450,17 +450,21 @@ function createSetupStore<
   }
 
   const store: Store<Id, S, G, A> = reactive(
-    assign(
-      USE_DEVTOOLS || __TEST__
-        ? {
+    __DEV__ || USE_DEVTOOLS
+      ? assign(
+          {
             _hmrPayload,
-            _customProperties: markRaw(new Set<string>()), // devtools custom properties
-          }
-        : {},
-      partialStore
-      // must be added later
-      // setupStore
-    )
+          },
+          USE_DEVTOOLS
+            ? {
+                _customProperties: markRaw(new Set<string>()), // devtools custom properties
+              }
+            : {},
+          partialStore
+          // must be added later
+          // setupStore
+        )
+      : partialStore
   ) as unknown as Store<Id, S, G, A>
 
   // store the partial store now so the setup of stores can instantiate each other before they are finished without
@@ -581,7 +585,7 @@ function createSetupStore<
 
   // add the hotUpdate before plugins to allow them to override it
   /* istanbul ignore else */
-  if (USE_DEVTOOLS || __TEST__) {
+  if (__DEV__) {
     store._hotUpdate = markRaw((newStore) => {
       store._hotUpdating = true
       newStore._hmrPayload.state.forEach((stateKey) => {
@@ -659,7 +663,9 @@ function createSetupStore<
       store._getters = newStore._getters
       store._hotUpdating = false
     })
+  }
 
+  if (USE_DEVTOOLS) {
     const nonEnumerable = {
       writable: true,
       configurable: true,
