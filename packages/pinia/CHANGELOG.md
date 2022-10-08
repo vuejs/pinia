@@ -1,3 +1,9 @@
+## [2.0.23](https://github.com/vuejs/pinia/compare/pinia@2.0.22...pinia@2.0.23) (2022-10-08)
+
+### Bug Fixes
+
+- **devtools:** init `_customProperties` for devtools ([#1704](https://github.com/vuejs/pinia/issues/1704)) ([8c1dfce](https://github.com/vuejs/pinia/commit/8c1dfce2e67c37e09251a7b85fcae2d6a4030fb8))
+
 ## [2.0.22](https://github.com/vuejs/pinia/compare/pinia@2.0.21...pinia@2.0.22) (2022-09-06)
 
 ### Features

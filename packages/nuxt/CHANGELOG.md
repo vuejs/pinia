@@ -1,3 +1,7 @@
+## [0.4.3](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.2...@pinia/nuxt@0.4.3) (2022-10-08)
+
+- Update nuxt version and usage to rc.11
+
 ## [0.4.2](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.1...@pinia/nuxt@0.4.2) (2022-09-06)
 
 ### Bug Fixes
