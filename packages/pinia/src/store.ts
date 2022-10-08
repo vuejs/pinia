@@ -452,12 +452,11 @@ function createSetupStore<
   const store: Store<Id, S, G, A> = reactive(
     assign(
       USE_DEVTOOLS || __TEST__
-        ?
-          {
+        ? {
             _hmrPayload,
             _customProperties: markRaw(new Set<string>()), // devtools custom properties
           }
-        : {}, 
+        : {},
       partialStore
       // must be added later
       // setupStore
@@ -669,14 +668,14 @@ function createSetupStore<
     }
 
     // avoid listing internal properties in devtools
-    ;(
-      ['_p', '_hmrPayload', '_getters', '_customProperties'] as const
-    ).forEach((p) => {
-      Object.defineProperty(store, p, {
-        value: store[p],
-        ...nonEnumerable,
-      })
-    })
+    ;(['_p', '_hmrPayload', '_getters', '_customProperties'] as const).forEach(
+      (p) => {
+        Object.defineProperty(store, p, {
+          value: store[p],
+          ...nonEnumerable,
+        })
+      }
+    )
   }
 
   /* istanbul ignore if */
