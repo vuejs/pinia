@@ -454,12 +454,8 @@ function createSetupStore<
       ? assign(
           {
             _hmrPayload,
+            _customProperties: markRaw(new Set<string>()), // devtools custom properties
           },
-          USE_DEVTOOLS
-            ? {
-                _customProperties: markRaw(new Set<string>()), // devtools custom properties
-              }
-            : {},
           partialStore
           // must be added later
           // setupStore
