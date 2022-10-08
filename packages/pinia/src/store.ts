@@ -47,7 +47,7 @@ import {
   _StoreWithState,
 } from './types'
 import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
-import { IS_CLIENT } from './env'
+import { IS_CLIENT, USE_DEVTOOLS } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
 
@@ -455,18 +455,17 @@ function createSetupStore<
   }
 
   const store: Store<Id, S, G, A> = reactive(
-    assign(
-      __DEV__ && IS_CLIENT
-        ? // devtools custom properties
+    __DEV__ || USE_DEVTOOLS
+      ? assign(
           {
-            _customProperties: markRaw(new Set<string>()),
             _hmrPayload,
-          }
-        : {},
-      partialStore
-      // must be added later
-      // setupStore
-    )
+            _customProperties: markRaw(new Set<string>()), // devtools custom properties
+          },
+          partialStore
+          // must be added later
+          // setupStore
+        )
+      : partialStore
   ) as unknown as Store<Id, S, G, A>
 
   // store the partial store now so the setup of stores can instantiate each other before they are finished without
@@ -662,7 +661,9 @@ function createSetupStore<
       store._getters = newStore._getters
       store._hotUpdating = false
     })
+  }
 
+  if (USE_DEVTOOLS) {
     const nonEnumerable = {
       writable: true,
       configurable: true,
@@ -670,17 +671,15 @@ function createSetupStore<
       enumerable: false,
     }
 
-    if (IS_CLIENT) {
-      // avoid listing internal properties in devtools
-      ;(
-        ['_p', '_hmrPayload', '_getters', '_customProperties'] as const
-      ).forEach((p) => {
+    // avoid listing internal properties in devtools
+    ;(['_p', '_hmrPayload', '_getters', '_customProperties'] as const).forEach(
+      (p) => {
         Object.defineProperty(store, p, {
           value: store[p],
           ...nonEnumerable,
         })
-      })
-    }
+      }
+    )
   }
 
   /* istanbul ignore if */
@@ -692,7 +691,7 @@ function createSetupStore<
   // apply all plugins
   pinia._p.forEach((extender) => {
     /* istanbul ignore else */
-    if (__DEV__ && IS_CLIENT) {
+    if (USE_DEVTOOLS) {
       const extensions = scope.run(() =>
         extender({
           store,
