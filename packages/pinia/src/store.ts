@@ -53,10 +53,9 @@ import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
 
 type _ArrayType<AT> = AT extends Array<infer T> ? T : never
 
-function mergeReactiveObjects<T extends StateTree>(
-  target: T,
-  patchToApply: _DeepPartial<T>
-): T {
+function mergeReactiveObjects<
+  T extends Record<any, unknown> | Map<unknown, unknown> | Set<unknown>
+>(target: T, patchToApply: _DeepPartial<T>): T {
   // Handle Map instances
   if (target instanceof Map && patchToApply instanceof Map) {
     patchToApply.forEach((value, key) => target.set(key, value))
@@ -110,6 +109,12 @@ export function skipHydrate<T = any>(obj: T): T {
     : Object.defineProperty(obj, skipHydrateSymbol, {})
 }
 
+/**
+ * Returns whether a value should be hydrated
+ *
+ * @param obj - target variable
+ * @returns true if `obj` should be hydrated
+ */
 function shouldHydrate(obj: any) {
   return isVue2
     ? /* istanbul ignore next */ !skipHydrateMap.has(obj)
@@ -203,7 +208,7 @@ function createOptionsStore<
 
 function createSetupStore<
   Id extends string,
-  SS,
+  SS extends Record<any, unknown>,
   S extends StateTree,
   G extends Record<string, _Method>,
   A extends _ActionsTree
@@ -491,6 +496,7 @@ function createSetupStore<
             prop.value = initialState[key]
           } else {
             // probably a reactive object, lets recursively assign
+            // @ts-expect-error: prop is unknown
             mergeReactiveObjects(prop, initialState[key])
           }
         }
@@ -538,8 +544,9 @@ function createSetupStore<
           : prop
         if (IS_CLIENT) {
           const getters: string[] =
-            // @ts-expect-error: it should be on the store
-            setupStore._getters || (setupStore._getters = markRaw([]))
+            (setupStore._getters as string[]) ||
+            // @ts-expect-error: same
+            ((setupStore._getters = markRaw([])) as string[])
           getters.push(key)
         }
       }
@@ -550,12 +557,7 @@ function createSetupStore<
   /* istanbul ignore if */
   if (isVue2) {
     Object.keys(setupStore).forEach((key) => {
-      set(
-        store,
-        key,
-        // @ts-expect-error: valid key indexing
-        setupStore[key]
-      )
+      set(store, key, setupStore[key])
     })
   } else {
     assign(store, setupStore)
