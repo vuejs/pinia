@@ -451,17 +451,13 @@ function createSetupStore<
 
   const store: Store<Id, S, G, A> = reactive(
     assign(
-      __DEV__ && IS_CLIENT
+      USE_DEVTOOLS || __TEST__
         ?
           {
             _hmrPayload,
+            _customProperties: markRaw(new Set<string>()), // devtools custom properties
           }
-        : {},
-      USE_DEVTOOLS 
-        ? {
-          _customProperties: markRaw(new Set<string>()), // devtools custom properties
-        }
-        : {},
+        : {}, 
       partialStore
       // must be added later
       // setupStore
@@ -586,7 +582,7 @@ function createSetupStore<
 
   // add the hotUpdate before plugins to allow them to override it
   /* istanbul ignore else */
-  if (__DEV__) {
+  if (USE_DEVTOOLS || __TEST__) {
     store._hotUpdate = markRaw((newStore) => {
       store._hotUpdating = true
       newStore._hmrPayload.state.forEach((stateKey) => {
@@ -672,17 +668,15 @@ function createSetupStore<
       enumerable: false,
     }
 
-    if (IS_CLIENT) {
-      // avoid listing internal properties in devtools
-      ;(
-        ['_p', '_hmrPayload', '_getters', '_customProperties'] as const
-      ).forEach((p) => {
-        Object.defineProperty(store, p, {
-          value: store[p],
-          ...nonEnumerable,
-        })
+    // avoid listing internal properties in devtools
+    ;(
+      ['_p', '_hmrPayload', '_getters', '_customProperties'] as const
+    ).forEach((p) => {
+      Object.defineProperty(store, p, {
+        value: store[p],
+        ...nonEnumerable,
       })
-    }
+    })
   }
 
   /* istanbul ignore if */
