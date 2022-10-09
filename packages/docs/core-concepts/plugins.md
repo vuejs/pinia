@@ -385,3 +385,27 @@ export default defineNuxtPlugin(({ $pinia }) => {
 ```
 
 Note the above example is using TypeScript, you have to remove the type annotations `PiniaPluginContext` and `Plugin` as well as their imports if you are using a `.js` file.
+
+### Nuxt.js 2
+
+```ts
+// plugins/myPiniaPlugin.js
+import { PiniaPluginContext } from 'pinia'
+import { Plugin } from '@nuxt/types'
+
+function MyPiniaPlugin({ store }: PiniaPluginContext) {
+  store.$subscribe((mutation) => {
+    // react to store changes
+    console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
+  })
+
+  // Note this has to be typed if you are using TS
+  return { creationTime: new Date() }
+}
+
+const myPlugin: Plugin = ({ $pinia }) => {
+  $pinia.use(MyPiniaPlugin)
+}
+
+export default myPlugin
+```
