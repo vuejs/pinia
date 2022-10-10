@@ -366,7 +366,7 @@ There is also a `StoreGetters` type to extract the _getters_ from a Store type. 
 When [using pinia alongside Nuxt](../ssr/nuxt.md), you will have to create a [Nuxt plugin](https://nuxtjs.org/docs/2.x/directory-structure/plugins) first. This will give you access to the `pinia` instance:
 
 ```ts
-// plugins/myPiniaPlugin.js
+// plugins/myPiniaPlugin.ts
 import { PiniaPluginContext } from 'pinia'
 
 function MyPiniaPlugin({ store }: PiniaPluginContext) {
@@ -388,8 +388,10 @@ Note the above example is using TypeScript, you have to remove the type annotati
 
 ### Nuxt.js 2
 
+If you are using Nuxt.js 2, the types are slightly different:
+
 ```ts
-// plugins/myPiniaPlugin.js
+// plugins/myPiniaPlugin.ts
 import { PiniaPluginContext } from 'pinia'
 import { Plugin } from '@nuxt/types'
 
