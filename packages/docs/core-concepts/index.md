@@ -19,7 +19,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-This _name_, also referred as _id_, is necessary and is used by Pinia to connect the store to the devtools. Naming the returned function _use..._ is a convention across composables to make its usage idiomatic.
+This _name_, also referred to as _id_, is necessary and is used by Pinia to connect the store to the devtools. Naming the returned function _use..._ is a convention across composables to make its usage idiomatic.
 
 `defineStore()` accepts two distinct values for its second argument: a Setup function or an Options object.
 
@@ -41,9 +41,9 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-You can think of `state` as the `data` of the store, and `getters` as the `computed` properties of the store, and `actions` as the `methods`.
+You can think of `state` as the `data` of the store, `getters` as the `computed` properties of the store, and `actions` as the `methods`.
 
-Options stores should feel intuitive and simple to get started with.
+Option stores should feel intuitive and simple to get started with.
 
 ## Setup Stores
 
@@ -68,11 +68,11 @@ In _Setup Stores_:
 - `computed()`s become `getters`
 - `function()`s become `actions`
 
-Setup stores bring a lot more flexibility than [Options Stores](#option-stores) as you can create watchers within a store and freely use any [composable](https://vuejs.org/guide/reusability/composables.html#composables). However, keep in mind that using composables will get more complex [SSR](../cookbook/composables.md).
+Setup stores bring a lot more flexibility than [Option Stores](#option-stores) as you can create watchers within a store and freely use any [composable](https://vuejs.org/guide/reusability/composables.html#composables). However, keep in mind that using composables will get more complex when using [SSR](../cookbook/composables.md).
 
 ## What syntax should I pick?
 
-As with [Vue's Composition API and Option API](https://vuejs.org/guide/introduction.html#which-to-choose), pick the one that you feel the most comfortable with. If you're not sure, try the [Option Stores](#option-stores) first.
+As with [Vue's Composition API and Options API](https://vuejs.org/guide/introduction.html#which-to-choose), pick the one that you feel the most comfortable with. If you're not sure, try [Option Stores](#option-stores) first.
 
 ## Using the store
 
@@ -97,9 +97,9 @@ export default {
 If you are not using `setup` components yet, [you can still use Pinia with _map helpers_](../cookbook/options-api.md).
 :::
 
-You can define as many stores as you want and **you should define each store in a different file** to get the most out of pinia (like automatically allow your bundler to code split and TypeScript inference).
+You can define as many stores as you want and **you should define each store in a different file** to get the most out of Pinia (like automatically allowing your bundler to code split and providing TypeScript inference).
 
-Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will see these in detail in the next pages but autocompletion will help you.
+Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will look at these in detail in the next pages but autocompletion will help you.
 
 Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it**:
 
@@ -145,7 +145,7 @@ export default defineComponent({
     // This will also create refs for properties added by plugins
     // but skip any action or non reactive (non ref/reactive) property
     const { name, doubleCount } = storeToRefs(store)
-    // the increment action can be just extracted
+    // the increment action can just be extracted
     const { increment } = store
 
     return {
