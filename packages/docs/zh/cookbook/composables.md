@@ -1,10 +1,10 @@
-# Dealing with Composables
+# 处理组合式函数{#dealing-with-composables}
 
-[Composables](https://vuejs.org/guide/reusability/composables.html#composables) are functions that leverage Vue Composition API to encapsulate and reuse stateful logic. Whether you write your own, you use [external libraries](https://vueuse.org/) or do both, you can fully use the power of Composables in your pinia stores.
+[组合式函数](https://vuejs.org/guide/reusability/composables.html#composables)是利用 Vue 组合式 API 来封装和复用有状态逻辑的函数。无论你是自己写，还是使用[外部库](https://vueuse.org/)，或者两者兼而有之，你都可以在 pinia store 中充分发挥组合式函数的力量。
 
 ## Option Stores
 
-When defining an option store, you can call a composable inside of the `state` property:
+当定义一个 option store 时，你可以在 `state` 属性中调用组合式函数：
 
 ```ts
 export const useAuthStore = defineStore('auth', {
@@ -14,12 +14,12 @@ export const useAuthStore = defineStore('auth', {
 })
 ```
 
-Keep in mind that **you can only return writable state** (e.g. a `ref()`). Here are some examples of composables that you can use:
+请记住，**你只能返回可写的状态**（例如，一个 `ref()`）。下面是一些可用的组合式函数的示例：
 
 - [useLocalStorage](https://vueuse.org/core/useLocalStorage/)
 - [useAsyncState](https://vueuse.org/core/useAsyncState/)
 
-Here are some examples of composables that cannot be used in an option stores (but can be used with setup stores):
+下面是一些不可在 option store 中使用的组合式函数（但可在 setup store 中使用）：
 
 - [useMediaControls](https://vueuse.org/core/useMediaControls/): exposes functions
 - [useMemoryInfo](https://vueuse.org/core/useMemory/): exposes readonly data
@@ -27,14 +27,14 @@ Here are some examples of composables that cannot be used in an option stores (b
 
 ## Setup Stores
 
-On the other hand, when defining a setup store, you can use almost any composable since every property gets discerned into state, action, or getter:
+另外，当定义一个 setup store 时，你几乎可以使用任何组合式函数，因为每一个属性都会被辨别为 state 、action 或者 getter：
 
 ```ts
 import { defineStore, skipHydrate } from 'pinia'
 import { useMediaControls } from '@vueuse/core'
 
 export const useVideoPlayer = defineStore('video', () => {
-  // we won't expose this element directly
+  // 我们不会直接暴露这个元素
   const videoElement = ref<HTMLVideoElement>()
   const src = ref('/data/video.mp4')
   const { playing, volume, currentTime, togglePictureInPicture } =
@@ -57,11 +57,11 @@ export const useVideoPlayer = defineStore('video', () => {
 })
 ```
 
-## SSR
+## 服务端渲染{#ssr}
 
-When dealing with [Server Side Rendering](../ssr/index.md), you need to take care of some extra steps in order to use composables within your stores.
+当处理[服务端渲染](../ssr/index.md)时，你有一些需要额外注意的内容，以便在 store 中使用组合式函数。
 
-In [Option Stores](#option-stores), you need to define a `hydrate()` function. This function is called when the store is instantiated on the client (the browser) when there is an initial state available at the time the store is created. The reason we need to define this function is because in such scenario, `state()` is not called.
+在 [Option Store](#option-stores) 中，你需要定义一个 `hydrate()` 函数。当 store 在客户端（浏览器）上被实例化的过程中，创建 store 时有一个可用的初始状态时，这个函数就会被调用。我们需要定义这个函数的原因是，在这种情况下，`state()` 是不会被调用的。
 
 ```ts
 import { defineStore, skipHydrate } from 'pinia'
@@ -73,14 +73,14 @@ export const useAuthStore = defineStore('auth', {
   }),
 
   hydrate(state, initialState) {
-    // in this case we can completely ignore the initial state since we
-    // want to read the value from the browser
+    // 在这种情况下，我们可以完全忽略初始状态
+    // 因为我们想从浏览器中读取数值。
     state.user = useLocalStorage('pinia/auth/login', 'bob')
   },
 })
 ```
 
-In [Setup Stores](#setup-stores), you need to use a helper named `skipHydrate()` on any state property that shouldn't be picked up from the initial state. Differently from option stores, setup stores cannot just _skip calling `state()`_, so we mark properties that cannot be hydrated with `skipHydrate()`. Note that this only applies to writable reactive properties:
+在 [Setup Store](#setup-stores) 中，对于任何不应该从初始状态中接收的 state 属性 你都需要使用一个名为 `skipHydrate()` 的辅助函数。与 option store 不同，setup store 不能直接**跳过调用 `state()`**，所以我们用 `skipHydrate()` 标记那些不能被 hydrated 的属性。请注意，这只适用于可写的响应式属性：
 
 ```ts
 import { defineStore, skipHydrate } from 'pinia'
@@ -93,7 +93,7 @@ const useColorStore = defineStore('colors', () => {
   return {
     lastColor: skipHydrate(pickedColor), // Ref<string>
     open, // Function
-    isSupported, // boolean (not even reactive)
+    isSupported, // boolean (非响应式)
   }
 })
 ```
