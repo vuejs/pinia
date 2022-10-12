@@ -1,14 +1,14 @@
-# Composing Stores
+# 组合式 Store{#composing-stores}
 
-Composing stores 是相互使用的 store，有一个规则需要遵循：
+组合式 store 是可以相互使用，Pinia 当然也支持它。但有一个规则需要遵循：
 
-如果**两个或更多的 store 相互使用**，它们不能通过 _getters_ 或 _actions_ 创建一个无限循环。它们不能**都**在它们的 setup 函数中直接读取对方的 state：
+如果**两个或更多的 store 相互使用**，它们不可以通过 _getters_ 或 _actions_ 创建一个无限循环。它们也不可以**同时**在它们的 setup 函数中直接互相读取对方的 state：
 
 ```js
 const useX = defineStore('x', () => {
   const y = useY()
 
-  // ❌ 这是不可能的，因为 y 也试图读取 x.name
+  // ❌ 这是不可以的，因为 y 也试图读取 x.name
   y.name
 
   function doSomething() {
@@ -25,7 +25,7 @@ const useX = defineStore('x', () => {
 const useY = defineStore('y', () => {
   const x = useX()
 
-  // ❌ 这是不可能的，因为 x 也试图读取 y.name
+  // ❌ 这是不可以的，因为 x 也试图读取 y.name
   x.name
 
   function doSomething() {
@@ -42,36 +42,31 @@ const useY = defineStore('y', () => {
 
 ## 嵌套 store{#nested-stores}
 
-请注意，如果一个 store 使用另一个 store，**没有必要在一个单独的文件中创建一个新的 store**，你可以直接导入它。把它看作是嵌套。
+注意，如果一个 store 使用另一个 store，你可以直接导入并在 _actions_ 和 _getters_ 中调用 `useStore()` 函数。然后你就可以像在 Vue 组件中那样使用 store。参考[共享 Getter](#shared-getters)和[共享 Action](#shared-actions)。
 
-你可以在任何 getter 或 action 的顶部调用 `useOtherStore()`：
+对于 _setup store_ ，你直接使用 store 函数**顶部**的一个 store：
 
-```js
+```ts
 import { useUserStore } from './user'
 
-export const cartStore = defineStore('cart', {
-  getters: {
-    // ... 其他 getters
-    summary(state) {
-      const user = useUserStore()
+export const useCartStore = defineStore('cart', () => {
+  const user = useUserStore()
 
-      return `Hi ${user.name}, you have ${state.list.length} items in your cart. It costs ${state.price}.`
-    },
-  },
+  const summary = computed(() => {
+    return `Hi ${user.name}, you have ${state.list.length} items in your cart. It costs ${state.price}.`
+  })
 
-  actions: {
-    purchase() {
-      const user = useUserStore()
+  function purchase() {
+    return apiPurchase(user.id, this.list)
+  }
 
-      return apiPurchase(user.id, this.list)
-    },
-  },
+  return { summary, purchase }
 })
 ```
 
-## 共享 getter{#shared-getters}
+## 共享 Getter{#shared-getters}
 
-你可以直接在一个 _getter_ 里面调用 `useOtherStore()`：
+你可以直接在一个 _getter_ 中调用 `useOtherStore()`：
 
 ```js
 import { defineStore } from 'pinia'
@@ -90,7 +85,7 @@ export const useCartStore = defineStore('cart', {
 
 ## 共享 Actions {#shared-actions}
 
-同样适用于 _actions_：
+_actions_ 也一样：
 
 ```js
 import { defineStore } from 'pinia'
