@@ -4,21 +4,21 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / @pinia/nuxt
+[API 文档](../index.md) / @pinia/nuxt
 
 # Module: @pinia/nuxt
 
-## Interfaces
+## 接口{#interfaces}
 
 - [ModuleOptions](../interfaces/pinia_nuxt.ModuleOptions.md)
 
-## Functions
+## 函数{#functions}
 
-### default
+### 默认值{#default}
 
 ▸ **default**(`this`, `inlineOptions`, `nuxt`): `void` \| `Promise`<`void`\>
 
-#### Parameters
+#### 参数{#parameters}
 
 | Name | Type |
 | :------ | :------ |
@@ -26,6 +26,6 @@ sidebarDepth: 3
 | `inlineOptions` | [`ModuleOptions`](../interfaces/pinia_nuxt.ModuleOptions.md) |
 | `nuxt` | `Nuxt` |
 
-#### Returns
+#### 返回值{#returns}
 
 `void` \| `Promise`<`void`\>
