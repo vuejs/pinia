@@ -116,7 +116,7 @@ export default {
             link: '/zh/cookbook/migration-v1-v2.html',
           },
           {
-            text: 'Dealing with composables',
+            text: '处理组合式函数',
             link: '/zh/cookbook/composables.html',
           },
         ],
