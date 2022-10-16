@@ -4,44 +4,44 @@ editLinks: false
 sidebarDepth: 3
 ---
 
-[API Documentation](../index.md) / [pinia](../modules/pinia.md) / \_StoreOnActionListenerContext
+[API 文档](../index.md) / [pinia](../modules/pinia.md) / \_StoreOnActionListenerContext
 
-# Interface: \_StoreOnActionListenerContext<Store, ActionName, A\>
+# 接口：\_StoreOnActionListenerContext<Store, ActionName, A\>{#interface-storeonactionlistenercontext-store-actionname-a}
 
 [pinia](../modules/pinia.md)._StoreOnActionListenerContext
 
-Actual type for [StoreOnActionListenerContext](../modules/pinia.md#storeonactionlistenercontext). Exists for refactoring
-purposes. For internal use only.
-For internal use **only**
+[StoreOnActionListenerContext](../modules/pinia.md#storeonactionlistenercontext)的实际类型。
+存在的目的是重构。仅供内部使用。
+**仅**供内部使用
 
-## Type parameters
+## 类型参数{#type-parameters}
 
-| Name | Type |
+| 名称 | 类型 |
 | :------ | :------ |
 | `Store` | `Store` |
 | `ActionName` | extends `string` |
 | `A` | `A` |
 
-## Properties
+## 属性{#properties}
 
 ### after
 
 • **after**: (`callback`: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void`) => `void`
 
-#### Type declaration
+#### 类型声明{#type-declaration}
 
 ▸ (`callback`): `void`
 
-Sets up a hook once the action is finished. It receives the return value
-of the action, if it's a Promise, it will be unwrapped.
+action 执行完的钩子。
+它接收 action 的返回值，如果是 Promise，它将被自动解包。
 
 ##### Parameters
 
-| Name | Type |
+| 名称 | 类型 |
 | :------ | :------ |
 | `callback` | `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void` |
 
-##### Returns
+##### 返回值{#returns}
 
 `void`
 
@@ -51,7 +51,7 @@ ___
 
 • **args**: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? `Parameters`<`A`[`ActionName`]\> : `unknown`[]
 
-Parameters passed to the action
+传递给 action 的参数
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 • **name**: `ActionName`
 
-Name of the action
+action 的名称
 
 ___
 
@@ -67,20 +67,20 @@ ___
 
 • **onError**: (`callback`: (`error`: `unknown`) => `void`) => `void`
 
-#### Type declaration
+#### 类型声明{#type-declaration}
 
 ▸ (`callback`): `void`
 
-Sets up a hook if the action fails. Return `false` to catch the error and
-stop it fro propagating.
+action 的错误钩子。
+返回 `false` 以捕获错误并阻止其继续传播。
 
-##### Parameters
+##### 参数{#parameters}
 
-| Name | Type |
+| 名称 | 类型 |
 | :------ | :------ |
 | `callback` | (`error`: `unknown`) => `void` |
 
-##### Returns
+##### 返回值{#returns}
 
 `void`
 
@@ -90,4 +90,4 @@ ___
 
 • **store**: `Store`
 
-Store that is invoking the action
+正在调用 action 的 Store
