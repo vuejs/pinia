@@ -10,9 +10,9 @@ sidebarDepth: 3
 
 [pinia](../modules/pinia.md)._StoreWithState
 
-具有 state 和功能的基础 store。不应直接使用。
+具有 state 和部分功能的基础 store。不应直接使用。
 
-## 类型参数
+## 类型参数{#type-parameters}
 
 | 名称 | 类型 |
 | :------ | :------ |
@@ -35,43 +35,45 @@ sidebarDepth: 3
 
 store 的唯一标识符
 
-
-#### 继承于
+#### 继承于{#inherited-from}
 
 [StoreProperties](pinia.StoreProperties.md).[$id](pinia.StoreProperties.md#$id)
-
-#### 定义于
-
-[pinia/src/types.ts:265](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L265)
 
 ___
 
 ### $state
 
-• **$state**: `UnwrapRef`<`S`\> & `PiniaCustomStateProperties`<`S`\>
+• **$state**: `UnwrapRef`<`S`\> & [`PiniaCustomStateProperties`](pinia.PiniaCustomStateProperties.md)<`S`\>
 
-Store 的 State。设置它可替换整个 state。
+Store 的 State。给它赋值可替换整个 state。
 
-#### 定义于
+___
 
-[pinia/src/types.ts:337](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L337)
+### \_customProperties
 
-## 方法
+• **\_customProperties**: `Set`<`string`\>
+
+供 devtools 插件使用，用于检索插件添加的属性。
+生产版本会被移除。
+用户可以用它来添加应在 devtools 中显示的 store 属性键。
+
+#### 继承自{#inherited-from}
+
+[StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#_customproperties)
+
+## 方法{methods}
 
 ### $dispose
 
 ▸ **$dispose**(): `void`
 
-停止 store 的相关影响作用域，并从 store 注册表中删除它。
-插件可以覆盖此方法来清理已添加的任何效果。例如， devtools 插件停止显示来自 devtools 的已停止的 store。
+停止 store 的相关作用域，并从 store 注册表中删除它。
+插件可以覆盖此方法来清理已添加的任何副作用函数。
+例如， devtools 插件停止显示来自 devtools 的已停止的 store。
 
-#### 返回值
+#### 返回值{#returns}
 
 `void`
-
-#### 定义于
-
-[pinia/src/types.ts:425](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L425)
 
 ___
 
@@ -81,28 +83,28 @@ ___
 
 设置一个回调，当一个 action 即将被调用时，就会被调用。
 回调接收一个对象，
-其包含被调用 action的所有相关信息：
+其包含被调用 action 的所有相关信息：
 - `store`: 被调用的 store
 - `name`: action 的名称
 - `args`: 传递给 action 的参数
 
-在这些之上，它接收两个函数，
-允许在 action 完成或失败时设置回调。
+除此之外，它会接收两个函数，
+允许在 action 完成或失败时执行的回调。
 
-它还会返回一个函数来删除回调。
+它还会返回一个用来删除回调的函数。
 请注意，当在组件内调用 `store.$onAction()` 时，除非 `detached` 被设置为 true，
 否则当组件被卸载时，它将被自动清理掉。
 
-**`example`**
+**`Example`**
 
 ```js
 store.$onAction(({ after, onError }) => {
- // 在这里，你可以在所有的钩子之间共享变量，
- // 同时设置 watcher 和清理它们。
+ // 你可以在这里创建所有钩子之间的共享变量，
+ // 同时设置 watcher 并清理它们。
  after((resolvedValue) => {
    // 可以用来清理副作用 
    // `resolvedValue` 是 action 返回的值，
-   // 如果是一个 Promise，它将是已解决的值
+   // 如果是一个 Promise，它将是已经 resolved 的值
  })
  onError((error) => {
    // 可以用于向上传递错误
@@ -110,14 +112,14 @@ store.$onAction(({ after, onError }) => {
 })
 ```
 
-#### 参数
+#### 参数{#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `callback` | [`StoreOnActionListener`](../modules/pinia.md#storeonactionlistener)<`Id`, `S`, `G`, `A`\> | callback called before every action |
 | `detached?` | `boolean` | detach the subscription from the context this is called from |
 
-#### 返回值
+#### 返回值{#returns}
 
 `fn`
 
@@ -127,24 +129,24 @@ store.$onAction(({ after, onError }) => {
 
 设置一个回调，当一个 action 即将被调用时，就会被调用。
 回调接收一个对象，
-其包含被调用 action的所有相关信息：
+其包含被调用 action 的所有相关信息：
 - `store`: 被调用的 store
 - `name`: action 的名称
 - `args`: 传递给 action 的参数
 
-在这些之上，它接收两个函数，
-允许在 action 完成或失败时设置回调。
+除此之外，它会接收两个函数，
+允许在 action 完成或失败时执行的回调。
 
-它还会返回一个函数来删除回调。
+它还会返回一个用来来删除回调的函数。
 请注意，当在组件内调用 `store.$onAction()` 时，除非 `detached` 被设置为 true，
 否则当组件被卸载时，它将被自动清理掉。
 
-**`example`**
+**`Example`**
 
 ```js
 store.$onAction(({ after, onError }) => {
-  // 在这里，你可以在所有的钩子之间共享变量，
-  // 同时设置 watcher 和清理它们。
+  // 你可以在这里创建所有钩子之间的共享变量，
+  // 同时设置 watcher 并清理它们。
  after((resolvedValue) => {
    // 可以用来清理副作用 
    // `resolvedValue` 是 action 返回的值，
@@ -156,15 +158,11 @@ store.$onAction(({ after, onError }) => {
 })
 ```
 
-##### 返回值
+##### 返回值{#returns}
 
 `void`
 
-function that removes the watcher
-
-#### 定义于
-
-[pinia/src/types.ts:415](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L415)
+移除 watcher 的函数
 
 ___
 
@@ -174,45 +172,37 @@ ___
 
 将一个 state 补丁应用于当前状态。允许传递嵌套值
 
-#### 参数
+#### 参数{#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
-| `partialState` | `_DeepPartial`<`UnwrapRef`<`S`\>\> | patch to apply to the state |
+| `partialState` | [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`UnwrapRef`<`S`\>\> | patch to apply to the state |
 
-#### 返回值
+#### 返回值{#returns}
 
 `void`
 
-#### 定义于
-
-[pinia/src/types.ts:344](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L344)
-
 ▸ **$patch**<`F`\>(`stateMutator`): `void`
 
-将多个变化分组到一个函数中。
-当 mutation 对象（如 Sets 或数组）或者应用对象补丁不实用时很有用，例如追加到数组中。
+将多个变更分组到一个函数中。
+当 mutation 对象（如 Sets 或数组）或者应用对象补丁不方便时很有用，例如追加到数组中。
 传递给 `$patch()` 的函数**必须是同步的**。
 
-#### 类型参数
+#### 类型参数{#type-parameters}
 
 | 名称 | 类型 |
 | :------ | :------ |
 | `F` | extends (`state`: `UnwrapRef`<`S`\>) => `any` |
 
-#### 参数
+#### 参数{#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `stateMutator` | `ReturnType`<`F`\> extends `Promise`<`any`\> ? `never` : `F` | function that mutates `state`, cannot be async |
 
-#### 返回值
+#### 返回值{returns}
 
 `void`
-
-#### 定义于
-
-[pinia/src/types.ts:353](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L353)
 
 ___
 
@@ -223,13 +213,9 @@ ___
 通过建立一个新的状态对象，将 store 重设为初始状态。
 TODO: make this options only
 
-#### 返回值
+#### 返回值{#returns}
 
 `void`
-
-#### 定义于
-
-[pinia/src/types.ts:362](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L362)
 
 ___
 
@@ -237,18 +223,18 @@ ___
 
 ▸ **$subscribe**(`callback`, `options?`): () => `void`
 
-设置一个回调，当状态发生变化时被调用。它还会返回一个函数来移除回调。
+设置一个回调，当状态发生变化时被调用。它会返回一个用来移除此回调的函数。
 请注意，当在组件内调用 `store.$subscribe()` 时，除非 `detached` 被设置为 true，
 否则当组件被卸载时，它将被自动清理掉。
 
-#### 参数
+#### 参数{#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `callback` | [`SubscriptionCallback`](../modules/pinia.md#subscriptioncallback)<`S`\> | callback passed to the watcher |
 | `options?` | { `detached?`: `boolean`  } & `WatchOptions`<`boolean`\> | `watch` options + `detached` to detach the subscription from the context (usually a component) this is called from. Note that the `flush` option does not affect calls to `store.$patch()`. |
 
-#### 返回值
+#### 返回值{#returns}
 
 `fn`
 
@@ -256,16 +242,12 @@ ___
 
 ▸ (): `void`
 
-设置一个回调，当状态发生变化时被调用。它还会返回一个函数来移除回调。
+设置一个回调，当状态发生变化时被调用。它还会返回一个用来移除回调的函数。
 请注意，当在组件内调用 `store.$subscribe()` 时，除非 `detached` 被设置为 true，
 否则当组件被卸载时，它将被自动清理掉。
 
-##### 返回值
+##### 返回值{#returns}
 
 `void`
 
-function that removes the watcher
-
-#### 定义于
-
-[pinia/src/types.ts:374](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L374)
+移除 watcher 的函数
