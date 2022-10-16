@@ -6,13 +6,13 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptionsInPlugin
 
-# 接口：DefineStoreOptionsInPlugin<Id, S, G, A\>
+# 接口：DefineStoreOptionsInPlugin<Id, S, G, A\>{#interface-definestoreoptionsinplugin-id-s-g-a}
 
 [pinia](../modules/pinia.md).DefineStoreOptionsInPlugin
 
 创建 pinia 插件时可用的 `options`。
 
-## 类型参数
+## 类型参数{#type-parameters}
 
 | 名字 | 类型 |
 | :------ | :------ |
@@ -37,35 +37,50 @@ sidebarDepth: 3
 否则使用传递给 `defineStore()` 的对象。
 如果没有定义 action，则默认为一个空对象。
 
-#### 定义于
-
-[pinia/src/types.ts:723](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L723)
-
 ___
 
 ### getters
 
-• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & `_StoreWithGetters`<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), `_GettersTree`<[`StateTree`](../modules/pinia.md#statetree)\>, `_ActionsTree`\>\> & `_GettersTree`<`S`\>
+• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
 
 getter 的可选对象
 
-#### 继承于
+#### 继承于{#inherited from}
 
 Omit.getters
 
-#### 定义于
+___
 
-[pinia/src/types.ts:647](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L647)
+### state
 
-## 方法
+• `Optional` **state**: () => `S`
+
+#### 类型声明{#type-declaration}
+
+▸ (): `S`
+
+创建一个新 state 的函数。
+**必须是一个箭头函数**，以确保正确的类型检查!
+
+#### 返回值{#returns}
+
+`S`
+
+#### 继承于{#inherited from}
+
+Omit.state
+
+## 方法{#methods}
 
 ### hydrate
 
 ▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
 
-当 store 定义中使用了复杂的状态（如仅客户端的引用），并且从 `pinia.state` 中复制值是不够时，允许在 SSR 期间对 store 进行 hydrating。
+当 store 定义中使用了复杂的状态（如仅客户端的引用），并且从 `pinia.state` 中复制值是不够时，
+允许在 SSR 期间对 store 进行 hydrating。
 
-**`example`**
+**`Example`**
+
 如果在你的 `state` 中，你使用了任何 `customRef`，任何 `computed`，或任何在服务器和客户端有不同值的 `ref`，
 你需要手动对它们进行 hydrate。 
 例如，一个存储在本地存储的自定义 ref：
@@ -82,42 +97,17 @@ const useStore = defineStore('main', {
 })
 ```
 
-#### 参数
+#### 参数{#parameters}
 
-| 名字 | 类型 | Description |
+| 名字 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
 | `initialState` | `UnwrapRef`<`S`\> | initialState |
 
-#### 返回值
+#### 返回值{#returns}
 
 `void`
 
-#### 继承于
+#### 继承于{#inherited-from}
 
 Omit.hydrate
-
-#### 定义于
-
-[pinia/src/types.ts:687](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L687)
-
-___
-
-### state
-
-▸ `Optional` **state**(): `S`
-
-创建一个新 state 的函数。**必须是一个箭头函数**，
-以确保正确的类型检查!
-
-#### 返回值
-
-`S`
-
-#### 继承于
-
-Omit.state
-
-#### 定义于
-
-[pinia/src/types.ts:642](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L642)

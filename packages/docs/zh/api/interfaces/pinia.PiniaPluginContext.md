@@ -6,20 +6,20 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / PiniaPluginContext
 
-# 接口：PiniaPluginContext<Id, S, G, A\>
+# 接口：PiniaPluginContext<Id, S, G, A\>{#interface-piniaplugincontext-id-s-g-a}
 
 [pinia](../modules/pinia.md).PiniaPluginContext
 
 传递给 Pinia 插件的上下文参数。
 
-## 类型参数
+## 类型参数{#type-parameters}
 
 | Name | Type |
 | :------ | :------ |
 | `Id` | extends `string` = `string` |
 | `S` | extends [`StateTree`](../modules/pinia.md#statetree) = [`StateTree`](../modules/pinia.md#statetree) |
-| `G` | `_GettersTree`<`S`\> |
-| `A` | `_ActionsTree` |
+| `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
+| `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
 
 ## 属性{#properties}
 
@@ -27,11 +27,7 @@ sidebarDepth: 3
 
 • **app**: `App`<`any`\>
 
-用 `Vue.createApp() `创建的当前应用程序。
-
-#### 定义于
-
-[pinia/src/rootStore.ts:117](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L117)
+用 `Vue.createApp() `创建的当前应用。
 
 ___
 
@@ -39,11 +35,7 @@ ___
 
 • **options**: [`DefineStoreOptionsInPlugin`](pinia.DefineStoreOptionsInPlugin.md)<`Id`, `S`, `G`, `A`\>
 
-目前正在扩展的 store 
-
-#### 定义于
-
-[pinia/src/rootStore.ts:127](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L127)
+调用 `defineStore()` 时定义 store 的初始选项。
 
 ___
 
@@ -53,10 +45,6 @@ ___
 
 pinia 实例
 
-#### 定义于
-
-[pinia/src/rootStore.ts:112](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L112)
-
 ___
 
 ### store
@@ -64,7 +52,3 @@ ___
 • **store**: [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
 
 目前正在扩展的 store 
-
-#### 定义于
-
-[pinia/src/rootStore.ts:122](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L122)

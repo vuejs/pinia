@@ -6,7 +6,7 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / SubscriptionCallbackMutationPatchObject
 
-# 接口：SubscriptionCallbackMutationPatchObject<S\>
+# 接口：SubscriptionCallbackMutationPatchObject<S\>{#interface-subscriptioncallbackmutationpatchobject-s}
 
 [pinia](../modules/pinia.md).SubscriptionCallbackMutationPatchObject
 
@@ -15,7 +15,7 @@ sidebarDepth: 3
 
 ## 类型参数
 
-| Name |
+| 名称 |
 | :------ |
 | `S` |
 
@@ -31,23 +31,15 @@ sidebarDepth: 3
 
 • **events**: `DebuggerEvent`[]
 
-仅限 DEV， patch 调用的数组
-
-#### 定义于
-
-[pinia/src/types.ts:110](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L110)
+仅限 DEV， patch 调用的数组。
 
 ___
 
 ### payload
 
-• **payload**: `_DeepPartial`<`S`\>
+• **payload**: [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`S`\>
 
 传递给 `store.$patch()` 的对象
-
-#### 定义于
-
-[pinia/src/types.ts:115](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L115)
 
 ___
 
@@ -57,13 +49,9 @@ ___
 
 执行 mutation 的 store 的 `id`
 
-#### 继承于
+#### 继承于{#inherited-from}
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
-
-#### 定义于
-
-[pinia/src/types.ts:81](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L81)
 
 ___
 
@@ -73,10 +61,6 @@ ___
 
 mutation 的类型
 
-### 重写{#overrides}
+#### 重写{#overrides}
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)
-
-#### 定义于
-
-[pinia/src/types.ts:105](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L105)

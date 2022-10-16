@@ -6,15 +6,15 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / StoreProperties
 
-# 接口：StoreProperties<Id\>
+# 接口：StoreProperties<Id\>{#interface-storeproperties-id}
 
 [pinia](../modules/pinia.md).StoreProperties
 
-属性{#properties} of a store.
+ store 的属性。
 
-## 类型参数
+## 类型参数{#type-parameters}
 
-| Name | Type |
+| 名称 | 类型 |
 | :------ | :------ |
 | `Id` | extends `string` |
 
@@ -32,6 +32,12 @@ sidebarDepth: 3
 
 store 的唯一标识符
 
-#### 定义于
+___
 
-[pinia/src/types.ts:265](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L265)
+### \_customProperties
+
+• **\_customProperties**: `Set`<`string`\>
+
+供 devtools 插件使用，用于检索插件添加的属性。
+在生产环境中会被移除。
+开发者可用于添加应在 devtools 中显示的 store 的属性键。

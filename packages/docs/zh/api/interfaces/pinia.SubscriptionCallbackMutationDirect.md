@@ -6,7 +6,7 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / SubscriptionCallbackMutationDirect
 
-# 接口：SubscriptionCallbackMutationDirect
+# 接口：SubscriptionCallbackMutationDirect{#interface-subscriptioncallbackmutationdirect}
 
 [pinia](../modules/pinia.md).SubscriptionCallbackMutationDirect
 
@@ -28,10 +28,6 @@ sidebarDepth: 3
 
 只支持开发环境。不同的 mutation 调用。
 
-#### 定义于
-
-[pinia/src/types.ts:96](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L96)
-
 ___
 
 ### storeId
@@ -40,13 +36,9 @@ ___
 
 执行 mutation 的 store 的 `id`
 
-#### 继承于
+#### 继承于{#inherited-from}
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
-
-#### 定义于
-
-[pinia/src/types.ts:81](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L81)
 
 ___
 
@@ -56,10 +48,6 @@ ___
 
 mutation 的类型
 
-### 重写{#overrides}
+#### 重写{#overrides}
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)
-
-#### 定义于
-
-[pinia/src/types.ts:91](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/types.ts#L91)
