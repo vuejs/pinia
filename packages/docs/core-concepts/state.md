@@ -10,7 +10,7 @@ The state is, most of the time, the central part of your store. People often sta
 ```js
 import { defineStore } from 'pinia'
 
-const useStore = defineStore('storeId', {
+export const useStore = defineStore('storeId', {
   // arrow function recommended for full type inference
   state: () => {
     return {
@@ -29,10 +29,10 @@ If you are using Vue 2, the data you create in `state` follows the same rules as
 
 ## TypeScript
 
-You don't need to do much in order to make your state compatible with TS. Pinia will infer the type of your state automatically but there are a few cases where you should give it a hand with some casting:
+You don't need to do much in order to make your state compatible with TS: make sure [`strict`](https://www.typescriptlang.org/tsconfig#strict), or at the very least, [`noImplicitThis`](https://www.typescriptlang.org/tsconfig#noImplicitThis), are enabled and Pinia will infer the type of your state automatically! However, there are a few cases where you should give it a hand with some casting:
 
 ```ts
-const useStore = defineStore('storeId', {
+export const useUserStore = defineStore('user', {
   state: () => {
     return {
       // for initially empty lists
@@ -57,7 +57,7 @@ interface State {
   user: UserInfo | null
 }
 
-const useStore = defineStore('storeId', {
+export const useUserStore = defineStore('user', {
   state: (): State => {
     return {
       userList: [],
@@ -81,6 +81,8 @@ const store = useStore()
 
 store.count++
 ```
+
+Note you cannot add a new state property **if you don't define it in `state()`**, it must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
 
 ## Resetting the state
 
@@ -107,7 +109,7 @@ For the following examples, you can assume the following store was created:
 
 import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counter', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
   }),
@@ -227,14 +229,14 @@ cartStore.$subscribe((mutation, state) => {
 })
 ```
 
-By default, _state subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you want to keep them after the component is unmounted, pass `{ detached: true }` as the second argument to _detach_ the _state subscription_ from the current component:
+By default, _state subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you also want to keep them after the component is unmounted, pass `{ detached: true }` as the second argument to _detach_ the _state subscription_ from the current component:
 
 ```js
 export default {
   setup() {
     const someStore = useSomeStore()
 
-    // this subscription will be kept after the component is unmounted
+    // this subscription will be kept even after the component is unmounted
     someStore.$subscribe(callback, { detached: true })
 
     // ...

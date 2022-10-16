@@ -5,7 +5,7 @@ import {
   defineNuxtModule,
   addPlugin,
   isNuxt2,
-  addAutoImport,
+  addImports,
   createResolver,
   resolveModule,
 } from '@nuxt/kit'
@@ -41,7 +41,7 @@ export default defineNuxtModule<ModuleOptions>({
     name: 'pinia',
     configKey: 'pinia',
     compatibility: {
-      nuxt: '^2.0.0 || ^3.0.0',
+      nuxt: '^2.0.0 || ^3.0.0-rc.5',
       bridge: true,
     },
   },
@@ -80,7 +80,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Add auto imports
     const composables = resolver.resolve('./runtime/composables')
-    addAutoImport([
+    addImports([
       { from: composables, name: 'usePinia' },
       ...options.autoImports!.map((imports) =>
         typeof imports === 'string'

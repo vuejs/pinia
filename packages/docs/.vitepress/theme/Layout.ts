@@ -4,7 +4,8 @@ import sponsors from '../components/sponsors.json'
 import './sponsors.css'
 import { darkStorageConfig } from '../theme/dark-theme'
 import { useDark } from '@vueuse/core'
-import Banner from '../components/Banner.vue'
+import BannerTop from '../components/BannerTop.vue'
+import './banner-top.css'
 
 export const Layout = defineComponent({
   name: 'CustomLayout',
@@ -19,7 +20,7 @@ export const Layout = defineComponent({
         {
           'home-hero': () =>
             h('div', {}, [
-              h(Banner),
+              h(BannerTop),
               h(
                 'div',
                 {
@@ -38,7 +39,7 @@ export const Layout = defineComponent({
                 ]
               ),
             ]),
-          'page-top': () => h(Banner),
+          'page-top': () => h(BannerTop),
           'sidebar-top': () =>
             h('div', { class: 'sponsors sponsors-top' }, [
               h('span', 'Platinum Sponsors'),

@@ -47,16 +47,24 @@ import {
   _StoreWithState,
 } from './types'
 import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
-import { IS_CLIENT } from './env'
+import { IS_CLIENT, USE_DEVTOOLS } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
 
 type _ArrayType<AT> = AT extends Array<infer T> ? T : never
 
-function mergeReactiveObjects<T extends StateTree>(
-  target: T,
-  patchToApply: _DeepPartial<T>
-): T {
+function mergeReactiveObjects<
+  T extends Record<any, unknown> | Map<unknown, unknown> | Set<unknown>
+>(target: T, patchToApply: _DeepPartial<T>): T {
+  // Handle Map instances
+  if (target instanceof Map && patchToApply instanceof Map) {
+    patchToApply.forEach((value, key) => target.set(key, value))
+  }
+  // Handle Set instances
+  if (target instanceof Set && patchToApply instanceof Set) {
+    patchToApply.forEach(target.add, target)
+  }
+
   // no need to go through symbols because they cannot be serialized anyway
   for (const key in patchToApply) {
     if (!patchToApply.hasOwnProperty(key)) continue
@@ -69,6 +77,9 @@ function mergeReactiveObjects<T extends StateTree>(
       !isRef(subPatch) &&
       !isReactive(subPatch)
     ) {
+      // NOTE: here I wanted to warn about inconsistent types but it's not possible because in setup stores one might
+      // start the value of a property as a certain type e.g. a Map, and then for some reason, during SSR, change that
+      // to `undefined`. When trying to hydrate, we want to override the Map with `undefined`.
       target[key] = mergeReactiveObjects(targetValue, subPatch)
     } else {
       // @ts-expect-error: subPatch is a valid value
@@ -98,6 +109,12 @@ export function skipHydrate<T = any>(obj: T): T {
     : Object.defineProperty(obj, skipHydrateSymbol, {})
 }
 
+/**
+ * Returns whether a value should be hydrated
+ *
+ * @param obj - target variable
+ * @returns true if `obj` should be hydrated
+ */
 function shouldHydrate(obj: any) {
   return isVue2
     ? /* istanbul ignore next */ !skipHydrateMap.has(obj)
@@ -191,7 +208,7 @@ function createOptionsStore<
 
 function createSetupStore<
   Id extends string,
-  SS,
+  SS extends Record<any, unknown>,
   S extends StateTree,
   G extends Record<string, _Method>,
   A extends _ActionsTree
@@ -438,18 +455,17 @@ function createSetupStore<
   }
 
   const store: Store<Id, S, G, A> = reactive(
-    assign(
-      __DEV__ && IS_CLIENT
-        ? // devtools custom properties
+    __DEV__ || USE_DEVTOOLS
+      ? assign(
           {
-            _customProperties: markRaw(new Set<string>()),
             _hmrPayload,
-          }
-        : {},
-      partialStore
-      // must be added later
-      // setupStore
-    )
+            _customProperties: markRaw(new Set<string>()), // devtools custom properties
+          },
+          partialStore
+          // must be added later
+          // setupStore
+        )
+      : partialStore
   ) as unknown as Store<Id, S, G, A>
 
   // store the partial store now so the setup of stores can instantiate each other before they are finished without
@@ -479,6 +495,7 @@ function createSetupStore<
             prop.value = initialState[key]
           } else {
             // probably a reactive object, lets recursively assign
+            // @ts-expect-error: prop is unknown
             mergeReactiveObjects(prop, initialState[key])
           }
         }
@@ -526,8 +543,9 @@ function createSetupStore<
           : prop
         if (IS_CLIENT) {
           const getters: string[] =
-            // @ts-expect-error: it should be on the store
-            setupStore._getters || (setupStore._getters = markRaw([]))
+            (setupStore._getters as string[]) ||
+            // @ts-expect-error: same
+            ((setupStore._getters = markRaw([])) as string[])
           getters.push(key)
         }
       }
@@ -538,12 +556,7 @@ function createSetupStore<
   /* istanbul ignore if */
   if (isVue2) {
     Object.keys(setupStore).forEach((key) => {
-      set(
-        store,
-        key,
-        // @ts-expect-error: valid key indexing
-        setupStore[key]
-      )
+      set(store, key, setupStore[key])
     })
   } else {
     assign(store, setupStore)
@@ -648,7 +661,9 @@ function createSetupStore<
       store._getters = newStore._getters
       store._hotUpdating = false
     })
+  }
 
+  if (USE_DEVTOOLS) {
     const nonEnumerable = {
       writable: true,
       configurable: true,
@@ -656,17 +671,15 @@ function createSetupStore<
       enumerable: false,
     }
 
-    if (IS_CLIENT) {
-      // avoid listing internal properties in devtools
-      ;(
-        ['_p', '_hmrPayload', '_getters', '_customProperties'] as const
-      ).forEach((p) => {
+    // avoid listing internal properties in devtools
+    ;(['_p', '_hmrPayload', '_getters', '_customProperties'] as const).forEach(
+      (p) => {
         Object.defineProperty(store, p, {
           value: store[p],
           ...nonEnumerable,
         })
-      })
-    }
+      }
+    )
   }
 
   /* istanbul ignore if */
@@ -678,7 +691,7 @@ function createSetupStore<
   // apply all plugins
   pinia._p.forEach((extender) => {
     /* istanbul ignore else */
-    if (__DEV__ && IS_CLIENT) {
+    if (USE_DEVTOOLS) {
       const extensions = scope.run(() =>
         extender({
           store,

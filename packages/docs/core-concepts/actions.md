@@ -8,11 +8,12 @@
 Actions are the equivalent of [methods](https://v3.vuejs.org/guide/data-methods.html#methods) in components. They can be defined with the `actions` property in `defineStore()` and **they are perfect to define business logic**:
 
 ```js
-export const useStore = defineStore('main', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
   }),
   actions: {
+    // since we rely on `this`, we cannot use an arrow function
     increment() {
       this.count++
     },
@@ -58,9 +59,9 @@ Actions are invoked like methods:
 ```js
 export default defineComponent({
   setup() {
-    const main = useMainStore()
+    const store = useCounterStore()
     // call the action as a method of the store
-    main.randomizeCounter()
+    store.randomizeCounter()
 
     return {}
   },
@@ -99,7 +100,7 @@ You can directly call any action as a method of the store:
 ```js
 export default {
   setup() {
-    const store = useStore()
+    const store = useCounterStore()
 
     store.randomizeCounter()
   },
@@ -121,7 +122,7 @@ For the following examples, you can assume the following store was created:
 
 import { defineStore } from 'pinia',
 
-const useCounterStore = defineStore('counter', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0
   }),
@@ -135,7 +136,7 @@ const useCounterStore = defineStore('counter', {
 
 ### With `setup()`
 
-While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
+While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work within the Options API. No extra map helper functions needed!
 
 ```js
 import { useCounterStore } from '../stores/counter'
@@ -169,7 +170,7 @@ export default {
     // same as calling from store.increment()
     ...mapActions(useCounterStore, ['increment'])
     // same as above but registers it as this.myOwnName()
-    ...mapActions(useCounterStore, { myOwnName: 'doubleCount' }),
+    ...mapActions(useCounterStore, { myOwnName: 'increment' }),
   },
 }
 ```
@@ -217,14 +218,14 @@ const unsubscribe = someStore.$onAction(
 unsubscribe()
 ```
 
-By default, _action subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you want to keep them after the component is unmounted, pass `true` as the second argument to _detach_ the _action subscription_ from the current component:
+By default, _action subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you also want to keep them after the component is unmounted, pass `true` as the second argument to _detach_ the _action subscription_ from the current component:
 
 ```js
 export default {
   setup() {
     const someStore = useSomeStore()
 
-    // this subscription will be kept after the component is unmounted
+    // this subscription will be kept even after the component is unmounted
     someStore.$onAction(callback, true)
 
     // ...
