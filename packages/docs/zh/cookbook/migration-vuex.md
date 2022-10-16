@@ -2,7 +2,7 @@
 
 虽然 Vuex 和 Pinia store 的结构不同，但很多逻辑都可以复用。本指南的作用是帮助你完成迁移，并指出一些可能出现的常见问题。
 
-## 准备{#Preparation}
+## 准备{#preparation}
 
 首先，按照[入门指南](../getting-started.md)安装 Pinia。
 
