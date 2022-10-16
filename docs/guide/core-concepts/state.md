@@ -92,6 +92,9 @@ const store = useStore()
 store.count++
 ```
 
+만약 `state()`에 상태를 정의해 두지 않았다면, 새 상태 속성을 추가할 수 없습니다.
+예를들어, `state()`에 `secondCount`가 정의되어 있지 않으면, `state.secondCount = 2`를 수행할 수 없습니다.
+
 ## 상태 재설정 %{#resetting-the-state}%
 
 스토어에서 `$reset()` 메서드를 호출하여 상태를 초기 값으로 재설정할 수 있습니다:
