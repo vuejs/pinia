@@ -6,12 +6,12 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [@pinia/testing](../modules/pinia_testing.md) / TestingPinia
 
-# 接口：TestingPinia
+# 接口：TestingPinia{#interface-testingpinia}
 
 [@pinia/testing](../modules/pinia_testing.md).TestingPinia
 
 专门为测试设计的 Pinia 实例。
-用测试中特定属性扩展普通的 [Pinia](pinia.Pinia.md) 实例。
+用测试中的特定属性扩展普通的 [Pinia](pinia.Pinia.md) 实例。
 
 ## 层次结构{#hierarchy}
 
@@ -25,11 +25,31 @@ sidebarDepth: 3
 
 • **app**: `App`<`any`\>
 
-Pinia 使用的应用程序
+Pinia 使用的应用
 
-#### 定义于
+___
 
-[testing/src/testing.ts:60](https://github.com/posva/pinia/blob/46c50b2/packages/testing/src/testing.ts#L60)
+### 安装{#install}
+
+• **install**: (`app`: `App`<`any`\>) => `void`
+
+#### 类型声明{#type-declaration}
+
+▸ (`app`): `void`
+
+##### 参数{#parameters}
+
+| 名称 | 类型 |
+| :------ | :------ |
+| `app` | `App`<`any`\> |
+
+##### 返回值{#returns}
+
+`void`
+
+#### 继承于{#inherited-from}
+
+[Pinia](pinia.Pinia.md).[install](pinia.Pinia.md#install)
 
 ___
 
@@ -37,41 +57,13 @@ ___
 
 • **state**: `Ref`<`Record`<`string`, [`StateTree`](../modules/pinia.md#statetree)\>\>
 
-root state
+根 state
 
 #### 继承于
 
 [Pinia](pinia.Pinia.md).[state](pinia.Pinia.md#state)
 
-#### 定义于
-
-[pinia/src/rootStore.ts:51](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L51)
-
-## 方法
-
-### 安装
-
-▸ **install**(`app`): `void`
-
-#### 参数
-
-| 名称 | 类型 |
-| :------ | :------ |
-| `app` | `App`<`any`\> |
-
-#### 返回值
-
-`void`
-
-#### 继承于
-
-[Pinia](pinia.Pinia.md).[install](pinia.Pinia.md#install)
-
-#### 定义于
-
-[pinia/src/rootStore.ts:46](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L46)
-
-___
+## 方法{#methods}
 
 ### use
 
@@ -79,20 +71,16 @@ ___
 
 增加了一个 store 插件来扩展每个  store
 
-#### 参数
+#### 参数{#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | store plugin to add |
 
-#### 返回值
+#### 返回值{#returns}
 
 [`Pinia`](pinia.Pinia.md)
 
-#### 继承于
+#### 继承于{#inherited-from}
 
 [Pinia](pinia.Pinia.md).[use](pinia.Pinia.md#use)
-
-#### 定义于
-
-[pinia/src/rootStore.ts:58](https://github.com/posva/pinia/blob/46c50b2/packages/pinia/src/rootStore.ts#L58)
