@@ -1,8 +1,8 @@
-# Nuxt.js
+# Nuxt.js {#nuxt-js}
 
 搭配 [Nuxt.js](https://nuxtjs.org/) 的 Pinia 更易用，因为 Nuxt 处理了很多与**服务器端渲染**有关的事情。例如，**你不需要关心序列化或 XSS 攻击**。Pinia 既支持 Nuxt Bridge 和 Nuxt 3，也支持纯 Nuxt 2，[见下文](#nuxt-2-without-bridge)。
 
-## 安装{#installation}
+## 安装 {#installation}
 
 ```bash
 yarn add @pinia/nuxt
@@ -25,7 +25,7 @@ export default defineNuxtConfig({
 
 这样配置就完成了，正常使用 store 就好啦!
 
-## 在 `setup()` 外部使用 store{#using-the-store-outside-of-setup}
+## 在 `setup()` 外部使用 store {#using-the-store-outside-of-setup}
 
 如果你想在 `setup()` 外部使用一个 store，记得把 `pinia` 对象传给 `useStore()`。我们会把它添加到[上下文](https://nuxtjs.org/docs/2.x/internals-glossary/context)中，然后你就可以在 `asyncData()` 和 `fetch()` 中访问它了：
 
@@ -39,7 +39,7 @@ export default {
 }
 ```
 
-## 自动引入{#auto-imports}
+## 自动引入 {#auto-imports}
 
 默认情况下，`@pinia/nuxt` 会暴露一个自动引入的方法：`usePinia()`，它类似于 `getActivePinia()`，但在 Nuxt 中效果更好。你可以添加自动引入来减轻你的开发工作：
 
@@ -89,7 +89,7 @@ export default {
 }
 ```
 
-### TypeScript
+### TypeScript {#typescript}
 
 如果你使用的是 Nuxt 2 (`@pinia/nuxt` < 0.3.0) 搭配 TypeScript，并且有 `jsconfig.json`，你应该为 `context.pinia` 引入类型：
 

@@ -6,13 +6,13 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / pinia
 
-# 模块：pinia
+# 模块：pinia {#module-pinia}
 
-## 枚举{#enumerations}
+## 枚举 {#enumerations}
 
 - [MutationType](../enums/pinia.MutationType.md)
 
-## 接口{#interfaces}
+## 接口 {#interfaces}
 
 - [DefineSetupStoreOptions](../interfaces/pinia.DefineSetupStoreOptions.md)
 - [DefineStoreOptions](../interfaces/pinia.DefineStoreOptions.md)
@@ -33,9 +33,9 @@ sidebarDepth: 3
 - [\_StoreWithState](../interfaces/pinia._StoreWithState.md)
 - [\_SubscriptionCallbackMutationBase](../interfaces/pinia._SubscriptionCallbackMutationBase.md)
 
-## 类型别名{#type-aliases}
+## 类型别名 {#type-aliases}
 
-### PiniaStorePlugin
+### PiniaStorePlugin {#piniastoreplugin}
 
 Ƭ **PiniaStorePlugin**: [`PiniaPlugin`](../interfaces/pinia.PiniaPlugin.md)
 
@@ -47,7 +47,7 @@ sidebarDepth: 3
 
 ___
 
-### StateTree
+### StateTree {#statetree}
 
 Ƭ **StateTree**: `Record`<`string` \| `number` \| `symbol`, `any`\>
 
@@ -55,7 +55,7 @@ Store 的通用 state
 
 ___
 
-### Store
+### Store {#store}
 
 Ƭ **Store**<`Id`, `S`, `G`, `A`\>: [`_StoreWithState`](../interfaces/pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & `UnwrapRef`<`S`\> & [`_StoreWithGetters`](pinia.md#_storewithgetters)<`G`\> & [`_ActionsTree`](pinia.md#_actionstree) extends `A` ? {} : `A` & [`PiniaCustomProperties`](../interfaces/pinia.PiniaCustomProperties.md)<`Id`, `S`, `G`, `A`\> & [`PiniaCustomStateProperties`](../interfaces/pinia.PiniaCustomStateProperties.md)<`S`\>
 
@@ -72,7 +72,7 @@ ___
 
 ___
 
-### StoreActions
+### StoreActions {#storeactions}
 
 Ƭ **StoreActions**<`SS`\>: `SS` extends [`Store`](pinia.md#store)<`string`, [`StateTree`](pinia.md#statetree), [`_GettersTree`](pinia.md#_getterstree)<[`StateTree`](pinia.md#statetree)\>, infer A\> ? `A` : [`_ExtractActionsFromSetupStore`](pinia.md#_extractactionsfromsetupstore)<`SS`\>
 
@@ -87,7 +87,7 @@ ___
 
 ___
 
-### StoreGeneric
+### StoreGeneric {#storegeneric}
 
 Ƭ **StoreGeneric**: [`Store`](pinia.md#store)<`string`, [`StateTree`](pinia.md#statetree), [`_GettersTree`](pinia.md#_getterstree)<[`StateTree`](pinia.md#statetree)\>, [`_ActionsTree`](pinia.md#_actionstree)\>
 
@@ -97,7 +97,7 @@ ___
 
 ___
 
-### StoreGetters
+### StoreGetters {#storegetters}
 
 Ƭ **StoreGetters**<`SS`\>: `SS` extends [`Store`](pinia.md#store)<`string`, [`StateTree`](pinia.md#statetree), infer G, [`_ActionsTree`](pinia.md#_actionstree)\> ? [`_StoreWithGetters`](pinia.md#_storewithgetters)<`G`\> : [`_ExtractGettersFromSetupStore`](pinia.md#_extractgettersfromsetupstore)<`SS`\>
 
@@ -112,7 +112,7 @@ ___
 
 ___
 
-### StoreOnActionListener
+### StoreOnActionListener {#storeonactionlistener}
 
 Ƭ **StoreOnActionListener**<`Id`, `S`, `G`, `A`\>: (`context`: [`StoreOnActionListenerContext`](pinia.md#storeonactionlistenercontext)<`Id`, `S`, `G`, {} extends `A` ? [`_ActionsTree`](pinia.md#_actionstree) : `A`\>) => `void`
 
@@ -125,7 +125,7 @@ ___
 | `G`  | `G`                                       |
 | `A`  | `A`                                       |
 
-#### 类型声明{#type-declaration}
+#### 类型声明 {#type-declaration}
 
 ▸ (`context`): `void`
 
@@ -143,7 +143,7 @@ ___
 
 ___
 
-### StoreOnActionListenerContext
+### StoreOnActionListenerContext {#storeonactionlistenercontext}
 
 Ƭ **StoreOnActionListenerContext**<`Id`, `S`, `G`, `A`\>: [`_ActionsTree`](pinia.md#_actionstree) extends `A` ? [`_StoreOnActionListenerContext`](../interfaces/pinia._StoreOnActionListenerContext.md)<[`StoreGeneric`](pinia.md#storegeneric), `string`, [`_ActionsTree`](pinia.md#_actionstree)\> : { [Name in keyof A]: Name extends string ? \_StoreOnActionListenerContext<Store<Id, S, G, A\>, Name, A\> : never }[keyof `A`]
 
@@ -161,7 +161,7 @@ TODO：应该只有Id，Store 和 Action 来生成适当的对象。
 
 ___
 
-### StoreState
+### StoreState {#storestate}
 
 Ƭ **StoreState**<`SS`\>: `SS` extends [`Store`](pinia.md#store)<`string`, infer S, [`_GettersTree`](pinia.md#_getterstree)<[`StateTree`](pinia.md#statetree)\>, [`_ActionsTree`](pinia.md#_actionstree)\> ? `UnwrapRef`<`S`\> : [`_ExtractStateFromSetupStore`](pinia.md#_extractstatefromsetupstore)<`SS`\>
 
@@ -176,7 +176,7 @@ ___
 
 ___
 
-### SubscriptionCallback
+### SubscriptionCallback {#subscriptioncallback}
 
 Ƭ **SubscriptionCallback**<`S`\>: (`mutation`: [`SubscriptionCallbackMutation`](pinia.md#subscriptioncallbackmutation)<`S`\>, `state`: `UnwrapRef`<`S`\>) => `void`
 
@@ -205,7 +205,7 @@ ___
 
 ___
 
-### SubscriptionCallbackMutation
+### SubscriptionCallbackMutation {#subscriptioncallbackmutation}
 
 Ƭ **SubscriptionCallbackMutation**<`S`\>: [`SubscriptionCallbackMutationDirect`](../interfaces/pinia.SubscriptionCallbackMutationDirect.md) \| [`SubscriptionCallbackMutationPatchObject`](../interfaces/pinia.SubscriptionCallbackMutationPatchObject.md)<`S`\> \| [`SubscriptionCallbackMutationPatchFunction`](../interfaces/pinia.SubscriptionCallbackMutationPatchFunction.md)
 
@@ -219,7 +219,7 @@ ___
 
 ___
 
-### \_ActionsTree
+### \_ActionsTree {#actionstree}
 
 Ƭ **\_ActionsTree**: `Record`<`string`, [`_Method`](pinia.md#_method)\>
 
@@ -228,7 +228,7 @@ ___
 
 ___
 
-### \_Awaited
+### \_Awaited {#awaited}
 
 Ƭ **\_Awaited**<`T`\>: `T` extends ``null`` \| `undefined` ? `T` : `T` extends `object` & { `then`: (`onfulfilled`: `F`) => `any`  } ? `F` extends (`value`: infer V, ...`args`: `any`) => `any` ? [`_Awaited`](pinia.md#_awaited)<`V`\> : `never` : `T`
 
@@ -240,7 +240,7 @@ ___
 
 ___
 
-### \_DeepPartial
+### \_DeepPartial {#deeppartial}
 
 Ƭ **\_DeepPartial**<`T`\>: { [K in keyof T]?: \_DeepPartial<T[K]\> }
 
@@ -256,7 +256,7 @@ ___
 
 ___
 
-### \_ExtractActionsFromSetupStore
+### \_ExtractActionsFromSetupStore {#extractactionsfromsetupstore}
 
 Ƭ **\_ExtractActionsFromSetupStore**<`SS`\>: `SS` extends `undefined` \| `void` ? {} : [`_ExtractActionsFromSetupStore_Keys`](pinia.md#_extractactionsfromsetupstore_keys)<`SS`\> extends keyof `SS` ? `Pick`<`SS`, [`_ExtractActionsFromSetupStore_Keys`](pinia.md#_extractactionsfromsetupstore_keys)<`SS`\>\> : `never`
 
@@ -270,7 +270,7 @@ ___
 
 ___
 
-### \_ExtractActionsFromSetupStore\_Keys
+### \_ExtractActionsFromSetupStore\_Keys {#extractactionsfromsetupstore-keys}
 
 Ƭ **\_ExtractActionsFromSetupStore\_Keys**<`SS`\>: keyof { [K in keyof SS as SS[K] extends \_Method ? K : never]: any }
 
@@ -285,7 +285,7 @@ ___
 
 ___
 
-### \_ExtractGettersFromSetupStore
+### \_ExtractGettersFromSetupStore{#extractgettersfromsetupstore}
 
 Ƭ **\_ExtractGettersFromSetupStore**<`SS`\>: `SS` extends `undefined` \| `void` ? {} : [`_ExtractGettersFromSetupStore_Keys`](pinia.md#_extractgettersfromsetupstore_keys)<`SS`\> extends keyof `SS` ? `Pick`<`SS`, [`_ExtractGettersFromSetupStore_Keys`](pinia.md#_extractgettersfromsetupstore_keys)<`SS`\>\> : `never`
 
@@ -299,7 +299,7 @@ ___
 
 ___
 
-### \_ExtractGettersFromSetupStore\_Keys
+### \_ExtractGettersFromSetupStore\_Keys {#extractgettersfromsetupstore-keys}
 
 Ƭ **\_ExtractGettersFromSetupStore\_Keys**<`SS`\>: keyof { [K in keyof SS as SS[K] extends ComputedRef ? K : never]: any }
 
@@ -314,7 +314,7 @@ ___
 
 ___
 
-### \_ExtractStateFromSetupStore
+### \_ExtractStateFromSetupStore{#extractstatefromsetupstore}
 
 Ƭ **\_ExtractStateFromSetupStore**<`SS`\>: `SS` extends `undefined` \| `void` ? {} : [`_ExtractStateFromSetupStore_Keys`](pinia.md#_extractstatefromsetupstore_keys)<`SS`\> extends keyof `SS` ? [`_UnwrapAll`](pinia.md#_unwrapall)<`Pick`<`SS`, [`_ExtractStateFromSetupStore_Keys`](pinia.md#_extractstatefromsetupstore_keys)<`SS`\>\>\> : `never`
 
@@ -328,7 +328,7 @@ ___
 
 ___
 
-### \_ExtractStateFromSetupStore\_Keys
+### \_ExtractStateFromSetupStore\_Keys{#extractstatefromsetupstore-keys}
 
 Ƭ **\_ExtractStateFromSetupStore\_Keys**<`SS`\>: keyof { [K in keyof SS as SS[K] extends \_Method \| ComputedRef ? never : K]: any }
 
@@ -343,7 +343,7 @@ ___
 
 ___
 
-### \_GettersTree
+### \_GettersTree {#getterstree}
 
 Ƭ **\_GettersTree**<`S`\>: `Record`<`string`, (`state`: `UnwrapRef`<`S`\> & `UnwrapRef`<[`PiniaCustomStateProperties`](../interfaces/pinia.PiniaCustomStateProperties.md)<`S`\>\>) => `any` \| () => `any`\>
 
@@ -358,7 +358,7 @@ ___
 
 ___
 
-### \_MapActionsObjectReturn
+### \_MapActionsObjectReturn {#mapactionsobjectreturn}
 
 Ƭ **\_MapActionsObjectReturn**<`A`, `T`\>: { [key in keyof T]: A[T[key]] }
 
@@ -373,7 +373,7 @@ ___
 
 ___
 
-### \_MapActionsReturn
+### \_MapActionsReturn {#mapactionsreturn}
 
 Ƭ **\_MapActionsReturn**<`A`\>: { [key in keyof A]: A[key] }
 
@@ -387,7 +387,7 @@ ___
 
 ___
 
-### \_MapStateObjectReturn
+### \_MapStateObjectReturn {#mapstateobjectreturn}
 
 Ƭ **\_MapStateObjectReturn**<`Id`, `S`, `G`, `A`, `T`\>: { [key in keyof T]: Function }
 
@@ -405,7 +405,7 @@ ___
 
 ___
 
-### \_MapStateReturn
+### \_MapStateReturn {#mapstatereturn}
 
 Ƭ **\_MapStateReturn**<`S`, `G`, `Keys`\>: { [key in Keys]: Function }
 
@@ -421,7 +421,7 @@ ___
 
 ___
 
-### \_MapWritableStateObjectReturn
+### \_MapWritableStateObjectReturn {#mapwritablestateobjectreturn}
 
 Ƭ **\_MapWritableStateObjectReturn**<`S`, `T`\>: { [key in keyof T]: Object }
 
@@ -436,7 +436,7 @@ ___
 
 ___
 
-### \_MapWritableStateReturn
+### \_MapWritableStateReturn {#mapwritablestatereturn}
 
 Ƭ **\_MapWritableStateReturn**<`S`\>: { [key in keyof S]: Object }
 
@@ -450,11 +450,11 @@ ___
 
 ___
 
-### \_Method
+### \_Method {#method}
 
 Ƭ **\_Method**: (...`args`: `any`[]) => `any`
 
-#### 类型声明{#type-declaration}
+#### 类型声明 {#type-declaration}
 
 ▸ (...`args`): `any`
 
@@ -462,19 +462,19 @@ Generic type for a function that can infer arguments and return type
 
 **仅**供内部使用
 
-##### Parameters
+##### 参数 {#parameters}
 
-| 名称 | Type |
+| 名称 | 类型 |
 | :------ | :------ |
 | `...args` | `any`[] |
 
-##### Returns
+##### 返回值 {#returns}
 
 `any`
 
 ___
 
-### \_Spread
+### \_Spread {#spread}
 
 Ƭ **\_Spread**<`A`\>: `A` extends [infer L, ...(infer R)] ? [`_StoreObject`](pinia.md#_storeobject)<`L`\> & [`_Spread`](pinia.md#_spread)<`R`\> : `unknown`
 
@@ -488,7 +488,7 @@ ___
 
 ___
 
-### \_StoreObject
+### \_StoreObject {#storeobject}
 
 Ƭ **\_StoreObject**<`S`\>: `S` extends [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<infer Ids, infer State, infer Getters, infer Actions\> ? { [Id in \`${Ids}${MapStoresCustomization extends Record<"suffix", string\> ? MapStoresCustomization["suffix"] : "Store"}\`]: Function } : {}
 
@@ -502,7 +502,7 @@ ___
 
 ___
 
-### \_StoreWithActions
+### \_StoreWithActions {#storewithactions}
 
 Ƭ **\_StoreWithActions**<`A`\>: { [k in keyof A]: A[k] extends Function ? Function : never }
 
@@ -517,7 +517,7 @@ ___
 
 ___
 
-### \_StoreWithGetters
+### \_StoreWithGetters {#storewithgetters}
 
 Ƭ **\_StoreWithGetters**<`G`\>: { readonly [k in keyof G]: G[k] extends Function ? R : UnwrapRef<G[k]\> }
 
@@ -532,7 +532,7 @@ Store augmented with getters. For internal usage only.
 
 ___
 
-### \_UnwrapAll
+### \_UnwrapAll {#unwrapall}
 
 Ƭ **\_UnwrapAll**<`SS`\>: { [K in keyof SS]: UnwrapRef<SS[K]\> }
 
@@ -547,7 +547,7 @@ ___
 
 ## 变量{#variables}
 
-### PiniaVuePlugin
+### PiniaVuePlugin {#piniavueplugin}
 
 • **PiniaVuePlugin**: `Plugin`
 
@@ -575,9 +575,9 @@ new Vue({
 
  从 'vue' 导入的 `Vue`。
 
-## 函数{#functions}
+## 函数 {#functions}
 
-### acceptHMRUpdate
+### acceptHMRUpdate {#accepthmrupdate}
 
 ▸ **acceptHMRUpdate**(`initialUseStore`, `hot`): (`newModule`: `any`) => `any`
 
@@ -592,14 +592,14 @@ if (import.meta.hot) {
 }
 ```
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `initialUseStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`string`, [`StateTree`](pinia.md#statetree), [`_GettersTree`](pinia.md#_getterstree)<[`StateTree`](pinia.md#statetree)\>, [`_ActionsTree`](pinia.md#_actionstree)\> | return of the defineStore to hot update |
 | `hot` | `any` | `import.meta.hot` |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 `fn`
 
@@ -617,19 +617,19 @@ if (import.meta.hot) {
 
 ___
 
-### createPinia
+### createPinia {#createpinia}
 
 ▸ **createPinia**(): [`Pinia`](../interfaces/pinia.Pinia.md)
 
 创建一个 Pinia 实例，供应用使用。
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`Pinia`](../interfaces/pinia.Pinia.md)
 
 ___
 
-### defineStore
+### defineStore {#definestore}
 
 ▸ **defineStore**<`Id`, `S`, `G`, `A`\>(`id`, `options`): [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\>
 
@@ -644,14 +644,14 @@ ___
 | `G`  | 扩展自 `_GettersTree`<`S`\> = {}              |
 | `A`  | {}                                             |
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `id` | `Id` | id of the store (must be unique) |
 | `options` | `Omit`<[`DefineStoreOptions`](../interfaces/pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\>, ``"id"``\> | options to define the store |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\>
 
@@ -668,13 +668,13 @@ ___
 | `G` | extends [`_GettersTree`](pinia.md#_getterstree)<`S`\> = {} |
 | `A` | {} |
 
-#### 参数
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `options` | [`DefineStoreOptions`](../interfaces/pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\> | options to define the store |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\>
 
@@ -689,7 +689,7 @@ ___
 | `Id` | 扩展自 `string` |
 | `SS` | `SS`             |
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
@@ -697,25 +697,25 @@ ___
 | `storeSetup` | () => `SS` | function that defines the store |
 | `options?` | [`DefineSetupStoreOptions`](../interfaces/pinia.DefineSetupStoreOptions.md)<`Id`, [`_ExtractStateFromSetupStore`](pinia.md#_extractstatefromsetupstore)<`SS`\>, [`_ExtractGettersFromSetupStore`](pinia.md#_extractgettersfromsetupstore)<`SS`\>, [`_ExtractActionsFromSetupStore`](pinia.md#_extractactionsfromsetupstore)<`SS`\>\> | extra options |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, [`_ExtractStateFromSetupStore`](pinia.md#_extractstatefromsetupstore)<`SS`\>, [`_ExtractGettersFromSetupStore`](pinia.md#_extractgettersfromsetupstore)<`SS`\>, [`_ExtractActionsFromSetupStore`](pinia.md#_extractactionsfromsetupstore)<`SS`\>\>
 
 ___
 
-### getActivePinia
+### getActivePinia {#getactivepinia}
 
 ▸ **getActivePinia**(): `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md)
 
 如果有的话，获取当前激活的 pinia
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md)
 
 ___
 
-### mapActions
+### mapActions {#mapactions}
 
 ▸ **mapActions**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): [`_MapActionsObjectReturn`](pinia.md#_mapactionsobjectreturn)<`A`, `KeyMapper`\>
 
@@ -751,14 +751,14 @@ export default {
 | `A`         | `A`                                       |
 | `KeyMapper` | 扩展自 `Record`<`string`, keyof `A`\>    |
 
-#### 参数
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
 | `keyMapper` | `KeyMapper` | object to define new names for the actions |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`_MapActionsObjectReturn`](pinia.md#_mapactionsobjectreturn)<`A`, `KeyMapper`\>
 
@@ -793,20 +793,20 @@ export default {
 | `G`  | 扩展自 [`_GettersTree`](pinia.md#_getterstree)<`S`\> |
 | `A`  | `A`                                       |
 
-#### 参数
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
 | `keys` | keyof `A`[] | array of action names to map |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`_MapActionsReturn`](pinia.md#_mapactionsreturn)<`A`\>
 
 ___
 
-### mapGetters
+### mapGetters {#mapgetters}
 
 ▸ **mapGetters**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): [`_MapStateObjectReturn`](pinia.md#_mapstateobjectreturn)<`Id`, `S`, `G`, `A`, `KeyMapper`\>
 
@@ -853,14 +853,14 @@ export default {
 | `A` | `A` |
 | `KeyMapper` | extends `Record`<`string`, keyof `S` \| keyof `G` \| (`store`: [`Store`](pinia.md#store)<`Id`, `S`, `G`, `A`\>) => `any`\> |
 
-#### 参数
+#### 参数 {#parameters}
 
 | 名称 | 类型 |
 | :------ | :------ | :------ |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
 | `keyMapper` | `KeyMapper` | object of state properties or getters |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`_MapStateObjectReturn`](pinia.md#_mapstateobjectreturn)<`Id`, `S`, `G`, `A`, `KeyMapper`\>
 
@@ -897,20 +897,20 @@ export default {
 | `A` | `A` |
 | `Keys` | extends `string` \| `number` \| `symbol` |
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 |
 | :------ | :------ | :------ |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
 | `keys` | readonly `Keys`[] | array of state properties or getters |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`_MapStateReturn`](pinia.md#_mapstatereturn)<`S`, `G`, `Keys`\>
 
 ___
 
-### mapState
+### mapState {#mapstate}
 
 ▸ **mapState**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): [`_MapStateObjectReturn`](pinia.md#_mapstateobjectreturn)<`Id`, `S`, `G`, `A`, `KeyMapper`\>
 
@@ -956,14 +956,14 @@ export default {
 | `A` | `A` |
 | `KeyMapper` | extends `Record`<`string`, keyof `S` \| keyof `G` \| (`store`: [`Store`](pinia.md#store)<`Id`, `S`, `G`, `A`\>) => `any`\> |
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
 | `keyMapper` | `KeyMapper` | object of state properties or getters |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`_MapStateObjectReturn`](pinia.md#_mapstateobjectreturn)<`Id`, `S`, `G`, `A`, `KeyMapper`\>
 
@@ -999,20 +999,20 @@ export default {
 | `A` | `A` |
 | `Keys` | extends `string` \| `number` \| `symbol` |
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
 | `keys` | readonly `Keys`[] | array of state properties or getters |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`_MapStateReturn`](pinia.md#_mapstatereturn)<`S`, `G`, `Keys`\>
 
 ___
 
-### mapStores
+### mapStores {#mapstores}
 
 ▸ **mapStores**<`Stores`\>(...`stores`): [`_Spread`](pinia.md#_spread)<`Stores`\>
 
@@ -1042,19 +1042,19 @@ export default {
 | :------- | :-------------- |
 | `Stores` | 扩展 `any`[] |
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称        | 类型          | 描述                       |
 | :---------- | :------------ | :--------------------------------- |
 | `...stores` | [...Stores[]] | list of stores to map to an object |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`_Spread`](pinia.md#_spread)<`Stores`\>
 
 ___
 
-### mapWritableState
+### mapWritableState {#mapwritablestate}
 
 ▸ **mapWritableState**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): [`_MapWritableStateObjectReturn`](pinia.md#_mapwritablestateobjectreturn)<`S`, `KeyMapper`\>
 
@@ -1072,14 +1072,14 @@ ___
 | `A` | `A` |
 | `KeyMapper` | extends `Record`<`string`, keyof `S`\> |
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
 | `keyMapper` | `KeyMapper` | object of state properties |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`_MapWritableStateObjectReturn`](pinia.md#_mapwritablestateobjectreturn)<`S`, `KeyMapper`\>
 
@@ -1098,39 +1098,39 @@ ___
 | `G` | extends [`_GettersTree`](pinia.md#_getterstree)<`S`\> |
 | `A` | `A` |
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型  | 描述  |
 | :------ | :------ | :------ |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
 | `keys` | keyof `S`[] | array of state properties |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 [`_MapWritableStateReturn`](pinia.md#_mapwritablestatereturn)<`S`\>
 
 ___
 
-### setActivePinia
+### setActivePinia {#setactivepinia}
 
 ▸ **setActivePinia**(`pinia`): `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md)
 
 设置或取消设置激活的 pinia。
 在 SSR 和内部调用 action 和 getter 时使用。
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `pinia` | `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md) | Pinia instance |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 `undefined` \| [`Pinia`](../interfaces/pinia.Pinia.md)
 
 ___
 
-### setMapStoreSuffix
+### setMapStoreSuffix {#setmapstoresuffix}
 
 ▸ **setMapStoreSuffix**(`suffix`): `void`
 
@@ -1144,13 +1144,13 @@ ___
 | :------ | :------ | :------ |
 | `suffix` | `string` | new suffix |
 
-#### 返回值
+#### 返回值 {#returns}
 
 `void`
 
 ___
 
-### skipHydrate
+### skipHydrate {#skiphydrate}
 
 ▸ **skipHydrate**<`T`\>(`obj`): `T`
 
@@ -1163,13 +1163,13 @@ ___
 | :------ | :------ |
 | `T` | `any` |
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `obj` | `T` | target object |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 `T`
 
@@ -1177,7 +1177,7 @@ obj
 
 ___
 
-### storeToRefs
+### storeToRefs {#storetorefs}
 
 ▸ **storeToRefs**<`SS`\>(`store`): `ToRefs`<[`StoreState`](pinia.md#storestate)<`SS`\> & [`StoreGetters`](pinia.md#storegetters)<`SS`\> & [`PiniaCustomStateProperties`](../interfaces/pinia.PiniaCustomStateProperties.md)<[`StoreState`](pinia.md#storestate)<`SS`\>\>\>
 
@@ -1192,12 +1192,12 @@ getter 和 plugin 添加的 state 属性。
 | :------ | :------ |
 | `SS` | extends [`_StoreWithState`](../interfaces/pinia._StoreWithState.md)<`string`, [`StateTree`](pinia.md#statetree), [`_GettersTree`](pinia.md#_getterstree)<[`StateTree`](pinia.md#statetree)\>, [`_ActionsTree`](pinia.md#_actionstree), `SS`\> & [`StateTree`](pinia.md#statetree) & [`_StoreWithGetters`](pinia.md#_storewithgetters)<[`_GettersTree`](pinia.md#_getterstree)<[`StateTree`](pinia.md#statetree)\>\> & [`PiniaCustomProperties`](../interfaces/pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](pinia.md#statetree), [`_GettersTree`](pinia.md#_getterstree)<[`StateTree`](pinia.md#statetree)\>, [`_ActionsTree`](pinia.md#_actionstree), `SS`\> & [`PiniaCustomStateProperties`](../interfaces/pinia.PiniaCustomStateProperties.md)<[`StateTree`](pinia.md#statetree), `SS`\> |
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :--- | :------ |
 | `store` | `SS` | store to extract the refs from |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 `ToRefs`<[`StoreState`](pinia.md#storestate)<`SS`\> & [`StoreGetters`](pinia.md#storegetters)<`SS`\> & [`PiniaCustomStateProperties`](../interfaces/pinia.PiniaCustomStateProperties.md)<[`StoreState`](pinia.md#storestate)<`SS`\>\>\>

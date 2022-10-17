@@ -6,13 +6,13 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / \_StoreWithState
 
-# 接口：\_StoreWithState<Id, S, G, A\>
+# 接口：\_StoreWithState<Id, S, G, A\> {#interface-storewithstate-id-s-g-a}
 
 [pinia](../modules/pinia.md)._StoreWithState
 
 具有 state 和部分功能的基础 store。不应直接使用。
 
-## 类型参数{#type-parameters}
+## 类型参数 {#type-parameters}
 
 | 名称 | 类型 |
 | :------ | :------ |
@@ -21,27 +21,27 @@ sidebarDepth: 3
 | `G` | `G` |
 | `A` | `A` |
 
-## 层次结构{#hierarchy}
+## 层次结构 {#hierarchy}
 
 - [`StoreProperties`](pinia.StoreProperties.md)<`Id`\>
 
   ↳ **`_StoreWithState`**
 
-## 属性{#properties}
+## 属性 {#properties}
 
-### $id
+### $id {#id} 
 
 • **$id**: `Id`
 
 store 的唯一标识符
 
-#### 继承于{#inherited-from}
+#### 继承于 {#inherited-from}
 
 [StoreProperties](pinia.StoreProperties.md).[$id](pinia.StoreProperties.md#$id)
 
 ___
 
-### $state
+### $state {#state}
 
 • **$state**: `UnwrapRef`<`S`\> & [`PiniaCustomStateProperties`](pinia.PiniaCustomStateProperties.md)<`S`\>
 
@@ -49,7 +49,7 @@ Store 的 State。给它赋值可替换整个 state。
 
 ___
 
-### \_customProperties
+### \_customProperties {#customproperties}
 
 • **\_customProperties**: `Set`<`string`\>
 
@@ -57,13 +57,13 @@ ___
 生产版本会被移除。
 用户可以用它来添加应在 devtools 中显示的 store 属性键。
 
-#### 继承自{#inherited-from}
+#### 继承自 {#inherited-from}
 
 [StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#_customproperties)
 
-## 方法{methods}
+## 方法 {#methods}
 
-### $dispose
+### $dispose {#dispose}
 
 ▸ **$dispose**(): `void`
 
@@ -71,13 +71,13 @@ ___
 插件可以覆盖此方法来清理已添加的任何副作用函数。
 例如， devtools 插件停止显示来自 devtools 的已停止的 store。
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 `void`
 
 ___
 
-### $onAction
+### $onAction {#onaction}
 
 ▸ **$onAction**(`callback`, `detached?`): () => `void`
 
@@ -112,14 +112,14 @@ store.$onAction(({ after, onError }) => {
 })
 ```
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `callback` | [`StoreOnActionListener`](../modules/pinia.md#storeonactionlistener)<`Id`, `S`, `G`, `A`\> | callback called before every action |
 | `detached?` | `boolean` | detach the subscription from the context this is called from |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 `fn`
 
@@ -158,7 +158,7 @@ store.$onAction(({ after, onError }) => {
 })
 ```
 
-##### 返回值{#returns}
+##### 返回值 {#returns}
 
 `void`
 
@@ -166,19 +166,19 @@ store.$onAction(({ after, onError }) => {
 
 ___
 
-### $patch
+### $patch {#patch}
 
 ▸ **$patch**(`partialState`): `void`
 
 将一个 state 补丁应用于当前状态。允许传递嵌套值
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `partialState` | [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`UnwrapRef`<`S`\>\> | patch to apply to the state |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 `void`
 
@@ -188,38 +188,38 @@ ___
 当 mutation 对象（如 Sets 或数组）或者应用对象补丁不方便时很有用，例如追加到数组中。
 传递给 `$patch()` 的函数**必须是同步的**。
 
-#### 类型参数{#type-parameters}
+#### 类型参数 {#type-parameters}
 
 | 名称 | 类型 |
 | :------ | :------ |
 | `F` | extends (`state`: `UnwrapRef`<`S`\>) => `any` |
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `stateMutator` | `ReturnType`<`F`\> extends `Promise`<`any`\> ? `never` : `F` | function that mutates `state`, cannot be async |
 
-#### 返回值{returns}
+#### 返回值 {returns}
 
 `void`
 
 ___
 
-### $reset
+### $reset {#reset}
 
 ▸ **$reset**(): `void`
 
 通过建立一个新的状态对象，将 store 重设为初始状态。
 TODO: make this options only
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 `void`
 
 ___
 
-### $subscribe
+### $subscribe {#subscribe}
 
 ▸ **$subscribe**(`callback`, `options?`): () => `void`
 
@@ -227,14 +227,14 @@ ___
 请注意，当在组件内调用 `store.$subscribe()` 时，除非 `detached` 被设置为 true，
 否则当组件被卸载时，它将被自动清理掉。
 
-#### 参数{#parameters}
+#### 参数 {#parameters}
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `callback` | [`SubscriptionCallback`](../modules/pinia.md#subscriptioncallback)<`S`\> | callback passed to the watcher |
 | `options?` | { `detached?`: `boolean`  } & `WatchOptions`<`boolean`\> | `watch` options + `detached` to detach the subscription from the context (usually a component) this is called from. Note that the `flush` option does not affect calls to `store.$patch()`. |
 
-#### 返回值{#returns}
+#### 返回值 {#returns}
 
 `fn`
 
@@ -246,7 +246,7 @@ ___
 请注意，当在组件内调用 `store.$subscribe()` 时，除非 `detached` 被设置为 true，
 否则当组件被卸载时，它将被自动清理掉。
 
-##### 返回值{#returns}
+##### 返回值 {#returns}
 
 `void`
 

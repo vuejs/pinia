@@ -1,4 +1,4 @@
-# 定义一个 Store{#defining-a-store}
+# 定义一个 Store {#defining-a-store}
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/define-your-first-pinia-store"
@@ -21,7 +21,7 @@ export const useStore = defineStore('main', {
 
 `defineStore()` 的第二个参数可接受两类值：Setup 函数或 Option 对象。
 
-## Option Stores
+## Option Stores {#option-stores}
 
 与 Vue 的选项式 API 类似，我们也可以传入一个带有 `state`、`actions` 与 `getters` 属性的配置对象
 
@@ -43,7 +43,7 @@ export const useCounterStore = defineStore('counter', {
 
 为方便上手使用，选项式 Store 应尽可能直观简单。
 
-## Setup Stores
+## Setup Stores {#setup-stores}
 
 也存在另一种定义 store 的可用语法。与 Vue 组合式 API 的 [setup 函数](https://vuejs.org/api/composition-api-setup.html) 相似，我们可以传入一个函数，该函数定义了一些响应式属性和方法，并且返回一个带有我们想暴露出去的属性和方法的对象。
 
@@ -66,7 +66,7 @@ export const useCounterStore = defineStore('counter', () => {
 
 Setup stores 比 [Options Stores](#option-stores) 带来了更多的灵活性，因为你可以在一个 store 内创建 watchers，并自由地使用任何[组合式函数](https://vuejs.org/guide/reusability/composables.html#composables)。然而，请记住，使用组合式函数会让 [SSR](../cookbook/composables.md) 变得更加复杂。
 
-## 你应该选用哪种语法？{#what-syntax-should-i-pick}
+## 你应该选用哪种语法？ {#what-syntax-should-i-pick}
 
 和 [Vue 的组合式 API 与选项式 API](https://vuejs.org/guide/introduction.html#which-to-choose) 一样，选择你觉得最舒服的那一个就好。如果你还不确实，可以先试试 [Option Stores](#option-stores)。
 ## 使用 Store {#using-the-store}

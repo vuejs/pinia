@@ -1,4 +1,4 @@
-# Getters
+# Getters {#getters}
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/getters-in-pinia"
@@ -57,7 +57,7 @@ export default {
 </script>
 ```
 
-## 访问其他 getter{#accessing-other-getters}
+## 访问其他 getter {#accessing-other-getters}
 
 与计算属性一样，你可以组合多个 getter。通过 `this`，你可以访问任何其他 getter。即使你没有使用 TypeScript，你也可以用 [JSDoc](https://jsdoc.app/tags-returns.html) 来让你的 IDE 提示类型。
 
@@ -84,7 +84,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## 向 getter 传递参数{#passing-arguments-to-getters}
+## 向 getter 传递参数 {#passing-arguments-to-getters}
 
 _Getter_ 只是幕后的**计算**属性，所以不可以向它们传递任何参数。不过，你可以从 _getter_ 返回一个函数，该函数可以接受任意参数：
 
@@ -129,7 +129,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## 访问其他 store 的 getter{#accessing-other-stores-getters}
+## 访问其他 store 的 getter {#accessing-other-stores-getters}
 
 想要使用另一个 store 的 getter 的话，那就直接在 _getter_ 内使用就好：
 
@@ -149,7 +149,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## 使用 `setup()` 时的用法{#usage-with-setup}
+## 使用 `setup()` 时的用法 {#usage-with-setup}
 
 作为 store 的一个属性，你可以直接访问任何 getter（与 state 属性完全一样）：
 
@@ -164,7 +164,7 @@ export default {
 }
 ```
 
-## 使用选项式 API 的用法{#usage-with-the-options-api}
+## 使用选项式 API 的用法 {#usage-with-the-options-api}
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-getters-in-the-options-api"
@@ -191,7 +191,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-### 使用 `setup()`{#with-setup}
+### 使用 `setup()` {#with-setup}
 
 虽然并不是每个人都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易使用。并且不需要额外的 map helper 函数!
 
@@ -212,7 +212,7 @@ export default {
 }
 ```
 
-### 不使用 `setup()`{#without-setup}
+### 不使用 `setup()` {#without-setup}
 
 你可以使用[前一节的 state](./state.md#options-api)中的 `mapState()` 函数来将其映射为 getters：
 

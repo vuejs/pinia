@@ -1,4 +1,4 @@
-# 服务端渲染 (SSR){#server-side-rendering-ssr}
+# 服务端渲染 (SSR) {#server-side-rendering-ssr}
 
 :::tip
 如果你使用的是 **Nuxt.js**，你需要阅读的是[**这些说明文档**](./nuxt.md)。
@@ -17,7 +17,7 @@ export default defineComponent({
 })
 ```
 
-## 在 `setup()` 外部使用 store{#using-the-store-outside-of-setup}
+## 在 `setup()` 外部使用 store {#using-the-store-outside-of-setup}
 
 如果你需要在其他地方使用 store，你需要将[原本被传递给应用](#install-the-plugin) 的 `pinia` 实例传递给 `useStore()` 函数：
 
@@ -47,7 +47,7 @@ export default {
 }
 ```
 
-## State hydration
+## State hydration {#state-hydration}
 
 为了 hydrate 初始 state，你需要确保 rootState 包含在 HTML 中的某个地方，以便 Pinia 稍后能够接收到它。根据你服务端所渲染的内容，**为了安全你应该转义 state**。我们推荐 Nuxt.js 目前使用的 [@nuxt/devalue](https://github.com/nuxt-contrib/devalue)：
 

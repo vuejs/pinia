@@ -6,7 +6,7 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / SubscriptionCallbackMutationDirect
 
-# 接口：SubscriptionCallbackMutationDirect{#interface-subscriptioncallbackmutationdirect}
+# 接口：SubscriptionCallbackMutationDirect {#interface-subscriptioncallbackmutationdirect}
 
 [pinia](../modules/pinia.md).SubscriptionCallbackMutationDirect
 
@@ -14,15 +14,15 @@ sidebarDepth: 3
 或 `store.$state.someState = newValue` 直接改变 store 的状态时，
 传递给订阅回调的上下文。
 
-## 层次结构{#hierarchy}
+## 层次结构 {#hierarchy}
 
 - [`_SubscriptionCallbackMutationBase`](pinia._SubscriptionCallbackMutationBase.md)
 
   ↳ **`SubscriptionCallbackMutationDirect`**
 
-## 属性{#properties}
+## 属性 {#properties}
 
-### 事件{#events}
+### 事件 {#events}
 
 • **events**: `DebuggerEvent`
 
@@ -30,24 +30,24 @@ sidebarDepth: 3
 
 ___
 
-### storeId
+### storeId {#storeid}
 
 • **storeId**: `string`
 
 执行 mutation 的 store 的 `id`
 
-#### 继承于{#inherited-from}
+#### 继承于 {#inherited-from}
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
 ___
 
-### 类型{#type}
+### 类型 {#type}
 
 • **type**: [`direct`](../enums/pinia.MutationType.md#direct)
 
 mutation 的类型
 
-#### 重写{#overrides}
+#### 重写 {#overrides}
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)

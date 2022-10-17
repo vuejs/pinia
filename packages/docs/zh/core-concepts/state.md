@@ -1,4 +1,4 @@
-# State
+# State {#state}
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-state-from-a-pinia-store"
@@ -27,7 +27,7 @@ const useStore = defineStore('storeId', {
 如果你使用的是 Vue2，你在 `state` 中创建的数据与 Vue 实例中的  `data` 遵循同样的规则，即 state 对象必须是清晰的，当你想向其**添加新属性**时，你需要调用 `Vue.set()` 。**参考：[Vue#data](https://vuejs.org/v2/api/#data)**。
 :::
 
-## TypeScript
+## TypeScript {#typescript}
 
 你并不需要做太多努力就能使你的 state 兼容 TS。 Pinia 会自动推断出你的 state 的类型，但在一些情况下，你得用一些方法来帮它一把。
 
@@ -72,7 +72,7 @@ interface UserInfo {
 }
 ```
 
-## 访问 `state`{#accessing-the-state}
+## 访问 `state` {#accessing-the-state}
 
 默认情况下，你可以通过 `store` 实例访问 state，直接对其进行读写。
 
@@ -82,7 +82,7 @@ const store = useStore()
 store.count++
 ```
 
-## 重置 state{#resetting-the-state}
+## 重置 state {#resetting-the-state}
 
 你可以通过调用 store 的 `$reset()` 方法将 state 重置为初始值。
 
@@ -92,7 +92,7 @@ const store = useStore()
 store.$reset()
 ```
 
-### 使用选项式 API 的用法{#usage-with-the-options-api}
+### 使用选项式 API 的用法 {#usage-with-the-options-api}
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-state-in-the-options-api"
@@ -139,7 +139,7 @@ export default {
 }
 ```
 
-#### 可修改的 state{#modifiable-state}
+#### 可修改的 state {#modifiable-state}
 
 如果你想修改这些 state 属性（例如，如果你有一个表单），你可以使用 `mapWritableState()` 来代替。但注意你不能像 `mapState()` 那样传递一个函数：
 
@@ -165,7 +165,7 @@ export default {
 对于像数组这样的集合，除非你用 `cartItems = []` 替换整个数组，你不需要 `mapWritableState()`，`mapState()` 就允许你调用集合上的方法。
 :::
 
-## 变更 state{#mutating-the-state}
+## 变更 state {#mutating-the-state}
 
 <!-- TODO: disable this with `strictMode` -->
 
@@ -192,7 +192,7 @@ cartStore.$patch((state) => {
 
 这里的主要区别是，`$patch()` 允许你将多个变更归入 devtools 的一个条目中。同时请注意，**直接修改 `state`，`$patch()` 也会出现在 devtools 中**，而且可以进行 time travel（在 Vue3 中还没有）。
 
-## 替换 `state`{#replacing-the-state}
+## 替换 `state` {#replacing-the-state}
 
 你**不能完全替换掉** store 的 state，因为那会破坏响应性。但是，你可以 _patch_ 它。
 
@@ -209,7 +209,7 @@ store.$patch({ count: 24 })
 pinia.state.value = {}
 ```
 
-## 订阅 state{#subscribing-to-the-state}
+## 订阅 state {#subscribing-to-the-state}
 
 类似于 Vuex 的 [subscribe 方法](https://vuex.vuejs.org/api/#subscribe)，你可以通过 store 的 `$subscribe()` 方法观测 state 及其变化。比起普通的 `watch()`，使用 `$subscribe()` 的好处是 _subscriptions_ 在 _patch_ 后只触发一次（例如，当使用上面的函数版本时）。
 

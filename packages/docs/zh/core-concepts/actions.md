@@ -1,4 +1,4 @@
-# Actions
+# Actions {#actions}
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/synchronous-and-asynchronous-actions-in-pinia"
@@ -92,7 +92,7 @@ export const useSettingsStore = defineStore('settings', {
 })
 ```
 
-## 使用 `setup()` 时的用法{#usage-with-setup}
+## 使用 `setup()` 时的用法 {#usage-with-setup}
 
 你可以将任何 action 作为 store 的一个方法直接调用：
 
@@ -106,7 +106,7 @@ export default {
 }
 ```
 
-## 使用选项式 API 的用法{#usage-with-the-options-api}
+## 使用选项式 API 的用法 {#usage-with-the-options-api}
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-actions-in-the-options-api"
@@ -133,7 +133,7 @@ const useCounterStore = defineStore('counter', {
 })
 ```
 
-### 使用 `setup()`{#with-setup}
+### 使用 `setup()` {#with-setup}
 
 虽然并不是每个人都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易使用。并且不需要额外的 map helper 函数!
 
@@ -155,7 +155,7 @@ export default {
 }
 ```
 
-### 不使用 `setup()`{#without-setup}
+### 不使用 `setup()` {#without-setup}
 
 如果你不喜欢使用组合式 API，你也可以使用 `mapActions()` helper 将 action 属性映射为你组件中的方法。
 

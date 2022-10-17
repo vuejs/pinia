@@ -19,7 +19,7 @@
   - [端到端测试](#e2e-tests)
   - [对组件单元测试（Vue 2）](#unit-test-components-vue-2)
 
-## 对 store 进行单元测试{#unit-testing-a-store}
+## 对 store 进行单元测试 {#unit-testing-a-store}
 
 要对一个 store 进行单元测试，最重要的是创建一个 `pinia` 实例：
 
@@ -69,7 +69,7 @@ beforeEach(() => {
 })
 ```
 
-## 对组件单元测试{#unit-testing-components}
+## 对组件单元测试 {#unit-testing-components}
 
 这可以通过 `createTestingPinia()` 实现，它会返回一个旨在帮助对组件单元测试的 pinia 实例。
 
@@ -111,7 +111,7 @@ expect(store.someAction).toHaveBeenLastCalledWith()
 
 请注意，如果你使用的是 Vue 2，`@vue/test-utils` 需要一个[轻微不同的配置](#unit-test-components-vue-2)。
 
-### 初始 State{#initial-state}
+### 初始 State {#initial-state}
 
 在创建测试 Pinia 时，你可以通过传递一个 `initialState` 对象来设置**所有 store 的初始状态**。这个对象将被 pinia 的测试实例用于创建 store 时 _patch_ store。比方说，你想初始化这个 store 的状态：
 
@@ -144,7 +144,7 @@ const store = useSomeStore() // 使用 pinia 的测试实例!
 store.n // 20
 ```
 
-### 自定义 action 的行为{#customizing-behavior-of-actions}
+### 自定义 action 的行为 {#customizing-behavior-of-actions}
 
 除非另有指示，`createTestingPinia` 会存根（stub）出所有的store action。这样可以让你你独立测试你的组件和 store。
 
@@ -180,7 +180,7 @@ createTestingPinia({
 
 你可以在[测试包的测试源码](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts)中找到更多的例子。
 
-### Mocking getters
+### Mocking getters {#mocking-getters}
 
 默认情况下，任何 getter 都会像常规用法一样进行计算，但你可以通过将 getter 设置为任何你想要的值来手动强制计算：
 
@@ -227,11 +227,11 @@ const wrapper = mount(Counter, {
 })
 ```
 
-## 端到端测试{#e2e-tests}
+## 端到端测试 {#e2e-tests}
 
 对于 pinia，你不需要为端到端测试修改任何代码，这就是端到端测试的含义！也许你想测试 HTTP 请求，但这已经超出了本指南的范围😄。
 
-## 对组件单元测试（Vue 2）{#unit-test-components-vue-2}
+## 对组件单元测试（Vue 2） {#unit-test-components-vue-2}
 
 当你使用的是 [Vue Test Utils 1](https://v1.test-utils.vuejs.org/) 时，请将 Pinia 安装在 `localVue` 上：
 
