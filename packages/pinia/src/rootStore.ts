@@ -86,6 +86,14 @@ export interface Pinia {
   _s: Map<string, StoreGeneric>
 
   /**
+   * Registry of store ids defined in this pinia instance.
+   * This is used to check for duplicated keys.
+   * 
+   * @internal
+   */
+  _k: Array<string>
+
+  /**
    * Added by `createTestingPinia()` to bypass `useStore(pinia)`.
    *
    * @internal

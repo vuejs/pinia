@@ -101,7 +101,7 @@ describe('Store', () => {
 
   it('can create an empty state if no state option is provided', () => {
     const store = defineStore({ id: 'some' })()
-
+    
     expect(store.$state).toEqual({})
   })
 
@@ -379,4 +379,16 @@ describe('Store', () => {
       `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "anyName" in store "main".`
     ).toHaveBeenWarnedTimes(1)
   })
+
+  it.only('warns when creating store with existing id', async () => {
+    const storeId = 'testStoreID';
+    const useFirstStore = defineStore(storeId, {});
+    const useSecondStore = defineStore(storeId, {});
+    useFirstStore();
+    useSecondStore();
+
+    expect(
+      `[🍍]: Stores should have unique identifiers. Found multiple stores with id "testStoreID". Rename one of them.`
+    ).toHaveBeenWarned();
+  });
 })

@@ -52,6 +52,7 @@ export function createPinia(): Pinia {
     _a: null,
     _e: scope,
     _s: new Map<string, StoreGeneric>(),
+    _k: [],
     state,
   })
 
