@@ -101,7 +101,7 @@ describe('Store', () => {
 
   it('can create an empty state if no state option is provided', () => {
     const store = defineStore({ id: 'some' })()
-    
+
     expect(store.$state).toEqual({})
   })
 
@@ -380,7 +380,7 @@ describe('Store', () => {
     ).toHaveBeenWarnedTimes(1)
   })
 
-  it.only('warns when creating store with existing id', async () => {
+  it('warns when creating store with existing id', async () => {
     const storeId = 'testStoreID';
     const useFirstStore = defineStore(storeId, {});
     const useSecondStore = defineStore(storeId, {});
