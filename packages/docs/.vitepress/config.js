@@ -1,5 +1,7 @@
 // @ts-check
 import locales from './locales'
+import renderPermaLink from './render-perma-link'
+import MarkDownItCustomAnchor from './markdown-it-custom-anchor'
 
 const META_URL = 'https://pinia.vuejs.org'
 const META_TITLE = 'Pinia 🍍'
@@ -32,6 +34,12 @@ module.exports = {
       leftDelimiter: '%{',
       rightDelimiter: '}%',
     },
+    anchor: {
+      permalink: renderPermaLink,
+    },
+    config: (md) => {
+      md.use(MarkDownItCustomAnchor)
+    }
   },
   locales: locales.vitepressConfig,
 
