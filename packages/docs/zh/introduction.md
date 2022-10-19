@@ -5,7 +5,7 @@
   title="Get started with Pinia"
 />
 
-Pinia [起始](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e)于 2019 年 11 月左右的一次实验，该实验的目的是设计一个拥有[组合式 API](https://github.com/vuejs/composition-api) 的 Vue 状态管理库。从那时起，我们就倾向于同时支持 Vue2 和 Vue3，并且不强制要求使用组合式 API，我们的初心至今没有改变。除了**安装**和 **SSR** 等章节之外，其余章节内容的 API 均支持 Vue 2 和 Vue 3。虽然本文档主要是面向 Vue3 的用户，但在必要时会标注出 Vue2 的内容，因此 Vue 2 和 Vue 3 的用户都可以阅读本文档。
+Pinia [起始](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e)于 2019 年 11 月左右的一次实验，该实验的目的是设计一个拥有[组合式 API](https://github.com/vuejs/composition-api) 的 Vue 状态管理库。从那时起，我们就倾向于同时支持 Vue 2 和 Vue 3，并且不强制要求使用组合式 API，我们的初心至今没有改变。除了**安装**和 **SSR** 等章节之外，其余章节内容的 API 均支持 Vue 2 和 Vue 3。虽然本文档主要是面向 Vue3 的用户，但在必要时会标注出 Vue2 的内容，因此 Vue 2 和 Vue 3 的用户都可以阅读本文档。
 
 ## 为什么你应该使用 Pinia？{#why-should-i-use-pinia}
 
