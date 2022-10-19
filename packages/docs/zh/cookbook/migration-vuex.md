@@ -36,7 +36,7 @@ src
     └── nested.js         # 'nested' id
 ```
 
-这为 store 创建了一个扁平的结构，但也保留了和之前等价的 `id` 命名方式。如果你在根 store(在 Vuex 的 `store/index.js` 文件中)中有一些 state/getter/action/mutation，你可以创建一个名为 `root` 的 store，来保存它们。
+这为 store 创建了一个扁平的结构，但也保留了和之前等价的 `id` 命名方式。如果你在根 store (在 Vuex 的 `store/index.js` 文件中)中有一些 state/getter/action/mutation，你可以创建一个名为 `root` 的 store，来保存它们。
 
 Pinia 的目录一般被命名为 `stores` 而不是 `store`。这是为了强调 Pinia 可以使用多个 store，而不是 Vuex 的单一 store。
 
