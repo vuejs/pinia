@@ -39,7 +39,7 @@ Pinia 插件是一个函数，可以选择性地返回要添加到 store 的属�
 ```js
 export function myPiniaPlugin(context) {
   context.pinia // 用 `createPinia()` 创建的 pinia。 
-  context.app // 用 `createApp()` 创建的当前应用程序（仅 Vue 3）。
+  context.app // 用 `createApp()` 创建的当前应用程序(仅 Vue 3)。
   context.store // 该插件想扩展的 store
   context.options // 定义传给 `defineStore()` 的 store 的可选对象。
   // ...
@@ -107,9 +107,9 @@ pinia.use(({ store }) => {
 如果你想给 store 添加新的 state 属性，或者在 hydration 过程中使用的属性，**你必须同时在两个地方添加它**。
 
 - 在 `store` 上，因此你可以用 `store.myState` 访问它。
-- 在 `store.$state` 上，因此它可以在 devtools 中使用，并且，**在 SSR 时被序列化（serialized）**。
+- 在 `store.$state` 上，因此它可以在 devtools 中使用，并且，**在 SSR 时被序列化(serialized)**。
 
-除此之外，你肯定也会使用 `ref()`（或其他响应式 API），以便在不同的读取中共享相同的值：
+除此之外，你肯定也会使用 `ref()`(或其他响应式 API)，以便在不同的读取中共享相同的值：
 
 ```js
 import { toRef, ref } from 'vue'
@@ -136,10 +136,10 @@ pinia.use(({ store }) => {
 })
 ```
 
-需要注意的是，在一个插件中， state 变更或添加（包括调用 `store.$patch()`）都是发生在 store 被激活之前，**因此不会触发任何订阅函数**。
+需要注意的是，在一个插件中， state 变更或添加(包括调用 `store.$patch()`)都是发生在 store 被激活之前，**因此不会触发任何订阅函数**。
 
 :::warning
-如果你使用的是**Vue 2**，Pinia 与 Vue 一样,受制于[相同的响应式警告](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats)。在创建新的 state 属性时,如 `secret` 和 `hasError`，你需要使用 `Vue.set()` (Vue 2.7) 或者 `@vue/composition-api` 的 `set()`（Vue < 2.7）。
+如果你使用的是**Vue 2**，Pinia 与 Vue 一样,受制于[相同的响应式警告](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats)。在创建新的 state 属性时,如 `secret` 和 `hasError`，你需要使用 `Vue.set()` (Vue 2.7) 或者 `@vue/composition-api` 的 `set()`(Vue < 2.7)。
 
 ```js
 import { set, toRef } from '@vue/composition-api'
@@ -295,7 +295,7 @@ pinia.use(({ store }) => {
 })
 ```
 
-`PiniaCustomProperties` 是一个通用类型，允许你引用 store 的属性。思考一下这个例子，如果把初始选项复制成 `$options`（这只对 option store 有效），如何实现类型检查：
+`PiniaCustomProperties` 是一个通用类型，允许你引用 store 的属性。思考一下这个例子，如果把初始选项复制成 `$options`(这只对 option store 有效)，如何实现类型检查：
 
 ```ts
 pinia.use(({ options }) => ({ $options: options }))
@@ -330,7 +330,7 @@ declare module 'pinia' {
 
 ### 为新的 state 添加类型 {#typing-new-state}
 
-当添加新的 state 属性（包括 `store` 和 `store.$state` ）时，你需要将类型添加到 `PiniaCustomStateProperties` 中。与 `PiniaCustomProperties` 不同的是，它只接收 `State` 泛型：
+当添加新的 state 属性(包括 `store` 和 `store.$state` )时，你需要将类型添加到 `PiniaCustomStateProperties` 中。与 `PiniaCustomProperties` 不同的是，它只接收 `State` 泛型：
 
 ```ts
 import 'pinia'

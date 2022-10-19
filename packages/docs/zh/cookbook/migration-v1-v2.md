@@ -16,7 +16,7 @@ yarn add 'pinia@^0.x.x'
 
 - `createStore()` 变成 `defineStore()`
 - 在订阅中，`storeName` 变成 `storeId`
-- `PiniaPlugin` 更名为 `PiniaVuePlugin`（Vue 2 的 Pinia 插件）
+- `PiniaPlugin` 更名为 `PiniaVuePlugin`(Vue 2 的 Pinia 插件)
 - `$subscribe()` 不再接受 *boolean* 作为第二个参数，而是传递一个带有 `detached: true` 的对象。
 - Pinia 插件不再直接接收 store 的 `id`。使用 `store.$id` 代替。
 
@@ -36,7 +36,7 @@ yarn add 'pinia@^2.x.x'
 
 添加于 [2.0.0-rc.0](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md#200-rc0-2021-07-28)
 
-用 `StoreGeneric` 取代 `GenericStore` 类型的全部用法。这是新的通用 store 类型，应该接受任何类型的 store。如果你在写函数时使用 `Store` 类型而不想传递其泛型（例如`Store<Id, State, Getters, Actions>`），你可以使用 `StoreGeneric`，因为没有泛型的 `Store` 类型会创建一个空的 store 类型：
+用 `StoreGeneric` 取代 `GenericStore` 类型的全部用法。这是新的通用 store 类型，应该接受任何类型的 store。如果你在写函数时使用 `Store` 类型而不想传递其泛型(例如`Store<Id, State, Getters, Actions>`)，你可以使用 `StoreGeneric`，因为没有泛型的 `Store` 类型会创建一个空的 store 类型：
 
 ```diff
 -function takeAnyStore(store: Store) {}
@@ -89,7 +89,7 @@ yarn add @vue/composition-api@latest
 
 ## 支持 webpack 4 {#webpack-4-support}
 
-如果你使用的是 webpack 4（Vue CLI 使用的是 webpack 4），你可能会遇到这样的错误：
+如果你使用的是 webpack 4(Vue CLI 使用的是 webpack 4)，你可能会遇到这样的错误：
 
 ```
 ERROR  Failed to compile with 18 errors

@@ -10,7 +10,7 @@
 ```js
 import { defineStore } from 'pinia'
 
-// 你可以对 `defineStore()` 的返回值进行任意命名，但最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾。（比如 `useUserStore`，`useCartStore`，`useProductStore`）
+// 你可以对 `defineStore()` 的返回值进行任意命名，但最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾。(比如 `useUserStore`，`useCartStore`，`useProductStore`)
 // 第一个参数是你的应用程序中 Store 的唯一 ID。
 export const useStore = defineStore('main', {
   // 其他配置...
@@ -39,7 +39,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-你可以认为 `state` 是 store 的数据（`data`），`getters` 是 store 的计算属性（`computed`），而 `actions` 则是方法（`methods`）
+你可以认为 `state` 是 store 的数据(`data`)，`getters` 是 store 的计算属性(`computed`)，而 `actions` 则是方法(`methods`)
 
 为方便上手使用，选项式 Store 应尽可能直观简单。
 
@@ -88,7 +88,7 @@ export default {
 }
 ```
 
-你可以定义任意多的 store，但为了让使用 pinia 的益处最大化（比如允许构建工具自动进行代码分割以及 TypeScript 推断），**你应该在不同的文件中去定义 store**。
+你可以定义任意多的 store，但为了让使用 pinia 的益处最大化(比如允许构建工具自动进行代码分割以及 TypeScript 推断)，**你应该在不同的文件中去定义 store**。
 
 如果你还不会使用 `setup` 组件，[你仍然可以通过 *map helpers* 来使用 Pinia](../cookbook/options-api.md)。
 
@@ -129,7 +129,7 @@ export default defineComponent({
     const store = useCounterStore()
     // `name` and `doubleCount` 都是响应式 refs
     // 这也将为由插件添加的属性创建 refs
-    // 同时会跳过任何 action 或非响应式（非 ref/响应式）属性
+    // 同时会跳过任何 action 或非响应式(非 ref/响应式)属性
     const { name, doubleCount } = storeToRefs(store)
     // 名为 increment 的 action 可以直接提取
     const { increment } = store

@@ -63,7 +63,7 @@ app.use(pinia)
 // 渲染页面后，rootState 被建立，
 // 可以直接在 `pinia.state.value`上读取。
 
-// 序列化，转义（如果 state 的内容可以被用户改变，这点就非常重要，几乎都是这样的）
+// 序列化，转义(如果 state 的内容可以被用户改变，这点就非常重要，几乎都是这样的)
 // 并将其放置在页面的某处
 // 例如，作为一个全局变量。
 devalue(pinia.state.value)

@@ -6,7 +6,7 @@ Pinia store 依靠 `pinia` 实例在所有调用中共享同一个 store 实例�
 
 ## 单页面应用 {#single-page-applications}
 
-如果你不做任何 SSR（服务器端渲染），在用 `app.use(pinia)` 安装 pinia 插件后，对 `useStore()` 的任何调用都会正常工作：
+如果你不做任何 SSR(服务器端渲染)，在用 `app.use(pinia)` 安装 pinia 插件后，对 `useStore()` 的任何调用都会正常工作：
 
 ```js
 import { useUserStore } from '@/stores/user'

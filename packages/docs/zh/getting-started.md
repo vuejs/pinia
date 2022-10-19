@@ -14,7 +14,7 @@ npm install pinia
 
 如果你正在使用 Vue CLI，你可以试试这个[**非官方插件**](https://github.com/wobsoriano/vue-cli-plugin-pinia)。
 
-创建一个 pinia 实例（根 store）并将其传递给应用程序：
+创建一个 pinia 实例(根 store)并将其传递给应用程序：
 
 ```js {2,5-6,8}
 import { createApp } from 'vue'
@@ -46,11 +46,11 @@ new Vue({
 })
 ```
 
-这也将提供 devtools 支持。在 Vue 3 中，虽然一些功能仍然不被支持，如 time traveling 和编辑，这是因为 vue-devtools 还没有相关的 API，但是 devtools 有更多针对 Vue 3 的功能，而且就开发者的体验来说，Vue3 整体上要好得多。在 Vue2 中，Pinia 使用的是 Vuex 的现有接口（因此不能与 Vuex 一起使用）。
+这也将提供 devtools 支持。在 Vue 3 中，虽然一些功能仍然不被支持，如 time traveling 和编辑，这是因为 vue-devtools 还没有相关的 API，但是 devtools 有更多针对 Vue 3 的功能，而且就开发者的体验来说，Vue3 整体上要好得多。在 Vue2 中，Pinia 使用的是 Vuex 的现有接口(因此不能与 Vuex 一起使用)。
 
 ## Store 是什么？{#what-is-a-store}
 
-Store（如 Pinia）是一个保存状态和业务逻辑的实体，它并不与你的组件树绑定。换句话说，**它承载着全局状态**。它有点像一个永远存在的组件，每个组件都可以读取和写入它。它有**三个概念**，[state](./core-concepts/state.md)、[getters](./core-concepts/getters.md) 和 [actions](./core-concepts/actions.md)，我们可以假设这些概念相当于组件中的 `data`、 `computed` 和 `methods`。
+Store(如 Pinia)是一个保存状态和业务逻辑的实体，它并不与你的组件树绑定。换句话说，**它承载着全局状态**。它有点像一个永远存在的组件，每个组件都可以读取和写入它。它有**三个概念**，[state](./core-concepts/state.md)、[getters](./core-concepts/getters.md) 和 [actions](./core-concepts/actions.md)，我们可以假设这些概念相当于组件中的 `data`、 `computed` 和 `methods`。
 
 ## 应该在什么时候使用 Store? {#when-should-i-use-a-store}
 
