@@ -139,7 +139,7 @@ pinia.use(({ store }) => {
 需要注意的是，在一个插件中， state 变更或添加(包括调用 `store.$patch()`)都是发生在 store 被激活之前，**因此不会触发任何订阅函数**。
 
 :::warning
-如果你使用的是**Vue 2**，Pinia 与 Vue 一样,受制于[相同的响应式警告](https://vuejs.org/v2/https://v2.cn.vuejs.org/v2/guide/reactivity.html#检测变化的注意事项)。在创建新的 state 属性时,如 `secret` 和 `hasError`，你需要使用 `Vue.set()` (Vue 2.7) 或者 `@vue/composition-api` 的 `set()` (Vue < 2.7)。
+如果你使用的是**Vue 2**，Pinia 与 Vue 一样，受限于[相同的响应式限制](https://v2.cn.vuejs.org/v2/guide/reactivity.html#检测变化的注意事项)。在创建新的 state 属性时,如 `secret` 和 `hasError`，你需要使用 `Vue.set()` (Vue 2.7) 或者 `@vue/composition-api` 的 `set()` (Vue < 2.7)。
 
 ```js
 import { set, toRef } from '@vue/composition-api'

@@ -17,7 +17,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-这个 *name* ，也被用作 *id* ，是必须传入的， Pinia 将用它来连接 store 和 devtools。为了养成习惯性的用法，将返回的函数命名为 *use...* 是一个符合组合式函数的惯例。
+这个 *name* ，也被用作 *id* ，是必须传入的， Pinia 将用它来连接 store 和 devtools。为了养成习惯性的用法，将返回的函数命名为 *use...* 是一个符合组合式函数风格的约定。
 
 `defineStore()` 的第二个参数可接受两类值：Setup 函数或 Option 对象。
 

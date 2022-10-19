@@ -20,7 +20,7 @@ yarn add 'pinia@^0.x.x'
 - `$subscribe()` 不再接受 *boolean* 作为第二个参数，而是传递一个带有 `detached: true` 的对象。
 - Pinia 插件不再直接接收 store 的 `id`。使用 `store.$id` 代替。
 
-## 破坏性更新 {#breaking-changes}
+## 非兼容性更新 {#breaking-changes}
 
 删除下面这些后，你可以用下面命令升级到 V2 版了：
 
