@@ -75,7 +75,7 @@ export const useCounterStore = defineStore('counter', () => {
 })
 ```
 
-如果你还不熟悉 setup() 和组合式 API，别担心，Pinia 也提供了一组类似 Vuex 的 [map helpers](https://vuex.vuejs.org/guide/state.html#the-mapstate-helper)。你可以用和之前一样的方式来定义 Store，然后通过 `mapStores()`、`mapState()` 或 `mapActions()` 使用：
+如果你还不熟悉 setup() 和组合式 API，别担心，Pinia 也提供了一组类似 Vuex 的 [map state 辅助函数](https://vuex.vuejs.org/zh/guide/state.html#mapstate-辅助函数)。你可以用和之前一样的方式来定义 Store，然后通过 `mapStores()`、`mapState()` 或 `mapActions()` 使用：
 
 ```js {22,24,28}
 const useCounterStore = defineStore('counter', {

@@ -84,7 +84,7 @@ pinia.use(({ store }) => {
 })
 ```
 
-值得注意的是，每个 store 都被 [`reactive`](https://v3.vuejs.org/api/basic-reactivity.html#reactive)包装过，所以可以自动解包任何它所包含的 Ref(`ref()`、`computed()`...)。
+值得注意的是，每个 store 都被 [`reactive`](https://cn.vuejs.org/api/reactivity-core.html#reactive)包装过，所以可以自动解包任何它所包含的 Ref(`ref()`、`computed()`...)。
 
 ```js
 const sharedRef = ref('shared')
@@ -127,7 +127,7 @@ pinia.use(({ store }) => {
   // 我们需要将 ref 从 state 转移到 store
   // 这样的话,两种方式：store.hasError 和 store.$state.hasError 都可以访问
   // 并且共享的是同一个变量
-  // 查看 https://vuejs.org/api/reactivity-utilities.html#toref
+  // 查看 https://cn.vuejs.org/api/reactivity-utilities.html#toref
   store.hasError = toRef(store.$state, 'hasError')
 
   // 在这种情况下，最好不要返回 `hasError`
@@ -139,7 +139,7 @@ pinia.use(({ store }) => {
 需要注意的是，在一个插件中， state 变更或添加(包括调用 `store.$patch()`)都是发生在 store 被激活之前，**因此不会触发任何订阅函数**。
 
 :::warning
-如果你使用的是**Vue 2**，Pinia 与 Vue 一样,受制于[相同的响应式警告](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats)。在创建新的 state 属性时,如 `secret` 和 `hasError`，你需要使用 `Vue.set()` (Vue 2.7) 或者 `@vue/composition-api` 的 `set()`(Vue < 2.7)。
+如果你使用的是**Vue 2**，Pinia 与 Vue 一样,受制于[相同的响应式警告](https://vuejs.org/v2/https://v2.cn.vuejs.org/v2/guide/reactivity.html#检测变化的注意事项)。在创建新的 state 属性时,如 `secret` 和 `hasError`，你需要使用 `Vue.set()` (Vue 2.7) 或者 `@vue/composition-api` 的 `set()` (Vue < 2.7)。
 
 ```js
 import { set, toRef } from '@vue/composition-api'

@@ -39,13 +39,13 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-你可以认为 `state` 是 store 的数据(`data`)，`getters` 是 store 的计算属性(`computed`)，而 `actions` 则是方法(`methods`)
+你可以认为 `state` 是 store 的数据 (`data`)，`getters` 是 store 的计算属性 (`computed`)，而 `actions` 则是方法 (`methods`)。
 
 为方便上手使用，选项式 Store 应尽可能直观简单。
 
 ## Setup Stores {#setup-stores}
 
-也存在另一种定义 store 的可用语法。与 Vue 组合式 API 的 [setup 函数](https://vuejs.org/api/composition-api-setup.html) 相似，我们可以传入一个函数，该函数定义了一些响应式属性和方法，并且返回一个带有我们想暴露出去的属性和方法的对象。
+也存在另一种定义 store 的可用语法。与 Vue 组合式 API 的 [setup 函数](https://cn.vuejs.org/api/composition-api-setup.html) 相似，我们可以传入一个函数，该函数定义了一些响应式属性和方法，并且返回一个带有我们想暴露出去的属性和方法的对象。
 
 ```js
 export const useCounterStore = defineStore('counter', () => {
@@ -68,7 +68,7 @@ Setup stores 比 [Options Stores](#option-stores) 带来了更多的灵活性，
 
 ## 你应该选用哪种语法？ {#what-syntax-should-i-pick}
 
-和 [Vue 的组合式 API 与选项式 API](https://vuejs.org/guide/introduction.html#which-to-choose) 一样，选择你觉得最舒服的那一个就好。如果你还不确实，可以先试试 [Option Stores](#option-stores)。
+和 [Vue 的组合式 API 与选项式 API](https://cn.vuejs.org/guide/introduction.html#which-one-to-choose) 一样，选择你觉得最舒服的那一个就好。如果你还不确定，可以先试试 [Option Stores](#option-stores)。
 ## 使用 Store {#using-the-store}
 
 虽然我们前面定义了一个 store，但在 `setup()` 调用 `useStore()` 之前，store 实例是不会被创建的：

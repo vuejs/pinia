@@ -24,7 +24,7 @@ const useStore = defineStore('storeId', {
 ```
 
 :::tip
-如果你使用的是 Vue 2，你在 `state` 中创建的数据与 Vue 实例中的  `data` 遵循同样的规则，即 state 对象必须是清晰的，当你想向其**添加新属性**时，你需要调用 `Vue.set()` 。**参考：[Vue#data](https://vuejs.org/v2/api/#data)**。
+如果你使用的是 Vue 2，你在 `state` 中创建的数据与 Vue 实例中的  `data` 遵循同样的规则，即 state 对象必须是清晰的，当你想向其**添加新属性**时，你需要调用 `Vue.set()` 。**参考：[Vue#data](https://v2.cn.vuejs.org/v2/api/#data)**。
 :::
 
 ## TypeScript {#typescript}
@@ -211,7 +211,7 @@ pinia.state.value = {}
 
 ## 订阅 state {#subscribing-to-the-state}
 
-类似于 Vuex 的 [subscribe 方法](https://vuex.vuejs.org/api/#subscribe)，你可以通过 store 的 `$subscribe()` 方法观测 state 及其变化。比起普通的 `watch()`，使用 `$subscribe()` 的好处是 *subscriptions* 在 *patch* 后只触发一次(例如，当使用上面的函数版本时)。
+类似于 Vuex 的 [subscribe 方法](https://vuex.vuejs.org/zh/api/index.html#subscribe)，你可以通过 store 的 `$subscribe()` 方法观测 state 及其变化。比起普通的 `watch()`，使用 `$subscribe()` 的好处是 *subscriptions* 在 *patch* 后只触发一次(例如，当使用上面的函数版本时)。
 
 ```js
 cartStore.$subscribe((mutation, state) => {
