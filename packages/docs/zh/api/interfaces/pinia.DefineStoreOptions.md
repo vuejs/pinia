@@ -79,7 +79,7 @@ ___
 
 ▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
 
-当 store 定义中使用了复杂的 state(如仅客户端的引用)，并且仅从 `pinia.state` 中复制值是不够时，
+当 store 定义中使用了复杂的 state (如仅客户端的引用)，并且仅从 `pinia.state` 中复制值是不够时，
 允许在 SSR 期间对 store 进行 hydrating。
 
 **`Example`**
