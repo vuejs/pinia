@@ -5,11 +5,11 @@
   title="Get started with Pinia"
 />
 
-Pinia [起始](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e)于 2019 年 11 月左右的一次实验，该实验的目的是设计一个拥有 [组合式 API](https://github.com/vuejs/composition-api) 的 Vue 状态管理库。从那时起，我们就倾向于同时支持 Vue2 和 Vue3，并且不强制要求使用组合式 API，我们的初心至今没有改变。除了**安装**和 **SSR** 等章节之外，其余章节内容的 API 均支持 Vue3 和 Vue2。虽然本文档主要是面向 Vue3 的用户，但在必要时会标注出 Vue2 的内容，因此 Vue2 和 Vue3 的用户都可以阅读本文档。
+Pinia [起始](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e)于 2019 年 11 月左右的一次实验，该实验的目的是设计一个拥有[组合式 API](https://github.com/vuejs/composition-api) 的 Vue 状态管理库。从那时起，我们就倾向于同时支持 Vue2 和 Vue3，并且不强制要求使用组合式 API，我们的初心至今没有改变。除了**安装**和 **SSR** 等章节之外，其余章节内容的 API 均支持 Vue 2 和 Vue 3。虽然本文档主要是面向 Vue3 的用户，但在必要时会标注出 Vue2 的内容，因此 Vue 2 和 Vue 3 的用户都可以阅读本文档。
 
 ## 为什么你应该使用 Pinia？{#why-should-i-use-pinia}
 
-Pinia 是 Vue 的专属状态管理库，它允许你跨组件/页面共享状态。如果你熟悉组合式 API 的话，你可能会认为你可以通过一行简单的 `export const state = reactive({})`来共享一个全局状态。对于单页应用程序来说确实是这样的，但如果在服务器端渲染，这可能会使您的应用程序暴露出一些安全漏洞。 如果使用 Pinia，即使在小型单页应用程序中，你也可以获得如下功能：
+Pinia 是 Vue 的专属状态管理库，它允许你跨组件或页面共享状态。如果你熟悉组合式 API 的话，你可能会认为可以通过一行简单的 `export const state = reactive({})` 来共享一个全局状态。对于单页应用程序来说确实是这样的，但如果在服务器端渲染，这可能会使你的应用程序暴露出一些安全漏洞。 如果使用 Pinia，即使在小型单页应用程序中，你也可以获得如下功能：
 
 - Devtools 支持
   - 追踪 actions、mutations 的时间线
@@ -24,7 +24,7 @@ Pinia 是 Vue 的专属状态管理库，它允许你跨组件/页面共享状�
 
 ## 基础示例 {#basic-example}
 
-下面就是以 API 使用 pinia 的基本用法。（为继续阅读本简介请确保你已阅读过了[开始](./getting-started.md)章节）你可以先创建一个 Store：
+下面就是以 API 使用 pinia 的基本用法 (为继续阅读本简介请确保你已阅读过了[开始](./getting-started.md)章节)。你可以先创建一个 Store：
 
 ```js
 // stores/counter.js
@@ -62,7 +62,7 @@ export default {
 }
 ```
 
-为实现更多高级用法，你甚至可以使用一个函数（与组件 `setup()` 类似）来定义一个 Store：
+为实现更多高级用法，你甚至可以使用一个函数 (与组件 `setup()` 类似) 来定义一个 Store：
 
 ```js
 export const useCounterStore = defineStore('counter', () => {
@@ -75,7 +75,7 @@ export const useCounterStore = defineStore('counter', () => {
 })
 ```
 
-如果你还不熟悉 setup() 和组合式 API，别担心，Pinia 也提供了一组类似 Vuex 的 [map helpers](https://vuex.vuejs.org/guide/state.html#the-mapstate-helper)。你可以用和之前一样的方式来定义 Store，然后通过 `mapStores()`、`mapState()` 或 `mapActions()`使用：
+如果你还不熟悉 setup() 和组合式 API，别担心，Pinia 也提供了一组类似 Vuex 的 [map helpers](https://vuex.vuejs.org/guide/state.html#the-mapstate-helper)。你可以用和之前一样的方式来定义 Store，然后通过 `mapStores()`、`mapState()` 或 `mapActions()` 使用：
 
 ```js {22,24,28}
 const useCounterStore = defineStore('counter', {
@@ -114,7 +114,7 @@ export default {
 
 ## 为什么命名为 _Pinia_？{#why-pinia}
 
-Pinia (发音为 `/piːnjʌ/`，类似英文中的 “peenya”) 是最接近有效包名 piña（西班牙语中的 _pineapple_，即“菠萝”）的词。 菠萝花实际上是一组各自独立的花朵，它们结合在一起，由此形成一个多重的水果。 与 Store 类似，每一个都是独立诞生的，但最终它们都是相互联系的。 它（菠萝）也是一种原产于南美洲的美味热带水果。
+Pinia (发音为 `/piːnjʌ/`，类似英文中的 “peenya”) 是最接近有效包名 piña (西班牙语中的 _pineapple_，即“菠萝”) 的词。 菠萝花实际上是一组各自独立的花朵，它们结合在一起，由此形成一个多重的水果。 与 Store 类似，每一个都是独立诞生的，但最终它们都是相互联系的。 它（菠萝）也是一种原产于南美洲的美味热带水果。
 
 ## 更真实的示例 {#a-more-realistic-example}
 
@@ -169,7 +169,7 @@ Pinia 起源于一次探索 Vuex 下一个迭代的实验，所以其结合了 V
 
 与 Vuex 相比，Pinia 不仅提供了一个更简单的 API，也提供了符合组合式 API 风格的 API，最重要的是，搭配 TypeScript 一起使用时有非常可靠的类型推断支持。
 
-### RFCs {#rfcs}
+### RFC {#rfc}
 
 最初，Pinia 没有经过任何 RFC 的流程。我基于自己开发应用程序的经验，同时通过阅读其他人的代码，为使用 Pinia 的用户工作，以及在 Discord 上回答问题等方式验证了一些想法。
 这些使我产出了这样一个可行的解决方案，并适应各种场景和应用规模。我一直在保持其核心 API 不变的情况下发布新版本，同时不断优化本库。
@@ -178,9 +178,9 @@ Pinia 起源于一次探索 Vuex 下一个迭代的实验，所以其结合了 V
 
 ### 对比 Vuex 3.x/4.x {#comparison-with-vuex-3-x-4-x}
 
-> Vuex 3.x 只适配 Vue2，而 Vuex 4.x 是适配 Vue3 的。
+> Vuex 3.x 只适配 Vue 2，而 Vuex 4.x 是适配 Vue 3 的。
 
-Pinia API 与 Vuex ≤4 有很大不同，即：
+Pinia API 与 Vuex 4 及以下版本有很大不同，即：
 
 - _mutations_ 已弃用。它们经常被认为是**极其冗长的**。它们初衷是带来 devtools 的集成方案，但这已不再是一个问题了。
 - 无需要创建自定义的复杂包装器来支持 TypeScript，一切都被类型化了，API 的设计方式是尽可能地利用 TS 类型推理。
@@ -189,4 +189,4 @@ Pinia API 与 Vuex ≤4 有很大不同，即：
 - 不再有嵌套结构的**模块**。你仍然可以通过导入和使用另一个 Store 来隐含地嵌套 stores 空间，虽然是 Pinia 从设计上提供的是一个扁平的结构，但仍然能够在 Store 之间进行交叉组合。**你甚至可以让 Stores 有循环依赖关系**。
 - 没有**命名的模块**。考虑到 Store 的扁平架构，Store 的命名取决于它们的定义方式，你甚至可以说所有 Store 都应该命名。
 
-关于如何将现有 Vuex ≤4 项目转化为使用 Pinia 的更多详细说明，请参阅[ Vuex 迁移指南](./cookbook/migration-vuex.md)。
+关于如何将现有 Vuex 4 及以下版本的项目转化为使用 Pinia 的更多详细说明，请参阅 [Vuex 迁移指南](./cookbook/migration-vuex.md)。
