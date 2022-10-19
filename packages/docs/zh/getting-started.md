@@ -46,7 +46,7 @@ new Vue({
 })
 ```
 
-这也将提供 devtools 支持。在 Vue 3 中，虽然一些功能仍然不被支持，如 time traveling 和编辑，这是因为 vue-devtools 还没有相关的 API，但是 devtools 有更多针对 Vue 3 的功能，而且就开发者的体验来说，Vue3 整体上要好得多。在 Vue2 中，Pinia 使用的是 Vuex 的现有接口(因此不能与 Vuex 一起使用)。
+这也将提供 devtools 支持。在 Vue 3 中，虽然一些功能仍然不被支持，如 time traveling 和编辑，这是因为 vue-devtools 还没有相关的 API，但是 devtools 有更多针对 Vue 3 的功能，而且就开发者的体验来说，Vue 3 整体上要好得多。在 Vue 2 中，Pinia 使用的是 Vuex 的现有接口(因此不能与 Vuex 一起使用)。
 
 ## Store 是什么？{#what-is-a-store}
 

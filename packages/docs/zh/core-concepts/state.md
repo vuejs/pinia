@@ -24,7 +24,7 @@ const useStore = defineStore('storeId', {
 ```
 
 :::tip
-如果你使用的是 Vue2，你在 `state` 中创建的数据与 Vue 实例中的  `data` 遵循同样的规则，即 state 对象必须是清晰的，当你想向其**添加新属性**时，你需要调用 `Vue.set()` 。**参考：[Vue#data](https://vuejs.org/v2/api/#data)**。
+如果你使用的是 Vue 2，你在 `state` 中创建的数据与 Vue 实例中的  `data` 遵循同样的规则，即 state 对象必须是清晰的，当你想向其**添加新属性**时，你需要调用 `Vue.set()` 。**参考：[Vue#data](https://vuejs.org/v2/api/#data)**。
 :::
 
 ## TypeScript {#typescript}
@@ -190,7 +190,7 @@ cartStore.$patch((state) => {
 
 <!-- TODO: disable this with `strictMode`, `{ noDirectPatch: true }` -->
 
-这里的主要区别是，`$patch()` 允许你将多个变更归入 devtools 的一个条目中。同时请注意，**直接修改 `state`，`$patch()` 也会出现在 devtools 中**，而且可以进行 time travel(在 Vue3 中还没有)。
+这里的主要区别是，`$patch()` 允许你将多个变更归入 devtools 的一个条目中。同时请注意，**直接修改 `state`，`$patch()` 也会出现在 devtools 中**，而且可以进行 time travel(在 Vue 3 中还没有)。
 
 ## 替换 `state` {#replacing-the-state}
 
