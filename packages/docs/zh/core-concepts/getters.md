@@ -18,7 +18,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-大多数时候，getter 仅依赖 state，不过，有时它们也可能会使用其他 getter。因此，在使用常规函数定义 getter 时，我们可以通过 `this` 访问到**整个 store 实例**，**但(在TypeScript中)必须定义返回类型**。这是为了避免 TypeScript 的已知缺陷，**不过这不影响用箭头函数定义的 getter，也不会影响不使用 `this` 的 getter**。
+大多数时候，getter 仅依赖 state，不过，有时它们也可能会使用其他 getter。因此，在使用常规函数定义 getter 时，我们可以通过 `this` 访问到**整个 store 实例**，**但(在 TypeScript 中)必须定义返回类型**。这是为了避免 TypeScript 的已知缺陷，**不过这不影响用箭头函数定义的 getter，也不会影响不使用 `this` 的 getter**。
 
 ```ts
 export const useStore = defineStore('main', {
