@@ -34,7 +34,7 @@ store.secret // 'the cake is a lie'
 
 ## 简介 {#introduction}
 
-Pinia 插件是一个函数，可以选择性地返回要添加到 store 的属性。它接收一个可选参数，即 _context_。
+Pinia 插件是一个函数，可以选择性地返回要添加到 store 的属性。它接收一个可选参数，即 *context*。
 
 ```js
 export function myPiniaPlugin(context) {
@@ -358,7 +358,7 @@ declare module 'pinia' {
 ```
 
 :::tip
-还有一个 `StoreGetters` 类型可以从一个 store 类型中提取 _getters_。你也可以且**只可以**分别通过扩展 `DefineStoreOptions` 和 `DefineSetupStoreOptions` 类型来扩展 _setup stores_ 或 _option stores_ 的选项。
+还有一个 `StoreGetters` 类型可以从一个 store 类型中提取 *getters*。你也可以且**只可以**分别通过扩展 `DefineStoreOptions` 和 `DefineSetupStoreOptions` 类型来扩展 *setup stores* 或 *option stores* 的选项。
 :::
 
 ## Nuxt.js {#nuxt-js}

@@ -5,7 +5,7 @@
   title="Learn all about getters in Pinia"
 />
 
-Getter 完全等同于 store 的 state 的[计算值](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values)。可以通过 `defineStore()` 中的 `getters` 属性来定义它们。**推荐**使用箭头函数，并且它将接收 `state` 作为第一个参数：
+Getter 完全等同于 store 的 state 的[计算值](https://cn.vuejs.org/guide/essentials/computed.html)。可以通过 `defineStore()` 中的 `getters` 属性来定义它们。**推荐**使用箭头函数，并且它将接收 `state` 作为第一个参数：
 
 ```js
 export const useStore = defineStore('main', {
@@ -86,7 +86,7 @@ export const useStore = defineStore('main', {
 
 ## 向 getter 传递参数 {#passing-arguments-to-getters}
 
-_Getter_ 只是幕后的**计算**属性，所以不可以向它们传递任何参数。不过，你可以从 _getter_ 返回一个函数，该函数可以接受任意参数：
+*Getter* 只是幕后的**计算**属性，所以不可以向它们传递任何参数。不过，你可以从 *getter* 返回一个函数，该函数可以接受任意参数：
 
 ```js
 export const useStore = defineStore('main', {
@@ -131,7 +131,7 @@ export const useStore = defineStore('main', {
 
 ## 访问其他 store 的 getter {#accessing-other-stores-getters}
 
-想要使用另一个 store 的 getter 的话，那就直接在 _getter_ 内使用就好：
+想要使用另一个 store 的 getter 的话，那就直接在 *getter* 内使用就好：
 
 ```js
 import { useOtherStore } from './other-store'

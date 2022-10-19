@@ -23,7 +23,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-类似 [getter](./getters.md)，action 也可通过 `this` 访问**整个 store 实例**，并支持**完整的类型约束（以及自动补全✨）**。**不同的是，`action` 可以是异步的**，你可以在它们里面 `await` 调用任何 API，以及其他 action！下面是一个使用 [Mande](https://github.com/posva/mande) 的例子。请注意，你使用什么库并不重要，只要你得到的是一个`Promise`，你甚至可以使用原生 `fetch` 函数（在浏览器中）：
+类似 [getter](./getters.md)，action 也可通过 `this` 访问**整个 store 实例**，并支持**完整的类型约束(以及自动补全✨)**。**不同的是，`action` 可以是异步的**，你可以在它们里面 `await` 调用任何 API，以及其他 action！下面是一个使用 [Mande](https://github.com/posva/mande) 的例子。请注意，你使用什么库并不重要，只要你得到的是一个`Promise`，你甚至可以使用原生 `fetch` 函数(在浏览器中)：
 
 ```js
 import { mande } from 'mande'
@@ -69,7 +69,7 @@ export default defineComponent({
 
 ## 访问其他 store 的 action {#accessing-other-stores-actions}
 
-想要使用另一个 store 的话，那你可以直接在 _action_ 中调用就好了：
+想要使用另一个 store 的话，那你可以直接在 *action* 中调用就好了：
 
 ```js
 import { useAuthStore } from './auth-store'
@@ -217,7 +217,7 @@ const unsubscribe = someStore.$onAction(
 unsubscribe()
 ```
 
-默认情况下，_action 订阅器_ 会被绑定到添加它们的组件上（如果 store 在组件的 `setup()` 内）。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `true` 作为第二个参数传递给 _action 订阅器_，以便将其从当前组件中剥离（_detach_）：
+默认情况下，*action 订阅器*会被绑定到添加它们的组件上(如果 store 在组件的 `setup()` 内)。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `true` 作为第二个参数传递给 *action 订阅器*，以便将其从当前组件中剥离 (*detach*)：
 
 ```js
 export default {

@@ -17,7 +17,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-这个 _name_ ，也被用作 _id_ ，是必须传入的， Pinia 将用它来连接 store 和 devtools。为了养成习惯性的用法，将返回的函数命名为 _use..._ 是一个符合组合式函数的惯例。
+这个 *name* ，也被用作 *id* ，是必须传入的， Pinia 将用它来连接 store 和 devtools。为了养成习惯性的用法，将返回的函数命名为 *use...* 是一个符合组合式函数的惯例。
 
 `defineStore()` 的第二个参数可接受两类值：Setup 函数或 Option 对象。
 
@@ -58,7 +58,7 @@ export const useCounterStore = defineStore('counter', () => {
 })
 ```
 
-在 _Setup Stores_ 中：
+在 *Setup Stores* 中：
 
 - `ref()`s 就是 `state` 属性
 - `computed()`s 就是 `getters`
@@ -90,7 +90,7 @@ export default {
 
 你可以定义任意多的 store，但为了让使用 pinia 的益处最大化（比如允许构建工具自动进行代码分割以及 TypeScript 推断），**你应该在不同的文件中去定义 store**。
 
-如果你还不会使用 `setup` 组件，[你仍然可以通过 _map helpers_ 来使用 Pinia](../cookbook/options-api.md)。
+如果你还不会使用 `setup` 组件，[你仍然可以通过 *map helpers* 来使用 Pinia](../cookbook/options-api.md)。
 
 一旦 store 被实例化，你可以直接访问在 store 的 `state`、`getters` 和 `actions` 中定义的任何属性。我们将在后续章节继续了解这些细节，目前 autocompletion 将帮助你使用相关属性。
 

@@ -194,7 +194,7 @@ cartStore.$patch((state) => {
 
 ## 替换 `state` {#replacing-the-state}
 
-你**不能完全替换掉** store 的 state，因为那会破坏响应性。但是，你可以 _patch_ 它。
+你**不能完全替换掉** store 的 state，因为那会破坏响应性。但是，你可以 *patch* 它。
 
 ```js
 // 这实际上并没有替换`$state`
@@ -211,7 +211,7 @@ pinia.state.value = {}
 
 ## 订阅 state {#subscribing-to-the-state}
 
-类似于 Vuex 的 [subscribe 方法](https://vuex.vuejs.org/api/#subscribe)，你可以通过 store 的 `$subscribe()` 方法观测 state 及其变化。比起普通的 `watch()`，使用 `$subscribe()` 的好处是 _subscriptions_ 在 _patch_ 后只触发一次（例如，当使用上面的函数版本时）。
+类似于 Vuex 的 [subscribe 方法](https://vuex.vuejs.org/api/#subscribe)，你可以通过 store 的 `$subscribe()` 方法观测 state 及其变化。比起普通的 `watch()`，使用 `$subscribe()` 的好处是 *subscriptions* 在 *patch* 后只触发一次（例如，当使用上面的函数版本时）。
 
 ```js
 cartStore.$subscribe((mutation, state) => {
@@ -227,7 +227,7 @@ cartStore.$subscribe((mutation, state) => {
 })
 ```
 
-默认情况下，_state subscriptions_ 会被绑定到添加它们的组件上（如果 store 在组件的 `setup()` 里面）。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `{ detached: true }` 作为第二个参数，以将 _state subscription_ 从当前组件中 _detach_：
+默认情况下，*state subscriptions* 会被绑定到添加它们的组件上（如果 store 在组件的 `setup()` 里面）。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `{ detached: true }` 作为第二个参数，以将 *state subscription* 从当前组件中 *detach*：
 
 ```js
 export default {
