@@ -39,7 +39,7 @@ module.exports = {
     },
     config: (md) => {
       md.use(MarkDownItCustomAnchor)
-    }
+    },
   },
   locales: locales.vitepressConfig,
 
