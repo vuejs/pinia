@@ -99,7 +99,7 @@ ERROR  Failed to compile with 18 errors
 Can't import the named export 'computed' from non EcmaScript module (only default export is available)
 ```
 
-这是由于 dist 文件为支持 Node.js 中的原生 ESM 模块进行的现代化适配。为更好地支持 Node，文件现在使用的扩展名是 `.mjs` 和 `.cjs`。要解决这个问题，你有两种可用的方法：
+这是构建文件为支持 Node.js 中的原生 ESM 模块进行的现代化适配。为更好地支持 Node，文件现在使用的扩展名是 `.mjs` 和 `.cjs`。要解决这个问题，你有两种可用的方法：
 
 - 如果你使用 Vue CLI 4.x，升级你的依赖。具体修复步骤如下。
   - 如果你不可能升级，请将下面的代码添加到你的 `vue.config.js` 中：

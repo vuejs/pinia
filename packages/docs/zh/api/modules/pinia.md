@@ -581,7 +581,7 @@ new Vue({
 
 ▸ **acceptHMRUpdate**(`initialUseStore`, `hot`): (`newModule`: `any`) => `any`
 
-创建一个 _accept_ 函数，在 Vite 应用程序中传递给 `import.meta.hot`。
+创建一个 _accept_ 函数，在 Vite 应用中传递给 `import.meta.hot`。
 
 **`Example`**
 
@@ -1058,7 +1058,7 @@ ___
 
 ▸ **mapWritableState**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): [`_MapWritableStateObjectReturn`](pinia.md#_mapwritablestateobjectreturn)<`S`, `KeyMapper`\>
 
-除了创建的计算属性的 stter，其它与 `mapState()` 相同，
+除了创建的计算属性的 stter，其他与 `mapState()` 相同，
 所以 state 可以被修改。
 与 `mapState()` 不同的是，只有 `state` 属性可以被添加。
 
@@ -1154,7 +1154,7 @@ ___
 
 ▸ **skipHydrate**<`T`\>(`obj`): `T`
 
-告诉 Pinia 跳过给定对象的 hydration 过程。当你在 store 中返回一个有状态的对象，但它并不是真正的状态时，(仅)在 setup store 中这是很有用的。
+告诉 Pinia 跳过给定对象的激活过程。当你在 store 中返回一个有状态的对象，但它并不是真正的状态时，(仅)在 setup store 中这是很有用的。
 例如，在一个 setup store 中返回一个路由器实例。
 
 #### 类型参数 {#type-parameters}

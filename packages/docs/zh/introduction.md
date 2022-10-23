@@ -9,7 +9,7 @@ Pinia [起始](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829
 
 ## 为什么你应该使用 Pinia？{#why-should-i-use-pinia}
 
-Pinia 是 Vue 的专属状态管理库，它允许你跨组件或页面共享状态。如果你熟悉组合式 API 的话，你可能会认为可以通过一行简单的 `export const state = reactive({})` 来共享一个全局状态。对于单页应用程序来说确实是这样的，但如果在服务器端渲染，这可能会使你的应用程序暴露出一些安全漏洞。 如果使用 Pinia，即使在小型单页应用程序中，你也可以获得如下功能：
+Pinia 是 Vue 的专属状态管理库，它允许你跨组件或页面共享状态。如果你熟悉组合式 API 的话，你可能会认为可以通过一行简单的 `export const state = reactive({})` 来共享一个全局状态。对于单页应用来说确实是这样的，但如果在服务器端渲染，这可能会使你的应用暴露出一些安全漏洞。 如果使用 Pinia，即使在小型单页应用中，你也可以获得如下功能：
 
 - Devtools 支持
   - 追踪 actions、mutations 的时间线
@@ -156,7 +156,7 @@ export const useTodos = defineStore('todos', {
   actions: {
     // 接受任何数量的参数，返回一个 Promise 或不返回
     addTodo(text) {
-      // 你可以直接 mutate 该状态
+      // 你可以直接变更该状态
       this.todos.push({ text, id: this.nextId++, isFinished: false })
     },
   },
@@ -171,7 +171,7 @@ Pinia 起源于一次探索 Vuex 下一个迭代的实验，所以其结合了 V
 
 ### RFC {#rfcs}
 
-最初，Pinia 没有经过任何 RFC 的流程。我基于自己开发应用程序的经验，同时通过阅读其他人的代码，为使用 Pinia 的用户工作，以及在 Discord 上回答问题等方式验证了一些想法。
+最初，Pinia 没有经过任何 RFC 的流程。我基于自己开发应用的经验，同时通过阅读其他人的代码，为使用 Pinia 的用户工作，以及在 Discord 上回答问题等方式验证了一些想法。
 这些使我产出了这样一个可行的解决方案，并适应各种场景和应用规模。我一直在保持其核心 API 不变的情况下发布新版本，同时不断优化本库。
 
 现在 Pinia 已经成为默认的状态管理解决方案，它和 Vue 生态系统中的其他核心库一样，都要经过 RFC 流程，其 API 进入稳定状态。

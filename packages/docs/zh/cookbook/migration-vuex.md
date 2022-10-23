@@ -242,7 +242,7 @@ export default defineComponent({
 
 ## 组件外的使用 {#usage-outside-components}
 
-只要你注意**不在函数外使用 store**，只更新组件外的用法应该很简单。下面是一个在 Vue Router 导航卫士中使用 store 的例子：
+只要你注意**不在函数外使用 store**，只更新组件外的用法应该很简单。下面是一个在 Vue Router 导航守卫中使用 store 的例子：
 
 ```ts
 // Vuex

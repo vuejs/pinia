@@ -82,7 +82,7 @@ Omit.state
 **`Example`**
 
 如果在你的 `state` 中，你使用了任何 `customRef`，任何 `computed`，或任何在服务器和客户端有不同值的 `ref`，
-你需要手动对它们进行 hydrate。 
+你需要手动激活它们。 
 例如，一个存储在本地存储的自定义 ref：
 
 ```ts

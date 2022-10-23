@@ -11,7 +11,7 @@
 import { defineStore } from 'pinia'
 
 // 你可以对 `defineStore()` 的返回值进行任意命名，但最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾。(比如 `useUserStore`，`useCartStore`，`useProductStore`)
-// 第一个参数是你的应用程序中 Store 的唯一 ID。
+// 第一个参数是你的应用中 Store 的唯一 ID。
 export const useStore = defineStore('main', {
   // 其他配置...
 })
@@ -64,7 +64,7 @@ export const useCounterStore = defineStore('counter', () => {
 - `computed()`s 就是 `getters`
 - `function()`s 就是 `actions`
 
-Setup stores 比 [Options Stores](#option-stores) 带来了更多的灵活性，因为你可以在一个 store 内创建 watchers，并自由地使用任何[组合式函数](https://vuejs.org/guide/reusability/composables.html#composables)。然而，请记住，使用组合式函数会让 [SSR](../cookbook/composables.md) 变得更加复杂。
+Setup stores 比 [Options Stores](#option-stores) 带来了更多的灵活性，因为你可以在一个 store 内创建侦听器，并自由地使用任何[组合式函数](https://vuejs.org/guide/reusability/composables.html#composables)。然而，请记住，使用组合式函数会让 [SSR](../cookbook/composables.md) 变得更加复杂。
 
 ## 你应该选用哪种语法？ {#what-syntax-should-i-pick}
 
@@ -100,7 +100,7 @@ export default {
 export default defineComponent({
   setup() {
     const store = useCounterStore()
-    // ❌ 这将无法生效，因为它破坏了响应式
+    // ❌ 这将无法生效，因为它破坏了响应性
     // 这与从 `props` 中解构是一样的。
     const { name, doubleCount } = store
 

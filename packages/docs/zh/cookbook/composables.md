@@ -80,7 +80,7 @@ export const useAuthStore = defineStore('auth', {
 })
 ```
 
-在 [Setup Store](#setup-stores) 中，对于任何不应该从初始状态中接收的 state 属性 你都需要使用一个名为 `skipHydrate()` 的辅助函数。与 option store 不同，setup store 不能直接**跳过调用 `state()`**，所以我们用 `skipHydrate()` 标记那些不能被 hydrated 的属性。请注意，这只适用于可写的响应式属性：
+在 [Setup Store](#setup-stores) 中，对于任何不应该从初始状态中接收的 state 属性 你都需要使用一个名为 `skipHydrate()` 的辅助函数。与 option store 不同，setup store 不能直接**跳过调用 `state()`**，所以我们用 `skipHydrate()` 标记那些不能被激活的属性。请注意，这只适用于可写的响应式属性：
 
 ```ts
 import { defineStore, skipHydrate } from 'pinia'
