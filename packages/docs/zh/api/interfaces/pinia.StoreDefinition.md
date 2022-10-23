@@ -44,5 +44,5 @@ sidebarDepth: 3
 
 • **$id**: `Id`
 
- store 的 id。供 map helpers 使用。
+ store 的 id。供映射辅助函数使用。
  

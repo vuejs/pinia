@@ -10,6 +10,6 @@ sidebarDepth: 3
 
 [pinia](../modules/pinia.md).MapStoresCustomization
 
-允许自定义 map helpers 的接口。用以下属性来扩展这个接口：
+允许自定义映射辅助函数的接口。用以下属性来扩展这个接口：
 
 - `suffix`: 字符串。影响 `mapStores()` 的后缀，默认为`Store`。

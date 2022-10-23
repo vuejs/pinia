@@ -56,7 +56,7 @@ export const pinia = createPinia()
 
 ## TypeScript {#typescript}
 
-默认情况下，所有 map helpers 都支持自动补全，你不需要做任何事情。如果你调用 `setMapStoreSuffix()` 修改了 `"Store"` 的后缀，你还需要在 TS 文件或 `global.d.ts` 文件的某个地方添加它。最方便的地方是你调用 `setMapStoreSuffix()` 的地方：
+默认情况下，所有映射辅助函数都支持自动补全，你不需要做任何事情。如果你调用 `setMapStoreSuffix()` 修改了 `"Store"` 的后缀，你还需要在 TS 文件或 `global.d.ts` 文件的某个地方添加它。最方便的地方是你调用 `setMapStoreSuffix()` 的地方：
 
 ```ts
 import { createPinia, setMapStoreSuffix } from 'pinia'

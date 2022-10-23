@@ -69,7 +69,7 @@ export default {
         {
           text: '核心概念',
           children: [
-            { text: '定义一个 Store', link: '/zh/core-concepts/' },
+            { text: '定义 Store', link: '/zh/core-concepts/' },
             { text: 'State', link: '/zh/core-concepts/state.html' },
             { text: 'Getter', link: '/zh/core-concepts/getters.html' },
             { text: 'Action', link: '/zh/core-concepts/actions.html' },

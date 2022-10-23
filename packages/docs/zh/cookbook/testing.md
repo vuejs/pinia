@@ -233,7 +233,7 @@ const wrapper = mount(Counter, {
 
 ## 对组件单元测试(Vue 2) {#unit-test-components-vue-2}
 
-当你使用的是 [Vue Test Utils 1](https://v1.test-utils.vuejs.org/) 时，请将 Pinia 安装在 `localVue` 上：
+当你使用的是 [Vue Test Utils 1](https://v1.test-utils.vuejs.org/zh/) 时，请将 Pinia 安装在 `localVue` 上：
 
 ```js
 import { PiniaVuePlugin } from 'pinia'

@@ -5,7 +5,7 @@
   title="Learn all about state in Pinia"
 />
 
-在大多数情况下，state 都是你的 store 的核心。人们通常会首先定义能代表他们 APP 的 state。在 Pinia 中，state 被定义为一个返回初始状态的函数。这使得 Pinia 可以同时支持服务端和客户端。
+在大多数情况下，state 都是你的 store 的核心。人们通常会先定义能代表他们 APP 的 state。在 Pinia 中，state 被定义为一个返回初始状态的函数。这使得 Pinia 可以同时支持服务端和客户端。
 
 ```js
 import { defineStore } from 'pinia'
@@ -114,7 +114,7 @@ const useCounterStore = defineStore('counter', {
 })
 ```
 
-如果你不使用组合式 API，你可以使用 `computed`，`methods`，...，你也可以使用 `mapState()` helper 将 state 属性映射为只读的计算属性：
+如果你不能使用组合式 API，但你可以使用 `computed`，`methods`，...，那你可以使用 `mapState()` 辅助函数将 state 属性映射为只读的计算属性：
 
 ```js
 import { mapState } from 'pinia'
@@ -141,7 +141,7 @@ export default {
 
 #### 可修改的 state {#modifiable-state}
 
-如果你想修改这些 state 属性(例如，如果你有一个表单)，你可以使用 `mapWritableState()` 来代替。但注意你不能像 `mapState()` 那样传递一个函数：
+如果你想修改这些 state 属性(例如，如果你有一个表单)，你可以使用 `mapWritableState()` 作为代替。但注意你不能像 `mapState()` 那样传递一个函数：
 
 ```js
 import { mapWritableState } from 'pinia'
@@ -162,14 +162,14 @@ export default {
 ```
 
 :::tip
-对于像数组这样的集合，除非你用 `cartItems = []` 替换整个数组，你不需要 `mapWritableState()`，`mapState()` 就允许你调用集合上的方法。
+对于像数组这样的集合，你并不一定需要使用 `mapWritableState()`，`mapState()` 也允许你调用集合上的方法，除非你想用 `cartItems = []` 替换整个数组。
 :::
 
 ## 变更 state {#mutating-the-state}
 
 <!-- TODO: disable this with `strictMode` -->
 
-除了用 `store.count++` 直接改变存储，你还可以调用 `$patch` 方法。它允许你用一个 `state` 的补丁对象在同一时间更改多个属性：
+除了用 `store.count++` 直接改变 store，你还可以调用 `$patch` 方法。它允许你用一个 `state` 的补丁对象在同一时间更改多个属性：
 
 ```js
 store.$patch({
@@ -179,7 +179,7 @@ store.$patch({
 })
 ```
 
-然而，用这种语法的话，有些变更真的很难实现或者很耗时：任何集合的修改(例如，从数组中推送、移除、拼接一个元素)都需要你创建一个新的集合。因此，`$patch` 方法也接受一个函数来组合这种难以用补丁对象实现的变更。
+不过，用这种语法的话，有些变更真的很难实现或者很耗时：任何集合的修改(例如，从数组中推送、移除、拼接一个元素)都需要你创建一个新的集合。因此，`$patch` 方法也接受一个函数来组合这种难以用补丁对象实现的变更。
 
 ```js
 cartStore.$patch((state) => {
@@ -190,11 +190,11 @@ cartStore.$patch((state) => {
 
 <!-- TODO: disable this with `strictMode`, `{ noDirectPatch: true }` -->
 
-这里的主要区别是，`$patch()` 允许你将多个变更归入 devtools 的一个条目中。同时请注意，**直接修改 `state`，`$patch()` 也会出现在 devtools 中**，而且可以进行 time travel(在 Vue 3 中还没有)。
+两种变更 store 方法的主要区别是，`$patch()` 允许你将多个变更归入 devtools 的同一个条目中。同时请注意，**直接修改 `state`，`$patch()` 也会出现在 devtools 中**，而且可以进行 time travel(在 Vue 3 中还没有)。
 
 ## 替换 `state` {#replacing-the-state}
 
-你**不能完全替换掉** store 的 state，因为那会破坏响应性。但是，你可以 *patch* 它。
+你**不能完全替换掉** store 的 state，因为那样会破坏其响应性。但是，你可以 *patch* 它。
 
 ```js
 // 这实际上并没有替换`$state`
@@ -211,7 +211,7 @@ pinia.state.value = {}
 
 ## 订阅 state {#subscribing-to-the-state}
 
-类似于 Vuex 的 [subscribe 方法](https://vuex.vuejs.org/zh/api/index.html#subscribe)，你可以通过 store 的 `$subscribe()` 方法观测 state 及其变化。比起普通的 `watch()`，使用 `$subscribe()` 的好处是 *subscriptions* 在 *patch* 后只触发一次(例如，当使用上面的函数版本时)。
+类似于 Vuex 的 [subscribe 方法](https://vuex.vuejs.org/zh/api/index.html#subscribe)，你可以通过 store 的 `$subscribe()` 方法侦听 state 及其变化。比起普通的 `watch()`，使用 `$subscribe()` 的好处是 *subscriptions* 在 *patch* 后只触发一次(例如，当使用上面的函数版本时)。
 
 ```js
 cartStore.$subscribe((mutation, state) => {
@@ -227,7 +227,7 @@ cartStore.$subscribe((mutation, state) => {
 })
 ```
 
-默认情况下，*state subscriptions* 会被绑定到添加它们的组件上(如果 store 在组件的 `setup()` 里面)。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `{ detached: true }` 作为第二个参数，以将 *state subscription* 从当前组件中 *detach*：
+默认情况下，*state subscriptions* 会被绑定到添加它们的组件上(如果 store 在组件的 `setup()` 里面)。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `{ detached: true }` 作为第二个参数，以将 *state subscription* 从当前组件中*分离*：
 
 ```js
 export default {
@@ -243,7 +243,7 @@ export default {
 ```
 
 :::tip
-你可以在`pinia`实例上侦听整个 state。
+你可以在 `pinia` 实例上侦听整个 state。
 
 ```js
 watch(

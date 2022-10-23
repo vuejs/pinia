@@ -1,12 +1,12 @@
 # Plugins {#plugins}
 
-由于有了底层 API 的支持，Pinia store 现在完全可以被扩展。以下是你可以做的事情的清单：
+由于有了底层 API 的支持，Pinia store 现在完全支持扩展。以下是你可以扩展的内容：
 
 - 为 store 添加新的属性
 - 定义 store 时增加新的选项
 - 为 store 增加新的方法
 - 包装现有的方法
-- 改变或甚至取消 action
+- 改变甚至取消 action
 - 实现副作用，如[本地存储](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 - **仅**应用插件于特定 store
 
