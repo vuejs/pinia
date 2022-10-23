@@ -68,7 +68,7 @@ Setup stores 比 [Options Stores](#option-stores) 带来了更多的灵活性，
 
 ## 你应该选用哪种语法？ {#what-syntax-should-i-pick}
 
-和 [Vue 的组合式 API 与选项式 API](https://vuejs.org/guide/introduction.html#which-to-choose) 一样，选择你觉得最舒服的那一个就好。如果你还不确实，可以先试试 [Option Stores](#option-stores)。
+和 [Vue 的组合式 API 与选项式 API](https://vuejs.org/guide/introduction.html#which-to-choose) 一样，选择你觉得最舒服的那一个就好。如果你还不确定，可以先试试 [Option Stores](#option-stores)。
 ## 使用 Store {#using-the-store}
 
 虽然我们前面定义了一个 store，但在 `setup()` 调用 `useStore()` 之前，store 实例是不会被创建的：
