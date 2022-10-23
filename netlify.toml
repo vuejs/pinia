@@ -1,7 +1,4 @@
-[build.environment]
-NPM_FLAGS="--version"
-
 [build]
-command = "npx pnpm@7 i --store=node_modules/.pnpm-store && npx pnpm@7 run docs:build"
+command = "pnpm run docs:build"
 ignore = "./scripts/docs-check.sh"
 publish = "packages/docs/.vitepress/dist"
