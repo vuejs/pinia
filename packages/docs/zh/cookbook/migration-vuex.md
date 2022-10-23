@@ -194,7 +194,7 @@ export const useAuthUserStore = defineStore('auth/user', {
 
 现在你的 Vuex 模块已经被转换为 Pinia store，但其他使用该模块的组件或文件也需要更新。
 
-如果你以前使用的是 Vuex 的 `map` 辅助函数，可以看看[不使用 setup() 的用法指南](./options-api.md)，因为这些辅助函数大多都是可以复用。
+如果你以前使用的是 Vuex 的 `map` 辅助函数，可以看看[不使用 setup() 的用法指南](./options-api.md)，因为这些辅助函数大多都是可以复用的。
 
 如果你以前使用的是 `useStore`，那么就直接导入新 store 并访问其上的 state。比如说：
 
