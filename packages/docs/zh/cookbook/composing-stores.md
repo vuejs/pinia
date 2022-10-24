@@ -42,7 +42,7 @@ const useY = defineStore('y', () => {
 
 ## 嵌套 store {#nested-stores}
 
-注意，如果一个 store 使用另一个 store，你可以直接导入并在 *actions* 和 *getters* 中调用 `useStore()` 函数。然后你就可以像在 Vue 组件中那样使用 store。参考[共享 Getter](#shared-getters)和[共享 Action](#shared-actions)。
+注意，如果一个 store 使用另一个 store，你可以直接导入并在 *actions* 和 *getters* 中调用 `useStore()` 函数。然后你就可以像在 Vue 组件中那样使用 store。参考[共享 Getter](#shared-getters) 和[共享 Action](#shared-actions)。
 
 对于 *setup store* ，你直接使用 store 函数**顶部**的一个 store：
 

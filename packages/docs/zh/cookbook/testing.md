@@ -71,7 +71,7 @@ beforeEach(() => {
 
 ## 对组件单元测试 {#unit-testing-components}
 
-这可以通过 `createTestingPinia()` 实现，它会返回一个旨在帮助对组件单元测试的 pinia 实例。
+这可以通过 `createTestingPinia()` 实现，它会返回一个仅用于帮助对组件单元测试的 pinia 实例。
 
 从安装 `@pinia/testing` 开始：
 
@@ -146,7 +146,7 @@ store.n // 20
 
 ### 自定义 action 的行为 {#customizing-behavior-of-actions}
 
-除非另有指示，`createTestingPinia` 会存根(stub)出所有的store action。这样可以让你你独立测试你的组件和 store。
+除非另有指示，`createTestingPinia` 会存根 (stub) 出所有的 store action。这样可以让你独立测试你的组件和 store。
 
 如果你想恢复这种行为，并在测试中正常执行 action，请在调用 `createTestingPinia` 时指定 `stubActions: false`：
 
@@ -168,7 +168,7 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 
 ### 指定 createSpy 函数 {#specifying-the-createspy-function}
 
-当使用 Jest，或 vitest 且设置 `globals: true` 时，`createTestingPinia` 会自动使用现有测试框架(`jest.fn` 或 `vitest.fn`)的 spy 函数存根(stub) action。如果你使用的是不同的框架，你需要提供一个 [createSpy](/zh/api/interfaces/pinia_testing.TestingOptions.html#createspy) 选项：
+当使用 Jest，或 vitest 且设置 `globals: true` 时，`createTestingPinia` 会自动使用现有测试框架(`jest.fn` 或 `vitest.fn`)的 spy 函数存根 (stub) action。如果你使用的是不同的框架，你需要提供一个 [createSpy](/zh/api/interfaces/pinia_testing.TestingOptions.html#createspy) 选项：
 
 ```js
 import sinon from 'sinon'

@@ -1,6 +1,6 @@
 # 从 0.x (v1) 迁移至 v2 {#migrating-from-0-x-v1-to-v2}
 
-从 `2.0.0-rc.4` 版本开始，pinia 同时支持 Vue 2 和 Vue 3! 这意味着，v2 版本的所有更新，将会让 Vue 2 和 Vue 3 的用户都受益。如果你使用的是 Vue 3，这对你来说没有任何改变，因为你已经在使用 rc 版本，你可以查看[发布日志](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md)来了解所有更新的详细解释。如果你使用的不是 Vue 3，**那这个指南是为你准备的**!
+从 `2.0.0-rc.4` 版本开始，pinia 同时支持 Vue 2 和 Vue 3！这意味着，v2 版本的所有更新，将会让 Vue 2 和 Vue 3 的用户都受益。如果你使用的是 Vue 3，这对你来说没有任何改变，因为你已经在使用 rc 版本，你可以查看[发布日志](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md)来了解所有更新的详细解释。如果你使用的不是 Vue 3，**那这个指南是为你准备的**!
 
 ## 弃用 {#deprecations}
 
@@ -36,7 +36,7 @@ yarn add 'pinia@^2.x.x'
 
 添加于 [2.0.0-rc.0](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md#200-rc0-2021-07-28)
 
-用 `StoreGeneric` 取代 `GenericStore` 类型的全部用法。这是新的通用 store 类型，应该接受任何类型的 store。如果你在写函数时使用 `Store` 类型而不想传递其泛型(例如`Store<Id, State, Getters, Actions>`)，你可以使用 `StoreGeneric`，因为没有泛型的 `Store` 类型会创建一个空的 store 类型：
+用 `StoreGeneric` 取代 `GenericStore` 类型的全部用法。这是新的通用 store 类型，应该可以接受任何类型的 store。如果你在写函数时使用 `Store` 类型而不想传递其泛型(例如`Store<Id, State, Getters, Actions>`)，你可以使用 `StoreGeneric`，因为没有泛型的 `Store` 类型会创建一个空的 store 类型：
 
 ```diff
 -function takeAnyStore(store: Store) {}
@@ -175,4 +175,4 @@ yarn add @pinia/nuxt
  }
 ```
 
-[ Nuxt 专署章节](../ssr/nuxt.md)也值得阅读。
+[ Nuxt 专署章节](../ssr/nuxt.md)也值得一读。

@@ -816,7 +816,7 @@ ___
 而键则是产生的计算属性的名称。
 另外，你还可以传递一个自定义函数，
 该函数将接收 state 的作为其第一个参数。
-注意，虽然它可以通过 `this` 访问组件的实例，但它不会被类型检查。
+注意，虽然它可以通过 `this` 访问组件的实例，但它没有标注类型。
 
 **`Example`**
 
@@ -919,7 +919,7 @@ ___
 该对象的值是 state 属性/getter，
 而键是生成的计算属性名称。
 你也可以选择传递一个自定义函数，该函数将接收 store 作为其第一个参数。
-注意，虽然它可以通过 `this` 访问组件实例，但它不会被类型检查。
+注意，虽然它可以通过 `this` 访问组件实例，但它没有标注类型。
 
 **`Example`**
 
@@ -1058,7 +1058,7 @@ ___
 
 ▸ **mapWritableState**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): [`_MapWritableStateObjectReturn`](pinia.md#_mapwritablestateobjectreturn)<`S`, `KeyMapper`\>
 
-除了创建的计算属性的 stter，其他与 `mapState()` 相同，
+除了创建的计算属性的 setter，其他与 `mapState()` 相同，
 所以 state 可以被修改。
 与 `mapState()` 不同的是，只有 `state` 属性可以被添加。
 

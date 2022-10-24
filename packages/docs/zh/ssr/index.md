@@ -95,7 +95,7 @@ export default viteSSR(
 )
 ```
 
-你可以根据你的需要使用 `@nuxt/devalue` 的[其他替代品](https://github.com/nuxt-contrib/devalue#see-also)，例如，如果你也能用 `JSON.stringify()`/`JSON.parse()` 来字符串化和解析你的 state，**这样你可以把性能提高很多。**
+你可以根据你的需要使用 `@nuxt/devalue` 的[其他替代品](https://github.com/nuxt-contrib/devalue#see-also)，例如，你也可以用 `JSON.stringify()`/`JSON.parse()` 来序列化和解析你的 state，**这样你可以把性能提高很多。**
 
 也可以根据你的环境调整这个策略。但确保在客户端调用任何 `useStore()` 函数之前，激活 pinia 的 state。例如，如果我们将 state 序列化为一个 `<script>` 标签，并在客户端通过 `window.__pinia` 全局访问它，我们可以这样写：
 

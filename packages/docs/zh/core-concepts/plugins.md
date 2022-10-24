@@ -106,8 +106,8 @@ pinia.use(({ store }) => {
 
 如果你想给 store 添加新的 state 属性，或者在激活过程中使用的属性，**你必须同时在两个地方添加它**。
 
-- 在 `store` 上，因此你可以用 `store.myState` 访问它。
-- 在 `store.$state` 上，因此它可以在 devtools 中使用，并且，**在 SSR 时被序列化(serialized)**。
+- 在 `store` 上，然后你才可以用 `store.myState` 访问它。
+- 在 `store.$state` 上，然后你才可以在 devtools 中使用它，并且，**在 SSR 时被正确序列化(serialized)**。
 
 除此之外，你肯定也会使用 `ref()`(或其他响应式 API)，以便在不同的读取中共享相同的值：
 
@@ -251,9 +251,9 @@ defineStore(
 
 上述一切功能都有类型支持，所以你永远不需要使用 `any` 或 `@ts-ignore`。
 
-### 插件类型检查 {#typing-plugins}
+### 标注插件类型 {#typing-plugins}
 
-一个 Pinia 插件可按如下方式实现类型检查：
+一个 Pinia 插件可按如下方式实现类型标注：
 
 ```ts
 import { PiniaPluginContext } from 'pinia'
@@ -282,7 +282,7 @@ declare module 'pinia' {
 }
 ```
 
-然后，它就可以被安全地写入和读取了：
+然后，就可以安全地写入和读取它了：
 
 ```ts
 pinia.use(({ store }) => {
@@ -295,13 +295,13 @@ pinia.use(({ store }) => {
 })
 ```
 
-`PiniaCustomProperties` 是一个通用类型，允许你引用 store 的属性。思考一下这个例子，如果把初始选项复制成 `$options`(这只对 option store 有效)，如何实现类型检查：
+`PiniaCustomProperties` 是一个通用类型，允许你引用 store 的属性。思考一下这个例子，如果把初始选项复制成 `$options`(这只对 option store 有效)，如何标注类型：
 
 ```ts
 pinia.use(({ options }) => ({ $options: options }))
 ```
 
-我们可以通过使用 `PiniaCustomProperties` 的4种通用类型来实现类型检查：
+我们可以通过使用 `PiniaCustomProperties` 的4种通用类型来标注类型：
 
 ```ts
 import 'pinia'
@@ -358,12 +358,12 @@ declare module 'pinia' {
 ```
 
 :::tip
-还有一个 `StoreGetters` 类型可以从一个 store 类型中提取 *getters*。你也可以且**只可以**分别通过扩展 `DefineStoreOptions` 和 `DefineSetupStoreOptions` 类型来扩展 *setup stores* 或 *option stores* 的选项。
+还有一个可以从一个 store 类型中提取 *getters* 的 `StoreGetters` 类型。你也可以且**只可以**通过扩展 `DefineStoreOptions` 或 `DefineSetupStoreOptions` 类型来扩展 *setup stores* 或 *option stores* 的选项。
 :::
 
 ## Nuxt.js {#nuxt-js}
 
-当[在 Nuxt 中使用 pinia](../ssr/nuxt.md)时，你必须先创建一个 [Nuxt 插件](https://nuxtjs.org/docs/2.x/directory-structure/plugins)。这样你才能访问到 `pinia` 实例：
+当[在 Nuxt 中使用 pinia](../ssr/nuxt.md) 时，你必须先创建一个 [Nuxt 插件](https://nuxtjs.org/docs/2.x/directory-structure/plugins)。这样你才能访问到 `pinia` 实例：
 
 ```ts
 // plugins/myPiniaPlugin.js
@@ -387,4 +387,4 @@ const myPlugin: Plugin = ({ $pinia }) => {
 export default myPlugin
 ```
 
-注意上面的例子使用的是 TypeScript。如果你使用的是 `.js` 文件，你必须删除类型注释 `PiniaPluginContext` 和 `Plugin` 以及它们的导入语句。
+注意上面的例子使用的是 TypeScript。如果你使用的是 `.js` 文件，你必须删除类型标注 `PiniaPluginContext` 和 `Plugin` 以及它们的导入语句。

@@ -32,7 +32,7 @@ export const useStore = defineStore('main', {
     },
     // 返回类型**必须**明确设置
     doublePlusOne(): number {
-      // 整个 store 的 自动补全和类型检查 ✨
+      // 整个 store 的 自动补全和类型标注 ✨
       return this.doubleCount + 1
     },
   },

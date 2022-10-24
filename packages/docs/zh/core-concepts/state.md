@@ -130,7 +130,7 @@ export default {
       myOwnName: 'count',
       // 你也可以写一个函数来获得对 store 的访问权
       double: store => store.count * 2,
-      // 它可以访问 `this`，但它无法被正确类型检查...
+      // 它可以访问 `this`，但它没有标注类型...
       magicValue(store) {
         return store.someGetter + this.count + this.double
       },
