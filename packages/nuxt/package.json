@@ -45,15 +45,16 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/nuxt -r 1"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.0.0-rc.11",
+    "@nuxt/kit": "^3.0.0-rc.12",
     "pinia": ">=2.0.23"
   },
   "devDependencies": {
     "@nuxt/module-builder": "latest",
-    "@nuxt/test-utils": "^3.0.0-rc.11",
-    "nuxt": "3.0.0-rc.11",
+    "@nuxt/test-utils": "^3.0.0-rc.12",
+    "@nuxt/schema": "^3.0.0-rc.12",
+    "nuxt": "^3.0.0-rc.12",
     "typescript": "^4.8.4",
-    "vue-tsc": "^0.39.5"
+    "vue-tsc": "^1.0.9"
   },
   "publishConfig": {
     "access": "public"

@@ -9,6 +9,7 @@ import {
   createResolver,
   resolveModule,
 } from '@nuxt/kit'
+import type { NuxtModule } from '@nuxt/schema'
 
 export interface ModuleOptions {
   /**
@@ -36,7 +37,7 @@ export interface ModuleOptions {
   autoImports?: Array<string | [string, string]>
 }
 
-export default defineNuxtModule<ModuleOptions>({
+const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'pinia',
     configKey: 'pinia',
@@ -90,3 +91,5 @@ export default defineNuxtModule<ModuleOptions>({
     ])
   },
 })
+
+export default module
