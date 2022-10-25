@@ -553,7 +553,7 @@ ___
 
 Vue 2 插件，必须安装该插件才能使 pinia 工作。
 注意，**如果你使用的是 Nuxt.js，那你不需要这个插件**。请使用 `buildModule` 代替：
-https://pinia.vuejs.org/ssr/nuxt.html。
+https://pinia.vuejs.org/zh/ssr/nuxt.html。
 
 **`Example`**
 
@@ -581,7 +581,7 @@ new Vue({
 
 ▸ **acceptHMRUpdate**(`initialUseStore`, `hot`): (`newModule`: `any`) => `any`
 
-创建一个 _accept_ 函数，在 Vite 应用程序中传递给 `import.meta.hot`。
+创建一个 _accept_ 函数，在 Vite 应用中传递给 `import.meta.hot`。
 
 **`Example`**
 
@@ -720,7 +720,7 @@ ___
 ▸ **mapActions**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): [`_MapActionsObjectReturn`](pinia.md#_mapactionsobjectreturn)<`A`, `KeyMapper`\>
 
 通过生成一个传递到组件的 `methods` 字段的对象，
-允许直接使用 store 的 action，而不需要使用组合式 API（`setup()`）。
+允许直接使用 store 的 action，而不需要使用组合式 API(`setup()`)。
 该对象的值是 action，
 而键是产生的方法名称。
 
@@ -765,7 +765,7 @@ export default {
 ▸ **mapActions**<`Id`, `S`, `G`, `A`\>(`useStore`, `keys`): [`_MapActionsReturn`](pinia.md#_mapactionsreturn)<`A`\>
 
 允许直接使用 store 里的 action，
-而不是必须使用组合式 API（`setup()`），
+而不是必须使用组合式 API(`setup()`)，
 通过生成一个对象，传递到组件的 `methods` 字段。
 
 **`Example`**
@@ -816,7 +816,7 @@ ___
 而键则是产生的计算属性的名称。
 另外，你还可以传递一个自定义函数，
 该函数将接收 state 的作为其第一个参数。
-注意，虽然它可以通过 `this` 访问组件的实例，但它不会被类型检查。
+注意，虽然它可以通过 `this` 访问组件的实例，但它没有标注类型。
 
 **`Example`**
 
@@ -915,11 +915,11 @@ ___
 ▸ **mapState**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): [`_MapStateObjectReturn`](pinia.md#_mapstateobjectreturn)<`Id`, `S`, `G`, `A`, `KeyMapper`\>
 
 通过生成一个对象，并传递至组件的 `computed` 字段，
-以允许在不使用组合式 API（`setup()`）的情况下使用一个 store 的 state 和 getter。
+以允许在不使用组合式 API(`setup()`)的情况下使用一个 store 的 state 和 getter。
 该对象的值是 state 属性/getter，
 而键是生成的计算属性名称。
 你也可以选择传递一个自定义函数，该函数将接收 store 作为其第一个参数。
-注意，虽然它可以通过 `this` 访问组件实例，但它不会被类型检查。
+注意，虽然它可以通过 `this` 访问组件实例，但它没有标注类型。
 
 **`Example`**
 
@@ -970,7 +970,7 @@ export default {
 ▸ **mapState**<`Id`, `S`, `G`, `A`, `Keys`\>(`useStore`, `keys`): [`_MapStateReturn`](pinia.md#_mapstatereturn)<`S`, `G`, `Keys`\>
 
 通过生成一个对象，并传递到组件的 `computed` 字段，
-允许在不使用组合式 API（`setup()`）的情况下
+允许在不使用组合式 API(`setup()`)的情况下
 使用一个 store 的 state 和 getter，
 
 **`Example`**
@@ -1017,7 +1017,7 @@ ___
 ▸ **mapStores**<`Stores`\>(...`stores`): [`_Spread`](pinia.md#_spread)<`Stores`\>
 
 通过生成一个对象，传递到组件的 `computed` 字段
-以允许在不使用组合式 API（`setup()`）的情况下使用 store。
+以允许在不使用组合式 API(`setup()`)的情况下使用 store。
 它接受一个 store 定义的列表参数。
 
 **`Example`**
@@ -1058,7 +1058,7 @@ ___
 
 ▸ **mapWritableState**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): [`_MapWritableStateObjectReturn`](pinia.md#_mapwritablestateobjectreturn)<`S`, `KeyMapper`\>
 
-除了创建的计算属性的 stter，其它与 `mapState()` 相同，
+除了创建的计算属性的 setter，其他与 `mapState()` 相同，
 所以 state 可以被修改。
 与 `mapState()` 不同的是，只有 `state` 属性可以被添加。
 
@@ -1086,7 +1086,7 @@ ___
 ▸ **mapWritableState**<`Id`, `S`, `G`, `A`\>(`useStore`, `keys`): [`_MapWritableStateReturn`](pinia.md#_mapwritablestatereturn)<`S`\>
 
 通过生成一个对象并传递到组件的 `computed` 字段
-以允许在不使用组合式 API（`setup()`）的情况下
+以允许在不使用组合式 API(`setup()`)的情况下
 使用来自一个 store 的 state 和 getter，。
 
 #### 类型参数 {#type-parameters}
@@ -1154,7 +1154,7 @@ ___
 
 ▸ **skipHydrate**<`T`\>(`obj`): `T`
 
-告诉 Pinia 跳过给定对象的 hydration 过程。当你在 store 中返回一个有状态的对象，但它并不是真正的状态时，（仅）在 setup store 中这是很有用的。
+告诉 Pinia 跳过给定对象的激活过程。当你在 store 中返回一个有状态的对象，但它并不是真正的状态时，(仅)在 setup store 中这是很有用的。
 例如，在一个 setup store 中返回一个路由器实例。
 
 #### 类型参数 {#type-parameters}

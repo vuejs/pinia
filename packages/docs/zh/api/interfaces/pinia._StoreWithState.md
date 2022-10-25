@@ -100,7 +100,7 @@ ___
 ```js
 store.$onAction(({ after, onError }) => {
  // 你可以在这里创建所有钩子之间的共享变量，
- // 同时设置 watcher 并清理它们。
+ // 同时设置侦听器并清理它们。
  after((resolvedValue) => {
    // 可以用来清理副作用 
    // `resolvedValue` 是 action 返回的值，
@@ -123,7 +123,7 @@ store.$onAction(({ after, onError }) => {
 
 `fn`
 
-删除 watcher 的函数
+删除侦听器的函数
 
 ▸ (): `void`
 
@@ -146,7 +146,7 @@ store.$onAction(({ after, onError }) => {
 ```js
 store.$onAction(({ after, onError }) => {
   // 你可以在这里创建所有钩子之间的共享变量，
-  // 同时设置 watcher 并清理它们。
+  // 同时设置侦听器并清理它们。
  after((resolvedValue) => {
    // 可以用来清理副作用 
    // `resolvedValue` 是 action 返回的值，
@@ -162,7 +162,7 @@ store.$onAction(({ after, onError }) => {
 
 `void`
 
-移除 watcher 的函数
+移除侦听器的函数
 
 ___
 
@@ -185,7 +185,7 @@ ___
 ▸ **$patch**<`F`\>(`stateMutator`): `void`
 
 将多个变更分组到一个函数中。
-当 mutation 对象（如 Sets 或数组）或者应用对象补丁不方便时很有用，例如追加到数组中。
+当 mutation 对象(如 Sets 或数组)或者应用对象补丁不方便时很有用，例如追加到数组中。
 传递给 `$patch()` 的函数**必须是同步的**。
 
 #### 类型参数 {#type-parameters}
@@ -238,7 +238,7 @@ ___
 
 `fn`
 
-删除 watcher 的函数
+删除侦听器的函数
 
 ▸ (): `void`
 
@@ -250,4 +250,4 @@ ___
 
 `void`
 
-移除 watcher 的函数
+移除侦听器的函数

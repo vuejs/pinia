@@ -30,7 +30,7 @@ app.use(pinia)
 
 router.beforeEach((to) => {
   // ✅这会正常工作，因为它确保了正确的 store 被用于
-  // 当前正在运行的应用程序
+  // 当前正在运行的应用
   const main = useMainStore(pinia)
 
   if (to.meta.requiresAuth && !main.isLoggedIn) return '/login'
@@ -47,9 +47,9 @@ export default {
 }
 ```
 
-## State hydration {#state-hydration}
+## State 激活 {#state-hydration}
 
-为了 hydrate 初始 state，你需要确保 rootState 包含在 HTML 中的某个地方，以便 Pinia 稍后能够接收到它。根据你服务端所渲染的内容，**为了安全你应该转义 state**。我们推荐 Nuxt.js 目前使用的 [@nuxt/devalue](https://github.com/nuxt-contrib/devalue)：
+为了激活初始 state，你需要确保 rootState 包含在 HTML 中的某个地方，以便 Pinia 稍后能够接收到它。根据你服务端所渲染的内容，**为了安全你应该转义 state**。我们推荐 Nuxt.js 目前使用的 [@nuxt/devalue](https://github.com/nuxt-contrib/devalue)：
 
 ```js
 import devalue from '@nuxt/devalue'
@@ -63,7 +63,7 @@ app.use(pinia)
 // 渲染页面后，rootState 被建立，
 // 可以直接在 `pinia.state.value`上读取。
 
-// 序列化，转义（如果 state 的内容可以被用户改变，这点就非常重要，几乎都是这样的）
+// 序列化，转义(如果 state 的内容可以被用户改变，这点就非常重要，几乎都是这样的)
 // 并将其放置在页面的某处
 // 例如，作为一个全局变量。
 devalue(pinia.state.value)
@@ -95,9 +95,9 @@ export default viteSSR(
 )
 ```
 
-你可以根据你的需要使用 `@nuxt/devalue` 的[其他替代品](https://github.com/nuxt-contrib/devalue#see-also)，例如，如果你也能用 `JSON.stringify()`/`JSON.parse()` 来序列化和解析你的 state，**这样你可以把性能提高很多。**
+你可以根据你的需要使用 `@nuxt/devalue` 的[其他替代品](https://github.com/nuxt-contrib/devalue#see-also)，例如，你也可以用 `JSON.stringify()`/`JSON.parse()` 来序列化和解析你的 state，**这样你可以把性能提高很多。**
 
-也可以根据你的环境调整这个策略。但确保在客户端调用任何 `useStore()` 函数之前，对 pinia 的 state 进行 hydrate。例如，如果我们将 state 序列化为一个 `<script>` 标签，并使其在客户端通过 `window.__pinia` 全局访问，我们可以这样写：
+也可以根据你的环境调整这个策略。但确保在客户端调用任何 `useStore()` 函数之前，激活 pinia 的 state。例如，如果我们将 state 序列化为一个 `<script>` 标签，并在客户端通过 `window.__pinia` 全局访问它，我们可以这样写：
 
 ```js
 const pinia = createPinia()

@@ -1,11 +1,11 @@
-# Getters {#getters}
+# Getter {#getters}
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/getters-in-pinia"
   title="Learn all about getters in Pinia"
 />
 
-Getter 完全等同于 store 的 state 的[计算值](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values)。可以通过 `defineStore()` 中的 `getters` 属性来定义它们。**推荐**使用箭头函数，并且它将接收 `state` 作为第一个参数：
+Getter 完全等同于 store 的 state 的[计算值](https://cn.vuejs.org/guide/essentials/computed.html)。可以通过 `defineStore()` 中的 `getters` 属性来定义它们。**推荐**使用箭头函数，并且它将接收 `state` 作为第一个参数：
 
 ```js
 export const useStore = defineStore('main', {
@@ -18,7 +18,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-大多数时候，getter 仅依赖 state，不过，有时它们也可能会使用其他 getter。因此，在使用常规函数定义 getter 时，我们可以通过 `this` 访问到**整个 store 实例**，**但（在TypeScript中）必须定义返回类型**。这是为了避免 TypeScript 的已知缺陷，**不过这不影响用箭头函数定义的 getter，也不会影响不使用 `this` 的 getter**。
+大多数时候，getter 仅依赖 state，不过，有时它们也可能会使用其他 getter。因此，即使在使用常规函数定义 getter 时，我们也可以通过 `this` 访问到**整个 store 实例**，**但(在 TypeScript 中)必须定义返回类型**。这是为了避免 TypeScript 的已知缺陷，**不过这不影响用箭头函数定义的 getter，也不会影响不使用 `this` 的 getter**。
 
 ```ts
 export const useStore = defineStore('main', {
@@ -32,7 +32,7 @@ export const useStore = defineStore('main', {
     },
     // 返回类型**必须**明确设置
     doublePlusOne(): number {
-      // 整个 store 的 自动补全和类型检查 ✨
+      // 整个 store 的 自动补全和类型标注 ✨
       return this.doubleCount + 1
     },
   },
@@ -59,7 +59,7 @@ export default {
 
 ## 访问其他 getter {#accessing-other-getters}
 
-与计算属性一样，你可以组合多个 getter。通过 `this`，你可以访问任何其他 getter。即使你没有使用 TypeScript，你也可以用 [JSDoc](https://jsdoc.app/tags-returns.html) 来让你的 IDE 提示类型。
+与计算属性一样，你也可以组合多个 getter。通过 `this`，你可以访问到其他任何 getter。即使你没有使用 TypeScript，你也可以用 [JSDoc](https://jsdoc.app/tags-returns.html) 来让你的 IDE 提示类型。
 
 ```js
 export const useStore = defineStore('main', {
@@ -69,7 +69,7 @@ export const useStore = defineStore('main', {
   getters: {
     // 类型是自动推断出来的，因为我们没有使用 `this`
     doubleCount: (state) => state.count * 2,
-    // 这里我们需要自己添加类型（在 JS 中使用 JSDoc）
+    // 这里我们需要自己添加类型(在 JS 中使用 JSDoc)
     // 可以用 this 来引用 getter
     /**
      * 返回 count 的值乘以 2 加 1
@@ -86,7 +86,7 @@ export const useStore = defineStore('main', {
 
 ## 向 getter 传递参数 {#passing-arguments-to-getters}
 
-_Getter_ 只是幕后的**计算**属性，所以不可以向它们传递任何参数。不过，你可以从 _getter_ 返回一个函数，该函数可以接受任意参数：
+*Getter* 只是幕后的**计算**属性，所以不可以向它们传递任何参数。不过，你可以从 *getter* 返回一个函数，该函数可以接受任意参数：
 
 ```js
 export const useStore = defineStore('main', {
@@ -116,7 +116,7 @@ export default {
 </template>
 ```
 
-请注意，当你这样做时，**getter 将不再被缓存**，它们只是一个被你调用的函数。不过，你可以在 getter 本身中缓存一些结果，虽然这种做法并不常见，但可以证明的是它的性能会更好：
+请注意，当你这样做时，**getter 将不再被缓存**，它们只是一个被你调用的函数。不过，你可以在 getter 本身中缓存一些结果，虽然这种做法并不常见，但有证明表明它的性能会更好：
 
 ```js
 export const useStore = defineStore('main', {
@@ -131,7 +131,7 @@ export const useStore = defineStore('main', {
 
 ## 访问其他 store 的 getter {#accessing-other-stores-getters}
 
-想要使用另一个 store 的 getter 的话，那就直接在 _getter_ 内使用就好：
+想要使用另一个 store 的 getter 的话，那就直接在 *getter* 内使用就好：
 
 ```js
 import { useOtherStore } from './other-store'
@@ -151,7 +151,7 @@ export const useStore = defineStore('main', {
 
 ## 使用 `setup()` 时的用法 {#usage-with-setup}
 
-作为 store 的一个属性，你可以直接访问任何 getter（与 state 属性完全一样）：
+作为 store 的一个属性，你可以直接访问任何 getter(与 state 属性完全一样)：
 
 ```js
 export default {
@@ -193,7 +193,7 @@ export const useCounterStore = defineStore('counter', {
 
 ### 使用 `setup()` {#with-setup}
 
-虽然并不是每个人都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易使用。并且不需要额外的 map helper 函数!
+虽然并不是每个开发者都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易用。并且不需要额外的映射辅助函数!
 
 ```js
 import { useCounterStore } from '../stores/counter'
@@ -214,7 +214,7 @@ export default {
 
 ### 不使用 `setup()` {#without-setup}
 
-你可以使用[前一节的 state](./state.md#options-api)中的 `mapState()` 函数来将其映射为 getters：
+你可以使用[前一节的 state](./state.md#options-api) 中的 `mapState()` 函数来将其映射为 getters：
 
 ```js
 import { mapState } from 'pinia'

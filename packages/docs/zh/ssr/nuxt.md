@@ -10,7 +10,7 @@ yarn add @pinia/nuxt
 npm install @pinia/nuxt
 ```
 
-我们提供了一个 _module_ 来为你处理一切，你只需要在 `nuxt.config.js` 文件的 `modules` 中添加它。
+我们提供了一个 *module* 来为你处理一切，你只需要在 `nuxt.config.js` 文件的 `modules` 中添加它。
 
 ```js
 // nuxt.config.js
@@ -74,7 +74,7 @@ yarn add pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
 npm install pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
 ```
 
-我们提供了一个 _module_ 来为你处理一切，你只需要在 `nuxt.config.js` 文件的 `buildModules` 中添加它。
+我们提供了一个 *module* 来为你处理一切工作，你只需要在 `nuxt.config.js` 文件的 `buildModules` 中添加它。
 
 ```js
 // nuxt.config.js

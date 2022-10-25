@@ -60,7 +60,7 @@ ___
 ▸ (): `S`
 
 创建一个新 state 的函数。
-**必须是一个箭头函数**，以确保正确的类型检查!
+**必须是一个箭头函数**，以确保正确的类型标注!
 
 #### 返回值 {#returns}
 
@@ -76,13 +76,13 @@ Omit.state
 
 ▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
 
-当 store 定义中使用了复杂的状态（如仅客户端的引用），并且从 `pinia.state` 中复制值是不够时，
+当 store 定义中使用了复杂的 state (如仅客户端的引用)，并且从 `pinia.state` 中复制值是不够时，
 允许在 SSR 期间对 store 进行 hydrating。
 
 **`Example`**
 
 如果在你的 `state` 中，你使用了任何 `customRef`，任何 `computed`，或任何在服务器和客户端有不同值的 `ref`，
-你需要手动对它们进行 hydrate。 
+你需要手动激活它们。 
 例如，一个存储在本地存储的自定义 ref：
 
 ```ts

@@ -1,12 +1,12 @@
 # Plugins {#plugins}
 
-由于有了底层 API 的支持，Pinia store 现在完全可以被扩展。以下是你可以做的事情的清单：
+由于有了底层 API 的支持，Pinia store 现在完全支持扩展。以下是你可以扩展的内容：
 
 - 为 store 添加新的属性
 - 定义 store 时增加新的选项
 - 为 store 增加新的方法
 - 包装现有的方法
-- 改变或甚至取消 action
+- 改变甚至取消 action
 - 实现副作用，如[本地存储](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 - **仅**应用插件于特定 store
 
@@ -34,12 +34,12 @@ store.secret // 'the cake is a lie'
 
 ## 简介 {#introduction}
 
-Pinia 插件是一个函数，可以选择性地返回要添加到 store 的属性。它接收一个可选参数，即 _context_。
+Pinia 插件是一个函数，可以选择性地返回要添加到 store 的属性。它接收一个可选参数，即 *context*。
 
 ```js
 export function myPiniaPlugin(context) {
   context.pinia // 用 `createPinia()` 创建的 pinia。 
-  context.app // 用 `createApp()` 创建的当前应用程序（仅 Vue 3）。
+  context.app // 用 `createApp()` 创建的当前应用(仅 Vue 3)。
   context.store // 该插件想扩展的 store
   context.options // 定义传给 `defineStore()` 的 store 的可选对象。
   // ...
@@ -52,7 +52,7 @@ export function myPiniaPlugin(context) {
 pinia.use(myPiniaPlugin)
 ```
 
-插件只会应用于**在 `pinia` 传递给应用程序后**创建的 store，否则它们不会生效。
+插件只会应用于**在 `pinia` 传递给应用后**创建的 store，否则它们不会生效。
 
 ## 扩展 Store {#augmenting-a-store}
 
@@ -84,7 +84,7 @@ pinia.use(({ store }) => {
 })
 ```
 
-值得注意的是，每个 store 都被 [`reactive`](https://v3.vuejs.org/api/basic-reactivity.html#reactive)包装过，所以可以自动解包任何它所包含的 Ref(`ref()`、`computed()`...)。
+值得注意的是，每个 store 都被 [`reactive`](https://cn.vuejs.org/api/reactivity-core.html#reactive)包装过，所以可以自动解包任何它所包含的 Ref(`ref()`、`computed()`...)。
 
 ```js
 const sharedRef = ref('shared')
@@ -104,12 +104,12 @@ pinia.use(({ store }) => {
 
 ### 添加新的 state {#adding-new-state}
 
-如果你想给 store 添加新的 state 属性，或者在 hydration 过程中使用的属性，**你必须同时在两个地方添加它**。
+如果你想给 store 添加新的 state 属性，或者在激活过程中使用的属性，**你必须同时在两个地方添加它**。
 
-- 在 `store` 上，因此你可以用 `store.myState` 访问它。
-- 在 `store.$state` 上，因此它可以在 devtools 中使用，并且，**在 SSR 时被序列化（serialized）**。
+- 在 `store` 上，然后你才可以用 `store.myState` 访问它。
+- 在 `store.$state` 上，然后你才可以在 devtools 中使用它，并且，**在 SSR 时被正确序列化(serialized)**。
 
-除此之外，你肯定也会使用 `ref()`（或其他响应式 API），以便在不同的读取中共享相同的值：
+除此之外，你肯定也会使用 `ref()`(或其他响应式 API)，以便在不同的读取中共享相同的值：
 
 ```js
 import { toRef, ref } from 'vue'
@@ -127,7 +127,7 @@ pinia.use(({ store }) => {
   // 我们需要将 ref 从 state 转移到 store
   // 这样的话,两种方式：store.hasError 和 store.$state.hasError 都可以访问
   // 并且共享的是同一个变量
-  // 查看 https://vuejs.org/api/reactivity-utilities.html#toref
+  // 查看 https://cn.vuejs.org/api/reactivity-utilities.html#toref
   store.hasError = toRef(store.$state, 'hasError')
 
   // 在这种情况下，最好不要返回 `hasError`
@@ -136,10 +136,10 @@ pinia.use(({ store }) => {
 })
 ```
 
-需要注意的是，在一个插件中， state 变更或添加（包括调用 `store.$patch()`）都是发生在 store 被激活之前，**因此不会触发任何订阅函数**。
+需要注意的是，在一个插件中， state 变更或添加(包括调用 `store.$patch()`)都是发生在 store 被激活之前，**因此不会触发任何订阅函数**。
 
 :::warning
-如果你使用的是**Vue 2**，Pinia 与 Vue 一样,受制于[相同的响应式警告](https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats)。在创建新的 state 属性时,如 `secret` 和 `hasError`，你需要使用 `Vue.set()` (Vue 2.7) 或者 `@vue/composition-api` 的 `set()`（Vue < 2.7）。
+如果你使用的是 **Vue 2**，Pinia 与 Vue 一样，受限于[相同的响应式限制](https://v2.cn.vuejs.org/v2/guide/reactivity.html#检测变化的注意事项)。在创建新的 state 属性时,如 `secret` 和 `hasError`，你需要使用 `Vue.set()` (Vue 2.7) 或者 `@vue/composition-api` 的 `set()` (Vue < 2.7)。
 
 ```js
 import { set, toRef } from '@vue/composition-api'
@@ -148,7 +148,7 @@ pinia.use(({ store }) => {
     const secretRef = ref('secret')
     // 如果这些数据是要在 SSR 过程中使用的
     // 你应该将其设置在 `$state' 属性上
-    // 这样它就会被序列化并在 hydration 过程中被接收
+    // 这样它就会被序列化并在激活过程中被接收
     set(store.$state, 'secret', secretRef)
     // 直接在 store 里设置，这样你就可以访问它了。
     // 两种方式都可以：`store.$state.secret` / `store.secret`。
@@ -166,7 +166,7 @@ pinia.use(({ store }) => {
 
 ```js
 import { markRaw } from 'vue'
-// 根据你的路由器的位置来调整这个
+// 根据你的路由器的位置来调整
 import { router } from './router'
 
 pinia.use(({ store }) => {
@@ -209,7 +209,7 @@ defineStore('search', {
 })
 ```
 
-然后，该插件可以读取该选项来包装 action ，并替换原始 action：
+然后，该插件可以读取该选项来包装 action，并替换原始 action：
 
 ```js
 // 使用任意防抖库
@@ -251,9 +251,9 @@ defineStore(
 
 上述一切功能都有类型支持，所以你永远不需要使用 `any` 或 `@ts-ignore`。
 
-### 插件类型检查 {#typing-plugins}
+### 标注插件类型 {#typing-plugins}
 
-一个 Pinia 插件可按如下方式实现类型检查：
+一个 Pinia 插件可按如下方式实现类型标注：
 
 ```ts
 import { PiniaPluginContext } from 'pinia'
@@ -282,7 +282,7 @@ declare module 'pinia' {
 }
 ```
 
-然后，它就可以被安全地写入和读取了：
+然后，就可以安全地写入和读取它了：
 
 ```ts
 pinia.use(({ store }) => {
@@ -295,13 +295,13 @@ pinia.use(({ store }) => {
 })
 ```
 
-`PiniaCustomProperties` 是一个通用类型，允许你引用 store 的属性。思考一下这个例子，如果把初始选项复制成 `$options`（这只对 option store 有效），如何实现类型检查：
+`PiniaCustomProperties` 是一个通用类型，允许你引用 store 的属性。思考一下这个例子，如果把初始选项复制成 `$options`(这只对 option store 有效)，如何标注类型：
 
 ```ts
 pinia.use(({ options }) => ({ $options: options }))
 ```
 
-我们可以通过使用 `PiniaCustomProperties` 的4种通用类型来实现类型检查：
+我们可以通过使用 `PiniaCustomProperties` 的4种通用类型来标注类型：
 
 ```ts
 import 'pinia'
@@ -330,7 +330,7 @@ declare module 'pinia' {
 
 ### 为新的 state 添加类型 {#typing-new-state}
 
-当添加新的 state 属性（包括 `store` 和 `store.$state` ）时，你需要将类型添加到 `PiniaCustomStateProperties` 中。与 `PiniaCustomProperties` 不同的是，它只接收 `State` 泛型：
+当添加新的 state 属性(包括 `store` 和 `store.$state` )时，你需要将类型添加到 `PiniaCustomStateProperties` 中。与 `PiniaCustomProperties` 不同的是，它只接收 `State` 泛型：
 
 ```ts
 import 'pinia'
@@ -358,12 +358,12 @@ declare module 'pinia' {
 ```
 
 :::tip
-还有一个 `StoreGetters` 类型可以从一个 store 类型中提取 _getters_。你也可以且**只可以**分别通过扩展 `DefineStoreOptions` 和 `DefineSetupStoreOptions` 类型来扩展 _setup stores_ 或 _option stores_ 的选项。
+还有一个可以从一个 store 类型中提取 *getter* 的 `StoreGetters` 类型。你也可以且**只可以**通过扩展 `DefineStoreOptions` 或 `DefineSetupStoreOptions` 类型来扩展 *setup store* 或 *option store* 的选项。
 :::
 
 ## Nuxt.js {#nuxt-js}
 
-当[在 Nuxt 中使用 pinia](../ssr/nuxt.md)时，你必须先创建一个 [Nuxt 插件](https://nuxtjs.org/docs/2.x/directory-structure/plugins)。这样你才能访问到 `pinia` 实例：
+当[在 Nuxt 中使用 pinia](../ssr/nuxt.md) 时，你必须先创建一个 [Nuxt 插件](https://nuxtjs.org/docs/2.x/directory-structure/plugins)。这样你才能访问到 `pinia` 实例：
 
 ```ts
 // plugins/myPiniaPlugin.js
@@ -376,7 +376,7 @@ function MyPiniaPlugin({ store }: PiniaPluginContext) {
     console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
   })
 
-  // 请注意，如果你使用的是TS，则必须添加类型。
+  // 请注意，如果你使用的是 TS，则必须添加类型。
   return { creationTime: new Date() }
 }
 
@@ -387,4 +387,4 @@ const myPlugin: Plugin = ({ $pinia }) => {
 export default myPlugin
 ```
 
-注意上面的例子使用的是 TypeScript。如果你使用的是 `.js` 文件，你必须删除类型注释 `PiniaPluginContext` 和 `Plugin` 以及它们的导入语句。
+注意上面的例子使用的是 TypeScript。如果你使用的是 `.js` 文件，你必须删除类型标注 `PiniaPluginContext` 和 `Plugin` 以及它们的导入语句。

@@ -1,6 +1,6 @@
 # 不使用 `setup()` 的用法 {#usage-without-setup}
 
-即使你没有使用组合式 API，也可以使用 Pinia（如果你使用 Vue 2，你仍然需要安装 `@vue/composition-api` 插件）。虽然我们推荐你试着学习一下组合式 API，但对你和你的团队来说可能还不是时候，你可能正在迁移一个应用，或者有其他原因。你可以试试下面几个函数：
+即使你没有使用组合式 API，也可以使用 Pinia(如果你使用 Vue 2，你仍然需要安装 `@vue/composition-api` 插件)。虽然我们推荐你试着学习一下组合式 API，但对你和你的团队来说目前可能还不是时候，你可能正在迁移一个应用，或者有其他原因。你可以试试下面几个函数：
 
 - [mapStores](#giving-access-to-the-whole-store)
 - [mapState](../core-concepts/state.md#usage-with-the-options-api)
@@ -56,7 +56,7 @@ export const pinia = createPinia()
 
 ## TypeScript {#typescript}
 
-默认情况下，所有 map helpers 都支持自动补全，你不需要做任何事情。如果你调用 `setMapStoreSuffix()` 修改了 `"Store"` 的后缀，你还需要在 TS 文件或 `global.d.ts` 文件的某个地方添加它。最方便的地方是你调用 `setMapStoreSuffix()` 的地方：
+默认情况下，所有映射辅助函数都支持自动补全，你不需要做任何事情。如果你调用 `setMapStoreSuffix()` 修改了 `"Store"` 的后缀，你还需要在 TS 文件或 `global.d.ts` 文件的某个地方添加它。最方便的地方就是你调用 `setMapStoreSuffix()` 的地方：
 
 ```ts
 import { createPinia, setMapStoreSuffix } from 'pinia'
@@ -73,5 +73,5 @@ declare module 'pinia' {
 ```
 
 :::warning
-如果你使用的是 TypeScript 声明文件（如 `global.d.ts`），请确保在文件顶部 `import 'pinia'`，以暴露所有现有类型。
+如果你使用的是 TypeScript 声明文件(如 `global.d.ts`)，请确保在文件顶部 `import 'pinia'`，以暴露所有现有类型。
 :::

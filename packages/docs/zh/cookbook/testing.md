@@ -17,7 +17,7 @@
     - [Mocking getters](#mocking-getters)
     - [Pinia 插件](#pinia-plugins)
   - [端到端测试](#e2e-tests)
-  - [对组件单元测试（Vue 2）](#unit-test-components-vue-2)
+  - [对组件单元测试(Vue 2)](#unit-test-components-vue-2)
 
 ## 对 store 进行单元测试 {#unit-testing-a-store}
 
@@ -71,7 +71,7 @@ beforeEach(() => {
 
 ## 对组件单元测试 {#unit-testing-components}
 
-这可以通过 `createTestingPinia()` 实现，它会返回一个旨在帮助对组件单元测试的 pinia 实例。
+这可以通过 `createTestingPinia()` 实现，它会返回一个仅用于帮助对组件单元测试的 pinia 实例。
 
 从安装 `@pinia/testing` 开始：
 
@@ -113,7 +113,7 @@ expect(store.someAction).toHaveBeenLastCalledWith()
 
 ### 初始 State {#initial-state}
 
-在创建测试 Pinia 时，你可以通过传递一个 `initialState` 对象来设置**所有 store 的初始状态**。这个对象将被 pinia 的测试实例用于创建 store 时 _patch_ store。比方说，你想初始化这个 store 的状态：
+在创建测试 Pinia 时，你可以通过传递一个 `initialState` 对象来设置**所有 store 的初始状态**。这个对象将被 pinia 的测试实例用于创建 store 时 *patch* store。比方说，你想初始化这个 store 的状态：
 
 ```ts
 import { defineStore } from 'pinia'
@@ -124,7 +124,7 @@ const useCounterStore = defineStore('counter', {
 })
 ```
 
-由于 store 的名字是 _"counter"_，所以你需要传递相应的对象给 `initialState`：
+由于 store 的名字是 *"counter"*，所以你需要传递相应的对象给 `initialState`：
 
 ```ts
 // 在测试中的某处
@@ -146,7 +146,7 @@ store.n // 20
 
 ### 自定义 action 的行为 {#customizing-behavior-of-actions}
 
-除非另有指示，`createTestingPinia` 会存根（stub）出所有的store action。这样可以让你你独立测试你的组件和 store。
+除非另有指示，`createTestingPinia` 会存根 (stub) 出所有的 store action。这样可以让你独立测试你的组件和 store。
 
 如果你想恢复这种行为，并在测试中正常执行 action，请在调用 `createTestingPinia` 时指定 `stubActions: false`：
 
@@ -168,7 +168,7 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 
 ### 指定 createSpy 函数 {#specifying-the-createspy-function}
 
-当使用 Jest，或 vitest 且设置 `globals: true` 时，`createTestingPinia` 会自动使用现有测试框架（`jest.fn` 或 `vitest.fn`）的 spy 函数存根（stub） action。如果你使用的是不同的框架，你需要提供一个 [createSpy](/zh/api/interfaces/pinia_testing.TestingOptions.html#createspy) 选项：
+当使用 Jest，或 vitest 且设置 `globals: true` 时，`createTestingPinia` 会自动使用现有测试框架(`jest.fn` 或 `vitest.fn`)的 spy 函数存根 (stub) action。如果你使用的是不同的框架，你需要提供一个 [createSpy](/zh/api/interfaces/pinia_testing.TestingOptions.html#createspy) 选项：
 
 ```js
 import sinon from 'sinon'
@@ -231,9 +231,9 @@ const wrapper = mount(Counter, {
 
 对于 pinia，你不需要为端到端测试修改任何代码，这就是端到端测试的含义！也许你想测试 HTTP 请求，但这已经超出了本指南的范围😄。
 
-## 对组件单元测试（Vue 2） {#unit-test-components-vue-2}
+## 对组件单元测试(Vue 2) {#unit-test-components-vue-2}
 
-当你使用的是 [Vue Test Utils 1](https://v1.test-utils.vuejs.org/) 时，请将 Pinia 安装在 `localVue` 上：
+当你使用的是 [Vue Test Utils 1](https://v1.test-utils.vuejs.org/zh/) 时，请将 Pinia 安装在 `localVue` 上：
 
 ```js
 import { PiniaVuePlugin } from 'pinia'
