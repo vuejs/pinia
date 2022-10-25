@@ -75,7 +75,7 @@ export const useCounterStore = defineStore('counter', () => {
 })
 ```
 
-如果你还不熟悉 setup() 和组合式 API，别担心，Pinia 也提供了一组类似 Vuex 的 [映射 state 的辅助函数](https://vuex.vuejs.org/zh/guide/state.html#mapstate-辅助函数)。你可以用和之前一样的方式来定义 Store，然后通过 `mapStores()`、`mapState()` 或 `mapActions()` 访问：
+如果你还不熟悉 setup() 函数和组合式 API，别担心，Pinia 也提供了一组类似 Vuex 的 [映射 state 的辅助函数](https://vuex.vuejs.org/zh/guide/state.html#mapstate-辅助函数)。你可以用和之前一样的方式来定义 Store，然后通过 `mapStores()`、`mapState()` 或 `mapActions()` 访问：
 
 ```js {22,24,28}
 const useCounterStore = defineStore('counter', {
@@ -182,7 +182,7 @@ Pinia 起源于一次探索 Vuex 下一个迭代的实验，因此结合了 Vuex
 
 Pinia API 与 Vuex(<=4) 也有很多不同，即：
 
-- *mutations* 已被弃用。它们经常被认为是**极其冗余的**。它们初衷是带来 devtools 的集成方案，但这已不再是一个问题了。
+- *mutation* 已被弃用。它们经常被认为是**极其冗余的**。它们初衷是带来 devtools 的集成方案，但这已不再是一个问题了。
 - 无需要创建自定义的复杂包装器来支持 TypeScript，一切都可标注类型，API 的设计方式是尽可能地利用 TS 类型推理。
 - 无过多的魔法字符串注入，只需要导入函数并调用它们，然后享受自动补全的乐趣就好。
 - 无需要动态添加 Store，它们默认都是动态的，甚至你可能都不会注意到这点。注意，你仍然可以在任何时候手动使用一个 Store 来注册它，但因为它是自动的，所以你不需要担心它。

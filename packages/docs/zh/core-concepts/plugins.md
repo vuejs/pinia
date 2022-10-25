@@ -166,7 +166,7 @@ pinia.use(({ store }) => {
 
 ```js
 import { markRaw } from 'vue'
-// 根据你的路由器的位置来调整这个
+// 根据你的路由器的位置来调整
 import { router } from './router'
 
 pinia.use(({ store }) => {
@@ -209,7 +209,7 @@ defineStore('search', {
 })
 ```
 
-然后，该插件可以读取该选项来包装 action ，并替换原始 action：
+然后，该插件可以读取该选项来包装 action，并替换原始 action：
 
 ```js
 // 使用任意防抖库
@@ -358,7 +358,7 @@ declare module 'pinia' {
 ```
 
 :::tip
-还有一个可以从一个 store 类型中提取 *getters* 的 `StoreGetters` 类型。你也可以且**只可以**通过扩展 `DefineStoreOptions` 或 `DefineSetupStoreOptions` 类型来扩展 *setup stores* 或 *option stores* 的选项。
+还有一个可以从一个 store 类型中提取 *getter* 的 `StoreGetters` 类型。你也可以且**只可以**通过扩展 `DefineStoreOptions` 或 `DefineSetupStoreOptions` 类型来扩展 *setup store* 或 *option store* 的选项。
 :::
 
 ## Nuxt.js {#nuxt-js}
@@ -376,7 +376,7 @@ function MyPiniaPlugin({ store }: PiniaPluginContext) {
     console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
   })
 
-  // 请注意，如果你使用的是TS，则必须添加类型。
+  // 请注意，如果你使用的是 TS，则必须添加类型。
   return { creationTime: new Date() }
 }
 
