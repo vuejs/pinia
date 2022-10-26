@@ -5,6 +5,7 @@ import './sponsors.css'
 import { darkStorageConfig } from '../theme/dark-theme'
 import { useDark } from '@vueuse/core'
 import BannerTop from '../components/BannerTop.vue'
+import VueMasteryHomeLink from '../components/VueMasteryHomeLink.vue'
 import './banner-top.css'
 
 export const Layout = defineComponent({
@@ -38,6 +39,7 @@ export const Layout = defineComponent({
                   ),
                 ]
               ),
+              h(VueMasteryHomeLink),
             ]),
           'page-top': () => h(BannerTop),
           'sidebar-top': () =>

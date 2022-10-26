@@ -22,6 +22,9 @@ Pinia is a store library for Vue, it allows you to share a state across componen
 - Proper TypeScript support or **autocompletion** for JS users
 - Server Side Rendering Support
 
+<VueMasteryLogoLink for="pinia-cheat-sheet">
+</VueMasteryLogoLink>
+
 ## Basic example
 
 This is what using Pinia looks like in terms of API (make sure to check the [Getting Started](./getting-started.md) for complete instructions). You start by creating a store:
