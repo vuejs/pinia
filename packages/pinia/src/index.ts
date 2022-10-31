@@ -63,6 +63,7 @@ export {
 } from './mapHelpers'
 
 export { storeToRefs } from './storeToRefs'
+export { resetAllStores } from './resetAllStores'
 
 export type {
   MapStoresCustomization,
