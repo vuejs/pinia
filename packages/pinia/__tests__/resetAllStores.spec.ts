@@ -3,7 +3,7 @@ import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia, Pinia } from '../src'
 import { resetAllStores } from '../src/resetAllStores'
 
-describe('createPinia', () => {
+describe('resetAllStores', () => {
   let pinia: Pinia
 
   beforeEach(() => {
