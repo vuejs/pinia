@@ -189,6 +189,19 @@ pinia.use(({ store }) => {
 })
 ```
 
+Because `$subscribe` and `$onAction` are bound to components lifecycle, you will lose them after a component that they were first called in is destroyed. In most cases, you want to keep plugin subscriptions for whole lifetime of your app. To do that use `detached: true` option:
+
+```ts
+pinia.use(({ store }) => {
+  store.$subscribe(() => {
+    // react to store changes
+  }, { detached: true })
+  store.$onAction(() => {
+    // react to store actions
+  }, true)
+})
+```
+
 ## Adding new options
 
 It is possible to create new options when defining stores to later on consume them from plugins. For example, you could create a `debounce` option that allows you to debounce any action:
