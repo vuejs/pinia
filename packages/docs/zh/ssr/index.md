@@ -69,7 +69,7 @@ app.use(pinia)
 devalue(pinia.state.value)
 ```
 
-根据你服务端所渲染的内容，你将设置一个**初始状态**变量，该变量将在 HTML 中被序列化。你还应该保护自己免受 XSS 攻击。例如，在 [vit-ssr](https://github.com/frandiox/vite-ssr)中你可以使用[ `transformState` 选项](https://github.com/frandiox/vite-ssr#state-serialization) 以及 `@nuxt/devalue`：
+根据你服务端所渲染的内容，你将设置一个**初始状态**变量，该变量将在 HTML 中被序列化。你还应该保护自己免受 XSS 攻击。例如，在 [vite-ssr](https://github.com/frandiox/vite-ssr)中你可以使用[ `transformState` 选项](https://github.com/frandiox/vite-ssr#state-serialization) 以及 `@nuxt/devalue`：
 
 ```js
 import devalue from '@nuxt/devalue'
