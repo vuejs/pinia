@@ -19,7 +19,7 @@ export const useStore = defineStore('storeId', {
       name: 'Eduardo',
       isAdmin: true,
       items: [],
-      hasChanged: true
+      hasChanged: true,
     }
   },
 })
