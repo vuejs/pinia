@@ -133,6 +133,15 @@ module.exports = {
       },
     ],
 
+    [
+      'script',
+      {
+        src: 'https://vueschool.io/banners/main.js',
+        async: true,
+        type: 'text/javascript',
+      },
+    ],
+
     ...(isProduction ? productionHead : []),
   ],
 
