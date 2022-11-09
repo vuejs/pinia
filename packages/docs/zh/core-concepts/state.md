@@ -18,6 +18,8 @@ const useStore = defineStore('storeId', {
       count: 0,
       name: 'Eduardo',
       isAdmin: true,
+      items: [],
+      hasChanged: true,
     }
   },
 })
@@ -182,7 +184,7 @@ store.$patch({
 不过，用这种语法的话，有些变更真的很难实现或者很耗时：任何集合的修改(例如，从数组中推送、移除、拼接一个元素)都需要你创建一个新的集合。因此，`$patch` 方法也接受一个函数来组合这种难以用补丁对象实现的变更。
 
 ```js
-cartStore.$patch((state) => {
+store.$patch((state) => {
   state.items.push({ name: 'shoes', quantity: 1 })
   state.hasChanged = true
 })
