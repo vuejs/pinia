@@ -4,9 +4,7 @@ import sponsors from '../components/sponsors.json'
 import './sponsors.css'
 import { darkStorageConfig } from '../theme/dark-theme'
 import { useDark } from '@vueuse/core'
-import BannerTop from '../components/BannerTop.vue'
 import VueMasteryHomeLink from '../components/VueMasteryHomeLink.vue'
-import './banner-top.css'
 
 export const Layout = defineComponent({
   name: 'CustomLayout',
@@ -21,7 +19,6 @@ export const Layout = defineComponent({
         {
           'home-hero': () =>
             h('div', {}, [
-              h(BannerTop),
               h(
                 'div',
                 {
@@ -41,7 +38,6 @@ export const Layout = defineComponent({
               ),
               h(VueMasteryHomeLink),
             ]),
-          'page-top': () => h(BannerTop),
           'sidebar-top': () =>
             h('div', { class: 'sponsors sponsors-top' }, [
               h('span', 'Platinum Sponsors'),
