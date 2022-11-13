@@ -54,7 +54,14 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     const resolver = createResolver(import.meta.url)
 
     // Disable default Vuex store (Nuxt v2.10+ only)
-    if (nuxt.options.features && options.disableVuex && isNuxt2()) {
+    if (
+      // @ts-expect-error: no feature flag anymore or private?
+      nuxt.options.features &&
+      // ts
+      options.disableVuex &&
+      isNuxt2()
+    ) {
+      // @ts-expect-error: same
       nuxt.options.features.store = false
     }
 
