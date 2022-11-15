@@ -175,4 +175,4 @@ yarn add @pinia/nuxt
  }
 ```
 
-[ Nuxt 专署章节](../ssr/nuxt.md)也值得一读。
+[ Nuxt 专属章节](../ssr/nuxt.md)也值得一读。
