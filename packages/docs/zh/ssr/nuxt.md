@@ -66,7 +66,7 @@ export default defineNuxtConfig({
 
 ## 纯 Nuxt 2 {#nuxt-2-without-bridge}
 
-`@pinia/nuxt` v0.2.1 之前的版本中，Pinia 都支持 Nuxt 2。请确保在安装 `pinia' 的同时也安装 [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/)：
+`@pinia/nuxt` v0.2.1 之前的版本中，Pinia 都支持 Nuxt 2。请确保在安装 `pinia` 的同时也安装 [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/)：
 
 ```bash
 yarn add pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
