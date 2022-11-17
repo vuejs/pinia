@@ -1,3 +1,9 @@
+## [0.4.4](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.3...@pinia/nuxt@0.4.4) (2022-11-17)
+
+### Bug Fixes
+
+- **nuxt:** nuxt v3 compatibility ([#1808](https://github.com/vuejs/pinia/issues/1808)) ([aa12958](https://github.com/vuejs/pinia/commit/aa129582306c03a186e4ba2009225d3b95feb1d9))
+
 ## [0.4.3](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.2...@pinia/nuxt@0.4.3) (2022-10-08)
 
 - Update nuxt version and usage to rc.11
