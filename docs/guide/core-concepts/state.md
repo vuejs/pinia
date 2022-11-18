@@ -19,6 +19,8 @@ export const useStore = defineStore('storeId', {
       count: 0,
       name: 'Eduardo',
       isAdmin: true,
+      items: [],
+      hasChanged: true,
     }
   },
 })
@@ -200,7 +202,7 @@ store.$patch({
 이 때문에 `$patch` 메소드는 패치 객체로 적용하기 어려운 이러한 종류의 `mutations`를 그룹화하는 함수도 허용합니다:
 
 ```js
-cartStore.$patch((state) => {
+store.$patch((state) => {
   state.items.push({ name: 'shoes', quantity: 1 })
   state.hasChanged = true
 })
