@@ -79,12 +79,15 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
       references.push({ types: '@pinia/nuxt' })
     })
 
-    // Add runtime plugin
-    if (isNuxt2()) {
-      addPlugin(resolver.resolve('./runtime/plugin.vue2'))
-    } else {
-      addPlugin(resolver.resolve('./runtime/plugin.vue3'))
-    }
+    // Add runtime plugin before the router plugin
+    // https://github.com/nuxt/framework/issues/9130
+    nuxt.hook('modules:done', () => {
+      if (isNuxt2()) {
+        addPlugin(resolver.resolve('./runtime/plugin.vue2'))
+      } else {
+        addPlugin(resolver.resolve('./runtime/plugin.vue3'))
+      }
+    })
 
     // Add auto imports
     const composables = resolver.resolve('./runtime/composables')
