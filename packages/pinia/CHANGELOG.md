@@ -1,3 +1,9 @@
+## [2.0.25](https://github.com/vuejs/pinia/compare/pinia@2.0.24...pinia@2.0.25) (2022-11-21)
+
+### Bug Fixes
+
+- **types:** implemented a workaround to be TS 4.9.x compatible ([#1818](https://github.com/vuejs/pinia/issues/1818)) ([c42a54c](https://github.com/vuejs/pinia/commit/c42a54c5d6bf20ca4b1c619da44f18be3c84db87))
+
 ## [2.0.24](https://github.com/vuejs/pinia/compare/pinia@2.0.23...pinia@2.0.24) (2022-11-17)
 
 ## [2.0.23](https://github.com/vuejs/pinia/compare/pinia@2.0.22...pinia@2.0.23) (2022-10-08)

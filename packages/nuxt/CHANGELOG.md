@@ -1,3 +1,9 @@
+## [0.4.5](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.4...@pinia/nuxt@0.4.5) (2022-11-21)
+
+### Bug Fixes
+
+- **nuxt:** ensure pinia plugin is added before router ([3e4e63c](https://github.com/vuejs/pinia/commit/3e4e63c1f4749ee09b045a771c546de33dd4c405))
+
 ## [0.4.4](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.3...@pinia/nuxt@0.4.4) (2022-11-17)
 
 ### Bug Fixes
