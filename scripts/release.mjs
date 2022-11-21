@@ -179,6 +179,9 @@ async function main() {
   step('\nUpdating versions in package.json files...')
   await updateVersions(pkgWithVersions)
 
+  step('\nUpdating lock...')
+  await runIfNotDry(`pnpm`, ['install'])
+
   step('\nGenerating changelogs...')
   for (const pkg of pkgWithVersions) {
     step(` -> ${pkg.name} (${pkg.path})`)
