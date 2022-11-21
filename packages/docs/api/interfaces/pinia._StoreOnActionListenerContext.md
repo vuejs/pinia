@@ -72,7 +72,7 @@ ___
 ▸ (`callback`): `void`
 
 Sets up a hook if the action fails. Return `false` to catch the error and
-stop it fro propagating.
+stop it from propagating.
 
 ##### Parameters
 

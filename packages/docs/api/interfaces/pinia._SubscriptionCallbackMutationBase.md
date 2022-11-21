@@ -24,6 +24,16 @@ Base type for the context passed to a subscription callback. Internal type.
 
 ## Properties
 
+### events
+
+• `Optional` **events**: `DebuggerEvent` \| `DebuggerEvent`[]
+
+🔴 DEV ONLY, DO NOT use for production code. Different mutation calls. Comes from
+https://vuejs.org/guide/extras/reactivity-in-depth.html#reactivity-debugging and allows to track mutations in
+devtools and plugins **during development only**.
+
+___
+
 ### storeId
 
 • **storeId**: `string`
