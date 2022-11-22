@@ -21,7 +21,13 @@ with an object.
 
 • **events**: `DebuggerEvent`[]
 
-DEV ONLY. Array for patch calls.
+🔴 DEV ONLY, DO NOT use for production code. Different mutation calls. Comes from
+https://vuejs.org/guide/extras/reactivity-in-depth.html#reactivity-debugging and allows to track mutations in
+devtools and plugins **during development only**.
+
+#### Overrides
+
+[_SubscriptionCallbackMutationBase](_SubscriptionCallbackMutationBase.md).[events](_SubscriptionCallbackMutationBase.md#events)
 
 ___
 

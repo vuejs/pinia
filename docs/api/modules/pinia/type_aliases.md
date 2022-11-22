@@ -397,7 +397,7 @@ For internal use **only**.
 
 ## \_StoreObject
 
-Ƭ **\_StoreObject**<`S`\>: `S` extends [`StoreDefinition`](/api/modules/pinia/interfaces/StoreDefinition.md)<infer Ids, infer State, infer Getters, infer Actions\> ? { [Id in \`${Ids}${MapStoresCustomization extends Record<"suffix", string\> ? MapStoresCustomization["suffix"] : "Store"}\`]: Function } : {}
+Ƭ **\_StoreObject**<`S`\>: `S` extends [`StoreDefinition`](./interfaces/StoreDefinition.md)<infer Ids, infer State, infer Getters, infer Actions\> ? { [Id in \`${Ids}${MapStoresCustomization extends Record<"suffix", infer Suffix extends string\> ? Suffix : "Store"}\`]: Function } : {}
 
 For internal use **only**.
 
