@@ -31,13 +31,13 @@ export type _StoreObject<S> = S extends StoreDefinition<
   ? {
       [Id in `${Ids}${MapStoresCustomization extends Record<
         'suffix',
-        infer Suffix extends string
+        infer Suffix
       >
         ? Suffix
         : 'Store'}`]: () => Store<
         Id extends `${infer RealId}${MapStoresCustomization extends Record<
           'suffix',
-          infer Suffix extends string
+          infer Suffix
         >
           ? Suffix
           : 'Store'}`
@@ -67,10 +67,7 @@ export let mapStoreSuffix = 'Store'
  * @param suffix - new suffix
  */
 export function setMapStoreSuffix(
-  suffix: MapStoresCustomization extends Record<
-    'suffix',
-    infer Suffix extends string
-  >
+  suffix: MapStoresCustomization extends Record<'suffix', infer Suffix>
     ? Suffix
     : string // could be 'Store' but that would be annoying for JS
 ): void {
