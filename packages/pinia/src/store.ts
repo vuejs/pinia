@@ -344,6 +344,7 @@ function createSetupStore<
     subscriptions = []
     actionSubscriptions = []
     pinia._s.delete($id)
+    delete pinia.state.value[$id]
   }
 
   /**

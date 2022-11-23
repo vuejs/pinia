@@ -313,10 +313,11 @@ describe('Store', () => {
   })
 
   it('can be disposed', () => {
+    const initialN = 0
     const pinia = createPinia()
     const useStore = defineStore({
       id: 'main',
-      state: () => ({ n: 0 }),
+      state: () => ({ n: initialN }),
     })
 
     const store = useStore(pinia)
@@ -328,6 +329,9 @@ describe('Store', () => {
 
     expect(useStore()).toBe(store)
     store.$dispose()
+
+    expect(useStore().n).toBe(initialN)
+
     pinia.state.value.main.n++
 
     expect(spy).toHaveBeenCalledTimes(1)
