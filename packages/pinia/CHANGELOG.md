@@ -1,3 +1,9 @@
+## [2.0.26](https://github.com/vuejs/pinia/compare/pinia@2.0.25...pinia@2.0.26) (2022-11-23)
+
+### Bug Fixes
+
+- **types:** support older ts versions ([78fb214](https://github.com/vuejs/pinia/commit/78fb21409b731f4822b076e83b31c234e75c722d)), closes [#1818](https://github.com/vuejs/pinia/issues/1818)
+
 ## [2.0.25](https://github.com/vuejs/pinia/compare/pinia@2.0.24...pinia@2.0.25) (2022-11-21)
 
 ### Bug Fixes
