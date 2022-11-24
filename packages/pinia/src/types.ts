@@ -410,9 +410,9 @@ export interface _StoreWithState<
    * Stops the associated effect scope of the store and remove it from the store
    * registry. Plugins can override this method to cleanup any added effects.
    * e.g. devtools plugin stops displaying disposed stores from devtools.
-   * 
-   * Notice: This method **would not** clean up the state in `pinia.state`,
-   * which means that if the store installed again, it will restore the last disposed store's state.
+   * Note this doesn't delete the state of the store, you have to do it manually with
+   * `delete pinia.state.value[store.$id]` if you want to. If you don't and the
+   * store is used again, it will reuse the previous state.
    */
   $dispose(): void
 
