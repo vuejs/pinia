@@ -1,3 +1,10 @@
+## [0.4.6](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.5...@pinia/nuxt@0.4.6) (2022-11-27)
+
+### Bug Fixes
+
+- **nuxt:** Avoid recursive import from Nuxt #imports ([#1823](https://github.com/vuejs/pinia/issues/1823)) ([e1c0a19](https://github.com/vuejs/pinia/commit/e1c0a19abca2b8574c81f6f6e3d1b324924ba68d))
+- **nuxt:** use #app imports ([6cf7e48](https://github.com/vuejs/pinia/commit/6cf7e48264c575d705aeb41c978817a48e55978d))
+
 ## [0.4.5](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.4...@pinia/nuxt@0.4.5) (2022-11-21)
 
 ### Bug Fixes

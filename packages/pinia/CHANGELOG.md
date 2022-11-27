@@ -1,3 +1,7 @@
+## [2.0.27](https://github.com/vuejs/pinia/compare/pinia@2.0.26...pinia@2.0.27) (2022-11-27)
+
+- api docs changes
+
 ## [2.0.26](https://github.com/vuejs/pinia/compare/pinia@2.0.25...pinia@2.0.26) (2022-11-23)
 
 ### Bug Fixes
@@ -341,7 +345,7 @@ This version supports Vue 2! [Here](https://github.com/vuejs/pinia-vue-2-vite-ex
 
 # [2.0.0-rc.1](https://github.com/vuejs/pinia/compare/v2.0.0-rc.0...v2.0.0-rc.1) (2021-07-30)
 
-Posted https://github.com/vuejs/pinia/issues/592 to help people installing or upgrading Pinia.
+Posted <https://github.com/vuejs/pinia/issues/592> to help people installing or upgrading Pinia.
 
 ### Bug Fixes
 
@@ -355,7 +359,7 @@ Posted https://github.com/vuejs/pinia/issues/592 to help people installing or up
 
 This release requires Vue 3.2.0, which is currently only available under the `beta` dist tag (`npm i vue@beta` or `yarn add vue@beta` + the corresponding packages like `@vue/compiler-sfc@beta`).
 
-Follow the instructions at https://github.com/vuejs/pinia/issues/592 if you need help updating your package versions.
+Follow the instructions at <https://github.com/vuejs/pinia/issues/592> if you need help updating your package versions.
 
 It contains major improvements:
 
