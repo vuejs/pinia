@@ -220,6 +220,7 @@ async function main() {
       'add',
       'packages/*/CHANGELOG.md',
       'packages/*/package.json',
+      'pnpm-lock.yaml',
     ])
     await runIfNotDry('git', [
       'commit',
