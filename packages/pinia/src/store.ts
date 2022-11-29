@@ -590,11 +590,7 @@ function createSetupStore<
         if (stateKey in store.$state) {
           const newStateTarget = newStore.$state[stateKey]
           const oldStateSource = store.$state[stateKey]
-          if (
-            typeof newStateTarget === 'object' &&
-            isPlainObject(newStateTarget) &&
-            isPlainObject(oldStateSource)
-          ) {
+          if (isPlainObject(newStateTarget) && isPlainObject(oldStateSource)) {
             patchObject(newStateTarget, oldStateSource)
           } else {
             // transfer the ref
@@ -722,7 +718,7 @@ function createSetupStore<
   if (
     __DEV__ &&
     store.$state &&
-    typeof store.$state === 'object' &&
+    isPlainObject(store.$state) &&
     typeof store.$state.constructor === 'function' &&
     !store.$state.constructor.toString().includes('[native code]')
   ) {

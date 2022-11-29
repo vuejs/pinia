@@ -8,17 +8,17 @@
  */
 
 import { IS_CLIENT } from '../env'
-
+import { isPlainObject } from '../types'
 // The one and only way of getting global scope in all environments
 // https://stackoverflow.com/q/3277182/1008999
 const _global = /*#__PURE__*/ (() =>
-  typeof window === 'object' && window.window === window
+  isPlainObject(window) && window.window === window
     ? window
-    : typeof self === 'object' && self.self === self
+    : isPlainObject(self) && self.self === self
     ? self
-    : typeof global === 'object' && global.global === global
+    : isPlainObject(global) && global.global === global
     ? global
-    : typeof globalThis === 'object'
+    : isPlainObject(globalThis)
     ? globalThis
     : { HTMLElement: null })()
 
@@ -90,8 +90,9 @@ function click(node: Element) {
   }
 }
 
-const _navigator =
-  /*#__PURE__*/ typeof navigator === 'object' ? navigator : { userAgent: '' }
+const _navigator = /*#__PURE__*/ isPlainObject(navigator)
+  ? navigator
+  : { userAgent: '' }
 
 // Detect WebView inside a native macOS app by ruling out all browsers
 // We just need to check for 'Safari' because all other browsers (besides Firefox) include that too
