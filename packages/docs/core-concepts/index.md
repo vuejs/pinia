@@ -14,7 +14,7 @@ import { defineStore } from 'pinia'
 // but it's best to use the name of the store and surround it with `use` 
 // and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
-export const useStore = defineStore('main', {
+export const useAlertsStore = defineStore('alerts', {
   // other options...
 })
 ```
