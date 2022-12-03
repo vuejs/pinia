@@ -1,7 +1,7 @@
 import minimist from 'minimist'
-import _fs from 'fs'
-import { join, resolve, dirname } from 'path'
-import { fileURLToPath } from 'url'
+import fs from 'node:fs/promises'
+import { join, resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import chalk from 'chalk'
 import semver from 'semver'
 import enquirer from 'enquirer'
@@ -10,7 +10,6 @@ import pSeries from 'p-series'
 import { globby } from 'globby'
 
 const { prompt } = enquirer
-const fs = _fs.promises
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
