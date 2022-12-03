@@ -52,7 +52,7 @@ This function is then passed to `pinia` with `pinia.use()`:
 pinia.use(myPiniaPlugin)
 ```
 
-Plugins are only applied to stores **created after `pinia` is passed to the app**, otherwise they won't be applied.
+Plugins are only applied to stores created **after the plugins themselves, and after `pinia` is passed to the app**, otherwise they won't be applied.
 
 ## Augmenting a Store
 
