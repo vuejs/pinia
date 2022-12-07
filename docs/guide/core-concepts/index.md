@@ -14,7 +14,7 @@ import { defineStore } from 'pinia'
 // 스토어 이름을 사용하고 `use`와 `Store`로 묶는 것이 가장 좋습니다.
 // 예: `useUserStore`, `useCartStore`, `useProductStore`
 // 첫 번째 인자는 앱 전체에서 스토어의 고유 ID입니다.
-export const useMainStore = defineStore('main', {
+export const useAlertsStore = defineStore('alerts', {
   // 다른 옵션...
 })
 ```

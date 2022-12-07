@@ -59,7 +59,7 @@ export function myPiniaPlugin(context) {
 pinia.use(myPiniaPlugin)
 ```
 
-플러그인은 **`pinia`가 앱에 전달된 후 생성된** 스토어에만 적용됩니다.
+플러그인은 **플러그인 이후에 만들어진 스토어와 앱**에 `pinia`가 전달된 후에만 적용된다.
 그렇지 않으면 적용되지 않습니다.
 
 ## 스토어 확장하기 %{#augmenting-a-store}%
