@@ -1,6 +1,7 @@
 import { describe, beforeEach, it, expect } from 'vitest'
 import { computed, reactive, ref, ToRefs } from 'vue'
 import { createPinia, defineStore, setActivePinia, storeToRefs } from '../src'
+import { useObjectStore } from './pinia/stores/objectStore'
 
 describe('storeToRefs', () => {
   beforeEach(() => {
@@ -14,6 +15,29 @@ describe('storeToRefs', () => {
       return newO
     }, {} as ToRefs<O>)
   }
+
+  it("doesn't loose track of getter", () => {
+    const store = useObjectStore()
+    expect(store.testStateGetter.didChangeIllegally).toBe(false)
+
+    const { testStateGetter: testStateGetterRef } = storeToRefs(store)
+
+    testStateGetterRef.value.didChangeIllegally = true
+    console.log(
+      store.testStateGetter.didChangeIllegally, // true
+      store.testStateGetter.didChangeLegally // false
+    )
+    expect(store.testStateGetter.didChangeIllegally).toBe(false)
+    expect(store.testStateGetter.didChangeLegally).toBe(false)
+
+    store.modifyLegalValue(true)
+    console.log(
+      store.testStateGetter.didChangeIllegally, // false (here's the issue)
+      store.testStateGetter.didChangeLegally // true
+    )
+    expect(store.testStateGetter.didChangeIllegally).toBe(false)
+    expect(store.testStateGetter.didChangeLegally).toBe(true)
+  })
 
   it('empty state', () => {
     expect(storeToRefs(defineStore('a', {})())).toEqual({})
