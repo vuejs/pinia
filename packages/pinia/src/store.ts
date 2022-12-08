@@ -882,11 +882,21 @@ export function defineStore(
 
   function useStore(pinia?: Pinia | null, hot?: StoreGeneric): StoreGeneric {
     const currentInstance = getCurrentInstance()
+    const getPiniaFromCurrentInstance = () => {
+      if (isVue2 && currentInstance && !currentInstance.$parent) {
+        const provides = currentInstance._provided
+        if (provides && piniaSymbol in provides) {
+          return provides[piniaSymbol]
+        }
+      } else {
+        return currentInstance && inject(piniaSymbol)
+      }
+    }
     pinia =
       // in test mode, ignore the argument provided as we can always retrieve a
       // pinia instance with getActivePinia()
       (__TEST__ && activePinia && activePinia._testing ? null : pinia) ||
-      (currentInstance && inject(piniaSymbol))
+      getPiniaFromCurrentInstance()
     if (pinia) setActivePinia(pinia)
 
     if (__DEV__ && !activePinia) {
