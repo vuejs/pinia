@@ -886,7 +886,7 @@ export function defineStore(
       // in test mode, ignore the argument provided as we can always retrieve a
       // pinia instance with getActivePinia()
       (__TEST__ && activePinia && activePinia._testing ? null : pinia) ||
-      (currentInstance && inject(piniaSymbol))
+      (currentInstance && inject(piniaSymbol, null))
     if (pinia) setActivePinia(pinia)
 
     if (__DEV__ && !activePinia) {
