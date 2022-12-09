@@ -1,3 +1,9 @@
+## [2.0.28](https://github.com/vuejs/pinia/compare/pinia@2.0.27...pinia@2.0.28) (2022-12-09)
+
+### Bug Fixes
+
+- avoid missing injection not found warn in edge Vue 2 edge case ([#1849](https://github.com/vuejs/pinia/issues/1849)) ([78ec9a1](https://github.com/vuejs/pinia/commit/78ec9a186dcbce3d583db332ae22094a182358cc)), closes [#1650](https://github.com/vuejs/pinia/issues/1650)
+
 ## [2.0.27](https://github.com/vuejs/pinia/compare/pinia@2.0.26...pinia@2.0.27) (2022-11-27)
 
 - api docs changes
