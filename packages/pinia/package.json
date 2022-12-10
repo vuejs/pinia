@@ -9,6 +9,7 @@
   "types": "dist/pinia.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/pinia.d.ts",
       "node": {
         "import": {
           "production": "./dist/pinia.prod.cjs",
@@ -22,8 +23,7 @@
         }
       },
       "import": "./dist/pinia.mjs",
-      "require": "./index.js",
-      "types": "./dist/pinia.d.ts"
+      "require": "./index.js"
     },
     "./package.json": "./package.json",
     "./dist/*": "./dist/*"
