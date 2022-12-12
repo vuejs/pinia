@@ -553,7 +553,7 @@ ___
 
 Vue 2 插件，必须安装该插件才能使 pinia 工作。
 注意，**如果你使用的是 Nuxt.js，那你不需要这个插件**。请使用 `buildModule` 代替：
-https://pinia.vuejs.org/zh/ssr/nuxt.html。
+https://pinia.vuejs.org/zh/ssr/nuxt.html
 
 **`Example`**
 
