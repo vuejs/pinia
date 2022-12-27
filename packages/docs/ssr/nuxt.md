@@ -5,9 +5,9 @@ Using Pinia with [Nuxt.js](https://nuxtjs.org/) is easier since Nuxt takes care 
 ## Installation
 
 ```bash
-yarn add @pinia/nuxt
+yarn add pinia @pinia/nuxt
 # or with npm
-npm install @pinia/nuxt
+npm install pinia @pinia/nuxt
 ```
 
 We supply a _module_ to handle everything for you, you only need to add it to `modules` in your `nuxt.config.js` file:
