@@ -76,7 +76,10 @@ As with [Vue's Composition API and Options API](https://vuejs.org/guide/introduc
 
 ## Using the store
 
-We are _defining_ a store because the store won't be created until `use...Store()` is called inside of `setup()`:
+We have _defined_ a store because the store won't be created until `use...Store()` is called inside of `setup()`.
+
+Once defined, there are a few methods of accessing the store while maintaining reactivity.
+
 ### Store instance
 
 Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will look at these in detail in the next pages but autocompletion will help you.
