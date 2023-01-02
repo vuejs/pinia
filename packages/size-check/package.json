@@ -5,7 +5,7 @@
   "version": "0.0.0",
   "scripts": {
     "build:size": "rollup -c rollup.config.js",
-    "size": "yarn run build:size && yarn run size:check",
+    "size": "pnpm run build:size && pnpm run size:check",
     "size:check": "node scripts/check-size.mjs"
   },
   "devDependencies": {

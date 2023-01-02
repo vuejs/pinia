@@ -490,7 +490,7 @@ ___
 
 ### \_StoreObject
 
-Ƭ **\_StoreObject**<`S`\>: `S` extends [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<infer Ids, infer State, infer Getters, infer Actions\> ? { [Id in \`${Ids}${MapStoresCustomization extends Record<"suffix", string\> ? MapStoresCustomization["suffix"] : "Store"}\`]: Function } : {}
+Ƭ **\_StoreObject**<`S`\>: `S` extends [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<infer Ids, infer State, infer Getters, infer Actions\> ? { [Id in \`${Ids}${MapStoresCustomization extends Record<"suffix", infer Suffix extends string\> ? Suffix : "Store"}\`]: Function } : {}
 
 For internal use **only**.
 
@@ -810,38 +810,11 @@ ___
 
 ▸ **mapGetters**<`Id`, `S`, `G`, `A`, `KeyMapper`\>(`useStore`, `keyMapper`): [`_MapStateObjectReturn`](pinia.md#_mapstateobjectreturn)<`Id`, `S`, `G`, `A`, `KeyMapper`\>
 
-Allows using state and getters from one store without using the composition
-API (`setup()`) by generating an object to be spread in the `computed` field
-of a component. The values of the object are the state properties/getters
-while the keys are the names of the resulting computed properties.
-Optionally, you can also pass a custom function that will receive the store
-as its first argument. Note that while it has access to the component
-instance via `this`, it won't be typed.
+Alias for `mapState()`. You should use `mapState()` instead.
 
-**`Example`**
+**`Deprecated`**
 
-```js
-export default {
-  computed: {
-    // other computed properties
-    // useCounterStore has a state property named `count` and a getter `double`
-    ...mapState(useCounterStore, {
-      n: 'count',
-      triple: store => store.n * 3,
-      // note we can't use an arrow function if we want to use `this`
-      custom(store) {
-        return this.someComponentValue + store.n
-      },
-      doubleN: 'double'
-    })
-  },
-
-  created() {
-    this.n // 2
-    this.doubleN // 4
-  }
-}
-```
+use `mapState()` instead.
 
 #### Type parameters
 
@@ -855,10 +828,10 @@ export default {
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
-| `keyMapper` | `KeyMapper` | object of state properties or getters |
+| Name | Type |
+| :------ | :------ |
+| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> |
+| `keyMapper` | `KeyMapper` |
 
 #### Returns
 
@@ -866,25 +839,11 @@ export default {
 
 ▸ **mapGetters**<`Id`, `S`, `G`, `A`, `Keys`\>(`useStore`, `keys`): [`_MapStateReturn`](pinia.md#_mapstatereturn)<`S`, `G`, `Keys`\>
 
-Allows using state and getters from one store without using the composition
-API (`setup()`) by generating an object to be spread in the `computed` field
-of a component.
+Alias for `mapState()`. You should use `mapState()` instead.
 
-**`Example`**
+**`Deprecated`**
 
-```js
-export default {
-  computed: {
-    // other computed properties
-    ...mapState(useCounterStore, ['count', 'double'])
-  },
-
-  created() {
-    this.count // 2
-    this.double // 4
-  }
-}
-```
+use `mapState()` instead.
 
 #### Type parameters
 
@@ -898,10 +857,10 @@ export default {
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
-| `keys` | readonly `Keys`[] | array of state properties or getters |
+| Name | Type |
+| :------ | :------ |
+| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> |
+| `keys` | readonly `Keys`[] |
 
 #### Returns
 

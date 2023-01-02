@@ -11,7 +11,6 @@ export default (context: any, inject: any) => {
   setActivePinia(pinia)
 
   // add access to `$nuxt`
-  // @ts-expect-error: _p is internal
   pinia._p.push(({ store }) => {
     // make it non enumerable so it avoids any serialization and devtools
     Object.defineProperty(store, '$nuxt', { value: context })

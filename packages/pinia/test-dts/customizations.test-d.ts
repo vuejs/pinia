@@ -6,7 +6,7 @@ import {
   _ActionsTree,
   storeToRefs,
 } from './'
-import { App, ref, Ref } from 'vue'
+import { App, computed, ComputedRef, ref, Ref } from 'vue'
 
 declare module '../dist/pinia' {
   export interface MapStoresCustomization {
@@ -159,7 +159,7 @@ expectType<{ a: Ref<boolean>; myState: Ref<number>; stateOnly: Ref<number> }>(
 
 expectType<{
   n: Ref<number>
-  double: Ref<number>
+  double: ComputedRef<number>
   myState: Ref<number>
   stateOnly: Ref<number>
 }>(
@@ -169,6 +169,24 @@ expectType<{
       getters: {
         double: (state) => state.n * 2,
       },
+    })()
+  )
+)
+
+expectType<{
+  n: Ref<number>
+  double: ComputedRef<number>
+  myState: Ref<number>
+  stateOnly: Ref<number>
+}>(
+  storeToRefs(
+    defineStore('a', () => {
+      const n = ref(1)
+      const double = computed(() => n.value * 2)
+      return {
+        n,
+        double
+      }
     })()
   )
 )

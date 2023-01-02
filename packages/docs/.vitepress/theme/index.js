@@ -1,5 +1,6 @@
 import Theme from 'vitepress/theme'
 import VueSchoolLink from '../components/VueSchoolLink.vue'
+import VueMasteryLogoLink from '../components/VueMasteryLogoLink.vue'
 import { Layout } from './Layout'
 import './custom.css'
 import './code-theme.css'
@@ -14,6 +15,7 @@ const config = {
   enhanceApp({ app }) {
     // app.use(createPinia())
     app.component('VueSchoolLink', VueSchoolLink)
+    app.component('VueMasteryLogoLink', VueMasteryLogoLink)
   },
 }
 

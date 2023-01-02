@@ -69,7 +69,7 @@ pre[class*='language-'] {
 .token.prolog,
 .token.cdata {
   color: rgb(99, 119, 119);
-  font-style: italic;
+  /* no italics font-style: italic */
 }
 
 .token.punctuation {
@@ -82,7 +82,7 @@ pre[class*='language-'] {
 
 .token.deleted {
   color: rgb(239, 83, 80);
-  font-style: italic;
+  /* no italics font-style: italic */
 }
 
 .token.symbol,
@@ -115,14 +115,14 @@ pre[class*='language-'] {
 .token.function,
 .token.doctype {
   color: rgb(199, 146, 234);
-  font-style: italic;
+  /* no italics font-style: italic */
 }
 
 .token.attr-name,
 .token.inserted,
 code .token.inserted {
   color: rgb(173, 219, 103);
-  font-style: italic;
+  /* no italics font-style: italic */
 }
 
 .token.string,
@@ -151,7 +151,7 @@ code .token.inserted {
 }
 
 .token.italic {
-  font-style: italic;
+  /* no italics font-style: italic */
 }
 
 /* LIGHT THEME */
@@ -223,7 +223,7 @@ html.light .token.comment,
 html.light .token.prolog,
 html.light .token.cdata {
   color: rgb(152, 159, 177);
-  font-style: italic;
+  /* no italics font-style: italic */
 }
 
 html.light .token.punctuation {
@@ -273,13 +273,13 @@ html.light .token.selector,
 html.light .token.function,
 html.light .token.doctype {
   color: rgb(153, 76, 195);
-  font-style: italic;
+  /* no italics font-style: italic */
 }
 
 html.light .token.attr-name,
 html.light .token.inserted {
   color: rgb(72, 118, 214);
-  font-style: italic;
+  /* no italics font-style: italic */
 }
 
 html.light .token.class-name,
@@ -300,5 +300,5 @@ html.light .token.bold {
 }
 
 html.light .token.italic {
-  font-style: italic;
+  /* no italics font-style: italic */
 }

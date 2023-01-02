@@ -1,13 +1,13 @@
 # Nuxt.js
 
-Using Pinia with [Nuxt.js](https://nuxtjs.org/) is easier since Nuxt takes care of a lot of things when it comes to _server side rendering_. For instance, **you don't need to care about serialization nor XSS attacks**. Pinia supports Nuxt Bridge and Nuxt 3, for bare Nuxt 2 support, [See below](#nuxt-2-without-bridge).
+Using Pinia with [Nuxt.js](https://nuxtjs.org/) is easier since Nuxt takes care of a lot of things when it comes to _server side rendering_. For instance, **you don't need to care about serialization nor XSS attacks**. Pinia supports Nuxt Bridge and Nuxt 3. For bare Nuxt 2 support, [see below](#nuxt-2-without-bridge).
 
 ## Installation
 
 ```bash
-yarn add @pinia/nuxt
+yarn add pinia @pinia/nuxt
 # or with npm
-npm install @pinia/nuxt
+npm install pinia @pinia/nuxt
 ```
 
 We supply a _module_ to handle everything for you, you only need to add it to `modules` in your `nuxt.config.js` file:
@@ -53,10 +53,10 @@ export default defineNuxtConfig({
       '@pinia/nuxt',
       {
         autoImports: [
-          // automatically imports `usePinia()`
-          'defineStore',
-          // automatically imports `usePinia()` as `usePiniaStore()`
-          ['defineStore', 'definePiniaStore'],
+          // automatically imports `defineStore`
+          'defineStore', // import { defineStore } from 'pinia'
+          // automatically imports `defineStore` as `definePiniaStore`
+          ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
         ],
       },
     ],

@@ -1,6 +1,6 @@
 {
   "name": "pinia",
-  "version": "2.0.21",
+  "version": "2.0.28",
   "description": "Intuitive, type safe and flexible Store for Vue",
   "main": "index.js",
   "module": "dist/pinia.mjs",
@@ -9,6 +9,7 @@
   "types": "dist/pinia.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/pinia.d.ts",
       "node": {
         "import": {
           "production": "./dist/pinia.prod.cjs",
@@ -22,8 +23,7 @@
         }
       },
       "import": "./dist/pinia.mjs",
-      "require": "./index.js",
-      "types": "./dist/pinia.d.ts"
+      "require": "./index.js"
     },
     "./package.json": "./package.json",
     "./dist/*": "./dist/*"
@@ -69,11 +69,11 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@microsoft/api-extractor": "7.28.6",
-    "@vue/test-utils": "^2.0.2"
+    "@microsoft/api-extractor": "7.33.6",
+    "@vue/test-utils": "^2.2.6"
   },
   "dependencies": {
-    "@vue/devtools-api": "^6.2.1",
+    "@vue/devtools-api": "^6.4.5",
     "vue-demi": "*"
   },
   "peerDependencies": {

@@ -18,6 +18,8 @@ export const useStore = defineStore('storeId', {
       count: 0,
       name: 'Eduardo',
       isAdmin: true,
+      items: [],
+      hasChanged: true,
     }
   },
 })
@@ -81,6 +83,8 @@ const store = useStore()
 
 store.count++
 ```
+
+Note you cannot add a new state property **if you don't define it in `state()`**, it must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
 
 ## Resetting the state
 
@@ -182,7 +186,7 @@ store.$patch({
 However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the `$patch` method also accepts a function to group this kind of mutations that are difficult to apply with a patch object:
 
 ```js
-cartStore.$patch((state) => {
+store.$patch((state) => {
   state.items.push({ name: 'shoes', quantity: 1 })
   state.hasChanged = true
 })

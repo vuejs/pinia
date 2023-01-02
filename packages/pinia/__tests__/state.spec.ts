@@ -279,6 +279,97 @@ describe('State', () => {
     expect(store.double).toBe(30)
   })
 
+  it('hydrates Set in option stores', async () => {
+    const useStore = defineStore('main', {
+      state: () => ({ set: new Set() }),
+    })
+
+    const pinia = createPinia()
+    pinia.state.value.main = {
+      set: new Set([1, 2]),
+    }
+    setActivePinia(pinia)
+
+    const store = useStore()
+    expect(store.set).toBeInstanceOf(Set)
+    expect([...store.set.values()]).toEqual([1, 2])
+  })
+
+  it('hydrates Set in setup stores', async () => {
+    const useStore = defineStore('main', () => {
+      const setRef = ref(new Set())
+      const setReactive = reactive(new Set())
+      return { setRef, setReactive }
+    })
+
+    const pinia = createPinia()
+    pinia.state.value.main = {
+      setRef: new Set([1, 2]),
+      setReactive: new Set([3, 4]),
+    }
+    setActivePinia(pinia)
+
+    const store = useStore()
+    expect(store.setRef).toBeInstanceOf(Set)
+    expect(store.setReactive).toBeInstanceOf(Set)
+    expect([...store.setRef.values()]).toEqual([1, 2])
+    expect([...store.setReactive.values()]).toEqual([3, 4])
+  })
+
+  it('hydrates Map in option stores', async () => {
+    const useStore = defineStore('main', {
+      state: () => ({ map: new Map() }),
+    })
+
+    const map = new Map()
+
+    map.set('ssr', 'test')
+    map.set('other', 'test2')
+
+    const pinia = createPinia()
+    pinia.state.value.main = { map }
+    setActivePinia(pinia)
+
+    const store = useStore()
+    expect(store.map).toBeInstanceOf(Map)
+    expect([...store.map.entries()]).toEqual([
+      ['ssr', 'test'],
+      ['other', 'test2'],
+    ])
+  })
+
+  it('hydrates Map in setup stores', async () => {
+    const useStore = defineStore('main', () => {
+      const mapRef = ref(new Map())
+      const mapReactive = reactive(new Map())
+      return { mapRef, mapReactive }
+    })
+
+    const mapRef = new Map()
+    const mapReactive = new Map()
+
+    mapRef.set('ref:ssr', 'test')
+    mapRef.set('ref:other', 'test2')
+    mapReactive.set('reactive:ssr', 'test')
+    mapReactive.set('reactive:other', 'test2')
+
+    const pinia = createPinia()
+    pinia.state.value.main = { mapRef, mapReactive }
+    setActivePinia(pinia)
+
+    const store = useStore()
+    expect(store.mapRef).toBeInstanceOf(Map)
+    expect(store.mapReactive).toBeInstanceOf(Map)
+    expect([...store.mapRef.entries()]).toEqual([
+      ['ref:ssr', 'test'],
+      ['ref:other', 'test2'],
+    ])
+    expect([...store.mapReactive.entries()]).toEqual([
+      ['reactive:ssr', 'test'],
+      ['reactive:other', 'test2'],
+    ])
+  })
+
   describe('custom refs', () => {
     let spy!: Mock
     function useCustomRef() {

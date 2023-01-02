@@ -1,3 +1,32 @@
+## [0.4.6](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.5...@pinia/nuxt@0.4.6) (2022-11-27)
+
+### Bug Fixes
+
+- **nuxt:** Avoid recursive import from Nuxt #imports ([#1823](https://github.com/vuejs/pinia/issues/1823)) ([e1c0a19](https://github.com/vuejs/pinia/commit/e1c0a19abca2b8574c81f6f6e3d1b324924ba68d))
+- **nuxt:** use #app imports ([6cf7e48](https://github.com/vuejs/pinia/commit/6cf7e48264c575d705aeb41c978817a48e55978d))
+
+## [0.4.5](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.4...@pinia/nuxt@0.4.5) (2022-11-21)
+
+### Bug Fixes
+
+- **nuxt:** ensure pinia plugin is added before router ([3e4e63c](https://github.com/vuejs/pinia/commit/3e4e63c1f4749ee09b045a771c546de33dd4c405))
+
+## [0.4.4](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.3...@pinia/nuxt@0.4.4) (2022-11-17)
+
+### Bug Fixes
+
+- **nuxt:** nuxt v3 compatibility ([#1808](https://github.com/vuejs/pinia/issues/1808)) ([aa12958](https://github.com/vuejs/pinia/commit/aa129582306c03a186e4ba2009225d3b95feb1d9))
+
+## [0.4.3](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.2...@pinia/nuxt@0.4.3) (2022-10-08)
+
+- Update nuxt version and usage to rc.11
+
+## [0.4.2](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.1...@pinia/nuxt@0.4.2) (2022-09-06)
+
+### Bug Fixes
+
+- **nuxt:** compatibility with `^3.0.0-rc.9` ([#1623](https://github.com/vuejs/pinia/issues/1623)) ([9864beb](https://github.com/vuejs/pinia/commit/9864beb9b4b12e4fa60db521b2943cb86dbedbef))
+
 ## [0.4.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.0...@pinia/nuxt@0.4.1) (2022-08-18)
 
 ### Features

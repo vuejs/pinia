@@ -11,6 +11,7 @@
   createResolver,
   resolveModule,
 } from '@nuxt/kit'
+import type { NuxtModule } from '@nuxt/schema'
 
 export interface ModuleOptions {
   /**
@@ -38,12 +39,12 @@ export interface ModuleOptions {
   autoImports?: Array<string | [string, string]>
 }
 
-export default defineNuxtModule<ModuleOptions>({
+const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'pinia',
     configKey: 'pinia',
     compatibility: {
-      nuxt: '^2.0.0 || ^3.0.0',
+      nuxt: '^2.0.0 || ^3.0.0-rc.5',
       bridge: true,
     },
   },
@@ -55,7 +56,14 @@ export default defineNuxtModule<ModuleOptions>({
     const resolver = createResolver(import.meta.url)
 
     // Disable default Vuex store (Nuxt v2.10+ only)
-    if (nuxt.options.features && options.disableVuex && isNuxt2()) {
+    if (
+      // @ts-expect-error: no feature flag anymore or private?
+      nuxt.options.features &&
+      // ts
+      options.disableVuex &&
+      isNuxt2()
+    ) {
+      // @ts-expect-error: same
       nuxt.options.features.store = false
     }
 
@@ -73,12 +81,15 @@ export default defineNuxtModule<ModuleOptions>({
       references.push({ types: '@pinia/nuxt' })
     })
 
-    // Add runtime plugin
-    if (isNuxt2()) {
-      addPlugin(resolver.resolve('./runtime/plugin.vue2'))
-    } else {
-      addPlugin(resolver.resolve('./runtime/plugin.vue3'))
-    }
+    // Add runtime plugin before the router plugin
+    // https://github.com/nuxt/framework/issues/9130
+    nuxt.hook('modules:done', () => {
+      if (isNuxt2()) {
+        addPlugin(resolver.resolve('./runtime/plugin.vue2'))
+      } else {
+        addPlugin(resolver.resolve('./runtime/plugin.vue3'))
+      }
+    })
 
     // Add auto imports
     const composables = resolver.resolve('./runtime/composables')
@@ -98,3 +109,5 @@ export default defineNuxtModule<ModuleOptions>({
     })
   },
 })
+
+export default module

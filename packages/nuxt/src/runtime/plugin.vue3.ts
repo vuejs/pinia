@@ -1,5 +1,5 @@
 import { createPinia, setActivePinia } from 'pinia'
-import { defineNuxtPlugin } from '#imports'
+import { defineNuxtPlugin } from '#app'
 
 export default defineNuxtPlugin((nuxtApp) => {
   const pinia = createPinia()
