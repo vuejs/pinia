@@ -24,6 +24,9 @@ export interface ModuleOptions {
 
   /**
    * Array of auto imports to be added to the nuxt.config.js file.
+   * 
+   * Defaults to: ["<projectRoot>/stores"] and will auto import
+   * pinia stores from that directory if it exists.
    *
    * @example
    * ```js
@@ -39,6 +42,7 @@ export interface ModuleOptions {
   autoImports?: Array<string | [string, string]>
 }
 
+const resolver = createResolver(import.meta.url)
 const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'pinia',
@@ -50,11 +54,11 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
   },
   defaults: {
     disableVuex: true,
-    autoImports: []
+    autoImports: [
+      resolver.resolve('./stores')
+    ],
   },
   setup(options, nuxt) {
-    const resolver = createResolver(import.meta.url)
-
     // Disable default Vuex store (Nuxt v2.10+ only)
     if (
       // @ts-expect-error: no feature flag anymore or private?
@@ -92,14 +96,21 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     })
 
     // Add auto imports
+    // 1. Add usePinia always
     const composables = resolver.resolve('./runtime/composables')
     addAutoImport({ from: composables, name: 'usePinia' })
+
+    // 2. For each entry in autoImports,
+    // if the entry is an existing directory, import the directory,
+    // otherwise,
+    //   if the entry is a string: import { composables } from "entry"
+    //   otherwise: import { composables as alias } from "entry", where name === entry[0] and alias === entry[1].
     options.autoImports.forEach((imports) => {
-      const fullPath = resolver.resolve(imports)  
-      if (existsSync(fullPath) &&
-          statSync(fullPath).isDirectory()) {
+      const storesPath = resolver.resolve(imports)  
+      if (existsSync(storesPath) &&
+          statSync(storesPath).isDirectory()) {
           // Auto import the full dir
-          addAutoImportDir(fullPath)
+          addAutoImportDir(storesPath)
       } else {
         // Import from composables
         addAutoImport(typeof imports === 'string'
