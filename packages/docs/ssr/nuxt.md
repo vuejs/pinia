@@ -10,6 +10,16 @@ yarn add pinia @pinia/nuxt
 npm install pinia @pinia/nuxt
 ```
 
+:::tip 
+If you're using **npm**, `ERESOLVE unable to resolve dependency tree` error may happen when trying to `npm install` pinia into Nuxt project. This can be fixed by adding the following into your `package.json`:
+
+```js
+"overrides": { 
+  "vue": "latest"
+}
+```
+:::
+
 We supply a _module_ to handle everything for you, you only need to add it to `modules` in your `nuxt.config.js` file:
 
 ```js
@@ -24,16 +34,6 @@ export default defineNuxtConfig({
 ```
 
 And that's it, use your store as usual!
-
-:::tip 
-If you're using **npm**, `ERESOLVE unable to resolve dependency tree` error may happen when trying to `npm install` pinia into Nuxt project. This can be fixed by adding the following into your `package.json`:
-
-```js
-"overrides": { 
-     "vue": "latest"
-}
-```
-:::
 
 ## Using the store outside of `setup()`
 
