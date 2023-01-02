@@ -31,11 +31,12 @@ describe('works with nuxt', async () => {
 })
 
 describe('Module', () => {
-  let nuxt, _imports = []
+  const _imports = []
   const resolver = createResolver(import.meta.url)
   beforeEach(() => {
     nuxtCtx.unset()
-    const nuxt = {
+    // @ts-ignore
+    nuxtCtx.set({
       version: '3.0.8',
       options: {
         alias: {
@@ -53,9 +54,7 @@ describe('Module', () => {
         }
       },
       hooks: {}
-    }
-    // @ts-ignore
-    nuxtCtx.set(nuxt)
+    })
   })
   it('auto imports a directory if the autoImports entry is a directory and the directory exists', async () => {
     await Module({
@@ -69,8 +68,7 @@ describe('Module', () => {
         // import { defineStore as definePiniaStore } from "composables"
         ['defineStore', 'definePiniaStore']
       ]
-    }, nuxt)
-    nuxt = useNuxt()
+    }, useNuxt())
     expect(_imports[0].name).toEqual('usePinia')
     expect(_imports[1]).toEqual(resolver.resolve('../stores'))
     expect(_imports[2].name).toEqual('defineStore')
