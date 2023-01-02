@@ -5,9 +5,9 @@
 ## 安装 {#installation}
 
 ```bash
-yarn add @pinia/nuxt
+yarn add pinia @pinia/nuxt
 # 或者使用 npm
-npm install @pinia/nuxt
+npm install pinia @pinia/nuxt
 ```
 
 我们提供了一个 *module* 来为你处理一切，你只需要在 `nuxt.config.js` 文件的 `modules` 中添加它。

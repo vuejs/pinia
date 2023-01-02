@@ -1,4 +1,4 @@
-# Plugins {#plugins}
+# 插件 {#plugins}
 
 由于有了底层 API 的支持，Pinia store 现在完全支持扩展。以下是你可以扩展的内容：
 
@@ -52,7 +52,7 @@ export function myPiniaPlugin(context) {
 pinia.use(myPiniaPlugin)
 ```
 
-插件只会应用于**在 `pinia` 传递给应用后**创建的 store，否则它们不会生效。
+插件只会应用于**在 `pinia` 传递给应用后**创建的 store，且插件必须应用在创建 store 之前，否则它们不会生效。
 
 ## 扩展 Store {#augmenting-a-store}
 
