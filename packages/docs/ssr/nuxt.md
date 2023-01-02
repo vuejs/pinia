@@ -25,21 +25,15 @@ export default defineNuxtConfig({
 
 And that's it, use your store as usual!
 
-### NPM dependency issue with Nuxt 3
-
-As of late December 2022 there is a [known problem](https://github.com/vuejs/pinia/issues/853) that may emerge when running `npm install`. You may end up with following error:
-
-```
-ERESOLVE unable to resolve dependency tree
-```
-
-There is nothing actually wrong with the setup, the problem lies inside npm. However, you can easilly bypass it with adding the following into your `package.json`:
+:::tip 
+If you're using **npm**, `ERESOLVE unable to resolve dependency tree` error may happen when trying to `npm install` pinia into Nuxt project. This can be fixed by adding the following into your `package.json`:
 
 ```js
 "overrides": { 
-    "vue": "latest"
+     "vue": "latest"
 }
 ```
+:::
 
 ## Using the store outside of `setup()`
 
