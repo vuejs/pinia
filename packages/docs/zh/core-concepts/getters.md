@@ -84,9 +84,9 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## 向 getter 传递参数 {#passing-arguments-to-getters}
+## 向 getters 传递参数 {#passing-arguments-to-getters}
 
-*Getter* 只是幕后的**计算**属性，所以不可以向它们传递任何参数。不过，你可以从 *getter* 返回一个函数，该函数可以接受任意参数：
+*Getters* 只是幕后的**计算**属性，所以不可以向它们传递任何参数。不过，你可以从 *getter* 返回一个函数，该函数可以接受任意参数：
 
 ```js
 export const useStore = defineStore('main', {
