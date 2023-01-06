@@ -11,7 +11,7 @@ npm install pinia @pinia/nuxt
 ```
 
 :::tip 
-If you're using **npm**, `ERESOLVE unable to resolve dependency tree` error may happen when trying to `npm install` pinia into Nuxt project. This can be fixed by adding the following into your `package.json`:
+If you're using npm, you might encounter an _ERESOLVE unable to resolve dependency tree_ error. In that case, add the following to your `package.json`:
 
 ```js
 "overrides": { 
