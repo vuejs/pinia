@@ -8,9 +8,9 @@ Nuxt 2 지원은 [아래를 참조](#nuxt-2-without-bridge)합시다.
 ## 설치 %{#installation}%
 
 ```bash
-yarn add @pinia/nuxt
-# 또는 npm으로
-npm install @pinia/nuxt
+yarn add pinia @pinia/nuxt
+# or with npm
+npm install pinia @pinia/nuxt
 ```
 
 모든 것을 처리할 수 있는 모듈을 제공하므로,
