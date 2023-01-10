@@ -18,7 +18,7 @@ sidebarDepth: 3
 
 ▸ **default**(`this`, `inlineOptions`, `nuxt`): `void` \| `Promise`<`void`\>
 
-#### 参数 %{#parameters}%
+#### 参数
 
 | Name | Type |
 | :------ | :------ |
@@ -26,6 +26,6 @@ sidebarDepth: 3
 | `inlineOptions` | [`ModuleOptions`](../interfaces/pinia_nuxt.ModuleOptions.md) |
 | `nuxt` | `Nuxt` |
 
-#### 返回值 %{#returns}%
+#### 返回值
 
 `void` \| `Promise`<`void`\>

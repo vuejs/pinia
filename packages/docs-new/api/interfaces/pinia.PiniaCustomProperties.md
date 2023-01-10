@@ -6,13 +6,13 @@ sidebarDepth: 3
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / PiniaCustomProperties
 
-# Interface: PiniaCustomProperties<Id, S, G, A\>
+# Interface: PiniaCustomProperties<Id, S, G, A\> %{#Interface:-PiniaCustomProperties<Id,-S,-G,-A\>}%
 
 [pinia](../modules/pinia.md).PiniaCustomProperties
 
 Interface to be extended by the user when they add properties through plugins.
 
-## Type parameters
+## Type parameters %{#Interface:-PiniaCustomProperties<Id,-S,-G,-A\>-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -21,24 +21,24 @@ Interface to be extended by the user when they add properties through plugins.
 | `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
 | `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
 
-## Accessors
+## Accessors %{#Interface:-PiniaCustomProperties<Id,-S,-G,-A\>-Accessors}%
 
-### route
+### route %{#Interface:-PiniaCustomProperties<Id,-S,-G,-A\>-Accessors-route}%
 
 • `get` **route**(): `RouteLocationNormalized`
 
-#### Returns
+#### Returns %{#Interface:-PiniaCustomProperties<Id,-S,-G,-A\>-Accessors-route-Returns}%
 
 `RouteLocationNormalized`
 
 • `set` **route**(`value`): `void`
 
-#### Parameters
+#### Parameters %{#Interface:-PiniaCustomProperties<Id,-S,-G,-A\>-Accessors-route-Parameters}%
 
 | Name | Type |
 | :------ | :------ |
 | `value` | `RouteLocationNormalizedLoaded` \| `Ref`<`RouteLocationNormalizedLoaded`\> |
 
-#### Returns
+#### Returns %{#Interface:-PiniaCustomProperties<Id,-S,-G,-A\>-Accessors-route-Returns_1}%
 
 `void`

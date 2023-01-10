@@ -32,7 +32,7 @@ sidebarDepth: 3
 
   ↳ **`DefineSetupStoreOptions`**
 
-## 属性 %{#properties}%
+## 属性
 
 ### actions %{#actions}%
 

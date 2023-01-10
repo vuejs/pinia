@@ -19,7 +19,7 @@ sidebarDepth: 3
 
   ↳ **`TestingPinia`**
 
-## 属性 %{#properties}%
+## 属性
 
 ### app %{#app}%
 
@@ -37,17 +37,17 @@ ___
 
 ▸ (`app`): `void`
 
-##### 参数 %{#parameters}%
+##### 参数
 
 | 名称 | 类型 |
 | :------ | :------ |
 | `app` | `App`<`any`\> |
 
-##### 返回值 %{#returns}%
+##### 返回值
 
 `void`
 
-#### 继承于 %{#inherited-from}%
+#### 继承于
 
 [Pinia](pinia.Pinia.md).[install](pinia.Pinia.md#install)
 
@@ -59,7 +59,7 @@ ___
 
 根 state
 
-#### 继承于 %{#inherited-from}%
+#### 继承于
 
 [Pinia](pinia.Pinia.md).[state](pinia.Pinia.md#state)
 
@@ -71,16 +71,16 @@ ___
 
 增加了一个 store 插件来扩展每个  store
 
-#### 参数 %{#parameters}%
+#### 参数
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | store plugin to add |
 
-#### 返回值 %{#returns}%
+#### 返回值
 
 [`Pinia`](pinia.Pinia.md)
 
-#### 继承于 %{#inherited-from}%
+#### 继承于
 
 [Pinia](pinia.Pinia.md).[use](pinia.Pinia.md#use)

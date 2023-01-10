@@ -6,27 +6,27 @@ sidebarDepth: 3
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / StoreProperties
 
-# Interface: StoreProperties<Id\>
+# Interface: StoreProperties<Id\> %{#Interface:-StoreProperties<Id\>}%
 
 [pinia](../modules/pinia.md).StoreProperties
 
 Properties of a store.
 
-## Type parameters
+## Type parameters %{#Interface:-StoreProperties<Id\>-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
 | `Id` | extends `string` |
 
-## Hierarchy
+## Hierarchy %{#Interface:-StoreProperties<Id\>-Hierarchy}%
 
 - **`StoreProperties`**
 
   ↳ [`_StoreWithState`](pinia._StoreWithState.md)
 
-## Properties
+## Properties %{#Interface:-StoreProperties<Id\>-Properties}%
 
-### $id
+### $id %{#Interface:-StoreProperties<Id\>-Properties-$id}%
 
 • **$id**: `Id`
 
@@ -34,7 +34,7 @@ Unique identifier of the store
 
 ___
 
-### \_customProperties
+### \_customProperties %{#Interface:-StoreProperties<Id\>-Properties-\_customProperties}%
 
 • **\_customProperties**: `Set`<`string`\>
 

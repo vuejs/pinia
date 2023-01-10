@@ -10,7 +10,7 @@ sidebarDepth: 3
 
 [@pinia/testing](../modules/pinia_testing.md).TestingOptions
 
-## 属性 %{#properties}%
+## 属性
 
 ### createSpy %{#createspy}%
 
@@ -23,25 +23,25 @@ sidebarDepth: 3
 用于创建 action 和 `$patch()` 的 spy 的函数。
 在 jest 项目中默认为 `jest.fn()`，在 vitest 项目中默认为 `vi.fn()`。
 
-##### 参数 %{#parameters}%
+##### 参数
 
 | 名称 | 类型 |
 | :------ | :------ |
 | `fn?` | (...`args`: `any`[]) => `any` |
 
-##### 返回值 %{#returns}%
+##### 返回值
 
 `fn`
 
 ▸ (...`args`): `any`
 
-##### 参数 %{#parameters}%
+##### 参数
 
 | 名称 | 类型 |
 | :------ | :------ |
 | `...args` | `any`[] |
 
-##### 返回值 %{#returns}%
+##### 返回值
 
 `any`
 
