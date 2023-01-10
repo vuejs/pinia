@@ -23,17 +23,11 @@ export const sharedConfig = defineConfig({
       dark: 'dracula-soft',
       light: 'vitesse-light',
     },
+
     attrs: {
       leftDelimiter: '%{',
       rightDelimiter: '}%',
     },
-    // TODO: are these needed for API maybe?
-    // anchor: {
-    //   permalink: renderPermaLink,
-    // },
-    // config: (md) => {
-    //   md.use(MarkDownItCustomAnchor)
-    // },
   },
 
   head: [
