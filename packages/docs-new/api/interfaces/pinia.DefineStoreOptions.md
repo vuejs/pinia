@@ -6,7 +6,7 @@ sidebarDepth: 3
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptions
 
-# Interface: DefineStoreOptions<Id, S, G, A\>
+# Interface: DefineStoreOptions<Id, S, G, A\> %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>}%
 
 [pinia](../modules/pinia.md).DefineStoreOptions
 
@@ -17,7 +17,7 @@ augment stores with the plugin API.
 
 [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
-## Type parameters
+## Type parameters %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -26,15 +26,15 @@ augment stores with the plugin API.
 | `G` | `G` |
 | `A` | `A` |
 
-## Hierarchy
+## Hierarchy %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Hierarchy}%
 
 - [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
 
   ↳ **`DefineStoreOptions`**
 
-## Properties
+## Properties %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Properties}%
 
-### actions
+### actions %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Properties-actions}%
 
 • `Optional` **actions**: `A` & `ThisType`<`A` & `UnwrapRef`<`S`\> & [`_StoreWithState`](pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\>
 
@@ -42,7 +42,7 @@ Optional object of actions.
 
 ___
 
-### getters
+### getters %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Properties-getters}%
 
 • `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
 
@@ -50,7 +50,7 @@ Optional object of getters.
 
 ___
 
-### id
+### id %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Properties-id}%
 
 • **id**: `Id`
 
@@ -58,24 +58,24 @@ Unique string key to identify the store across the application.
 
 ___
 
-### state
+### state %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Properties-state}%
 
 • `Optional` **state**: () => `S`
 
-#### Type declaration
+#### Type declaration %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Properties-state-Type-declaration}%
 
 ▸ (): `S`
 
 Function to create a fresh state. **Must be an arrow function** to ensure
 correct typings!
 
-##### Returns
+##### Returns %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Properties-state-Type-declaration-Returns}%
 
 `S`
 
-## Methods
+## Methods %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Methods}%
 
-### hydrate
+### hydrate %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Methods-hydrate}%
 
 ▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
 
@@ -100,13 +100,13 @@ const useStore = defineStore('main', {
 })
 ```
 
-#### Parameters
+#### Parameters %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Methods-hydrate-Parameters}%
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
 | `initialState` | `UnwrapRef`<`S`\> | initialState |
 
-#### Returns
+#### Returns %{#Interface:-DefineStoreOptions<Id,-S,-G,-A\>-Methods-hydrate-Returns}%
 
 `void`

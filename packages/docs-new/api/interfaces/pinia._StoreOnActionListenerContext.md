@@ -6,7 +6,7 @@ sidebarDepth: 3
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / \_StoreOnActionListenerContext
 
-# Interface: \_StoreOnActionListenerContext<Store, ActionName, A\>
+# Interface: \_StoreOnActionListenerContext<Store, ActionName, A\> %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>}%
 
 [pinia](../modules/pinia.md)._StoreOnActionListenerContext
 
@@ -14,7 +14,7 @@ Actual type for [StoreOnActionListenerContext](../modules/pinia.md#storeonaction
 purposes. For internal use only.
 For internal use **only**
 
-## Type parameters
+## Type parameters %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -22,32 +22,32 @@ For internal use **only**
 | `ActionName` | extends `string` |
 | `A` | `A` |
 
-## Properties
+## Properties %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Properties}%
 
-### after
+### after %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Properties-after}%
 
 • **after**: (`callback`: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void`) => `void`
 
-#### Type declaration
+#### Type declaration %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Properties-after-Type-declaration}%
 
 ▸ (`callback`): `void`
 
 Sets up a hook once the action is finished. It receives the return value
 of the action, if it's a Promise, it will be unwrapped.
 
-##### Parameters
+##### Parameters %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Properties-after-Type-declaration-Parameters}%
 
 | Name | Type |
 | :------ | :------ |
 | `callback` | `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void` |
 
-##### Returns
+##### Returns %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Properties-after-Type-declaration-Returns}%
 
 `void`
 
 ___
 
-### args
+### args %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Properties-args}%
 
 • **args**: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? `Parameters`<`A`[`ActionName`]\> : `unknown`[]
 
@@ -55,7 +55,7 @@ Parameters passed to the action
 
 ___
 
-### name
+### name %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Properties-name}%
 
 • **name**: `ActionName`
 
@@ -63,30 +63,30 @@ Name of the action
 
 ___
 
-### onError
+### onError %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Properties-onError}%
 
 • **onError**: (`callback`: (`error`: `unknown`) => `void`) => `void`
 
-#### Type declaration
+#### Type declaration %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Properties-onError-Type-declaration}%
 
 ▸ (`callback`): `void`
 
 Sets up a hook if the action fails. Return `false` to catch the error and
 stop it from propagating.
 
-##### Parameters
+##### Parameters %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Properties-onError-Type-declaration-Parameters}%
 
 | Name | Type |
 | :------ | :------ |
 | `callback` | (`error`: `unknown`) => `void` |
 
-##### Returns
+##### Returns %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Properties-onError-Type-declaration-Returns}%
 
 `void`
 
 ___
 
-### store
+### store %{#Interface:-\_StoreOnActionListenerContext<Store,-ActionName,-A\>-Properties-store}%
 
 • **store**: `Store`
 

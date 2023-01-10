@@ -6,22 +6,22 @@ sidebarDepth: 3
 
 [API Documentation](../index.md) / [@pinia/testing](../modules/pinia_testing.md) / TestingPinia
 
-# Interface: TestingPinia
+# Interface: TestingPinia %{#Interface:-TestingPinia}%
 
 [@pinia/testing](../modules/pinia_testing.md).TestingPinia
 
 Pinia instance specifically designed for testing. Extends a regular
 `Pinia` instance with test specific properties.
 
-## Hierarchy
+## Hierarchy %{#Interface:-TestingPinia-Hierarchy}%
 
 - [`Pinia`](pinia.Pinia.md)
 
   ↳ **`TestingPinia`**
 
-## Properties
+## Properties %{#Interface:-TestingPinia-Properties}%
 
-### app
+### app %{#Interface:-TestingPinia-Properties-app}%
 
 • **app**: `App`<`any`\>
 
@@ -29,58 +29,58 @@ App used by Pinia
 
 ___
 
-### install
+### install %{#Interface:-TestingPinia-Properties-install}%
 
 • **install**: (`app`: `App`<`any`\>) => `void`
 
-#### Type declaration
+#### Type declaration %{#Interface:-TestingPinia-Properties-install-Type-declaration}%
 
 ▸ (`app`): `void`
 
-##### Parameters
+##### Parameters %{#Interface:-TestingPinia-Properties-install-Type-declaration-Parameters}%
 
 | Name | Type |
 | :------ | :------ |
 | `app` | `App`<`any`\> |
 
-##### Returns
+##### Returns %{#Interface:-TestingPinia-Properties-install-Type-declaration-Returns}%
 
 `void`
 
-#### Inherited from
+#### Inherited from %{#Interface:-TestingPinia-Properties-install-Inherited-from}%
 
 [Pinia](pinia.Pinia.md).[install](pinia.Pinia.md#install)
 
 ___
 
-### state
+### state %{#Interface:-TestingPinia-Properties-state}%
 
 • **state**: `Ref`<`Record`<`string`, [`StateTree`](../modules/pinia.md#statetree)\>\>
 
 root state
 
-#### Inherited from
+#### Inherited from %{#Interface:-TestingPinia-Properties-state-Inherited-from}%
 
 [Pinia](pinia.Pinia.md).[state](pinia.Pinia.md#state)
 
-## Methods
+## Methods %{#Interface:-TestingPinia-Methods}%
 
-### use
+### use %{#Interface:-TestingPinia-Methods-use}%
 
 ▸ **use**(`plugin`): [`Pinia`](pinia.Pinia.md)
 
 Adds a store plugin to extend every store
 
-#### Parameters
+#### Parameters %{#Interface:-TestingPinia-Methods-use-Parameters}%
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | store plugin to add |
 
-#### Returns
+#### Returns %{#Interface:-TestingPinia-Methods-use-Returns}%
 
 [`Pinia`](pinia.Pinia.md)
 
-#### Inherited from
+#### Inherited from %{#Interface:-TestingPinia-Methods-use-Inherited-from}%
 
 [Pinia](pinia.Pinia.md).[use](pinia.Pinia.md#use)

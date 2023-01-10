@@ -6,7 +6,7 @@ sidebarDepth: 3
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / SubscriptionCallbackMutationDirect
 
-# Interface: SubscriptionCallbackMutationDirect
+# Interface: SubscriptionCallbackMutationDirect %{#Interface:-SubscriptionCallbackMutationDirect}%
 
 [pinia](../modules/pinia.md).SubscriptionCallbackMutationDirect
 
@@ -14,15 +14,15 @@ Context passed to a subscription callback when directly mutating the state of
 a store with `store.someState = newValue` or `store.$state.someState =
 newValue`.
 
-## Hierarchy
+## Hierarchy %{#Interface:-SubscriptionCallbackMutationDirect-Hierarchy}%
 
 - [`_SubscriptionCallbackMutationBase`](pinia._SubscriptionCallbackMutationBase.md)
 
   ↳ **`SubscriptionCallbackMutationDirect`**
 
-## Properties
+## Properties %{#Interface:-SubscriptionCallbackMutationDirect-Properties}%
 
-### events
+### events %{#Interface:-SubscriptionCallbackMutationDirect-Properties-events}%
 
 • **events**: `DebuggerEvent`
 
@@ -30,30 +30,30 @@ newValue`.
 https://vuejs.org/guide/extras/reactivity-in-depth.html#reactivity-debugging and allows to track mutations in
 devtools and plugins **during development only**.
 
-#### Overrides
+#### Overrides %{#Interface:-SubscriptionCallbackMutationDirect-Properties-events-Overrides}%
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[events](pinia._SubscriptionCallbackMutationBase.md#events)
 
 ___
 
-### storeId
+### storeId %{#Interface:-SubscriptionCallbackMutationDirect-Properties-storeId}%
 
 • **storeId**: `string`
 
 `id` of the store doing the mutation.
 
-#### Inherited from
+#### Inherited from %{#Interface:-SubscriptionCallbackMutationDirect-Properties-storeId-Inherited-from}%
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
 ___
 
-### type
+### type %{#Interface:-SubscriptionCallbackMutationDirect-Properties-type}%
 
 • **type**: [`direct`](../enums/pinia.MutationType.md#direct)
 
 Type of the mutation.
 
-#### Overrides
+#### Overrides %{#Interface:-SubscriptionCallbackMutationDirect-Properties-type-Overrides}%
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)
