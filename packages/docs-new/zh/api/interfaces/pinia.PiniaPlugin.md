@@ -19,12 +19,12 @@ sidebarDepth: 3
 用于扩展每个 store 的插件。返回一个扩展 store 的对象或
 没有返回值。
 
-#### 参数 %{#parameters}%
+#### 参数
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `context` | [`PiniaPluginContext`](pinia.PiniaPluginContext.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\> | Context |
 
-#### 返回值 %{#returns}%
+#### 返回值
 
 `void` \| `Partial`<[`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\> & [`PiniaCustomStateProperties`](pinia.PiniaCustomStateProperties.md)<[`StateTree`](../modules/pinia.md#statetree)\>\>

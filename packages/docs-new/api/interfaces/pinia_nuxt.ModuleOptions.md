@@ -6,13 +6,13 @@ sidebarDepth: 3
 
 [API Documentation](../index.md) / [@pinia/nuxt](../modules/pinia_nuxt.md) / ModuleOptions
 
-# Interface: ModuleOptions
+# Interface: ModuleOptions %{#Interface:-ModuleOptions}%
 
 [@pinia/nuxt](../modules/pinia_nuxt.md).ModuleOptions
 
-## Properties
+## Properties %{#Interface:-ModuleOptions-Properties}%
 
-### autoImports
+### autoImports %{#Interface:-ModuleOptions-Properties-autoImports}%
 
 • `Optional` **autoImports**: (`string` \| [`string`, `string`])[]
 
@@ -31,7 +31,7 @@ autoImports: [
 
 ___
 
-### disableVuex
+### disableVuex %{#Interface:-ModuleOptions-Properties-disableVuex}%
 
 • `Optional` **disableVuex**: `boolean`
 

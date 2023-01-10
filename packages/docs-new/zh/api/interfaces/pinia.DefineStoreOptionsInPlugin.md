@@ -27,7 +27,7 @@ sidebarDepth: 3
 
   ↳ **`DefineStoreOptionsInPlugin`**
 
-## 属性 %{#properties}%
+## 属性
 
 ### actions %{#actions}%
 
@@ -45,7 +45,7 @@ ___
 
 getter 的可选对象
 
-#### 继承于 %{#inherited-from}%
+#### 继承于
 
 Omit.getters
 
@@ -62,11 +62,11 @@ ___
 创建一个新 state 的函数。
 **必须是一个箭头函数**，以确保正确的类型标注!
 
-#### 返回值 %{#returns}%
+#### 返回值
 
 `S`
 
-#### 继承于 %{#inherited-from}%
+#### 继承于
 
 Omit.state
 
@@ -97,17 +97,17 @@ const useStore = defineStore('main', {
 })
 ```
 
-#### 参数 %{#parameters}%
+#### 参数
 
 | 名字 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
 | `initialState` | `UnwrapRef`<`S`\> | initialState |
 
-#### 返回值 %{#returns}%
+#### 返回值
 
 `void`
 
-#### 继承于 %{#inherited-from}%
+#### 继承于
 
 Omit.hydrate
