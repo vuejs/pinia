@@ -24,7 +24,7 @@ sidebarDepth: 3
 
   ↳ [`_StoreWithState`](pinia._StoreWithState.md)
 
-## 属性 %{#properties}%
+## 属性
 
 ### $id %{#id}%
 

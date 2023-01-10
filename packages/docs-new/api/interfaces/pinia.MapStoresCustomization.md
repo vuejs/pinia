@@ -6,7 +6,7 @@ sidebarDepth: 3
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / MapStoresCustomization
 
-# Interface: MapStoresCustomization
+# Interface: MapStoresCustomization %{#Interface:-MapStoresCustomization}%
 
 [pinia](../modules/pinia.md).MapStoresCustomization
 
