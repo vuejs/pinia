@@ -6,7 +6,7 @@ sidebarDepth: 3
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / DefineSetupStoreOptions
 
-# Interface: DefineSetupStoreOptions<Id, S, G, A\>
+# Interface: DefineSetupStoreOptions<Id, S, G, A\> %{#Interface:-DefineSetupStoreOptions<Id,-S,-G,-A\>}%
 
 [pinia](../modules/pinia.md).DefineSetupStoreOptions
 
@@ -17,7 +17,7 @@ augment stores with the plugin API.
 
 [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
-## Type parameters
+## Type parameters %{#Interface:-DefineSetupStoreOptions<Id,-S,-G,-A\>-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -26,15 +26,15 @@ augment stores with the plugin API.
 | `G` | `G` |
 | `A` | `A` |
 
-## Hierarchy
+## Hierarchy %{#Interface:-DefineSetupStoreOptions<Id,-S,-G,-A\>-Hierarchy}%
 
 - [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
 
   ↳ **`DefineSetupStoreOptions`**
 
-## Properties
+## Properties %{#Interface:-DefineSetupStoreOptions<Id,-S,-G,-A\>-Properties}%
 
-### actions
+### actions %{#Interface:-DefineSetupStoreOptions<Id,-S,-G,-A\>-Properties-actions}%
 
 • `Optional` **actions**: `A`
 

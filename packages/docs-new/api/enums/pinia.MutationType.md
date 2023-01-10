@@ -6,15 +6,15 @@ sidebarDepth: 3
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / MutationType
 
-# Enumeration: MutationType
+# Enumeration: MutationType %{#Enumeration:-MutationType}%
 
 [pinia](../modules/pinia.md).MutationType
 
 Possible types for SubscriptionCallback
 
-## Enumeration Members
+## Enumeration Members %{#Enumeration:-MutationType-Enumeration-Members}%
 
-### direct
+### direct %{#Enumeration:-MutationType-Enumeration-Members-direct}%
 
 • **direct** = ``"direct"``
 
@@ -26,7 +26,7 @@ Direct mutation of the state:
 
 ___
 
-### patchFunction
+### patchFunction %{#Enumeration:-MutationType-Enumeration-Members-patchFunction}%
 
 • **patchFunction** = ``"patch function"``
 
@@ -36,7 +36,7 @@ Mutated the state with `$patch` and a function
 
 ___
 
-### patchObject
+### patchObject %{#Enumeration:-MutationType-Enumeration-Members-patchObject}%
 
 • **patchObject** = ``"patch object"``
 

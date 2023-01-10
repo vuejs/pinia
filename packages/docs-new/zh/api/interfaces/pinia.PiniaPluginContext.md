@@ -21,7 +21,7 @@ sidebarDepth: 3
 | `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
 | `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
 
-## 属性 %{#properties}%
+## 属性
 
 ### app %{#app}%
 

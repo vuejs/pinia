@@ -22,7 +22,7 @@ sidebarDepth: 3
 | `ActionName` | extends `string` |
 | `A` | `A` |
 
-## 属性 %{#properties}%
+## 属性
 
 ### after %{#after}%
 
@@ -41,7 +41,7 @@ action 执行完的钩子。
 | :------ | :------ |
 | `callback` | `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void` |
 
-##### 返回值 %{#returns}%
+##### 返回值
 
 `void`
 
@@ -55,7 +55,7 @@ ___
 
 ___
 
-### name %{#args}%
+### name %{#name}%
 
 • **name**: `ActionName`
 
@@ -67,20 +67,20 @@ ___
 
 • **onError**: (`callback`: (`error`: `unknown`) => `void`) => `void`
 
-#### 类型声明 %{#type-declaration}%
+#### 类型声明 %{#type-declaration_1}%
 
 ▸ (`callback`): `void`
 
 action 的错误钩子。
 返回 `false` 以捕获错误并阻止其继续传播。
 
-##### 参数 %{#parameters}%
+##### 参数
 
 | 名称 | 类型 |
 | :------ | :------ |
 | `callback` | (`error`: `unknown`) => `void` |
 
-##### 返回值 %{#returns}%
+##### 返回值
 
 `void`
 
