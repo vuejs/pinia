@@ -18,7 +18,7 @@ Every application must own its own pinia to be able to create stores
 
   ↳ [`TestingPinia`](pinia_testing.TestingPinia.md)
 
-## 属性 %{#properties}%
+## 属性
 
 ### 安装 %{#install}%
 
@@ -28,13 +28,13 @@ Every application must own its own pinia to be able to create stores
 
 ▸ (`app`): `void`
 
-##### 参数 %{#parameters}%
+##### 参数
 
 | Name | Type |
 | :------ | :------ |
 | `app` | `App`<`any`\> |
 
-##### 返回值 %{#returns}%
+##### 返回值
 
 `void`
 
@@ -60,6 +60,6 @@ ___
 | :------ | :------ | :------ |
 | `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | store plugin to add |
 
-#### 返回值 %{#returns}%
+#### 返回值
 
 [`Pinia`](pinia.Pinia.md)

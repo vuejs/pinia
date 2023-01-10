@@ -32,7 +32,7 @@ sidebarDepth: 3
 
   ↳ **`DefineStoreOptions`**
 
-## 属性 %{#properties}%
+## 属性
 
 ### actions %{#actions}%
 
@@ -69,7 +69,7 @@ ___
 创建一个新 state 的函数。
 **必须是一个箭头函数**，以确保正确的类型标注!
 
-##### 返回值 %{#returns}%
+##### 返回值
 
 `S`
 
@@ -100,13 +100,13 @@ const useStore = defineStore('main', {
 })
 ```
 
-#### 参数 %{#parameters}%
+#### 参数
 
 | 名字 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
 | `initialState` | `UnwrapRef`<`S`\> | initialState |
 
-#### 返回值 %{#returns}%
+#### 返回值
 
 `void`

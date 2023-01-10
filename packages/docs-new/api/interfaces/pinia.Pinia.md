@@ -6,60 +6,60 @@ sidebarDepth: 3
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / Pinia
 
-# Interface: Pinia
+# Interface: Pinia %{#Interface:-Pinia}%
 
 [pinia](../modules/pinia.md).Pinia
 
 Every application must own its own pinia to be able to create stores
 
-## Hierarchy
+## Hierarchy %{#Interface:-Pinia-Hierarchy}%
 
 - **`Pinia`**
 
   ↳ [`TestingPinia`](pinia_testing.TestingPinia.md)
 
-## Properties
+## Properties %{#Interface:-Pinia-Properties}%
 
-### install
+### install %{#Interface:-Pinia-Properties-install}%
 
 • **install**: (`app`: `App`<`any`\>) => `void`
 
-#### Type declaration
+#### Type declaration %{#Interface:-Pinia-Properties-install-Type-declaration}%
 
 ▸ (`app`): `void`
 
-##### Parameters
+##### Parameters %{#Interface:-Pinia-Properties-install-Type-declaration-Parameters}%
 
 | Name | Type |
 | :------ | :------ |
 | `app` | `App`<`any`\> |
 
-##### Returns
+##### Returns %{#Interface:-Pinia-Properties-install-Type-declaration-Returns}%
 
 `void`
 
 ___
 
-### state
+### state %{#Interface:-Pinia-Properties-state}%
 
 • **state**: `Ref`<`Record`<`string`, [`StateTree`](../modules/pinia.md#statetree)\>\>
 
 root state
 
-## Methods
+## Methods %{#Interface:-Pinia-Methods}%
 
-### use
+### use %{#Interface:-Pinia-Methods-use}%
 
 ▸ **use**(`plugin`): [`Pinia`](pinia.Pinia.md)
 
 Adds a store plugin to extend every store
 
-#### Parameters
+#### Parameters %{#Interface:-Pinia-Methods-use-Parameters}%
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | store plugin to add |
 
-#### Returns
+#### Returns %{#Interface:-Pinia-Methods-use-Returns}%
 
 [`Pinia`](pinia.Pinia.md)

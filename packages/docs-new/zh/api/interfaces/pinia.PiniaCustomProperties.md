@@ -27,18 +27,18 @@ sidebarDepth: 3
 
 • `get` **route**(): `RouteLocationNormalized`
 
-#### 返回值 %{#returns}%
+#### 返回值
 
 `RouteLocationNormalized`
 
 • `set` **route**(`value`): `void`
 
-#### 参数 %{#parameters}%
+#### 参数
 
 | Name | Type |
 | :------ | :------ |
 | `value` | `RouteLocationNormalizedLoaded` \| `Ref`<`RouteLocationNormalizedLoaded`\> |
 
-#### 返回值 %{#returns}%
+#### 返回值
 
 `void`

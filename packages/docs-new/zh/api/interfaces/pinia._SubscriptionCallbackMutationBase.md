@@ -22,7 +22,7 @@ sidebarDepth: 3
 
   ↳ [`SubscriptionCallbackMutationPatchObject`](pinia.SubscriptionCallbackMutationPatchObject.md)
 
-## 属性 %{#properties}%
+## 属性
 
 ### storeId %{#storeid}%
 
