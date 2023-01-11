@@ -50,10 +50,8 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
     (page) => {
       if (page.url !== 'index.md' && page.contents) {
         page.contents = prependYAML(page.contents, {
-          sidebar: 'auto',
           // TODO: figure out a way to point to the source files?
-          editLinks: false,
-          sidebarDepth: 3,
+          editLink: false,
         })
       }
 
@@ -77,7 +75,11 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
           titleStack.push(line.slice(level).trim())
           currentLevel = level
 
-          const slugifiedTitle = slugify(titleStack.join('-'))
+          // no need to add ids to h1
+          if (level < 2) continue
+
+          // ignore the root level (h1) to match the sidebar
+          const slugifiedTitle = slugify(titleStack.slice(1).join('-'))
           let id
           if (existingIds.has(slugifiedTitle)) {
             const current = existingIds.get(slugifiedTitle)
