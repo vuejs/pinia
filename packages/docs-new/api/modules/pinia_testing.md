@@ -1,21 +1,21 @@
 ---
 sidebar: "auto"
-editLinks: false
+editLink: false
 sidebarDepth: 3
 ---
 
 [API Documentation](../index.md) / @pinia/testing
 
-# Module: @pinia/testing %{#Module:-@pinia/testing}%
+# Module: @pinia/testing
 
-## Interfaces %{#Module:-@pinia/testing-Interfaces}%
+## Interfaces %{#Interfaces}%
 
 - [TestingOptions](../interfaces/pinia_testing.TestingOptions.md)
 - [TestingPinia](../interfaces/pinia_testing.TestingPinia.md)
 
-## Functions %{#Module:-@pinia/testing-Functions}%
+## Functions %{#Functions}%
 
-### createTestingPinia %{#Module:-@pinia/testing-Functions-createTestingPinia}%
+### createTestingPinia %{#Functions-createTestingPinia}%
 
 ▸ **createTestingPinia**(`options?`): [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 
@@ -26,13 +26,13 @@ You can change this with the `stubActions` option. If you are using jest,
 they are replaced with `jest.fn()`, otherwise, you must provide your own
 `createSpy` option.
 
-#### Parameters %{#Module:-@pinia/testing-Functions-createTestingPinia-Parameters}%
+#### Parameters %{#Functions-createTestingPinia-Parameters}%
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `options` | [`TestingOptions`](../interfaces/pinia_testing.TestingOptions.md) | options to configure the testing pinia |
 
-#### Returns %{#Module:-@pinia/testing-Functions-createTestingPinia-Returns}%
+#### Returns %{#Functions-createTestingPinia-Returns}%
 
 [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 

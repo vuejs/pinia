@@ -1,53 +1,53 @@
 ---
 sidebar: "auto"
-editLinks: false
+editLink: false
 sidebarDepth: 3
 ---
 
 [API Documentation](../index.md) / [@pinia/testing](../modules/pinia_testing.md) / TestingOptions
 
-# Interface: TestingOptions %{#Interface:-TestingOptions}%
+# Interface: TestingOptions
 
 [@pinia/testing](../modules/pinia_testing.md).TestingOptions
 
-## Properties %{#Interface:-TestingOptions-Properties}%
+## Properties %{#Properties}%
 
-### createSpy %{#Interface:-TestingOptions-Properties-createSpy}%
+### createSpy %{#Properties-createSpy}%
 
 • `Optional` **createSpy**: (`fn?`: (...`args`: `any`[]) => `any`) => (...`args`: `any`[]) => `any`
 
-#### Type declaration %{#Interface:-TestingOptions-Properties-createSpy-Type-declaration}%
+#### Type declaration %{#Properties-createSpy-Type-declaration}%
 
 ▸ (`fn?`): (...`args`: `any`[]) => `any`
 
 Function used to create a spy for actions and `$patch()`. Pre-configured
 with `jest.fn()` in jest projects or `vi.fn()` in vitest projects.
 
-##### Parameters %{#Interface:-TestingOptions-Properties-createSpy-Type-declaration-Parameters}%
+##### Parameters %{#Properties-createSpy-Type-declaration-Parameters}%
 
 | Name | Type |
 | :------ | :------ |
 | `fn?` | (...`args`: `any`[]) => `any` |
 
-##### Returns %{#Interface:-TestingOptions-Properties-createSpy-Type-declaration-Returns}%
+##### Returns %{#Properties-createSpy-Type-declaration-Returns}%
 
 `fn`
 
 ▸ (...`args`): `any`
 
-##### Parameters %{#Interface:-TestingOptions-Properties-createSpy-Type-declaration-Parameters_1}%
+##### Parameters %{#Properties-createSpy-Type-declaration-Parameters_1}%
 
 | Name | Type |
 | :------ | :------ |
 | `...args` | `any`[] |
 
-##### Returns %{#Interface:-TestingOptions-Properties-createSpy-Type-declaration-Returns_1}%
+##### Returns %{#Properties-createSpy-Type-declaration-Returns_1}%
 
 `any`
 
 ___
 
-### fakeApp %{#Interface:-TestingOptions-Properties-fakeApp}%
+### fakeApp %{#Properties-fakeApp}%
 
 • `Optional` **fakeApp**: `boolean`
 
@@ -58,7 +58,7 @@ Defaults to false.
 
 ___
 
-### initialState %{#Interface:-TestingOptions-Properties-initialState}%
+### initialState %{#Properties-initialState}%
 
 • `Optional` **initialState**: [`StateTree`](../modules/pinia.md#statetree)
 
@@ -67,7 +67,7 @@ allowing you to only set a few properties that are required in your test.
 
 ___
 
-### plugins %{#Interface:-TestingOptions-Properties-plugins}%
+### plugins %{#Properties-plugins}%
 
 • `Optional` **plugins**: [`PiniaPlugin`](pinia.PiniaPlugin.md)[]
 
@@ -76,7 +76,7 @@ your application that will be used while testing.
 
 ___
 
-### stubActions %{#Interface:-TestingOptions-Properties-stubActions}%
+### stubActions %{#Properties-stubActions}%
 
 • `Optional` **stubActions**: `boolean`
 
@@ -88,7 +88,7 @@ handle this in `createSpy()`.
 
 ___
 
-### stubPatch %{#Interface:-TestingOptions-Properties-stubPatch}%
+### stubPatch %{#Properties-stubPatch}%
 
 • `Optional` **stubPatch**: `boolean`
 
