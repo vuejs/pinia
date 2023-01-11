@@ -1,18 +1,18 @@
 ---
 sidebar: "auto"
-editLinks: false
+editLink: false
 sidebarDepth: 3
 ---
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / \_SubscriptionCallbackMutationBase
 
-# Interface: \_SubscriptionCallbackMutationBase %{#Interface:-\_SubscriptionCallbackMutationBase}%
+# Interface: \_SubscriptionCallbackMutationBase
 
 [pinia](../modules/pinia.md)._SubscriptionCallbackMutationBase
 
 Base type for the context passed to a subscription callback. Internal type.
 
-## Hierarchy %{#Interface:-\_SubscriptionCallbackMutationBase-Hierarchy}%
+## Hierarchy %{#Hierarchy}%
 
 - **`_SubscriptionCallbackMutationBase`**
 
@@ -22,9 +22,9 @@ Base type for the context passed to a subscription callback. Internal type.
 
   ↳ [`SubscriptionCallbackMutationPatchObject`](pinia.SubscriptionCallbackMutationPatchObject.md)
 
-## Properties %{#Interface:-\_SubscriptionCallbackMutationBase-Properties}%
+## Properties %{#Properties}%
 
-### events %{#Interface:-\_SubscriptionCallbackMutationBase-Properties-events}%
+### events %{#Properties-events}%
 
 • `Optional` **events**: `DebuggerEvent` \| `DebuggerEvent`[]
 
@@ -34,7 +34,7 @@ devtools and plugins **during development only**.
 
 ___
 
-### storeId %{#Interface:-\_SubscriptionCallbackMutationBase-Properties-storeId}%
+### storeId %{#Properties-storeId}%
 
 • **storeId**: `string`
 
@@ -42,7 +42,7 @@ ___
 
 ___
 
-### type %{#Interface:-\_SubscriptionCallbackMutationBase-Properties-type}%
+### type %{#Properties-type}%
 
 • **type**: [`MutationType`](../enums/pinia.MutationType.md)
 
