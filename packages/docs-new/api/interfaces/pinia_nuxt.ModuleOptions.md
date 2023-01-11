@@ -1,18 +1,18 @@
 ---
 sidebar: "auto"
-editLinks: false
+editLink: false
 sidebarDepth: 3
 ---
 
 [API Documentation](../index.md) / [@pinia/nuxt](../modules/pinia_nuxt.md) / ModuleOptions
 
-# Interface: ModuleOptions %{#Interface:-ModuleOptions}%
+# Interface: ModuleOptions
 
 [@pinia/nuxt](../modules/pinia_nuxt.md).ModuleOptions
 
-## Properties %{#Interface:-ModuleOptions-Properties}%
+## Properties %{#Properties}%
 
-### autoImports %{#Interface:-ModuleOptions-Properties-autoImports}%
+### autoImports %{#Properties-autoImports}%
 
 • `Optional` **autoImports**: (`string` \| [`string`, `string`])[]
 
@@ -31,7 +31,7 @@ autoImports: [
 
 ___
 
-### disableVuex %{#Interface:-ModuleOptions-Properties-disableVuex}%
+### disableVuex %{#Properties-disableVuex}%
 
 • `Optional` **disableVuex**: `boolean`
 

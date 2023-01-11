@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@vueuse/core": "^9.5.0",
-    "pinia": "workspace:^2.0.18",
+    "pinia": "workspace:^2.0.18"
+  },
+  "devDependencies": {
     "vitepress": "file:.yalc/vitepress"
   }
 }
