@@ -18,10 +18,11 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 
   themeConfig: {
     editLink: {
-      // TODO: do we need the /zh/
       pattern: 'https://github.com/vuejs/pinia/edit/v2/packages/docs/:path',
       text: '对本页提出修改建议',
     },
+
+    outlineTitle: '本页内容',
 
     nav: [
       // { text: 'Config', link: '/config/' },
