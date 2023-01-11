@@ -87,6 +87,7 @@ export const sharedConfig = defineConfig({
 
   themeConfig: {
     logo: '/logo.svg',
+    outline: [2, 3],
 
     socialLinks: [
       { icon: 'twitter', link: 'https://twitter.com/posva' },
