@@ -88,12 +88,10 @@ importers:
 
   packages/docs-new:
     specifiers:
-      '@chenfengyuan/vue-countdown': ^2.1.0
       '@vueuse/core': ^9.5.0
       pinia: workspace:^2.0.18
       vitepress: ^1.0.0-0
     dependencies:
-      '@chenfengyuan/vue-countdown': 2.1.0
       '@vueuse/core': 9.5.0
       pinia: link:../pinia
       vitepress: 1.0.0-alpha.35
