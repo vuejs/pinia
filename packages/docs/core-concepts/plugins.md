@@ -361,6 +361,20 @@ declare module 'pinia' {
 There is also a `StoreGetters` type to extract the _getters_ from a Store type. You can also extend the options of _setup stores_ or _option stores_ **only** by extending the types `DefineStoreOptions` and `DefineSetupStoreOptions` respectively.
 :::
 
+### Typing Vue Router
+
+When using Vue Router, you can import types from vue-router and set the types for Pinia. Then, your stores get the types automatically. Here is an example for importing type Router. You can get type inferences for vue-router methods such as push or replace.
+
+```ts
+import type { Router } from 'vue-router'
+
+declare module 'pinia' {
+  export interface PiniaCustomProperties {
+    router: Router;
+  }
+}
+```
+
 ## Nuxt.js
 
 When [using pinia alongside Nuxt](../ssr/nuxt.md), you will have to create a [Nuxt plugin](https://nuxtjs.org/docs/2.x/directory-structure/plugins) first. This will give you access to the `pinia` instance:
