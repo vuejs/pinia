@@ -13,6 +13,18 @@ yarn add pinia @pinia/nuxt
 npm install pinia @pinia/nuxt
 ```
 
+:::tip
+npm을 사용하는 경우,
+종속성 트리 오류를 해결할 수 없는 ERESOLVE 가 발생할 수 있습니다.
+이 경우 `package.json`에 다음을 추가합니다:
+
+```js
+"overrides": { 
+  "vue": "latest"
+}
+```
+:::
+
 모든 것을 처리할 수 있는 모듈을 제공하므로,
 `nuxt.config.js` 파일의 `modules`에 추가하기만 하면 됩니다:
 
