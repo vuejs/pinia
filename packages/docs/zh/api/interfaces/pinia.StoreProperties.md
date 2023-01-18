@@ -6,27 +6,27 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / StoreProperties
 
-# 接口：StoreProperties<Id\> {#interface-storeproperties-id}
+# 接口：StoreProperties<Id\> %{#interface-storeproperties-id}%
 
 [pinia](../modules/pinia.md).StoreProperties
 
  store 的属性。
 
-## 类型参数 {#type-parameters}
+## 类型参数 %{#type-parameters}%
 
 | 名称 | 类型 |
 | :------ | :------ |
 | `Id` | extends `string` |
 
-## 层次结构 {#hierarchy}
+## 层次结构 %{#hierarchy}%
 
 - **`StoreProperties`**
 
   ↳ [`_StoreWithState`](pinia._StoreWithState.md)
 
-## 属性 {#properties}
+## 属性
 
-### $id {#id}
+### $id %{#id}%
 
 • **$id**: `Id`
 
@@ -34,7 +34,7 @@ store 的唯一标识符
 
 ___
 
-### \_customProperties {#customproperties}
+### \_customProperties %{#customproperties}%
 
 • **\_customProperties**: `Set`<`string`\>
 
