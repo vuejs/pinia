@@ -6,13 +6,13 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / \_SubscriptionCallbackMutationBase
 
-# 接口：\_SubscriptionCallbackMutationBase {#interface-subscriptioncallbackmutationbase}
+# 接口：\_SubscriptionCallbackMutationBase %{#interface-subscriptioncallbackmutationbase}%
 
 [pinia](../modules/pinia.md)._SubscriptionCallbackMutationBase
 
 传递给订阅回调的上下文的基本类型。内部类型。
 
-## 层次结构 {#hierarchy}
+## 层次结构 %{#hierarchy}%
 
 - **`_SubscriptionCallbackMutationBase`**
 
@@ -22,9 +22,9 @@ sidebarDepth: 3
 
   ↳ [`SubscriptionCallbackMutationPatchObject`](pinia.SubscriptionCallbackMutationPatchObject.md)
 
-## 属性 {#properties}
+## 属性
 
-### storeId {#storeid}
+### storeId %{#storeid}%
 
 • **storeId**: `string`
 
@@ -32,7 +32,7 @@ sidebarDepth: 3
 
 ___
 
-### 类型 {#type}
+### 类型 %{#type}%
 
 • **type**: [`MutationType`](../enums/pinia.MutationType.md)
 

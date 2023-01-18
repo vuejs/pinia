@@ -6,28 +6,28 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / SubscriptionCallbackMutationPatchObject
 
-# 接口：SubscriptionCallbackMutationPatchObject<S\> {#interface-subscriptioncallbackmutationpatchobject-s}
+# 接口：SubscriptionCallbackMutationPatchObject<S\> %{#interface-subscriptioncallbackmutationpatchobject-s}%
 
 [pinia](../modules/pinia.md).SubscriptionCallbackMutationPatchObject
 
 当 `store.$patch()` 与一个对象一起被调用时，
 传递给订阅回调的上下文。
 
-## 类型参数 {#type-parameters}
+## 类型参数 %{#type-parameters}%
 
 | 名称 |
 | :------ |
 | `S` |
 
-## 层次结构 {#hierarchy}
+## 层次结构 %{#hierarchy}%
 
 - [`_SubscriptionCallbackMutationBase`](pinia._SubscriptionCallbackMutationBase.md)
 
   ↳ **`SubscriptionCallbackMutationPatchObject`**
 
-## 属性 {#properties}
+## 属性
 
-### 事件 {#events}
+### 事件 %{#events}%
 
 • **events**: `DebuggerEvent`[]
 
@@ -35,7 +35,7 @@ sidebarDepth: 3
 
 ___
 
-### payload {#payload}
+### payload %{#payload}%
 
 • **payload**: [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`S`\>
 
@@ -43,24 +43,24 @@ ___
 
 ___
 
-### storeId {#storeid}
+### storeId %{#storeid}%
 
 • **storeId**: `string`
 
 执行 mutation 的 store 的 `id`
 
-#### 继承于 {#inherited-from}
+#### 继承于
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
 ___
 
-### 类型 {#type}
+### 类型 %{#type}%
 
 • **type**: [`patchObject`](../enums/pinia.MutationType.md#patchobject)
 
 mutation 的类型
 
-#### 重写 {#overrides}
+#### 重写 %{#overrides}%
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)

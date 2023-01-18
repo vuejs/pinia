@@ -1,4 +1,4 @@
-# 不使用 `setup()` 的用法 {#usage-without-setup}
+# 不使用 `setup()` 的用法 %{#usage-without-setup}%
 
 即使你没有使用组合式 API，也可以使用 Pinia(如果你使用 Vue 2，你仍然需要安装 `@vue/composition-api` 插件)。虽然我们推荐你试着学习一下组合式 API，但对你和你的团队来说目前可能还不是时候，你可能正在迁移一个应用，或者有其他原因。你可以试试下面几个函数：
 
@@ -8,7 +8,7 @@
 - ⚠️ [mapGetters](../core-concepts/getters.md#without-setup) (只是为了迁移方便，请用 `mapState()` 代替)
 - [mapActions](../core-concepts/actions.md#without-setup)
 
-## 给予整个 store 的访问权 {#giving-access-to-the-whole-store}
+## 给予整个 store 的访问权 %{#giving-access-to-the-whole-store}%
 
 如果你需要访问 store 里的大部分内容，映射 store 的每一个属性可能太麻烦。你可以试试用 `mapStores()` 来访问整个 store：
 
@@ -54,7 +54,7 @@ setMapStoreSuffix('_store')
 export const pinia = createPinia()
 ```
 
-## TypeScript {#typescript}
+## TypeScript %{#typescript}%
 
 默认情况下，所有映射辅助函数都支持自动补全，你不需要做任何事情。如果你调用 `setMapStoreSuffix()` 修改了 `"Store"` 的后缀，你还需要在 TS 文件或 `global.d.ts` 文件的某个地方添加它。最方便的地方就是你调用 `setMapStoreSuffix()` 的地方：
 
