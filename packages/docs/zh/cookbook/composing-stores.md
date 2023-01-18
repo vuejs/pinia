@@ -1,4 +1,4 @@
-# 组合式 Store {#composing-stores}
+# 组合式 Store %{#composing-stores}%
 
 组合式 store 是可以相互使用，Pinia 当然也支持它。但有一个规则需要遵循：
 
@@ -40,7 +40,7 @@ const useY = defineStore('y', () => {
 })
 ```
 
-## 嵌套 store {#nested-stores}
+## 嵌套 store %{#nested-stores}%
 
 注意，如果一个 store 使用另一个 store，你可以直接导入并在 *actions* 和 *getters* 中调用 `useStore()` 函数。然后你就可以像在 Vue 组件中那样使用 store。参考[共享 Getter](#shared-getters) 和[共享 Action](#shared-actions)。
 
@@ -64,7 +64,7 @@ export const useCartStore = defineStore('cart', () => {
 })
 ```
 
-## 共享 Getter {#shared-getters}
+## 共享 Getter %{#shared-getters}%
 
 你可以直接在一个 *getter* 中调用 `useOtherStore()`：
 
@@ -83,7 +83,7 @@ export const useCartStore = defineStore('cart', {
 })
 ```
 
-## 共享 Actions {#shared-actions}
+## 共享 Actions %{#shared-actions}%
 
 *actions* 也一样：
 

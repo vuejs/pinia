@@ -1,4 +1,4 @@
-# Action {#actions}
+# Action %{#actions}%
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/synchronous-and-asynchronous-actions-in-pinia"
@@ -67,7 +67,7 @@ export default defineComponent({
 })
 ```
 
-## 访问其他 store 的 action {#accessing-other-stores-actions}
+## 访问其他 store 的 action %{#accessing-other-stores-actions}%
 
 想要使用另一个 store 的话，那你直接在 *action* 中调用就好了：
 
@@ -92,7 +92,7 @@ export const useSettingsStore = defineStore('settings', {
 })
 ```
 
-## 使用 `setup()` 时的用法 {#usage-with-setup}
+## 使用 `setup()` 时的用法 %{#usage-with-setup}%
 
 你可以将任何 action 作为 store 的一个方法直接调用：
 
@@ -106,7 +106,7 @@ export default {
 }
 ```
 
-## 使用选项式 API 的用法 {#usage-with-the-options-api}
+## 使用选项式 API 的用法 %{#usage-with-the-options-api}%
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-actions-in-the-options-api"
@@ -133,7 +133,7 @@ const useCounterStore = defineStore('counter', {
 })
 ```
 
-### 使用 `setup()` {#with-setup}
+### 使用 `setup()` %{#with-setup}%
 
 虽然并不是每个开发者都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易用。并且不需要额外的映射辅助函数!
 
@@ -155,7 +155,7 @@ export default {
 }
 ```
 
-### 不使用 `setup()` {#without-setup}
+### 不使用 `setup()` %{#without-setup}%
 
 如果你不喜欢使用组合式 API，你也可以使用 `mapActions()` 辅助函数将 action 属性映射为你组件中的方法。
 
@@ -174,7 +174,7 @@ export default {
 }
 ```
 
-## 订阅 action {#subscribing-to-actions}
+## 订阅 action %{#subscribing-to-actions}%
 
 你可以通过 `store.$onAction()` 来监听 action 和它们的结果。传递给它的回调函数会在 action 本身之前执行。`after` 表示在 promise 解决之后，允许你在 action 解决后执行一个一个回调函数。同样地，`onError` 允许你在 action 抛出错误或 reject 时执行一个回调函数。这些函数对于追踪运行时错误非常有用，类似于[Vue docs 中的这个提示](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors)。
 

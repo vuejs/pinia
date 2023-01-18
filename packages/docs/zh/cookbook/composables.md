@@ -1,8 +1,8 @@
-# 处理组合式函数 {#dealing-with-composables}
+# 处理组合式函数 %{#dealing-with-composables}%
 
 [组合式函数](https://cn.vuejs.org/guide/reusability/composables.html#composables)是利用 Vue 组合式 API 来封装和复用有状态逻辑的函数。无论你是自己写，还是使用[外部库](https://vueuse.org/)，或者两者都有，你都可以在 pinia store 中充分发挥组合式函数的力量。
 
-## Option Stores {#option-stores}
+## Option Stores %{#option-stores}%
 
 当定义一个 option store 时，你可以在 `state` 属性中调用组合式函数：
 
@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth', {
 - [useMemoryInfo](https://vueuse.org/core/useMemory/): exposes readonly data
 - [useEyeDropper](https://vueuse.org/core/useEyeDropper/): exposes readonly data and functions
 
-## Setup Stores {#setup-stores}
+## Setup Stores %{#setup-stores}%
 
 另外，当定义一个 setup store 时，你几乎可以使用任何组合式函数，因为每一个属性都会被辨别为 state 、action 或者 getter：
 
@@ -57,7 +57,7 @@ export const useVideoPlayer = defineStore('video', () => {
 })
 ```
 
-## 服务端渲染 {#ssr}
+## 服务端渲染 %{#ssr}%
 
 当处理[服务端渲染](../ssr/index.md)时，你有一些需要额外注意的内容，以便在 store 中使用组合式函数。
 

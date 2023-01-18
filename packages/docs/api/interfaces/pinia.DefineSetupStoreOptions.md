@@ -1,6 +1,6 @@
 ---
 sidebar: "auto"
-editLinks: false
+editLink: false
 sidebarDepth: 3
 ---
 
@@ -17,7 +17,7 @@ augment stores with the plugin API.
 
 [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
-## Type parameters
+## Type parameters %{#Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -26,15 +26,15 @@ augment stores with the plugin API.
 | `G` | `G` |
 | `A` | `A` |
 
-## Hierarchy
+## Hierarchy %{#Hierarchy}%
 
 - [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
 
   ↳ **`DefineSetupStoreOptions`**
 
-## Properties
+## Properties %{#Properties}%
 
-### actions
+### actions %{#Properties-actions}%
 
 • `Optional` **actions**: `A`
 
