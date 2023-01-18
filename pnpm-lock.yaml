@@ -90,12 +90,12 @@ importers:
     specifiers:
       '@vueuse/core': ^9.5.0
       pinia: workspace:^2.0.18
-      vitepress: file:.yalc/vitepress
+      vitepress: 1.0.0-alpha.38
     dependencies:
       '@vueuse/core': 9.5.0
       pinia: link:../pinia
     devDependencies:
-      vitepress: file:packages/docs-new/.yalc/vitepress
+      vitepress: 1.0.0-alpha.38
 
   packages/nuxt:
     specifiers:
@@ -8389,6 +8389,33 @@ packages:
       - stylus
     dev: false
 
+  /vitepress/1.0.0-alpha.38:
+    resolution: {integrity: sha512-p3Kb2KM2dw6gnnnKFeBH01seqXWB6fY6uE+RY9sH8dBY7asP4OulB7cmhnVDVTX94gaPnKFbVsbc3KPe3l2Slw==}
+    hasBin: true
+    dependencies:
+      '@docsearch/css': 3.3.1
+      '@docsearch/js': 3.3.1
+      '@vitejs/plugin-vue': 4.0.0_vite@4.0.4+vue@3.2.45
+      '@vue/devtools-api': 6.4.5
+      '@vueuse/core': 9.10.0_vue@3.2.45
+      body-scroll-lock: 4.0.0-beta.0
+      shiki: 0.12.1
+      vite: 4.0.4
+      vue: 3.2.45
+    transitivePeerDependencies:
+      - '@algolia/client-search'
+      - '@types/node'
+      - '@types/react'
+      - '@vue/composition-api'
+      - less
+      - react
+      - react-dom
+      - sass
+      - stylus
+      - sugarss
+      - terser
+    dev: true
+
   /vitest/0.25.5_happy-dom@7.7.2:
     resolution: {integrity: sha512-lFKSTZV+AjuL44/yNC0aDPKTiasYSqOQ97Gg2G4P2LnjyzQ21ZUs4rQOscHK3lrSnVuir3+1QavHzbDgH4tWQA==}
     engines: {node: '>=v14.16.0'}
@@ -8812,33 +8839,4 @@ packages:
   /zlib/1.0.5:
     resolution: {integrity: sha512-40fpE2II+Cd3k8HWTWONfeKE2jL+P42iWJ1zzps5W51qcTsOUKM5Q5m2PFb0CLxlmFAaUuUdJGc3OfZy947v0w==}
     engines: {node: '>=0.2.0'}
-    dev: true
-
-  file:packages/docs-new/.yalc/vitepress:
-    resolution: {directory: packages/docs-new/.yalc/vitepress, type: directory}
-    name: vitepress
-    version: 1.0.0-alpha.35
-    hasBin: true
-    dependencies:
-      '@docsearch/css': 3.3.1
-      '@docsearch/js': 3.3.1
-      '@vitejs/plugin-vue': 4.0.0_vite@4.0.4+vue@3.2.45
-      '@vue/devtools-api': 6.4.5
-      '@vueuse/core': 9.10.0_vue@3.2.45
-      body-scroll-lock: 4.0.0-beta.0
-      shiki: 0.12.1
-      vite: 4.0.4
-      vue: 3.2.45
-    transitivePeerDependencies:
-      - '@algolia/client-search'
-      - '@types/node'
-      - '@types/react'
-      - '@vue/composition-api'
-      - less
-      - react
-      - react-dom
-      - sass
-      - stylus
-      - sugarss
-      - terser
     dev: true

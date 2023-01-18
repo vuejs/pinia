@@ -12,6 +12,6 @@
     "pinia": "workspace:^2.0.18"
   },
   "devDependencies": {
-    "vitepress": "file:.yalc/vitepress"
+    "vitepress": "1.0.0-alpha.38"
   }
 }
