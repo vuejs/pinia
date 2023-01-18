@@ -1,11 +1,25 @@
 ---
-home: true
-heroImage: /logo.svg
-actionText: 开始使用
-actionLink: /zh/introduction.html
+layout: home
 
-altActionText: Demo 演示
-altActionLink: https://stackblitz.com/github/piniajs/example-vue-3-vite
+title: Pinia
+titleTemplate: The intuitive store for Vue.js
+
+# TODO: translate text and tagline
+
+hero:
+  name: Pinia
+  text: The intuitive store for Vue.js
+  tagline: Type Safe, Extensible, and Modular by design. Forget you are even using a store.
+  image:
+    src: /logo.svg
+    alt: Pinia
+  actions:
+    - theme: brand
+      text: 开始使用
+      link: /zh/introduction
+    - theme: alt
+      text: Demo 演示
+      link: https://stackblitz.com/github/piniajs/example-vue-3-vite
 
 features:
   - title: 💡 所见即所得
@@ -20,18 +34,10 @@ features:
     details: 可构建多个 Store 并允许你的打包工具自动拆分它们。
   - title: 📦 极致轻量化
     details: Pinia 大小只有 1kb 左右，你甚至可能忘记它的存在！
-footer: MIT Licensed | Copyright © 2019-present Eduardo San Martin Morote
 ---
 
-<ClientOnly>
-  <ThemeToggle/>
-  <!-- <TestStore/> -->
-</ClientOnly>
+<script setup>
+import HomeSponsors from '../.vitepress/theme/components/HomeSponsors.vue'
+</script>
 
 <HomeSponsors />
-
-<script setup>
-import HomeSponsors from '../.vitepress/components/HomeSponsors.vue'
-import ThemeToggle from '../.vitepress/components/ThemeToggle.vue'
-// import TestStore from '../.vitepress/components/TestStore.vue'
-</script>

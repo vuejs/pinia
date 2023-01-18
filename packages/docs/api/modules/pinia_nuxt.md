@@ -1,6 +1,6 @@
 ---
 sidebar: "auto"
-editLinks: false
+editLink: false
 sidebarDepth: 3
 ---
 
@@ -8,17 +8,17 @@ sidebarDepth: 3
 
 # Module: @pinia/nuxt
 
-## Interfaces
+## Interfaces %{#Interfaces}%
 
 - [ModuleOptions](../interfaces/pinia_nuxt.ModuleOptions.md)
 
-## Functions
+## Functions %{#Functions}%
 
-### default
+### default %{#Functions-default}%
 
 ▸ **default**(`this`, `inlineOptions`, `nuxt`): `void` \| `Promise`<`void`\>
 
-#### Parameters
+#### Parameters %{#Functions-default-Parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -26,6 +26,6 @@ sidebarDepth: 3
 | `inlineOptions` | [`ModuleOptions`](../interfaces/pinia_nuxt.ModuleOptions.md) |
 | `nuxt` | `Nuxt` |
 
-#### Returns
+#### Returns %{#Functions-default-Returns}%
 
 `void` \| `Promise`<`void`\>

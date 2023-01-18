@@ -6,13 +6,13 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / PiniaPluginContext
 
-# 接口：PiniaPluginContext<Id, S, G, A\> {#interface-piniaplugincontext-id-s-g-a}
+# 接口：PiniaPluginContext<Id, S, G, A\> %{#interface-piniaplugincontext-id-s-g-a}%
 
 [pinia](../modules/pinia.md).PiniaPluginContext
 
 传递给 Pinia 插件的上下文参数。
 
-## 类型参数 {#type-parameters}
+## 类型参数 %{#type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -21,17 +21,17 @@ sidebarDepth: 3
 | `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
 | `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
 
-## 属性 {#properties}
+## 属性
 
-### app {#app}
+### app %{#app}%
 
 • **app**: `App`<`any`\>
 
-用 `Vue.createApp() `创建的当前应用。
+用 `Vue.createApp()`创建的当前应用。
 
 ___
 
-### options {#options}
+### options %{#options}%
 
 • **options**: [`DefineStoreOptionsInPlugin`](pinia.DefineStoreOptionsInPlugin.md)<`Id`, `S`, `G`, `A`\>
 
@@ -39,7 +39,7 @@ ___
 
 ___
 
-### pinia {#pinia}
+### pinia %{#pinia}%
 
 • **pinia**: [`Pinia`](pinia.Pinia.md)
 
@@ -47,8 +47,8 @@ pinia 实例
 
 ___
 
-### store {#store}
+### store %{#store}%
 
 • **store**: [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
 
-目前正在扩展的 store 
+目前正在扩展的 store
