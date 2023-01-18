@@ -1,6 +1,6 @@
 ---
 sidebar: "auto"
-editLinks: false
+editLink: false
 sidebarDepth: 3
 ---
 
@@ -8,14 +8,14 @@ sidebarDepth: 3
 
 # Module: @pinia/testing
 
-## Interfaces
+## Interfaces %{#Interfaces}%
 
 - [TestingOptions](../interfaces/pinia_testing.TestingOptions.md)
 - [TestingPinia](../interfaces/pinia_testing.TestingPinia.md)
 
-## Functions
+## Functions %{#Functions}%
 
-### createTestingPinia
+### createTestingPinia %{#Functions-createTestingPinia}%
 
 ▸ **createTestingPinia**(`options?`): [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 
@@ -26,13 +26,13 @@ You can change this with the `stubActions` option. If you are using jest,
 they are replaced with `jest.fn()`, otherwise, you must provide your own
 `createSpy` option.
 
-#### Parameters
+#### Parameters %{#Functions-createTestingPinia-Parameters}%
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `options` | [`TestingOptions`](../interfaces/pinia_testing.TestingOptions.md) | options to configure the testing pinia |
 
-#### Returns
+#### Returns %{#Functions-createTestingPinia-Returns}%
 
 [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 

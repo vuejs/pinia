@@ -1,6 +1,6 @@
 ---
 sidebar: "auto"
-editLinks: false
+editLink: false
 sidebarDepth: 3
 ---
 
@@ -14,14 +14,14 @@ Options passed to `defineStore()` that are common between option and setup
 stores. Extend this interface if you want to add custom options to both kinds
 of stores.
 
-## Type parameters
+## Type parameters %{#Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
 | `S` | extends [`StateTree`](../modules/pinia.md#statetree) |
 | `Store` | `Store` |
 
-## Hierarchy
+## Hierarchy %{#Hierarchy}%
 
 - **`DefineStoreOptionsBase`**
 

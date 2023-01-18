@@ -6,15 +6,15 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / MutationType
 
-# Enumeration: MutationType {#enumeration-mutationtype}
+# Enumeration: MutationType %{#enumeration-mutationtype}%
 
 [pinia](../modules/pinia.md).MutationType
 
 SubscriptionCallback 的可能类型
 
-## Enumeration Members {#enumeration-members}
+## Enumeration Members %{#enumeration-members}%
 
-### direct {#direct}
+### direct %{#direct}%
 
 • **direct** = ``"direct"``
 
@@ -26,7 +26,7 @@ Direct mutation of the state:
 
 ___
 
-### patchFunction {#patchfunction}
+### patchFunction %{#patchfunction}%
 
 • **patchFunction** = ``"patch function"``
 
@@ -36,7 +36,7 @@ ___
 
 ___
 
-### patchObject {#patchobject}
+### patchObject %{#patchobject}%
 
 • **patchObject** = ``"patch object"``
 

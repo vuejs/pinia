@@ -6,13 +6,13 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptionsInPlugin
 
-# 接口：DefineStoreOptionsInPlugin<Id, S, G, A\> {#interface-definestoreoptionsinplugin-id-s-g-a}
+# 接口：DefineStoreOptionsInPlugin<Id, S, G, A\> %{#interface-definestoreoptionsinplugin-id-s-g-a}%
 
 [pinia](../modules/pinia.md).DefineStoreOptionsInPlugin
 
 创建 pinia 插件时可用的 `options`。
 
-## 类型参数 {#type-parameters}
+## 类型参数 %{#type-parameters}%
 
 | 名字 | 类型 |
 | :------ | :------ |
@@ -21,15 +21,15 @@ sidebarDepth: 3
 | `G` | `G` |
 | `A` | `A` |
 
-## 层次结构 {#hierarchy}
+## 层次结构 %{#hierarchy}%
 
 - `Omit`<[`DefineStoreOptions`](pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\>, ``"id"`` \| ``"actions"``\>
 
   ↳ **`DefineStoreOptionsInPlugin`**
 
-## 属性 {#properties}
+## 属性
 
-### actions {#actions}
+### actions %{#actions}%
 
 • **actions**: `A`
 
@@ -39,13 +39,13 @@ sidebarDepth: 3
 
 ___
 
-### getters {#getters}
+### getters %{#getters}%
 
 • `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
 
 getter 的可选对象
 
-#### 继承于 {#inherited-from}
+#### 继承于
 
 Omit.getters
 
@@ -55,24 +55,24 @@ ___
 
 • `Optional` **state**: () => `S`
 
-#### 类型声明 {#type-declaration}
+#### 类型声明 %{#type-declaration}%
 
 ▸ (): `S`
 
 创建一个新 state 的函数。
 **必须是一个箭头函数**，以确保正确的类型标注!
 
-#### 返回值 {#returns}
+#### 返回值
 
 `S`
 
-#### 继承于 {#inherited-from}
+#### 继承于
 
 Omit.state
 
-## 方法 {#methods}
+## 方法 %{#methods}%
 
-### hydrate {#hydrate}
+### hydrate %{#hydrate}%
 
 ▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
 
@@ -82,7 +82,7 @@ Omit.state
 **`Example`**
 
 如果在你的 `state` 中，你使用了任何 `customRef`，任何 `computed`，或任何在服务器和客户端有不同值的 `ref`，
-你需要手动激活它们。 
+你需要手动激活它们。
 例如，一个存储在本地存储的自定义 ref：
 
 ```ts
@@ -97,17 +97,17 @@ const useStore = defineStore('main', {
 })
 ```
 
-#### 参数 {#parameters}
+#### 参数
 
 | 名字 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
 | `initialState` | `UnwrapRef`<`S`\> | initialState |
 
-#### 返回值 {#returns}
+#### 返回值
 
 `void`
 
-#### 继承于 {#inherited-from}
+#### 继承于
 
 Omit.hydrate

@@ -1,4 +1,4 @@
-# Plugins {#plugins}
+# Plugins %{#plugins}%
 
 由于有了底层 API 的支持，Pinia store 现在完全支持扩展。以下是你可以扩展的内容：
 
@@ -32,7 +32,7 @@ store.secret // 'the cake is a lie'
 
 这对添加全局对象很有用，如路由器、modal 或 toast 管理器。
 
-## 简介 {#introduction}
+## 简介 %{#introduction}%
 
 Pinia 插件是一个函数，可以选择性地返回要添加到 store 的属性。它接收一个可选参数，即 *context*。
 
@@ -54,7 +54,7 @@ pinia.use(myPiniaPlugin)
 
 插件只会应用于**在 `pinia` 传递给应用后**创建的 store，否则它们不会生效。
 
-## 扩展 Store {#augmenting-a-store}
+## 扩展 Store %{#augmenting-a-store}%
 
 你可以直接通过在一个插件中返回包含特定属性的对象来为每个 store 都添加上特定属性：
 
@@ -102,7 +102,7 @@ pinia.use(({ store }) => {
 
 这就是在没有 `.value` 的情况下你依旧可以访问所有计算属性的原因，也是它们为什么是响应式的原因。
 
-### 添加新的 state {#adding-new-state}
+### 添加新的 state %{#adding-new-state}%
 
 如果你想给 store 添加新的 state 属性，或者在激活过程中使用的属性，**你必须同时在两个地方添加它**。
 
@@ -160,7 +160,7 @@ pinia.use(({ store }) => {
 
 :::
 
-## 添加新的外部属性 {#adding-new-external-properties}
+## 添加新的外部属性 %{#adding-new-external-properties}%
 
 当添加外部属性、第三方库的类实例或非响应式的简单值时，你应该先用 `markRaw()` 来包装一下它，再将它传给 pinia。下面是一个在每个 store 中添加路由器的例子：
 
@@ -174,7 +174,7 @@ pinia.use(({ store }) => {
 })
 ```
 
-## 在插件中调用 `$subscribe` {#calling-subscribe-inside-plugins}
+## 在插件中调用 `$subscribe` %{#calling-subscribe-inside-plugins}%
 
 你也可以在插件中使用 [store.$subscribe](./state.md#subscribing-to-the-state) 和 [store.$onAction](./actions.md#subscribing-to-actions) 。
 
@@ -189,7 +189,7 @@ pinia.use(({ store }) => {
 })
 ```
 
-## 添加新的选项 {#adding-new-options}
+## 添加新的选项 %{#adding-new-options}%
 
 在定义 store 时，可以创建新的选项，以便在插件中使用它们。例如，你可以创建一个 `debounce` 选项，允许你让任何 action 实现防抖。
 
@@ -251,7 +251,7 @@ defineStore(
 
 上述一切功能都有类型支持，所以你永远不需要使用 `any` 或 `@ts-ignore`。
 
-### 标注插件类型 {#typing-plugins}
+### 标注插件类型 %{#typing-plugins}%
 
 一个 Pinia 插件可按如下方式实现类型标注：
 
@@ -263,7 +263,7 @@ export function myPiniaPlugin(context: PiniaPluginContext) {
 }
 ```
 
-### 为新的 store 属性添加类型 {#typing-new-store-properties}
+### 为新的 store 属性添加类型 %{#typing-new-store-properties}%
 
 当在 store 中添加新的属性时，你也应该扩展 `PiniaCustomProperties` 接口。
 
@@ -328,7 +328,7 @@ declare module 'pinia' {
 
 :::
 
-### 为新的 state 添加类型 {#typing-new-state}
+### 为新的 state 添加类型 %{#typing-new-state}%
 
 当添加新的 state 属性(包括 `store` 和 `store.$state` )时，你需要将类型添加到 `PiniaCustomStateProperties` 中。与 `PiniaCustomProperties` 不同的是，它只接收 `State` 泛型：
 
@@ -342,7 +342,7 @@ declare module 'pinia' {
 }
 ```
 
-### 为新的定义选项添加类型 {#typing-new-creation-options}
+### 为新的定义选项添加类型 %{#typing-new-creation-options}%
 
 当为 `defineStore()` 创建新选项时，你应该扩展 `DefineStoreOptionsBase`。与 `PiniaCustomProperties` 不同的是，它只暴露了两个泛型：State 和 Store 类型，允许你限制定义选项的可用类型。例如，你可以使用 action 的名称：
 
@@ -361,7 +361,7 @@ declare module 'pinia' {
 还有一个可以从一个 store 类型中提取 *getter* 的 `StoreGetters` 类型。你也可以且**只可以**通过扩展 `DefineStoreOptions` 或 `DefineSetupStoreOptions` 类型来扩展 *setup store* 或 *option store* 的选项。
 :::
 
-## Nuxt.js {#nuxt-js}
+## Nuxt.js %{#nuxt-js}%
 
 当[在 Nuxt 中使用 pinia](../ssr/nuxt.md) 时，你必须先创建一个 [Nuxt 插件](https://nuxtjs.org/docs/2.x/directory-structure/plugins)。这样你才能访问到 `pinia` 实例：
 

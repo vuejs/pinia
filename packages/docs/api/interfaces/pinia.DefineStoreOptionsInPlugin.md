@@ -1,6 +1,6 @@
 ---
 sidebar: "auto"
-editLinks: false
+editLink: false
 sidebarDepth: 3
 ---
 
@@ -12,7 +12,7 @@ sidebarDepth: 3
 
 Available `options` when creating a pinia plugin.
 
-## Type parameters
+## Type parameters %{#Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -21,15 +21,15 @@ Available `options` when creating a pinia plugin.
 | `G` | `G` |
 | `A` | `A` |
 
-## Hierarchy
+## Hierarchy %{#Hierarchy}%
 
 - `Omit`<[`DefineStoreOptions`](pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\>, ``"id"`` \| ``"actions"``\>
 
   ↳ **`DefineStoreOptionsInPlugin`**
 
-## Properties
+## Properties %{#Properties}%
 
-### actions
+### actions %{#Properties-actions}%
 
 • **actions**: `A`
 
@@ -39,40 +39,40 @@ Defaults to an empty object if no actions are defined.
 
 ___
 
-### getters
+### getters %{#Properties-getters}%
 
 • `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
 
 Optional object of getters.
 
-#### Inherited from
+#### Inherited from %{#Properties-getters-Inherited-from}%
 
 Omit.getters
 
 ___
 
-### state
+### state %{#Properties-state}%
 
 • `Optional` **state**: () => `S`
 
-#### Type declaration
+#### Type declaration %{#Properties-state-Type-declaration}%
 
 ▸ (): `S`
 
 Function to create a fresh state. **Must be an arrow function** to ensure
 correct typings!
 
-##### Returns
+##### Returns %{#Properties-state-Type-declaration-Returns}%
 
 `S`
 
-#### Inherited from
+#### Inherited from %{#Properties-state-Inherited-from}%
 
 Omit.state
 
-## Methods
+## Methods %{#Methods}%
 
-### hydrate
+### hydrate %{#Methods-hydrate}%
 
 ▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
 
@@ -97,17 +97,17 @@ const useStore = defineStore('main', {
 })
 ```
 
-#### Parameters
+#### Parameters %{#Methods-hydrate-Parameters}%
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
 | `initialState` | `UnwrapRef`<`S`\> | initialState |
 
-#### Returns
+#### Returns %{#Methods-hydrate-Returns}%
 
 `void`
 
-#### Inherited from
+#### Inherited from %{#Methods-hydrate-Inherited-from}%
 
 Omit.hydrate
