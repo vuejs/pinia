@@ -1,4 +1,4 @@
-# 手册 {#cookbook}
+# 手册 %{#cookbook}%
 
 - [从 Vuex ≤4 迁移](./migration-vuex.md)。用于转换 Vuex ≤4 项目的迁移指南。
 - [HMR](./hot-module-replacement.md)：如何激活热更新并改善开发者体验。

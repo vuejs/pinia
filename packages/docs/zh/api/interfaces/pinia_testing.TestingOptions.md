@@ -6,48 +6,48 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [@pinia/testing](../modules/pinia_testing.md) / TestingOptions
 
-# 接口：TestingOptions {#interface-testingoptions}
+# 接口：TestingOptions %{#interface-testingoptions}%
 
 [@pinia/testing](../modules/pinia_testing.md).TestingOptions
 
-## 属性 {#properties}
+## 属性
 
-### createSpy {#createspy}
+### createSpy %{#createspy}%
 
 • `Optional` **createSpy**: (`fn?`: (...`args`: `any`[]) => `any`) => (...`args`: `any`[]) => `any`
 
-#### 类型声明 {#type-declaration}
+#### 类型声明 %{#type-declaration}%
 
 ▸ (`fn?`): (...`args`: `any`[]) => `any`
 
 用于创建 action 和 `$patch()` 的 spy 的函数。
 在 jest 项目中默认为 `jest.fn()`，在 vitest 项目中默认为 `vi.fn()`。
 
-##### 参数 {#parameters}
+##### 参数
 
 | 名称 | 类型 |
 | :------ | :------ |
 | `fn?` | (...`args`: `any`[]) => `any` |
 
-##### 返回值 {#returns}
+##### 返回值
 
 `fn`
 
 ▸ (...`args`): `any`
 
-##### 参数 {#parameters}
+##### 参数
 
 | 名称 | 类型 |
 | :------ | :------ |
 | `...args` | `any`[] |
 
-##### 返回值 {#returns}
+##### 返回值
 
 `any`
 
 ___
 
-### fakeApp {#fakeapp}
+### fakeApp %{#fakeapp}%
 
 • `Optional` **fakeApp**: `boolean`
 
@@ -58,7 +58,7 @@ ___
 
 ___
 
-### initialState {#initialstate}
+### initialState %{#initialstate}%
 
 • `Optional` **initialState**: [`StateTree`](../modules/pinia.md#statetree)
 
@@ -67,7 +67,7 @@ ___
 
 ___
 
-### 插件 {#plugins}
+### 插件 %{#plugins}%
 
 • `Optional` **plugins**: [`PiniaPlugin`](pinia.PiniaPlugin.md)[]
 
@@ -76,7 +76,7 @@ ___
 
 ___
 
-### stubActions {#stubactions}
+### stubActions %{#stubactions}%
 
 • `Optional` **stubActions**: `boolean`
 
@@ -88,7 +88,7 @@ ___
 
 ___
 
-### stubPatch {#stubpatch}
+### stubPatch %{#stubpatch}%
 
 • `Optional` **stubPatch**: `boolean`
 

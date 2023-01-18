@@ -6,16 +6,16 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / @pinia/testing
 
-# 模块：@pinia/testing {#module-pinia-testing}
+# 模块：@pinia/testing %{#module-pinia-testing}%
 
-## 接口 {#interfaces}
+## 接口 %{#interfaces}%
 
 - [TestingOptions](../interfaces/pinia_testing.TestingOptions.md)
 - [TestingPinia](../interfaces/pinia_testing.TestingPinia.md)
 
-## 函数 {#functions}
+## 函数 %{#functions}%
 
-### createTestingPinia {#createtestingpinia}
+### createTestingPinia %{#createtestingpinia}%
 
 ▸ **createTestingPinia**(`options?`): [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 
@@ -26,13 +26,13 @@ sidebarDepth: 3
 如果你使用 jest，将它们替换为 `jest.fn()`，
 否则，你必须提供你自己的 `createSpy` 选项。
 
-#### 参数 {#parameters}
+#### 参数
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `options` | [`TestingOptions`](../interfaces/pinia_testing.TestingOptions.md) | 配置 pinia 测试实例的选项 |
 
-#### 返回值 {#returns}
+#### 返回值
 
 [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 

@@ -1,6 +1,6 @@
 ---
 sidebar: "auto"
-editLinks: false
+editLink: false
 sidebarDepth: 3
 ---
 
@@ -10,7 +10,7 @@ sidebarDepth: 3
 
 [pinia](../modules/pinia.md).StoreDefinition
 
-## Type parameters
+## Type parameters %{#Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -19,28 +19,28 @@ sidebarDepth: 3
 | `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
 | `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
 
-## Callable
+## Callable %{#Callable}%
 
-### StoreDefinition
+### StoreDefinition %{#Callable-StoreDefinition}%
 
 ▸ **StoreDefinition**(`pinia?`, `hot?`): [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
 
 Returns a store, creates it if necessary.
 
-#### Parameters
+#### Parameters %{#Callable-StoreDefinition-Parameters}%
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `pinia?` | ``null`` \| [`Pinia`](pinia.Pinia.md) | Pinia instance to retrieve the store |
 | `hot?` | [`StoreGeneric`](../modules/pinia.md#storegeneric) | dev only hot module replacement |
 
-#### Returns
+#### Returns %{#Callable-StoreDefinition-Returns}%
 
 [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
 
-## Properties
+## Properties %{#Properties}%
 
-### $id
+### $id %{#Properties-$id}%
 
 • **$id**: `Id`
 

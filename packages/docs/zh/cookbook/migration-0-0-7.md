@@ -1,4 +1,4 @@
-# Migrating from 0.0.7 {#migrating-from-0-0-7}
+# Migrating from 0.0.7 %{#migrating-from-0-0-7}%
 
 The versions after `0.0.7`: `0.1.0`, and `0.2.0`, came with a few big breaking changes. This guide helps you migrate whether you use Vue 2 or Vue 3. The whole changelog can be found in the repository:
 
@@ -7,7 +7,7 @@ The versions after `0.0.7`: `0.1.0`, and `0.2.0`, came with a few big breaking c
 
 If you have questions or issues regarding the migration, feel free to [open a discussion](https://github.com/vuejs/pinia/discussions/categories/q-a) to ask for help.
 
-## No more `store.state` {#no-more-store-state}
+## No more `store.state` %{#no-more-store-state}%
 
 You no longer access the store state via a `state` property, you can directly access any state property.
 
@@ -36,7 +36,7 @@ You can still access the whole store state with `$state` when needed:
 +store.$state = newState
 ```
 
-## Rename of store properties {#rename-of-store-properties}
+## Rename of store properties %{#rename-of-store-properties}%
 
 All store properties (`id`, `patch`, `reset`, etc) are now prefixed with `$` to allow properties defined on the store with the same names. Tip: you can refactor your whole codebase with F2 (or right-click + Refactor) on each of the store's properties
 
@@ -52,7 +52,7 @@ All store properties (`id`, `patch`, `reset`, etc) are now prefixed with `$` to 
 +store.$id
 ```
 
-## The Pinia instance {#the-pinia-instance}
+## The Pinia instance %{#the-pinia-instance}%
 
 It's now necessary to create a pinia instance and install it:
 
@@ -84,7 +84,7 @@ createApp(App).use(pinia).mount('#app')
 
 The `pinia` instance is what holds the state and should **be unique per application**. Check the SSR section of the docs for more details.
 
-## SSR changes {#ssr-changes}
+## SSR changes %{#ssr-changes}%
 
 The SSR plugin `PiniaSsr` is no longer necessary and has been removed.
 With the introduction of pinia instances, `getRootState()` is no longer necessary and should be replaced with `pinia.state.value`:
