@@ -86,6 +86,9 @@ html.dark:root {
   --vp-c-bg: var(--vp-c-black);
   --vp-c-bg-soft: var(--vp-c-black-light);
   --vp-c-bg-mute: var(--vp-c-black-light);
+  --vp-c-bg-soft-mute: var(--vp-c-black-lighter);
+  --vp-c-bg-alt: #0d121b;
+  --vp-c-bg-elv: var(--vp-c-bg-soft);
 
   --vp-home-hero-name-background: -webkit-linear-gradient(
     78deg,
