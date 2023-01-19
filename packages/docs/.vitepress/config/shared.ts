@@ -1,7 +1,12 @@
 import { defineConfig, HeadConfig } from 'vitepress'
 
 export const META_IMAGE = 'https://pinia.vuejs.org/social.png'
-export const isProduction = process.env.NODE_ENV === 'production'
+export const isProduction =
+  process.env.NETLIFY && process.env.CONTEXT === 'production'
+
+if (process.env.NETLIFY) {
+  console.log('Netlify build', process.env.CONTEXT)
+}
 
 const productionHead: HeadConfig[] = [
   [
@@ -59,16 +64,6 @@ export const sharedConfig = defineConfig({
       {
         property: 'twitter:image',
         content: META_IMAGE,
-      },
-    ],
-
-    [
-      'link',
-      {
-        rel: 'preload',
-        href: '/dank-mono.css',
-        as: 'style',
-        onload: "this.onload=null;this.rel='stylesheet'",
       },
     ],
 
