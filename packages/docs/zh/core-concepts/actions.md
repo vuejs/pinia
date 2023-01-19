@@ -169,7 +169,7 @@ export default {
     // 与从 store.increment() 调用相同
     ...mapActions(useCounterStore, ['increment'])
     // 与上述相同，但将其注册为this.myOwnName()
-    ...mapActions(useCounterStore, { myOwnName: 'doubleCount' }),
+    ...mapActions(useCounterStore, { myOwnName: 'increment' }),
   },
 }
 ```
