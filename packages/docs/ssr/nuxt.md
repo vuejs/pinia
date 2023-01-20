@@ -10,6 +10,16 @@ yarn add pinia @pinia/nuxt
 npm install pinia @pinia/nuxt
 ```
 
+:::tip 
+If you're using npm, you might encounter an _ERESOLVE unable to resolve dependency tree_ error. In that case, add the following to your `package.json`:
+
+```js
+"overrides": { 
+  "vue": "latest"
+}
+```
+:::
+
 We supply a _module_ to handle everything for you, you only need to add it to `modules` in your `nuxt.config.js` file:
 
 ```js

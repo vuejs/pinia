@@ -6,7 +6,7 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / DefineSetupStoreOptions
 
-# 接口：DefineSetupStoreOptions<Id, S, G, A\> {#interface-definesetupstoreoptions-id-s-g-a}
+# 接口：DefineSetupStoreOptions<Id, S, G, A\> %{#interface-definesetupstoreoptions-id-s-g-a}%
 
 [pinia](../modules/pinia.md).DefineSetupStoreOptions
 
@@ -17,7 +17,7 @@ sidebarDepth: 3
 
 [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
-## 类型参数 {#type-parameters}
+## 类型参数 %{#type-parameters}%
 
 | 名称 | 类型 |
 | :------ | :------ |
@@ -26,15 +26,15 @@ sidebarDepth: 3
 | `G` | `G` |
 | `A` | `A` |
 
-## 层次结构 {#hierarchy}
+## 层次结构 %{#hierarchy}%
 
 - [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
 
   ↳ **`DefineSetupStoreOptions`**
 
-## 属性 {#properties}
+## 属性
 
-### actions {#actions}
+### actions %{#actions}%
 
 • `Optional` **actions**: `A`
 

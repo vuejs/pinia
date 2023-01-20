@@ -1,3 +1,9 @@
+## [2.0.29](https://github.com/vuejs/pinia/compare/pinia@2.0.28...pinia@2.0.29) (2023-01-15)
+
+### Bug Fixes
+
+- **types:** type storeToRefs getters as ComputedRef ([#1898](https://github.com/vuejs/pinia/issues/1898)) ([dcf7ef0](https://github.com/vuejs/pinia/commit/dcf7ef0d3a6773da97c5cdde4b9a958492a15d7d))
+
 ## [2.0.28](https://github.com/vuejs/pinia/compare/pinia@2.0.27...pinia@2.0.28) (2022-12-09)
 
 ### Bug Fixes

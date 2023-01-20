@@ -1,34 +1,37 @@
-export default {
-  vitepressConfig: {
-    title: 'Pinia',
-    lang: 'en-US',
-    description: 'The Vue Store that you will enjoy using',
-  },
+import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
+
+export const META_URL = 'https://pinia.vuejs.org'
+export const META_TITLE = 'Pinia 🍍'
+export const META_DESCRIPTION =
+  'Intuitive, type safe, light and flexible Store for Vue'
+
+export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
+  description: META_DESCRIPTION,
+  head: [
+    ['meta', { property: 'og:url', content: META_URL }],
+    ['meta', { property: 'og:description', content: META_DESCRIPTION }],
+    ['meta', { property: 'twitter:url', content: META_URL }],
+    ['meta', { property: 'twitter:title', content: META_TITLE }],
+    ['meta', { property: 'twitter:description', content: META_DESCRIPTION }],
+  ],
+
   themeConfig: {
-    label: 'English',
-    selectText: 'Languages',
-    editLinkText: 'Suggest changes to this page',
-    lastUpdated: 'Last Updated',
+    editLink: {
+      pattern: 'https://github.com/vuejs/pinia/edit/v2/packages/docs/:path',
+      text: 'Suggest changes to this page',
+    },
 
     nav: [
-      { text: 'Guide', link: '/introduction.html' },
-      { text: 'API', link: '/api/' },
       // { text: 'Config', link: '/config/' },
       // { text: 'Plugins', link: '/plugins/' },
+      { text: 'API', link: '/api/', activeMatch: '^/api/' },
+      { text: 'Cookbook', link: '/cookbook/', activeMatch: '^/cookbook/' },
       {
         text: 'Links',
         items: [
           {
             text: 'Discussions',
             link: 'https://github.com/vuejs/pinia/discussions',
-          },
-          {
-            text: 'Chat',
-            link: 'https://chat.vuejs.org',
-          },
-          {
-            text: 'Twitter',
-            link: 'https://twitter.com/posva',
           },
           {
             text: 'Changelog',
@@ -42,7 +45,7 @@ export default {
       '/api/': [
         {
           text: 'packages',
-          children: [
+          items: [
             { text: 'pinia', link: '/api/modules/pinia.html' },
             { text: '@pinia/nuxt', link: '/api/modules/pinia_nuxt.html' },
             {
@@ -56,7 +59,7 @@ export default {
       '/': [
         {
           text: 'Introduction',
-          children: [
+          items: [
             {
               text: 'What is Pinia?',
               link: '/introduction.html',
@@ -69,7 +72,7 @@ export default {
         },
         {
           text: 'Core Concepts',
-          children: [
+          items: [
             { text: 'Defining a Store', link: '/core-concepts/' },
             { text: 'State', link: '/core-concepts/state.html' },
             { text: 'Getters', link: '/core-concepts/getters.html' },
@@ -83,7 +86,7 @@ export default {
         },
         {
           text: 'Server-Side Rendering (SSR)',
-          children: [
+          items: [
             {
               text: 'Vue and Vite',
               link: '/ssr/',
@@ -96,8 +99,13 @@ export default {
         },
         {
           text: 'Cookbook',
-          link: '/cookbook/',
-          children: [
+          collapsible: true,
+          collapsed: false,
+          items: [
+            {
+              text: 'Index',
+              link: '/cookbook/',
+            },
             {
               text: 'Migration from Vuex ≤4',
               link: '/cookbook/migration-vuex.html',

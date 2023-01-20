@@ -32,14 +32,13 @@
 import sponsors from './sponsors.json'
 import { computed } from 'vue'
 import type { PropType } from 'vue'
-import { darkStorageConfig } from '../theme/dark-theme'
-import { useDark } from '@vueuse/core'
+import { useData } from 'vitepress'
 
-const isDark = useDark(darkStorageConfig)
+const { isDark } = useData()
 
 const props = defineProps({
   name: {
-    type: String as PropType<'gold' | 'platinum' | 'silver' | 'bronze'>,
+    type: String as PropType<'Gold' | 'Platinum' | 'Silver' | 'Bronze'>,
     required: true,
   },
   size: {
@@ -75,7 +74,9 @@ p {
 }
 
 h3 {
-  margin: 0 0 10px;
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin: 0.75em 0;
 }
 
 img {
