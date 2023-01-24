@@ -73,26 +73,29 @@ export const Layout = defineComponent({
                     ),
                   ]),
             ]),
-          'sidebar-bottom': () =>
-            h('div', { class: 'sponsors' }, [
-              h('span', 'Sponsors'),
-              ...sponsors.gold.map(({ href, imgSrcDark, imgSrcLight, alt }) =>
-                h(
-                  'a',
-                  {
-                    href,
-                    target: '_blank',
-                    rel: 'noopener',
-                  },
-                  [
-                    h('img', {
-                      src: isDark.value ? imgSrcDark : imgSrcLight,
-                      alt,
-                    }),
-                  ]
-                )
-              ),
-            ]),
+          'sidebar-bottom': sponsors.gold.length
+            ? () =>
+                h('div', { class: 'sponsors' }, [
+                  h('span', 'Sponsors'),
+                  ...sponsors.gold.map(
+                    ({ href, imgSrcDark, imgSrcLight, alt }) =>
+                      h(
+                        'a',
+                        {
+                          href,
+                          target: '_blank',
+                          rel: 'noopener',
+                        },
+                        [
+                          h('img', {
+                            src: isDark.value ? imgSrcDark : imgSrcLight,
+                            alt,
+                          }),
+                        ]
+                      )
+                  ),
+                ])
+            : undefined,
         }
       )
   },
