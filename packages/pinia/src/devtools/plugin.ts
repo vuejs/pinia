@@ -386,7 +386,7 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
 
       store._customProperties.forEach((name) => {
         watch(
-          () => unref(store[name]),
+          () => unref<unknown>(store[name]),
           (newValue, oldValue) => {
             api.notifyComponentUpdate()
             api.sendInspectorState(INSPECTOR_ID)
