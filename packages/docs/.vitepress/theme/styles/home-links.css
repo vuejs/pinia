@@ -1,0 +1,65 @@
+/* Style to get the cheat sheet link in the home page */
+
+a.cta {
+  text-align: center;
+  border-radius: 8px;
+}
+
+a.cta:hover {
+  border-color: var(--vp-c-brand);
+  background-color: var(--c-bg-accent);
+}
+
+a.cta.vue-mastery::before {
+  content: '';
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  background-image: url('https://firebasestorage.googleapis.com/v0/b/vue-mastery.appspot.com/o/flamelink%2Fmedia%2Fvue-mastery-logo-small.png?alt=media&token=941fcc3a-2b6f-40e9-b4c8-56b3890da108');
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  margin-right: 0.5em;
+}
+
+a.cta.vueschool {
+  position: relative;
+  color: currentColor;
+  padding-left: 38px !important;
+}
+a.cta.vueschool::before {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 20px;
+  height: 20px;
+  top: calc(50% - 10px);
+  left: 12px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+}
+
+a.cta.vueschool::after {
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  top: calc(50% - 4px);
+  left: 20px;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 7px solid currentColor;
+}
+
+@media (max-width: 420px) {
+  a.cta.cta.vue-mastery {
+    max-width: 320px;
+    line-height: 1.5em;
+    white-space: normal;
+    display: block;
+    padding-bottom: 10px;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
