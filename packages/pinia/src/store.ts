@@ -674,10 +674,11 @@ function createSetupStore<
     // avoid listing internal properties in devtools
     ;(['_p', '_hmrPayload', '_getters', '_customProperties'] as const).forEach(
       (p) => {
-        Object.defineProperty(store, p, {
-          value: store[p],
-          ...nonEnumerable,
-        })
+        Object.defineProperty(
+          store,
+          p,
+          assign({ value: store[p] }, nonEnumerable)
+        )
       }
     )
   }

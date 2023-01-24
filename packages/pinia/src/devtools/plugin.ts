@@ -35,6 +35,7 @@ const componentStateTypes: string[] = []
 
 const MUTATIONS_LAYER_ID = 'pinia:mutations'
 const INSPECTOR_ID = 'pinia'
+const { assign } = Object
 
 /**
  * Gets the displayed name of a store in devtools
@@ -420,10 +421,10 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
           const eventData: TimelineEvent = {
             time: now(),
             title: formatMutationType(type),
-            data: {
-              store: formatDisplay(store.$id),
-              ...formatEventData(events),
-            },
+            data: assign(
+              { store: formatDisplay(store.$id) },
+              formatEventData(events)
+            ),
             groupId: activeAction,
           }
 
