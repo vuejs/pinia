@@ -397,7 +397,7 @@ function createSetupStore<
           })
       }
 
-      // allow the afterCallback to override the return value
+      // trigger after callbacks
       triggerSubscriptions(afterCallbackList, ret)
       return ret
     }
