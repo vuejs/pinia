@@ -18,7 +18,12 @@ hero:
     - theme: alt
       text: Demo
       link: https://stackblitz.com/github/piniajs/example-vue-3-vite
-
+    - theme: cta vueschool
+      text: Watch Video Introduction
+      link: https://vueschool.io/lessons/introduction-to-pinia?friend=vuerouter&utm_source=pinia&utm_medium=link&utm_campaign=homepage
+    - theme: cta vue-mastery
+      text: Get the Pinia Cheat Sheet
+      link: https://www.vuemastery.com/pinia?coupon=PINIA-DOCS&via=eduardo
 
 features:
   - title: 💡 Intuitive
@@ -37,6 +42,7 @@ features:
 
 <script setup>
 import HomeSponsors from './.vitepress/theme/components/HomeSponsors.vue'
+import './.vitepress/theme/styles/home-links.css'
 </script>
 
 <HomeSponsors />
