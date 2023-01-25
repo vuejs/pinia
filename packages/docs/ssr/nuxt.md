@@ -10,7 +10,7 @@ yarn add pinia @pinia/nuxt
 npm install pinia @pinia/nuxt
 ```
 
-:::tip 
+:::tip
 If you're using npm, you might encounter an _ERESOLVE unable to resolve dependency tree_ error. In that case, add the following to your `package.json`:
 
 ```js
@@ -18,6 +18,7 @@ If you're using npm, you might encounter an _ERESOLVE unable to resolve dependen
   "vue": "latest"
 }
 ```
+
 :::
 
 We supply a _module_ to handle everything for you, you only need to add it to `modules` in your `nuxt.config.js` file:
@@ -47,6 +48,15 @@ export default {
     const store = useStore($pinia)
   },
 }
+```
+
+As with `onServerPrefetch()`, you don't need to do anything special if you want to call a store action within `asyncData()`:
+
+```vue
+<script setup>
+const store = useStore()
+const { data } = await useAsyncData('user', () => store.fetchUser())
+</script>
 ```
 
 ## Auto imports
