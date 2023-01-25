@@ -38,41 +38,41 @@ Added in [2.0.0-rc.0](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHAN
 
 Replace any usage of the type `GenericStore` with `StoreGeneric`. This is the new generic store type that should accept any kind of store. If you were writing functions using the type `Store` without passing its generics (e.g. `Store<Id, State, Getters, Actions>`), you should also use `StoreGeneric` as the `Store` type without generics creates an empty store type.
 
-```diff
--function takeAnyStore(store: Store) {}
-+function takeAnyStore(store: StoreGeneric) {}
+```ts
+function takeAnyStore(store: Store) {} // [!code --]
+function takeAnyStore(store: StoreGeneric) {} // [!code ++]
 
--function takeAnyStore(store: GenericStore) {}
-+function takeAnyStore(store: StoreGeneric) {}
+function takeAnyStore(store: GenericStore) {} // [!code --]
+function takeAnyStore(store: StoreGeneric) {} // [!code ++]
 ```
 
 ## `DefineStoreOptions` for plugins
 
 If you were writing plugins, using TypeScript, and extending the type `DefineStoreOptions` to add custom options, you should rename it to `DefineStoreOptionsBase`. This type will apply to both setup and options stores.
 
-```diff
- declare module 'pinia' {
--  export interface DefineStoreOptions<S, Store> {
-+  export interface DefineStoreOptionsBase<S, Store> {
-     debounce?: {
-       [k in keyof StoreActions<Store>]?: number
-     }
-   }
- }
+```ts
+declare module 'pinia' {
+  export interface DefineStoreOptions<S, Store> { // [!code --]
+  export interface DefineStoreOptionsBase<S, Store> { // [!code ++]
+    debounce?: {
+      [k in keyof StoreActions<Store>]?: number
+    }
+  }
+}
 ```
 
 ## `PiniaStorePlugin` was renamed
 
 The type `PiniaStorePlugin` was renamed to `PiniaPlugin`.
 
-```diff
--import { PiniaStorePlugin } from 'pinia'
-+import { PiniaPlugin } from 'pinia'
+```ts
+import { PiniaStorePlugin } from 'pinia' // [!code --]
+import { PiniaPlugin } from 'pinia' // [!code ++]
 
--const piniaPlugin: PiniaStorePlugin = () => {
-+const piniaPlugin: PiniaPlugin = () => {
-   // ...
- }
+const piniaPlugin: PiniaStorePlugin = () => { // [!code --]
+const piniaPlugin: PiniaPlugin = () => { // [!code ++]
+  // ...
+}
 ```
 
 **Note this change can only be done after upgrading to the latest version of Pinia without deprecations**.
@@ -103,6 +103,7 @@ This is due to the modernization of dist files to support native ESM modules in 
 
 - If you are using Vue CLI 4.x, upgrade your dependencies. This should include the fix below.
   - If upgrading is not possible for you, add this to your `vue.config.js`:
+
     ```js
     // vue.config.js
     module.exports = {
@@ -119,7 +120,9 @@ This is due to the modernization of dist files to support native ESM modules in 
       },
     }
     ```
+
 - If you are manually handling webpack, you will have to let it know how to handle `.mjs` files:
+
   ```js
   // webpack.config.js
   module.exports = {
@@ -143,7 +146,7 @@ Pinia v2 no longer hijacks Vue Devtools v5, it requires Vue Devtools v6. Find th
 
 If you are using Nuxt, pinia has now it's dedicated Nuxt package 🎉. Install it with:
 
-```shell
+```bash
 npm i @pinia/nuxt
 # or with yarn
 yarn add @pinia/nuxt
@@ -153,26 +156,26 @@ Also make sure to **update your `@nuxtjs/composition-api` package**.
 
 Then adapt your `nuxt.config.js` and your `tsconfig.json` if you are using TypeScript:
 
-```diff
- // nuxt.config.js
- module.exports {
-   buildModules: [
-     '@nuxtjs/composition-api/module',
--    'pinia/nuxt',
-+    '@pinia/nuxt',
-   ],
- }
+```js
+// nuxt.config.js
+module.exports {
+  buildModules: [
+    '@nuxtjs/composition-api/module',
+    'pinia/nuxt', // [!code --]
+    '@pinia/nuxt', // [!code ++]
+  ],
+}
 ```
 
-```diff
- // tsconfig.json
- {
-   "types": [
-     // ...
--    "pinia/nuxt/types"
-+    "@pinia/nuxt"
-   ]
- }
+```json
+// tsconfig.json
+{
+  "types": [
+    // ...
+    "pinia/nuxt/types" // [!code --]
+    "@pinia/nuxt" // [!code ++]
+  ]
+}
 ```
 
 It is also recommended to give [the dedicated Nuxt section](../ssr/nuxt.md) a read.
