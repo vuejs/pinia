@@ -54,18 +54,19 @@ export const useUsers = defineStore('users', {
 
 You are also completely free to set whatever arguments you want and return anything. When calling actions, everything will be automatically inferred!
 
-Actions are invoked like methods:
+Actions are invoked like function or regular methods:
 
-```js
-export default defineComponent({
-  setup() {
-    const store = useCounterStore()
-    // call the action as a method of the store
-    store.randomizeCounter()
+```vue
+<script setup>
+const store = useCounterStore()
+// call the action as a method of the store
+store.randomizeCounter()
+</script>
 
-    return {}
-  },
-})
+<template>
+  <!-- Even on the template -->
+  <button @click="store.randomizeCounter()">Randomize</button>
+</template>
 ```
 
 ## Accessing other stores actions
@@ -91,20 +92,6 @@ export const useSettingsStore = defineStore('settings', {
     },
   },
 })
-```
-
-## Usage with `setup()`
-
-You can directly call any action as a method of the store:
-
-```js
-export default {
-  setup() {
-    const store = useCounterStore()
-
-    store.randomizeCounter()
-  },
-}
 ```
 
 ## Usage with the Options API
@@ -138,10 +125,11 @@ export const useCounterStore = defineStore('counter', {
 
 While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work within the Options API. No extra map helper functions needed!
 
-```js
+```vue
+<script>
 import { useCounterStore } from '../stores/counter'
 
-export default {
+export default defineComponent({
   setup() {
     const counterStore = useCounterStore()
 
@@ -153,7 +141,8 @@ export default {
       console.log('New Count:', this.counterStore.count)
     },
   },
-}
+})
+</script>
 ```
 
 ### Without `setup()`
@@ -220,15 +209,11 @@ unsubscribe()
 
 By default, _action subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you also want to keep them after the component is unmounted, pass `true` as the second argument to _detach_ the _action subscription_ from the current component:
 
-```js
-export default {
-  setup() {
-    const someStore = useSomeStore()
+```vue
+<script setup>
+const someStore = useSomeStore()
 
-    // this subscription will be kept even after the component is unmounted
-    someStore.$onAction(callback, true)
-
-    // ...
-  },
-}
+// this subscription will be kept even after the component is unmounted
+someStore.$onAction(callback, true)
+</script>
 ```
