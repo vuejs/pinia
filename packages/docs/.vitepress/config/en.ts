@@ -24,6 +24,11 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
     nav: [
       // { text: 'Config', link: '/config/' },
       // { text: 'Plugins', link: '/plugins/' },
+      {
+        text: 'Guide',
+        link: '/core-concepts/',
+        activeMatch: '^/core-concepts/',
+      },
       { text: 'API', link: '/api/', activeMatch: '^/api/' },
       { text: 'Cookbook', link: '/cookbook/', activeMatch: '^/cookbook/' },
       {
