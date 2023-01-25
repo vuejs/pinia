@@ -42,19 +42,15 @@ export const useCounterStore = defineStore('counter', {
 Then you can access the getter directly on the store instance:
 
 ```vue
+<script setup>
+import { useCounterStore } from './counterStore'
+
+const store = useCounterStore()
+</script>
+
 <template>
   <p>Double count is {{ store.doubleCount }}</p>
 </template>
-
-<script>
-export default {
-  setup() {
-    const store = useCounterStore()
-
-    return { store }
-  },
-}
-</script>
 ```
 
 ## Accessing other getters
@@ -101,14 +97,13 @@ export const useStore = defineStore('main', {
 and use in component:
 
 ```vue
-<script>
-export default {
-  setup() {
-    const store = useStore()
+<script setup>
+import { useUserListStore } from './store'
 
-    return { getUserById: store.getUserById }
-  },
-}
+const userList = useUserListStore()
+const { getUserById } = storeToRefs(userList)
+// note you will have to use `getUserById.value` to access
+// the function within the <script setup>
 </script>
 
 <template>
@@ -153,15 +148,13 @@ export const useStore = defineStore('main', {
 
 You can directly access any getter as a property of the store (exactly like state properties):
 
-```js
-export default {
-  setup() {
-    const store = useCounterStore()
+```vue
+<script setup>
+const store = useCounterStore()
 
-    store.count = 3
-    store.doubleCount // 6
-  },
-}
+store.count = 3
+store.doubleCount // 6
+</script>
 ```
 
 ## Usage with the Options API
@@ -195,13 +188,15 @@ export const useCounterStore = defineStore('counter', {
 
 While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
 
-```js
+```vue
+<script>
 import { useCounterStore } from '../stores/counter'
 
-export default {
+export default defineComponent({
   setup() {
     const counterStore = useCounterStore()
 
+    // **only return the whole store** instead of destructuring
     return { counterStore }
   },
   computed: {
@@ -209,8 +204,11 @@ export default {
       return this.counterStore.doubleCount * 2
     },
   },
-}
+})
+</script>
 ```
+
+This is useful while migrating a component from the Options API to the Composition API but **should only be a migration step**, always try not to mix both API styles within the same component.
 
 ### Without `setup()`
 

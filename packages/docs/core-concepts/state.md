@@ -233,21 +233,17 @@ cartStore.$subscribe((mutation, state) => {
 
 By default, _state subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you also want to keep them after the component is unmounted, pass `{ detached: true }` as the second argument to _detach_ the _state subscription_ from the current component:
 
-```js
-export default {
-  setup() {
-    const someStore = useSomeStore()
+```vue
+<script setup>
+const someStore = useSomeStore()
 
-    // this subscription will be kept even after the component is unmounted
-    someStore.$subscribe(callback, { detached: true })
-
-    // ...
-  },
-}
+// this subscription will be kept even after the component is unmounted
+someStore.$subscribe(callback, { detached: true })
+</script>
 ```
 
 :::tip
-You can watch the whole state on the `pinia` instance:
+You can _watch_ the whole state on the `pinia` instance with a single `watch()`:
 
 ```js
 watch(

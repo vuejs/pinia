@@ -6,15 +6,12 @@ If you are using **Nuxt.js,** you need to read [**these instructions**](./nuxt.m
 
 Creating stores with Pinia should work out of the box for SSR as long as you call your `useStore()` functions at the top of `setup` functions, `getters` and `actions`:
 
-```js
-export default defineComponent({
-  setup() {
-    // this works because pinia knows what application is running inside of
-    // `setup()`
-    const main = useMainStore()
-    return { main }
-  },
-})
+```vue
+<script setup>
+// this works because pinia knows what application is running inside of
+// `setup`
+const main = useMainStore()
+</script>
 ```
 
 ## Using the store outside of `setup()`
@@ -45,6 +42,18 @@ export default {
     const store = useStore(this.$pinia)
   },
 }
+```
+
+Note you don't need to do anything special when using `onServerPrefetch()`:
+
+```vue
+<script setup>
+const store = useStore()
+onServerPrefetch(async () => {
+  // ✅ this will work
+  await store.fetchData()
+})
+</script>
 ```
 
 ## State hydration
