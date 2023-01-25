@@ -13,6 +13,7 @@
   --c-teal-light: #33898d;
 
   --c-white-dark: #f8f8f8;
+  --vp-c-black-darker: #0d121b;
   --vp-c-black: #111827;
   --vp-c-black-light: #161f32;
   --vp-c-black-lighter: #262a44;
@@ -20,6 +21,7 @@
   --c-green-light: #8ae99c;
   --c-green: #52ce63;
   --c-green-dark: #51a256;
+  --c-green-darker: #316334;
 
   --vp-c-text-dark-1: #d9e6eb;
   --vp-c-text-dark-2: #c4dde6;
@@ -30,14 +32,13 @@
   /* #f9fafb */
 
   /* light theme is a bit different */
-  --vp-c-brand: var(--c-teal);
-  --vp-c-brand-dark: var(--c-yellow-dark);
-  --vp-c-brand-light: var(--c-teal-light);
+  --vp-c-brand: var(--c-green-darker);
+  --vp-c-brand-light: var(--c-green);
   --vp-c-brand-lighter: var(--c-yellow-lighter);
   --vp-c-brand-lightest: var(--c-yellow-lighter);
 
-  --vp-c-brand-dark: var(--c-yellow-dark);
-  --vp-c-brand-darker: var(--c-yellow-darker);
+  --vp-c-brand-dark: var(--c-green-dark);
+  --vp-c-brand-darker: var(--c-green-darker);
   --vp-c-brand-dimm: rgba(100, 108, 255, 0.08);
   --vp-c-brand-text: var(--c-text-light-1);
   --c-bg-accent: var(--c-white-dark);
@@ -47,7 +48,7 @@
     'Courier New', monospace;
   --code-font-size: 16px;
 
-  --vp-code-block-bg: var(--vp-c-bg-soft);
+  --vp-code-block-bg: var(--vp-c-bg-alt);
   --vp-code-line-highlight-color: rgba(0, 0, 0, 0.075);
 
   /* --vp-c-brand: #646cff; */
@@ -68,6 +69,7 @@ html.dark:root {
 
   --vp-c-brand: var(--c-yellow);
   --vp-c-brand-dark: var(--c-yellow-dark);
+  --vp-c-brand-darker: var(--c-yellow-darker);
   --vp-c-brand-light: var(--c-yellow-light);
 
   --vp-c-bg-alpha-with-backdrop: rgba(20, 25, 36, 0.7);
@@ -89,6 +91,10 @@ html.dark:root {
   --vp-c-bg-soft-mute: var(--vp-c-black-lighter);
   --vp-c-bg-alt: #0d121b;
   --vp-c-bg-elv: var(--vp-c-bg-soft);
+  --vp-c-bg-elv-mute: var(--vp-c-bg-soft-mute);
+  --vp-c-mute: var(--vp-c-bg-mute);
+  --vp-c-mute-dark: var(--vp-c-black-lighter);
+  --vp-c-mute-darker: var(--vp-c-black-darker);
 
   --vp-home-hero-name-background: -webkit-linear-gradient(
     78deg,
@@ -119,9 +125,9 @@ html.dark:root {
 
 :root {
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(
-    78deg,
-    var(--c-green-dark) 30%,
+  --vp-home-hero-name-background: linear-gradient(
+    292deg,
+    var(--c-green-dark) 50%,
     var(--c-green-light)
   );
   --vp-home-hero-image-background-image: linear-gradient(
