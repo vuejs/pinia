@@ -49,7 +49,7 @@ const useY = defineStore('y', () => {
 ```ts
 import { useUserStore } from './user'
 
-export const useCartStore = defineStore('cart', () => {
+export const useCartStore = defineStore('cart', (state) => {
   const user = useUserStore()
 
   const summary = computed(() => {
