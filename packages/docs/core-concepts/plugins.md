@@ -6,7 +6,7 @@ Pinia stores can be fully extended thanks to a low level API. Here is a list of 
 - Add new options when defining stores
 - Add new methods to stores
 - Wrap existing methods
-- Change or even cancel actions
+- Intercept actions and its results
 - Implement side effects like [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 - Apply **only** to specific stores
 
