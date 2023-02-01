@@ -95,9 +95,9 @@ const store = useCounterStore()
 const store = useCounterStore()
 // ❌ This won't work because it breaks reactivity
 // it's the same as destructuring from `props`
-const { name, doubleCount } = store
-name // will always be "Eduardo"
-doubleCount // will always be 0
+const { name, doubleCount } = store // [!code warning]
+name // will always be "Eduardo" // [!code warning]
+doubleCount // will always be 0 // [!code warning]
 setTimeout(() => {
   store.increment()
 }, 1000)
