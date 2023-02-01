@@ -186,7 +186,7 @@ ___
 | :------ |
 | `S` |
 
-#### 类型声明{#type-declaration}
+#### 类型声明 %{#type-declaration}%
 
 ▸ (`mutation`, `state`): `void`
 
@@ -285,7 +285,7 @@ ___
 
 ___
 
-### \_ExtractGettersFromSetupStore{#extractgettersfromsetupstore}
+### \_ExtractGettersFromSetupStore %{#extractgettersfromsetupstore}%
 
 Ƭ **\_ExtractGettersFromSetupStore**<`SS`\>: `SS` extends `undefined` \| `void` ? {} : [`_ExtractGettersFromSetupStore_Keys`](pinia.md#_extractgettersfromsetupstore_keys)<`SS`\> extends keyof `SS` ? `Pick`<`SS`, [`_ExtractGettersFromSetupStore_Keys`](pinia.md#_extractgettersfromsetupstore_keys)<`SS`\>\> : `never`
 
@@ -314,7 +314,7 @@ ___
 
 ___
 
-### \_ExtractStateFromSetupStore{#extractstatefromsetupstore}
+### \_ExtractStateFromSetupStore %{#extractstatefromsetupstore}%
 
 Ƭ **\_ExtractStateFromSetupStore**<`SS`\>: `SS` extends `undefined` \| `void` ? {} : [`_ExtractStateFromSetupStore_Keys`](pinia.md#_extractstatefromsetupstore_keys)<`SS`\> extends keyof `SS` ? [`_UnwrapAll`](pinia.md#_unwrapall)<`Pick`<`SS`, [`_ExtractStateFromSetupStore_Keys`](pinia.md#_extractstatefromsetupstore_keys)<`SS`\>\>\> : `never`
 
@@ -328,7 +328,7 @@ ___
 
 ___
 
-### \_ExtractStateFromSetupStore\_Keys{#extractstatefromsetupstore-keys}
+### \_ExtractStateFromSetupStore\_Keys %{#extractstatefromsetupstore-keys}%
 
 Ƭ **\_ExtractStateFromSetupStore\_Keys**<`SS`\>: keyof { [K in keyof SS as SS[K] extends \_Method \| ComputedRef ? never : K]: any }
 
@@ -545,7 +545,7 @@ ___
 | :------ |
 | `SS` |
 
-## 变量{#variables}
+## 变量 %{#variables}%
 
 ### PiniaVuePlugin %{#piniavueplugin}%
 
@@ -1137,7 +1137,7 @@ ___
 默认为`"Store"`。如果你需要使用 TypeScript，
 请确保扩展 MapStoresCustomization 接口。
 
-#### 参数{#parameters}
+#### 参数 %{#parameters}%
 
 | 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
