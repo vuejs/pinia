@@ -46,23 +46,23 @@ export const useCounterStore = defineStore('counter', {
 
 然后你就可以在一个组件中使用该 store 了：
 
-```js
+```vue
+<script setup>
 import { useCounterStore } from '@/stores/counter'
-
-export default {
-  setup() {
-    const counter = useCounterStore()
-
-    counter.count++
-    // 带有自动补全 ✨
-    counter.$patch({ count: counter.count + 1 })
-    // 或者使用 action 代替
-    counter.increment()
-  },
-}
+const counter = useCounterStore()
+counter.count++
+// with autocompletion ✨
+counter.$patch({ count: counter.count + 1 })
+// or using an action instead
+counter.increment()
+</script>
+<template>
+  <!-- Access the state directly from the store -->
+  <div>Current Count: {{ counter.count }}</div>
+</template>
 ```
 
-为实现更多高级用法，你甚至可以使用一个函数(与组件 `setup()` 类似)来定义一个 Store：
+为实现更多高级用法，你甚至可以使用一个函数 (与组件 `setup()` 类似) 来定义一个 Store：
 
 ```js
 export const useCounterStore = defineStore('counter', () => {
@@ -94,7 +94,7 @@ const useUserStore = defineStore('user', {
   // ...
 })
 
-export default {
+export default defineComponent({
   computed: {
     // 其他计算属性
     // ...
@@ -107,7 +107,7 @@ export default {
     // 允许读取 this.increment()
     ...mapActions(useCounterStore, ['increment']),
   },
-}
+})
 ```
 
 你将会在核心概念部分了解到更多关于每个**映射辅助函数**的信息。

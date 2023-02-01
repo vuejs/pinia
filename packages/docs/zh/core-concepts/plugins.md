@@ -15,8 +15,8 @@
 ```js
 import { createPinia } from 'pinia'
 
-// 在安装此插件后创建的每个 store 中都会添加一个名为 `secret` 的属性。
-// 插件可以保存在不同的文件中
+// 创建的每个 store 中都会添加一个名为 `secret` 的属性。
+// 在安装此插件后，插件可以保存在不同的文件中
 function SecretPiniaPlugin() {
   return { secret: 'the cake is a lie' }
 }

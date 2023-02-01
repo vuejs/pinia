@@ -49,6 +49,15 @@ export default {
 }
 ```
 
+与 `onServerPrefetch()` 一样，如果你想在 `asyncData()` 中调用一个存储动作，你不需要做任何特别的事情。
+
+```vue
+<script setup>
+const store = useStore()
+const { data } = await useAsyncData('user', () => store.fetchUser())
+</script>
+```
+
 ## 自动引入 %{#auto-imports}%
 
 默认情况下，`@pinia/nuxt` 会暴露一个自动引入的方法：`usePinia()`，它类似于 `getActivePinia()`，但在 Nuxt 中效果更好。你可以添加自动引入来减轻你的开发工作：
