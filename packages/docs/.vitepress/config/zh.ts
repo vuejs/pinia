@@ -22,7 +22,9 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       text: '对本页提出修改建议',
     },
 
-    outlineTitle: '本页内容',
+    outline: {
+      label: '本页内容'
+    },
 
     nav: [
       // { text: 'Config', link: '/config/' },
