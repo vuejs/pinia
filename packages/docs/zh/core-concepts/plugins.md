@@ -278,6 +278,9 @@ declare module 'pinia' {
 
     // 你也可以定义更简单的值
     simpleNumber: number
+
+     // type the router added by the plugin above (#adding-new-external-properties)
+    router: Router
   }
 }
 ```
