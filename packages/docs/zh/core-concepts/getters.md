@@ -42,19 +42,13 @@ export const useStore = defineStore('main', {
 然后你可以直接访问 store 实例上的 getter 了：
 
 ```vue
+<script setup>
+import { useCounterStore } from './counterStore'
+const store = useCounterStore()
+</script>
 <template>
   <p>Double count is {{ store.doubleCount }}</p>
 </template>
-
-<script>
-export default {
-  setup() {
-    const store = useStore()
-
-    return { store }
-  },
-}
-</script>
 ```
 
 ## 访问其他 getter %{#accessing-other-getters}%
@@ -101,14 +95,12 @@ export const useStore = defineStore('main', {
 并在组件中使用：
 
 ```vue
-<script>
-export default {
-  setup() {
-    const store = useStore()
-
-    return { getUserById: store.getUserById }
-  },
-}
+<script setup>
+import { useUserListStore } from './store'
+const userList = useUserListStore()
+const { getUserById } = storeToRefs(userList)
+// note you will have to use `getUserById.value` to access
+// the function within the <script setup>
 </script>
 
 <template>
@@ -153,15 +145,12 @@ export const useStore = defineStore('main', {
 
 作为 store 的一个属性，你可以直接访问任何 getter(与 state 属性完全一样)：
 
-```js
-export default {
-  setup() {
-    const store = useStore()
-
-    store.count = 3
-    store.doubleCount // 6
-  },
-}
+```vue
+<script setup>
+const store = useCounterStore()
+store.count = 3
+store.doubleCount // 6
+</script>
 ```
 
 ## 使用选项式 API 的用法 %{#usage-with-the-options-api}%
@@ -195,10 +184,11 @@ export const useCounterStore = defineStore('counter', {
 
 虽然并不是每个开发者都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易用。并且不需要额外的映射辅助函数!
 
-```js
+```vue
+<script>
 import { useCounterStore } from '../stores/counter'
 
-export default {
+export default defineComponent({
   setup() {
     const counterStore = useCounterStore()
 
@@ -209,8 +199,11 @@ export default {
       return this.counterStore.doubleCount * 2
     },
   },
-}
+})
+</script>
 ```
+
+这在将组件从选项式 API 迁移到组合式 API 时很有用，但**应该只是一个迁移步骤**，始终尽量不要在同一组件中混合两种 API 样式。
 
 ### 不使用 `setup()` %{#without-setup}%
 

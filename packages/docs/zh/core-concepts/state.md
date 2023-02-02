@@ -231,21 +231,16 @@ cartStore.$subscribe((mutation, state) => {
 
 默认情况下，*state subscription* 会被绑定到添加它们的组件上(如果 store 在组件的 `setup()` 里面)。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `{ detached: true }` 作为第二个参数，以将 *state subscription* 从当前组件中*分离*：
 
-```js
-export default {
-  setup() {
-    const someStore = useSomeStore()
-
-    // 在组件被卸载后，该订阅依旧会被保留。
-    someStore.$subscribe(callback, { detached: true })
-
-    // ...
-  },
-}
+```vue
+<script setup>
+const someStore = useSomeStore()
+// this subscription will be kept even after the component is unmounted
+someStore.$subscribe(callback, { detached: true })
+</script>
 ```
 
 :::tip
-你可以在 `pinia` 实例上侦听整个 state。
+你可以在 `pinia` 实例上使用 `watch()` 函数侦听整个 state。
 
 ```js
 watch(
