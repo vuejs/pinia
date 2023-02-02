@@ -29,8 +29,6 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
     nav: [
       // { text: 'Config', link: '/config/' },
       // { text: 'Plugins', link: '/plugins/' },
-      { text: 'API', link: '/zh/api/', activeMatch: '^/zh/api/' },
-      { text: '手册', link: '/zh/cookbook/', activeMatch: '^/zh/cookbook/' },
       {
         text: '指南',
         link: '/zh/core-concepts/',
