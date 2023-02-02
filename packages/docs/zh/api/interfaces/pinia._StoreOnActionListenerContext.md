@@ -35,7 +35,7 @@ sidebarDepth: 3
 action 执行完的钩子。
 它接收 action 的返回值，如果是 Promise，它将被自动解包。
 
-##### 参数{#parameters}
+##### 参数 %{#parameters}%
 
 | 名称 | 类型 |
 | :------ | :------ |

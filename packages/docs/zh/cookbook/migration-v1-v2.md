@@ -36,43 +36,41 @@ yarn add 'pinia@^2.x.x'
 
 添加于 [2.0.0-rc.0](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md#200-rc0-2021-07-28)
 
-用 `StoreGeneric` 取代 `GenericStore` 类型的全部用法。这是新的通用 store 类型，应该可以接受任何类型的 store。如果你在写函数时使用 `Store` 类型而不想传递其泛型(例如`Store<Id, State, Getters, Actions>`)，你可以使用 `StoreGeneric`，因为没有泛型的 `Store` 类型会创建一个空的 store 类型：
+用 `StoreGeneric` 取代 `GenericStore` 类型的全部用法。这是新的通用 store 类型，应该可以接受任何类型的 store。如果你在写函数时使用 `Store` 类型而不想传递其泛型 (例如`Store<Id, State, Getters, Actions>`)，你可以使用 `StoreGeneric`，因为没有泛型的 `Store` 类型会创建一个空的 store 类型：
 
-```diff
--function takeAnyStore(store: Store) {}
-+function takeAnyStore(store: StoreGeneric) {}
-
--function takeAnyStore(store: GenericStore) {}
-+function takeAnyStore(store: StoreGeneric) {}
+```ts
+function takeAnyStore(store: Store) {} // [!code --]
+function takeAnyStore(store: StoreGeneric) {} // [!code ++]
+function takeAnyStore(store: GenericStore) {} // [!code --]
+function takeAnyStore(store: StoreGeneric) {} // [!code ++]
 ```
 
 ## 针对插件的 `DefineStoreOptions` %{#definestoreoptions-for-plugins}%
 
 如果你在用 TypeScript 写插件并扩展了 `DefineStoreOptions` 类型来添加自定义选项，你应该把它改名为 `DefineStoreOptionsBase`。这个类型将同时适用于 setup 和 option store。
 
-```diff
- declare module 'pinia' {
--  export interface DefineStoreOptions<S, Store> {
-+  export interface DefineStoreOptionsBase<S, Store> {
-     debounce?: {
-       [k in keyof StoreActions<Store>]?: number
-     }
-   }
- }
+```ts
+declare module 'pinia' {
+  export interface DefineStoreOptions<S, Store> { // [!code --]
+  export interface DefineStoreOptionsBase<S, Store> { // [!code ++]
+    debounce?: {
+      [k in keyof StoreActions<Store>]?: number
+    }
+  }
+}
 ```
 
 ## `PiniaStorePlugin` 已被重命名 %{#piniastoreplugin-was-renamed}%
 
 类型 `PiniaStorePlugin` 被重新命名为 `PiniaPlugin`。
 
-```diff
--import { PiniaStorePlugin } from 'pinia'
-+import { PiniaPlugin } from 'pinia'
-
--const piniaPlugin: PiniaStorePlugin = () => {
-+const piniaPlugin: PiniaPlugin = () => {
-   // ...
- }
+```ts
+import { PiniaStorePlugin } from 'pinia' // [!code --]
+import { PiniaPlugin } from 'pinia' // [!code ++]
+const piniaPlugin: PiniaStorePlugin = () => { // [!code --]
+const piniaPlugin: PiniaPlugin = () => { // [!code ++]
+  // ...
+}
 ```
 
 **注意这个更新只能在升级到最新的没有弃用的 Pinia 版本后生效**。
@@ -89,7 +87,7 @@ yarn add @vue/composition-api@latest
 
 ## 支持 webpack 4 %{#webpack-4-support}%
 
-如果你使用的是 webpack 4(Vue CLI 使用的是 webpack 4)，你可能会遇到这样的错误：
+如果你使用的是 webpack 4 (Vue CLI 使用的是 webpack 4)，你可能会遇到这样的错误：
 
 ```
 ERROR  Failed to compile with 18 errors
@@ -146,7 +144,7 @@ Pinia v2 不再劫持 Vue Devtools v5，它需要的是 Vue Devtools v6。可以
 
 如果你正在使用 Nuxt，pinia 现在有了专门的 Nuxt 软件包🎉。请用以下方法安装它：
 
-```shell
+```bash
 npm i @pinia/nuxt
 # 或者使用 yarn
 yarn add @pinia/nuxt
@@ -156,26 +154,26 @@ yarn add @pinia/nuxt
 
 如果你使用 TypeScript，还要调整你的 `nuxt.config.js` 和 `tsconfig.json`：
 
-```diff
- // nuxt.config.js
- module.exports {
-   buildModules: [
-     '@nuxtjs/composition-api/module',
--    'pinia/nuxt',
-+    '@pinia/nuxt',
-   ],
- }
+```js
+// nuxt.config.js
+module.exports {
+  buildModules: [
+    '@nuxtjs/composition-api/module',
+    'pinia/nuxt', // [!code --]
+    '@pinia/nuxt', // [!code ++]
+  ],
+}
 ```
 
-```diff
- // tsconfig.json
- {
-   "types": [
-     // ...
--    "pinia/nuxt/types"
-+    "@pinia/nuxt"
-   ]
- }
+```json
+// tsconfig.json
+{
+  "types": [
+    // ...
+    "pinia/nuxt/types" // [!code --]
+    "@pinia/nuxt" // [!code ++]
+  ]
+}
 ```
 
 [Nuxt 专属章节](../ssr/nuxt.md)也值得一读。

@@ -5,10 +5,20 @@
 ## 安装 %{#installation}%
 
 ```bash
-yarn add @pinia/nuxt
+yarn add pinia @pinia/nuxt
 # 或者使用 npm
-npm install @pinia/nuxt
+npm install pinia @pinia/nuxt
 ```
+
+:::tip 
+如果你正在使用 npm，你可能会遇到 *ERESOLVE unable to resolve dependency tree* 错误。如果那样的话，将以下内容添加到 `package.json` 中：
+
+```js
+"overrides": { 
+  "vue": "latest"
+}
+```
+:::
 
 我们提供了一个 *module* 来为你处理一切，你只需要在 `nuxt.config.js` 文件的 `modules` 中添加它。
 
@@ -37,6 +47,15 @@ export default {
     const store = useStore($pinia)
   },
 }
+```
+
+与 `onServerPrefetch()` 一样，如果你想在 `asyncData()` 中调用一个存储动作，你不需要做任何特别的事情。
+
+```vue
+<script setup>
+const store = useStore()
+const { data } = await useAsyncData('user', () => store.fetchUser())
+</script>
 ```
 
 ## 自动引入 %{#auto-imports}%
