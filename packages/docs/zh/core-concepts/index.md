@@ -12,7 +12,7 @@ import { defineStore } from 'pinia'
 
 // 你可以对 `defineStore()` 的返回值进行任意命名，但最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾。(比如 `useUserStore`，`useCartStore`，`useProductStore`)
 // 第一个参数是你的应用中 Store 的唯一 ID。
-export const useStore = defineStore('main', {
+export const useAlertsStore = defineStore('alerts', {
   // 其他配置...
 })
 ```
@@ -72,21 +72,14 @@ Setup store 比 [Option Store](#option-stores) 带来了更多的灵活性，因
 
 ## 使用 Store %{#using-the-store}%
 
-虽然我们前面定义了一个 store，但在 `setup()` 调用 `useStore()` 之前，store 实例是不会被创建的：
+虽然我们前面定义了一个 store，但在我们使用 `<script setup>` 调用 `useStore()`(或者使用 `setup()` 函数，**像所有的组件那样**) 之前，store 实例是不会被创建的：
 
-```js
+```vue
+<script setup>
 import { useCounterStore } from '@/stores/counter'
-
-export default {
-  setup() {
-    const store = useCounterStore()
-
-    return {
-      // 为了能在模板中使用它，你可以返回整个 Store 实例。
-      store,
-    }
-  },
-}
+// access the `store` variable anywhere in the component ✨
+const store = useCounterStore()
+</script>
 ```
 
 你可以定义任意多的 store，但为了让使用 pinia 的益处最大化(比如允许构建工具自动进行代码分割以及 TypeScript 推断)，**你应该在不同的文件中去定义 store**。
@@ -97,49 +90,34 @@ export default {
 
 请注意，`store` 是一个用 `reactive` 包装的对象，这意味着不需要在 getters 后面写 `.value`，就像 `setup` 中的 `props` 一样，**如果你写了，我们也不能解构它**：
 
-```js
-export default defineComponent({
-  setup() {
-    const store = useCounterStore()
-    // ❌ 这将无法生效，因为它破坏了响应性
-    // 这与从 `props` 中解构是一样的。
-    const { name, doubleCount } = store
-
-    name // "eduardo"
-    doubleCount // 2
-
-    return {
-      // 始终是 "eduardo"
-      name,
-      // 始终是 2
-      doubleCount,
-      // 这个将是响应式的
-      doubleValue: computed(() => store.doubleCount),
-      }
-  },
-})
+```vue
+<script setup>
+const store = useCounterStore()
+// ❌ This won't work because it breaks reactivity
+// it's the same as destructuring from `props`
+const { name, doubleCount } = store // [!code warning]
+name // will always be "Eduardo" // [!code warning]
+doubleCount // will always be 0 // [!code warning]
+setTimeout(() => {
+  store.increment()
+}, 1000)
+// ✅ this one will be reactive
+// 💡 but you could also just use `store.doubleCount` directly
+const doubleValue = computed(() => store.doubleCount)
+</script>
 ```
 
 为了从 store 中提取属性时保持其响应性，你需要使用 `storeToRefs()`。它将为每一个响应式属性创建引用。当你只使用 store 的状态而不调用任何 action 时，它会非常有用。请注意，你可以直接从 store 中解构 action，因为它们也被绑定到 store 上：
 
-```js
+````vue
+<script setup>
 import { storeToRefs } from 'pinia'
-
-export default defineComponent({
-  setup() {
-    const store = useCounterStore()
-    // `name` and `doubleCount` 都是响应式 refs
-    // 这也将为由插件添加的属性创建 refs
-    // 同时会跳过任何 action 或非响应式(非 ref/响应式)属性
-    const { name, doubleCount } = storeToRefs(store)
-    // 名为 increment 的 action 可以直接提取
-    const { increment } = store
-
-    return {
-      name,
-      doubleCount,
-      increment,
-    }
-  },
-})
+const store = useCounterStore()
+// `name` and `doubleCount` are reactive refs
+// This will also extract refs for properties added by plugins
+// but skip any action or non reactive (non ref/reactive) property
+const { name, doubleCount } = storeToRefs(store)
+// the increment action can just be destructured
+const { increment } = store
+</script>
 ```

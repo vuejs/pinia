@@ -23,7 +23,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-类似 [getter](./getters.md)，action 也可通过 `this` 访问**整个 store 实例**，并支持**完整的类型标注(以及自动补全✨)**。**不同的是，`action` 可以是异步的**，你可以在它们里面 `await` 调用任何 API，以及其他 action！下面是一个使用 [Mande](https://github.com/posva/mande) 的例子。请注意，你使用什么库并不重要，只要你得到的是一个`Promise`，你甚至可以(在浏览器中)使用原生 `fetch` 函数：
+类似 [getter](./getters.md)，action 也可通过 `this` 访问**整个 store 实例**，并支持**完整的类型标注(以及自动补全✨)**。**不同的是，`action` 可以是异步的**，你可以在它们里面 `await` 调用任何 API，以及其他 action！下面是一个使用 [Mande](https://github.com/posva/mande) 的例子。请注意，你使用什么库并不重要，只要你得到的是一个`Promise`，你甚至可以 (在浏览器中) 使用原生 `fetch` 函数：
 
 ```js
 import { mande } from 'mande'
@@ -53,18 +53,18 @@ export const useUsers = defineStore('users', {
 
 你也完全可以自由地设置任何你想要的参数以及返回任何结果。当调用 action 时，一切类型也都是可以被自动推断出来的。
 
-Action 可以像方法一样被调用：
+Action 可以像函数或者通常意义上的方法一样被调用：
 
-```js
-export default defineComponent({
-  setup() {
-    const main = useMainStore()
-    // 作为 store 的一个方法调用该 action
-    main.randomizeCounter()
-
-    return {}
-  },
-})
+```vue
+<script setup>
+const store = useCounterStore()
+// call the action as a method of the store
+store.randomizeCounter()
+</script>
+<template>
+  <!-- Even on the template -->
+  <button @click="store.randomizeCounter()">Randomize</button>
+</template>
 ```
 
 ## 访问其他 store 的 action %{#accessing-other-stores-actions}%
@@ -90,20 +90,6 @@ export const useSettingsStore = defineStore('settings', {
     },
   },
 })
-```
-
-## 使用 `setup()` 时的用法 %{#usage-with-setup}%
-
-你可以将任何 action 作为 store 的一个方法直接调用：
-
-```js
-export default {
-  setup() {
-    const store = useStore()
-
-    store.randomizeCounter()
-  },
-}
 ```
 
 ## 使用选项式 API 的用法 %{#usage-with-the-options-api}%
@@ -137,13 +123,12 @@ const useCounterStore = defineStore('counter', {
 
 虽然并不是每个开发者都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易用。并且不需要额外的映射辅助函数!
 
-```js
+```vue
+<script>
 import { useCounterStore } from '../stores/counter'
-
-export default {
+export default defineComponent({
   setup() {
     const counterStore = useCounterStore()
-
     return { counterStore }
   },
   methods: {
@@ -152,7 +137,8 @@ export default {
       console.log('New Count:', this.counterStore.count)
     },
   },
-}
+})
+</script>
 ```
 
 ### 不使用 `setup()` %{#without-setup}%
@@ -219,15 +205,10 @@ unsubscribe()
 
 默认情况下，*action 订阅器*会被绑定到添加它们的组件上(如果 store 在组件的 `setup()` 内)。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `true` 作为第二个参数传递给 *action 订阅器*，以便将其从当前组件中分离：
 
-```js
-export default {
-  setup() {
-    const someStore = useSomeStore()
-
-    // 在组件被卸载后，这个订阅依旧会被保留。
-    someStore.$onAction(callback, true)
-
-    // ...
-  },
-}
+```vue
+<script setup>
+const someStore = useSomeStore()
+// this subscription will be kept even after the component is unmounted
+someStore.$onAction(callback, true)
+</script>
 ```

@@ -6,15 +6,12 @@
 
 只要你只在 `setup` 函数、`getter` 和 `action` 的顶部调用你定义的 `useStore()` 函数，那么使用 Pinia 创建 store 对于 SSR 来说应该是开箱即用的：
 
-```js
-export default defineComponent({
-  setup() {
-    // 这样做的原因是 Pinia 知道
-    // `setup()` 中运行的应用是什么
-    const main = useMainStore()
-    return { main }
-  },
-})
+```vue
+<script setup>
+// this works because pinia knows what application is running inside of
+// `setup`
+const main = useMainStore()
+</script>
 ```
 
 ## 在 `setup()` 外部使用 store %{#using-the-store-outside-of-setup}%

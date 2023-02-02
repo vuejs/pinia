@@ -1,4 +1,4 @@
-# Plugins %{#plugins}%
+# 插件 %{#plugins}%
 
 由于有了底层 API 的支持，Pinia store 现在完全支持扩展。以下是你可以扩展的内容：
 
@@ -15,8 +15,8 @@
 ```js
 import { createPinia } from 'pinia'
 
-// 在安装此插件后创建的每个 store 中都会添加一个名为 `secret` 的属性。
-// 插件可以保存在不同的文件中
+// 创建的每个 store 中都会添加一个名为 `secret` 的属性。
+// 在安装此插件后，插件可以保存在不同的文件中
 function SecretPiniaPlugin() {
   return { secret: 'the cake is a lie' }
 }
@@ -278,6 +278,9 @@ declare module 'pinia' {
 
     // 你也可以定义更简单的值
     simpleNumber: number
+
+     // type the router added by the plugin above (#adding-new-external-properties)
+    router: Router
   }
 }
 ```
