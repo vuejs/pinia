@@ -27,6 +27,13 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'API', link: '/api/', activeMatch: '^/api/' },
       { text: 'Cookbook', link: '/cookbook/', activeMatch: '^/cookbook/' },
       {
+        text: 'Guide',
+        link: '/core-concepts/',
+        activeMatch: '^/core-concepts/',
+      },
+      { text: 'API', link: '/api/', activeMatch: '^/api/' },
+      { text: 'Cookbook', link: '/cookbook/', activeMatch: '^/cookbook/' },
+      {
         text: 'Links',
         items: [
           {

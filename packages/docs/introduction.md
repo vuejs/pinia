@@ -49,20 +49,23 @@ export const useCounterStore = defineStore('counter', {
 
 And then you _use_ it in a component:
 
-```js
+```vue
+<script setup>
 import { useCounterStore } from '@/stores/counter'
 
-export default {
-  setup() {
-    const counter = useCounterStore()
+const counter = useCounterStore()
 
-    counter.count++
-    // with autocompletion ✨
-    counter.$patch({ count: counter.count + 1 })
-    // or using an action instead
-    counter.increment()
-  },
-}
+counter.count++
+// with autocompletion ✨
+counter.$patch({ count: counter.count + 1 })
+// or using an action instead
+counter.increment()
+</script>
+
+<template>
+  <!-- Access the state directly from the store -->
+  <div>Current Count: {{ counter.count }}</div>
+</template>
 ```
 
 You can even use a function (similar to a component `setup()`) to define a Store for more advanced use cases:
@@ -97,7 +100,7 @@ const useUserStore = defineStore('user', {
   // ...
 })
 
-export default {
+export default defineComponent({
   computed: {
     // other computed properties
     // ...
@@ -110,7 +113,7 @@ export default {
     // gives access to this.increment()
     ...mapActions(useCounterStore, ['increment']),
   },
-}
+})
 ```
 
 You will find more information about each _map helper_ in the core concepts.

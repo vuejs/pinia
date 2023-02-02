@@ -1,3 +1,9 @@
+## [2.0.30](https://github.com/vuejs/pinia/compare/pinia@2.0.29...pinia@2.0.30) (2023-02-01)
+
+### Bug Fixes
+
+- avoid spread operator even in devtools code ([d2a4def](https://github.com/vuejs/pinia/commit/d2a4defc381ae8e023b45b05e4ac8588fe2add9e)), closes [#1885](https://github.com/vuejs/pinia/issues/1885)
+
 ## [2.0.29](https://github.com/vuejs/pinia/compare/pinia@2.0.28...pinia@2.0.29) (2023-01-15)
 
 ### Bug Fixes

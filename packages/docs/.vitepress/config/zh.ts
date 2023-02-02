@@ -32,6 +32,13 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       { text: 'API', link: '/zh/api/', activeMatch: '^/zh/api/' },
       { text: '手册', link: '/zh/cookbook/', activeMatch: '^/zh/cookbook/' },
       {
+        text: '指南',
+        link: '/zh/core-concepts/',
+        activeMatch: '^/zh/core-concepts/',
+      },
+      { text: 'API', link: '/zh/api/', activeMatch: '^/zh/api/' },
+      { text: '手册', link: '/zh/cookbook/', activeMatch: '^/zh/cookbook/' },
+      {
         text: '相关链接',
         items: [
           {
