@@ -1,5 +1,4 @@
 export default {
-  appearance: 'dark',
   vitepressConfig: {
     title: 'Pinia',
     lang: 'ja-JP',
