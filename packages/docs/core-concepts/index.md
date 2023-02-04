@@ -76,7 +76,13 @@ As with [Vue's Composition API and Options API](https://vuejs.org/guide/introduc
 
 ## Using the store
 
-We are _defining_ a store because the store won't be created until `use...Store()` is called inside of `setup()`:
+We have _defined_ a store because the store won't be created until `use...Store()` is called inside of `setup()`.
+
+Once defined, there are a few methods of accessing the store while maintaining reactivity.
+
+### Store instance
+
+Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will look at these in detail in the next pages but autocompletion will help you.
 
 ```js
 import { useCounterStore } from '@/stores/counter'
@@ -99,7 +105,7 @@ If you are not using `setup` components yet, [you can still use Pinia with _map 
 
 You can define as many stores as you want and **you should define each store in a different file** to get the most out of Pinia (like automatically allowing your bundler to code split and providing TypeScript inference).
 
-Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will look at these in detail in the next pages but autocompletion will help you.
+### Computed properties
 
 Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it**:
 
@@ -107,31 +113,28 @@ Note that `store` is an object wrapped with `reactive`, meaning there is no need
 export default defineComponent({
   setup() {
     const store = useCounterStore()
-    // ❌ This won't work because it breaks reactivity
-    // it's the same as destructuring from `props`
-    const { name, doubleCount } = store
+    // ❌ Bad (breaks reactivity, as it's the same
+    // as destructuring from `props`):
+    const { doubleCount } = store
 
-    name // "Eduardo"
-    doubleCount // 0
-
+    // Increment count to demonstrate reactivity
     setTimeout(() => {
       store.increment()
     }, 1000)
 
     return {
-      // will always be "Eduardo"
-      name,
-      // will always be 0
+      // ❌ Bad (will always be 0):
       doubleCount,
-      // will also always be 0
+      // ❌ Bad (will also always be 0):
       doubleNumber: store.doubleCount,
-
-      // ✅ this one will be reactive
+      // ✔️ Good (will be reactive):
       doubleValue: computed(() => store.doubleCount),
     }
   },
 })
 ```
+
+### storeToRefs()
 
 In order to extract properties from the store while keeping its reactivity, you need to use `storeToRefs()`. It will create refs for every reactive property. This is useful when you are only using state from the store but not calling any action. Note you can destructure actions directly from the store as they are bound to the store itself too:
 
@@ -141,11 +144,12 @@ import { storeToRefs } from 'pinia'
 export default defineComponent({
   setup() {
     const store = useCounterStore()
-    // `name` and `doubleCount` are reactive refs
-    // This will also create refs for properties added by plugins
-    // but skip any action or non reactive (non ref/reactive) property
+    // ❌ Bad (breaks reactivity):
+    const { name, doubleCount } = store
+    // ✔️ Good (creates refs for properties):
     const { name, doubleCount } = storeToRefs(store)
-    // the increment action can just be extracted
+
+    // Actions can just be extracted
     const { increment } = store
 
     return {
