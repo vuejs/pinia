@@ -186,7 +186,7 @@ ___
 | :------ |
 | `S` |
 
-#### 类型声明 %{#type-declaration}%
+#### 类型声明 %{#type-declaration_1}%
 
 ▸ (`mutation`, `state`): `void`
 
@@ -454,7 +454,7 @@ ___
 
 Ƭ **\_Method**: (...`args`: `any`[]) => `any`
 
-#### 类型声明 %{#type-declaration_1}%
+#### 类型声明 %{#type-declaration_2}%
 
 ▸ (...`args`): `any`
 
