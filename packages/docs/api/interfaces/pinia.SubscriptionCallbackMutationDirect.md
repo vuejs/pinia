@@ -1,7 +1,5 @@
 ---
-sidebar: "auto"
 editLink: false
-sidebarDepth: 3
 ---
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / SubscriptionCallbackMutationDirect

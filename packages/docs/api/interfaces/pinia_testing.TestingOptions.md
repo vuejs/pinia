@@ -1,7 +1,5 @@
 ---
-sidebar: "auto"
 editLink: false
-sidebarDepth: 3
 ---
 
 [API Documentation](../index.md) / [@pinia/testing](../modules/pinia_testing.md) / TestingOptions
@@ -33,7 +31,7 @@ with `jest.fn()` in jest projects or `vi.fn()` in vitest projects.
 
 `fn`
 
-▸ (...`args`): `any`
+▸ (`...args`): `any`
 
 ##### Parameters %{#Properties-createSpy-Type-declaration-Parameters_1}%
 
