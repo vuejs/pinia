@@ -1,6 +1,5 @@
 ---
 editLink: false
-outline: [2, 3]
 ---
 
 [API Documentation](../index.md) / pinia
@@ -455,7 +454,7 @@ ___
 
 #### Type declaration %{#Type-Aliases-\_Method-Type-declaration}%
 
-▸ (...`args`): `any`
+▸ (`...args`): `any`
 
 Generic type for a function that can infer arguments and return type
 
@@ -552,7 +551,7 @@ For internal use **only**
 
 Vue 2 Plugin that must be installed for pinia to work. Note **you don't need
 this plugin if you are using Nuxt.js**. Use the `buildModule` instead:
-<https://pinia.vuejs.org/ssr/nuxt.html>.
+https://pinia.vuejs.org/ssr/nuxt.html.
 
 **`Example`**
 
@@ -972,7 +971,7 @@ ___
 
 ### mapStores %{#Functions-mapStores}%
 
-▸ **mapStores**<`Stores`\>(...`stores`): [`_Spread`](pinia.md#_spread)<`Stores`\>
+▸ **mapStores**<`Stores`\>(`...stores`): [`_Spread`](pinia.md#_spread)<`Stores`\>
 
 Allows using stores without the composition API (`setup()`) by generating an
 object to be spread in the `computed` field of a component. It accepts a list
