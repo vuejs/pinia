@@ -23,7 +23,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
     },
 
     outline: {
-      label: '本页内容'
+      label: '本页内容',
     },
 
     nav: [
