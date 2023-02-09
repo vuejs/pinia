@@ -120,7 +120,7 @@ For the following examples, you can assume the following store was created:
 // Example File Path:
 // ./src/stores/counter.js
 
-import { defineStore } from 'pinia',
+import { defineStore } from 'pinia'
 
 export const useCounterStore = defineStore('counter', {
   state: () => ({
