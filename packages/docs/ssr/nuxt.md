@@ -57,20 +57,19 @@ By default `@pinia/nuxt` exposes one single auto import: `usePinia()`, which is 
 // nuxt.config.js
 export default defineNuxtConfig({
   // ... other options
-  modules: [
-    // ...
+  modules:
     [
-      '@pinia/nuxt',
-      {
-        autoImports: [
-          // automatically imports `defineStore`
-          'defineStore', // import { defineStore } from 'pinia'
-          // automatically imports `defineStore` as `definePiniaStore`
-          ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
-        ],
-      },
+      '@pinia/nuxt'
     ],
-  ],
+  pinia:
+  {
+    autoImports: [
+      // automatically imports `defineStore`
+      'defineStore', // import { defineStore } from 'pinia'
+      // automatically imports `defineStore` as `definePiniaStore`
+      ['defineStore'], // import { defineStore as definePiniaStore } from 'pinia'
+    ]
+  }
 })
 ```
 
