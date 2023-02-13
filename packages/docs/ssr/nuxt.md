@@ -14,7 +14,7 @@ npm install pinia @pinia/nuxt
 If you're using npm, you might encounter an _ERESOLVE unable to resolve dependency tree_ error. In that case, add the following to your `package.json`:
 
 ```js
-"overrides": { 
+"overrides": {
   "vue": "latest"
 }
 ```
