@@ -9,7 +9,7 @@ npm install pinia
 ```
 
 :::tip
-如果你的应用使用的是 Vue 2，你还需要安装组合式 API 包：`@vue/composition-api`。如果你使用的是 Nuxt，你应该参考[这篇指南](/ssr/nuxt.md)。
+如果你的应用使用的 Vue 版本低于 2.7，你还需要安装组合式 API 包：`@vue/composition-api`。如果你使用的是 Nuxt，你应该参考[这篇指南](/ssr/nuxt.md)。
 :::
 
 如果你正在使用 Vue CLI，你可以试试这个[**非官方插件**](https://github.com/wobsoriano/vue-cli-plugin-pinia)。
