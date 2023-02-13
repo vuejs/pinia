@@ -50,7 +50,8 @@
     "siroc": "^0.16.0"
   },
   "peerDependencies": {
-    "pinia": ">=2.0.19"
+    "pinia": ">=2.0.19",
+    "vue": "^3.0.0-0 || ^2.6.0"
   },
   "publishConfig": {
     "access": "public"
