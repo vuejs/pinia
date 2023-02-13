@@ -14,7 +14,7 @@ npm install pinia @pinia/nuxt
 If you're using npm, you might encounter an _ERESOLVE unable to resolve dependency tree_ error. In that case, add the following to your `package.json`:
 
 ```js
-"overrides": { 
+"overrides": {
   "vue": "latest"
 }
 ```
@@ -67,20 +67,14 @@ By default `@pinia/nuxt` exposes one single auto import: `usePinia()`, which is 
 // nuxt.config.js
 export default defineNuxtConfig({
   // ... other options
-  modules: [
-    // ...
-    [
-      '@pinia/nuxt',
-      {
-        autoImports: [
-          // automatically imports `defineStore`
-          'defineStore', // import { defineStore } from 'pinia'
-          // automatically imports `defineStore` as `definePiniaStore`
-          ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
-        ],
-      },
+  modules: ['@pinia/nuxt'],
+  pinia: {
+    autoImports: [
+      // automatically imports `defineStore`
+      'defineStore', // import { defineStore } from 'pinia'
+      ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
     ],
-  ],
+  },
 })
 ```
 

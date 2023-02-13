@@ -105,7 +105,7 @@ export const useSettingsStore = defineStore('settings', {
 // 示例文件路径：
 // ./src/stores/counter.js
 
-import { defineStore } from 'pinia',
+import { defineStore } from 'pinia'
 
 const useCounterStore = defineStore('counter', {
   state: () => ({

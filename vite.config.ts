@@ -1,6 +1,6 @@
-/// <reference types="vitest" />
 import { fileURLToPath } from 'node:url'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
+
 export default defineConfig({
   define: {
     __DEV__: true,
