@@ -88,12 +88,28 @@ Note you cannot add a new state property **if you don't define it in `state()`**
 
 ## Resetting the state
 
-You can _reset_ the state to its initial value by calling the `$reset()` method on the store:
+In [Option Stores](/core-concepts/index.md#option-stores), you can _reset_ the state to its initial value by calling the `$reset()` method on the store:
 
 ```js
 const store = useStore()
 
 store.$reset()
+```
+
+Internally, this calls the `state()` function to create a new state object and replaces the current state with it.
+
+In [Setup Stores](/core-concepts/index.md#setup-stores), you need to create your own `$reset()` method:
+
+```ts
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+
+  function $reset() {
+    count.value = 0
+  }
+
+  return { count, $reset }
+})
 ```
 
 ### Usage with the Options API
