@@ -67,15 +67,16 @@ export const sharedConfig = defineConfig({
       },
     ],
 
-    [
-      'script',
-      {
-        src: 'https://vueschool.io/banners/main.js',
-        // @ts-expect-error: vitepress bug
-        async: true,
-        type: 'text/javascript',
-      },
-    ],
+    // TODO: add this back when fixed
+    // [
+    //   'script',
+    //   {
+    //     src: 'https://vueschool.io/banners/main.js',
+    //     // @ts-expect-error: vitepress bug
+    //     async: true,
+    //     type: 'text/javascript',
+    //   },
+    // ],
 
     ...(isProduction ? productionHead : []),
   ],
