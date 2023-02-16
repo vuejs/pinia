@@ -61,7 +61,7 @@
 
 **Q**: 동적 모듈은 어떻습니까?
 
-**A**: 동적 모듈은 유형이 안전하지 않지만, 어디에서나 가져올 수 있는 [다른 저장소를 만들 수 있습니다](https://pinia.vuejs.kr/guide/cookbook/composing-stores.html).
+**A**: 동적 모듈은 유형이 안전하지 않지만, 어디에서나 가져올 수 있는 [다른 저장소를 만들 수 있습니다](https://pinia.vuejs.kr/cookbook/composing-stores.html).
 
 ## 설치
 
@@ -169,4 +169,4 @@ export default defineComponent({
 })
 ```
 
-마지막 확인일 2023-02-01 00:11
+마지막 확인일 2023-02-17 01:56

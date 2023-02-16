@@ -99,12 +99,28 @@ store.count++
 
 ## 상태 재설정 %{#resetting-the-state}%
 
-스토어에서 `$reset()` 메서드를 호출하여 상태를 초기 값으로 재설정할 수 있습니다:
+[Option Stores](/core-concepts/index.md#option-stores)에서 스토어에서 `$reset()` 메서드를 호출하여 상태를 초기 값으로 _재설정_할 수 있습니다.
 
 ```js
 const store = useStore()
 
 store.$reset()
+```
+
+내부적으로 이것은 `state()` 함수를 호출하여 새로운 상태 객체를 생성하고 현재 상태를 그것으로 대체합니다.
+
+[Setup Stores](/core-concepts/index.md#setup-stores)에서 자신만의 `$reset()` 메서드를 만들어야 합니다.
+
+```ts
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+
+  function $reset() {
+    count.value = 0
+  }
+
+  return { count, $reset }
+})
 ```
 
 ### 옵션 API와 함께 사용 %{#usage-with-the-options-api}%
@@ -227,7 +243,7 @@ store.$patch({ count: 24 })
 
 피니아 인스턴스의 `state`를 변경하여,
 전체적으로 앱의 초기 상태를 설정할 수도 있습니다.
-[하이드레이션을 위한 SSR](/guide/ssr/#state-hydration) 동안 사용합니다.
+[하이드레이션을 위한 SSR](/ssr/#state-hydration) 동안 사용합니다.
 
 ```js
 pinia.state.value = {}
@@ -258,21 +274,17 @@ cartStore.$subscribe((mutation, state) => {
 컴포넌트가 마운트 해제된 후에도 이를 유지하려면,
 두 번째 인수로 현재 컴포넌트에서 상태 구독을 분리하는 `{ detached: true }`를 전달합니다:
 
-```js
-export default {
-  setup() {
-    const someStore = useSomeStore()
+```vue
+<script setup>
+const someStore = useSomeStore()
 
-    // 이 구독은 컴포넌트가 마운트 해제된 후에도 유지됨.
-    someStore.$subscribe(callback, { detached: true })
-
-    // ...
-  },
-}
+// 이 구독은 컴포넌트가 마운트 해제된 후에도 유지됨.
+someStore.$subscribe(callback, { detached: true })
+</script>
 ```
 
 :::tip
-피니아 인스턴스에서 전체 상태를 감시할 수 있습니다:
+하나의 `watch()`를 사용하여 `pinia` 인스턴스의 전체 상태를 _감시_할 수 있습니다.
 
 ```js
 watch(

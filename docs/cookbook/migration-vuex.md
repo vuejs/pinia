@@ -9,7 +9,7 @@ Vuex와 피니아 스토어의 구조는 다르지만 많은 로직을 재사용
 
 ## 준비 %{#preparation}%
 
-먼저 [시작하기 가이드](/guide/getting-started.md)에 따라 피니아를 설치합니다.
+먼저 [시작하기 가이드](/getting-started.md)에 따라 피니아를 설치합니다.
 
 ## 모듈을 스토어로 재구성 %{#restructuring-modules-to-stores}%
 
@@ -203,7 +203,7 @@ export const useAuthUserStore = defineStore('authUser', {
    2. 다른 게터에 접근해야 하는 경우, 두 번째 인자를 사용하는 대신 `this`로 접근.
       `this`를 사용하는 경우, 화살표 함수 대신 일반 함수를 사용해야 함.
       또한 TS 제한사항으로 반환 유형을 지정해야 함.
-      자세한 내용은 [여기](/guide/core-concepts/getters.md#accessing-other-getters)를 참고.
+      자세한 내용은 [여기](/core-concepts/getters.md#accessing-other-getters)를 참고.
    3. `rootState` 또는 `rootGetters` 인자를 사용하는 경우,
       다른 스토어를 직접 가져와서 대체하거나,
       여전히 Vuex에 있는 상태일 경우에는 Vuex에 직접 접근.
@@ -305,13 +305,13 @@ router.beforeEach((to, from, next) => {
 })
 ```
 
-참고: [가이드 - 컴포넌트 외부의 스토어](/guide/core-concepts/outside-component-usage.md)
+참고: [가이드 - 컴포넌트 외부의 스토어](/core-concepts/outside-component-usage.md)
 
 ## 고급 Vuex 사용 %{#advanced-vuex-usage}%
 
 Vuex 스토어에서 제공하는 고급 기능 중 일부를 사용하는 경우,
 피니아에서 동일한 작업을 수행하는 방법에 대한 몇 가지 지침이 있습니다.
-이러한 요점 중 일부는 [여기](/guide/introduction.md#comparison-with-vuex-3-x-4-x)에서 이미 다뤘습니다.
+이러한 요점 중 일부는 [여기](/introduction.md#comparison-with-vuex-3-x-4-x)에서 이미 다뤘습니다.
 
 ### 동적 모듈 %{#dynamic-modules}%
 
@@ -333,4 +333,4 @@ HMR도 지원되지만 변경이 필요합니다.
 자체적으로 플러그인을 작성했다면,
 피니아와 함께 작동하도록 업데이트할 수 있습니다.
 
-참고: [가이드 - Plugins (플러그인)](/guide/core-concepts/plugins.md)
+참고: [가이드 - Plugins (플러그인)](/core-concepts/plugins.md)

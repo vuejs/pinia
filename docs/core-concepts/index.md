@@ -77,7 +77,7 @@ export const useCounterStore = defineStore('counter', () => {
 
 셋업 스토어는 스토어 내에서 감시자를 만들고 [컴포저블](https://vuejs.kr/guide/reusability/composables.html#composables)을 자유롭게 사용할 수 있으므로,
 [옵션 스토어](#option-stores)보다 훨씬 더 많은 유연성을 제공합니다.
-그러나 컴포저블을 사용하면 [SSR](/guide/cookbook/composables.md)이 더 복잡해집니다.
+그러나 컴포저블을 사용하면 [SSR](/cookbook/composables.md)이 더 복잡해집니다.
 
 ## 어떤 문법을 선택해야 합니까? %{#what-syntax-should-i-pick}%
 
@@ -86,26 +86,21 @@ export const useCounterStore = defineStore('counter', () => {
 
 ## 스토어 이용하기 %{#using-the-store}%
 
-`setup()` 내부에서 `use...Store()`가 호출될 때까지 스토어가 생성되지 않으므로, 스토어를 정의합니다:
+저장소는 `<script setup>` 구성요소 내에서(또는 **모든 컴포저블과 마찬가지로** `setup()` 내에서)
+`use...Store()`가 호출될 때까지 저장소가 생성되지 않기 때문에 저장소를 _정의_합니다. :
 
-```js
+```vue
+<script setup>
 import { useCounterStore } from '@/stores/counter'
 
-export default {
-  setup() {
-    const store = useCounterStore()
-
-    return {
-      // 템플릿에서 사용하기 위해 스토어 인스턴스를 반환할 수 있음
-      store,
-    }
-  },
-}
+// 컴포넌트 어디에서나 `store` 변수에 액세스 ✨
+const store = useCounterStore()
+</script>
 ```
 
 :::tip
 아직 `setup` 컴포넌트를 사용하지 않는 경우,
-["맵 헬퍼"로 피니아를 사용할 수 있습니다](/guide/cookbook/options-api.md).
+["맵 헬퍼"로 피니아를 사용할 수 있습니다](/cookbook/options-api.md).
 :::
 
 원하는 만큼 스토어를 정의할 수 있습니다.
@@ -120,39 +115,43 @@ export default {
 즉, getter 뒤에 `.value`를 쓸 필요가 없지만,
 `setup`의 `props`와 같이 **구조화할 수 없습니다**:
 
-```js
-export default defineComponent({
-  setup() {
-    const store = useCounterStore()
-    // ❌ 이것은 반응형을 깨뜨리기 때문에 작동하지 않음.
-    const { name, doubleCount } = store
+```vue
+<script setup>
+const store = useCounterStore()
+// ❌ 반응성을 깨뜨리기 때문에 작동하지 않습니다.
+// `props`에서 디스트럭처링하는 것과 동일합니다.
+const { name, doubleCount } = store // [!code warning]
+name // 언제나 "Eduardo" // [!code warning]
+doubleCount // 언제나 0 // [!code warning]
 
-    name // "홍길동"
-    doubleCount // 0
+setTimeout(() => {
+  store.increment()
+}, 1000)
 
-    setTimeout(() => {
-      store.increment()
-    }, 1000)
-
-    return {
-      // 항상 "홍길동"이 될 것임.
-      name,
-      // 항상 0이 될 것임.
-      doubleCount,
-      // 이것 또한 항상 0일 것임.
-      doubleNumber: store.doubleCount,
-
-      // ✅ 이것은 반응 할 것임.
-      doubleValue: computed(() => store.doubleCount),
-    }
-  },
-})
+// ✅ 이것은 반응적일 것입니다
+// 💡 또한 `store.doubleCount`로 직접 사용할 수도 있습니다.
+const doubleValue = computed(() => store.doubleCount)
+</script>
 ```
 
 반응형을 유지하면서 스토어에서 속성을 추출하려면, `storeToRefs()`를 사용해야 합니다.
 모든 반응형 속성에 대한 참조를 생성합니다.
 이것은 스토어의 상태만 사용하고, 액션을 호출하지 않을 때 유용합니다.
 스토어 자체에도 바인딩되므로, 스토어에서 직접 액션을 구조화할 수 있습니다:
+
+```vue
+<script setup>
+import { storeToRefs } from 'pinia'
+
+const store = useCounterStore()
+// `name`과 `doubleCount`는 반응형 refs임.
+// 이것은 플러그인에 의해 추가된 속성에 대한 'refs'도 추출함.
+// 그러나 모든 액션 또는 비반응형(ref/반응형이 아닌) 속성을 건너뜀.
+const { name, doubleCount } = storeToRefs(store)
+// increment 액션은 그냥 구조화 가능.
+const { increment } = store
+</script>
+```
 
 ```js
 import { storeToRefs } from 'pinia'

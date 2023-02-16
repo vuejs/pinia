@@ -56,20 +56,23 @@ export const useCounterStore = defineStore('counter', {
 
 그런 다음 컴포넌트에서 사용합니다:
 
-```js
+```vue
+<script setup>
 import { useCounterStore } from '@/stores/counter'
 
-export default {
-  setup() {
-    const counter = useCounterStore()
+const counter = useCounterStore()
 
-    counter.count++
-    // 자동 완성 기능 ✨
-    counter.$patch({ count: counter.count + 1 })
-    // 또는 actions 사용
-    counter.increment()
-  },
-}
+counter.count++
+// 자동 완성 기능 ✨
+counter.$patch({ count: counter.count + 1 })
+// 또는 actions 사용
+counter.increment()
+</script>
+
+<template>
+  <!-- 스토어에서 직접 상태에 액세스 -->
+  <div>현재 카운트: {{ counter.count }}</div>
+</template>
 ```
 
 고급 사용 목적으로 함수(컴포넌트 `setup()`과 유사)를 사용하여 스토어를 정의할 수도 있습니다:
@@ -105,7 +108,7 @@ const useUserStore = defineStore('user', {
   // ...
 })
 
-export default {
+export default defineComponent({
   computed: {
     // 다른 계산된 속성
     // ...
@@ -118,7 +121,7 @@ export default {
     // this.increment()에 접근 제공.
     ...mapActions(useCounterStore, ['increment']),
   },
-}
+})
 ```
 
 핵심 개념에서 각 "맵 헬퍼"에 대한 자세한 정보를 찾을 수 있습니다.
@@ -225,4 +228,4 @@ Vue 생태계의 다른 핵심 라이브러리와 동일한 RFC 프로세스를 
   스토어의 수평적 아키텍처를 고려할 때,
   "네임스페이스" 스토어는 정의된 방식에 내재되어 있으며, 모든 스토어가 네임스페이스라고 말할 수 있습니다.
 
-기존 Vuex ≤4 프로젝트에서 피니아를 사용하도록 변환하는 방법의 자세한 지침은 [Vuex에서 마이그레이션 가이드](/guide/cookbook/migration-vuex.md)를 참고하세요.
+기존 Vuex ≤4 프로젝트에서 피니아를 사용하도록 변환하는 방법의 자세한 지침은 [Vuex에서 마이그레이션 가이드](/cookbook/migration-vuex.md)를 참고하세요.

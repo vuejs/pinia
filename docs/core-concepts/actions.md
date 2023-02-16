@@ -60,18 +60,19 @@ export const useUsers = defineStore('users', {
 또한 원하는 인자를 자유롭게 설정하고, 무엇이든 반환할 수 있습니다.
 액션을 호출하면 모든 것이 자동으로 추론됩니다!
 
-액션은 메서드처럼 호출됩니다:
+액션은 함수 또는 일반 메서드처럼 호출됩니다:
 
-```js
-export default defineComponent({
-  setup() {
-    const store = useCounterStore()
-    // 스토어의 액션을 메서드처럼 호출
-    store.randomizeCounter()
+```vue
+<script setup>
+const store = useCounterStore()
+// 스토어의 액션을 메서드처럼 호출
+store.randomizeCounter()
+</script>
 
-    return {}
-  },
-})
+<template>
+  <!-- 템플릿에서 -->
+  <button @click="store.randomizeCounter()">버튼</button>
+</template>
 ```
 
 ## 다른 스토어 액션에 접근 %{#accessing-other-stores-actions}%
@@ -97,20 +98,6 @@ export const useSettingsStore = defineStore('settings', {
     },
   },
 })
-```
-
-## `setup()`에서 사용 %{#usage-with-setup}%
-
-스토어의 모든 액션을 메서드처럼 직접 호출할 수 있습니다:
-
-```js
-export default {
-  setup() {
-    const store = useCounterStore()
-
-    store.randomizeCounter()
-  },
-}
 ```
 
 ## 옵션 API에서 사용 %{#usage-with-the-options-api}%
@@ -141,10 +128,11 @@ export const useCounterStore = defineStore('counter', {
 `setup()` 훅을 사용하면 옵션 API에서 피니아를 더 쉽게 사용할 수 있습니다.
 추가 맵 헬퍼 함수가 필요하지 않습니다!
 
-```js
+```vue
+<script>
 import { useCounterStore } from '../stores/counter'
 
-export default {
+export default defineComponent({
   setup() {
     const counterStore = useCounterStore()
 
@@ -153,10 +141,11 @@ export default {
   methods: {
     incrementAndPrint() {
       this.counterStore.increment()
-      console.log('숫자세기:', this.counterStore.count)
+      console.log('숫자 세기:', this.counterStore.count)
     },
   },
-}
+})
+</script>
 ```
 
 ### `setup()` 없이 %{#without-setup}%
@@ -234,15 +223,11 @@ unsubscribe()
 컴포넌트가 마운트 해제된 후에도 이를 유지하려면,
 두 번째 인수로 현재 컴포넌트에서 액션 구독을 분리하는 `true`를 전달합니다:
 
-```js
-export default {
-  setup() {
-    const someStore = useSomeStore()
+```vue
+<script setup>
+const someStore = useSomeStore()
 
-    // 이 구독은 컴포넌트가 마운트 해제된 후에도 유지됨.
-    someStore.$onAction(callback, true)
-
-    // ...
-  },
-}
+// 이 구독은 컴포넌트가 마운트 해제된 후에도 유지됨.
+someStore.$onAction(callback, true)
+</script>
 ```

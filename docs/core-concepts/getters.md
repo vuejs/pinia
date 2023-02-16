@@ -48,19 +48,15 @@ export const useCounterStore = defineStore('counter', {
 그런 다음 스토어 인스턴스에서 직접 게터에 접근할 수 있습니다:
 
 ```vue
+<script setup>
+import { useCounterStore } from './counterStore'
+
+const store = useCounterStore()
+</script>
+
 <template>
   <p>Double count is {{ store.doubleCount }}</p>
 </template>
-
-<script>
-export default {
-  setup() {
-    const store = useCounterStore()
-
-    return { store }
-  },
-}
-</script>
 ```
 
 ## 다른 getter에 접근 %{#accessing-other-getters}%
@@ -110,14 +106,13 @@ export const useStore = defineStore('main', {
 그리고 컴포넌트에서 사용:
 
 ```vue
-<script>
-export default {
-  setup() {
-    const store = useStore()
+<script setup>
+import { useUserListStore } from './store'
 
-    return { getUserById: store.getUserById }
-  },
-}
+const userList = useUserListStore()
+const { getUserById } = storeToRefs(userList)
+// <script setup> 내에서 함수에 액세스하려면
+// `getUserById.value`를 사용해야 합니다.
 </script>
 
 <template>
@@ -164,15 +159,14 @@ export const useStore = defineStore('main', {
 
 스토어의 모든 게터를 상태 속성처럼 직접 접근할 수 있습니다.
 
-```js
-export default {
-  setup() {
-    const store = useCounterStore()
+```vue
+<script setup>
+const store = useCounterStore()
 
-    store.count = 3
-    store.doubleCount // 6
-  },
-}
+store.count = 3
+store.doubleCount // 6
+</script>
+```
 ```
 
 ## 옵션 API에서 사용 %{#usage-with-the-options-api}%
@@ -204,13 +198,15 @@ export const useCounterStore = defineStore('counter', {
 `setup()` 훅을 사용하면 옵션 API에서 피니아를 더 쉽게 사용할 수 있습니다.
 추가 맵 헬퍼 함수가 필요하지 않습니다!
 
-```js
+```vue
+<script>
 import { useCounterStore } from '../stores/counter'
 
-export default {
+export default defineComponent({
   setup() {
     const counterStore = useCounterStore()
 
+    // 구조를 파괴하는 대신 전체 저장소만 반환합니다.
     return { counterStore }
   },
   computed: {
@@ -218,8 +214,12 @@ export default {
       return this.counterStore.doubleCount * 2
     },
   },
-}
+})
+</script>
 ```
+
+이것은 컴포넌트를 Options API에서 Composition API로 마이그레이션하는 동안 유용하지만,
+**마이그레이션 단계일 뿐**이므로 항상 동일한 컴포넌트 내에서 두 API 스타일을 혼합하지 마십시오.
 
 ### `setup()` 없이 %{#without-setup}%
 

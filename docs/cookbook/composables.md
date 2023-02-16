@@ -68,7 +68,7 @@ export const useVideoPlayer = defineStore('video', () => {
 
 ## SSR
 
-[SSR](/guide/ssr/index.md)을 처리할 때, 스토어 내에서 컴포저블을 사용하기 위해 몇 개의 추가적인 단계를 처리해야 합니다.
+[SSR](/ssr/index.md)을 처리할 때, 스토어 내에서 컴포저블을 사용하기 위해 몇 개의 추가적인 단계를 처리해야 합니다.
 
 [옵션 스토어](#option-stores)에서 `hydrate()` 함수를 정의해야 합니다.
 이 함수는 스토어가 생성될 때 사용 가능한 초기 상태가 있는 경우,

@@ -7,8 +7,8 @@
     "build": "vitepress build docs"
   },
   "dependencies": {
-    "@vueuse/core": "^8.9.4",
-    "pinia": "^2.0.0",
-    "vitepress": "1.0.0-alpha.4"
+    "@vueuse/core": "^9.11.1",
+    "pinia": "^2.0.18",
+    "vitepress": "1.0.0-alpha.40"
   }
 }

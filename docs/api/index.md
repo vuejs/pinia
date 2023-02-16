@@ -2,8 +2,8 @@ API Documentation
 
 # API Documentation
 
-## Modules
+## Modules %{#Modules}%
 
-- [@pinia/nuxt](modules/pinia_nuxt/index.md)
-- [@pinia/testing](modules/pinia_testing/index.md)
-- [pinia](modules/pinia/index.md)
+- [@pinia/nuxt](modules/pinia_nuxt.md)
+- [@pinia/testing](modules/pinia_testing.md)
+- [pinia](modules/pinia.md)

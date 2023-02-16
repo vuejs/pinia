@@ -1,6 +1,8 @@
 ---
-title: Vue 3의 공식 Store
 layout: home
+
+title: Vue 3의 공식 Store
+titleTemplate: Vue.js를 위한 직관적인 스토어
 
 hero:
   name: Pinia
@@ -12,7 +14,7 @@ hero:
   actions:
     - theme: brand
       text: 시작하기
-      link: /guide/getting-started.html
+      link: /getting-started.html
     - theme: alt
       text: 대모
       link: https://stackblitz.com/github/piniajs/example-vue-3-vite

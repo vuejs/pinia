@@ -11,7 +11,7 @@ title: 플러그인
 - 스토어를 정의할 때 새로운 옵션 추가
 - 스토어에 새로운 메서드 추가
 - 기존 메서드 랩핑
-- 액션 변경 또는 취소
+- 인터셉트 작업 및 그 결과
 - [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)와 같은 사이드 이팩트 구현
 - 특정 **스토어에만** 적용
 
@@ -21,8 +21,8 @@ title: 플러그인
 ```js
 import { createPinia } from 'pinia'
 
-// 이 플러그인이 설치된 후 생성되는 모든 스토어에 `secret`이라는 속성을 추가됨.
-// 이것은 다른 파일에 작성할 수 있음.
+// 이 플러그인이 설치된 후 생성된 모든 저장소에 `secret`이라는 속성을 추가합니다.
+// 이것은 다른 파일에 있을 수 있습니다.
 function SecretPiniaPlugin() {
   return { secret: '임금님 귀는 당나귀 귀!' }
 }
@@ -288,7 +288,7 @@ export function myPiniaPlugin(context: PiniaPluginContext) {
 스토어에 새 속성을 추가할 때, `PiniaCustomProperties` 인터페이스도 확장해야 합니다.
 
 ```ts
-import 'pinia'
+import ...
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
@@ -298,6 +298,9 @@ declare module 'pinia' {
 
     // 더 간단한 값도 정의할 수 있음.
     simpleNumber: number
+
+    // 위의 플러그인에서 추가한 라우터를 입력합니다(#adding-new-external-properties).
+    router: Router
   }
 }
 ```
@@ -388,12 +391,12 @@ declare module 'pinia' {
 
 :::tip
 Store 유형에서 게터를 추출하는 `StoreGetters` 유형도 있습니다.
-또한 `DefineStoreOptions` 및 `DefineSetupStoreOptions` 유형을 각각 확장하여 [셋업 스토어](/guide/core-concepts/#setup-stores) 또는 [옵션 스토어](/guide/core-concepts/#option-stores)의 옵션을 확장할 수도 있습니다.
+또한 `DefineStoreOptions` 및 `DefineSetupStoreOptions` 유형을 각각 확장하여 [셋업 스토어](/core-concepts/#setup-stores) 또는 [옵션 스토어](/core-concepts/#option-stores)의 옵션을 확장할 수도 있습니다.
 :::
 
 ## Nuxt.js
 
-[Nuxt와 함께 피니아를 사용](/guide/ssr/nuxt.md)하는 경우,
+[Nuxt와 함께 피니아를 사용](/ssr/nuxt.md)하는 경우,
 먼저 [Nuxt 플러그인](https://nuxtjs.org/docs/2.x/directory-structure/plugins)을 만들어야 합니다.
 이렇게 하면 `pinia` 인스턴스에 접근할 수 있습니다:
 

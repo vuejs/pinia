@@ -11,10 +11,10 @@ title: setup 없이 사용하기
 몇 가지 함수가 있습니다:
 
 - [mapStores](#giving-access-to-the-whole-store)
-- [mapState](/guide/core-concepts/state.md#usage-with-the-options-api)
-- [mapWritableState](/guide/core-concepts/state.md#modifiable-state)
-- ⚠️ [mapGetters](/guide/core-concepts/getters.md#without-setup) (마이그레이션 편의를 위해 `mapState()`를 대신 사용하십시오.)
-- [mapActions](/guide/core-concepts/actions.md#without-setup)
+- [mapState](/core-concepts/state.md#usage-with-the-options-api)
+- [mapWritableState](/core-concepts/state.md#modifiable-state)
+- ⚠️ [mapGetters](/core-concepts/getters.md#without-setup) (마이그레이션 편의를 위해 `mapState()`를 대신 사용하십시오.)
+- [mapActions](/core-concepts/actions.md#without-setup)
 
 ## 전체 스토어에 대한 접근 권한 부여 %{#giving-access-to-the-whole-store}%
 

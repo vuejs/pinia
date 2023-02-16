@@ -10,15 +10,12 @@ title: 서버 사이드 렌더링
 
 피니아로 스토어를 만드는 것은 `setup` 함수, `getters`, `actions`의 상단에서 `useStore()` 함수를 호출하는 한 SSR에서 즉시 사용할 수 있습니다:
 
-```js
-export default defineComponent({
-  setup() {
-    // 이것은 피니아가 `setup()`
-    // 내부에서 실행 중인 앱이라는 것을 알고 있으므로 작동함.
-    const main = useMainStore()
-    return { main }
-  },
-})
+```vue
+<script setup>
+// 이것은 피니아가 `setup()`
+// 내부에서 실행 중인 앱이라는 것을 알고 있으므로 작동함.
+const main = useMainStore()
+</script>
 ```
 
 ## `setup()` 외부에서 스토어 사용 %{#using-the-store-outside-of-setup}%
@@ -49,6 +46,18 @@ export default {
     const store = useStore(this.$pinia)
   },
 }
+```
+
+`onServerPrefetch()`를 사용할 때 특별한 작업을 수행할 필요가 없습니다:
+
+```vue
+<script setup>
+const store = useStore()
+onServerPrefetch(async () => {
+  // ✅ 작동함
+  await store.fetchData()
+})
+</script>
 ```
 
 ## 상태 하이드레이션 %{#state-hydration}%

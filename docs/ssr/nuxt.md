@@ -23,6 +23,7 @@ npm을 사용하는 경우,
   "vue": "latest"
 }
 ```
+
 :::
 
 모든 것을 처리할 수 있는 모듈을 제공하므로,
@@ -57,6 +58,15 @@ export default {
 }
 ```
 
+`onServerPrefetch()`와 마찬가지로 `asyncData()` 내에서 저장 작업을 호출하려는 경우 특별한 작업을 수행할 필요가 없습니다:
+
+```vue
+<script setup>
+const store = useStore()
+const { data } = await useAsyncData('user', () => store.fetchUser())
+</script>
+```
+
 ## 오토 임포트 (import) %{#auto-imports}%
 
 기본적으로 `@pinia/nuxt`는 싱글 오토 임포트 `usePinia()`를 노출합니다.
@@ -67,20 +77,14 @@ export default {
 // nuxt.config.js
 export default defineNuxtConfig({
   // ... 다른 옵션들
-  modules: [
-    // ...
-    [
-      '@pinia/nuxt',
-      {
-        autoImports: [
-          // `defineStore`를 자동으로 임포트함.
-          'defineStore', // import { defineStore } from 'pinia'
-          // `defineStore`를 `definePiniaStore`로 자동으로 임포트함.
-          ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
-        ],
-      },
+  modules: ['@pinia/nuxt'],
+  pinia: {
+    autoImports: [
+      // `defineStore`를 자동으로 임포트함.
+      'defineStore', // import { defineStore } from 'pinia'
+      ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
     ],
-  ],
+  },
 })
 ```
 

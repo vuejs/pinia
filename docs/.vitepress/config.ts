@@ -1,11 +1,33 @@
-import { defineConfig, UserConfig } from 'vitepress'
+import {defineConfig, UserConfig} from 'vitepress'
 
+const META_IMAGE = 'https://pinia.vuejs.kr/social.png'
+const META_URL = 'https://pinia.vuejs.kr'
+const META_TITLE = 'Pinia 🍍'
+const META_DESCRIPTION = '직관적이고 안전한 Vue.js 공식 Store'
 const head: UserConfig['head'] = [
-  ['link', { rel: 'icon', href: `/logo.png` }],
+  ['link', {rel: 'icon', type: 'image/svg+xml', href: '/logo.svg'}],
+  ['link', {rel: 'icon', type: 'image/png', href: '/logo.png'}],
+  ['meta', {property: 'og:type', content: 'website',},],
+  ['meta', {property: 'og:url', content: META_URL}],
+  ['meta', {property: 'og:description', content: META_DESCRIPTION}],
+  ['meta', {property: 'twitter:image', content: META_IMAGE,},],
+  ['meta', {property: 'twitter:card', content: 'summary_large_image',},],
+  ['meta', {property: 'twitter:url', content: META_URL}],
+  ['meta', {property: 'twitter:title', content: META_TITLE}],
+  ['meta', {property: 'twitter:description', content: META_DESCRIPTION}],
+  ['link', {rel: 'preload', href: '/dank-mono.css', as: 'style', onload: "this.onload=null;this.rel='stylesheet'",},],
+  ['script', {src: 'https://unpkg.com/thesemetrics@latest', async: '', type: 'text/javascript',},],
 ]
 
 const config = defineConfig({
+  appearance: 'dark',
+
   markdown: {
+    theme: {
+      dark: 'dracula-soft',
+      light: 'vitesse-light',
+    },
+
     attrs: {
       leftDelimiter: '%{',
       rightDelimiter: '}%',
@@ -16,12 +38,10 @@ const config = defineConfig({
   title: 'Pinia',
   description: 'Vue.js 공식 Store',
   head,
-  // serviceWorker: true,
-
-  lastUpdated: true,
 
   themeConfig: {
     logo: '/logo.png',
+    outline: [2, 3],
 
     editLink: {
       pattern: 'https://github.com/niceplugin/Vuejs-Pinia-KO/edit/main-korean/docs/:path',
@@ -31,8 +51,8 @@ const config = defineConfig({
     lastUpdatedText: '마지막 수정일',
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/niceplugin/Vuejs-Pinia-KO' },
-      { icon: 'slack', link: 'https://vuejs-korea.slack.com/' }
+      {icon: 'github', link: 'https://github.com/niceplugin/Vuejs-Pinia-KO'},
+      {icon: 'slack', link: 'https://vuejs-korea.slack.com/'}
     ],
 
     // carbonAds: {
@@ -53,7 +73,7 @@ const config = defineConfig({
     nav: [
       {
         text: '가이드',
-        link: '/guide/getting-started.md',
+        link: '/getting-started.md',
       },
       {
         text: 'API (모듈별)',
@@ -79,31 +99,31 @@ const config = defineConfig({
     ],
 
     sidebar: {
-      '/guide/': [
+      '/': [
         {
           text: '소개',
           items: [
             {
               text: '피니아란?',
-              link: '/guide/introduction.md',
+              link: '/introduction.md',
             },
             {
               text: '시작하기',
-              link: '/guide/getting-started.md',
+              link: '/getting-started.md',
             },
           ],
         },
         {
           text: '핵심 개념',
           items: [
-            { text: 'Store (스토어) 다루기', link: '/guide/core-concepts/' },
-            { text: 'State (상태)', link: '/guide/core-concepts/state.md' },
-            { text: 'Getters (게터)', link: '/guide/core-concepts/getters.md' },
-            { text: 'Actions (액션)', link: '/guide/core-concepts/actions.md' },
-            { text: 'Plugins (플러그인)', link: '/guide/core-concepts/plugins.md' },
+            {text: 'Store (스토어) 다루기', link: '/core-concepts/'},
+            {text: 'State (상태)', link: '/core-concepts/state.md'},
+            {text: 'Getters (게터)', link: '/core-concepts/getters.md'},
+            {text: 'Actions (액션)', link: '/core-concepts/actions.md'},
+            {text: 'Plugins (플러그인)', link: '/core-concepts/plugins.md'},
             {
               text: '컴포넌트 외부의 스토어',
-              link: '/guide/core-concepts/outside-component-usage.md',
+              link: '/core-concepts/outside-component-usage.md',
             },
           ],
         },
@@ -112,15 +132,15 @@ const config = defineConfig({
           items: [
             {
               text: 'Vue와 Vite',
-              link: '/guide/ssr/',
+              link: '/ssr/',
             },
             {
               text: 'Nuxt.js',
-              link: '/guide/ssr/nuxt.md',
+              link: '/ssr/nuxt.md',
             },
             {
               text: '컴포저블 다루기',
-              link: '/guide/cookbook/composables.html#ssr',
+              link: '/cookbook/composables.html#ssr',
             },
           ],
         },
@@ -129,27 +149,27 @@ const config = defineConfig({
           items: [
             {
               text: '개요',
-              link: '/guide/cookbook/',
+              link: '/cookbook/',
             },
             {
               text: 'Vuex ≤4에서 마이그레이션',
-              link: '/guide/cookbook/migration-vuex.md',
+              link: '/cookbook/migration-vuex.md',
             },
             {
               text: '핫 모듈 교체 (HMR)',
-              link: '/guide/cookbook/hot-module-replacement.md',
+              link: '/cookbook/hot-module-replacement.md',
             },
             {
               text: '테스팅',
-              link: '/guide/cookbook/testing.md',
+              link: '/cookbook/testing.md',
             },
             {
               text: 'setup() 없이 사용하기',
-              link: '/guide/cookbook/options-api.md',
+              link: '/cookbook/options-api.md',
             },
             {
               text: '스토어 구성하기',
-              link: '/guide/cookbook/composing-stores.md',
+              link: '/cookbook/composing-stores.md',
             },
           ],
         },
