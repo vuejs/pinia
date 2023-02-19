@@ -109,7 +109,7 @@ const doubleValue = computed(() => store.doubleCount)
 
 为了从 store 中提取属性时保持其响应性，你需要使用 `storeToRefs()`。它将为每一个响应式属性创建引用。当你只使用 store 的状态而不调用任何 action 时，它会非常有用。请注意，你可以直接从 store 中解构 action，因为它们也被绑定到 store 上：
 
-````vue
+```vue
 <script setup>
 import { storeToRefs } from 'pinia'
 const store = useCounterStore()
