@@ -26,6 +26,11 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       label: '本页内容',
     },
 
+    docFooter: {
+      prev: '上一页',
+      next: '下一页',
+    },
+
     nav: [
       // { text: 'Config', link: '/config/' },
       // { text: 'Plugins', link: '/plugins/' },
