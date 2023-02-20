@@ -1,3 +1,7 @@
+## [0.4.7](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.6...@pinia/nuxt@0.4.7) (2023-02-20)
+
+No changes in this release
+
 ## [0.4.6](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.5...@pinia/nuxt@0.4.6) (2022-11-27)
 
 ### Bug Fixes
@@ -81,8 +85,8 @@
   `$fetch()` and `useNuxtApp()`. You can find more information about this
   in Nuxt documentation:
 
-  - https://v3.nuxtjs.org/bridge/bridge-composition-api/
-  - https://v3.nuxtjs.org/bridge/overview
+  - <https://v3.nuxtjs.org/bridge/bridge-composition-api/>
+  - <https://v3.nuxtjs.org/bridge/overview>
 
 - **nuxt:** in Nuxt 3, `$nuxt` is no longer available in stores.
   This is because it was removed in Nuxt 3 and it is no longer the

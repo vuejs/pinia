@@ -1,3 +1,9 @@
+## [2.0.31](https://github.com/vuejs/pinia/compare/pinia@2.0.30...pinia@2.0.31) (2023-02-20)
+
+### Bug Fixes
+
+- **types:** mapWritableState array ([07eaf99](https://github.com/vuejs/pinia/commit/07eaf99a566ef5de4173b782504a163bd276e12e)), closes [#2014](https://github.com/vuejs/pinia/issues/2014)
+
 ## [2.0.30](https://github.com/vuejs/pinia/compare/pinia@2.0.29...pinia@2.0.30) (2023-02-01)
 
 ### Bug Fixes

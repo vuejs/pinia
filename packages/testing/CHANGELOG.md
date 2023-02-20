@@ -1,3 +1,7 @@
+## [0.0.15](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.14...@pinia/testing@0.0.15) (2023-02-20)
+
+No changes in this release
+
 ## [0.0.14](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.13...@pinia/testing@0.0.14) (2022-08-18)
 
 - refactor changes
