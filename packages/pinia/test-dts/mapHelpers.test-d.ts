@@ -90,12 +90,9 @@ expectType<{
   newToggleA: () => void
 }>(mapActions(useStore, { newSetToggle: 'setToggle', newToggleA: 'toggleA' }))
 
-expectType<{
-  a: {
-    get: () => 'on' | 'off'
-    set: (v: 'on' | 'off') => any
-  }
-}>(mapWritableState(useStore, ['a']))
+expectType<{ a: 'on' | 'off' }>(mapWritableState(useStore, ['a']))
+// @ts-expect-error: only defined in array
+mapWritableState(useStore, ['a']).b
 
 expectType<{
   newA: {

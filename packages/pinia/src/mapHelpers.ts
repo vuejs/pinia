@@ -462,11 +462,12 @@ export function mapWritableState<
   Id extends string,
   S extends StateTree,
   G extends _GettersTree<S>,
-  A
+  A,
+  Keys extends keyof S
 >(
   useStore: StoreDefinition<Id, S, G, A>,
-  keys: Array<keyof S>
-): _MapWritableStateReturn<S>
+  keys: readonly Keys[]
+): { [K in Keys]: S[K] }
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
