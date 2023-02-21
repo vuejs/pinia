@@ -467,7 +467,12 @@ export function mapWritableState<
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: readonly Keys[]
-): { [K in Keys]: S[K] }
+): {
+  [K in Keys]: {
+    get: () => S[K]
+    set: (value: S[K]) => any
+  }
+}
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
