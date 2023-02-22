@@ -4,13 +4,11 @@ import { mockWarn } from './vitest-mock-warn'
 
 describe('Root State', () => {
   mockWarn()
-  const useA = defineStore({
-    id: 'a',
+  const useA = defineStore('a', {
     state: () => ({ a: 'a' }),
   })
 
-  const useB = defineStore({
-    id: 'b',
+  const useB = defineStore('b', {
     state: () => ({ b: 'b' }),
   })
 
