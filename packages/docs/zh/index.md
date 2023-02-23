@@ -20,6 +20,12 @@ hero:
     - theme: alt
       text: Demo 演示
       link: https://stackblitz.com/github/piniajs/example-vue-3-vite
+    - theme: cta vueschool
+      text: 观看视频介绍
+      link: https://vueschool.io/lessons/introduction-to-pinia?friend=vuerouter&utm_source=pinia&utm_medium=link&utm_campaign=homepage
+    - theme: cta vue-mastery
+      text: 获取 Pinia 速查表
+      link: https://www.vuemastery.com/pinia?coupon=PINIA-DOCS&via=eduardo
 
 features:
   - title: 💡 所见即所得
