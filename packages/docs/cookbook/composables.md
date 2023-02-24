@@ -38,7 +38,7 @@ export const useVideoPlayer = defineStore('video', () => {
   const videoElement = ref<HTMLVideoElement>()
   const src = ref('/data/video.mp4')
   const { playing, volume, currentTime, togglePictureInPicture } =
-    useMediaControls(video, { src })
+    useMediaControls(videoElement, { src })
 
   function loadVideo(element: HTMLVideoElement, src: string) {
     videoElement.value = element
