@@ -8,7 +8,7 @@
 Action 相当于组件中的 [method](https://v3.vuejs.org/guide/data-methods.html#methods)。它们可以通过 `defineStore()` 中的 `actions` 属性来定义，**并且它们也是定义业务逻辑的完美选择。**
 
 ```js
-export const useStore = defineStore('main', {
+export const useCounterStore = defineStore('main', {
   state: () => ({
     count: 0,
   }),
