@@ -289,6 +289,7 @@ const maxBlinkInterval = 10000
 onMounted(() => {
   nextTick(() => {
     computedEyesCenter()
+    idle.value = true
   })
 
   let timerId = setInterval(() => {
