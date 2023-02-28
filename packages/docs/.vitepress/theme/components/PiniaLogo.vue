@@ -40,7 +40,7 @@
             d="M150.023 321.156C149.513 335.783 137.241 347.226 122.615 346.715C107.988 346.205 96.545 333.933 97.0557 319.307C97.5665 304.68 109.838 293.237 124.464 293.748C139.091 294.258 150.534 306.53 150.023 321.156Z"
             fill="white" />
           <g clip-path="url(#eye-left-mask)">
-            <g class="eyeball" :style="eyeLeftStyle">
+            <g class="eyeball" >
               <path
                 d="M141.046 320.343C140.719 329.726 132.847 337.067 123.463 336.739C114.08 336.411 106.739 328.539 107.067 319.156C107.395 309.773 115.267 302.432 124.65 302.76C134.033 303.087 141.374 310.959 141.046 320.343Z"
                 fill="black" />
@@ -65,7 +65,7 @@
             d="M279.944 325.693C279.433 340.32 267.162 351.763 252.536 351.252C237.909 350.742 226.466 338.47 226.977 323.844C227.487 309.217 239.759 297.774 254.385 298.285C269.012 298.795 280.455 311.067 279.944 325.693Z"
             fill="white" />
           <g clip-path="url(#eye-right-mask)">
-            <g class="eyeball" :style="eyeRightStyle">
+            <g class="eyeball" >
               <path
                 d="M270.967 324.879C270.64 334.263 262.767 341.604 253.384 341.276C244.001 340.948 236.66 333.076 236.988 323.693C237.316 314.31 245.188 306.969 254.571 307.297C263.954 307.624 271.295 315.496 270.967 324.879Z"
                 fill="black" />
@@ -128,8 +128,8 @@
 
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from 'vue'
-import { useSpring } from 'vue-use-spring'
-import { useMouse, whenever, until } from '@vueuse/core'
+import { presets, useSpring } from 'vue-use-spring'
+import { useMouse, useEventListener, useDebounceFn } from '@vueuse/core'
 
 const isLoaded = ref(false)
 
@@ -137,15 +137,17 @@ const { x: mouseX, y: mouseY } = useMouse()
 const mousePos = useSpring(reactive({
   x: mouseX,
   y: mouseY,
-}))
+}), {
+  ...presets.noWobble,
+  precision: 0.1
+})
 
 const svgEl = ref<SVGElement>()
 const leftEyeCenter = ref({ x: 0, y: 0 })
 const rightEyeCenter = ref({ x: 0, y: 0 })
 let finished = false
-whenever(() => isLoaded.value, async () => {
-  if (finished) return
-  await nextTick()
+
+ function computedEyesCenter() {
   const svg = svgEl.value
   if (svg) {
     const leftEye = svg.querySelector<SVGElement>('.eye-left .eyeball')!
@@ -163,7 +165,9 @@ whenever(() => isLoaded.value, async () => {
     }
     finished = true
   }
-})
+}
+
+useEventListener('resize', useDebounceFn(computedEyesCenter, 750))
 
 const leftEyeHorizontalDistance = computed(() => {
   return Math.min(1, Math.max(-1, (mousePos.x - leftEyeCenter.value.x) / 150))
@@ -175,24 +179,21 @@ const eyeVerticalDistance = computed(() => {
   return Math.min(1, Math.max(-1, (mousePos.y - leftEyeCenter.value.y) / 100))
 })
 
-const eyeLeftStyle = computed(() => ({
-  transform: `translate(${12 * leftEyeHorizontalDistance.value}px, ${10 * eyeVerticalDistance.value}px)`,
-}))
-
-const eyeRightStyle = computed(() => ({
-  transform: `translate(${12 * rightEyeHorizontalDistance.value}px, ${10 * eyeVerticalDistance.value}px)`,
-}))
-
-
 const blinking = ref<'open' | 'closed'>('open')
 const talking = ref<'open' | 'closed'>('closed')
 
 const blinkTimer = 100
-const blinkInterval = 10000
+// const blinkInterval = 6000
+const minBlinkInterval = 2000
+const maxBlinkInterval = 10000
 const talkRate = 120
 
 onMounted(() => {
   isLoaded.value = true
+  nextTick(() => {
+    computedEyesCenter()
+  })
+
   // return
   let timerId = setInterval(() => {
     let blinkState = 0
@@ -210,7 +211,7 @@ onMounted(() => {
       }
     }
     setTimeout(blinkHandler, 0)
-  }, blinkInterval)
+  }, Math.random() * (maxBlinkInterval - minBlinkInterval) + minBlinkInterval)
 
   onUnmounted(() => {
     clearInterval(timerId)
@@ -296,6 +297,15 @@ onMounted(() => {
 </style>
 
 <style scoped>
+
+.eye-left .eyeball {
+  transform: translate(calc(12px * v-bind(leftEyeHorizontalDistance)), calc(10px * v-bind(eyeVerticalDistance)));
+}
+
+.eye-right .eyeball {
+  transform: translate(calc(12px * v-bind(rightEyeHorizontalDistance)), calc(10px * v-bind(eyeVerticalDistance)));
+}
+
 .leaves {
   /* animation: 500ms ease-in-out infinite rubberBand;
   animation: 3s ease-in-out 0s infinite normal leaves-move;
