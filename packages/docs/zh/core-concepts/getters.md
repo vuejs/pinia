@@ -182,7 +182,7 @@ export const useCounterStore = defineStore('counter', {
 
 ### 使用 `setup()` %{#with-setup}%
 
-虽然并不是每个开发者都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易用。并且不需要额外的映射辅助函数!
+虽然并不是每个开发者都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易用。并且不需要额外的映射辅助函数！
 
 ```vue
 <script>
