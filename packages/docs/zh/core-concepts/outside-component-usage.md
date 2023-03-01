@@ -24,7 +24,8 @@ app.use(pinia)
 const userStore = useUserStore()
 ```
 
-为确保 pinia 实例被激活，最简单的方法就是将 `useStore()` 的调用放在 pinia 安装后才会执行的函数中。
+为确保 pinia 实例被激活，最简单的方法就是将 `useStore()` 的调用放在 pinia 安
+装后才会执行的函数中。
 
 让我们来看看这个在 Vue Router 的导航守卫中使用 store 的例子。
 
@@ -56,4 +57,4 @@ router.beforeEach((to) => {
 
 当处理服务端渲染时，你将必须把 `pinia` 实例传递给 `useStore()`。这可以防止 pinia 在不同的应用实例之间共享全局状态。
 
-在[SSR 指南](/ssr/index.md)中有一整节专门讨论这个问题，这里只是一个简短的解释。
+在[SSR 指南](../ssr/index.md)中有一整节专门讨论这个问题，这里只是一个简短的解释。
