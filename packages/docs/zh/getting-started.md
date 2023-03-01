@@ -14,7 +14,7 @@ npm install pinia
 
 如果你正在使用 Vue CLI，你可以试试这个[**非官方插件**](https://github.com/wobsoriano/vue-cli-plugin-pinia)。
 
-创建一个 pinia 实例(根 store)并将其传递给应用：
+创建一个 pinia 实例 (根 store) 并将其传递给应用：
 
 ```js {2,5-6,8}
 import { createApp } from 'vue'
@@ -46,7 +46,7 @@ new Vue({
 })
 ```
 
-这样才能提供 devtools 的支持。在 Vue 3 中，一些功能仍然不被支持，如 time traveling 和编辑，这是因为 vue-devtools 还没有相关的 API，但 devtools 也有很多针对 Vue 3 的专属功能，而且就开发者的体验来说，Vue 3 整体上要好得多。在 Vue 2 中，Pinia 使用的是 Vuex 的现有接口(因此不能与 Vuex 一起使用)。
+这样才能提供 devtools 的支持。在 Vue 3 中，一些功能仍然不被支持，如 time traveling 和编辑，这是因为 vue-devtools 还没有相关的 API，但 devtools 也有很多针对 Vue 3 的专属功能，而且就开发者的体验来说，Vue 3 整体上要好得多。在 Vue 2 中，Pinia 使用的是 Vuex 的现有接口 (因此不能与 Vuex 一起使用) 。
 
 ## Store 是什么？%{#what-is-a-store}%
 
