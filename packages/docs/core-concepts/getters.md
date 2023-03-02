@@ -98,6 +98,7 @@ and use in component:
 
 ```vue
 <script setup>
+import { storeToRefs } from 'pinia'
 import { useUserListStore } from './store'
 
 const userList = useUserListStore()
