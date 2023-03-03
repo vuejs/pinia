@@ -8,9 +8,9 @@ editLink: false
 
 [pinia](../modules/pinia.md).PiniaCustomProperties
 
-Interface to be extended by the user when they add properties through plugins.
+Интерфейс, который будет расширен пользователем при добавлении свойств с помощью плагинов.
 
-## Type parameters %{#Type-parameters}%
+## Типы параметров %{#Type-parameters}%
 
 | Имя  | Тип                                                                                                 |
 | :--- | :-------------------------------------------------------------------------------------------------- |
@@ -25,18 +25,18 @@ Interface to be extended by the user when they add properties through plugins.
 
 • `get` **route**(): `RouteLocationNormalized`
 
-#### Returns %{#Accessors-route-Returns}%
+#### Возвращает %{#Accessors-route-Returns}%
 
 `RouteLocationNormalized`
 
 • `set` **route**(`value`): `void`
 
-#### Parameters %{#Accessors-route-Parameters}%
+#### Параметры %{#Accessors-route-Parameters}%
 
 | Имя     | Тип                                                                        |
 | :------ | :------------------------------------------------------------------------- |
 | `value` | `RouteLocationNormalizedLoaded` \| `Ref`<`RouteLocationNormalizedLoaded`\> |
 
-#### Returns %{#Accessors-route-Returns_1}%
+#### Возвращает %{#Accessors-route-Returns_1}%
 
 `void`

@@ -34,16 +34,16 @@ Pinia - это библиотека хранилища для Vue, она поз
 import { defineStore } from 'pinia'
 
 export const useCounterStore = defineStore('counter', {
-  state: () => {
-    return { count: 0 }
-  },
-  // можно также определить как
-  // state: () => ({ count: 0 })
-  actions: {
-    increment() {
-      this.count++
+    state: () => {
+        return { count: 0 }
     },
-  },
+    // можно также определить как
+    // state: () => ({ count: 0 })
+    actions: {
+        increment() {
+            this.count++
+        },
+    },
 })
 ```
 
@@ -63,8 +63,8 @@ counter.increment()
 </script>
 
 <template>
-  <!-- Получите доступ к состоянию непосредственно из store -->
-  <div>Текущее количество: {{ counter.count }}</div>
+    <!-- Получите доступ к состоянию непосредственно из store -->
+    <div>Текущее количество: {{ counter.count }}</div>
 </template>
 ```
 
@@ -72,12 +72,12 @@ counter.increment()
 
 ```js
 export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  function increment() {
-    count.value++
-  }
+    const count = ref(0)
+    function increment() {
+        count.value++
+    }
 
-  return { count, increment }
+    return { count, increment }
 })
 ```
 
@@ -85,34 +85,34 @@ export const useCounterStore = defineStore('counter', () => {
 
 ```js {22,24,28}
 const useCounterStore = defineStore('counter', {
-  state: () => ({ count: 0 }),
-  getters: {
-    double: (state) => state.count * 2,
-  },
-  actions: {
-    increment() {
-      this.count++
+    state: () => ({ count: 0 }),
+    getters: {
+        double: (state) => state.count * 2,
     },
-  },
+    actions: {
+        increment() {
+            this.count++
+        },
+    },
 })
 
 const useUserStore = defineStore('user', {
-  // ...
+    // ...
 })
 
 export default defineComponent({
-  computed: {
-    // другие вычисляемые свойства
-    // ...
-    // предоставляет доступ к this.counterStore и this.UserStore
-    ...mapStores(useCounterStore, useUserStore),
-    // предоставляет доступ на чтение к this.count и this.double
-    ...mapState(useCounterStore, ['count', 'double']),
-  },
-  methods: {
-    // предоставляет доступ к this.increment()
-    ...mapActions(useCounterStore, ['increment']),
-  },
+    computed: {
+        // другие вычисляемые свойства
+        // ...
+        // предоставляет доступ к this.counterStore и this.UserStore
+        ...mapStores(useCounterStore, useUserStore),
+        // предоставляет доступ на чтение к this.count и this.double
+        ...mapState(useCounterStore, ['count', 'double']),
+    },
+    methods: {
+        // предоставляет доступ к this.increment()
+        ...mapActions(useCounterStore, ['increment']),
+    },
 })
 ```
 
@@ -130,42 +130,42 @@ Pinia (произносится `/piːnjʌ/`, как "peenya" по-англий�
 import { defineStore } from 'pinia'
 
 export const useTodos = defineStore('todos', {
-  state: () => ({
-    /** @type {{ text: string, id: number, isFinished: boolean }[]} */
-    todos: [],
-    /** @type {'all' | 'finished' | 'unfinished'} */
-    filter: 'all',
-    // type will be automatically inferred to number
-    nextId: 0,
-  }),
-  getters: {
-    finishedTodos(state) {
-      // autocompletion! ✨
-      return state.todos.filter((todo) => todo.isFinished)
+    state: () => ({
+        /** @type {{ text: string, id: number, isFinished: boolean }[]} */
+        todos: [],
+        /** @type {'all' | 'finished' | 'unfinished'} */
+        filter: 'all',
+        // type will be automatically inferred to number
+        nextId: 0,
+    }),
+    getters: {
+        finishedTodos(state) {
+            // autocompletion! ✨
+            return state.todos.filter((todo) => todo.isFinished)
+        },
+        unfinishedTodos(state) {
+            return state.todos.filter((todo) => !todo.isFinished)
+        },
+        /**
+         * @returns {{ text: string, id: number, isFinished: boolean }[]}
+         */
+        filteredTodos(state) {
+            if (this.filter === 'finished') {
+                // вызывать другие геттеры с помощью autocompletion ✨
+                return this.finishedTodos
+            } else if (this.filter === 'unfinished') {
+                return this.unfinishedTodos
+            }
+            return this.todos
+        },
     },
-    unfinishedTodos(state) {
-      return state.todos.filter((todo) => !todo.isFinished)
+    actions: {
+        // любое количество аргументов, возвращает promise или нет
+        addTodo(text) {
+            // вы можете напрямую изменять состояние
+            this.todos.push({ text, id: this.nextId++, isFinished: false })
+        },
     },
-    /**
-     * @returns {{ text: string, id: number, isFinished: boolean }[]}
-     */
-    filteredTodos(state) {
-      if (this.filter === 'finished') {
-        // вызывать другие геттеры с помощью autocompletion ✨
-        return this.finishedTodos
-      } else if (this.filter === 'unfinished') {
-        return this.unfinishedTodos
-      }
-      return this.todos
-    },
-  },
-  actions: {
-    // любое количество аргументов, возвращает promise или нет
-    addTodo(text) {
-      // вы можете напрямую изменять состояние
-      this.todos.push({ text, id: this.nextId++, isFinished: false })
-    },
-  },
 })
 ```
 

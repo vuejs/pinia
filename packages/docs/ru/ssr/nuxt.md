@@ -26,11 +26,11 @@ npm install pinia @pinia/nuxt
 ```js
 // nuxt.config.js
 export default defineNuxtConfig({
-  // ... другие параметры
-  modules: [
-    // ...
-    '@pinia/nuxt',
-  ],
+    // ... другие параметры
+    modules: [
+        // ...
+        '@pinia/nuxt',
+    ],
 })
 ```
 
@@ -44,9 +44,9 @@ export default defineNuxtConfig({
 import { useStore } from '~/stores/myStore'
 
 export default {
-  asyncData({ $pinia }) {
-    const store = useStore($pinia)
-  },
+    asyncData({ $pinia }) {
+        const store = useStore($pinia)
+    },
 }
 ```
 
@@ -66,15 +66,15 @@ By default `@pinia/nuxt` exposes one single auto import: `usePinia()`, which is 
 ```js
 // nuxt.config.js
 export default defineNuxtConfig({
-  // ... другие параметры
-  modules: ['@pinia/nuxt'],
-  pinia: {
-    autoImports: [
-      // automatically imports `defineStore`
-      'defineStore', // import { defineStore } from 'pinia'
-      ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
-    ],
-  },
+    // ... другие параметры
+    modules: ['@pinia/nuxt'],
+    pinia: {
+        autoImports: [
+            // automatically imports `defineStore`
+            'defineStore', // import { defineStore } from 'pinia'
+            ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
+        ],
+    },
 })
 ```
 
@@ -93,26 +93,26 @@ npm install pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
 ```js
 // nuxt.config.js
 export default {
-  // ... другие параметры
-  buildModules: [
-    // Nuxt 2 только:
-    // https://composition-api.nuxtjs.org/getting-started/setup#quick-start
-    '@nuxtjs/composition-api/module',
-    '@pinia/nuxt',
-  ],
+    // ... другие параметры
+    buildModules: [
+        // Nuxt 2 только:
+        // https://composition-api.nuxtjs.org/getting-started/setup#quick-start
+        '@nuxtjs/composition-api/module',
+        '@pinia/nuxt',
+    ],
 }
 ```
 
-### TypeScript
+### типScript
 
 If you are using Nuxt 2 (`@pinia/nuxt` < 0.3.0) with TypeScript or have a `jsconfig.json`, you should also add the types for `context.pinia`:
 
 ```json
 {
-  "types": [
-    // ...
-    "@pinia/nuxt"
-  ]
+    "types": [
+        // ...
+        "@pinia/nuxt"
+    ]
 }
 ```
 
@@ -125,10 +125,10 @@ If you are using Nuxt 2 (`@pinia/nuxt` < 0.3.0) with TypeScript or have a `jscon
 ```js
 // nuxt.config.js
 export default {
-  buildModules: [
-    '@nuxtjs/composition-api/module',
-    ['@pinia/nuxt', { disableVuex: false }],
-  ],
-  // ... другие параметры
+    buildModules: [
+        '@nuxtjs/composition-api/module',
+        ['@pinia/nuxt', { disableVuex: false }],
+    ],
+    // ... другие параметры
 }
 ```

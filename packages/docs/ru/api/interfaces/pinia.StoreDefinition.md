@@ -8,7 +8,7 @@ editLink: false
 
 [pinia](../modules/pinia.md).StoreDefinition
 
-## Type parameters %{#Type-parameters}%
+## Типы параметров %{#Type-parameters}%
 
 | Имя  | Тип                                                                                                 |
 | :--- | :-------------------------------------------------------------------------------------------------- |
@@ -23,16 +23,16 @@ editLink: false
 
 ▸ **StoreDefinition**(`pinia?`, `hot?`): [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
 
-Returns a store, creates it if necessary.
+Возвращает хранилище, при необходимости создает его.
 
-#### Parameters %{#Callable-StoreDefinition-Parameters}%
+#### Параметры %{#Callable-StoreDefinition-Parameters}%
 
-| Имя      | Тип                                                | Description                          |
-| :------- | :------------------------------------------------- | :----------------------------------- |
-| `pinia?` | `null` \| [`Pinia`](pinia.Pinia.md)                | Pinia instance to retrieve the store |
-| `hot?`   | [`StoreGeneric`](../modules/pinia.md#storegeneric) | dev only hot module replacement      |
+| Имя      | Тип                                                | Описание                                 |
+| :------- | :------------------------------------------------- | :--------------------------------------- |
+| `pinia?` | `null` \| [`Pinia`](pinia.Pinia.md)                | экземпляр Pinia для извлечения хранилища |
+| `hot?`   | [`StoreGeneric`](../modules/pinia.md#storegeneric) | dev только горячая замена модуля         |
 
-#### Returns %{#Callable-StoreDefinition-Returns}%
+#### Возвращает %{#Callable-StoreDefinition-Returns}%
 
 [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
 
@@ -42,4 +42,4 @@ Returns a store, creates it if necessary.
 
 • **$id**: `Id`
 
-Id of the store. Used by map helpers.
+Идентификатор хранилища. Используется хелперами.

@@ -8,9 +8,9 @@ editLink: false
 
 [pinia](../modules/pinia.md).PiniaPluginContext
 
-Context argument passed to Pinia plugins.
+Контекстный аргумент, переданный плагинам Pinia.
 
-## Type parameters %{#Type-parameters}%
+## Типы параметров %{#Type-parameters}%
 
 | Имя  | Тип                                                                                                 |
 | :--- | :-------------------------------------------------------------------------------------------------- |
@@ -25,7 +25,7 @@ Context argument passed to Pinia plugins.
 
 • **app**: `App`<`any`\>
 
-Current app created with `Vue.createApp()`.
+Текущее приложение, созданное с помощью `Vue.createApp()`.
 
 ---
 
@@ -33,7 +33,7 @@ Current app created with `Vue.createApp()`.
 
 • **options**: [`DefineStoreOptionsInPlugin`](pinia.DefineStoreOptionsInPlugin.md)<`Id`, `S`, `G`, `A`\>
 
-Initial options defining the store when calling `defineStore()`.
+Начальные параметры, определяющие хранилище при вызове `defineStore()`.
 
 ---
 
@@ -49,4 +49,4 @@ pinia instance.
 
 • **store**: [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
 
-Current store being extended.
+Действующее хранилище расширяется.

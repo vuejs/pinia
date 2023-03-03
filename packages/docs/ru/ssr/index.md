@@ -26,11 +26,11 @@ app.use(router)
 app.use(pinia)
 
 router.beforeEach((to) => {
-  // ✅ Это будет работать, если убедиться, что используется правильное хранилище для
-  // текущего запущенного приложения
-  const main = useMainStore(pinia)
+    // ✅ Это будет работать, если убедиться, что используется правильное хранилище для
+    // текущего запущенного приложения
+    const main = useMainStore(pinia)
 
-  if (to.meta.requiresAuth && !main.isLoggedIn) return '/login'
+    if (to.meta.requiresAuth && !main.isLoggedIn) return '/login'
 })
 ```
 
@@ -38,9 +38,9 @@ Pinia удобно добавляет себя как `$pinia` в ваше пр�
 
 ```js
 export default {
-  serverPrefetch() {
-    const store = useStore(this.$pinia)
-  },
+    serverPrefetch() {
+        const store = useStore(this.$pinia)
+    },
 }
 ```
 
@@ -50,8 +50,8 @@ export default {
 <script setup>
 const store = useStore()
 onServerPrefetch(async () => {
-  // ✅ это будет работать
-  await store.fetchData()
+    // ✅ это будет работать
+    await store.fetchData()
 })
 </script>
 ```
@@ -84,23 +84,23 @@ devalue(pinia.state.value)
 import devalue from '@nuxt/devalue'
 
 export default viteSSR(
-  App,
-  {
-    routes,
-    transformState(state) {
-      return import.meta.env.SSR ? devalue(state) : state
+    App,
+    {
+        routes,
+        transformState(state) {
+            return import.meta.env.SSR ? devalue(state) : state
+        },
     },
-  },
-  ({ initialState }) => {
-    // ...
-    if (import.meta.env.SSR) {
-      // это будет структурировано и установлено в window.__INITIAL_STATE__
-      initialState.pinia = pinia.state.value
-    } else {
-      // на стороне клиента, мы восстанавливаем состояние
-      pinia.state.value = initialState.pinia
+    ({ initialState }) => {
+        // ...
+        if (import.meta.env.SSR) {
+            // это будет структурировано и установлено в window.__INITIAL_STATE__
+            initialState.pinia = pinia.state.value
+        } else {
+            // на стороне клиента, мы восстанавливаем состояние
+            pinia.state.value = initialState.pinia
+        }
     }
-  }
 )
 ```
 
@@ -115,6 +115,6 @@ app.use(pinia)
 
 // должен быть установлен пользователем
 if (isClient) {
-  pinia.state.value = JSON.parse(window.__pinia)
+    pinia.state.value = JSON.parse(window.__pinia)
 }
 ```

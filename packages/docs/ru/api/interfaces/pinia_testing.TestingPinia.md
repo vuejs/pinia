@@ -8,14 +8,13 @@ editLink: false
 
 [@pinia/testing](../modules/pinia_testing.md).TestingPinia
 
-Pinia instance specifically designed for testing. Extends a regular
-`Pinia` instance with test specific properties.
+Экземпляр Pinia, специально разработанный для тестирования. Расширяет обычный экземпляр `Pinia` свойствами, специфичными для тестирования.
 
-## Hierarchy %{#Hierarchy}%
+## Иерархия %{#Hierarchy}%
 
-- [`Pinia`](pinia.Pinia.md)
+-   [`Pinia`](pinia.Pinia.md)
 
-  ↳ **`TestingPinia`**
+    ↳ **`TestingPinia`**
 
 ## Свойства %{#Properties}%
 
@@ -23,11 +22,11 @@ Pinia instance specifically designed for testing. Extends a regular
 
 • **app**: `App`<`any`\>
 
-App used by Pinia
+Приложение, используемое Pinia
 
 ---
 
-### install %{#Properties-install}%
+### установка %{#Properties-install}%
 
 • **install**: (`app`: `App`<`any`\>) => `void`
 
@@ -37,7 +36,7 @@ App used by Pinia
 
 ##### Параметры %{#Properties-install-Type-declaration-Parameters}%
 
-| Имя  | Тип          |
+| Имя   | Тип           |
 | :---- | :------------ |
 | `app` | `App`<`any`\> |
 
@@ -45,40 +44,40 @@ App used by Pinia
 
 `void`
 
-#### Inherited from %{#Properties-install-Inherited-from}%
+#### Унаследовано от %{#Properties-install-Inherited-from}%
 
 [Pinia](pinia.Pinia.md).[install](pinia.Pinia.md#install)
 
 ---
 
-### state %{#Properties-state}%
+### состояние %{#Properties-state}%
 
 • **state**: `Ref`<`Record`<`string`, [`StateTree`](../modules/pinia.md#statetree)\>\>
 
 root state
 
-#### Inherited from %{#Properties-state-Inherited-from}%
+#### Унаследовано от %{#Properties-state-Inherited-from}%
 
 [Pinia](pinia.Pinia.md).[state](pinia.Pinia.md#state)
 
-## Methods %{#Methods}%
+## Методы %{#Methods}%
 
 ### use %{#Methods-use}%
 
 ▸ **use**(`plugin`): [`Pinia`](pinia.Pinia.md)
 
-Adds a store plugin to extend every store
+Добавляет плагин store для расширения каждого store
 
-#### Parameters %{#Methods-use-Parameters}%
+#### Параметры %{#Methods-use-Parameters}%
 
-| Имя     | Тип                                  | Description         |
-| :------- | :------------------------------------ | :------------------ |
-| `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | store plugin to add |
+| Имя      | Тип                                   | Описание                        |
+| :------- | :------------------------------------ | :------------------------------ |
+| `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | плагин хранилища для добавления |
 
-#### Returns %{#Methods-use-Returns}%
+#### Возвращает %{#Methods-use-Returns}%
 
 [`Pinia`](pinia.Pinia.md)
 
-#### Inherited from %{#Methods-use-Inherited-from}%
+#### Унаследовано от %{#Methods-use-Inherited-from}%
 
 [Pinia](pinia.Pinia.md).[use](pinia.Pinia.md#use)

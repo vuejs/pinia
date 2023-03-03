@@ -8,11 +8,11 @@ editLink: false
 
 [pinia](../modules/pinia.md).\_StoreOnActionListenerContext
 
-Actual type for [StoreOnActionListenerContext](../modules/pinia.md#storeonactionlistenercontext). Exists for refactoring
-purposes. For internal use only.
-For internal use **only**
+Фактический тип для [StoreOnActionListenerContext](../modules/pinia.md#store в контексте actionlistener). Существует для
+целей рефакторинга. Только для внутреннего использования.
+Только для **внутреннего использования**
 
-## Type parameters %{#Type-parameters}%
+## Типы параметров %{#Type-parameters}%
 
 | Имя          | Тип              |
 | :----------- | :--------------- |
@@ -22,16 +22,15 @@ For internal use **only**
 
 ## Свойства %{#Properties}%
 
-### after %{#Properties-after}%
+### после %{#Properties-after}%
 
-• **after**: (`callback`: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void`) => `void`
+• **после**: (`callback`: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void`) => `void`
 
 #### Объявление типа %{#Properties-after-Type-declaration}%
 
 ▸ (`callback`): `void`
 
-Sets up a hook once the action is finished. It receives the return value
-of the action, if it's a Promise, it will be unwrapped.
+Устанавливает хук после завершения действия. Он получает возвращаемое значение действия, если это Promise, то оно будет развернуто.
 
 ##### Параметры %{#Properties-after-Type-declaration-Parameters}%
 
@@ -49,7 +48,7 @@ of the action, if it's a Promise, it will be unwrapped.
 
 • **args**: `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? `Parameters`<`A`[`ActionName`]\> : `unknown`[]
 
-Parameters passed to the action
+Параметры, передаваемые действию
 
 ---
 
@@ -57,7 +56,7 @@ Parameters passed to the action
 
 • **name**: `ActionName`
 
-Name of the action
+## Название экшена
 
 ---
 
@@ -69,8 +68,7 @@ Name of the action
 
 ▸ (`callback`): `void`
 
-Sets up a hook if the action fails. Return `false` to catch the error and
-stop it from propagating.
+Устанавливает хук в случае неудачи действия. Верните `false`, чтобы поймать ошибку и остановить ее распространение.
 
 ##### Параметры %{#Properties-onError-Type-declaration-Parameters}%
 
@@ -88,4 +86,4 @@ stop it from propagating.
 
 • **store**: `Store`
 
-Store that is invoking the action
+Хранилище, вызывающее экшен

@@ -8,9 +8,9 @@ editLink: false
 
 [pinia](../modules/pinia.md).PiniaCustomStateProperties
 
-Properties that are added to every `store.$state` by `pinia.use()`.
+Свойства, которые добавляются к каждому `store.$state` с помощью `pinia.use()`.
 
-## Type parameters %{#Type-parameters}%
+## Типы параметров %{#Type-parameters}%
 
 | Имя | Тип                                                                                                 |
 | :-- | :-------------------------------------------------------------------------------------------------- |

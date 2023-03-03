@@ -8,17 +8,17 @@ editLink: false
 
 [pinia](../modules/pinia.md).Pinia
 
-Every application must own its own pinia to be able to create stores
+Каждое приложение должно иметь свою собственную pinia, чтобы иметь возможность создавать хранилища
 
-## Hierarchy %{#Hierarchy}%
+## Иерархия %{#Hierarchy}%
 
-- **`Pinia`**
+-   **`Pinia`**
 
-  ↳ [`TestingPinia`](pinia_testing.TestingPinia.md)
+    ↳ [`TestingPinia`](pinia_testing.TestingPinia.md)
 
 ## Свойства %{#Properties}%
 
-### install %{#Properties-install}%
+### установка %{#Properties-install}%
 
 • **install**: (`app`: `App`<`any`\>) => `void`
 
@@ -38,26 +38,26 @@ Every application must own its own pinia to be able to create stores
 
 ---
 
-### state %{#Properties-state}%
+### состояние %{#Properties-state}%
 
 • **state**: `Ref`<`Record`<`string`, [`StateTree`](../modules/pinia.md#statetree)\>\>
 
 root state
 
-## Methods %{#Methods}%
+## Методы %{#Methods}%
 
 ### use %{#Methods-use}%
 
 ▸ **use**(`plugin`): [`Pinia`](pinia.Pinia.md)
 
-Adds a store plugin to extend every store
+Добавляет плагин хранилища для расширения каждого хранилища
 
-#### Parameters %{#Methods-use-Parameters}%
+#### Параметры %{#Methods-use-Parameters}%
 
-| Имя      | Тип                                   | Description         |
-| :------- | :------------------------------------ | :------------------ |
-| `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | store plugin to add |
+| Имя      | Тип                                   | Описание                        |
+| :------- | :------------------------------------ | :------------------------------ |
+| `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | плагин хранилища для добавления |
 
-#### Returns %{#Methods-use-Returns}%
+#### Возвращает %{#Methods-use-Returns}%
 
 [`Pinia`](pinia.Pinia.md)

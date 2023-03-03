@@ -8,32 +8,29 @@ editLink: false
 
 [pinia](../modules/pinia.md).SubscriptionCallbackMutationPatchObject
 
-Context passed to a subscription callback when `store.$patch()` is called
-with an object.
+Контекст, передаваемый в callback подписки при вызове `store.$patch()` с объектом.
 
-## Type parameters %{#Type-parameters}%
+## Типы параметров %{#Type-parameters}%
 
 | Имя |
 | :-- |
 | `S` |
 
-## Hierarchy %{#Hierarchy}%
+## Иерархия %{#Hierarchy}%
 
-- [`_SubscriptionCallbackMutationBase`](pinia._SubscriptionCallbackMutationBase.md)
+-   [`_SubscriptionCallbackMutationBase`](pinia._SubscriptionCallbackMutationBase.md)
 
-  ↳ **`SubscriptionCallbackMutationPatchObject`**
+    ↳ **`SubscriptionCallbackMutationPatchObject`**
 
 ## Свойства %{#Properties}%
 
-### events %{#Properties-events}%
+### события %{#Properties-events}%
 
 • **events**: `DebuggerEvent`[]
 
-🔴 DEV ONLY, DO NOT use for production code. Different mutation calls. Comes from
-https://vuejs.org/guide/extras/reactivity-in-depth.html#reactivity-debugging and allows to track mutations in
-devtools and plugins **during development only**.
+🔴 Только для DEV, НЕ используйте для производственного кода. Различные вызовы мутаций. Берется из <https://vuejs.org/guide/extras/reactivity-in-depth.html#reactivity-debugging> и позволяет отслеживать мутации в devtools и плагинах **только во время разработки**.
 
-#### Overrides %{#Properties-events-Overrides}%
+#### Переопределения %{#Properties-events-Overrides}%
 
 [\_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[events](pinia._SubscriptionCallbackMutationBase.md#events)
 
@@ -43,7 +40,7 @@ devtools and plugins **during development only**.
 
 • **payload**: [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`S`\>
 
-Object passed to `store.$patch()`.
+Объект, переданный в `store.$patch()`.
 
 ---
 
@@ -51,20 +48,20 @@ Object passed to `store.$patch()`.
 
 • **storeId**: `string`
 
-`id` of the store doing the mutation.
+`id` хранилища, выполняющего мутацию.
 
-#### Inherited from %{#Properties-storeId-Inherited-from}%
+#### Унаследовано от %{#Properties-storeId-Inherited-from}%
 
 [\_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
 ---
 
-### type %{#Properties-type}%
+### тип %{#Properties-type}%
 
 • **type**: [`patchObject`](../enums/pinia.MutationType.md#patchobject)
 
-Type of the mutation.
+Тип мутации.
 
-#### Overrides %{#Properties-type-Overrides}%
+#### Переопределения %{#Properties-type-Overrides}%
 
 [\_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)

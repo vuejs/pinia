@@ -10,13 +10,13 @@ editLink: false
 
 - [ModuleOptions](../interfaces/pinia_nuxt.ModuleOptions.md)
 
-## Functions %{#Functions}%
+## Функции %{#Functions}%
 
 ### default %{#Functions-default}%
 
 ▸ **default**(`this`, `inlineOptions`, `nuxt`): `void` \| `Promise`<`void`\>
 
-#### Parameters %{#Functions-default-Parameters}%
+#### Параметры %{#Functions-default-Parameters}%
 
 | Имя             | Тип                                                          |
 | :-------------- | :----------------------------------------------------------- |
@@ -24,6 +24,6 @@ editLink: false
 | `inlineOptions` | [`ModuleOptions`](../interfaces/pinia_nuxt.ModuleOptions.md) |
 | `nuxt`          | `Nuxt`                                                       |
 
-#### Returns %{#Functions-default-Returns}%
+#### Возвращает %{#Functions-default-Returns}%
 
 `void` \| `Promise`<`void`\>

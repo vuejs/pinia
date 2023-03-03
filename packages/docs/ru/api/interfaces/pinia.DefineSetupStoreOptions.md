@@ -8,14 +8,13 @@ editLink: false
 
 [pinia](../modules/pinia.md).DefineSetupStoreOptions
 
-Options parameter of `defineStore()` for setup stores. Can be extended to
-augment stores with the plugin API.
+Параметр опций `define Store()` для настройки хранилищ. Может быть расширен для дополнения хранилищ с помощью API плагина.
 
 **`See`**
 
 [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
-## Type parameters %{#Type-parameters}%
+## Типы параметров %{#Type-parameters}%
 
 | Имя  | Тип                                                  |
 | :--- | :--------------------------------------------------- |
@@ -24,18 +23,16 @@ augment stores with the plugin API.
 | `G`  | `G`                                                  |
 | `A`  | `A`                                                  |
 
-## Hierarchy %{#Hierarchy}%
+## Иерархия %{#Hierarchy}%
 
-- [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
+-   [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
 
-  ↳ **`DefineSetupStoreOptions`**
+    ↳ **`DefineSetupStoreOptions`**
 
 ## Свойства %{#Properties}%
 
-### actions %{#Properties-actions}%
+### экшены %{#Properties-actions}%
 
 • `Optional` **actions**: `A`
 
-Extracted actions. Added by useStore(). SHOULD NOT be added by the user when
-creating the store. Can be used in plugins to get the list of actions in a
-store defined with a setup function. Note this is always defined
+Извлеченные экшены. Добавляются функцией `useStore()`. НЕ ДОЛЖНЫ добавляться пользователем при создании хранилища. Может использоваться в плагинах для получения списка действий в хранилище, определенном с помощью функции настройки. Обратите внимание, что это всегда определено.

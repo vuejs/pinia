@@ -11,27 +11,23 @@ editLink: false
 - [TestingOptions](../interfaces/pinia_testing.TestingOptions.md)
 - [TestingPinia](../interfaces/pinia_testing.TestingPinia.md)
 
-## Functions %{#Functions}%
+## Функции %{#Functions}%
 
 ### createTestingPinia %{#Functions-createTestingPinia}%
 
 ▸ **createTestingPinia**(`options?`): [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 
-Creates a pinia instance designed for unit tests that **requires mocking**
-the stores. By default, **all actions are mocked** and therefore not
-executed. This allows you to unit test your store and components separately.
-You can change this with the `stubActions` option. If you are using jest,
-they are replaced with `jest.fn()`, otherwise, you must provide your own
-`createSpy` option.
+Создает экземпляр pinia, предназначенный для модульных тестов, который **требует имитации** над хранилищами. По умолчанию **все действия имитируются** и, следовательно, не выполняются. Это позволяет вам проводить модульное тестирование вашего хранилища и компонентов по отдельности.
+Вы можете изменить это с помощью опции `дополнительные действия`. Если вы используете jest, они заменяются на `just.fn()`, в противном случае вы должны предоставить свой собственный параметр `createSpy`.
 
-#### Parameters %{#Functions-createTestingPinia-Parameters}%
+#### Параметры %{#Functions-createTestingPinia-Parameters}%
 
-| Имя       | Тип                                                               | Description                            |
-| :-------- | :---------------------------------------------------------------- | :------------------------------------- |
-| `options` | [`TestingOptions`](../interfaces/pinia_testing.TestingOptions.md) | options to configure the testing pinia |
+| Имя       | Тип                                                               | Описание                              |
+| :-------- | :---------------------------------------------------------------- | :------------------------------------ |
+| `options` | [`TestingOptions`](../interfaces/pinia_testing.TestingOptions.md) | варианты настройки тестирования pinia |
 
-#### Returns %{#Functions-createTestingPinia-Returns}%
+#### Возвращает %{#Functions-createTestingPinia-Returns}%
 
 [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 
-a augmented pinia instance
+расширенный экземпляр pinia

@@ -4,7 +4,7 @@ layout: home
 title: Pinia
 titleTemplate: The intuitive store for Vue.js
 
-hero: 
+hero:
   name: Pinia
   text: The intuitive store for Vue.js
   tagline: Type Safe, Extensible, and Modular by design. Forget you are even using a store.

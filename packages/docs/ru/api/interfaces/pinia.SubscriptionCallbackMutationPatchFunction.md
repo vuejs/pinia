@@ -8,26 +8,23 @@ editLink: false
 
 [pinia](../modules/pinia.md).SubscriptionCallbackMutationPatchFunction
 
-Context passed to a subscription callback when `store.$patch()` is called
-with a function.
+Контекст, передаваемый callback подписки при вызове функции `store.$patch()`.
 
-## Hierarchy %{#Hierarchy}%
+## Иерархия %{#Hierarchy}%
 
 - [`_SubscriptionCallbackMutationBase`](pinia._SubscriptionCallbackMutationBase.md)
 
-  ↳ **`SubscriptionCallbackMutationPatchFunction`**
+    ↳ **`SubscriptionCallbackMutationPatchFunction`**
 
 ## Свойства %{#Properties}%
 
-### events %{#Properties-events}%
+### события %{#Properties-events}%
 
 • **events**: `DebuggerEvent`[]
 
-🔴 DEV ONLY, DO NOT use for production code. Different mutation calls. Comes from
-https://vuejs.org/guide/extras/reactivity-in-depth.html#reactivity-debugging and allows to track mutations in
-devtools and plugins **during development only**.
+🔴 Только для DEV, НЕ используйте для производственного кода. Различные вызовы мутаций. Берется из <https://vuejs.org/guide/extras/reactivity-in-depth.html#reactivity-debugging> и позволяет отслеживать мутации в devtools и плагинах **только во время разработки**.
 
-#### Overrides %{#Properties-events-Overrides}%
+#### Переопределения %{#Properties-events-Overrides}%
 
 [\_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[events](pinia._SubscriptionCallbackMutationBase.md#events)
 
@@ -37,20 +34,20 @@ devtools and plugins **during development only**.
 
 • **storeId**: `string`
 
-`id` of the store doing the mutation.
+`id` хранилища, выполняющего мутацию.
 
-#### Inherited from %{#Properties-storeId-Inherited-from}%
+#### Унаследовано от %{#Properties-storeId-Inherited-from}%
 
 [\_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
 ---
 
-### type %{#Properties-type}%
+### тип %{#Properties-type}%
 
 • **type**: [`patchFunction`](../enums/pinia.MutationType.md#patchfunction)
 
-Type of the mutation.
+Тип мутации.
 
-#### Overrides %{#Properties-type-Overrides}%
+#### Переопределения %{#Properties-type-Overrides}%
 
 [\_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)

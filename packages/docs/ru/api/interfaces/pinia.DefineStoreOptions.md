@@ -8,14 +8,13 @@ editLink: false
 
 [pinia](../modules/pinia.md).DefineStoreOptions
 
-Options parameter of `defineStore()` for option stores. Can be extended to
-augment stores with the plugin API.
+Свойства параметров `defineStore()` для хранилищ опций. Может быть расширен для дополнения хранилищ с помощью API плагина.
 
 **`See`**
 
 [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
-## Type parameters %{#Type-parameters}%
+## Типы параметров %{#Type-parameters}%
 
 | Имя  | Тип                                                  |
 | :--- | :--------------------------------------------------- |
@@ -24,19 +23,19 @@ augment stores with the plugin API.
 | `G`  | `G`                                                  |
 | `A`  | `A`                                                  |
 
-## Hierarchy %{#Hierarchy}%
+## Иерархия %{#Hierarchy}%
 
-- [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
+-   [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
 
-  ↳ **`DefineStoreOptions`**
+    ↳ **`DefineStoreOptions`**
 
 ## Свойства %{#Properties}%
 
-### actions %{#Properties-actions}%
+### экшены %{#Properties-actions}%
 
 • `Optional` **actions**: `A` & `ThisType`<`A` & `UnwrapRef`<`S`\> & [`_StoreWithState`](pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\>
 
-Optional object of actions.
+Необязательный объект экшенов.
 
 ---
 
@@ -44,7 +43,7 @@ Optional object of actions.
 
 • `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
 
-Optional object of getters.
+Необязательный объект геттеров.
 
 ---
 
@@ -52,11 +51,11 @@ Optional object of getters.
 
 • **id**: `Id`
 
-Unique string key to identify the store across the application.
+Уникальный строковый ключ для идентификации хранилища в приложении.
 
 ---
 
-### state %{#Properties-state}%
+### состояние %{#Properties-state}%
 
 • `Optional` **state**: () => `S`
 
@@ -64,47 +63,43 @@ Unique string key to identify the store across the application.
 
 ▸ (): `S`
 
-Function to create a fresh state. **Must be an arrow function** to ensure
-correct typings!
+Функция для создания нового состояния. **Должна быть стрелочной функцией** для обеспечения правильного набора!
 
 ##### Возвращает %{#Properties-state-Type-declaration-Returns}%
 
 `S`
 
-## Methods %{#Methods}%
+## Методы %{#Methods}%
 
 ### hydrate %{#Methods-hydrate}%
 
 ▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
 
-Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
-definition and copying the value from `pinia.state` isn't enough.
+Позволяет гидратировать хранилище во время SSR, когда в определении магазина используется сложное состояние (например, только рефссылки на стороне клиента) и копирования значения из `pinia.state` недостаточно.
 
 **`Пример`**
 
-If in your `state`, you use any `customRef`s, any `computed`s, or any `ref`s that have a different value on
-Server and Client, you need to manually hydrate them. e.g., a custom ref that is stored in the local
-storage:
+Если в вашем `state` вы используете какие-либо `customRef`, какие-либо `computed`, или какие-либо `ref`, которые имеют разное значение на Сервере и Клиенте, вам необходимо вручную гидрировать их. Например, пользовательской ссылкой, которая хранится в локальном хранилище:
 
 ```ts
 const useStore = defineStore('main', {
-  state: () => ({
-    n: useLocalStorage('key', 0),
-  }),
-  hydrate(storeState, initialState) {
-    // @ts-expect-error: https://github.com/microsoft/TypeScript/issues/43826
-    storeState.n = useLocalStorage('key', 0)
-  },
+    state: () => ({
+        n: useLocalStorage('key', 0),
+    }),
+    hydrate(storeState, initialState) {
+        // @ts-expect-error: https://github.com/microsoft/TypeScript/issues/43826
+        storeState.n = useLocalStorage('key', 0)
+    },
 })
 ```
 
-#### Parameters %{#Methods-hydrate-Parameters}%
+#### Параметры %{#Methods-hydrate-Parameters}%
 
-| Имя            | Тип               | Description                    |
-| :------------- | :---------------- | :----------------------------- |
-| `storeState`   | `UnwrapRef`<`S`\> | the current state in the store |
-| `initialState` | `UnwrapRef`<`S`\> | initialState                   |
+| Имя            | Тип               | Описание                      |
+| :------------- | :---------------- | :---------------------------- |
+| `storeState`   | `UnwrapRef`<`S`\> | текущее состояние в хранилище |
+| `initialState` | `UnwrapRef`<`S`\> | initialState                  |
 
-#### Returns %{#Methods-hydrate-Returns}%
+#### Возвращает %{#Methods-hydrate-Returns}%
 
 `void`

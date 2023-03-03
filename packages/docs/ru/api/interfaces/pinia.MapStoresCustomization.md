@@ -8,7 +8,6 @@ editLink: false
 
 [pinia](../modules/pinia.md).MapStoresCustomization
 
-Interface to allow customizing map helpers. Extend this interface with the
-following properties:
+Интерфейс, позволяющий настраивать карту хелперов. Расширьте этот интерфейс следующими свойствами:
 
-- `suffix`: string. Affects the suffix of `mapStores()`, defaults to `Store`.
+- `suffix`: string. Влияет на суффикс `mapStores()`, по умолчанию `Store`.
