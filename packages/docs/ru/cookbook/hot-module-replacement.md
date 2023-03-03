@@ -1,20 +1,20 @@
-# HMR (Hot Module Replacement)
+# HMR (горячая замена модулей)
 
-Pinia supports Hot Module replacement so you can edit your stores and interact with them directly in your app without reloading the page, allowing you to keep the existing state, add, or even remove state, actions, and getters.
+Pinia поддерживает горячую замену модулей, чтобы вы могли редактировать свои хранилища и взаимодействовать с ними прямо в вашем приложении без перезагрузки страницы, позволяя вам сохранить существующее состояние, добавить или даже удалить состояние, экшены и геттеры.
 
-At the moment, only [Vite](https://vitejs.dev/) is officially supported but any bundler implementing the `import.meta.hot` spec should work (e.g. [webpack](https://webpack.js.org/api/module-variables/#importmetawebpackhot) seems to use `import.meta.webpackHot` instead of `import.meta.hot`).
-You need to add this snippet of code next to any store declaration. Let's say you have three stores: `auth.js`, `cart.js`, and `chat.js`, you will have to add (and adapt) this after the creation of the _store definition_:
+На данный момент официально поддерживается только [Vite](https://vitejs.dev/), но любой бандлер, реализующий спецификацию `import.meta.hot`, должен работать (например, [webpack](https://webpack.js.org/api/module-variables/#importmetawebpackhot), похоже, использует `import.meta.webpackHot` вместо `import.meta.hot`).
+Вам нужно добавить этот фрагмент кода рядом с объявлением любого хранилища. Допустим, у вас есть три хранилища: `auth.js`, `cart.js` и `chat.js`, вам придется добавить (и адаптировать) это после создания _определения хранилища_:
 
 ```js
 // auth.js
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
 const useAuth = defineStore('auth', {
-  // options...
+    // опции...
 })
 
-// make sure to pass the right store definition, `useAuth` in this case.
+// убедитесь, что передали правильное определение хранилища, `useAuth` в данном случае.
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useAuth, import.meta.hot))
+    import.meta.hot.accept(acceptHMRUpdate(useAuth, import.meta.hot))
 }
 ```

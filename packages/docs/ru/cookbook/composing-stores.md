@@ -1,18 +1,18 @@
-# Composing Stores
+# Композиция хранилищ
 
-Composing stores is about having stores that use each other, and this is supported in Pinia. There is one rule to follow:
+Составление хранилищ - это наличие хранилищ, которые используют друг друга, и это поддерживается в Pinia. Есть одно правило, которому нужно следовать:
 
-If **two or more stores use each other**, they cannot create an infinite loop through _getters_ or _actions_. They cannot **both** directly read each other state in their setup function:
+Если **два или более хранилища используют друг друга**, они не могут создавать бесконечный цикл через _getters_ или _actions_. Они не могут **оба** напрямую считывать состояние друг друга в своей функции установки:
 
 ```js
 const useX = defineStore('x', () => {
   const y = useY()
 
-  // ❌ This is not possible because y also tries to read x.name
+  // ❌ Это невозможно, потому что y также пытается прочитать x.name
   y.name
 
   function doSomething() {
-    // ✅ Read y properties in computed or actions
+    // ✅ Чтение свойств y в computed или в экшенах
     const yName = y.name
     // ...
   }
@@ -25,11 +25,11 @@ const useX = defineStore('x', () => {
 const useY = defineStore('y', () => {
   const x = useX()
 
-  // ❌ This is not possible because x also tries to read y.name
+  // ❌ Это невозможно, потому что x также пытается прочитать y.name
   x.name
 
   function doSomething() {
-    // ✅ Read x properties in computed or actions
+    // ✅ Прочитать свойства x в вычислениях или действиях
     const xName = x.name
     // ...
   }
@@ -40,11 +40,11 @@ const useY = defineStore('y', () => {
 })
 ```
 
-## Nested Stores
+## Вложенные хранилища состояний
 
-Note that if one store uses another store, you can directly import and call the `useStore()` function within _actions_ and _getters_. Then you can interact with the store just like you would from within a Vue component. See [Shared Getters](#shared-getters) and [Shared Actions](#shared-actions).
+Обратите внимание, что если одно хранилище использует другое хранилище, вы можете напрямую импортировать и вызвать функцию `useStore()` в _actions_ и _getters_. Тогда вы сможете взаимодействовать с хранилищем так же, как и с компонентом Vue. Смотрите [Shared Getters](#shared-getters) и [Shared Actions](#shared-actions).
 
-When it comes to _setup stores_, you can simply use one of the stores **at the top** of the store function:
+Когда дело доходит до _установки хранилищ_, вы можете просто использовать один из хранилищ **в верхней части** функции хранилища:
 
 ```ts
 import { useUserStore } from './user'
@@ -53,7 +53,7 @@ export const useCartStore = defineStore('cart', () => {
   const user = useUserStore()
 
   const summary = computed(() => {
-    return `Hi ${user.name}, you have ${state.list.length} items in your cart. It costs ${state.price}.`
+    return `Здравствуйте ${user.name}, у вас в корзине ${state.list.length} товаров. Их стоимость составляет ${state.price}.`
   })
 
   function purchase() {
@@ -64,9 +64,9 @@ export const useCartStore = defineStore('cart', () => {
 })
 ```
 
-## Shared Getters
+## Общие геттеры
 
-You can simply call `useOtherStore()` inside a _getter_:
+Вы можете просто вызвать `useOtherStore()` внутри _геттера_:
 
 ```js
 import { defineStore } from 'pinia'
@@ -77,15 +77,15 @@ export const useCartStore = defineStore('cart', {
     summary(state) {
       const user = useUserStore()
 
-      return `Hi ${user.name}, you have ${state.list.length} items in your cart. It costs ${state.price}.`
+      return `Здравствуйте ${user.name}, у вас в корзине ${state.list.length} товаров. Их стоимость составляет ${state.price}.`
     },
   },
 })
 ```
 
-## Shared Actions
+## Общие действия
 
-The same applies to _actions_:
+То же самое относится и к _действиям_:
 
 ```js
 import { defineStore } from 'pinia'
@@ -98,7 +98,7 @@ export const useCartStore = defineStore('cart', {
 
       try {
         await apiOrderCart(user.token, this.items)
-        // another action
+        // другой экшен
         this.emptyCart()
       } catch (err) {
         displayError(err)
@@ -108,7 +108,7 @@ export const useCartStore = defineStore('cart', {
 })
 ```
 
-Since actions can be asynchronous, make sure **all of your `useStore()` calls appear before any `await`**. Otherwise, this could lead to using the wrong pinia instance _in SSR apps_:
+Поскольку экшены могут быть асинхронными, убедитесь, что **все ваши вызовы `useStore()` появляются перед любым `await`**. В противном случае это может привести к использованию неправильного экземпляра pinia _в приложениях SSR_:
 
 ```js{7-8,11-13}
 import { defineStore } from 'pinia'
@@ -117,14 +117,14 @@ import { useUserStore } from './user'
 export const useCartStore = defineStore('cart', {
   actions: {
     async orderCart() {
-      // ✅ call at the top of the action before any `await`
+      // ✅ вызов в верхней части экшена перед любым `await`.
       const user = useUserStore()
 
       try {
         await apiOrderCart(user.token, this.items)
-        // ❌ called after an `await` statement
+        // ❌ вызывается после оператора `await`.
         const otherStore = useOtherStore()
-        // another action
+        // другое действие
         this.emptyCart()
       } catch (err) {
         displayError(err)

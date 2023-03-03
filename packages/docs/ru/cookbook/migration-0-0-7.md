@@ -1,17 +1,17 @@
-# Migrating from 0.0.7
+# Переход с версии 0.0.7
 
-The versions after `0.0.7`: `0.1.0`, and `0.2.0`, came with a few big breaking changes. This guide helps you migrate whether you use Vue 2 or Vue 3. The whole changelog can be found in the repository:
+Версии после `0.0.7`: `0.1.0`, и `0.2.0`, содержат несколько серьезных изменений. Это руководство поможет вам осуществить миграцию независимо от того, используете ли вы Vue 2 или Vue 3. Весь журнал изменений можно найти в репозитории:
 
 - [С Pinia <= 1 для Vue 2](https://github.com/vuejs/pinia/blob/v1/CHANGELOG.md)
 - [С Pinia >= 2 для Vue 3](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md)
 
-If you have questions or issues regarding the migration, feel free to [открыть дискуссию].(https://github.com/vuejs/pinia/discussions/categories/q-a) to ask for help.
+Если у вас есть вопросы или проблемы, связанные с миграцией, не стесняйтесь [открыть дискуссию](https://github.com/vuejs/pinia/discussions/categories/q-a), чтобы попросить о помощи.
 
-## No more `store.state`
+## Больше нет `store.state`
 
-You no longer access the store state via a `state` property, you can directly access any state property.
+Вы больше не обращаетесь к состоянию хранилища состояния через свойство `state`, вы можете напрямую обращаться к любому свойству состояния.
 
-Given a store defined with:
+Если хранилище определен с:
 
 ```js
 const useStore({
@@ -29,16 +29,16 @@ Do
 +store.count.++
 ```
 
-You can still access the whole store state with `$state` when needed:
+Вы все еще можете получить доступ ко всему состоянию хранилища с помощью `$state`, когда это необходимо:
 
 ```diff
 -store.state = newState
 +store.$state = newState
 ```
 
-## Rename of store properties
+## Переименование свойств хранилища
 
-All store properties (`id`, `patch`, `reset`, etc) are now prefixed with `$` to allow properties defined on the store with the same names. Tip: you can refactor your whole codebase with F2 (or right-click + Refactor) on each of the store's properties
+Все свойства хранилища (`id`, `patch`, `reset` и т.д.) теперь имеют префикс `$`, чтобы позволить свойствам, определенным в хранилище с такими же именами. Совет: вы можете рефакторить всю вашу кодовую базу с помощью F2 (или правый клик + Refactor) на каждом из свойств хранилища
 
 ```diff
  const store = useStore()
@@ -52,11 +52,11 @@ All store properties (`id`, `patch`, `reset`, etc) are now prefixed with `$` to 
 +store.$id
 ```
 
-## The Pinia instance
+## Экземпляр Pinia
 
-It's now necessary to create a pinia instance and install it:
+Теперь необходимо создать экземпляр Pinia и установить его:
 
-If you are using Vue 2 (Pinia <= 1):
+Если вы используете Vue 2 (Pinia <= 1):
 
 ```js
 import Vue from 'vue'
@@ -65,13 +65,13 @@ import { createPinia, PiniaVuePlugin } from 'pinia'
 const pinia = createPinia()
 Vue.use(PiniaVuePlugin)
 new Vue({
-  el: '#app',
-  pinia,
-  // ...
+    el: '#app',
+    pinia,
+    // ...
 })
 ```
 
-If you are using Vue 3 (Pinia >= 2):
+Если вы используете Vue 3 (Pinia >= 2):
 
 ```js
 import { createApp } from 'vue'
@@ -82,14 +82,14 @@ const pinia = createPinia()
 createApp(App).use(pinia).mount('#app')
 ```
 
-The `pinia` instance is what holds the state and should **be unique per application**. Check the SSR section of the docs for more details.
+Экземпляр `pinia` хранит состояние и должен быть **уникальным для каждого приложения**. Обратитесь к разделу документации SSR для более подробной информации.
 
-## SSR changes
+## Изменения SSR
 
-The SSR plugin `PiniaSsr` is no longer necessary and has been removed.
-With the introduction of pinia instances, `getRootState()` is no longer necessary and should be replaced with `pinia.state.value`:
+SSR плагин `PiniaSsr` больше не нужен и был удален.
+С введением экземпляров pinia, `getRootState()` больше не нужен и должен быть заменен на `pinia.state.value`:
 
-If you are using Vue 2 (Pinia <= 1):
+Если вы используете Vue 2 (Pinia <= 1):
 
 ```diff
 // entry-server.js
@@ -119,4 +119,4 @@ If you are using Vue 2 (Pinia <= 1):
  }
 ```
 
-`setActiveReq()` and `getActiveReq()` have been replaced with `setActivePinia()` and `getActivePinia()` respectively. `setActivePinia()` can only be passed a `pinia` instance created with `createPinia()`. **Note that most of the time you won't directly use these functions**.
+`setActiveReq()` и `getActiveReq()` были заменены на `setActivePinia()` и `getActivePinia()` соответственно. `setActivePinia()` может быть передан только экземпляр `pinia`, созданный с помощью `createPinia()`. **Обратите внимание, что в большинстве случаев вы не будете напрямую использовать эти функции**.

@@ -1,6 +1,6 @@
-# Usage without `setup()`
+# Использование без `setup()`
 
-Pinia can be used even if you are not using the composition API (if you are using Vue <2.7, you still need to install the `@vue/composition-api` plugin though). While we recommend you give the Composition API a try and learn it, it might not be the time for you and your team yet, you might be in the process of migrating an application, or any other reason. There are a few functions:
+Pinia можно использовать, даже если вы не используете composition API (если вы используете Vue <2.7, вам все равно нужно установить плагин `@vue/composition-api`). Хотя мы рекомендуем вам попробовать и изучить Composition API, возможно, для вас и вашей команды еще не пришло время, возможно, вы находитесь в процессе миграции приложения или по любой другой причине. Существует несколько функций:
 
 - [mapStores](#giving-access-to-the-whole-store)
 - [mapState](../core-concepts/state.md#usage-with-the-options-api)
@@ -8,14 +8,14 @@ Pinia can be used even if you are not using the composition API (if you are usin
 - ⚠️ [mapGetters](../core-concepts/getters.md#without-setup) (just for migration convenience, use `mapState()` instead)
 - [mapActions](../core-concepts/actions.md#without-setup)
 
-## Giving access to the whole store
+## Предоставление доступа ко всему хранилищу
 
-If you need to access pretty much everything from the store, it might be too much to map every single property of the store... Instead you can get access to the whole store with `mapStores()`:
+Если вам нужно получить доступ практически ко всему из хранилища, может оказаться слишком сложным отображать каждое свойство хранилища... Вместо этого вы можете получить доступ ко всему хранилищу с помощью `mapStores()`:
 
 ```js
 import { mapStores } from 'pinia'
 
-// given two stores with the following ids
+// даны два магазина со следующими идентификаторами
 const useUserStore = defineStore('user', {
   // ...
 })
@@ -25,14 +25,14 @@ const useCartStore = defineStore('cart', {
 
 export default {
   computed: {
-    // note we are not passing an array, just one store after the other
-    // each store will be accessible as its id + 'Store'
+    // обратите внимание, что мы не передаем массив, а просто одно хранилище за другим
+    // каждое хранилище будет доступно как его id + 'Store'
     ...mapStores(useCartStore, useUserStore)
   },
 
   methods: {
     async buyStuff() {
-      // use them anywhere!
+      // используйте их везде!
       if (this.userStore.isAuthenticated()) {
         await this.cartStore.buy()
         this.$router.push('/purchased')
@@ -42,36 +42,36 @@ export default {
 }
 ```
 
-By default, Pinia will add the `"Store"` suffix to the `id` of each store. You can customize this behavior by calling the `setMapStoreSuffix()`:
+По умолчанию Pinia добавляет суффикс `"Store"` к `id` каждому хранилищу. Вы можете настроить это поведение, вызвав функцию `setMapStoreSuffix()`:
 
 ```js
 import { createPinia, setMapStoreSuffix } from 'pinia'
 
-// completely remove the suffix: this.user, this.cart
+// полностью удаляем суффикс: this.user, this.cart
 setMapStoreSuffix('')
-// this.user_store, this.cart_store (it's okay, I won't judge you)
+// this.user_store, this.cart_store (все в порядке, я не буду вас осуждать)
 setMapStoreSuffix('_store')
 export const pinia = createPinia()
 ```
 
 ## TypeScript
 
-By default, all map helpers support autocompletion and you don't need to do anything. If you call `setMapStoreSuffix()` to change the `"Store"` suffix, you will need to also add it somewhere in a TS file or your `global.d.ts` file. The most convenient place would be the same place where you call `setMapStoreSuffix()`:
+По умолчанию все хелперы карт поддерживают autocompletion, и вам не нужно ничего делать. Если вы вызываете `setMapStoreSuffix()` для изменения суффикса `"Store"`, вам нужно будет также добавить его куда-нибудь в TS-файл или в ваш файл `global.d.ts`. Наиболее удобным местом будет то же место, где вы вызываете `setMapStoreSuffix()`:
 
 ```ts
 import { createPinia, setMapStoreSuffix } from 'pinia'
 
-setMapStoreSuffix('') // completely remove the suffix
+setMapStoreSuffix('') // полностью удалить суффикс
 export const pinia = createPinia()
 
 declare module 'pinia' {
   export interface MapStoresCustomization {
-    // set it to the same value as above
+    // установите то же значение, что и выше
     suffix: ''
   }
 }
 ```
 
 :::warning
-If you are using a TypeScript declaration file (like `global.d.ts`), make sure to `import 'pinia'` at the top of it to expose all existing types.
+Если вы используете файл декларации TypeScript (например, `global.d.ts`), убедитесь, что `import 'pinia'` находится в его верхней части, чтобы раскрыть все существующие типы.
 :::
