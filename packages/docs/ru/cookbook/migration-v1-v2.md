@@ -91,10 +91,10 @@ yarn add @vue/composition-api@latest
 
 Если вы используете webpack 4 (Vue CLI использует webpack 4), вы можете столкнуться с ошибкой следующего вида:
 
-```shell
+```
 ERROR  Failed to compile with 18 errors
 
-error  in ./node_modules/pinia/dist/pinia.mjs
+ error  in ./node_modules/pinia/dist/pinia.mjs
 
 Can't import the named export 'computed' from non EcmaScript module (only default export is available)
 ```
