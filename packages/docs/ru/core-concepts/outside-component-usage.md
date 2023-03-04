@@ -1,32 +1,32 @@
-# Using a store outside of a component
+# Использование хранилища вне компонента
 
-Pinia stores rely on the `pinia` instance to share the same store instance across all calls. Most of the time, this works out of the box by just calling your `useStore()` function. For example, in `setup()`, you don't need to do anything else. But things are a bit different outside of a component.
-Behind the scenes, `useStore()` _injects_ the `pinia` instance you gave to your `app`. This means that if the `pinia` instance cannot be automatically injected, you have to manually provide it to the `useStore()` function.
-You can solve this differently depending on the kind of application you are writing.
+Хранилища Pinia полагаются на экземпляр `pinia` для совместного использования одного и того же экземпляра хранилища во всех вызовах. В большинстве случаев это работает из коробки, просто вызывая вашу функцию `useStore()`. Например, в `setup()` вам больше ничего не нужно делать. Но за пределами компонента все обстоит несколько иначе.
+За кулисами `useStore()` _инжектирует_ экземпляр `pinia`, который вы передали своему `app`. Это означает, что если экземпляр `pinia` не может быть автоматически инжектирован, вы должны вручную предоставить его функции `useStore()`.
+Вы можете решить эту проблему по-разному, в зависимости от типа приложения, которое вы пишете.
 
-## Single Page Applications
+## Одностраничные приложения
 
-If you are not doing any SSR (Server Side Rendering), any call of `useStore()` after installing the pinia plugin with `app.use(pinia)` will work:
+Если вы не используете SSR (Server Side Rendering), любой вызов `useStore()` после установки плагина pinia с помощью `app.use(pinia)` будет работать:
 
 ```js
 import { useUserStore } from '@/stores/user'
 import { createApp } from 'vue'
 import App from './App.vue'
 
-// ❌  fails because it's called before the pinia is created
+// ❌  не удается, потому что он вызывается до создания pinia
 const userStore = useUserStore()
 
 const pinia = createPinia()
 const app = createApp(App)
 app.use(pinia)
 
-// ✅ works because the pinia instance is now active
+// ✅ работает, потому что экземпляр pinia теперь активен
 const userStore = useUserStore()
 ```
 
-The easiest way to ensure this is always applied is to _defer_ calls of `useStore()` by placing them inside functions that will always run after pinia is installed.
+Самый простой способ убедиться, что это всегда применяется, - это _ограничить_ вызовы `useStore()`, поместив их в функции, которые всегда будут выполняться после установки pinia.
 
-Let's take a look at this example of using a store inside of a navigation guard with Vue Router:
+Давайте рассмотрим пример использования хранилища внутри навигационной защиты с помощью Vue Router:
 
 ```js
 import { createRouter } from 'vue-router'
@@ -34,26 +34,26 @@ const router = createRouter({
   // ...
 })
 
-// ❌ Depending on the order of imports this will fail
+// ❌ В зависимости от порядка импорта это приведет к сбою
 const store = useStore()
 
 router.beforeEach((to, from, next) => {
-  // we wanted to use the store here
+  // мы хотели использовать хранилище здесь
   if (store.isLoggedIn) next()
   else next('/login')
 })
 
 router.beforeEach((to) => {
-  // ✅ это будет работать because the router starts its navigation after
-  // the router is installed and pinia will be installed too
+  // ✅это будет работать, потому что маршрутизатор начинает свою навигацию после того, как
+  // маршрутизатор установлен и pinia тоже будет установлена
   const store = useStore()
 
   if (to.meta.requiresAuth && !store.isLoggedIn) return '/login'
 })
 ```
 
-## SSR Apps
+## SSR приложения
 
-When dealing with Server Side Rendering, you will have to pass the `pinia` instance to `useStore()`. This prevents pinia from sharing global state between different application instances.
+При работе с Server Side Rendering вам придется передавать экземпляр `pinia` в `useStore()`. Это не позволит pinia делиться глобальным состоянием между различными экземплярами приложения.
 
-There is a whole section dedicated to it in the [SSR guide](/ssr/index.md), this is just a short explanation:
+Этому посвящен целый раздел в [SSR guide](/ssr/index.md), это лишь краткое объяснение:

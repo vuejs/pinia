@@ -1,8 +1,8 @@
-# Cookbook
+# Книга рецептов
 
--   [Миграция с Vuex ≤4](./migration-vuex.md): A migration guide for converting Vuex ≤4 projects.
--   [HMR](./hot-module-replacement.md): How to activate hot module replacement and improve the developer experience.
--   [Тестирование хранилища (WIP)](./testing.md): How to unit test Stores and mock them in component unit tests.
--   [Composing Stores](./composing-stores.md): How to cross use multiple stores. e.g. using the user store in the cart store.
--   [Options API](./options-api.md): How to use Pinia without the composition API, outside of `setup()`.
--   [Миграция с 0.0.7](./migration-0-0-7.md): A migration guide with more examples than the changelog.
+-   [Миграция с Vuex ≤4](./migration-vuex.md): Руководство по миграции для преобразования проектов Vuex ≤4.
+-   [HMR](./hot-module-replacement.md): Как активировать горячую замену модуля и улучшить опыт разработчика.
+-   [Тестирование хранилища (WIP)](./testing.md): Как модульно тестировать хранилища и имитировать их в компонентных модульных тестах.
+-   [Composing Stores](./composing-stores.md): Как перекрестно использовать несколько хранилищ. Например, используя пользовательское хрианилище в хрианилище корзины.
+-   [Options API](./options-api.md): Как использовать Pinia без composition API, вне `setup()`.
+-   [Миграция с 0.0.7](./migration-0-0-7.md): Руководство по миграции с большим количеством примеров, чем в журнале изменений.
