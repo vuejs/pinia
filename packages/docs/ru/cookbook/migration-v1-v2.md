@@ -18,7 +18,7 @@ yarn add 'pinia@^0.x.x'
 - В подписках `storeName` становится `storeId`.
 - `PiniaPlugin` был переименован в `PiniaVuePlugin` (плагин Pinia для Vue 2)
 - `$subscribe()` больше не принимает _boolean_ в качестве второго параметра, вместо этого передавайте объект с `detached: true`.
-- Плагины Pinia больше не получают напрямую `id` магазина. Вместо этого используйте `store.$id`.
+- Плагины Pinia больше не получают напрямую `id` хранилища. Вместо этого используйте `store.$id`.
 
 ## Кардинальные изменения
 
@@ -36,7 +36,7 @@ yarn add 'pinia@^2.x.x'
 
 Добавлен в [2.0.0-rc.0](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md#200-rc0-2021-07-28)
 
-Замените любое использование типа `GenericStore` на `StoreGeneric`. Это новый универсальный тип хранилища, который может принимать любой тип хранилища. Если вы писали функции, использующие тип `Store` без передачи его generics (например, `Store<Id, State, Getters, Actions>`), вам также следует использовать `StoreGeneric`, поскольку тип `Store` без generics создает пустой тип магазина.
+Замените любое использование типа `GenericStore` на `StoreGeneric`. Это новый универсальный тип хранилища, который может принимать любой тип хранилища. Если вы писали функции, использующие тип `Store` без передачи его generics (например, `Store<Id, State, Getters, Actions>`), вам также следует использовать `StoreGeneric`, поскольку тип `Store` без generics создает пустой тип хранилища.
 
 ```ts
 function takeAnyStore(store: Store) {} // [!code --]
@@ -105,22 +105,22 @@ Can't import the named export 'computed' from non EcmaScript module (only defaul
 
   - Если обновление невозможно, добавьте это в ваш `vue.config.js`:
 
-        ```js
-        // vue.config.js
-        module.exports = {
-            configureWebpack: {
-                module: {
-                    rules: [
-                        {
-                            test: /\.mjs$/,
-                            include: /node_modules/,
-                            type: 'javascript/auto',
-                        },
-                    ],
+            ```js
+            // vue.config.js
+            module.exports = {
+                configureWebpack: {
+                    module: {
+                        rules: [
+                            {
+                                test: /\.mjs$/,
+                                include: /node_modules/,
+                                type: 'javascript/auto',
+                            },
+                        ],
+                    },
                 },
-            },
-        }
-        ```
+            }
+            ```
 
 - Если вы вручную управляете webpack, вам придется сообщить ему, как работать с файлами `.mjs`:
 

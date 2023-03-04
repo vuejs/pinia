@@ -41,7 +41,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-Вы можете рассматривать `state` как `data` магазина, `getters` как `computed` свойства магазина, а `actions` как `methods`.
+Вы можете рассматривать `state` как `data` хранилища, `getters` как `computed` свойства хранилища, а `actions` как `methods`.
 
 Опциональные хранилища должны быть интуитивно понятными и простыми для начала работы.
 
@@ -68,7 +68,7 @@ export const useCounterStore = defineStore('counter', () => {
 -   `computed()`s становятся `getters`
 -   `function()`s становятся `actions`
 
-Хранилища настроек дают гораздо больше гибкости, чем [Option Stores](#option-stores), поскольку вы можете создавать наблюдатели внутри магазина и свободно использовать любые [composable](https://vuejs.org/guide/reusability/composables.html#composables). Однако помните, что использование composables усложняется при использовании [SSR](../cookbook/composables.md).
+Хранилища настроек дают гораздо больше гибкости, чем [Option Stores](#option-stores), поскольку вы можете создавать наблюдатели внутри хранилища и свободно использовать любые [composable](https://vuejs.org/guide/reusability/composables.html#composables). Однако помните, что использование composables усложняется при использовании [SSR](../cookbook/composables.md).
 
 ## Какой синтаксис мне выбрать?
 
@@ -76,7 +76,7 @@ export const useCounterStore = defineStore('counter', () => {
 
 ## Использование хранилища
 
-Мы _определяем_ магазин, потому что хранилище не будет создан, пока `use...Store()` не будет вызван внутри компонента `<script setup>` (или внутри `setup()` **как все композиты**):
+Мы _определяем_ хранилище, потому что хранилище не будет создан, пока `use...Store()` не будет вызван внутри компонента `<script setup>` (или внутри `setup()` **как все композиты**):
 
 ```vue
 <script setup>

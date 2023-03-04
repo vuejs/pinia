@@ -2,22 +2,22 @@
 
 Хранилища, по замыслу, будут использоваться во многих местах и могут значительно усложнить тестирование, чем оно должно быть. К счастью, это не обязательно должно быть так. При тестировании хранилищ нам нужно позаботиться о трех вещах:
 
-- Экземпляр `pinia`: хранилища не могут работать без него
-- `actions`: в большинстве случаев они содержат самую сложную логику наших хранилищ. Разве не было бы неплохо, если бы над ними издевались по умолчанию?
-- Плагины: Если вы полагаетесь на плагины, вам также придется устанавливать их для тестов
+-   Экземпляр `pinia`: хранилища не могут работать без него
+-   `actions`: в большинстве случаев они содержат самую сложную логику наших хранилищ. Разве не было бы неплохо, если бы над ними издевались по умолчанию?
+-   Плагины: Если вы полагаетесь на плагины, вам также придется устанавливать их для тестов
 
 В зависимости от того, что или как вы тестируете, нам нужно позаботиться об этих трех по-разному:
 
-- [Тестирование хранилища](#testing-stores)
-  - [Модульное тестирование хранилища](#unit-testing-a-store)
-  - [Модульное тестирование компонентов](#unit-testing-components)
-    - [Инициализация состояния](#initial-state)
-    - [Настройка поведения экшенов](#customizing-behavior-of-actions)
-    - [Указание функции createSpy](#specifying-the-createspy-function)
-    - [Mocking getters](#mocking-getters)
-    - [Плагины pinia](#pinia-plugins)
-  - [E2E tests](#e2e-tests)
-  - [Компоненты модульного тестирования (Vue 2)](#unit-test-components-vue-2)
+-   [Тестирование хранилища](#testing-stores)
+    -   [Модульное тестирование хранилища](#unit-testing-a-store)
+    -   [Модульное тестирование компонентов](#unit-testing-components)
+        -   [Инициализация состояния](#initial-state)
+        -   [Настройка поведения экшенов](#customizing-behavior-of-actions)
+        -   [Указание функции createSpy](#specifying-the-createspy-function)
+        -   [Mocking getters](#mocking-getters)
+        -   [Плагины pinia](#pinia-plugins)
+    -   [E2E tests](#e2e-tests)
+    -   [Компоненты модульного тестирования (Vue 2)](#unit-test-components-vue-2)
 
 ## Модульное тестирование хранилища
 
@@ -29,25 +29,25 @@ import { setActivePinia, createPinia } from 'pinia'
 import { useCounter } from '../src/stores/counter'
 
 describe('Counter Store', () => {
-  beforeEach(() => {
-    // создаем свежую pinia и делаем ее активной, чтобы она автоматически подхватывалась
-    // подхватывается любым вызовом useStore() без необходимости передавать его ему:
-    // `useStore(pinia)`.
-    setActivePinia(createPinia())
-  })
+    beforeEach(() => {
+        // создаем свежую pinia и делаем ее активной, чтобы она автоматически подхватывалась
+        // подхватывается любым вызовом useStore() без необходимости передавать его ему:
+        // `useStore(pinia)`.
+        setActivePinia(createPinia())
+    })
 
-  it('increments', () => {
-    const counter = useCounter()
-    expect(counter.n).toBe(0)
-    counter.increment()
-    expect(counter.n).toBe(1)
-  })
+    it('increments', () => {
+        const counter = useCounter()
+        expect(counter.n).toBe(0)
+        counter.increment()
+        expect(counter.n).toBe(1)
+    })
 
-  it('increments by amount', () => {
-    const counter = useCounter()
-    counter.increment(10)
-    expect(counter.n).toBe(10)
-  })
+    it('increments by amount', () => {
+        const counter = useCounter()
+        counter.increment(10)
+        expect(counter.n).toBe(10)
+    })
 })
 ```
 
@@ -63,9 +63,9 @@ import { somePlugin } from '../src/stores/plugin'
 // вам не нужно создавать одно приложение для каждого теста
 const app = createApp({})
 beforeEach(() => {
-  const pinia = createPinia().use(somePlugin)
-  app.use(pinia)
-  setActivePinia(pinia)
+    const pinia = createPinia().use(somePlugin)
+    app.use(pinia)
+    setActivePinia(pinia)
 })
 ```
 
@@ -88,9 +88,9 @@ import { createTestingPinia } from '@pinia/testing'
 import { useSomeStore } from '@/stores/myStore'
 
 const wrapper = mount(Counter, {
-  global: {
-    plugins: [createTestingPinia()],
-  },
+    global: {
+        plugins: [createTestingPinia()],
+    },
 })
 
 const store = useSomeStore() // использовать тестирующую pinia!
@@ -119,8 +119,8 @@ expect(store.someAction).toHaveBeenLastCalledWith()
 import { defineStore } from 'pinia'
 
 const useCounterStore = defineStore('counter', {
-  state: () => ({ n: 0 }),
-  // ...
+    state: () => ({ n: 0 }),
+    // ...
 })
 ```
 
@@ -129,15 +129,15 @@ const useCounterStore = defineStore('counter', {
 ```ts
 // где-то в вашем тесте
 const wrapper = mount(Counter, {
-  global: {
-    plugins: [
-      createTestingPinia({
-        initialState: {
-          counter: { n: 20 }, // запустить счетчик с 20 вместо 0
-        },
-      }),
-    ],
-  },
+    global: {
+        plugins: [
+            createTestingPinia({
+                initialState: {
+                    counter: { n: 20 }, // запустить счетчик с 20 вместо 0
+                },
+            }),
+        ],
+    },
 })
 
 const store = useSomeStore() // использует тестирующую pinia!
@@ -146,15 +146,15 @@ store.n // 20
 
 ### Настройка поведения экшенов
 
-`createTestingPinia` вставляет все действия магазина, если не сказано иначе. Это позволяет вам тестировать ваши компоненты и магазины отдельно.
+`createTestingPinia` вставляет все действия хранилища, если не сказано иначе. Это позволяет вам тестировать ваши компоненты и хранилища отдельно.
 
 Если вы хотите изменить это поведение и нормально выполнять свои действия во время тестов, укажите `stubActions: false` при вызове `createTestingPinia`:
 
 ```js
 const wrapper = mount(Counter, {
-  global: {
-    plugins: [createTestingPinia({ stubActions: false })],
-  },
+    global: {
+        plugins: [createTestingPinia({ stubActions: false })],
+    },
 })
 
 const store = useSomeStore()
@@ -174,11 +174,11 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 import sinon from 'sinon'
 
 createTestingPinia({
-  createSpy: sinon.spy, // используйте sinon's spy для завершения действий
+    createSpy: sinon.spy, // используйте sinon's spy для завершения действий
 })
 ```
 
-Вы можете найти больше примеров в [тестах пакета тестирования](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts ).
+Вы можете найти больше примеров в [тестах пакета тестирования](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts).
 
 ### Mocking getters
 
@@ -189,10 +189,10 @@ import { defineStore } from 'pinia'
 import { createTestingPinia } from '@pinia/testing'
 
 const useCounter = defineStore('counter', {
-  state: () => ({ n: 1 }),
-  getters: {
-    double: (state) => state.n * 2,
-  },
+    state: () => ({ n: 1 }),
+    getters: {
+        double: (state) => state.n * 2,
+    },
 })
 
 const pinia = createTestingPinia()
@@ -208,7 +208,7 @@ counter.double // 2 (=1 x 2)
 
 ### Плагины Pinia
 
-Если у вас есть какие-либо плагины pinia, обязательно передайте их при вызове `createTestingPinia()`, чтобы они были правильно применены. ***Не добавляйте их с помощью `testingPinia.use(мой плагин)`***, как вы бы сделали с обычной pinia:
+Если у вас есть какие-либо плагины pinia, обязательно передайте их при вызове `createTestingPinia()`, чтобы они были правильно применены. **_Не добавляйте их с помощью `testingPinia.use(мой плагин)`_**, как вы бы сделали с обычной pinia:
 
 ```js
 import { createTestingPinia } from '@pinia/testing'
@@ -216,14 +216,14 @@ import { somePlugin } from '../src/stores/plugin'
 
 // внутри какого-то теста
 const wrapper = mount(Counter, {
-  global: {
-    plugins: [
-      createTestingPinia({
-        stubActions: false,
-        plugins: [somePlugin],
-      }),
-    ],
-  },
+    global: {
+        plugins: [
+            createTestingPinia({
+                stubActions: false,
+                plugins: [somePlugin],
+            }),
+        ],
+    },
 })
 ```
 
@@ -244,8 +244,8 @@ const localVue = createLocalVue()
 localVue.use(PiniaVuePlugin)
 
 const wrapper = mount(Counter, {
-  localVue,
-  pinia: createTestingPinia(),
+    localVue,
+    pinia: createTestingPinia(),
 })
 
 const store = useSomeStore() // uses the testing pinia!
