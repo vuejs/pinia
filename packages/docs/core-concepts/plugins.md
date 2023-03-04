@@ -73,12 +73,12 @@ pinia.use(({ store }) => {
 Any property _returned_ by a plugin will be automatically tracked by devtools so in order to make `hello` visible in devtools, make sure to add it to `store._customProperties` **in dev mode only** if you want to debug it in devtools:
 
 ```js
-// из примера выше
+// from the example above
 pinia.use(({ store }) => {
   store.hello = 'world'
-  // убедитесь, что ваш бандлер обрабатывает это. Webpack и vite должны делать это по умолчанию
+  // make sure your bundler handle this. webpack and vite should do it by default
   if (process.env.NODE_ENV === 'development') {
-    // добавьте все ключи, которые вы установили в хранилище
+    // add any keys you set on the store
     store._customProperties.add('hello')
   }
 })
@@ -89,7 +89,7 @@ Note that every store is wrapped with [`reactive`](https://v3.vuejs.org/api/basi
 ```js
 const sharedRef = ref('shared')
 pinia.use(({ store }) => {
-  // каждое хранилище имеет свое индивидуальное свойство `hello`.
+  // each store has its individual `hello` property
   store.hello = ref('secret')
   // it gets automatically unwrapped
   store.hello // 'secret'
