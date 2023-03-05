@@ -324,7 +324,7 @@ function createSetupStore<
   /* istanbul ignore next */
   const $reset = isOptionsStore
     ? function $reset(this: _StoreWithState<Id, S, G, A>) {
-        const { state } = options as any
+        const { state } = options as DefineStoreOptions<Id, S, G, A>
         const newState = state ? state() : {}
         // we use a patch to group all changes into one single subscription
         this.$patch(($state) => {
