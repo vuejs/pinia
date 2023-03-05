@@ -321,7 +321,6 @@ function createSetupStore<
     )
   }
 
-  /* istanbul ignore next */
   const $reset = isOptionsStore
     ? function $reset(this: _StoreWithState<Id, S, G, A>) {
         const { state } = options as DefineStoreOptions<Id, S, G, A>
@@ -331,7 +330,8 @@ function createSetupStore<
           assign($state, newState)
         })
       }
-    : __DEV__
+    : /* istanbul ignore next */
+    __DEV__
     ? () => {
         throw new Error(
           `🍍: Store "${$id}" is built using the setup syntax and does not implement $reset().`
