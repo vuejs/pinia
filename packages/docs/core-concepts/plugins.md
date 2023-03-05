@@ -160,6 +160,35 @@ pinia.use(({ store }) => {
 
 :::
 
+If you require that any state introduced by your plugin should be reset when `$reset` is called on your store, then you will need to overwrite `$reset` to include the resetting of your state:
+
+```js
+import { set, toRef } from '@vue/composition-api'
+pinia.use(({ store }) => {
+  if (!Object.prototype.hasOwnProperty(store.$state, 'hello')) {
+    const secretRef = ref('secret')
+    // If the data is meant to be used during SSR, you should
+    // set it on the `$state` property so it is serialized and
+    // picked up during hydration
+    set(store.$state, 'secret', secretRef)
+  }
+  // set it directly on the store too so you can access it
+  // both ways: `store.$state.secret` / `store.secret`
+  set(store, 'secret', toRef(store.$state, 'secret'))
+  store.secret // 'secret'
+
+  const originalReset = store.$reset.bind(store)
+  return {
+    $reset() {
+      // Reset any state defined in the store and required to be reset by other plugins.
+      originalReset()
+      // Reset state introduced by this plugin if necessary.
+      store.secret = 'secret'
+    }
+  }
+})
+```
+
 ## Adding new external properties
 
 When adding external properties, class instances that come from other libraries, or simply things that are not reactive, you should wrap the object with `markRaw()` before passing it to pinia. Here is an example adding the router to every store:
