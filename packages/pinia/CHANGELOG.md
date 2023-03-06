@@ -1,3 +1,9 @@
+## [2.0.33](https://github.com/vuejs/pinia/compare/pinia@2.0.32...pinia@2.0.33) (2023-03-06)
+
+### Bug Fixes
+
+- allow `$reset` to be overridden by plugins ([#2054](https://github.com/vuejs/pinia/issues/2054)) ([709e2b1](https://github.com/vuejs/pinia/commit/709e2b1a77410331ee1ce88212ac55a4e92fa941))
+
 ## [2.0.32](https://github.com/vuejs/pinia/compare/pinia@2.0.31...pinia@2.0.32) (2023-02-21)
 
 ### Bug Fixes
