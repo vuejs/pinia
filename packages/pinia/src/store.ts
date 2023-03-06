@@ -195,14 +195,6 @@ function createOptionsStore<
 
   store = createSetupStore(id, setup, options, pinia, hot, true)
 
-  store.$reset = function $reset() {
-    const newState = state ? state() : {}
-    // we use a patch to group all changes into one single subscription
-    this.$patch(($state) => {
-      assign($state, newState)
-    })
-  }
-
   return store as any
 }
 
@@ -329,8 +321,17 @@ function createSetupStore<
     )
   }
 
-  /* istanbul ignore next */
-  const $reset = __DEV__
+  const $reset = isOptionsStore
+    ? function $reset(this: _StoreWithState<Id, S, G, A>) {
+        const { state } = options as DefineStoreOptions<Id, S, G, A>
+        const newState = state ? state() : {}
+        // we use a patch to group all changes into one single subscription
+        this.$patch(($state) => {
+          assign($state, newState)
+        })
+      }
+    : /* istanbul ignore next */
+    __DEV__
     ? () => {
         throw new Error(
           `🍍: Store "${$id}" is built using the setup syntax and does not implement $reset().`

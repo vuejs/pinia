@@ -23,9 +23,7 @@ declare module '../src' {
 }
 
 describe('store plugins', () => {
-  const useStore = defineStore({
-    id: 'test',
-
+  const useStore = defineStore('test', {
     actions: {
       incrementN() {
         return this.pluginN++
@@ -62,6 +60,41 @@ describe('store plugins', () => {
     store.pluginN.notExisting
     // @ts-expect-error: it should always be 'test'
     store.idFromPlugin == 'hello'
+  })
+
+  it('overrides $reset', () => {
+    const pinia = createPinia()
+
+    const useStore = defineStore('main', {
+      state: () => ({ n: 0 }),
+    })
+
+    mount({ template: 'none' }, { global: { plugins: [pinia] } })
+
+    pinia.use(({ app, store }) => {
+      if (!store.$state.hasOwnProperty('pluginN')) {
+        // @ts-expect-error: cannot be a ref yet
+        store.$state.pluginN = ref(20)
+      }
+      // @ts-expect-error: TODO: allow setting refs
+      store.pluginN = toRef(store.$state, 'pluginN')
+
+      const originalReset = store.$reset.bind(store)
+      return {
+        uid: app._uid,
+        $reset() {
+          originalReset()
+          store.pluginN = 20
+        },
+      }
+    })
+
+    const store = useStore(pinia)
+
+    store.pluginN = 200
+    store.$reset()
+    expect(store.$state.pluginN).toBe(20)
+    expect(store.pluginN).toBe(20)
   })
 
   it('can install plugins before installing pinia', () => {
