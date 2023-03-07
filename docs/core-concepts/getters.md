@@ -107,6 +107,7 @@ export const useStore = defineStore('main', {
 
 ```vue
 <script setup>
+import { storeToRefs } from 'pinia'
 import { useUserListStore } from './store'
 
 const userList = useUserListStore()

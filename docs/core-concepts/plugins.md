@@ -160,7 +160,7 @@ pinia.use(({ store }) => {
 ```js
 import { set, toRef } from '@vue/composition-api'
 pinia.use(({ store }) => {
-  if (!Object.prototype.hasOwnProperty(store.$state, 'hello')) {
+  if (!Object.prototype.hasOwnProperty(store.$state, 'secret')) {
     const secretRef = ref('secret')
     // 데이터가 SSR 동안 사용되어야 하는 경우,
     // 이것을 `$state` 속성에 설정하여,
@@ -175,6 +175,34 @@ pinia.use(({ store }) => {
 ```
 
 :::
+
+#### 플러그인에 추가된 리셋 상태 %{#resetting-state-added-in-plugins}%
+
+기본적으로 `$reset()`은 플러그인에 의해 추가된 상태(state)를 리셋하지 않지만 추가한 상태를 리셋하도록 재정의할 수 있습니다:
+
+```js
+import { toRef, ref } from 'vue'
+
+pinia.use(({ store }) => {
+  // 이것은 위 예제 코드와 동일합니다.
+  if (!Object.prototype.hasOwnProperty(store.$state, 'hasError')) {
+    const hasError = ref(false)
+    store.$state.hasError = hasError
+  }
+  store.hasError = toRef(store.$state, 'hasError')
+
+  // 컨텍스트(`this`)를 스토어로 설정했는지 확인하십시오.
+  const originalReset = store.$reset.bind(store)
+
+  // $reset 함수 재정의
+  return {
+    $reset() {
+      originalReset()
+      store.hasError = false
+    }
+  }
+})
+```
 
 ## 새로운 외부 속성 추가하기 %{#adding-new-external-properties}%
 
