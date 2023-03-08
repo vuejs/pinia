@@ -168,7 +168,7 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 
 ### 指定 createSpy 函数 %{#specifying-the-createspy-function}%
 
-当使用 Jest，或 vitest 且设置 `globals: true` 时，`createTestingPinia` 会自动使用现有测试框架(`jest.fn` 或 `vitest.fn`)的 spy 函数存根 (stub) action。如果你使用的是不同的框架，你需要提供一个 [createSpy](/zh/api/interfaces/pinia_testing.TestingOptions.html#createspy) 选项：
+当使用 Jest，或 vitest 且设置 `globals: true` 时，`createTestingPinia` 会自动使用现有测试框架 (`jest.fn` 或 `vitest.fn`) 的 spy 函数存根 (stub) action。如果你使用的是不同的框架，你需要提供一个 [createSpy](/zh/api/interfaces/pinia_testing.TestingOptions.html#createspy) 选项：
 
 ```js
 import sinon from 'sinon'
@@ -208,7 +208,7 @@ counter.double // 2 (=1 x 2)
 
 ### Pinia 插件 %{#pinia-plugins}%
 
-如果你有使用任何 pinia 插件，确保在调用 `createTestingPinia()` 时传入它们，这样它们就会被正确加载。**不要使用 `testingPinia.use(MyPlugin)`**来加载它们，而应该像正常的 pinia 那样：
+如果你有使用任何 pinia 插件，确保在调用 `createTestingPinia()` 时传入它们，这样它们就会被正确加载。**不要使用 `testingPinia.use(MyPlugin)`** 来加载它们，而应该像正常的 pinia 那样：
 
 ```js
 import { createTestingPinia } from '@pinia/testing'
