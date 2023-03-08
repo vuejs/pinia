@@ -208,7 +208,7 @@ counter.double // 2 (=1 x 2)
 
 ### Pinia 插件 %{#pinia-plugins}%
 
-如果你有使用任何 pinia 插件，确保在调用 `createTestingPinia()` 时传入它们，这样它们就会被正确加载。**不要使用`testingPinia.use(MyPlugin)`** 来加载它们，而应该像正常的 pinia 那样：
+如果你有使用任何 pinia 插件，确保在调用 `createTestingPinia()` 时传入它们，这样它们就会被正确加载。**不要使用 `testingPinia.use(MyPlugin)`** 来加载它们，而应该像正常的 pinia 那样：
 
 ```js
 import { createTestingPinia } from '@pinia/testing'
