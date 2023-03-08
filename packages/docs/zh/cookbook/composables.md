@@ -14,12 +14,12 @@ export const useAuthStore = defineStore('auth', {
 })
 ```
 
-请记住，**你只能返回可写的状态**(例如，一个 `ref()`)。下面是一些可用的组合式函数的示例：
+请记住，**你只能返回可写的状态** (例如，一个 `ref()`) 。下面是一些可用的组合式函数的示例：
 
 - [useLocalStorage](https://vueuse.org/core/useLocalStorage/)
 - [useAsyncState](https://vueuse.org/core/useAsyncState/)
 
-下面是一些不可在 option store 中使用的组合式函数(但可在 setup store 中使用)：
+下面是一些不可在 option store 中使用的组合式函数 (但可在 setup store 中使用) ：
 
 - [useMediaControls](https://vueuse.org/core/useMediaControls/): exposes functions
 - [useMemoryInfo](https://vueuse.org/core/useMemory/): exposes readonly data
@@ -61,7 +61,7 @@ export const useVideoPlayer = defineStore('video', () => {
 
 当处理[服务端渲染](../ssr/index.md)时，你有一些需要额外注意的内容，以便在 store 中使用组合式函数。
 
-在 [Option Store](#option-stores) 中，你需要定义一个 `hydrate()` 函数。当 store 在客户端(浏览器)上被实例化的过程中，创建 store 时有一个可用的初始状态时，这个函数就会被调用。我们需要定义这个函数的原因是，在这种情况下，`state()` 是不会被调用的。
+在 [Option Store](#option-stores) 中，你需要定义一个 `hydrate()` 函数。当 store 在客户端 (浏览器) 上被实例化的过程中，创建 store 时有一个可用的初始状态时，这个函数就会被调用。我们需要定义这个函数的原因是，在这种情况下，`state()` 是不会被调用的。
 
 ```ts
 import { defineStore, skipHydrate } from 'pinia'
