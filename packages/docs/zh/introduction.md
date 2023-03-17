@@ -57,7 +57,7 @@ counter.$patch({ count: counter.count + 1 })
 counter.increment()
 </script>
 <template>
-  <!-- 直接通过 store 访问状态 -->
+  <!-- 直接通过 store 访问 state -->
   <div>Current Count: {{ counter.count }}</div>
 </template>
 ```
