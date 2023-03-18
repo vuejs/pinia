@@ -80,11 +80,14 @@ importers:
       '@vueuse/core': ^9.11.1
       pinia: workspace:^2.0.18
       vitepress: 1.0.0-alpha.40
+      vue-use-spring: ^0.1.1
     dependencies:
       '@chenfengyuan/vue-countdown': 2.1.0
       '@vueuse/core': 9.11.1
       pinia: link:../pinia
       vitepress: 1.0.0-alpha.40
+    devDependencies:
+      vue-use-spring: 0.1.1
 
   packages/nuxt:
     specifiers:
@@ -8269,6 +8272,19 @@ packages:
       ufo: 1.0.0
     dev: true
 
+  /vue-demi/0.11.4:
+    resolution: {integrity: sha512-/3xFwzSykLW2HiiLie43a+FFgNOcokbBJ+fzvFXd0r2T8MYohqvphUyDQ8lbAwzQ3Dlcrb1c9ykifGkhSIAk6A==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dev: true
+
   /vue-demi/0.13.11:
     resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
     engines: {node: '>=12'}
@@ -8346,6 +8362,18 @@ packages:
       '@volar/vue-language-core': 1.0.24
       '@volar/vue-typescript': 1.0.24
       typescript: 4.8.4
+    dev: true
+
+  /vue-use-spring/0.1.1:
+    resolution: {integrity: sha512-SNzVt6aLbcJvYz5DDUbVIo2+SdipYpPQDXWtMExD420LQMWCHz8eNbZjdCIFWsUtPGexm0DGYZiVInFjr0ILsA==}
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^2.6.12 || ^3.0.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      vue-demi: 0.11.4
     dev: true
 
   /vue/3.2.45:

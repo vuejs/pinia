@@ -12,5 +12,8 @@
     "@vueuse/core": "^9.11.1",
     "pinia": "workspace:^2.0.18",
     "vitepress": "1.0.0-alpha.40"
+  },
+  "devDependencies": {
+    "vue-use-spring": "^0.1.1"
   }
 }
