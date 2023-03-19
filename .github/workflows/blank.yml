@@ -15,4 +15,4 @@ jobs:
           upstream_repository: https://github.com/vuejs/pinia
           upstream_branch: v2
           target_repository: https://github.com/niceplugin/Vuejs-Pinia-KO
-          target_branch: main-korean
+          target_branch: v2
