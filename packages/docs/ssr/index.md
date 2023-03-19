@@ -78,33 +78,7 @@ app.use(pinia)
 devalue(pinia.state.value)
 ```
 
-Depending on what you are using for SSR, you will set an _initial state_ variable that will be serialized in the HTML. You should also protect yourself from XSS attacks. For example, with [vite-ssr](https://github.com/frandiox/vite-ssr) you can use the [`transformState` option](https://github.com/frandiox/vite-ssr#state-serialization) and `@nuxt/devalue`:
-
-```js
-import devalue from '@nuxt/devalue'
-
-export default viteSSR(
-  App,
-  {
-    routes,
-    transformState(state) {
-      return import.meta.env.SSR ? devalue(state) : state
-    },
-  },
-  ({ initialState }) => {
-    // ...
-    if (import.meta.env.SSR) {
-      // this will be stringified and set to window.__INITIAL_STATE__
-      initialState.pinia = pinia.state.value
-    } else {
-      // on the client side, we restore the state
-      pinia.state.value = initialState.pinia
-    }
-  }
-)
-```
-
-You can use [other alternatives](https://github.com/nuxt-contrib/devalue#see-also) to `@nuxt/devalue` depending on what you need, e.g. if you can serialize and parse your state with `JSON.stringify()`/`JSON.parse()`, **you could improve your performance by a lot**.
+Depending on what you are using for SSR, you will set an _initial state_ variable that will be serialized in the HTML. You should also protect yourself from XSS attacks. You can use [other alternatives](https://github.com/nuxt-contrib/devalue#see-also) to `@nuxt/devalue` depending on what you need, e.g. if you can serialize and parse your state with `JSON.stringify()`/`JSON.parse()`, **you could improve your performance by a lot**.
 
 Adapt this strategy to your environment. Make sure to hydrate pinia's state before calling any `useStore()` function on client side. For example, if we serialize the state into a `<script>` tag to make it accessible globally on client side through `window.__pinia`, we can write this:
 
