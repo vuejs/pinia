@@ -104,7 +104,7 @@ pinia.use(({ store }) => {
 
 ### 添加新的 state %{#adding-new-state}%
 
-如果你想给 store 添加新的 state 属性，或者在激活过程中使用的属性，**你必须同时在两个地方添加它**。
+如果你想给 store 添加新的 state 属性或者在服务端渲染的激活过程中使用的属性，**你必须同时在两个地方添加它**。。
 
 - 在 `store` 上，然后你才可以用 `store.myState` 访问它。
 - 在 `store.$state` 上，然后你才可以在 devtools 中使用它，并且，**在 SSR 时被正确序列化(serialized)**。

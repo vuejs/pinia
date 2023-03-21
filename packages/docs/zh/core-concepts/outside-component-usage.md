@@ -39,14 +39,14 @@ const router = createRouter({
 const store = useStore()
 
 router.beforeEach((to, from, next) => {
-  // 我们想用这里的 store
+  // 我们想要在这里使用 store
   if (store.isLoggedIn) next()
   else next('/login')
 })
 
 router.beforeEach((to) => {
-  // ✅ 这样做是可行的，因为路由器在安装完之后就会开始导航。
-  // Pinia 也将被安装。
+  // ✅ 这样做是可行的，因为路由器是在其被安装之后开始导航的，
+  // 而此时 Pinia 也已经被安装。
   const store = useStore()
 
   if (to.meta.requiresAuth && !store.isLoggedIn) return '/login'
