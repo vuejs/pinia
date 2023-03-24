@@ -1,5 +1,3 @@
-API 文档
-
 # API 文档 %{#api-documentation}%
 
 ## 模块 %{#modules}%
