@@ -25,3 +25,8 @@ body:
     attributes:
       label: Describe alternatives you've considered
       description: A clear and concise description of any alternative solutions or features you've considered.
+  - type: markdown
+    attributes:
+      value: |
+        ## Before creating a feature request make sure that:
+        - This hasn't been [requested before](https://github.com/vuejs/router/issues).
