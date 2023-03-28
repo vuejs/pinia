@@ -72,9 +72,9 @@ export default defineNuxtConfig({
       '@pinia/nuxt',
       {
         autoImports: [
-          // 自动引入 `usePinia()`
+          // 自动引入 `defineStore()`
           'defineStore',
-          // 自动引入 `usePinia()` 并重命名为 `usePiniaStore()`
+          // 自动引入 `defineStore()` 并重命名为 `definePiniaStore()`
           ['defineStore', 'definePiniaStore'],
         ],
       },
