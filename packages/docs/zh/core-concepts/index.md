@@ -10,7 +10,9 @@
 ```js
 import { defineStore } from 'pinia'
 
-// 你可以对 `defineStore()` 的返回值进行任意命名，但最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾。(比如 `useUserStore`，`useCartStore`，`useProductStore`)
+// 你可以对 `defineStore()` 的返回值进行任意命名
+// 但最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾。
+// (比如 `useUserStore`，`useCartStore`，`useProductStore`)
 // 第一个参数是你的应用中 Store 的唯一 ID。
 export const useAlertsStore = defineStore('alerts', {
   // 其他配置...
@@ -27,9 +29,9 @@ export const useAlertsStore = defineStore('alerts', {
 
 ```js {2-10}
 export const useCounterStore = defineStore('counter', {
-  state: () => ({ count: 0 }),
+  state: () => ({ count: 0, name: 'Eduardo' }),
   getters: {
-    double: (state) => state.count * 2,
+    doubleCount: (state) => state.count * 2,
   },
   actions: {
     increment() {
@@ -50,11 +52,13 @@ export const useCounterStore = defineStore('counter', {
 ```js
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
+  const name = ref('Eduardo')
+  const doubleCount = computed(() => count.value * 2)
   function increment() {
     count.value++
   }
 
-  return { count, increment }
+  return { count, name, doubleCount, increment }
 })
 ```
 
@@ -77,14 +81,16 @@ Setup store 比 [Option Store](#option-stores) 带来了更多的灵活性，因
 ```vue
 <script setup>
 import { useCounterStore } from '@/stores/counter'
-// access the `store` variable anywhere in the component ✨
+// 在组件内部的任何地方均可以访问变量 `store` ✨
 const store = useCounterStore()
 </script>
 ```
 
-你可以定义任意多的 store，但为了让使用 pinia 的益处最大化(比如允许构建工具自动进行代码分割以及 TypeScript 推断)，**你应该在不同的文件中去定义 store**。
-
+:::tip
 如果你还不会使用 `setup` 组件，[你也可以通过**映射辅助函数**来使用 Pinia](../cookbook/options-api.md)。
+:::
+
+你可以定义任意多的 store，但为了让使用 pinia 的益处最大化(比如允许构建工具自动进行代码分割以及 TypeScript 推断)，**你应该在不同的文件中去定义 store**。
 
 一旦 store 被实例化，你可以直接访问在 store 的 `state`、`getters` 和 `actions` 中定义的任何属性。我们将在后续章节继续了解这些细节，目前自动补全将帮助你使用相关属性。
 
@@ -93,16 +99,16 @@ const store = useCounterStore()
 ```vue
 <script setup>
 const store = useCounterStore()
-// ❌ This won't work because it breaks reactivity
-// it's the same as destructuring from `props`
+// ❌ 下面这部分代码不会生效，因为它的响应式被破坏了
+// 它和解构 `props` 的操作是一样的
 const { name, doubleCount } = store // [!code warning]
-name // will always be "Eduardo" // [!code warning]
-doubleCount // will always be 0 // [!code warning]
+name // 将会一直是 "Eduardo" // [!code warning]
+doubleCount // 将会一直是 0 // [!code warning]
 setTimeout(() => {
   store.increment()
 }, 1000)
-// ✅ this one will be reactive
-// 💡 but you could also just use `store.doubleCount` directly
+// ✅ 而这一部分代码就会维持响应式
+// 💡 在这里你也可以直接使用 `store.doubleCount`
 const doubleValue = computed(() => store.doubleCount)
 </script>
 ```
@@ -113,11 +119,11 @@ const doubleValue = computed(() => store.doubleCount)
 <script setup>
 import { storeToRefs } from 'pinia'
 const store = useCounterStore()
-// `name` and `doubleCount` are reactive refs
-// This will also extract refs for properties added by plugins
-// but skip any action or non reactive (non ref/reactive) property
+// `name` 和 `doubleCount` 都是响应式引用
+// 下面的代码同样会提取那些来自插件的属性的响应式引用
+// 但是会跳过所有的 action 或者非响应式（非 ref 或者 非 reactive）的属性
 const { name, doubleCount } = storeToRefs(store)
-// the increment action can just be destructured
+// 名为 increment 的 action可以被解构
 const { increment } = store
 </script>
 ```
