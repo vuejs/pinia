@@ -168,5 +168,3 @@ export default defineComponent({
   },
 })
 ```
-
-마지막 확인일 2023-03-15 00:47

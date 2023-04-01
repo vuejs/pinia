@@ -8,7 +8,7 @@
   >
     <a
       id="vm-pinia-weekend"
-      href="https://www.vuemastery.com/pinia"
+      href="https://www.vuemastery.com/pricing/?coupon=PINIAWEEKEND23"
       target="_blank"
     >
       <img
@@ -24,13 +24,11 @@
       <div class="vm-pinia-weekend-wrapper">
         <div class="vm-pinia-weekend-content">
           <h1 class="vm-pinia-weekend-title">
-            PINIA WEEKEND <span>MARCH 24-26</span>
+            Get 50% off a year of Vue courses
           </h1>
-          <p class="vm-pinia-weekend-sub">
-            Watch all 4 premium courses for free
-          </p>
+          <p class="vm-pinia-weekend-sub">Elevate your code with Vue Mastery</p>
         </div>
-        <button id="vm-banner-cta">Secure your spot</button>
+        <button id="vm-banner-cta">Claim Offer</button>
       </div>
       <button id="vm-banner-close" @click.prevent="closeBanner">X</button>
     </a>
@@ -127,7 +125,7 @@ onMounted(() => {
 .vuemastery-banner-wrapper:before {
   content: '';
   background: url(/vuemastery/background-bubbles-vuemastery.svg) left center
-    no-repeat;
+  no-repeat;
   background-size: cover;
   position: absolute;
   top: 0;
