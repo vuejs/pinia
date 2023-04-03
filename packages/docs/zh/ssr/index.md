@@ -8,8 +8,8 @@
 
 ```vue
 <script setup>
-// this works because pinia knows what application is running inside of
-// `setup`
+// 这是可行的，
+// 因为 pinia 知道在 `setup` 中运行的是什么程序。
 const main = useMainStore()
 </script>
 ```

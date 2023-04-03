@@ -234,7 +234,7 @@ cartStore.$subscribe((mutation, state) => {
 ```vue
 <script setup>
 const someStore = useSomeStore()
-// this subscription will be kept even after the component is unmounted
+// 该订阅器将被保留，即使组件被卸载
 someStore.$subscribe(callback, { detached: true })
 </script>
 ```

@@ -99,8 +99,8 @@ export const useStore = defineStore('main', {
 import { useUserListStore } from './store'
 const userList = useUserListStore()
 const { getUserById } = storeToRefs(userList)
-// note you will have to use `getUserById.value` to access
-// the function within the <script setup>
+// 请注意，你需要使用 `getUserById.value` 来访问
+// <script setup> 中的函数
 </script>
 
 <template>

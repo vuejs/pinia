@@ -58,11 +58,11 @@ Action 可以像函数或者通常意义上的方法一样被调用：
 ```vue
 <script setup>
 const store = useCounterStore()
-// call the action as a method of the store
+// 将 action 作为 store 的方法进行调用
 store.randomizeCounter()
 </script>
 <template>
-  <!-- Even on the template -->
+  <!-- 即使在模板中也可以 -->
   <button @click="store.randomizeCounter()">Randomize</button>
 </template>
 ```
@@ -208,7 +208,7 @@ unsubscribe()
 ```vue
 <script setup>
 const someStore = useSomeStore()
-// this subscription will be kept even after the component is unmounted
+// 该订阅器将被保留，即使组件被卸载
 someStore.$onAction(callback, true)
 </script>
 ```

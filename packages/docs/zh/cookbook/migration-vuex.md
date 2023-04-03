@@ -164,7 +164,7 @@ export const useAuthUserStore = defineStore('auth/user', {
       this.lastName = payload.lastName
       this.userId = payload.userId
     },
-    // easily reset state using `$reset`
+    // 使用 `$reset` 可以轻松重置 state
     clearUser () {
       this.$reset()
     }
