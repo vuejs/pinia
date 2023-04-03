@@ -10,6 +10,7 @@ If you are not doing any SSR (Server Side Rendering), any call of `useStore()` a
 
 ```js
 import { useUserStore } from '@/stores/user'
+import { createPinia } from 'pinia';
 import { createApp } from 'vue'
 import App from './App.vue'
 
