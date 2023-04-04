@@ -20,6 +20,7 @@ SSR을 수행하지 않는 경우,
 
 ```js
 import { useUserStore } from '@/stores/user'
+import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import App from './App.vue'
 
