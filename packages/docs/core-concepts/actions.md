@@ -157,7 +157,7 @@ export default {
   methods: {
     // gives access to this.increment() inside the component
     // same as calling from store.increment()
-    ...mapActions(useCounterStore, ['increment'])
+    ...mapActions(useCounterStore, ['increment']),
     // same as above but registers it as this.myOwnName()
     ...mapActions(useCounterStore, { myOwnName: 'increment' }),
   },
