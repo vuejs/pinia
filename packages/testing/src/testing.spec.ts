@@ -226,6 +226,40 @@ describe('Testing', () => {
     expect(store.double).toBe(6)
   })
 
+  it('allows overriding computed properties in setup stores', () => {
+    const useStore = defineStore('computed', () => {
+      const n = ref(0)
+      const double = computed(() => n.value * 2)
+      const doublePlusOne = computed(() => double.value + 1)
+      return { n, double, doublePlusOne }
+    })
+    const pinia = createTestingPinia()
+    const store = useStore(pinia)
+
+    // console.log('is same', d === toRaw(store).double._computed)
+
+    store.n++
+    expect(store.double).toBe(2)
+    // once the getter is overridden, it stays
+    store.double = 3
+    expect(store.double).toBe(3)
+    expect(store.doublePlusOne).toBe(4)
+    store.n++
+    expect(store.double).toBe(3)
+    expect(store.doublePlusOne).toBe(4)
+    // it can be set to undefined again to reset
+    // @ts-expect-error
+    store.double = undefined
+    expect(store.n).toBe(2)
+    expect(store.double).toBe(4)
+    expect(store.doublePlusOne).toBe(5)
+    // it works again
+    store.n++
+    expect(store.n).toBe(3)
+    expect(store.double).toBe(6)
+    expect(store.doublePlusOne).toBe(7)
+  })
+
   it('actions are stubbed even when replaced by other plugins', () => {
     const spy = vi.fn()
     mount(Counter, {
