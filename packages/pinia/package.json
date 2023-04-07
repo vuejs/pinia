@@ -70,7 +70,7 @@
   "license": "MIT",
   "devDependencies": {
     "@microsoft/api-extractor": "7.33.6",
-    "@vue/test-utils": "^2.2.9"
+    "@vue/test-utils": "^2.3.2"
   },
   "dependencies": {
     "@vue/devtools-api": "^6.5.0",

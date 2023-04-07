@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^2.1.0",
-    "@vueuse/core": "^9.11.1",
+    "@vueuse/core": "^9.13.0",
     "pinia": "workspace:^2.0.18",
-    "vitepress": "1.0.0-alpha.40"
+    "vitepress": "1.0.0-alpha.65"
   }
 }
