@@ -1040,7 +1040,7 @@ added.
 
 [`_MapWritableStateObjectReturn`](pinia.md#_mapwritablestateobjectreturn)<`S`, `KeyMapper`\>
 
-▸ **mapWritableState**<`Id`, `S`, `G`, `A`\>(`useStore`, `keys`): [`_MapWritableStateReturn`](pinia.md#_mapwritablestatereturn)<`S`\>
+▸ **mapWritableState**<`Id`, `S`, `G`, `A`, `Keys`\>(`useStore`, `keys`): { [K in Keys]: Object }
 
 Allows using state and getters from one store without using the composition
 API (`setup()`) by generating an object to be spread in the `computed` field
@@ -1054,17 +1054,18 @@ of a component.
 | `S` | extends [`StateTree`](pinia.md#statetree) |
 | `G` | extends [`_GettersTree`](pinia.md#_getterstree)<`S`\> |
 | `A` | `A` |
+| `Keys` | extends `string` \| `number` \| `symbol` |
 
 #### Parameters %{#Functions-mapWritableState-Parameters_1}%
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
-| `keys` | keyof `S`[] | array of state properties |
+| `keys` | readonly `Keys`[] | array of state properties |
 
 #### Returns %{#Functions-mapWritableState-Returns_1}%
 
-[`_MapWritableStateReturn`](pinia.md#_mapwritablestatereturn)<`S`\>
+{ [K in Keys]: Object }
 
 ___
 
