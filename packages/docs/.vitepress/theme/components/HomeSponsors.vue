@@ -34,6 +34,7 @@ const translations = {
   en: 'Become a sponsor',
   'en-US': 'Become a Sponsor!',
   'zh-CN': '成为赞助者！',
+  'uk-UA': 'Стати спонсором!',
 }
 </script>
 
