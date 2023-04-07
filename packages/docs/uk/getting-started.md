@@ -1,25 +1,25 @@
-# Getting Started
+# Початок %{#getting-started}%
 
-## Installation
+## Встановлення %{#installation}%
 
 <VueMasteryLogoLink for="pinia-cheat-sheet">
 </VueMasteryLogoLink>
 
-Install `pinia` with your favorite package manager:
+Встановіть `pinia` за допомогою вашого улюбленого менеджера пакетів:
 
 ```bash
 yarn add pinia
-# or with npm
+# або з npm
 npm install pinia
 ```
 
 :::tip
-If your app is using Vue <2.7, you also need to install the composition api: `@vue/composition-api`. If you are using Nuxt, you should follow [these instructions](/ssr/nuxt.md).
+Якщо ваш застосунок використовує Vue <2.7, вам також потрібно встановити композиційне API: `@vue/composition-api`. Якщо ви використовуєте Nuxt, вам слід дотримуватися [цих інструкцій](/ssr/nuxt.md).
 :::
 
-If you are using the Vue CLI, you can instead give this [**unofficial plugin**](https://github.com/wobsoriano/vue-cli-plugin-pinia) a try.
+Якщо ви використовуєте Vue CLI, натомість ви можете спробувати цей [**неофіційний плагін**](https://github.com/wobsoriano/vue-cli-plugin-pinia).
 
-Create a pinia instance (the root store) and pass it to the app as a plugin:
+Створіть екземпляр pinia (кореневе сховище) та передайте його додатку як плагін:
 
 ```js {2,5-6,8}
 import { createApp } from 'vue'
@@ -33,7 +33,7 @@ app.use(pinia)
 app.mount('#app')
 ```
 
-If you are using Vue 2, you also need to install a plugin and inject the created `pinia` at the root of the app:
+Якщо ви використовуєте Vue 2, ам також потрібно встановити плагін і додати створений `pinia` до кореня застосунку:
 
 ```js {1,3-4,12}
 import { createPinia, PiniaVuePlugin } from 'pinia'
@@ -43,24 +43,24 @@ const pinia = createPinia()
 
 new Vue({
   el: '#app',
-  // other options...
+  // інші опції...
   // ...
-  // note the same `pinia` instance can be used across multiple Vue apps on
-  // the same page
+  // зауважте, що той самий екземпляр `pinia` можна використовувати в кількох
+  // застосунках Vue на тій самій сторінці
   pinia,
 })
 ```
 
-This will also add devtools support. In Vue 3, some features like time traveling and editing are still not supported because vue-devtools doesn't expose the necessary APIs yet but the devtools have way more features and the developer experience as a whole is far superior. In Vue 2, Pinia uses the existing interface for Vuex (and can therefore not be used alongside it).
+Це також додасть підтримку devtools. У Vue 3 деякі функції, як-от подорож у часі та редагування, досі не підтримуються, оскільки vue-devtools ще не надає необхідних API, але devtools мають значно більше можливостей, а досвід розробника в цілому набагато кращий. У Vue 2 Pinia використовує існуючий інтерфейс для Vuex (і тому не може використовуватися разом з ним).
 
-## What is a Store?
+## що таке сховище? %{#what-is-a-store}%
 
-A Store (like Pinia) is an entity holding state and business logic that isn't bound to your Component tree. In other words, **it hosts global state**. It's a bit like a component that is always there and that everybody can read off and write to. It has **three concepts**, the [state](./core-concepts/state.md), [getters](./core-concepts/getters.md) and [actions](./core-concepts/actions.md) and it's safe to assume these concepts are the equivalent of `data`, `computed` and `methods` in components.
+Сховище (наприклад,Pinia) це сутність, яка містить стан і бізнес-логіку, яка не прив'язана до дерева компонентів. Іншими словами, **воно містить глобальний стан**. Це трохи схоже на компонент, який завжди присутній і який кожен може читати та писати. Воно має **три поняття**, [стан](./core-concepts/state.md), [гетери](./core-concepts/getters.md) та [дії](./core-concepts/actions.md), та можна з упевненістю припустити, що ці поняття є еквівалентами `data`, `computed` і `methods` у компонентах.
 
-## When should I use a Store
+## Коли мені варто використовувати сховище %{#when-should-i-use-a-store}%
 
-A store should contain data that can be accessed throughout your application. This includes data that is used in many places, e.g. User information that is displayed in the navbar, as well as data that needs to be preserved through pages, e.g. a very complicated multi-step form.
+Сховище має містити дані, до яких можна отримати доступ у вашому застосунку. Це включає дані, які використовуються в багатьох місцях, наприклад, інформація про користувача, яка відображається на навігаційній панелі, а також дані, які потрібно зберегти на сторінках, наприклад, дуже складна багатоступенева форма.
 
-On the other hand, you should avoid including in the store local data that could be hosted in a component instead, e.g. the visibility of an element local to a page.
+З іншого боку, вам слід уникати включення до сховища локальних даних, які замість цього можуть бути розміщені в компоненті, наприклад, видимість локального елемента сторінки.
 
-Not all applications need access to a global state, but if yours need one, Pinia will make your life easier.
+Не всім застосункам потрібен доступ до глобального стану, але якщо він потрібен вашим, Pinia полегшить ваше життя.
