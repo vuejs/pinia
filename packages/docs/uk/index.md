@@ -2,42 +2,42 @@
 layout: home
 
 title: Pinia
-titleTemplate: The intuitive store for Vue.js
+titleTemplate: Інтуїтивне сховище для Vue.js
 
 hero: 
   name: Pinia
-  text: The intuitive store for Vue.js
-  tagline: Type Safe, Extensible, and Modular by design. Forget you are even using a store.
+  text: Інтуїтивне сховище для Vue.js
+  tagline: З безпечною типізацією, розширюване і модульне за конструкцією. Можна навіть забути, що ви використовуєте сховище.
   image:
     src: /logo.svg
     alt: Pinia
   actions:
     - theme: brand
-      text: Get Started
-      link: /introduction
+      text: Початок
+      link: /uk/introduction
     - theme: alt
-      text: Demo
+      text: Демо
       link: https://stackblitz.com/github/piniajs/example-vue-3-vite
     - theme: cta vueschool
-      text: Watch Video Introduction
+      text: Дивитись вступне відео
       link: https://vueschool.io/lessons/introduction-to-pinia?friend=vuerouter&utm_source=pinia&utm_medium=link&utm_campaign=homepage
     - theme: cta vue-mastery
-      text: Get the Pinia Cheat Sheet
+      text: Отримати шпаргалку Pinia
       link: https://www.vuemastery.com/pinia?coupon=PINIA-DOCS&via=eduardo
 
 features:
-  - title: 💡 Intuitive
-    details: Stores are as familiar as components. API designed to let you write well organized stores.
-  - title: 🔑 Type Safe
-    details: Types are inferred, which means stores provide you with autocompletion even in JavaScript!
-  - title: ⚙️ Devtools support
-    details: Pinia hooks into Vue devtools to give you an enhanced development experience in both Vue 2 and Vue 3.
-  - title: 🔌 Extensible
-    details: React to store changes to extend Pinia with transactions, local storage synchronization, etc.
-  - title: 🏗 Modular by design
-    details: Build multiple stores and let your bundler code split them automatically.
-  - title: 📦 Extremely light
-    details: Pinia weighs ~1.5kb, you will forget it's even there!
+  - title: 💡 Інтуїтивне
+    details: Сховища так само знайомі, як компоненти. API, призначений для створення добре організованих сховищ.
+  - title: 🔑 З безпечною типізацією
+    details: Типи виводяться, а це означає, що сховища надають вам автозаповнення навіть у JavaScript!
+  - title: ⚙️ Підтримка Devtools
+    details: Pinia підключається до інструментів розробника Vue, щоб надати вам покращений досвід розробки як у Vue 2, так і у Vue 3.
+  - title: 🔌 Розширюване
+    details: Реагуйте на зміни сховища, щоб розширити Pinia за допомогою транзакцій, синхронізації локального сховища, тощо.
+  - title: 🏗 Модульний за конструкцією
+    details: Створіть кілька сховищ і дозвольте своєму коду комплектувальника автоматично розділити їх.
+  - title: 📦 Надзвичайно легкий
+    details: Розмір Pinia ~1,5 кб, тож ви забудете, що вона навіть є!
 ---
 
 <script setup>
