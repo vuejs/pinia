@@ -202,17 +202,19 @@ function isComputed<T>(
   return !!v && isRef(v) && 'effect' in v
 }
 
-function WritableComputed({ store }: PiniaPluginContext) {
+function WritableComputed({ store, options }: PiniaPluginContext) {
   const rawStore = toRaw(store)
   for (const key in rawStore) {
     const value = rawStore[key]
-    if (isComputed(value)) {
+    // Vue2 store getters are not refs and can't be found with isComputed()
+    const isVue2Getter = isVue2 && options.getters?.[key]
+    if (isComputed(value) || isVue2Getter) {
       rawStore[key] = customRef((track, trigger) => {
         let internalValue: any
         return {
           get: () => {
             track()
-            return internalValue !== undefined ? internalValue : value.value
+            return internalValue !== undefined ? internalValue : (isVue2Getter ? value : value.value)
           },
           set: (newValue) => {
             internalValue = newValue
