@@ -1,3 +1,10 @@
+## [0.0.16](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.15...@pinia/testing@0.0.16) (2023-04-07)
+
+### Bug Fixes
+
+- support "types" condition in "exports" field ([#2078](https://github.com/vuejs/pinia/issues/2078)) ([66d3a5e](https://github.com/vuejs/pinia/commit/66d3a5edd03f28f52daf35449db8c5f660c70b01))
+- **testing:** override computed in setup stores ([f9534c9](https://github.com/vuejs/pinia/commit/f9534c926469027f8ccc75c43ce1ea329b58aa0d)), closes [#2109](https://github.com/vuejs/pinia/issues/2109)
+
 ## [0.0.15](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.14...@pinia/testing@0.0.15) (2023-02-20)
 
 No changes in this release
