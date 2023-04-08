@@ -77,7 +77,7 @@ Setup store 比 [Option Store](#option-stores) 带来了更多的灵活性，因
 ```vue
 <script setup>
 import { useCounterStore } from '@/stores/counter'
-// 在组件的任何地方访问 `store` 变量 ✨
+// 可以在组件中的任意位置访问 `store` 变量 ✨
 const store = useCounterStore()
 </script>
 ```
@@ -93,8 +93,8 @@ const store = useCounterStore()
 ```vue
 <script setup>
 const store = useCounterStore()
-// ❌ 这样是不可行的，因为它会破坏响应性
-// 就与直接解构 `props` 一样
+// ❌ 这将不起作用，因为它破坏了响应性
+// 这就和直接解构 `props` 一样
 const { name, doubleCount } = store // [!code warning]
 name // 将始终是 "Eduardo" // [!code warning]
 doubleCount // 将始终是 0 // [!code warning]
@@ -113,9 +113,9 @@ const doubleValue = computed(() => store.doubleCount)
 <script setup>
 import { storeToRefs } from 'pinia'
 const store = useCounterStore()
-// `name` 和 `doubleCount` 都是响应式的 ref
-// 这也会提取插件添加的 ref 属性
-// 但会跳过任何 action 或非响应式（非 ref/reactive）属性
+// `name` 和 `doubleCount` 是响应式的 ref
+// 同时通过插件添加的属性也会被提取为 ref
+// 并且会跳过所有的 action 或非响应式 (不是 ref 或 reactive) 的属性
 const { name, doubleCount } = storeToRefs(store)
 // 作为 action 的 increment 可以直接解构
 const { increment } = store

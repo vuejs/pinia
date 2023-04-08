@@ -51,9 +51,10 @@ import { useUserStore } from './user'
 
 export const useCartStore = defineStore('cart', () => {
   const user = useUserStore()
+  const list = ref([])
 
   const summary = computed(() => {
-    return `Hi ${user.name}, you have ${state.list.length} items in your cart. It costs ${state.price}.`
+    return `Hi ${user.name}, you have ${list.value.length} items in your cart. It costs ${price.value}.`
   })
 
   function purchase() {
