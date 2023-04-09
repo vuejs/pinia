@@ -60,9 +60,10 @@ import { useUserStore } from './user'
 
 export const useCartStore = defineStore('cart', () => {
   const user = useUserStore()
+  const list = ref([])
 
   const summary = computed(() => {
-    return `안녕하세요 ${user.name} 님! 장바구니에 ${state.list.length} 만큼의 리스트가 있고, 가격은 ${state.price} 입니다.`
+    return `안녕하세요 ${user.name} 님! 장바구니에 ${list.value.length} 만큼의 리스트가 있고, 가격은 ${price.value} 입니다.`
   })
 
   function purchase() {

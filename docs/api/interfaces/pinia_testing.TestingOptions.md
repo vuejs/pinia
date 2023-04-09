@@ -50,7 +50,7 @@ ___
 • `Optional` **fakeApp**: `boolean`
 
 Creates an empty App and calls `app.use(pinia)` with the created testing
-pinia. This is allows you to use plugins while unit testing stores as
+pinia. This allows you to use plugins while unit testing stores as
 plugins **will wait for pinia to be installed in order to be executed**.
 Defaults to false.
 
@@ -78,7 +78,7 @@ ___
 
 • `Optional` **stubActions**: `boolean`
 
-When set to false, actions are only spied, they still get executed. When
+When set to false, actions are only spied, but they will still get executed. When
 set to true, actions will be replaced with spies, resulting in their code
 not being executed. Defaults to true. NOTE: when providing `createSpy()`,
 it will **only** make the `fn` argument `undefined`. You still have to
