@@ -7,6 +7,7 @@ import {
   isVue2,
   set,
   toRaw,
+  triggerRef,
 } from 'vue-demi'
 import type { ComputedRef, WritableComputedRef } from 'vue-demi'
 import {
@@ -205,17 +206,35 @@ function isComputed<T>(
 function WritableComputed({ store }: PiniaPluginContext) {
   const rawStore = toRaw(store)
   for (const key in rawStore) {
-    const value = rawStore[key]
-    if (isComputed(value)) {
+    const originalComputed = rawStore[key]
+    if (isComputed(originalComputed)) {
+      const originalFn = originalComputed.effect.fn
       rawStore[key] = customRef((track, trigger) => {
-        let internalValue: any
+        // override the computed with a new one
+        const overriddenFn = () =>
+          // @ts-expect-error: internal value
+          originalComputed._value
+        // originalComputed.effect.fn = overriddenFn
         return {
           get: () => {
             track()
-            return internalValue !== undefined ? internalValue : value.value
+            return originalComputed.value
           },
           set: (newValue) => {
-            internalValue = newValue
+            // reset the computed to its original value by setting it to its initial state
+            if (newValue === undefined) {
+              originalComputed.effect.fn = originalFn
+              // @ts-expect-error: private api to remove the current cached value
+              delete originalComputed._value
+              // @ts-expect-error: private api to force the recomputation
+              originalComputed._dirty = true
+            } else {
+              originalComputed.effect.fn = overriddenFn
+              // @ts-expect-error: private api
+              originalComputed._value = newValue
+            }
+            // this allows to trigger the original computed in setup stores
+            triggerRef(originalComputed)
             trigger()
           },
         }

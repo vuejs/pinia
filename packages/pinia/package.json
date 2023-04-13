@@ -1,6 +1,6 @@
 {
   "name": "pinia",
-  "version": "2.0.33",
+  "version": "2.0.34",
   "description": "Intuitive, type safe and flexible Store for Vue",
   "main": "index.js",
   "module": "dist/pinia.mjs",
@@ -69,8 +69,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@microsoft/api-extractor": "7.33.6",
-    "@vue/test-utils": "^2.2.9"
+    "@microsoft/api-extractor": "7.34.4",
+    "@vue/test-utils": "^2.3.2"
   },
   "dependencies": {
     "@vue/devtools-api": "^6.5.0",

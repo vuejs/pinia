@@ -208,7 +208,7 @@ unsubscribe()
 ```vue
 <script setup>
 const someStore = useSomeStore()
-// 该订阅器将被保留，即使组件被卸载
+// 此订阅器即便在组件卸载之后仍会被保留
 someStore.$onAction(callback, true)
 </script>
 ```
