@@ -86,7 +86,7 @@ store.count++
 
 ## 重置 state %{#resetting-the-state}%
 
-你可以通过调用 store 的 `$reset()` 方法将 state 重置为初始值。
+使用选项式 API 的用法时，你可以通过调用 store 的 `$reset()` 方法将 state 重置为初始值。
 
 ```js
 const store = useStore()
