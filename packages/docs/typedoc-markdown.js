@@ -2,9 +2,6 @@ const _fs = require('fs')
 const path = require('path')
 const TypeDoc = require('typedoc')
 const { PageEvent } = TypeDoc
-const {
-  prependYAML,
-} = require('typedoc-plugin-markdown/dist/utils/front-matter')
 
 const fs = _fs.promises
 
@@ -99,6 +96,8 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
   )
 
   async function serve() {
+    // TODO: in 0.24
+    // app.bootstrapWithPlugins(options)
     app.bootstrap(options)
     app.convertAndWatch(handleProject)
   }
@@ -110,6 +109,7 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
     ) {
       await fs.rm(options.out, { recursive: true })
     }
+    // TODO: same as above
     app.bootstrap(options)
     const project = app.convert()
     return handleProject(project)
@@ -153,4 +153,45 @@ async function exists(path) {
   } catch {
     return false
   }
+}
+
+/**
+ * @typedef {Record<string, string | number | boolean>} FrontMatterVars
+ */
+
+/**
+ * Prepends YAML block to a string
+ * @param {string} contents - string to prepend to
+ * @param {FrontMattersVars} vars - object of required front matter variables
+ */
+function prependYAML(contents, vars) {
+  return contents
+    .replace(/^/, toYAML(vars) + '\n\n')
+    .replace(/[\r\n]{3,}/g, '\n\n')
+}
+
+/**
+ * Converts YAML object to a YAML string
+ * @param {FrontMatterVars} vars
+ */
+function toYAML(vars) {
+  const yaml = `---
+${Object.entries(vars)
+  .map(
+    ([key, value]) =>
+      `${key}: ${
+        typeof value === 'string' ? `"${escapeDoubleQuotes(value)}"` : value
+      }`
+  )
+  .join('\n')}
+---`
+  return yaml
+}
+
+/**
+ * Escapes double quotes in a string
+ * @param {string} str - string to escape
+ */
+function escapeDoubleQuotes(str) {
+  return str.replace(/"/g, '\\"')
 }
