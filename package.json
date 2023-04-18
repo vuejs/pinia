@@ -32,7 +32,7 @@
     "@vue/compiler-sfc": "^3.2.47",
     "@vue/server-renderer": "^3.2.47",
     "c8": "^7.13.0",
-    "chalk": "^4.1.2",
+    "chalk": "^5.2.0",
     "conventional-changelog-cli": "^2.2.2",
     "enquirer": "^2.3.6",
     "execa": "^6.1.0",
@@ -43,7 +43,7 @@
     "lodash.kebabcase": "^4.1.1",
     "minimist": "^1.2.8",
     "p-series": "^3.0.0",
-    "pascalcase": "^1.0.0",
+    "pascalcase": "^2.0.0",
     "prettier": "^2.8.7",
     "rimraf": "^5.0.0",
     "rollup": "^3.20.5",
@@ -58,7 +58,7 @@
   },
   "gitHooks": {
     "pre-commit": "lint-staged",
-    "commit-msg": "node scripts/verifyCommit.js"
+    "commit-msg": "node scripts/verifyCommit.mjs"
   },
   "lint-staged": {
     "*.js": [

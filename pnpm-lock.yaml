@@ -38,8 +38,8 @@ importers:
         specifier: ^7.13.0
         version: 7.13.0
       chalk:
-        specifier: ^4.1.2
-        version: 4.1.2
+        specifier: ^5.2.0
+        version: 5.2.0
       conventional-changelog-cli:
         specifier: ^2.2.2
         version: 2.2.2
@@ -71,8 +71,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       pascalcase:
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^2.0.0
+        version: 2.0.0
       prettier:
         specifier: ^2.8.7
         version: 2.8.7
@@ -6084,9 +6084,11 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /pascalcase@1.0.0:
-    resolution: {integrity: sha512-BSExi0rRnCHReJys6NocaK+cfTXNinAegfWBvr0JD3hiaEG7Nuc7r0CIdOJunXrs8gU/sbHQ9dxVAtiVQisjmg==}
-    engines: {node: '>=8'}
+  /pascalcase@2.0.0:
+    resolution: {integrity: sha512-DHpENy5Qm/FaX+x3iBLoMLG/XHNCTgL+yErm1TwuVaj6u4fiOSkYkf60vGtITk7hrKHOO4uCl9vRrD4hqjNKjg==}
+    engines: {node: '>=14'}
+    dependencies:
+      camelcase: 6.3.0
     dev: true
 
   /path-exists@3.0.0:
