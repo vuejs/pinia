@@ -30,8 +30,14 @@ export let activePinia: Pinia | undefined
  *
  * @param pinia - Pinia instance
  */
-export const setActivePinia = (pinia: Pinia | undefined) =>
-  (activePinia = pinia)
+// @ts-expect-error: cannot constrain the type of the return
+export const setActivePinia: _SetActivePinia = (pinia) => (activePinia = pinia)
+
+interface _SetActivePinia {
+  (pinia: Pinia): Pinia
+  (pinia: undefined): undefined
+  (pinia: Pinia | undefined): Pinia | undefined
+}
 
 /**
  * Get the currently active pinia if there is any.
