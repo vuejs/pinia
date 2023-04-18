@@ -72,6 +72,15 @@ export interface Pinia {
   _a: App
 
   /**
+   * Runs a function using the app context if available.
+   *
+   * @internal
+   *
+   * @param fn - function to run in the scope of the pinia
+   */
+  _run<T>(fn: () => T): T
+
+  /**
    * Effect scope the pinia is attached to
    *
    * @internal

@@ -46,6 +46,14 @@ export function createPinia(): Pinia {
       return this
     },
 
+    _run(fn) {
+      // in some scenarios, the pinia is not installed yet but people might still try to instantiate stores. In those
+      // scenarios we want to avoid a undefined is not a function (_a will be null until available)
+      return pinia._a && typeof pinia._a.runWithContext === 'function'
+        ? this._a.runWithContext(fn)
+        : fn()
+    },
+
     _p,
     // it's actually undefined here
     // @ts-expect-error
