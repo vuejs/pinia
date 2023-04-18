@@ -77,6 +77,8 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
 
           // ignore the root level (h1) to match the sidebar
           const slugifiedTitle = slugify(titleStack.slice(1).join('-'))
+            // ensure the link is valid vuejs/router#1743
+            .replaceAll('\\', '')
           let id
           if (existingIds.has(slugifiedTitle)) {
             const current = existingIds.get(slugifiedTitle)

@@ -4,7 +4,7 @@
   "description": "size checks",
   "version": "0.0.0",
   "scripts": {
-    "build:size": "rollup -c rollup.config.js",
+    "build:size": "rollup -c rollup.config.mjs",
     "size": "pnpm run build:size && pnpm run size:check",
     "size:check": "node scripts/check-size.mjs"
   },

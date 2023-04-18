@@ -12,10 +12,10 @@
     "vite": "^4.2.1"
   },
   "dependencies": {
-    "@vueuse/core": "^9.13.0",
+    "@vueuse/core": "^10.0.2",
     "mande": "^1.0.1",
     "pinia": "workspace:^2.0.18",
-    "swrv": "^1.0.1",
+    "swrv": "^1.0.3",
     "vue-promised": "^2.2.0",
     "vue-router": "^4.1.6"
   }

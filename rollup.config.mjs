@@ -1,20 +1,28 @@
 // @ts-check
-import path from 'path'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { readFileSync } from 'node:fs'
 import ts from 'rollup-plugin-typescript2'
 import replace from '@rollup/plugin-replace'
-import resolve from '@rollup/plugin-node-resolve'
+import nodeResolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import pascalcase from 'pascalcase'
 import terser from '@rollup/plugin-terser'
+import chalk from 'chalk'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 if (!process.env.TARGET) {
   throw new Error('TARGET package must be specified via --environment flag.')
 }
 
-const packagesDir = path.resolve(__dirname, 'packages')
-const packageDir = path.resolve(packagesDir, process.env.TARGET)
+const packagesDir = resolve(__dirname, 'packages')
+const packageDir = resolve(packagesDir, process.env.TARGET)
 
-const pkg = require(path.resolve(packageDir, `package.json`))
+const pkg = JSON.parse(
+  readFileSync(resolve(packageDir, `package.json`), 'utf-8')
+)
 const name = pkg.name
 
 function getAuthors(pkg) {
@@ -78,7 +86,7 @@ export default packageConfigs
 
 function createConfig(buildName, output, plugins = []) {
   if (!output) {
-    console.log(require('chalk').yellow(`invalid format: "${buildName}"`))
+    console.log(chalk.yellow(`invalid format: "${buildName}"`))
     process.exit(1)
   }
 
@@ -103,15 +111,15 @@ function createConfig(buildName, output, plugins = []) {
 
   const tsPlugin = ts({
     check: !hasTSChecked,
-    tsconfig: path.resolve(__dirname, './tsconfig.json'),
-    cacheRoot: path.resolve(__dirname, './node_modules/.rts2_cache'),
+    tsconfig: resolve(__dirname, './tsconfig.json'),
+    cacheRoot: resolve(__dirname, './node_modules/.rts2_cache'),
     tsconfigOverride: {
       compilerOptions: {
         sourceMap: output.sourcemap,
         declaration: shouldEmitDeclarations,
         declarationMap: shouldEmitDeclarations,
       },
-      exclude: ['packages/*/__tests__', 'packages/*/test-dts'],
+      exclude: ['*.spec.ts', 'packages/*/test-dts', 'packages/*/testing'],
     },
   })
   // we only need to check TS and generate declarations once for each build.
@@ -128,7 +136,7 @@ function createConfig(buildName, output, plugins = []) {
     external.push('@vue/devtools-api')
   }
 
-  const nodePlugins = [resolve(), commonjs()]
+  const nodePlugins = [nodeResolve(), commonjs()]
 
   return {
     input: `src/index.ts`,

@@ -32,7 +32,7 @@ Unique identifier of the store
 
 ___
 
-### \_customProperties %{#Properties-\_customProperties}%
+### \_customProperties %{#Properties-_customProperties}%
 
 • **\_customProperties**: `Set`<`string`\>
 
