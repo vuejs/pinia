@@ -35,7 +35,7 @@
     "chalk": "^5.2.0",
     "conventional-changelog-cli": "^2.2.2",
     "enquirer": "^2.3.6",
-    "execa": "^6.1.0",
+    "execa": "^7.1.1",
     "globby": "^13.1.4",
     "happy-dom": "^9.8.1",
     "lint-staged": "^13.2.1",
