@@ -473,7 +473,7 @@ function createSetupStore<
   pinia._s.set($id, store)
 
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
-  const setupStore = pinia._e.run(() => {
+  const setupStore = pinia._run(() => {
     scope = effectScope()
     return scope.run(() => setup())
   })!
