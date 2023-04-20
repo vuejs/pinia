@@ -1,3 +1,10 @@
+## [0.4.9](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.8...@pinia/nuxt@0.4.9) (2023-04-20)
+
+### Bug Fixes
+
+- **nuxt:** add workaround to preserve type output ([#2147](https://github.com/vuejs/pinia/issues/2147)) ([65debf9](https://github.com/vuejs/pinia/commit/65debf9be0567159b932fcd0fc445a8a2bdbaa4d))
+- **types:** typescript 5.0 acceptHMRUpdate error ([#2098](https://github.com/vuejs/pinia/issues/2098)) ([#2152](https://github.com/vuejs/pinia/issues/2152)) ([1469971](https://github.com/vuejs/pinia/commit/146997196f87abc691340fd46ae758a0865b8a73))
+
 ## [0.4.8](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.7...@pinia/nuxt@0.4.8) (2023-04-07)
 
 ### Bug Fixes

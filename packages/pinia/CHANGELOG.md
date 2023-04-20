@@ -1,3 +1,13 @@
+## [2.0.35](https://github.com/vuejs/pinia/compare/pinia@2.0.34...pinia@2.0.35) (2023-04-20)
+
+### Bug Fixes
+
+- **types:** typescript 5.0 acceptHMRUpdate error ([#2098](https://github.com/vuejs/pinia/issues/2098)) ([#2152](https://github.com/vuejs/pinia/issues/2152)) ([1469971](https://github.com/vuejs/pinia/commit/146997196f87abc691340fd46ae758a0865b8a73))
+
+### Features
+
+- **types:** improve setActivePinia types ([1650c6e](https://github.com/vuejs/pinia/commit/1650c6efebc75fdc47b2ec082ba10c197b894aef))
+
 ## [2.0.34](https://github.com/vuejs/pinia/compare/pinia@2.0.33...pinia@2.0.34) (2023-04-07)
 
 No changes in this release
