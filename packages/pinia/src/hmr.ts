@@ -1,6 +1,14 @@
 import { isRef, isReactive, isVue2, set } from 'vue-demi'
 import { Pinia } from './rootStore'
-import { isPlainObject, StoreDefinition, StoreGeneric, _Method } from './types'
+import {
+  isPlainObject,
+  StateTree,
+  StoreDefinition,
+  StoreGeneric,
+  _GettersTree,
+  _Method,
+  _ActionsTree,
+} from './types'
 
 /**
  * Checks if a function is a `StoreDefinition`.
@@ -70,7 +78,12 @@ export function patchObject(
  * @param initialUseStore - return of the defineStore to hot update
  * @param hot - `import.meta.hot`
  */
-export function acceptHMRUpdate(initialUseStore: StoreDefinition, hot: any) {
+export function acceptHMRUpdate<
+  Id extends string = string,
+  S extends StateTree = StateTree,
+  G extends _GettersTree<S> = _GettersTree<S>,
+  A = _ActionsTree
+>(initialUseStore: StoreDefinition<Id, S, G, A>, hot: any) {
   // strip as much as possible from iife.prod
   if (!__DEV__) {
     return () => {}
