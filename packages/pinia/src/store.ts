@@ -881,6 +881,14 @@ export function defineStore(
     id = idOrOptions.id
   }
 
+  // Warn developers about existing store ID in dev environments
+  if (__DEV__ && activePinia?._k.includes(id)) {
+    console.warn(`[🍍]: Stores should have unique identifiers. Found multiple stores with id "${id}". Rename one of them.`)
+  }
+
+  // Push ID to keys registry
+  activePinia?._k.push(id)
+
   function useStore(pinia?: Pinia | null, hot?: StoreGeneric): StoreGeneric {
     const currentInstance = getCurrentInstance()
     pinia =
