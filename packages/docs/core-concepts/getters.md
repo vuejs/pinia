@@ -84,6 +84,8 @@ export const useCounterStore = defineStore('counter', {
 
 _Getters_ are just _computed_ properties behind the scenes, so it's not possible to pass any parameters to them. However, you can return a function from the _getter_ to accept any arguments:
 
+### Option Store
+
 ```js
 export const useStore = defineStore('main', {
   getters: {
@@ -91,6 +93,20 @@ export const useStore = defineStore('main', {
       return (userId) => state.users.find((user) => user.id === userId)
     },
   },
+})
+```
+
+### Setup Store
+
+```js
+export const useStore = defineStore('main',  () => {
+  const users = ref()
+  const getUserById = computed(() => 
+    (userId: string) => users.value.find(user => user.id === userId)
+  )
+  return {
+    getUserById
+  }
 })
 ```
 
