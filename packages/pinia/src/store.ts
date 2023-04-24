@@ -882,7 +882,7 @@ export function defineStore(
 
     if (__DEV__ && typeof id !== 'string') {
       throw new Error(
-        `[🍍]: defineStore must be passed an id string, either as its first argument or via the "id" option.`
+        `[🍍]: "defineStore()" must be passed a store id as its first argument.`
       )
     }
   }
