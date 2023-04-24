@@ -168,7 +168,7 @@ store.count = 3
 store.doubleCount // 6
 </script>
 ```
-```
+
 
 ## 옵션 API에서 사용 %{#usage-with-the-options-api}%
 
