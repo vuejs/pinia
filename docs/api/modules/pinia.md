@@ -217,7 +217,7 @@ Context object passed to a subscription callback.
 
 ___
 
-### \_ActionsTree %{#Type-Aliases-\_ActionsTree}%
+### \_ActionsTree %{#Type-Aliases-_ActionsTree}%
 
 Ƭ **\_ActionsTree**: `Record`<`string`, [`_Method`](pinia.md#_method)\>
 
@@ -226,11 +226,11 @@ For internal use **only**
 
 ___
 
-### \_Awaited %{#Type-Aliases-\_Awaited}%
+### \_Awaited %{#Type-Aliases-_Awaited}%
 
 Ƭ **\_Awaited**<`T`\>: `T` extends ``null`` \| `undefined` ? `T` : `T` extends `object` & { `then`: (`onfulfilled`: `F`) => `any`  } ? `F` extends (`value`: infer V, ...`args`: `any`) => `any` ? [`_Awaited`](pinia.md#_awaited)<`V`\> : `never` : `T`
 
-#### Type parameters %{#Type-Aliases-\_Awaited-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_Awaited-Type-parameters}%
 
 | Name |
 | :------ |
@@ -238,7 +238,7 @@ ___
 
 ___
 
-### \_DeepPartial %{#Type-Aliases-\_DeepPartial}%
+### \_DeepPartial %{#Type-Aliases-_DeepPartial}%
 
 Ƭ **\_DeepPartial**<`T`\>: { [K in keyof T]?: \_DeepPartial<T[K]\> }
 
@@ -246,7 +246,7 @@ Recursive `Partial<T>`. Used by [['$patch']](pinia.md#store).
 
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_DeepPartial-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_DeepPartial-Type-parameters}%
 
 | Name |
 | :------ |
@@ -254,13 +254,13 @@ For internal use **only**
 
 ___
 
-### \_ExtractActionsFromSetupStore %{#Type-Aliases-\_ExtractActionsFromSetupStore}%
+### \_ExtractActionsFromSetupStore %{#Type-Aliases-_ExtractActionsFromSetupStore}%
 
 Ƭ **\_ExtractActionsFromSetupStore**<`SS`\>: `SS` extends `undefined` \| `void` ? {} : [`_ExtractActionsFromSetupStore_Keys`](pinia.md#_extractactionsfromsetupstore_keys)<`SS`\> extends keyof `SS` ? `Pick`<`SS`, [`_ExtractActionsFromSetupStore_Keys`](pinia.md#_extractactionsfromsetupstore_keys)<`SS`\>\> : `never`
 
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_ExtractActionsFromSetupStore-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_ExtractActionsFromSetupStore-Type-parameters}%
 
 | Name |
 | :------ |
@@ -268,14 +268,14 @@ For internal use **only**
 
 ___
 
-### \_ExtractActionsFromSetupStore\_Keys %{#Type-Aliases-\_ExtractActionsFromSetupStore\_Keys}%
+### \_ExtractActionsFromSetupStore\_Keys %{#Type-Aliases-_ExtractActionsFromSetupStore_Keys}%
 
 Ƭ **\_ExtractActionsFromSetupStore\_Keys**<`SS`\>: keyof { [K in keyof SS as SS[K] extends \_Method ? K : never]: any }
 
 Type that enables refactoring through IDE.
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_ExtractActionsFromSetupStore\_Keys-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_ExtractActionsFromSetupStore_Keys-Type-parameters}%
 
 | Name |
 | :------ |
@@ -283,13 +283,13 @@ For internal use **only**
 
 ___
 
-### \_ExtractGettersFromSetupStore %{#Type-Aliases-\_ExtractGettersFromSetupStore}%
+### \_ExtractGettersFromSetupStore %{#Type-Aliases-_ExtractGettersFromSetupStore}%
 
 Ƭ **\_ExtractGettersFromSetupStore**<`SS`\>: `SS` extends `undefined` \| `void` ? {} : [`_ExtractGettersFromSetupStore_Keys`](pinia.md#_extractgettersfromsetupstore_keys)<`SS`\> extends keyof `SS` ? `Pick`<`SS`, [`_ExtractGettersFromSetupStore_Keys`](pinia.md#_extractgettersfromsetupstore_keys)<`SS`\>\> : `never`
 
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_ExtractGettersFromSetupStore-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_ExtractGettersFromSetupStore-Type-parameters}%
 
 | Name |
 | :------ |
@@ -297,14 +297,14 @@ For internal use **only**
 
 ___
 
-### \_ExtractGettersFromSetupStore\_Keys %{#Type-Aliases-\_ExtractGettersFromSetupStore\_Keys}%
+### \_ExtractGettersFromSetupStore\_Keys %{#Type-Aliases-_ExtractGettersFromSetupStore_Keys}%
 
 Ƭ **\_ExtractGettersFromSetupStore\_Keys**<`SS`\>: keyof { [K in keyof SS as SS[K] extends ComputedRef ? K : never]: any }
 
 Type that enables refactoring through IDE.
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_ExtractGettersFromSetupStore\_Keys-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_ExtractGettersFromSetupStore_Keys-Type-parameters}%
 
 | Name |
 | :------ |
@@ -312,13 +312,13 @@ For internal use **only**
 
 ___
 
-### \_ExtractStateFromSetupStore %{#Type-Aliases-\_ExtractStateFromSetupStore}%
+### \_ExtractStateFromSetupStore %{#Type-Aliases-_ExtractStateFromSetupStore}%
 
 Ƭ **\_ExtractStateFromSetupStore**<`SS`\>: `SS` extends `undefined` \| `void` ? {} : [`_ExtractStateFromSetupStore_Keys`](pinia.md#_extractstatefromsetupstore_keys)<`SS`\> extends keyof `SS` ? [`_UnwrapAll`](pinia.md#_unwrapall)<`Pick`<`SS`, [`_ExtractStateFromSetupStore_Keys`](pinia.md#_extractstatefromsetupstore_keys)<`SS`\>\>\> : `never`
 
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_ExtractStateFromSetupStore-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_ExtractStateFromSetupStore-Type-parameters}%
 
 | Name |
 | :------ |
@@ -326,14 +326,14 @@ For internal use **only**
 
 ___
 
-### \_ExtractStateFromSetupStore\_Keys %{#Type-Aliases-\_ExtractStateFromSetupStore\_Keys}%
+### \_ExtractStateFromSetupStore\_Keys %{#Type-Aliases-_ExtractStateFromSetupStore_Keys}%
 
 Ƭ **\_ExtractStateFromSetupStore\_Keys**<`SS`\>: keyof { [K in keyof SS as SS[K] extends \_Method \| ComputedRef ? never : K]: any }
 
 Type that enables refactoring through IDE.
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_ExtractStateFromSetupStore\_Keys-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_ExtractStateFromSetupStore_Keys-Type-parameters}%
 
 | Name |
 | :------ |
@@ -341,14 +341,14 @@ For internal use **only**
 
 ___
 
-### \_GettersTree %{#Type-Aliases-\_GettersTree}%
+### \_GettersTree %{#Type-Aliases-_GettersTree}%
 
 Ƭ **\_GettersTree**<`S`\>: `Record`<`string`, (`state`: `UnwrapRef`<`S`\> & `UnwrapRef`<[`PiniaCustomStateProperties`](../interfaces/pinia.PiniaCustomStateProperties.md)<`S`\>\>) => `any` \| () => `any`\>
 
 Type of an object of Getters that infers the argument. For internal usage only.
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_GettersTree-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_GettersTree-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -356,13 +356,13 @@ For internal use **only**
 
 ___
 
-### \_MapActionsObjectReturn %{#Type-Aliases-\_MapActionsObjectReturn}%
+### \_MapActionsObjectReturn %{#Type-Aliases-_MapActionsObjectReturn}%
 
 Ƭ **\_MapActionsObjectReturn**<`A`, `T`\>: { [key in keyof T]: A[T[key]] }
 
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_MapActionsObjectReturn-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_MapActionsObjectReturn-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -371,13 +371,13 @@ For internal use **only**
 
 ___
 
-### \_MapActionsReturn %{#Type-Aliases-\_MapActionsReturn}%
+### \_MapActionsReturn %{#Type-Aliases-_MapActionsReturn}%
 
 Ƭ **\_MapActionsReturn**<`A`\>: { [key in keyof A]: A[key] }
 
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_MapActionsReturn-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_MapActionsReturn-Type-parameters}%
 
 | Name |
 | :------ |
@@ -385,13 +385,13 @@ For internal use **only**
 
 ___
 
-### \_MapStateObjectReturn %{#Type-Aliases-\_MapStateObjectReturn}%
+### \_MapStateObjectReturn %{#Type-Aliases-_MapStateObjectReturn}%
 
 Ƭ **\_MapStateObjectReturn**<`Id`, `S`, `G`, `A`, `T`\>: { [key in keyof T]: Function }
 
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_MapStateObjectReturn-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_MapStateObjectReturn-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -403,13 +403,13 @@ For internal use **only**
 
 ___
 
-### \_MapStateReturn %{#Type-Aliases-\_MapStateReturn}%
+### \_MapStateReturn %{#Type-Aliases-_MapStateReturn}%
 
 Ƭ **\_MapStateReturn**<`S`, `G`, `Keys`\>: { [key in Keys]: Function }
 
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_MapStateReturn-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_MapStateReturn-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -419,13 +419,13 @@ For internal use **only**
 
 ___
 
-### \_MapWritableStateObjectReturn %{#Type-Aliases-\_MapWritableStateObjectReturn}%
+### \_MapWritableStateObjectReturn %{#Type-Aliases-_MapWritableStateObjectReturn}%
 
 Ƭ **\_MapWritableStateObjectReturn**<`S`, `T`\>: { [key in keyof T]: Object }
 
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_MapWritableStateObjectReturn-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_MapWritableStateObjectReturn-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -434,13 +434,13 @@ For internal use **only**
 
 ___
 
-### \_MapWritableStateReturn %{#Type-Aliases-\_MapWritableStateReturn}%
+### \_MapWritableStateReturn %{#Type-Aliases-_MapWritableStateReturn}%
 
 Ƭ **\_MapWritableStateReturn**<`S`\>: { [key in keyof S]: Object }
 
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_MapWritableStateReturn-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_MapWritableStateReturn-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -448,11 +448,11 @@ For internal use **only**
 
 ___
 
-### \_Method %{#Type-Aliases-\_Method}%
+### \_Method %{#Type-Aliases-_Method}%
 
 Ƭ **\_Method**: (...`args`: `any`[]) => `any`
 
-#### Type declaration %{#Type-Aliases-\_Method-Type-declaration}%
+#### Type declaration %{#Type-Aliases-_Method-Type-declaration}%
 
 ▸ (`...args`): `any`
 
@@ -460,25 +460,25 @@ Generic type for a function that can infer arguments and return type
 
 For internal use **only**
 
-##### Parameters %{#Type-Aliases-\_Method-Type-declaration-Parameters}%
+##### Parameters %{#Type-Aliases-_Method-Type-declaration-Parameters}%
 
 | Name | Type |
 | :------ | :------ |
 | `...args` | `any`[] |
 
-##### Returns %{#Type-Aliases-\_Method-Type-declaration-Returns}%
+##### Returns %{#Type-Aliases-_Method-Type-declaration-Returns}%
 
 `any`
 
 ___
 
-### \_Spread %{#Type-Aliases-\_Spread}%
+### \_Spread %{#Type-Aliases-_Spread}%
 
 Ƭ **\_Spread**<`A`\>: `A` extends [infer L, ...(infer R)] ? [`_StoreObject`](pinia.md#_storeobject)<`L`\> & [`_Spread`](pinia.md#_spread)<`R`\> : `unknown`
 
 For internal use **only**.
 
-#### Type parameters %{#Type-Aliases-\_Spread-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_Spread-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
@@ -486,13 +486,13 @@ For internal use **only**.
 
 ___
 
-### \_StoreObject %{#Type-Aliases-\_StoreObject}%
+### \_StoreObject %{#Type-Aliases-_StoreObject}%
 
 Ƭ **\_StoreObject**<`S`\>: `S` extends [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<infer Ids, infer State, infer Getters, infer Actions\> ? { [Id in \`${Ids}${MapStoresCustomization extends Record<"suffix", infer Suffix\> ? Suffix : "Store"}\`]: Function } : {}
 
 For internal use **only**.
 
-#### Type parameters %{#Type-Aliases-\_StoreObject-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_StoreObject-Type-parameters}%
 
 | Name |
 | :------ |
@@ -500,14 +500,14 @@ For internal use **only**.
 
 ___
 
-### \_StoreWithActions %{#Type-Aliases-\_StoreWithActions}%
+### \_StoreWithActions %{#Type-Aliases-_StoreWithActions}%
 
 Ƭ **\_StoreWithActions**<`A`\>: { [k in keyof A]: A[k] extends Function ? Function : never }
 
 Store augmented for actions. For internal usage only.
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_StoreWithActions-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_StoreWithActions-Type-parameters}%
 
 | Name |
 | :------ |
@@ -515,14 +515,14 @@ For internal use **only**
 
 ___
 
-### \_StoreWithGetters %{#Type-Aliases-\_StoreWithGetters}%
+### \_StoreWithGetters %{#Type-Aliases-_StoreWithGetters}%
 
 Ƭ **\_StoreWithGetters**<`G`\>: { readonly [k in keyof G]: G[k] extends Function ? R : UnwrapRef<G[k]\> }
 
 Store augmented with getters. For internal usage only.
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_StoreWithGetters-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_StoreWithGetters-Type-parameters}%
 
 | Name |
 | :------ |
@@ -530,14 +530,14 @@ For internal use **only**
 
 ___
 
-### \_UnwrapAll %{#Type-Aliases-\_UnwrapAll}%
+### \_UnwrapAll %{#Type-Aliases-_UnwrapAll}%
 
 Ƭ **\_UnwrapAll**<`SS`\>: { [K in keyof SS]: UnwrapRef<SS[K]\> }
 
 Type that enables refactoring through IDE.
 For internal use **only**
 
-#### Type parameters %{#Type-Aliases-\_UnwrapAll-Type-parameters}%
+#### Type parameters %{#Type-Aliases-_UnwrapAll-Type-parameters}%
 
 | Name |
 | :------ |

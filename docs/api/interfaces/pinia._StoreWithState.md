@@ -47,7 +47,7 @@ State of the Store. Setting it will replace the whole state.
 
 ___
 
-### \_customProperties %{#Properties-\_customProperties}%
+### \_customProperties %{#Properties-_customProperties}%
 
 • **\_customProperties**: `Set`<`string`\>
 
@@ -55,7 +55,7 @@ Used by devtools plugin to retrieve properties added with plugins. Removed
 in production. Can be used by the user to add property keys of the store
 that should be displayed in devtools.
 
-#### Inherited from %{#Properties-\_customProperties-Inherited-from}%
+#### Inherited from %{#Properties-_customProperties-Inherited-from}%
 
 [StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#_customproperties)
 
@@ -100,16 +100,16 @@ up when the component gets unmounted unless `detached` is set to true.
 
 ```js
 store.$onAction(({ after, onError }) => {
- // Here you could share variables between all of the hooks as well as
- // setting up watchers and clean them up
- after((resolvedValue) => {
-   // can be used to cleanup side effects
-.  // `resolvedValue` is the value returned by the action, if it's a
-.  // Promise, it will be the resolved value instead of the Promise
- })
- onError((error) => {
-   // can be used to pass up errors
- })
+  // Here you could share variables between all of the hooks as well as
+  // setting up watchers and clean them up
+  after((resolvedValue) => {
+    // can be used to cleanup side effects
+  .  // `resolvedValue` is the value returned by the action, if it's a
+  .  // Promise, it will be the resolved value instead of the Promise
+  })
+  onError((error) => {
+    // can be used to pass up errors
+  })
 })
 ```
 
@@ -146,16 +146,16 @@ up when the component gets unmounted unless `detached` is set to true.
 
 ```js
 store.$onAction(({ after, onError }) => {
- // Here you could share variables between all of the hooks as well as
- // setting up watchers and clean them up
- after((resolvedValue) => {
-   // can be used to cleanup side effects
-.  // `resolvedValue` is the value returned by the action, if it's a
-.  // Promise, it will be the resolved value instead of the Promise
- })
- onError((error) => {
-   // can be used to pass up errors
- })
+  // Here you could share variables between all of the hooks as well as
+  // setting up watchers and clean them up
+  after((resolvedValue) => {
+    // can be used to cleanup side effects
+  .  // `resolvedValue` is the value returned by the action, if it's a
+  .  // Promise, it will be the resolved value instead of the Promise
+  })
+  onError((error) => {
+    // can be used to pass up errors
+  })
 })
 ```
 
