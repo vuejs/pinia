@@ -898,7 +898,7 @@ export function defineStore(
 
     if (__DEV__ && !activePinia) {
       throw new Error(
-        `[🍍]: getActivePinia was called with no active Pinia. Did you forget to install pinia?\n` +
+        `[🍍]: "getActivePinia()" was called but there was no active Pinia. Did you forget to install pinia?\n` +
           `\tconst pinia = createPinia()\n` +
           `\tapp.use(pinia)\n` +
           `This will fail in production.`
