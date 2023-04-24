@@ -382,7 +382,7 @@ describe('Store', () => {
 
   it('throws an error if no store id is provided', () => {
     expect(() => defineStore({} as any)).toThrowError(
-      '[🍍]: defineStore must be passed an id string, either as its first argument or via the "id" option.'
+      /must be passed a store id/
     )
   })
 })
