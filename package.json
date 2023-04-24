@@ -14,7 +14,7 @@
     "build:dts": "pnpm run -r --parallel build:dts",
     "lint": "prettier -c --parser typescript \"packages/*/{src,__tests__,e2e}/**/*.[jt]s?(x)\" \"packages/docs/**/*.[jt]s\"",
     "lint:fix": "pnpm run lint --write",
-    "test": "pnpm run -r dev:prepare && pnpm run test:types && pnpm run test:vitest && pnpm run -r test && pnpm run build && pnpm run build:dts && pnpm test:dts",
+    "test": "pnpm run -r dev:prepare && pnpm run test:types && pnpm run test:vitest run && pnpm run -r test && pnpm run build && pnpm run build:dts && pnpm test:dts",
     "test:vitest": "vitest --coverage",
     "test:types": "tsc --build ./tsconfig.json",
     "test:dts": "pnpm run -r test:dts",
