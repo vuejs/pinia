@@ -879,6 +879,12 @@ export function defineStore(
   } else {
     options = idOrOptions
     id = idOrOptions.id
+
+    if (__DEV__ && typeof id !== 'string') {
+      throw new Error(
+        `[🍍]: defineStore must be passed an id string, either as its first argument or via the "id" option.`
+      )
+    }
   }
 
   function useStore(pinia?: Pinia | null, hot?: StoreGeneric): StoreGeneric {
