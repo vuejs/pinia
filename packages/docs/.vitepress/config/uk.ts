@@ -21,6 +21,15 @@ export const ukConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       text: 'Запропонувати зміни на цій сторінці',
     },
 
+    outline: {
+      label: 'На цій сторінці',
+    },
+
+    docFooter: {
+      prev: 'Попередня сторінка',
+      next: 'Наступна сторінка',
+    },
+
     nav: [
       // { text: 'Config', link: '/config/' },
       // { text: 'Plugins', link: '/plugins/' },
