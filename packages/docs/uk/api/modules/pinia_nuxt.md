@@ -2,28 +2,28 @@
 editLink: false
 ---
 
-[API Documentation](../index.md) / @pinia/nuxt
+[Документація API](../index.md) / @pinia/nuxt
 
-# Module: @pinia/nuxt
+# Модуль: @pinia/nuxt
 
-## Interfaces %{#Interfaces}%
+## Інтерфейси %{#Interfaces}%
 
 - [ModuleOptions](../interfaces/pinia_nuxt.ModuleOptions.md)
 
-## Functions %{#Functions}%
+## Функції %{#Functions}%
 
-### default %{#Functions-default}%
+### за замовчуванням %{#Functions-default}%
 
 ▸ **default**(`this`, `inlineOptions`, `nuxt`): `void` \| `Promise`<`void`\>
 
-#### Parameters %{#Functions-default-Parameters}%
+#### Параметри %{#Functions-default-Parameters}%
 
-| Name | Type |
+| Ім'я | Тип |
 | :------ | :------ |
 | `this` | `void` |
 | `inlineOptions` | [`ModuleOptions`](../interfaces/pinia_nuxt.ModuleOptions.md) |
 | `nuxt` | `Nuxt` |
 
-#### Returns %{#Functions-default-Returns}%
+#### Повертає %{#Functions-default-Returns}%
 
 `void` \| `Promise`<`void`\>
