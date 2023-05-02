@@ -2,36 +2,36 @@
 editLink: false
 ---
 
-[API Documentation](../index.md) / @pinia/testing
+[Документація API](../index.md) / @pinia/testing
 
-# Module: @pinia/testing
+# Модуль: @pinia/testing
 
-## Interfaces %{#Interfaces}%
+## Інтерфейси %{#Interfaces}%
 
 - [TestingOptions](../interfaces/pinia_testing.TestingOptions.md)
 - [TestingPinia](../interfaces/pinia_testing.TestingPinia.md)
 
-## Functions %{#Functions}%
+## Функції %{#Functions}%
 
 ### createTestingPinia %{#Functions-createTestingPinia}%
 
 ▸ **createTestingPinia**(`options?`): [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 
-Creates a pinia instance designed for unit tests that **requires mocking**
-the stores. By default, **all actions are mocked** and therefore not
-executed. This allows you to unit test your store and components separately.
-You can change this with the `stubActions` option. If you are using jest,
-they are replaced with `jest.fn()`, otherwise, you must provide your own
-`createSpy` option.
+Створює екземпляр сховища Pinia, призначений для юніт-тестів, які 
+**вимагають імітації** сховищ. За замовчуванням **всі дії імітуються** 
+і тому не виконуються. Це дозволяє вам тестувати сховище і компоненти окремо.
+Ви можете змінити це за допомогою опції `stubActions`. Якщо ви використовуєте
+jest, вони замінюються на `jest.fn()`, в іншому випадку, ви повинні надати 
+свій власний варіант за допомогою властивості `createSpy`.
 
-#### Parameters %{#Functions-createTestingPinia-Parameters}%
+#### Параметри %{#Functions-createTestingPinia-Parameters}%
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `options` | [`TestingOptions`](../interfaces/pinia_testing.TestingOptions.md) | options to configure the testing pinia |
+| Ім'я | Тип | Опис                                    |
+| :------ | :------ |:----------------------------------------|
+| `options` | [`TestingOptions`](../interfaces/pinia_testing.TestingOptions.md) | опції для налаштування тестування Pinia |
 
-#### Returns %{#Functions-createTestingPinia-Returns}%
+#### Повертає %{#Functions-createTestingPinia-Returns}%
 
 [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 
-a augmented pinia instance
+доповнений екземпляр Pinia

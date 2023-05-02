@@ -35,11 +35,11 @@ export const ukConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
       // { text: 'Plugins', link: '/plugins/' },
       {
         text: 'Гід',
-        link: '/core-concepts/',
-        activeMatch: '^/core-concepts/',
+        link: '/uk/core-concepts/',
+        activeMatch: '^/uk/core-concepts/',
       },
-      { text: 'API', link: '/api/', activeMatch: '^/api/' },
-      { text: 'Рецепти', link: '/cookbook/', activeMatch: '^/cookbook/' },
+      { text: 'API', link: '/uk/api/', activeMatch: '^/uk/api/' },
+      { text: 'Рецепти', link: '/uk/cookbook/', activeMatch: '^/uk/cookbook/' },
       {
         text: 'Посилання',
         items: [
@@ -56,45 +56,45 @@ export const ukConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
     ],
 
     sidebar: {
-      '/api/': [
+      '/uk/api/': [
         {
           text: 'packages',
           items: [
-            { text: 'pinia', link: '/api/modules/pinia.html' },
-            { text: '@pinia/nuxt', link: '/api/modules/pinia_nuxt.html' },
+            { text: 'pinia', link: '/uk/api/modules/pinia.html' },
+            { text: '@pinia/nuxt', link: '/uk/api/modules/pinia_nuxt.html' },
             {
               text: '@pinia/testing',
-              link: '/api/modules/pinia_testing.html',
+              link: '/uk/api/modules/pinia_testing.html',
             },
           ],
         },
       ],
       // catch-all fallback
-      '/': [
+      '/uk/': [
         {
           text: 'Вступ',
           items: [
             {
               text: 'Що таке Pinia?',
-              link: '/introduction.html',
+              link: '/uk/introduction.html',
             },
             {
               text: 'Початок',
-              link: '/getting-started.html',
+              link: '/uk/getting-started.html',
             },
           ],
         },
         {
           text: 'Основні концепції',
           items: [
-            { text: 'Визначення сховища', link: '/core-concepts/' },
-            { text: 'Стан', link: '/core-concepts/state.html' },
-            { text: 'Гетери', link: '/core-concepts/getters.html' },
-            { text: 'Дії', link: '/core-concepts/actions.html' },
-            { text: 'Плагіни', link: '/core-concepts/plugins.html' },
+            { text: 'Визначення сховища', link: '/uk/core-concepts/' },
+            { text: 'Стан', link: '/uk/core-concepts/state.html' },
+            { text: 'Гетери', link: '/uk/core-concepts/getters.html' },
+            { text: 'Дії', link: '/uk/core-concepts/actions.html' },
+            { text: 'Плагіни', link: '/uk/core-concepts/plugins.html' },
             {
               text: 'Сховища поза компонентами',
-              link: '/core-concepts/outside-component-usage.html',
+              link: '/uk/core-concepts/outside-component-usage.html',
             },
           ],
         },
@@ -103,11 +103,11 @@ export const ukConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           items: [
             {
               text: 'Vue і Vite',
-              link: '/ssr/',
+              link: '/uk/ssr/',
             },
             {
               text: 'Nuxt.js',
-              link: '/ssr/nuxt.html',
+              link: '/uk/ssr/nuxt.html',
             },
           ],
         },
@@ -118,35 +118,35 @@ export const ukConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           items: [
             {
               text: 'Індекс',
-              link: '/cookbook/',
+              link: '/uk/cookbook/',
             },
             {
               text: 'Міграція з Vuex ≤4',
-              link: '/cookbook/migration-vuex.html',
+              link: '/uk/cookbook/migration-vuex.html',
             },
             {
               text: 'Гаряча заміна модулів',
-              link: '/cookbook/hot-module-replacement.html',
+              link: '/uk/cookbook/hot-module-replacement.html',
             },
             {
               text: 'Тестування',
-              link: '/cookbook/testing.html',
+              link: '/uk/cookbook/testing.html',
             },
             {
               text: 'Використання без setup()',
-              link: '/cookbook/options-api.html',
+              link: '/uk/cookbook/options-api.html',
             },
             {
               text: 'Компонування сховищ',
-              link: '/cookbook/composing-stores.html',
+              link: '/uk/cookbook/composing-stores.html',
             },
             {
               text: 'Міграція з v0/v1 до v2',
-              link: '/cookbook/migration-v1-v2.html',
+              link: '/uk/cookbook/migration-v1-v2.html',
             },
             {
-              text: 'Робота з копмозиційними функціями',
-              link: '/cookbook/composables.html',
+              text: 'Робота з композиційними функціями',
+              link: '/uk/cookbook/composables.html',
             },
           ],
         },
