@@ -82,13 +82,46 @@ Depending on what you are using for SSR, you will set an _initial state_ variabl
 
 Adapt this strategy to your environment. Make sure to hydrate pinia's state before calling any `useStore()` function on client side. For example, if we serialize the state into a `<script>` tag to make it accessible globally on client side through `window.__pinia`, we can write this:
 
-```js
-const pinia = createPinia()
-const app = createApp(App)
-app.use(pinia)
+Here is one example of how it can look. Froms vite official quite for setting up our own express app for server side rendering, https://vuejs.org/guide/scaling-up/ssr.html. inside the `app.use('*'` section we need to take the state of the store from the server side rendered section an embed it into the HTML so when the HTML goes to the browser it can hydrate the store before hydrating the app.
 
-// must be set by the user
-if (isClient) {
-  pinia.state.value = JSON.parse(window.__pinia)
-}
+```js
+app.use('*', async (req, res, next) => {
+  const url = req.originalUrl
+
+  try {
+    let template: string
+    let entry: any
+
+    if (isProd) {
+      template = fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
+      entry = (await import(resolve('./dist/server/entry-ssr.js')))
+    } else {
+      // always read fresh template in dev
+      template = fs.readFileSync(resolve('index.html'), 'utf-8')
+      template = await vite!.transformIndexHtml(url, template)
+
+      entry = (await vite!.ssrLoadModule('/src/entry-ssr.ts'))
+    }
+
+    let appHtml = await entry.render(url)
+    appHtml += `<script>window.__pinia = ${JSON.stringify(entry.pinia.state.value)}</script>`
+    const html = template.replace('<!--ssr-outlet-->', appHtml)
+    res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
+  } catch (e) {
+    vite?.ssrFixStacktrace(e)
+    next(e)
+  }
+})
+```
+and in `index.html` we need to have a `<!--ssr-outlet-->` string to replace with the rendered content. And we get the pinia state from the global window environment variable.
+```html
+<div id="app" class="my-3"><!--ssr-outlet--></div>
+<script type="module">
+  import { app, pinia } from '/src/entry'
+
+  const initalState = window.__pinia
+  if (initalState) pinia.state.value = initalState
+
+  app.mount('#app')
+</script>
 ```
