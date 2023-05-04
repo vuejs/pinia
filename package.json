@@ -66,5 +66,8 @@
     "*.ts?(x)": [
       "prettier --parser=typescript --write"
     ]
+  },
+  "resolutions": {
+    "@nuxt/kit": "^3.4.3"
   }
 }
