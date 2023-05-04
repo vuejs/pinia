@@ -51,9 +51,9 @@
   },
   "devDependencies": {
     "@nuxt/module-builder": "^0.2.1",
-    "@nuxt/schema": "^3.0.0",
-    "@nuxt/test-utils": "^3.0.0",
-    "nuxt": "^3.0.0",
+    "@nuxt/schema": "^3.4.3",
+    "@nuxt/test-utils": "^3.4.3",
+    "nuxt": "^3.4.3",
     "typescript": "^5.0.4",
     "vue-tsc": "^1.2.0"
   },
