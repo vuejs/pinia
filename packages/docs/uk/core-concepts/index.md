@@ -104,7 +104,7 @@ const store = useCounterStore()
 const store = useCounterStore()
 // ❌ Це не спрацює, оскільки порушує реактивність
 // це те ж саме, що і деструктуризація з `реквізитів`
-const { name, doubleCount } = store // [!попередження про код]
+const { name, doubleCount } = store // [!code warning]
 name // завжди буде "Дмитро" // [!попередження про код]
 doubleCount // завжди буде 0 // [!попередження про код]
 
