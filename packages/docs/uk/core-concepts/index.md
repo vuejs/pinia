@@ -1,35 +1,37 @@
-# Defining a Store
+# Визначення сховища
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/define-your-first-pinia-store"
-  title="Learn how to define and use stores in Pinia"
+  title="Дізнайтеся, як визначати та використовувати сховища в Pinia"
 />
 
-Before diving into core concepts, we need to know that a store is defined using `defineStore()` and that it requires a **unique** name, passed as the first argument:
+Перш ніж заглибитися в основні концепції, вам потрібно знати, що сховище визначається за допомогою `defineStore()` і що воно вимагає **унікального** імені, яке передається в якості першого аргументу:
 
 ```js
 import { defineStore } from 'pinia'
 
-// You can name the return value of `defineStore()` anything you want,
-// but it's best to use the name of the store and surround it with `use`
-// and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
-// the first argument is a unique id of the store across your application
+// Ви можете назвати значення, що повертається функцією `defineStore()`, 
+// як завгодно, але найкраще використовувати назву сховища, використовуючи 
+// слова `use` та `Store` (наприклад, `useUserStore`, `useCartStore`, 
+// `useProductStore`). 
+
+// Перший аргумент - це унікальний ідентифікатор сховища у вашому додатку
 export const useAlertsStore = defineStore('alerts', {
-  // other options...
+  // інші параметри...
 })
 ```
 
-This _name_, also referred to as _id_, is necessary and is used by Pinia to connect the store to the devtools. Naming the returned function _use..._ is a convention across composables to make its usage idiomatic.
+Це _ім'я_, що одночасно являється _ідентифікатором_, є обов'язковим і використовується в Pinia для приєднання сховища до інструментів розробника. Найменування функції, що повертається, _use..._ є домовленістю між композиційними функціями, щоб зробити її використання зручним.
 
-`defineStore()` accepts two distinct values for its second argument: a Setup function or an Options object.
+`defineStore()` приймає два різних значення для свого другого аргументу: функцію налаштувань або об'єкт опцій.
 
-## Option Stores
+## Опційні сховища
 
-Similar to Vue's Options API, we can also pass an Options Object with `state`, `actions`, and `getters` properties.
+Подібно до опційного API Vue, ми також можемо передати об'єкт параметрів з властивостями `стану`, `дій` та `гетерів`
 
 ```js {2-10}
 export const useCounterStore = defineStore('counter', {
-  state: () => ({ count: 0, name: 'Eduardo' }),
+  state: () => ({ count: 0, name: 'Дмитро' }),
   getters: {
     doubleCount: (state) => state.count * 2,
   },
@@ -41,18 +43,18 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-You can think of `state` as the `data` of the store, `getters` as the `computed` properties of the store, and `actions` as the `methods`.
+Ви можете думати про `стан` як про `дані` сховища, `гетери` як про `обчислювані властивості` сховища, а `дії` як про `методи`.
 
-Option stores should feel intuitive and simple to get started with.
+Опційні сховища повинні бути інтуїтивно зрозумілими та простими для початку роботи з ними.
 
-## Setup Stores
+## Функціональні сховища
 
-There is also another possible syntax to define stores. Similar to the Vue Composition API's [setup function](https://vuejs.org/api/composition-api-setup.html), we can pass in a function that defines reactive properties and methods and returns an object with the properties and methods we want to expose.
+Існує також інший можливий синтаксис для визначення сховищ. Подібно до [функції setup](https://ua.vuejs.org/api/composition-api-setup.html) композиційного API Vue, ми можемо передати функцію, яка визначає реактивні властивості та методи й повертає об'єкт з властивостями та методами, які ми хочемо використовувати.
 
 ```js
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
-  const name = ref('Eduardo')
+  const name = ref('Дмитро')
   const doubleCount = computed(() => count.value * 2)
   function increment() {
     count.value++
@@ -62,72 +64,72 @@ export const useCounterStore = defineStore('counter', () => {
 })
 ```
 
-In _Setup Stores_:
+У _функціональних сховищах_:
 
-- `ref()`s become `state` properties
-- `computed()`s become `getters`
-- `function()`s become `actions`
+- `ref()` стають властивостями `стану`
+- `computed()` стають `гетерами`
+- `function()` стають `діями`
 
-Setup stores bring a lot more flexibility than [Option Stores](#option-stores) as you can create watchers within a store and freely use any [composable](https://vuejs.org/guide/reusability/composables.html#composables). However, keep in mind that using composables will get more complex when using [SSR](../cookbook/composables.md).
+Функціональні сховища забезпечують набагато більшу гнучкість, ніж [Опційні сховища](#option-stores), оскільки ви можете створювати спостерігачі у межах сховища і вільно використовувати будь-які [композиційні функції](https://ua.vuejs.org/guide/reusability/composables.html#composables). Однак майте на увазі, що використання композиційних функцій ускладниться при використанні [SSR](../cookbook/composables.md).
 
-## What syntax should I pick?
+## Який синтаксис вибрати?
 
-As with [Vue's Composition API and Options API](https://vuejs.org/guide/introduction.html#which-to-choose), pick the one that you feel the most comfortable with. If you're not sure, try [Option Stores](#option-stores) first.
+Як і у випадку з [композиційним та опційним API у Vue](https://ua.vuejs.org/guide/introduction.html#which-to-choose), виберіть той, з яким ви почуваєтесь найбільш комфортно. Якщо ви не впевнені, спершу спробуйте [опційне сховище](#option-stores).
 
-## Using the store
+## Використання сховища
 
-We are _defining_ a store because the store won't be created until `use...Store()` is called within a component `<script setup>` (or within `setup()` **like all composables**):
+Ми _визначаємо_ сховище, тому що воно не буде створено до моменту, поки `use...Store()` буде викликано в компоненті `<script setup>` (або в `setup()`, **як і для всіх композиційних функцій**):
 
 ```vue
 <script setup>
 import { useCounterStore } from '@/stores/counter'
 
-// access the `store` variable anywhere in the component ✨
+// отримати доступ до змінної `store` в будь-якому місці компонента ✨
 const store = useCounterStore()
 </script>
 ```
 
-:::tip
-If you are not using `setup` components yet, [you can still use Pinia with _map helpers_](../cookbook/options-api.md).
+:::tip ПОРАДА
+Якщо ви ще не використовуєте `setup` хук в компонентах, [ви можете використовувати Pinia з _допоміжними функціями співставлення_](../cookbook/options-api.md).
 :::
 
-You can define as many stores as you want and **you should define each store in a different file** to get the most out of Pinia (like automatically allowing your bundler to code split and providing TypeScript inference).
+Ви можете визначити стільки сховищ, скільки хочете, і **ви повинні визначити кожне сховище в окремому файлі**, щоб отримати максимальну користь від Pinia (наприклад, автоматично дозволити вашому пакувальнику розбивати код і надавати визначення типів в TypeScript).
 
-Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will look at these in detail in the next pages but autocompletion will help you.
+Щойно сховище створено, ви можете отримати доступ до будь-яких властивостей, визначених у `state`, `getters` та `actions` безпосередньо у сховищі. Ми розглянемо їх детально на наступних сторінках, але автодоповнення допоможе вам у цьому.
 
-Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it**:
+Зверніть увагу, що `сховище` є `реактивним` об'єктом, тобто нема потреби писати `.value` після гетерів, але, як і `реквізити` в хуку `setup`, **ми не можемо його деструктурувати**:
 
 ```vue
 <script setup>
 const store = useCounterStore()
-// ❌ This won't work because it breaks reactivity
-// it's the same as destructuring from `props`
-const { name, doubleCount } = store // [!code warning]
-name // will always be "Eduardo" // [!code warning]
-doubleCount // will always be 0 // [!code warning]
+// ❌ Це не спрацює, оскільки порушує реактивність
+// це те ж саме, що і деструктуризація з `реквізитів`
+const { name, doubleCount } = store // [!попередження про код]
+name // завжди буде "Дмитро" // [!попередження про код]
+doubleCount // завжди буде 0 // [!попередження про код]
 
 setTimeout(() => {
   store.increment()
 }, 1000)
 
-// ✅ this one will be reactive
-// 💡 but you could also just use `store.doubleCount` directly
+// ✅ ця змінна буде реактивною
+// 💡 але ви також можете використовувати `store.doubleCount` напряму
 const doubleValue = computed(() => store.doubleCount)
 </script>
 ```
 
-In order to extract properties from the store while keeping its reactivity, you need to use `storeToRefs()`. It will create refs for every reactive property. This is useful when you are only using state from the store but not calling any action. Note you can destructure actions directly from the store as they are bound to the store itself too:
+Щоб витягти властивості зі сховища, зберігши його реактивність, вам потрібно використовувати `storeToRefs()`. Він створить посилання для кожної реактивної властивості. Це корисно, коли ви використовуєте лише стан зі сховища, але не викликаєте жодної дії. Зверніть увагу, що ви можете деструктурувати дії безпосередньо зі сховища, оскільки вони також прив'язані до самого сховища:
 
 ```vue
 <script setup>
 import { storeToRefs } from 'pinia'
 
 const store = useCounterStore()
-// `name` and `doubleCount` are reactive refs
-// This will also extract refs for properties added by plugins
-// but skip any action or non reactive (non ref/reactive) property
+// `name` та `doubleCount` є реактивними посиланнями
+// Це також витягне посилання на властивості, додані плагінами,
+// але пропустить будь-яку дію або нереактивну властивість
 const { name, doubleCount } = storeToRefs(store)
-// the increment action can just be destructured
+// дію increment можна просто деструктурувати
 const { increment } = store
 </script>
 ```
