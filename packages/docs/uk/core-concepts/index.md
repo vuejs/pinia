@@ -106,7 +106,7 @@ const store = useCounterStore()
 // це те ж саме, що і деструктуризація з `реквізитів`
 const { name, doubleCount } = store // [!code warning]
 name // завжди буде "Дмитро" // [!code warning]
-doubleCount // завжди буде 0 // [!попередження про код]
+doubleCount // завжди буде 0 // [!code warning]
 
 setTimeout(() => {
   store.increment()
