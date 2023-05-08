@@ -259,7 +259,7 @@ describe('Testing', () => {
     })
   })
 
-  it('allows overriding computed properties', () => {
+  it('allows overriding getters', () => {
     const useStore = defineStore('lol', {
       state: () => ({ n: 0 }),
       getters: {
@@ -284,7 +284,7 @@ describe('Testing', () => {
     expect(store.double).toBe(6)
   })
 
-  it('allows overriding computed properties in setup stores', () => {
+  it('allows overriding getters in setup stores', () => {
     const useStore = defineStore('computed', () => {
       const n = ref(0)
       const double = computed(() => n.value * 2)
@@ -375,7 +375,7 @@ describe('Testing', () => {
     expect(spy).toHaveBeenLastCalledWith(5)
   })
 
-  it('can override computed added in plugins', () => {
+  it('can override getters added in plugins', () => {
     const pinia = createTestingPinia({
       plugins: [
         ({ store }) => {
