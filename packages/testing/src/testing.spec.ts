@@ -161,6 +161,22 @@ describe('Testing', () => {
     expect(counter.n).toBe(0)
   })
 
+  it('can stub $reset calls in option stores', () => {
+    const { counter } = factory({ stubReset: true })
+
+    counter.n = 5
+    counter.$reset()
+    expect(counter.n).toBe(5)
+  })
+
+  it('can stub $reset calls in setup stores', () => {
+    const { counter } = factorySetupStore({ stubReset: true })
+
+    counter.n = 5
+    counter.$reset()
+    expect(counter.n).toBe(5)
+  })
+
   it('executes plugins', () => {
     const { counter, wrapper } = factory({
       plugins: [() => ({ pluginN: 0 })],
