@@ -38,6 +38,43 @@ describe('Testing', () => {
     return { wrapper, counter }
   }
 
+  const useSetupStore = defineStore('setup', () => {
+    const n = ref(0)
+    const double = computed(() => n.value * 2)
+    function increment() {
+      n.value++
+    }
+    function $reset() {
+      n.value = 0
+    }
+
+    return { n, double, increment, $reset }
+  })
+
+  const CounterSetup = defineComponent({
+    setup() {
+      const counter = useSetupStore()
+      return { counter }
+    },
+    template: `
+    <button @click="counter.increment()">+1</button>
+    <span>{{ counter.n }}</span>
+    <button @click="counter.increment(10)">+10</button>
+    `,
+  })
+
+  function factorySetupStore(options?: TestingOptions) {
+    const wrapper = mount(CounterSetup, {
+      global: {
+        plugins: [createTestingPinia(options)],
+      },
+    })
+
+    const counter = useSetupStore()
+
+    return { wrapper, counter }
+  }
+
   it('spies with no config', () => {
     const { counter, wrapper } = factory()
 
@@ -108,14 +145,19 @@ describe('Testing', () => {
     expect(counter.n).toBe(0)
   })
 
-  it('can stub $patch calls', () => {
-    const { counter } = factory({ stubPatch: true })
+  it('ignores $reset in option stores', () => {
+    const { counter } = factory()
 
+    counter.n = 5
+    counter.$reset()
     expect(counter.n).toBe(0)
-    expect(counter.$patch).toHaveBeenCalledTimes(0)
-    counter.$patch({ n: 1 })
-    expect(counter.$patch).toHaveBeenCalledTimes(1)
-    expect(counter.$patch).toHaveBeenLastCalledWith({ n: 1 })
+  })
+
+  it('ignores $reset in setup stores', () => {
+    const { counter } = factorySetupStore()
+
+    counter.n = 5
+    expect(() => counter.$reset()).not.toThrow()
     expect(counter.n).toBe(0)
   })
 

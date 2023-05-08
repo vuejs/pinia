@@ -50,6 +50,12 @@ export interface TestingOptions {
   stubPatch?: boolean
 
   /**
+   * When set to true, calls to `$reset()` won't change the state. Defaults to
+   * false.
+   */
+  stubReset?: boolean
+
+  /**
    * Creates an empty App and calls `app.use(pinia)` with the created testing
    * pinia. This allows you to use plugins while unit testing stores as
    * plugins **will wait for pinia to be installed in order to be executed**.
@@ -95,6 +101,7 @@ export function createTestingPinia({
   plugins = [],
   stubActions = true,
   stubPatch = false,
+  stubReset = false,
   fakeApp = false,
   createSpy: _createSpy,
 }: TestingOptions = {}): TestingPinia {
@@ -128,10 +135,12 @@ export function createTestingPinia({
   // stub actions
   pinia._p.push(({ store, options }) => {
     Object.keys(options.actions).forEach((action) => {
+      if (action === '$reset') return
       store[action] = stubActions ? createSpy() : createSpy(store[action])
     })
 
     store.$patch = stubPatch ? createSpy() : createSpy(store.$patch)
+    store.$reset = stubReset ? createSpy() : createSpy(store.$reset)
   })
 
   if (fakeApp) {
