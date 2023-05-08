@@ -1,4 +1,4 @@
-import { computed, createApp, markRaw, Ref } from 'vue'
+import { computed, createApp, inject, markRaw, Ref } from 'vue'
 import App from './App.vue'
 import { createPinia } from 'pinia'
 import { router } from './router'
@@ -6,6 +6,7 @@ import {
   RouteLocationNormalized,
   RouteLocationNormalizedLoaded,
 } from 'vue-router'
+import { useCounter } from './stores/counterSetup'
 
 const pinia = createPinia()
 
@@ -60,4 +61,13 @@ if (import.meta.hot) {
   //   }
 }
 
-createApp(App).use(router).use(pinia).mount('#app')
+const app = createApp(App).use(pinia).use(router).provide('hello', 'injections')
+
+app.mount('#app')
+
+console.log(
+  'hello',
+  app.runWithContext(() => inject('hello'))
+)
+
+const store = useCounter()
