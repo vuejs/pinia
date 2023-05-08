@@ -29,8 +29,8 @@
     "@types/lodash.kebabcase": "^4.1.7",
     "@types/node": "^18.15.11",
     "@vitest/coverage-c8": "^0.30.1",
-    "@vue/compiler-sfc": "^3.2.47",
-    "@vue/server-renderer": "^3.2.47",
+    "@vue/compiler-sfc": "beta",
+    "@vue/server-renderer": "beta",
     "c8": "^7.13.0",
     "chalk": "^5.2.0",
     "conventional-changelog-cli": "^2.2.2",
@@ -52,7 +52,7 @@
     "typedoc-plugin-markdown": "^3.14.0",
     "typescript": "^5.0.4",
     "vitest": "^0.30.1",
-    "vue": "^3.2.47",
+    "vue": "beta",
     "yorkie": "^2.0.0"
   },
   "gitHooks": {
@@ -68,6 +68,9 @@
     ]
   },
   "resolutions": {
-    "@nuxt/kit": "^3.4.3"
+    "@nuxt/kit": "^3.4.3",
+    "vue": "^3.3.0-beta.5",
+    "@vue/compiler-sfc": "^3.3.0-beta.5",
+    "@vue/server-renderer": "^3.3.0-beta.5"
   }
 }
