@@ -23,6 +23,8 @@ import {
   nextTick,
   isVue2,
 } from 'vue-demi'
+// FIXME: move to vue-demi when available
+import { hasInjectionContext } from 'vue'
 import {
   StateTree,
   SubscriptionCallback,
@@ -50,6 +52,8 @@ import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
 import { IS_CLIENT, USE_DEVTOOLS } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
+
+const fallbackRunWithContext = (fn: Function) => fn()
 
 type _ArrayType<AT> = AT extends Array<infer T> ? T : never
 
@@ -472,10 +476,13 @@ function createSetupStore<
   // creating infinite loops.
   pinia._s.set($id, store)
 
+  const runWithContext =
+    (pinia._a && pinia._a.runWithContext) || fallbackRunWithContext
+
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
   const setupStore = pinia._e.run(() => {
     scope = effectScope()
-    return scope.run(() => setup())
+    return runWithContext(() => scope.run(() => setup()))
   })!
 
   // overwrite existing actions to support $onAction
@@ -888,12 +895,12 @@ export function defineStore(
   }
 
   function useStore(pinia?: Pinia | null, hot?: StoreGeneric): StoreGeneric {
-    const currentInstance = getCurrentInstance()
+    const hasContext = hasInjectionContext()
     pinia =
       // in test mode, ignore the argument provided as we can always retrieve a
       // pinia instance with getActivePinia()
       (__TEST__ && activePinia && activePinia._testing ? null : pinia) ||
-      (currentInstance && inject(piniaSymbol, null))
+      (hasContext ? inject(piniaSymbol, null) : null)
     if (pinia) setActivePinia(pinia)
 
     if (__DEV__ && !activePinia) {
@@ -937,18 +944,19 @@ export function defineStore(
       pinia._s.delete(hotId)
     }
 
-    // save stores in instances to access them devtools
-    if (
-      __DEV__ &&
-      IS_CLIENT &&
-      currentInstance &&
-      currentInstance.proxy &&
-      // avoid adding stores that are just built for hot module replacement
-      !hot
-    ) {
-      const vm = currentInstance.proxy
-      const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
-      cache[id] = store
+    if (__DEV__ && IS_CLIENT) {
+      const currentInstance = getCurrentInstance()
+      // save stores in instances to access them devtools
+      if (
+        currentInstance &&
+        currentInstance.proxy &&
+        // avoid adding stores that are just built for hot module replacement
+        !hot
+      ) {
+        const vm = currentInstance.proxy
+        const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
+        cache[id] = store
+      }
     }
 
     // StoreGeneric cannot be casted towards Store

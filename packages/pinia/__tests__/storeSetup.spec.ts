@@ -1,6 +1,6 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia } from '../src'
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, inject, nextTick, ref, watch, version } from 'vue'
 
 function expectType<T>(_value: T): void {}
 
@@ -131,5 +131,19 @@ describe('store with setup syntax', () => {
     store.$patch({ counter: 2 })
     expect(store.counter).toBe(2)
     expect(counter.value).toBe(2)
+  })
+
+  // TODO:
+  it.todo('can use app level injections', async () => {
+    const pinia = createPinia()
+    setActivePinia(pinia)
+    const useStore = defineStore('id', () => {
+      const injected = ref(inject('hello', 'nope'))
+
+      return { injected }
+    })
+
+    const store = useStore()
+    expect(store.injected).toBe('pinia')
   })
 })

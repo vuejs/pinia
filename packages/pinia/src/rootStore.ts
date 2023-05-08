@@ -1,11 +1,6 @@
-import {
-  App,
-  EffectScope,
-  getCurrentInstance,
-  inject,
-  InjectionKey,
-  Ref,
-} from 'vue-demi'
+import { App, EffectScope, inject, InjectionKey, Ref } from 'vue-demi'
+// FIXME: move to vue-demi when available
+import { hasInjectionContext } from 'vue'
 import {
   StateTree,
   PiniaCustomProperties,
@@ -43,7 +38,7 @@ interface _SetActivePinia {
  * Get the currently active pinia if there is any.
  */
 export const getActivePinia = () =>
-  (getCurrentInstance() && inject(piniaSymbol)) || activePinia
+  (hasInjectionContext() && inject(piniaSymbol)) || activePinia
 
 /**
  * Every application must own its own pinia to be able to create stores
