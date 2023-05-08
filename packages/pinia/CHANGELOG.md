@@ -1,3 +1,10 @@
+## [2.0.36](https://github.com/vuejs/pinia/compare/pinia@2.0.35...pinia@2.0.36) (2023-05-08)
+
+### Features
+
+- **dx:** throw an error if store id is missing ([#2167](https://github.com/vuejs/pinia/issues/2167)) ([b74eb4f](https://github.com/vuejs/pinia/commit/b74eb4f9b5a2a20a9c8d3cedd221eea8dde201f6))
+- **warn:** improve warning message ([73518b3](https://github.com/vuejs/pinia/commit/73518b3f94fb164d02e740cb3132767a0d2a397b))
+
 ## [2.0.35](https://github.com/vuejs/pinia/compare/pinia@2.0.34...pinia@2.0.35) (2023-04-20)
 
 ### Bug Fixes

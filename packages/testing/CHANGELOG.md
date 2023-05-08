@@ -1,3 +1,9 @@
+# [0.1.0](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.16...@pinia/testing@0.1.0) (2023-05-08)
+
+### Features
+
+- **testing:** allow mocking $reset ([5f526a3](https://github.com/vuejs/pinia/commit/5f526a33ab0ac441fe865344977a11e0e471ce17)), closes [#2188](https://github.com/vuejs/pinia/issues/2188)
+
 ## [0.0.16](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.15...@pinia/testing@0.0.16) (2023-04-07)
 
 ### Bug Fixes

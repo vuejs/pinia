@@ -128,7 +128,7 @@ importers:
         specifier: ^3.4.3
         version: 3.4.3(rollup@3.3.0)
       pinia:
-        specifier: '>=2.0.35'
+        specifier: '>=2.0.36'
         version: link:../pinia
     devDependencies:
       '@nuxt/module-builder':
