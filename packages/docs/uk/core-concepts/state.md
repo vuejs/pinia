@@ -1,20 +1,20 @@
-# State
+# Стан
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-state-from-a-pinia-store"
-  title="Learn all about state in Pinia"
+  title="Дізнайтеся все про стан в Pinia"
 />
 
-The state is, most of the time, the central part of your store. People often start by defining the state that represents their app. In Pinia the state is defined as a function that returns the initial state. This allows Pinia to work in both Server and Client Side.
+Стан - це, здебільшого, центральна частина вашого сховища. Люди часто починають з визначення стану, який представляє їхній додаток. У Pinia стан визначається як функція, яка повертає початковий стан. Це дозволяє Pinia працювати як на стороні сервера, так і на стороні клієнта.
 
 ```js
 import { defineStore } from 'pinia'
 
 export const useStore = defineStore('storeId', {
-  // arrow function recommended for full type inference
+  // рекомендовано використовувати стрілочну функцію для автоматичного визначення типів
   state: () => {
     return {
-      // all these properties will have their type inferred automatically
+      // для всіх цих властивостей тип буде визначено автоматично
       count: 0,
       name: 'Eduardo',
       isAdmin: true,
@@ -25,21 +25,21 @@ export const useStore = defineStore('storeId', {
 })
 ```
 
-:::tip
-If you are using Vue 2, the data you create in `state` follows the same rules as the `data` in a Vue instance, i.e. the state object must be plain and you need to call `Vue.set()` when **adding new** properties to it. **See also: [Vue#data](https://v2.vuejs.org/v2/api/#data)**.
+:::tip ПОРАДА
+Якщо ви використовуєте версію Vue 2, дані, які ви створюєте в `state()`, відповідають тим самим правилам, що й `data()` в екземплярі Vue, тобто об'єкт стану має бути простим і вам потрібно викликати `Vue.set()`, коли ви **додаєте до нього нові властивості**. **Див. також [Vue#data](https://v2.vuejs.org/v2/api/#data)**.
 :::
 
 ## TypeScript
 
-You don't need to do much in order to make your state compatible with TS: make sure [`strict`](https://www.typescriptlang.org/tsconfig#strict), or at the very least, [`noImplicitThis`](https://www.typescriptlang.org/tsconfig#noImplicitThis), are enabled and Pinia will infer the type of your state automatically! However, there are a few cases where you should give it a hand with some casting:
+Вам не потрібно докладати багато зусиль для того, щоб зробити ваш стан сумісним з TypeScript: переконайтеся, що увімкнено режим [`strict`](https://www.typescriptlang.org/tsconfig#strict) або, принаймні, [`noImplicitThis`](https://www.typescriptlang.org/tsconfig#noImplicitThis), і Pinia автоматично визначить тип вашого стану! Проте, є кілька випадків, коли вам варто допомогти їй з цим:
 
 ```ts
 export const useUserStore = defineStore('user', {
   state: () => {
     return {
-      // for initially empty lists
+      // для початково порожніх списків
       userList: [] as UserInfo[],
-      // for data that is not yet loaded
+      // для даних, які ще не завантажено
       user: null as UserInfo | null,
     }
   },
@@ -51,7 +51,7 @@ interface UserInfo {
 }
 ```
 
-If you prefer, you can define the state with an interface and type the return value of `state()`:
+Якщо бажаєте, ви можете визначити стан за допомогою інтерфейсу і присвоїти значення, що повертаються у `state()`:
 
 ```ts
 interface State {
@@ -74,9 +74,9 @@ interface UserInfo {
 }
 ```
 
-## Accessing the `state`
+## Доступ до `стану`
 
-By default, you can directly read and write to the state by accessing it through the `store` instance:
+За замовчуванням, ви можете безпосередньо читати та записувати значення властивостей в стані, отримавши доступ до нього через екземпляр `сховища`:
 
 ```js
 const store = useStore()
@@ -84,11 +84,11 @@ const store = useStore()
 store.count++
 ```
 
-Note you cannot add a new state property **if you don't define it in `state()`**, it must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
+Зверніть увагу, що ви не можете додати нову властивість стану, **якщо ви не оголосили її в `state()`**, вона повинна містити початковий стан. Наприклад: ви не можете зробити `store.secondCount = 2`, якщо `secondCount` не оголошено в `state()`.
 
-## Resetting the state
+## Скидання стану
 
-In [Option Stores](/core-concepts/index.md#option-stores), you can _reset_ the state to its initial value by calling the `$reset()` method on the store:
+В [опційних сховищах](/uk/core-concepts/index.md#option-stores) ви можете _обнулити_ стан до початкового значення, викликавши метод `$reset()`:
 
 ```js
 const store = useStore()
@@ -96,9 +96,9 @@ const store = useStore()
 store.$reset()
 ```
 
-Internally, this calls the `state()` function to create a new state object and replaces the current state with it.
+Внутрішньо це викликає функцію `state()` для створення нового об'єкта стану і замінює ним поточний стан.
 
-In [Setup Stores](/core-concepts/index.md#setup-stores), you need to create your own `$reset()` method:
+У [функціональних сховищах](/uk/core-concepts/index.md#setup-stores) вам потрібно створити власний метод `$reset()`:
 
 ```ts
 export const useCounterStore = defineStore('counter', () => {
@@ -112,17 +112,17 @@ export const useCounterStore = defineStore('counter', () => {
 })
 ```
 
-### Usage with the Options API
+### Використання з опційним API
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-state-in-the-options-api"
-  title="Access Pinia State via the Options API"
+  title="Доступ до стану Pinia через опційний API"
 />
 
-For the following examples, you can assume the following store was created:
+Для наступних прикладів можна вважати, що було створено наступне сховище:
 
 ```js
-// Example File Path:
+// Приклад шляху до файлу:
 // ./src/stores/counter.js
 
 import { defineStore } from 'pinia'
@@ -134,7 +134,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-If you are not using the Composition API, and you are using `computed`, `methods`, ..., you can use the `mapState()` helper to map state properties as readonly computed properties:
+Якщо ви не використовуєте композиційний API, а використовуєте опційний, то ви можете скористатися допоміжним методом `mapState()` для співставлення властивостей стану з обчислюваними властивостями, доступними лише для читання:
 
 ```js
 import { mapState } from 'pinia'
@@ -142,15 +142,15 @@ import { useCounterStore } from '../stores/counter'
 
 export default {
   computed: {
-    // gives access to this.count inside the component
-    // same as reading from store.count
+    // дає доступ до this.count всередині компонента
+    // аналогічно до отримання доступу через store.count
     ...mapState(useCounterStore, ['count'])
-    // same as above but registers it as this.myOwnName
+    // те саме, що й вище, але реєструє його як this.myOwnName
     ...mapState(useCounterStore, {
       myOwnName: 'count',
-      // you can also write a function that gets access to the store
+      // також можна написати функцію, яка отримує доступ до сховища
       double: store => store.count * 2,
-      // it can have access to `this` but it won't be typed correctly...
+      // він може мати доступ до `this`, але він не буде коректним...
       magicValue(store) {
         return store.someGetter + this.count + this.double
       },
@@ -159,9 +159,9 @@ export default {
 }
 ```
 
-#### Modifiable state
+#### Модифікований стан
 
-If you want to be able to write to these state properties (e.g. if you have a form), you can use `mapWritableState()` instead. Note you cannot pass a function like with `mapState()`:
+Якщо ви хочете мати можливість записувати нові значення до цих властивостей стану (наприклад, якщо у вас є форма), ви можете використовувати `mapWritableState()` замість цього. Зауважте, що ви не можете передати функцію, як у випадку з `mapState()`:
 
 ```js
 import { mapWritableState } from 'pinia'
@@ -169,11 +169,11 @@ import { useCounterStore } from '../stores/counter'
 
 export default {
   computed: {
-    // gives access to this.count inside the component and allows setting it
+    // дає доступ до this.count всередині компонента і дозволяє його модифікувати
     // this.count++
-    // same as reading from store.count
+    // аналогічно до отримання доступу через store.count
     ...mapWritableState(useCounterStore, ['count'])
-    // same as above but registers it as this.myOwnName
+    // те саме, що й вище, але реєструє його як this.myOwnName
     ...mapWritableState(useCounterStore, {
       myOwnName: 'count',
     }),
@@ -181,15 +181,15 @@ export default {
 }
 ```
 
-:::tip
-You don't need `mapWritableState()` for collections like arrays unless you are replacing the whole array with `cartItems = []`, `mapState()` still allows you to call methods on your collections.
+:::tip ПОРАДА
+Вам не потрібен `mapWritableState()` для колекцій типу масивів, якщо ви не замінюєте весь масив на `cartItems = []`, `mapState()` все одно дозволяє вам викликати методи для ваших колекцій.
 :::
 
-## Mutating the state
+## Зміна стану
 
 <!-- TODO: disable this with `strictMode` -->
 
-Apart from directly mutating the store with `store.count++`, you can also call the `$patch` method. It allows you to apply multiple changes at the same time with a partial `state` object:
+Окрім безпосередньої зміни сховища за допомогою `store.count++`, ви також можете викликати метод `$patch`. Він дозволяє застосувати декілька змін одночасно з об'єктом часткового стану:
 
 ```js
 store.$patch({
@@ -199,7 +199,7 @@ store.$patch({
 })
 ```
 
-However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the `$patch` method also accepts a function to group this kind of mutations that are difficult to apply with a patch object:
+Однак, деякі зміни за допомогою цього синтаксису дуже складно або дорого застосувати: будь-яка модифікація колекції (наприклад, додавання, видалення, приєднання елемента до масиву) вимагає створення нової колекції. Через це метод `$patch` також приймає функцію для групування таких змін, які важко застосувати за допомогою об'єкта:
 
 ```js
 store.$patch((state) => {
@@ -210,62 +210,62 @@ store.$patch((state) => {
 
 <!-- TODO: disable this with `strictMode`, `{ noDirectPatch: true }` -->
 
-The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note **both, direct changes to `state` and `$patch()` appear in the devtools** and can be time traveled (not yet in Vue 3).
+Основна відмінність полягає в тому, що `$patch()` дозволяє вам згрупувати декілька змін в один запис у devtools. Зверніть увагу, що **як і прямі зміни стану, так і `$patch()` з'являються у devtools** і можуть бути перенесені у часі (поки що недоступно у версії Vue 3).
 
-## Replacing the `state`
+## Заміна `стану`
 
-You **cannot exactly replace** the state of a store as that would break reactivity. You can however _patch it_:
+Ви не можете **саме замінити** стан сховища, оскільки це порушить реактивність. Однак ви можете його _підправити_:
 
 ```js
-// this doesn't actually replace `$state`
+// це насправді не замінює `$state`
 store.$state = { count: 24 }
-// it internally calls `$patch()`:
+// а внутрішньо викликає `$patch()`:
 store.$patch({ count: 24 })
 ```
 
-You can also **set the initial state** of your whole application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).
+Ви також можете **встановити початковий стан** всієї програми, змінивши `стан` екземпляра `pinia`. Це використовується під час [SSR для гідратації](../ssr/#state-hydration).
 
 ```js
 pinia.state.value = {}
 ```
 
-## Subscribing to the state
+## Підписка на стан
 
-You can watch the state and its changes through the `$subscribe()` method of a store, similar to Vuex's [subscribe method](https://vuex.vuejs.org/api/#subscribe). The advantage of using `$subscribe()` over a regular `watch()` is that _subscriptions_ will trigger only once after _patches_ (e.g. when using the function version from above).
+Ви можете спостерігати за станом та його змінами за допомогою методу сховища `$subscribe()`, подібно до [методу subscribe](https://vuex.vuejs.org/api/#subscribe) у Vuex. Перевага використання `$subscribe()` над звичайним `watch()` полягає в тому, що _підписки_ спрацьовують лише один раз після _оновлення_ (наприклад, при використанні версії функції зверху).
 
 ```js
 cartStore.$subscribe((mutation, state) => {
   // import { MutationType } from 'pinia'
-  mutation.type // 'direct' | 'patch object' | 'patch function'
-  // same as cartStore.$id
+  mutation.type // 'прямі зміни' | 'об'єкт з оновленими значеннями' | 'функція з оновленими значеннями'
+  // теж саме, що й cartStore.$id
   mutation.storeId // 'cart'
-  // only available with mutation.type === 'patch object'
-  mutation.payload // patch object passed to cartStore.$patch()
+  // доступний лише з mutation.type === 'об'єкт з оновленими значеннями'
+  mutation.payload // об'єкт з оновленими значеннями передається в cartStore.$patch()
 
-  // persist the whole state to the local storage whenever it changes
+  // зберігати весь стан у локальному сховищі щоразу, коли він змінюється
   localStorage.setItem('cart', JSON.stringify(state))
 })
 ```
 
-By default, _state subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you also want to keep them after the component is unmounted, pass `{ detached: true }` as the second argument to _detach_ the _state subscription_ from the current component:
+За замовчуванням, _підписки на стан_ прив'язуються до компонента, в якому вони були додані (якщо сховище знаходиться в `setup()` компонента). Це означає, що вони будуть автоматично видалені, коли компонент буде демонтовано. Якщо ви також хочете зберегти їх після демонтажу компонента, передайте `{ detached: true }` як другий аргумент, щоб _відокремити_ _підписку на стан_ від поточного компонента:
 
 ```vue
 <script setup>
 const someStore = useSomeStore()
 
-// this subscription will be kept even after the component is unmounted
+// ця підписка буде збережена навіть після того, як компонент буде демонтовано
 someStore.$subscribe(callback, { detached: true })
 </script>
 ```
 
-:::tip
-You can _watch_ the whole state on the `pinia` instance with a single `watch()`:
+:::tip ПОРАДА
+Ви можете _спостерігати_ весь стан екземпляра `pinia` за допомогою однієї функції `watch()`:
 
 ```js
 watch(
   pinia.state,
   (state) => {
-    // persist the whole state to the local storage whenever it changes
+    // зберігати весь стан у локальному сховищі щоразу, коли він змінюється
     localStorage.setItem('piniaState', JSON.stringify(state))
   },
   { deep: true }
