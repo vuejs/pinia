@@ -321,7 +321,7 @@ export interface _StoreWithState<
   A /* extends ActionsTree */
 > extends StoreProperties<Id> {
   /**
-   * State of the Store. Setting it will replace the whole state.
+   * State of the Store. Setting it will internally call `$patch()` to update the state.
    */
   $state: UnwrapRef<S> & PiniaCustomStateProperties<S>
 
