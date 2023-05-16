@@ -255,8 +255,8 @@ function createSetupStore<
   // internal state
   let isListening: boolean // set to true at the end
   let isSyncListening: boolean // set to true at the end
-  let subscriptions: SubscriptionCallback<S>[] = markRaw([])
-  let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = markRaw([])
+  let subscriptions: SubscriptionCallback<S>[] = []
+  let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = []
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
 
