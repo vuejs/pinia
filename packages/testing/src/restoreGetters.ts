@@ -1,5 +1,7 @@
 import { Store, StateTree, _ExtractGettersFromSetupStore_Keys } from 'pinia'
 
+// TODO: more testing, document and release
+
 export function restoreGetter<G>(
   store: Store<string, StateTree, G, any>,
   getter: keyof G
