@@ -7,6 +7,7 @@
     "../*/__tests__/**/*.ts",
     "../*/src/*.spec.ts",
     "../nuxt/playground",
+    "../playground",
     "../nuxt/src/runtime",
     "**/*.spec.ts"
   ],
