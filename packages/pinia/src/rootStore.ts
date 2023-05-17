@@ -1,6 +1,11 @@
-import { App, EffectScope, inject, InjectionKey, Ref } from 'vue-demi'
-// FIXME: move to vue-demi when available
-import { hasInjectionContext } from 'vue'
+import {
+  App,
+  EffectScope,
+  inject,
+  hasInjectionContext,
+  InjectionKey,
+  Ref,
+} from 'vue-demi'
 import {
   StateTree,
   PiniaCustomProperties,

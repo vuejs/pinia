@@ -2,6 +2,7 @@ import {
   watch,
   computed,
   inject,
+  hasInjectionContext,
   getCurrentInstance,
   reactive,
   DebuggerEvent,
@@ -23,8 +24,6 @@ import {
   nextTick,
   isVue2,
 } from 'vue-demi'
-// FIXME: move to vue-demi when available
-import { hasInjectionContext } from 'vue'
 import {
   StateTree,
   SubscriptionCallback,
