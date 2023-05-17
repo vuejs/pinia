@@ -1,6 +1,16 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia } from '../src'
-import { computed, createApp, inject, nextTick, ref, watch } from 'vue'
+import {
+  App,
+  computed,
+  createApp,
+  inject,
+  nextTick,
+  provide,
+  ref,
+  watch,
+} from 'vue'
+import { mount } from '@vue/test-utils'
 
 function expectType<T>(_value: T): void {}
 
@@ -145,5 +155,40 @@ describe('store with setup syntax', () => {
 
     const store = useStore()
     expect(store.injected).toBe('pinia')
+  })
+
+  // TODO: until https://github.com/vuejs/test-utils/issues/2059 is fixed
+  it.skip('injects level app injections even within components', async () => {
+    const pinia = createPinia()
+    const useStore = defineStore('id', () => {
+      const injected = ref(inject('hello', 'nope'))
+
+      return { injected }
+    })
+
+    const NestedComponent = {
+      template: '<div>{{ injected }}</div>',
+      setup() {
+        const store = useStore()
+        return { injected: store.injected }
+      },
+    }
+    const Component = {
+      template: '<NestedComponent />',
+      components: { NestedComponent },
+      setup() {
+        // provide('hello', 'component')
+        return {}
+      },
+    }
+    const wrapper = mount(Component, {
+      global: {
+        plugins: [pinia],
+        provide: {
+          hello: 'pinia',
+        },
+      },
+    })
+    expect(wrapper.text()).toBe('pinia')
   })
 })
