@@ -1,3 +1,9 @@
+## [2.1.1](https://github.com/vuejs/pinia/compare/pinia@2.1.0...pinia@2.1.1) (2023-05-17)
+
+### Bug Fixes
+
+- expect Vue 3.3 ([b8fb165](https://github.com/vuejs/pinia/commit/b8fb1653211dbe6dc6aa3a8ac36185bf93bcfa25))
+
 # [2.1.0](https://github.com/vuejs/pinia/compare/pinia@2.0.36...pinia@2.1.0) (2023-05-17)
 
 ### Bug Fixes
