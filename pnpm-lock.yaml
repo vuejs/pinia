@@ -162,15 +162,15 @@ importers:
         specifier: '>=4.4.4'
         version: 4.9.4
       vue:
-        specifier: ^2.6.14 || ^3.2.0
+        specifier: ^2.6.14 || ^3.3.0
         version: 3.3.2
       vue-demi:
-        specifier: '>=0.14.1'
-        version: 0.14.1(@vue/composition-api@1.4.0)(vue@3.3.2)
+        specifier: ^0.14.2
+        version: 0.14.2(vue@3.3.2)
     devDependencies:
       '@microsoft/api-extractor':
         specifier: 7.34.4
-        version: 7.34.4(@types/node@18.15.11)
+        version: 7.34.4
       '@vue/test-utils':
         specifier: ^2.3.2
         version: 2.3.2(vue@3.3.2)
@@ -219,15 +219,15 @@ importers:
   packages/testing:
     dependencies:
       vue-demi:
-        specifier: '>=0.14.1'
-        version: 0.14.1(@vue/composition-api@1.4.0)(vue@3.3.2)
+        specifier: ^0.14.2
+        version: 0.14.2(vue@3.3.2)
     devDependencies:
       pinia:
         specifier: workspace:^2.0.18
         version: link:../pinia
       tsup:
         specifier: ^6.7.0
-        version: 6.7.0(typescript@5.0.4)
+        version: 6.7.0
 
 packages:
 
@@ -1126,24 +1126,24 @@ packages:
       - supports-color
     dev: true
 
-  /@microsoft/api-extractor-model@7.26.4(@types/node@18.15.11):
+  /@microsoft/api-extractor-model@7.26.4:
     resolution: {integrity: sha512-PDCgCzXDo+SLY5bsfl4bS7hxaeEtnXj7XtuzEE+BtALp7B5mK/NrS2kHWU69pohgsRmEALycQdaQPXoyT2i5MQ==}
     dependencies:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.55.2(@types/node@18.15.11)
+      '@rushstack/node-core-library': 3.55.2
     transitivePeerDependencies:
       - '@types/node'
     dev: true
 
-  /@microsoft/api-extractor@7.34.4(@types/node@18.15.11):
+  /@microsoft/api-extractor@7.34.4:
     resolution: {integrity: sha512-HOdcci2nT40ejhwPC3Xja9G+WSJmWhCUKKryRfQYsmE9cD+pxmBaKBKCbuS9jUcl6bLLb4Gz+h7xEN5r0QiXnQ==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.26.4(@types/node@18.15.11)
+      '@microsoft/api-extractor-model': 7.26.4
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.55.2(@types/node@18.15.11)
+      '@rushstack/node-core-library': 3.55.2
       '@rushstack/rig-package': 0.3.18
       '@rushstack/ts-command-line': 4.13.2
       colors: 1.2.5
@@ -1620,7 +1620,7 @@ packages:
       picomatch: 2.3.1
       rollup: 3.22.0
 
-  /@rushstack/node-core-library@3.55.2(@types/node@18.15.11):
+  /@rushstack/node-core-library@3.55.2:
     resolution: {integrity: sha512-SaLe/x/Q/uBVdNFK5V1xXvsVps0y7h1sN7aSJllQyFbugyOaxhNRF25bwEDnicARNEjJw0pk0lYnJQ9Kr6ev0A==}
     peerDependencies:
       '@types/node': '*'
@@ -1628,7 +1628,6 @@ packages:
       '@types/node':
         optional: true
     dependencies:
-      '@types/node': 18.15.11
       colors: 1.2.5
       fs-extra: 7.0.1
       import-lazy: 4.0.0
@@ -2048,7 +2047,7 @@ packages:
       '@types/web-bluetooth': 0.0.17
       '@vueuse/metadata': 10.1.2
       '@vueuse/shared': 10.1.2(vue@3.3.2)
-      vue-demi: 0.14.1(@vue/composition-api@1.4.0)(vue@3.3.2)
+      vue-demi: 0.14.1(vue@3.3.2)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -2061,7 +2060,7 @@ packages:
   /@vueuse/shared@10.1.2(vue@3.3.2):
     resolution: {integrity: sha512-1uoUTPBlgyscK9v6ScGeVYDDzlPSFXBlxuK7SfrDGyUTBiznb3mNceqhwvZHjtDRELZEN79V5uWPTF1VDV8svA==}
     dependencies:
-      vue-demi: 0.14.1(@vue/composition-api@1.4.0)(vue@3.3.2)
+      vue-demi: 0.14.2(@vue/composition-api@1.4.0)(vue@3.3.2)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -6945,7 +6944,7 @@ packages:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
     dev: true
 
-  /tsup@6.7.0(typescript@5.0.4):
+  /tsup@6.7.0:
     resolution: {integrity: sha512-L3o8hGkaHnu5TdJns+mCqFsDBo83bJ44rlK7e6VdanIvpea4ArPcU3swWGsLVbXak1PqQx/V+SSmFPujBK+zEQ==}
     engines: {node: '>=14.18'}
     hasBin: true
@@ -6975,7 +6974,6 @@ packages:
       source-map: 0.8.0-beta.0
       sucrase: 3.31.0
       tree-kill: 1.2.2
-      typescript: 5.0.4
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -7560,7 +7558,7 @@ packages:
       ufo: 1.1.2
     dev: true
 
-  /vue-demi@0.14.1(@vue/composition-api@1.4.0)(vue@3.3.2):
+  /vue-demi@0.14.1(vue@3.3.2):
     resolution: {integrity: sha512-rt+yuCtXvscYot9SQQj3WKZJVSriPNqVkpVBNEHPzSgBv7QIYzsS410VqVgvx8f9AAPgjg+XPKvmV3vOqqkJQQ==}
     engines: {node: '>=12'}
     hasBin: true
@@ -7572,7 +7570,37 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
+      vue: 3.3.2
+    dev: false
+
+  /vue-demi@0.14.2(@vue/composition-api@1.4.0)(vue@3.3.2):
+    resolution: {integrity: sha512-KZLwJIXhq5damlmP6AAgsUA6Zkk6pGW7+fuGV4KYdilOEEv1bPlolr6Fw3pts83cfxHWyYU/s2Z+orNaCDqZ4A==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
       '@vue/composition-api': 1.4.0(vue@3.3.2)
+      vue: 3.3.2
+    dev: false
+
+  /vue-demi@0.14.2(vue@3.3.2):
+    resolution: {integrity: sha512-KZLwJIXhq5damlmP6AAgsUA6Zkk6pGW7+fuGV4KYdilOEEv1bPlolr6Fw3pts83cfxHWyYU/s2Z+orNaCDqZ4A==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
       vue: 3.3.2
     dev: false
 
@@ -7590,7 +7618,7 @@ packages:
         optional: true
     dependencies:
       vue: 3.3.2
-      vue-demi: 0.14.1(@vue/composition-api@1.4.0)(vue@3.3.2)
+      vue-demi: 0.14.2(@vue/composition-api@1.4.0)(vue@3.3.2)
     dev: false
 
   /vue-router@4.2.0(vue@3.3.2):
