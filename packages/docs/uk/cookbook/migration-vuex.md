@@ -1,56 +1,56 @@
-# Migrating from Vuex ≤4
+# Міграція з Vuex ≤4 %{#migrating-from-vuex-≤4}%
 
-Although the structure of Vuex and Pinia stores is different, a lot of the logic can be reused. This guide serves to help you through the process and point out some common gotchas that can appear.
+Хоча структура сховищ Vuex і Pinia відрізняється, багато логіки можна використовувати повторно. Цей посібник допоможе вам у цьому процесі та вкаже на деякі поширені проблеми, які можуть виникнути.
 
-## Preparation
+## Підготовка %{#preparation}%
 
-First, follow the [Getting Started guide](../getting-started.md) to install Pinia.
+Спочатку дотримуйтеся [Посібника з початку роботи](../getting-started.md), щоб установити Pinia.
 
-## Restructuring Modules to Stores
+## Реструктуризація модулів у сховища %{#restructuring-modules-to-stores}%
 
-Vuex has the concept of a single store with multiple _modules_. These modules can optionally be namespaced and even nested within each other.
+Vuex має концепцію єдиного сховища з кількома _модулями_. Ці модулі за бажанням можуть мати простір імен і навіть можуть бути вкладені один в одного.
 
-The easiest way to transition that concept to be used with Pinia is that each module you used previously is now a _store_. Each store requires an `id` which is similar to a namespace in Vuex. This means that each store is namespaced by design. Nested modules can also each become their own store. Stores that depend on each other will simply import the other store.
+Найпростіший спосіб перенести цю концепцію на використання з Pinia полягає в тому, що кожен модуль, який ви використовували раніше, тепер є _сховищем_. Для кожного сховища потрібен `id`, подібний до простору імен у Vuex. Це означає, що кожне сховище має простір імен за дизайном. Кожен із вкладених модулів може стати окремим сховищем. Сховища, які залежать один від одного, просто імпортуватимуть інше сховище.
 
-How you choose to restructure your Vuex modules into Pinia stores is entirely up to you, but here is one suggestion:
+Як ви вирішите реструктуризувати свої модулі Vuex у сховища Pinia, залежить виключно від вас, але ось одна пропозиція:
 
 ```bash
-# Vuex example (assuming namespaced modules)
+# Vuex приклад (припускаючи модулі з простором імен)
 src
 └── store
-    ├── index.js           # Initializes Vuex, imports modules
+    ├── index.js           # Ініціалізує Vuex, імпортує модулі
     └── modules
-        ├── module1.js     # 'module1' namespace
+        ├── module1.js     # простір імен 'module1'
         └── nested
-            ├── index.js   # 'nested' namespace, imports module2 & module3
-            ├── module2.js # 'nested/module2' namespace
-            └── module3.js # 'nested/module3' namespace
+            ├── index.js   # 'nested' простір імен, імпортує module2 і module3
+            ├── module2.js # простір імен 'nested/module2'
+            └── module3.js # простір імен 'nested/module3'
 
-# Pinia equivalent, note ids match previous namespaces
+# Еквівалент Pinia, зауважте, що ids відповідають попереднім просторам імен
 src
 └── stores
-    ├── index.js          # (Optional) Initializes Pinia, does not import stores
+    ├── index.js          # (Опціонально) Ініціалізує Pinia, не імпортує сховища
     ├── module1.js        # 'module1' id
     ├── nested-module2.js # 'nestedModule2' id
     ├── nested-module3.js # 'nestedModule3' id
     └── nested.js         # 'nested' id
 ```
 
-This creates a flat structure for stores but also preserves the previous namespacing with equivalent `id`s. If you had some state/getters/actions/mutations in the root of the store (in the `store/index.js` file of Vuex) you may wish to create another store called something like `root` which holds all that information.
+Це створює плоску структуру для сховищ, але також зберігає попередній простір імен з еквівалентними `id`. Якщо у вас були деякі стани/гетери/дії/мутації в корені сховища (у файлі `store/index.js` Vuex), можливо, ви захочете створити інше сховище під назвою щось на зразок `root`, яке зберігає всю цю інформацію.
 
-The directory for Pinia is generally called `stores` instead of `store`. This is to emphasize that Pinia uses multiple stores, instead of a single store in Vuex.
+Директорія для Pinia зазвичай називається `stores` замість `store`. Це підкреслює, що Pinia використовує кілька сховищ замість одного сховища у Vuex.
 
-For large projects you may wish to do this conversion module by module rather than converting everything at once. You can actually mix Pinia and Vuex together during the migration so this approach can also work and is another reason for naming the Pinia directory `stores` instead.
+Для великих проектів ви можете виконувати це перетворення модуль за модулем, а не перетворювати все відразу. Ви фактично можете змішати Pinia та Vuex разом під час міграції, тому цей підхід також може працювати, і це ще одна причина натомість назвати каталог Pinia `stores`.
 
-## Converting a Single Module
+## Перетворення одного модуля %{#converting-a-single-module}%
 
-Here is a complete example of the before and after of converting a Vuex module to a Pinia store, see below for a step-by-step guide. The Pinia example uses an option store as the structure is most similar to Vuex:
+Ось повний приклад до і після перетворення модуля Vuex на сховище Pinia, дивіться нижче покроковий посібник. У прикладі Pinia використовується опційне сховище, оскільки структура найбільш схожа на Vuex:
 
 ```ts
-// Vuex module in the 'auth/user' namespace
+// Модуль Vuex у просторі імен 'auth/user'
 import { Module } from 'vuex'
 import { api } from '@/api'
-import { RootState } from '@/types' // if using a Vuex type definition
+import { RootState } from '@/types' // якщо використовується визначення типу Vuex
 
 interface State {
   firstName: string
@@ -69,14 +69,14 @@ const storeModule: Module<State, RootState> = {
     firstName: (state) => state.firstName,
     fullName: (state) => `${state.firstName} ${state.lastName}`,
     loggedIn: (state) => state.userId !== null,
-    // combine with some state from other modules
+    // поєднання з деяким станом з інших модулів
     fullUserDetails: (state, getters, rootState, rootGetters) => {
       return {
         ...state,
         fullName: getters.fullName,
-        // read the state from another module named `auth`
+        // прочитати стан з іншого модуля під назвою `auth`
         ...rootState.auth.preferences,
-        // read a getter from a namespaced module called `email` nested under `auth`
+        // прочитати гетер із модуля простору імен під назвою `email`, вкладеного в `auth`
         ...rootGetters['auth/email'].details
       }
     }
@@ -106,11 +106,11 @@ export default storeModule
 ```
 
 ```ts
-// Pinia Store
+// Pinia сховище
 import { defineStore } from 'pinia'
 import { useAuthPreferencesStore } from './auth-preferences'
 import { useAuthEmailStore } from './auth-email'
-import vuexStore from '@/store' // for gradual conversion, see fullUserDetails
+import vuexStore from '@/store' // для поступового перетворення дивіться fullUserDetails
 
 interface State {
   firstName: string
@@ -119,30 +119,30 @@ interface State {
 }
 
 export const useAuthUserStore = defineStore('authUser', {
-  // convert to a function
+  // перетворення на функцію
   state: (): State => ({
     firstName: '',
     lastName: '',
     userId: null
   }),
   getters: {
-    // firstName getter removed, no longer needed
+    // гетер firstName видалено, оскільки він більше не потрібен
     fullName: (state) => `${state.firstName} ${state.lastName}`,
     loggedIn: (state) => state.userId !== null,
-    // must define return type because of using `this`
+    // необхідно визначити тип повернення через використання `this`
     fullUserDetails (state): FullUserDetails {
-      // import from other stores
+      // імпорт з інших сховищ
       const authPreferencesStore = useAuthPreferencesStore()
       const authEmailStore = useAuthEmailStore()
       return {
         ...state,
-        // other getters now on `this`
+        // інші гетери тепер у `this`
         fullName: this.fullName,
         ...authPreferencesStore.$state,
         ...authEmailStore.details
       }
 
-      // alternative if other modules are still in Vuex
+      // альтернатива, якщо інші модулі все ще знаходяться у Vuex
       // return {
       //   ...state,
       //   fullName: this.fullName,
@@ -152,19 +152,19 @@ export const useAuthUserStore = defineStore('authUser', {
     }
   },
   actions: {
-    // no context as first argument, use `this` instead
+    // немає контексту, як першого аргументу, замість цього використовуйте `this`
     async loadUser (id: number) {
       if (this.userId !== null) throw new Error('Already logged in')
       const res = await api.user.load(id)
       this.updateUser(res)
     },
-    // mutations can now become actions, instead of `state` as first argument use `this`
+    // мутації тепер можуть стати діями, замість `state` як перший аргумент використовуйте `this`
     updateUser (payload) {
       this.firstName = payload.firstName
       this.lastName = payload.lastName
       this.userId = payload.userId
     },
-    // easily reset state using `$reset`
+    // легко скинути стан за допомогою `$reset`
     clearUser () {
       this.$reset()
     }
@@ -172,31 +172,31 @@ export const useAuthUserStore = defineStore('authUser', {
 })
 ```
 
-Let's break the above down into steps:
+Давайте розберемо вищезазначене покроково:
 
-1. Add a required `id` for the store, you may wish to keep this the same as the namespace before. It is also recommended to make sure the `id` is in _camelCase_ as it makes it easier to use with `mapStores()`.
-2. Convert `state` to a function if it was not one already
-3. Convert `getters`
-    1. Remove any getters that return state under the same name (eg. `firstName: (state) => state.firstName`), these are not necessary as you can access any state directly from the store instance
-    2. If you need to access other getters, they are on `this` instead of using the second argument. Remember that if you are using `this` then you will have to use a regular function instead of an arrow function. Also note that you will need to specify a return type because of TS limitations, see [here](../core-concepts/getters.md#accessing-other-getters) for more details
-    3. If using `rootState` or `rootGetters` arguments, replace them by importing the other store directly, or if they still exist in Vuex then access them directly from Vuex
-4. Convert `actions`
-    1. Remove the first `context` argument from each action. Everything should be accessible from `this` instead
-    2. If using other stores either import them directly or access them on Vuex, the same as for getters
-5. Convert `mutations`
-    1. Mutations do not exist any more. These can be converted to `actions` instead, or you can just assign directly to the store within your components (eg. `userStore.firstName = 'First'`)
-    2. If converting to actions, remove the first `state` argument and replace any assignments with `this` instead
-    3. A common mutation is to reset the state back to its initial state. This is built in functionality with the store's `$reset` method. Note that this functionality only exists for option stores.
+1. Додайте обов'язковий `id` для сховища, можливо, ви захочете залишити його таким самим, як і простір імен раніше. Також рекомендується переконатися, що `id` має _camelCase_ оскільки це полегшує використання `mapStores()`.
+2. Перетворіть `state` на функцію, якщо це ще не було зроблено
+3. Перетворіть `getters`
+    1. Видаліть усі геттери, які повертають стан під тим самим іменем (наприклад, `firstName: (state) => state.firstName`), вони не є необхідними, оскільки ви можете отримати доступ до будь-якого стану безпосередньо з примірника сховища
+    2. Якщо вам потрібно отримати доступ до інших гетерів, вони знаходяться у `this` замість використання другого аргументу. Пам'ятайте, що якщо ви використовуєте `this`, вам доведеться використовувати звичайну функцію замість функції зі стрілкою. Також зауважте, що вам потрібно буде вказати тип повернення через обмеження TS, дивіться [тут](../core-concepts/getters.md#accessing-other-getters) для отримання додаткової інформації
+    3. Якщо ви використовуєте аргументи `rootState` або `rootGetters`, замініть їх, безпосередньо імпортувавши інше сховище, або, якщо вони все ще існують у Vuex, отримуйте доступ до них безпосередньо з Vuex
+4. Перетворіть `actions`
+    1. Видаліть перший аргумент `context` з кожної дії. Натомість усе має бути доступним із `this`
+    2. Якщо ви використовуєте інші сховища, імпортуючи їх безпосередньо, або через отримання доступ до них у Vuex, так само, як і для гетерів
+5. Перетворіть `mutations`
+    1. Мутацій більше не існує. Натомість їх можна перетворити на `actions`, або ви можете просто призначити безпосередньо до сховища у своїх компонентах (наприклад, `userStore.firstName = 'First'`)
+    2. У разі перетворення на дії видаліть перший аргумент `state` і замініть усі призначення на `this`
+    3. Поширеною мутацією є повернення стану до початкового стану. Це вбудована функція за допомогою методу сховища `$reset`. Зауважте, що ця функція доступна лише для опційних сховищ.
 
-As you can see most of your code can be reused. Type safety should also help you identify what needs to be changed if anything is missed.
+Як бачите, більшість вашого коду можна використовувати повторно. Безпека типів також має допомогти вам визначити, що потрібно змінити, якщо щось упущено.
 
-## Usage Inside Components
+## Використання всередині компонентів %{#usage-inside-components}%
 
-Now that your Vuex module has been converted to a Pinia store, any component or other file that uses that module needs to be updated too.
+Тепер, коли ваш модуль Vuex перетворено на сховище Pinia, будь-який компонент або інший файл, який використовує цей модуль, також потрібно оновити.
 
-If you were using `map` helpers from Vuex before, it's worth looking at the [Usage without setup() guide](./options-api.md) as most of those helpers can be reused.
+Якщо ви раніше користувалися помічниками `map` від Vuex, варто переглянути [Посібник із використання без setup()](./options-api.md) оскільки більшість цих помічників можна використовувати повторно.
 
-If you were using `useStore` then instead import the new store directly and access the state on it. For example:
+Якщо ви використовували `useStore`, натомість імпортуйте нове сховище безпосередньо та отримайте доступ до його стану. Наприклад:
 
 ```ts
 // Vuex
@@ -231,7 +231,7 @@ export default defineComponent({
     const fullName = computed(() => authUserStore.fullName)
 
     return {
-      // you can also access the whole store in your component by returning it
+      // ви також можете отримати доступ до всього сховища у своєму компоненті, повернувши його
       authUserStore,
       firstName,
       fullName
@@ -240,9 +240,9 @@ export default defineComponent({
 })
 ```
 
-## Usage Outside Components
+## Використання за межами компонентів %{#usage-outside-components}%
 
-Updating usage outside of components should be simple as long as you're careful to _not use a store outside of functions_. Here is an example of using the store in a Vue Router navigation guard:
+Оновлення використання поза компонентами має бути простим, якщо ви обережні, щоб _не використовувати сховище поза функціями_. Ось приклад використання сховища в навігаційній системі Vue Router:
 
 ```ts
 // Vuex
@@ -259,29 +259,29 @@ router.beforeEach((to, from, next) => {
 import { useAuthUserStore } from '@/stores/auth-user'
 
 router.beforeEach((to, from, next) => {
-  // Must be used within the function!
+  // Необхідно використовувати в межах функції!
   const authUserStore = useAuthUserStore()
   if (authUserStore.loggedIn) next()
   else next('/login')
 })
 ```
 
-More details can be found [here](../core-concepts/outside-component-usage.md).
+Більш детальну інформацію можна знайти [тут](../core-concepts/outside-component-usage.md).
 
-## Advanced Vuex Usage
+## Розширене використання Vuex %{#advanced-vuex-usage}%
 
-In the case your Vuex store using some of the more advanced features it offers, here is some guidance on how to accomplish the same in Pinia. Some of these points are already covered in [this comparison summary](../introduction.md#comparison-with-vuex-3-x-4-x).
+У випадку, якщо ваше сховище Vuex використовує деякі з розширених функцій, які воно пропонує, ось деякі вказівки щодо того, як зробити те саме в Pinia. Деякі з цих моментів уже розглянуто в [цьому порівняльному підсумку](../introduction.md#comparison-with-vuex-3-x-4-x).
 
-### Dynamic Modules
+### Динамічні модулі %{#dynamic-modules}%
 
-There is no need to dynamically register modules in Pinia. Stores are dynamic by design and are only registered when they are needed. If a store is never used, it will never be "registered".
+Немає необхідності динамічно реєструвати модулі в Pinia. Сховища динамічні за дизайном і реєструються лише тоді, коли вони потрібні. Якщо сховище ніколи не використовується, воно ніколи не буде "зареєстрований".
 
-### Hot Module Replacement
+### Гаряча заміна модулів %{#hot-module-replacement}%
 
-HMR is also supported but will need to be replaced, see the [HMR Guide](./hot-module-replacement.md).
+HMR також підтримується, але його потрібно буде замінити, дивіться [Посібник HMR](./hot-module-replacement.md).
 
-### Plugins
+### Плагіни %{#plugins}%
 
-If you use a public Vuex plugin then check if there is a Pinia alternative. If not you will need to write your own or evaluate whether the plugin is still necessary.
+Якщо ви використовуєте загальнодоступний плагін Vuex, перевірте, чи є альтернатива Pinia. Якщо ні, вам потрібно буде написати власний або оцінити, чи потрібен плагін.
 
-If you have written a plugin of your own, then it can likely be updated to work with Pinia. See the [Plugin Guide](../core-concepts/plugins.md).
+Якщо ви написали власний плагін, його, ймовірно, можна оновити для роботи з Pinia. Перегляньте [Посібник із плагінів](../core-concepts/plugins.md).
