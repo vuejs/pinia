@@ -2,6 +2,17 @@
 
 import { afterEach, beforeEach, expect, SpyInstance, vi } from 'vitest'
 
+interface CustomMatchers<R = unknown> {
+  toHaveBeenWarned(): R
+  toHaveBeenWarnedLast(): R
+  toHaveBeenWarnedTimes(n: number): R
+}
+
+declare module 'vitest' {
+  interface Assertion<T = any> extends CustomMatchers<T> {}
+  interface AsymmetricMatchersContaining extends CustomMatchers {}
+}
+
 export function mockWarn() {
   expect.extend({
     toHaveBeenWarned(received: string | RegExp) {

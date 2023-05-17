@@ -1,6 +1,6 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia } from '../src'
-import { computed, inject, nextTick, ref, watch, version } from 'vue'
+import { computed, inject, nextTick, ref, watch } from 'vue'
 
 function expectType<T>(_value: T): void {}
 

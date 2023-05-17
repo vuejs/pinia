@@ -8,15 +8,15 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.1.0",
-    "vite": "^4.2.1"
+    "@vitejs/plugin-vue": "^4.2.3",
+    "vite": "^4.3.7"
   },
   "dependencies": {
-    "@vueuse/core": "^10.0.2",
+    "@vueuse/core": "^10.1.2",
     "mande": "^1.0.1",
     "pinia": "workspace:^2.0.18",
     "swrv": "^1.0.3",
     "vue-promised": "^2.2.0",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.2.0"
   }
 }
