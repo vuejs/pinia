@@ -25,11 +25,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, provide } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
+
+provide('hello', 'from component')
 
 const pages = router
   .getRoutes()
