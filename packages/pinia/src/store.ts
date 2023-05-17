@@ -52,7 +52,7 @@ import { IS_CLIENT, USE_DEVTOOLS } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
 
-const fallbackRunWithContext = (fn: Function) => fn()
+const fallbackRunWithContext = (fn: () => unknown) => fn()
 
 type _ArrayType<AT> = AT extends Array<infer T> ? T : never
 
@@ -481,7 +481,7 @@ function createSetupStore<
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
   const setupStore = pinia._e.run(() => {
     scope = effectScope()
-    return runWithContext(() => scope.run(() => setup()))
+    return runWithContext(() => scope.run(setup))
   })!
 
   // overwrite existing actions to support $onAction
