@@ -1,6 +1,10 @@
+## [0.4.11](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.10...@pinia/nuxt@0.4.11) (2023-05-17)
+
+This release only contains build related changes
+
 ## [0.4.10](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.9...@pinia/nuxt@0.4.10) (2023-05-08)
 
-This release only contain build related changes
+This release only contains build related changes
 
 ## [0.4.9](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.8...@pinia/nuxt@0.4.9) (2023-04-20)
 
