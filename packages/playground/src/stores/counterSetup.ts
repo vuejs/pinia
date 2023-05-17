@@ -1,6 +1,5 @@
-import { computed, toRefs, reactive, inject } from 'vue'
+import { computed, toRefs, reactive } from 'vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
-import { useRoute } from 'vue-router'
 
 const delay = (t: number) => new Promise((r) => setTimeout(r, t))
 
@@ -11,11 +10,6 @@ export const useCounter = defineStore('counter-setup', () => {
     decrementedTimes: 0,
     numbers: [] as number[],
   })
-
-  const route = useRoute()
-  console.log('route in setup', route)
-
-  console.log('injection', inject('hello'))
 
   const double = computed(() => state.n * 2)
 
