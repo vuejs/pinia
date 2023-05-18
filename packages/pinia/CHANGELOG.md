@@ -1,3 +1,9 @@
+## [2.1.3](https://github.com/vuejs/pinia/compare/pinia@2.1.2...pinia@2.1.3) (2023-05-18)
+
+### Bug Fixes
+
+- **types:** revert declare module vue ([3000161](https://github.com/vuejs/pinia/commit/3000161205e66838d872e514a9e90f73a1b37039))
+
 ## [2.1.2](https://github.com/vuejs/pinia/compare/pinia@2.1.1...pinia@2.1.2) (2023-05-18)
 
 - Force vue-demi version
