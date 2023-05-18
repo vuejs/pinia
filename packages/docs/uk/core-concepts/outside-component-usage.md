@@ -1,12 +1,12 @@
-# Using a store outside of a component
+# Використання сховища поза компонентом %{#using-a-store-outside-of-a-component}%
 
-Pinia stores rely on the `pinia` instance to share the same store instance across all calls. Most of the time, this works out of the box by just calling your `useStore()` function. For example, in `setup()`, you don't need to do anything else. But things are a bit different outside of a component.
-Behind the scenes, `useStore()` _injects_ the `pinia` instance you gave to your `app`. This means that if the `pinia` instance cannot be automatically injected, you have to manually provide it to the `useStore()` function.
-You can solve this differently depending on the kind of application you are writing.
+Сховища Pinia покладаються на екземпляр `pinia` для спільного використання одного екземпляра сховища для всіх викликів. У більшості випадків це працює з коробки, просто викликаючи вашу функцію `useStore()`. Наприклад, у `setup()` вам більше нічого не потрібно робити. Але поза компонентом все трохи інакше.
+За лаштунками `useStore()` _впроваджує_ екземпляр `pinia`, який ви надали своєму `app`. Це означає, що якщо екземпляр `pinia` не може бути автоматично введений, ви маєте вручну надати його функції `useStore()`.
+Ви можете вирішити це по-різному залежно від типу застосунку, який ви пишете.
 
-## Single Page Applications
+## Односторінкові застосунки %{#single-page-applications}%
 
-If you are not doing any SSR (Server Side Rendering), any call of `useStore()` after installing the pinia plugin with `app.use(pinia)` will work:
+Якщо ви не виконуєте SSR (рендеринг на стороні серверу), будь-який виклик `useStore()` після встановлення плагіна pinia за допомогою `app.use(pinia)` працюватиме:
 
 ```js
 import { useUserStore } from '@/stores/user'
@@ -14,20 +14,20 @@ import { createPinia } from 'pinia';
 import { createApp } from 'vue'
 import App from './App.vue'
 
-// ❌  fails because it's called before the pinia is created
+// ❌  завершиться невдало, тому що воно викликано до створення pinia
 const userStore = useUserStore()
 
 const pinia = createPinia()
 const app = createApp(App)
 app.use(pinia)
 
-// ✅ works because the pinia instance is now active
+// ✅ працює, оскільки екземпляр pinia зараз активний
 const userStore = useUserStore()
 ```
 
-The easiest way to ensure this is always applied is to _defer_ calls of `useStore()` by placing them inside functions that will always run after pinia is installed.
+Найпростіший спосіб переконатися, що це завжди застосовується, це _defer_ виклики `useStore()` шляхом розміщення їх у функціях, які завжди запускатимуться після встановлення pinia.
 
-Let's take a look at this example of using a store inside of a navigation guard with Vue Router:
+Давайте подивимося на цей приклад використання сховища всередині навігаційного охоронця за допомогою Vue Router:
 
 ```js
 import { createRouter } from 'vue-router'
@@ -35,26 +35,26 @@ const router = createRouter({
   // ...
 })
 
-// ❌ Depending on the order of imports this will fail
+// ❌ Залежно від порядку імпорту це не вдасться
 const store = useStore()
 
 router.beforeEach((to, from, next) => {
-  // we wanted to use the store here
+  // ми хотіли скористатися сховищем тут
   if (store.isLoggedIn) next()
   else next('/login')
 })
 
 router.beforeEach((to) => {
-  // ✅ This will work because the router starts its navigation after
-  // the router is installed and pinia will be installed too
+  // ✅ Це спрацює, оскільки маршрутизатор починає свою навігацію після
+  // встановлення маршрутизатора, а pinia також буде встановлено
   const store = useStore()
 
   if (to.meta.requiresAuth && !store.isLoggedIn) return '/login'
 })
 ```
 
-## SSR Apps
+## SSR застосунки %{#ssr-apps}%
 
-When dealing with Server Side Rendering, you will have to pass the `pinia` instance to `useStore()`. This prevents pinia from sharing global state between different application instances.
+При роботі з рендерингом на стороні сервера вам доведеться передати екземпляр `pinia` в `useStore()`. Це перешкоджає pinia обмінюватися глобальним станом між різними екземплярами програми.
 
-There is a whole section dedicated to it in the [SSR guide](/ssr/index.md), this is just a short explanation:
+У [посібнику з SSR](/ssr/index.md) цьому присвячений цілий розділ, це лише коротке пояснення:
