@@ -1,3 +1,7 @@
+## [2.1.2](https://github.com/vuejs/pinia/compare/pinia@2.1.1...pinia@2.1.2) (2023-05-18)
+
+- Force vue-demi version
+
 ## [2.1.1](https://github.com/vuejs/pinia/compare/pinia@2.1.0...pinia@2.1.1) (2023-05-17)
 
 ### Bug Fixes

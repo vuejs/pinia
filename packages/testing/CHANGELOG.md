@@ -1,3 +1,7 @@
+## [0.1.2](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.1...@pinia/testing@0.1.2) (2023-05-18)
+
+- Force vue-demi version
+
 ## [0.1.1](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.0...@pinia/testing@0.1.1) (2023-05-17)
 
 This release contains no code changes.
