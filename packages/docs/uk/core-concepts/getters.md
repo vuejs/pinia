@@ -1,11 +1,11 @@
-# Getters
+# Гетери %{#getters}%
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/getters-in-pinia"
-  title="Learn all about getters in Pinia"
+  title="Дізнайтеся все про гетери у Pinia"
 />
 
-Getters are exactly the equivalent of [computed values](https://vuejs.org/guide/essentials/computed.html) for the state of a Store. They can be defined with the `getters` property in `defineStore()`. They receive the `state` as the first parameter **to encourage** the usage of arrow function:
+Гетери є еквівалентом [обчисленим значенням](https://vuejs.org/guide/essentials/computed.html) для стану сховища. Їх можна визначити за допомогою властивості `getters` у `defineStore()`. Вони отримують `state` як перший параметр, щоб **заохочувати** використання функції стрілки:
 
 ```js
 export const useCounterStore = defineStore('counter', {
@@ -18,7 +18,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-Most of the time, getters will only rely on the state, however, they might need to use other getters. Because of this, we can get access to the _whole store instance_ through `this` when defining a regular function **but it is necessary to define the type of the return type (in TypeScript)**. This is due to a known limitation in TypeScript and **doesn't affect getters defined with an arrow function nor getters not using `this`**:
+У більшості випадків гетери покладаються лише на стан, однак їм може знадобитися використовувати інші гетери. Через це ми можемо отримати доступ до _примірника всього сховища_ через `this` під час визначення звичайної функції **але необхідно визначити тип, який повертається (у TypeScript)**. Це пов'язано з відомим обмеженням у TypeScript і **не впливає ні на гетери, визначені за допомогою функції стрілки, ні на гетери, які не використовують `this`**:
 
 ```ts
 export const useCounterStore = defineStore('counter', {
@@ -26,20 +26,20 @@ export const useCounterStore = defineStore('counter', {
     count: 0,
   }),
   getters: {
-    // automatically infers the return type as a number
+    // автоматично виводить тип, який повертається, як число
     doubleCount(state) {
       return state.count * 2
     },
-    // the return type **must** be explicitly set
+    // тип повернення **має** бути встановлений явно
     doublePlusOne(): number {
-      // autocompletion and typings for the whole store ✨
+      // автозаповнення та типізація для всього сховища ✨
       return this.doubleCount + 1
     },
   },
 })
 ```
 
-Then you can access the getter directly on the store instance:
+Потім ви можете отримати доступ безпосередньо до екземпляра сховища:
 
 ```vue
 <script setup>
@@ -49,13 +49,13 @@ const store = useCounterStore()
 </script>
 
 <template>
-  <p>Double count is {{ store.doubleCount }}</p>
+  <p>Подвоєна кількість є {{ store.doubleCount }}</p>
 </template>
 ```
 
-## Accessing other getters
+## Доступ до інших гетерів %{#accessing-other-getters}%
 
-As with computed properties, you can combine multiple getters. Access any other getter via `this`. Even if you are not using TypeScript, you can hint your IDE for types with the [JSDoc](https://jsdoc.app/tags-returns.html):
+Як і у випадку з обчисленими властивостями, ви можете комбінувати кілька гетерів. Доступ є до будь-якого іншого гетера через `this`. ви можете дати підказки своєму IDE щодо типів за допомогою [JSDoc](https://jsdoc.app/tags-returns.html):
 
 ```js
 export const useCounterStore = defineStore('counter', {
@@ -63,26 +63,26 @@ export const useCounterStore = defineStore('counter', {
     count: 0,
   }),
   getters: {
-    // type is automatically inferred because we are not using `this`
+    // тип визначається автоматично, оскільки ми не використовуємо `this`
     doubleCount: (state) => state.count * 2,
-    // here we need to add the type ourselves (using JSDoc in JS). We can also
-    // use this to document the getter
+    // тут нам потрібно самостійно додати тип (за допомогою JSDoc у JS). Ми
+    // також можемо використовувати це для документування гетера
     /**
-     * Returns the count value times two plus one.
+     * Повертає значення підрахунку, помножене на два і додано один.
      *
      * @returns {number}
      */
     doubleCountPlusOne() {
-      // autocompletion ✨
+      // автозаповнення ✨
       return this.doubleCount + 1
     },
   },
 })
 ```
 
-## Passing arguments to getters
+## Передача аргументів до гетерів %{#passing-arguments-to-getters}%
 
-_Getters_ are just _computed_ properties behind the scenes, so it's not possible to pass any parameters to them. However, you can return a function from the _getter_ to accept any arguments:
+_Гетери_ - це лише _обчислені_ властивості за лаштунками, тому неможливо передати їм жодних параметрів. Однак ви можете повернути функцію з _гетера_ , яка прийматиме будь-які аргументи:
 
 ```js
 export const useStore = defineStore('main', {
@@ -94,7 +94,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-and use in component:
+і використання в компоненті:
 
 ```vue
 <script setup>
@@ -103,16 +103,16 @@ import { useUserListStore } from './store'
 
 const userList = useUserListStore()
 const { getUserById } = storeToRefs(userList)
-// note you will have to use `getUserById.value` to access
-// the function within the <script setup>
+// зауважте, що вам доведеться використовувати `getUserById.value`,
+// щоб отримати доступ до функції в межах <script setup>
 </script>
 
 <template>
-  <p>User 2: {{ getUserById(2) }}</p>
+  <p>Користувач 2: {{ getUserById(2) }}</p>
 </template>
 ```
 
-Note that when doing this, **getters are not cached anymore**, they are simply functions that you invoke. You can however cache some results inside of the getter itself, which is uncommon but should prove more performant:
+Зауважте, що під час цього **гетери більше не кешуються**, це просто функції, які ви викликаєте. Однак ви можете кешувати деякі результати в самому гетері, що є рідкісним явищем, але може бути більш продуктивним:
 
 ```js
 export const useStore = defineStore('main', {
@@ -125,9 +125,9 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## Accessing other stores getters
+## Доступ до гетерів інших сховищ %{#accessing-other-stores-getters}%
 
-To use another store getters, you can directly _use it_ inside of the _getter_:
+Для використання гетерів іншого сховища, ви можете _використовувати його_ безпосередньо всередині _гетера_:
 
 ```js
 import { useOtherStore } from './other-store'
@@ -145,9 +145,9 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## Usage with `setup()`
+## Використання з `setup()` %{#usage-with-setup}%
 
-You can directly access any getter as a property of the store (exactly like state properties):
+Ви можете отримати прямий доступ до будь-якого гетера як до властивості сховища (точно як до властивостей стану):
 
 ```vue
 <script setup>
@@ -158,17 +158,17 @@ store.doubleCount // 6
 </script>
 ```
 
-## Usage with the Options API
+## Використання з опційним API %{#usage-with-the-options-api}%
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-getters-in-the-options-api"
-  title="Access Pinia Getters via the Options API"
+  title="Доступ до Pinia гетерів через опційний API"
 />
 
-For the following examples, you can assume the following store was created:
+Для наведених нижче прикладів ви можете припустити, що було створено таке сховище:
 
 ```js
-// Example File Path:
+// Шлях до файлу прикладу:
 // ./src/stores/counter.js
 
 import { defineStore } from 'pinia'
@@ -185,9 +185,9 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-### With `setup()`
+### З `setup()` %{#with-setup}%
 
-While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
+Хоча композиційний API не для всіх, хук `setup()` може полегшити використання Pinia при роботі з опційним API. Додаткові допоміжні функції зіставлення не потрібні!
 
 ```vue
 <script>
@@ -197,7 +197,7 @@ export default defineComponent({
   setup() {
     const counterStore = useCounterStore()
 
-    // **only return the whole store** instead of destructuring
+    // **повертає тільки ціле сховище** замість деструктуризації
     return { counterStore }
   },
   computed: {
@@ -209,11 +209,11 @@ export default defineComponent({
 </script>
 ```
 
-This is useful while migrating a component from the Options API to the Composition API but **should only be a migration step**, always try not to mix both API styles within the same component.
+Це корисно під час міграції компонента з опційного API до композиційного API, але **це має бути лише кроком міграції**, завжди намагайтеся не змішувати обидва стилі API в одному компоненті.
 
-### Without `setup()`
+### Без `setup()` %{#without-setup}%
 
-You can use the same `mapState()` function used in the [previous section of state](./state.md#options-api) to map to getters:
+Ви можете використати ту саму функцію `mapState()` , яка використовується в [попередньому розділі про стан](./state.md#options-api), щоб заставити гетери:
 
 ```js
 import { mapState } from 'pinia'
@@ -221,13 +221,13 @@ import { useCounterStore } from '../stores/counter'
 
 export default {
   computed: {
-    // gives access to this.doubleCount inside the component
-    // same as reading from store.doubleCount
+    // надає доступ до this.doubleCount всередині компонента
+    // те саме, що читання з store.doubleCount
     ...mapState(useCounterStore, ['doubleCount']),
-    // same as above but registers it as this.myOwnName
+    // те саме, що й вище, але реєструє його як this.myOwnName
     ...mapState(useCounterStore, {
       myOwnName: 'doubleCount',
-      // you can also write a function that gets access to the store
+      // ви також можете написати функцію, яка отримує доступ до сховища
       double: (store) => store.doubleCount,
     }),
   },
