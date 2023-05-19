@@ -128,7 +128,7 @@ pinia.use(({ store }) => {
   // нам потрібно перенести посилання зі стану в сховище, таким чином обидва
   // доступи: store.hasError і store.$state.hasError працюватимуть і спільно
   // використовуватимуть ту саму змінну
-  // Дивіться https://vuejs.org/api/reactivity-utilities.html#toref
+  // Дивіться https://ua.vuejs.org/api/reactivity-utilities.html#toref
   store.hasError = toRef(store.$state, 'hasError')
 
   // у цьому випадку краще не повертати `hasError`, оскільки воно все одно
