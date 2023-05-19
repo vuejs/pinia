@@ -98,7 +98,7 @@ export const useSettingsStore = defineStore('settings', {
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-actions-in-the-options-api"
-  title="Доступ до гетерів Pinia через опційного API"
+  title="Доступ до гетерів Pinia за допомогою опційного API"
 />
 
 Для наведених нижче прикладів ви можете припустити, що було створено таке сховище:
