@@ -1,6 +1,6 @@
 {
   "name": "@pinia/testing",
-  "version": "0.0.16",
+  "version": "0.1.2",
   "description": "Testing module for Pinia",
   "keywords": [
     "vue",
@@ -44,14 +44,14 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/testing -r 1"
   },
   "dependencies": {
-    "vue-demi": "*"
+    "vue-demi": ">=0.14.5"
   },
   "devDependencies": {
     "pinia": "workspace:^2.0.18",
     "tsup": "^6.7.0"
   },
   "peerDependencies": {
-    "pinia": ">=2.0.34"
+    "pinia": ">=2.1.2"
   },
   "publishConfig": {
     "access": "public"

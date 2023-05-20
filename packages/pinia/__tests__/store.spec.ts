@@ -379,4 +379,10 @@ describe('Store', () => {
       `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "anyName" in store "main".`
     ).toHaveBeenWarnedTimes(1)
   })
+
+  it('throws an error if no store id is provided', () => {
+    expect(() => defineStore({} as any)).toThrowError(
+      /must be passed a store id/
+    )
+  })
 })

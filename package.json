@@ -14,51 +14,50 @@
     "build:dts": "pnpm run -r --parallel build:dts",
     "lint": "prettier -c --parser typescript \"packages/*/{src,__tests__,e2e}/**/*.[jt]s?(x)\" \"packages/docs/**/*.[jt]s\"",
     "lint:fix": "pnpm run lint --write",
-    "test": "pnpm run -r dev:prepare && pnpm run test:types && pnpm run test:vitest && pnpm run -r test && pnpm run build && pnpm run build:dts && pnpm test:dts",
-    "test:vitest": "vitest run --coverage",
+    "test": "pnpm run -r dev:prepare && pnpm run test:types && pnpm run test:vitest run && pnpm run -r test && pnpm run build && pnpm run build:dts && pnpm test:dts",
+    "test:vitest": "vitest --coverage",
     "test:types": "tsc --build ./tsconfig.json",
     "test:dts": "pnpm run -r test:dts",
     "docs:api": "pnpm run --filter ./packages/docs -r docs:api"
   },
   "devDependencies": {
-    "@rollup/plugin-alias": "^3.1.9",
-    "@rollup/plugin-commonjs": "^22.0.2",
-    "@rollup/plugin-node-resolve": "^13.3.0",
-    "@rollup/plugin-replace": "^4.0.0",
-    "@rollup/plugin-terser": "^0.2.1",
+    "@rollup/plugin-alias": "^5.0.0",
+    "@rollup/plugin-commonjs": "^24.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-terser": "^0.4.1",
     "@types/lodash.kebabcase": "^4.1.7",
     "@types/node": "^18.15.11",
-    "@vitest/coverage-c8": "^0.29.8",
-    "@vue/compiler-sfc": "^3.2.47",
-    "@vue/server-renderer": "^3.2.47",
+    "@vitest/coverage-c8": "^0.31.1",
+    "@vue/compiler-sfc": "^3.3.4",
+    "@vue/server-renderer": "^3.3.4",
     "c8": "^7.13.0",
-    "chalk": "^4.1.2",
+    "chalk": "^5.2.0",
     "conventional-changelog-cli": "^2.2.2",
     "enquirer": "^2.3.6",
-    "execa": "^6.1.0",
-    "expect": "^28.1.3",
-    "globby": "^12.2.0",
-    "happy-dom": "^9.1.9",
-    "lint-staged": "^13.2.1",
+    "execa": "^7.1.1",
+    "globby": "^13.1.4",
+    "happy-dom": "^9.18.3",
+    "lint-staged": "^13.2.2",
     "lodash.kebabcase": "^4.1.1",
     "minimist": "^1.2.8",
     "p-series": "^3.0.0",
-    "pascalcase": "^1.0.0",
-    "prettier": "^2.8.7",
-    "rimraf": "^4.4.1",
-    "rollup": "^2.79.1",
-    "rollup-plugin-typescript2": "^0.32.1",
-    "semver": "^7.3.8",
+    "pascalcase": "^2.0.0",
+    "prettier": "^2.8.8",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.22.0",
+    "rollup-plugin-typescript2": "^0.34.1",
+    "semver": "^7.5.1",
     "typedoc": "^0.23.28",
     "typedoc-plugin-markdown": "^3.14.0",
-    "typescript": "^4.9.4",
-    "vitest": "^0.29.8",
-    "vue": "^3.2.47",
+    "typescript": "^5.0.4",
+    "vitest": "^0.31.1",
+    "vue": "^3.3.4",
     "yorkie": "^2.0.0"
   },
   "gitHooks": {
     "pre-commit": "lint-staged",
-    "commit-msg": "node scripts/verifyCommit.js"
+    "commit-msg": "node scripts/verifyCommit.mjs"
   },
   "lint-staged": {
     "*.js": [
@@ -67,5 +66,8 @@
     "*.ts?(x)": [
       "prettier --parser=typescript --write"
     ]
+  },
+  "resolutions": {
+    "@nuxt/kit": "^3.4.3"
   }
 }

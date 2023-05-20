@@ -2,6 +2,7 @@ import {
   watch,
   computed,
   inject,
+  hasInjectionContext,
   getCurrentInstance,
   reactive,
   DebuggerEvent,
@@ -50,6 +51,8 @@ import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
 import { IS_CLIENT, USE_DEVTOOLS } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
+
+const fallbackRunWithContext = (fn: () => unknown) => fn()
 
 type _ArrayType<AT> = AT extends Array<infer T> ? T : never
 
@@ -255,8 +258,8 @@ function createSetupStore<
   // internal state
   let isListening: boolean // set to true at the end
   let isSyncListening: boolean // set to true at the end
-  let subscriptions: SubscriptionCallback<S>[] = markRaw([])
-  let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = markRaw([])
+  let subscriptions: SubscriptionCallback<S>[] = []
+  let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = []
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
 
@@ -472,10 +475,13 @@ function createSetupStore<
   // creating infinite loops.
   pinia._s.set($id, store)
 
+  const runWithContext =
+    (pinia._a && pinia._a.runWithContext) || fallbackRunWithContext
+
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
   const setupStore = pinia._e.run(() => {
     scope = effectScope()
-    return scope.run(() => setup())
+    return runWithContext(() => scope.run(setup))
   })!
 
   // overwrite existing actions to support $onAction
@@ -879,20 +885,26 @@ export function defineStore(
   } else {
     options = idOrOptions
     id = idOrOptions.id
+
+    if (__DEV__ && typeof id !== 'string') {
+      throw new Error(
+        `[🍍]: "defineStore()" must be passed a store id as its first argument.`
+      )
+    }
   }
 
   function useStore(pinia?: Pinia | null, hot?: StoreGeneric): StoreGeneric {
-    const currentInstance = getCurrentInstance()
+    const hasContext = hasInjectionContext()
     pinia =
       // in test mode, ignore the argument provided as we can always retrieve a
       // pinia instance with getActivePinia()
       (__TEST__ && activePinia && activePinia._testing ? null : pinia) ||
-      (currentInstance && inject(piniaSymbol, null))
+      (hasContext ? inject(piniaSymbol, null) : null)
     if (pinia) setActivePinia(pinia)
 
     if (__DEV__ && !activePinia) {
       throw new Error(
-        `[🍍]: getActivePinia was called with no active Pinia. Did you forget to install pinia?\n` +
+        `[🍍]: "getActivePinia()" was called but there was no active Pinia. Did you forget to install pinia?\n` +
           `\tconst pinia = createPinia()\n` +
           `\tapp.use(pinia)\n` +
           `This will fail in production.`
@@ -931,18 +943,19 @@ export function defineStore(
       pinia._s.delete(hotId)
     }
 
-    // save stores in instances to access them devtools
-    if (
-      __DEV__ &&
-      IS_CLIENT &&
-      currentInstance &&
-      currentInstance.proxy &&
-      // avoid adding stores that are just built for hot module replacement
-      !hot
-    ) {
-      const vm = currentInstance.proxy
-      const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
-      cache[id] = store
+    if (__DEV__ && IS_CLIENT) {
+      const currentInstance = getCurrentInstance()
+      // save stores in instances to access them devtools
+      if (
+        currentInstance &&
+        currentInstance.proxy &&
+        // avoid adding stores that are just built for hot module replacement
+        !hot
+      ) {
+        const vm = currentInstance.proxy
+        const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
+        cache[id] = store
+      }
     }
 
     // StoreGeneric cannot be casted towards Store

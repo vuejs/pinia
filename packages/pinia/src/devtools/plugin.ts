@@ -118,7 +118,7 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
         nodeActions: [
           {
             icon: 'restore',
-            tooltip: 'Reset the state (option store only)',
+            tooltip: 'Reset the state (with "$reset")',
             action: (nodeId) => {
               const store = pinia._s.get(nodeId)
               if (!store) {
@@ -126,9 +126,9 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
                   `Cannot reset "${nodeId}" store because it wasn't found.`,
                   'warn'
                 )
-              } else if (!store._isOptionsAPI) {
+              } else if (typeof store.$reset !== 'function') {
                 toastMessage(
-                  `Cannot reset "${nodeId}" store because it's a setup store.`,
+                  `Cannot reset "${nodeId}" store because it doesn't have a "$reset" method implemented.`,
                   'warn'
                 )
               } else {

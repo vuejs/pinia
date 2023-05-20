@@ -1,9 +1,13 @@
-import path from 'path'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import ts from 'rollup-plugin-typescript2'
 import replace from '@rollup/plugin-replace'
-import resolve from '@rollup/plugin-node-resolve'
+import nodeResolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 /** @type {import('rollup').RollupOptions[]} */
 const config = ['pinia'].map(createConfig)
@@ -19,10 +23,10 @@ function createConfig(file) {
   return {
     external: ['vue'],
     output: {
-      file: path.resolve(__dirname, `./dist/${file}.js`),
+      file: resolve(__dirname, `./dist/${file}.js`),
       format: 'es',
     },
-    input: path.resolve(__dirname, `./src/${file}.js`),
+    input: resolve(__dirname, `./src/${file}.js`),
     plugins: [
       replace({
         preventAssignment: true,
@@ -43,8 +47,8 @@ function createConfig(file) {
       }),
       ts({
         check: false,
-        tsconfig: path.resolve(__dirname, '../../tsconfig.json'),
-        cacheRoot: path.resolve(__dirname, '../../node_modules/.rts2_cache'),
+        tsconfig: resolve(__dirname, '../../tsconfig.json'),
+        cacheRoot: resolve(__dirname, '../../node_modules/.rts2_cache'),
         tsconfigOverride: {
           compilerOptions: {
             sourceMap: false,
@@ -54,7 +58,7 @@ function createConfig(file) {
           exclude: ['__tests__', 'test-dts'],
         },
       }),
-      resolve(),
+      nodeResolve(),
       commonjs(),
       terser({
         format: {

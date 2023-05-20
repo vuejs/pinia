@@ -47,7 +47,7 @@ State of the Store. Setting it will replace the whole state.
 
 ___
 
-### \_customProperties %{#Properties-\_customProperties}%
+### \_customProperties %{#Properties-_customProperties}%
 
 • **\_customProperties**: `Set`<`string`\>
 
@@ -55,7 +55,7 @@ Used by devtools plugin to retrieve properties added with plugins. Removed
 in production. Can be used by the user to add property keys of the store
 that should be displayed in devtools.
 
-#### Inherited from %{#Properties-\_customProperties-Inherited-from}%
+#### Inherited from %{#Properties-_customProperties-Inherited-from}%
 
 [StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#_customproperties)
 
