@@ -79,6 +79,29 @@ export const useCounterStore = defineStore('counter', () => {
 [옵션 스토어](#option-stores)보다 훨씬 더 많은 유연성을 제공합니다.
 그러나 컴포저블을 사용하면 [SSR](/cookbook/composables.md)이 더 복잡해집니다.
 
+셋업 스토어는 또한 라우터 또는 경로와 같은 전역적으로 제공되는 속성에 의존할 수 있습니다. [앱 수준에서 제공되는](https://vuejs.org/api/application.html#app-provide) 모든 속성은 컴포넌트에서와 마찬가지로 `inject()`를 사용하여 스토어에서 액세스할 수 있습니다:
+
+```ts
+import { inject } from 'vue'
+import { useRoute } from 'vue-router'
+
+export const useSearchFilters = defineStore('search-filters', () => {
+  const route = useRoute()
+  // 이것은 `app.provide('appProvided', 'value')`가 호출되었다고 가정함
+  const appProvided = inject('appProvided')
+
+  // ...
+
+  return {
+    // ...
+  }
+})
+```
+
+:::warning
+`useRoute()` 또는 `appProvided`(위의 예에서)와 같은 속성은 스토어 자체에 속하지 않으며, `useRoute()` 및 `inject('appProvided')`를 사용하여 컴포넌트 내에서 직접 액세스할 수 있으므로 반환하지 마십시오.
+:::
+
 ## 어떤 문법을 선택해야 합니까? %{#what-syntax-should-i-pick}%
 
 [Vue의 컴포지션 API 및 옵션 API](https://vuejs.kr/guide/introduction.html#which-to-choose)처럼 가장 편한 것을 선택하면 됩니다.
@@ -86,8 +109,8 @@ export const useCounterStore = defineStore('counter', () => {
 
 ## 스토어 이용하기 %{#using-the-store}%
 
-저장소는 `<script setup>` 구성요소 내에서(또는 **모든 컴포저블과 마찬가지로** `setup()` 내에서)
-`use...Store()`가 호출될 때까지 저장소가 생성되지 않기 때문에 저장소를 _정의_합니다. :
+스토어는 `<script setup>` 구성요소 내에서(또는 **모든 컴포저블과 마찬가지로** `setup()` 내에서)
+`use...Store()`가 호출될 때까지 스토어가 생성되지 않기 때문에 스토어를 _정의_합니다. :
 
 ```vue
 <script setup>

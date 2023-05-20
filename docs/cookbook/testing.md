@@ -34,7 +34,7 @@ title: 스토어 테스트
 ```js
 // stores/counter.spec.ts
 import { setActivePinia, createPinia } from 'pinia'
-import { useCounter } from '../src/stores/counter'
+import { useCounterStore } from '../src/stores/counter'
 
 describe('Counter Store', () => {
   beforeEach(() => {
@@ -45,14 +45,14 @@ describe('Counter Store', () => {
   })
 
   it('increments', () => {
-    const counter = useCounter()
+    const counter = useCounterStore()
     expect(counter.n).toBe(0)
     counter.increment()
     expect(counter.n).toBe(1)
   })
 
   it('increments by amount', () => {
-    const counter = useCounter()
+    const counter = useCounterStore()
     counter.increment(10)
     expect(counter.n).toBe(10)
   })
@@ -207,7 +207,7 @@ createTestingPinia({
 import { defineStore } from 'pinia'
 import { createTestingPinia } from '@pinia/testing'
 
-const useCounter = defineStore('counter', {
+const useCounterStore = defineStore('counter', {
   state: () => ({ n: 1 }),
   getters: {
     double: (state) => state.n * 2,
@@ -215,7 +215,7 @@ const useCounter = defineStore('counter', {
 })
 
 const pinia = createTestingPinia()
-const counter = useCounter(pinia)
+const counter = useCounterStore(pinia)
 
 counter.double = 3 // 🪄 getter는 테스트에서만 쓸 수 있음(writable).
 

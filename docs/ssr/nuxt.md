@@ -1,6 +1,6 @@
 # Nuxt.js
 
-[Nuxt.js](https://nuxtjs.org/)와 피니아를 함께 사용하는 것은 Nuxt가 SSR과 관련하여 많은 것을 처리하기 때문에 더 쉽습니다.
+[Nuxt.js](https://nuxtjs.com/)와 피니아를 함께 사용하는 것은 Nuxt가 SSR과 관련하여 많은 것을 처리하기 때문에 더 쉽습니다.
 예를 들어 **직렬화나 XSS 공격에 신경 쓸 필요가 없습니다**.
 피니아는 Nuxt Bridge 및 Nuxt 3를 지원합니다.
 Nuxt 2 지원은 [아래를 참조](#nuxt-2-without-bridge)합시다.
