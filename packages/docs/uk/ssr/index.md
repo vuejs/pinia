@@ -8,7 +8,7 @@
 
 ```vue
 <script setup>
-// це працює, тому що Pinia знає, яка програма працює всередині `setup`
+// це працює, тому що Pinia знає, який застосунок працює всередині `setup`
 const main = useMainStore()
 </script>
 ```
