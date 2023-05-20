@@ -790,10 +790,10 @@ export default {
 
 #### Параметри %{#Functions-mapActions-Parameters_1}%
 
-| Ім'я | Тип | Опис                       |
-| :------ | :------ |:---------------------------|
-| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | cховище, з якого співставляти дані        |
-| `keys` | keyof `A`[] | масив назв дій для співставлення |
+| Ім'я | Тип | Опис                             |
+| :------ | :------ |:---------------------------------|
+| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | cховище, з якого зіставляти дані |
+| `keys` | keyof `A`[] | масив назв дій для зіставлення   |
 
 #### Повертає %{#Functions-mapActions-Returns_1}%
 
@@ -913,7 +913,7 @@ export default {
 
 | Ім'я | Тип | Опис |
 | :------ | :------ | :------ |
-| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | cховище, з якого співставляти дані |
+| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | cховище, з якого зіставляти дані |
 | `keyMapper` | `KeyMapper` | об'єкт властивостей стану або гетери |
 
 #### Повертає %{#Functions-mapState-Returns}%
@@ -956,7 +956,7 @@ export default {
 
 | Ім'я | Тип | Опис |
 | :------ | :------ | :------ |
-| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | cховище, з якого співставляти дані |
+| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | cховище, з якого зіставляти дані |
 | `keys` | readonly `Keys`[] | масив властивостей стану або гетерів |
 
 #### Повертає %{#Functions-mapState-Returns_1}%
@@ -1029,7 +1029,7 @@ ___
 
 | Ім'я | Тип | Опис |
 | :------ | :------ | :------ |
-| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | cховище, з якого співставляти дані |
+| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | cховище, з якого зіставляти дані |
 | `keyMapper` | `KeyMapper` | об'єкт властивостей стану |
 
 #### Повертає %{#Functions-mapWritableState-Returns}%
@@ -1055,7 +1055,7 @@ ___
 
 | Ім'я | Тип | Опис |
 | :------ | :------ | :------ |
-| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | cховище, з якого співставляти дані |
+| `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | cховище, з якого зіставляти дані |
 | `keys` | keyof `S`[] | масив властивостей стану |
 
 #### Повертає %{#Functions-mapWritableState-Returns_1}%
