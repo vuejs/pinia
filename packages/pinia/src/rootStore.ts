@@ -1,8 +1,8 @@
+import { hasInjectionContext } from 'vue'
 import {
   App,
   EffectScope,
   inject,
-  hasInjectionContext,
   InjectionKey,
   Ref,
 } from 'vue-demi'

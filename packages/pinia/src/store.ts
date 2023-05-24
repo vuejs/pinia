@@ -1,8 +1,8 @@
+import { hasInjectionContext } from 'vue'
 import {
   watch,
   computed,
   inject,
-  hasInjectionContext,
   getCurrentInstance,
   reactive,
   DebuggerEvent,
