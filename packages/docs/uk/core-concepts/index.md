@@ -1,4 +1,4 @@
-# Визначення сховища
+# Визначення сховища %{#defining-a-store}%
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/define-your-first-pinia-store"
@@ -25,7 +25,7 @@ export const useAlertsStore = defineStore('alerts', {
 
 `defineStore()` приймає два різних значення для свого другого аргументу: функцію налаштувань або об'єкт опцій.
 
-## Опційні сховища
+## Опційні сховища %{#option-stores}%
 
 Подібно до опційного API Vue, ми також можемо передати об'єкт параметрів з властивостями `стану`, `дій` та `гетерів`
 
@@ -47,7 +47,7 @@ export const useCounterStore = defineStore('counter', {
 
 Опційні сховища повинні бути інтуїтивно зрозумілими та простими для початку роботи з ними.
 
-## Setup сховища
+## Setup сховища %{#setup-stores}%
 
 Існує також інший можливий синтаксис для визначення сховищ. Подібно до [функції setup](https://ua.vuejs.org/api/composition-api-setup.html) композиційного API Vue, ми можемо передати функцію, яка визначає реактивні властивості та методи й повертає об'єкт з властивостями та методами, які ми хочемо використовувати.
 
@@ -72,11 +72,34 @@ export const useCounterStore = defineStore('counter', () => {
 
 Setup сховища забезпечують набагато більшу гнучкість, ніж [Опційні сховища](#option-stores), оскільки ви можете створювати спостерігачі у межах сховища і вільно використовувати будь-які [композиційні функції](https://ua.vuejs.org/guide/reusability/composables.html#composables). Однак майте на увазі, що використання композиційних функцій ускладниться при використанні [SSR](../cookbook/composables.md).
 
-## Який синтаксис вибрати?
+Setup сховища також можуть покладатися на глобальні _надані_ властивості, такі як Router або Route. Будь-яку властивість [надану на рівні застосунку](https://vuejs.org/api/application.html#app-provide) можна отримати зі сховища за допомогою `inject()`, як і в компонентах:
+
+```ts
+import { inject } from 'vue'
+import { useRoute } from 'vue-router'
+
+export const useSearchFilters = defineStore('search-filters', () => {
+  const route = useRoute()
+  // це припускає, що було викликано `app.provide('appProvided', 'value')`
+  const appProvided = inject('appProvided')
+
+  // ...
+
+  return {
+    // ...
+  }
+})
+```
+
+:::warning
+Не повертайте такі властивості, як `useRoute()` або `appProvided` (з прикладу вище), оскільки вони не належать до самого сховища, і ви можете отримати до них прямий доступ у компонентах за допомогою `useRoute()` та `inject('appProvided')`.
+:::
+
+## Який синтаксис вибрати? %{#what-syntax-should-i-pick}%
 
 Як і у випадку з [композиційним та опційним API у Vue](https://ua.vuejs.org/guide/introduction.html#which-to-choose), виберіть той, з яким ви почуваєтесь найбільш комфортно. Якщо ви не впевнені, спершу спробуйте [опційне сховище](#option-stores).
 
-## Використання сховища
+## Використання сховища %{#using-the-store}%
 
 Ми _визначаємо_ сховище, тому що воно не буде створено до моменту, поки `use...Store()` буде викликано в компоненті `<script setup>` (або в `setup()`, **як і для всіх композиційних функцій**):
 
