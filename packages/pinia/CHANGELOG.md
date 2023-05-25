@@ -16,6 +16,8 @@
 
 # [2.1.0](https://github.com/vuejs/pinia/compare/pinia@2.0.36...pinia@2.1.0) (2023-05-17)
 
+‼️ This **requires** Vue 3.3 or latest vue-demi (for Vue 2)
+
 ### Bug Fixes
 
 - **types:** use declare module vue ([b7f97dd](https://github.com/vuejs/pinia/commit/b7f97ddf160e999da7b639ba4fcaf554bed5f1e2))
