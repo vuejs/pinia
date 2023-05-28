@@ -1,7 +1,6 @@
 ---
 layout: home
-
-title: Pinia
+title: Pini
 titleTemplate: The intuitive store for Vue.js
 
 hero: 
