@@ -14,7 +14,7 @@ editLink: false
 
 ### default %{#Functions-default}%
 
-▸ **default**(`this`, `inlineOptions`, `nuxt`): `void` \| `Promise`<`void`\>
+▸ **default**(`this`, `inlineOptions`, `nuxt`): `_ModuleSetupReturn`
 
 #### Parameters %{#Functions-default-Parameters}%
 
@@ -26,4 +26,4 @@ editLink: false
 
 #### Returns %{#Functions-default-Returns}%
 
-`void` \| `Promise`<`void`\>
+`_ModuleSetupReturn`

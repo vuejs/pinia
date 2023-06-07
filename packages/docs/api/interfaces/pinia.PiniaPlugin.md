@@ -8,6 +8,8 @@ editLink: false
 
 [pinia](../modules/pinia.md).PiniaPlugin
 
+Plugin to extend every store.
+
 ## Callable %{#Callable}%
 
 ### PiniaPlugin %{#Callable-PiniaPlugin}%

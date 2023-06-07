@@ -98,9 +98,7 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
   )
 
   async function serve() {
-    // TODO: in 0.24
-    // app.bootstrapWithPlugins(options)
-    app.bootstrap(options)
+    await app.bootstrapWithPlugins(options)
     app.convertAndWatch(handleProject)
   }
 
@@ -111,8 +109,7 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
     ) {
       await fs.rm(options.out, { recursive: true })
     }
-    // TODO: same as above
-    app.bootstrap(options)
+    await app.bootstrapWithPlugins(options)
     const project = app.convert()
     return handleProject(project)
   }
