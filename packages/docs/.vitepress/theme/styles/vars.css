@@ -87,6 +87,7 @@ html.dark:root {
 
   --vp-c-bg: var(--vp-c-black);
   --vp-c-bg-soft: var(--vp-c-black-light);
+  --vp-c-bg-soft-up: var(--vp-c-black-lighter);
   --vp-c-bg-mute: var(--vp-c-black-light);
   --vp-c-bg-soft-mute: var(--vp-c-black-lighter);
   --vp-c-bg-alt: #0d121b;
