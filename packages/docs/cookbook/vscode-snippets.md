@@ -2,7 +2,7 @@
 
 These are some snippets that I use in VSCode to make my life easier.
 
-Manage user snippets with <kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>P</kbd> / <kbd>Ctrl</kbd> <kbd>⇧</kbd> <kbd>P</kbd> and then `Snippets: Configure User Snippets`.
+Manage user snippets with <kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>P</kbd> / <kbd>⇧</kbd> <kbd>⌃</kbd> <kbd>P</kbd> and then `Snippets: Configure User Snippets`.
 
 ```json
 {
