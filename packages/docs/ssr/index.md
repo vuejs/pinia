@@ -16,7 +16,7 @@ const main = useMainStore()
 
 ## Using the store outside of `setup()`
 
-If you need to use the store somewhere else, you need to pass the `pinia` instance [that was passed to the app](#install-the-plugin) to the `useStore()` function call:
+If you need to use the store somewhere else, you need to pass the `pinia` instance [that was passed to the app](../getting-started.md#installation) to the `useStore()` function call:
 
 ```js
 const pinia = createPinia()
@@ -80,48 +80,20 @@ devalue(pinia.state.value)
 
 Depending on what you are using for SSR, you will set an _initial state_ variable that will be serialized in the HTML. You should also protect yourself from XSS attacks. You can use [other alternatives](https://github.com/nuxt-contrib/devalue#see-also) to `@nuxt/devalue` depending on what you need, e.g. if you can serialize and parse your state with `JSON.stringify()`/`JSON.parse()`, **you could improve your performance by a lot**.
 
-Adapt this strategy to your environment. Make sure to hydrate pinia's state before calling any `useStore()` function on client side. For example, if we serialize the state into a `<script>` tag to make it accessible globally on client side through `window.__pinia`, we can write this:
+If you are not using Nuxt you will need to handle the serialization and hydration of the state yourself. Here are some examples:
 
-Here is one example of how it can look. Froms vite official quite for setting up our own express app for server side rendering, https://vuejs.org/guide/scaling-up/ssr.html. inside the `app.use('*'` section we need to take the state of the store from the server side rendered section an embed it into the HTML so when the HTML goes to the browser it can hydrate the store before hydrating the app.
+- [Vitesse template](https://github.com/antfu/vitesse/blob/main/src/modules/pinia.ts)
+- [vite-plugin-ssr](https://vite-plugin-ssr.com/pinia)
 
-```js
-app.use('*', async (req, res, next) => {
-  const url = req.originalUrl
+Adapt this strategy to your environment. **Make sure to hydrate pinia's state before calling any `useStore()` function** on client side. For example, if we serialize the state into a `<script>` tag to make it accessible globally on client side through `window.__pinia`, we can write this:
 
-  try {
-    let template: string
-    let entry: any
+```ts
+const pinia = createPinia()
+const app = createApp(App)
+app.use(pinia)
 
-    if (isProd) {
-      template = fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
-      entry = (await import(resolve('./dist/server/entry-ssr.js')))
-    } else {
-      // always read fresh template in dev
-      template = fs.readFileSync(resolve('index.html'), 'utf-8')
-      template = await vite!.transformIndexHtml(url, template)
-
-      entry = (await vite!.ssrLoadModule('/src/entry-ssr.ts'))
-    }
-
-    let appHtml = await entry.render(url)
-    appHtml += `<script>window.__pinia = ${JSON.stringify(entry.pinia.state.value)}</script>`
-    const html = template.replace('<!--ssr-outlet-->', appHtml)
-    res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
-  } catch (e) {
-    vite?.ssrFixStacktrace(e)
-    next(e)
-  }
-})
-```
-and in `index.html` we need to have a `<!--ssr-outlet-->` string to replace with the rendered content. And we get the pinia state from the global window environment variable.
-```html
-<div id="app" class="my-3"><!--ssr-outlet--></div>
-<script type="module">
-  import { app, pinia } from '/src/entry'
-
-  const initalState = window.__pinia
-  if (initalState) pinia.state.value = initalState
-
-  app.mount('#app')
-</script>
+// `isClient` depends on the environment, e.g. on Nuxt it's `process.client`
+if (isClient) {
+  pinia.state.value = JSON.parse(window.__pinia)
+}
 ```
