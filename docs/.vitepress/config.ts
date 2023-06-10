@@ -138,14 +138,11 @@ const config = defineConfig({
               text: 'Nuxt.js',
               link: '/ssr/nuxt.md',
             },
-            {
-              text: '컴포저블 다루기',
-              link: '/cookbook/composables.html#ssr',
-            },
           ],
         },
         {
           text: '자세한 해설서',
+          collapsed: false,
           items: [
             {
               text: '개요',
@@ -170,6 +167,18 @@ const config = defineConfig({
             {
               text: '스토어 구성하기',
               link: '/cookbook/composing-stores.md',
+            },
+            {
+              text: 'VSCode Snippets',
+              link: '/cookbook/vscode-snippets.html',
+            },
+            {
+              text: 'Vuex에서 마이그레이션',
+              link: '/cookbook/migration-vuex.html',
+            },
+            {
+              text: '컴포저블 다루기',
+              link: '/cookbook/composables.html',
             },
           ],
         },

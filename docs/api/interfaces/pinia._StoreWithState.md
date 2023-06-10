@@ -43,7 +43,7 @@ ___
 
 • **$state**: `UnwrapRef`<`S`\> & [`PiniaCustomStateProperties`](pinia.PiniaCustomStateProperties.md)<`S`\>
 
-State of the Store. Setting it will replace the whole state.
+State of the Store. Setting it will internally call `$patch()` to update the state.
 
 ___
 

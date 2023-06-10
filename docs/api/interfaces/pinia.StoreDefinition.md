@@ -8,6 +8,8 @@ editLink: false
 
 [pinia](../modules/pinia.md).StoreDefinition
 
+Return type of `defineStore()`. Function that allows instantiating a store.
+
 ## Type parameters %{#Type-parameters}%
 
 | Name | Type |
