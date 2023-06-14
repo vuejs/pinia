@@ -1,3 +1,9 @@
+## [2.1.4](https://github.com/vuejs/pinia/compare/pinia@2.1.3...pinia@2.1.4) (2023-06-14)
+
+### Bug Fixes
+
+- **devtools:** group setup store sync actions mutations ([683efe1](https://github.com/vuejs/pinia/commit/683efe1a34cbca82c1ef19d268e3080503401de2))
+
 ## [2.1.3](https://github.com/vuejs/pinia/compare/pinia@2.1.2...pinia@2.1.3) (2023-05-18)
 
 ### Bug Fixes
