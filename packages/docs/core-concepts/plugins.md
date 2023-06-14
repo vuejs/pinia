@@ -144,7 +144,7 @@ If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](ht
 ```js
 import { set, toRef } from '@vue/composition-api'
 pinia.use(({ store }) => {
-  if (!Object.prototype.hasOwnProperty(store.$state, 'secret')) {
+  if (!Object.hasOwn(store.$state, 'secret')) {
     const secretRef = ref('secret')
     // If the data is meant to be used during SSR, you should
     // set it on the `$state` property so it is serialized and
