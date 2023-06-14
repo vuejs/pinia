@@ -117,7 +117,7 @@ import { toRef, ref } from 'vue'
 pinia.use(({ store }) => {
   // 为了正确地处理 SSR，我们需要确保我们没有重写任何一个 
   // 现有的值
-  if (!Object.prototype.hasOwnProperty(store.$state, 'hasError')) {
+  if (!Object.hasOwn(store.$state, 'hasError')) {
     // 在插件中定义 hasError，因此每个 store 都有各自的
     // hasError 状态
     const hasError = ref(false)
