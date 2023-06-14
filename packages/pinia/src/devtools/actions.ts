@@ -2,6 +2,12 @@ import { Pinia } from '../rootStore'
 import { saveAs } from './file-saver'
 import { toastMessage } from './utils'
 
+/**
+ * This file contain devtools actions, they are not Pinia actions.
+ */
+
+// ---
+
 export function checkClipboardAccess() {
   if (!('clipboard' in navigator)) {
     toastMessage(`Your browser doesn't support the Clipboard API`, 'error')
