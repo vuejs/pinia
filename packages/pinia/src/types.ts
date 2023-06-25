@@ -206,7 +206,7 @@ export interface _StoreOnActionListenerContext<
 
   /**
    * Sets up a hook if the action fails. Return `false` to catch the error and
-   * stops it from propagating.
+   * stop it from propagating.
    */
   onError: (callback: (error: unknown) => void) => void
 }
