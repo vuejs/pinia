@@ -337,7 +337,7 @@ export interface _StoreWithState<
    * Sets or arrays and applying an object patch isn't practical, e.g. appending
    * to an array. The function passed to `$patch()` **must be synchronous**.
    *
-   * @param stateMutator - function that mutates `state`, cannot be asynchronous 
+   * @param stateMutator - function that mutates `state`, cannot be asynchronous
    */
   $patch<F extends (state: UnwrapRef<S>) => any>(
     // this prevents the user from using `async` which isn't allowed
