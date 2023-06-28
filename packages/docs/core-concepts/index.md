@@ -139,6 +139,8 @@ const doubleValue = computed(() => store.doubleCount)
 </script>
 ```
 
+## Destructuring from a Store
+
 In order to extract properties from the store while keeping its reactivity, you need to use `storeToRefs()`. It will create refs for every reactive property. This is useful when you are only using state from the store but not calling any action. Note you can destructure actions directly from the store as they are bound to the store itself too:
 
 ```vue
