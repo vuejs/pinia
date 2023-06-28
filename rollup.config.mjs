@@ -39,10 +39,10 @@ function getAuthors(pkg) {
 }
 
 const banner = `/*!
-  * ${pkg.name} v${pkg.version}
-  * (c) ${new Date().getFullYear()} ${getAuthors(pkg)}
-  * @license MIT
-  */`
+ * ${pkg.name} v${pkg.version}
+ * (c) ${new Date().getFullYear()} ${getAuthors(pkg)}
+ * @license MIT
+ */`
 
 // ensure TS checks only once for each build
 let hasTSChecked = false
