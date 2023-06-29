@@ -24,7 +24,7 @@ Properties of a store.
 
 ## Properties %{#Properties}%
 
-### $id %{#Properties-$id}%
+### $id %{#Properties-id}%
 
 • **$id**: `Id`
 
