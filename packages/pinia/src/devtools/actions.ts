@@ -112,7 +112,7 @@ export async function actionGlobalOpenStateFile(pinia: Pinia) {
     toastMessage(`Global state imported from "${file.name}".`)
   } catch (error) {
     toastMessage(
-      `Failed to export the state as JSON. Check the console for more details.`,
+      `Failed to import the state from JSON. Check the console for more details.`,
       'error'
     )
     console.error(error)
