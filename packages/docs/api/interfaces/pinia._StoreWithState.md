@@ -27,19 +27,19 @@ Base store with state and functions. Should not be used directly.
 
 ## Properties %{#Properties}%
 
-### $id %{#Properties-$id}%
+### $id %{#Properties-id}%
 
 • **$id**: `Id`
 
 Unique identifier of the store
 
-#### Inherited from %{#Properties-$id-Inherited-from}%
+#### Inherited from %{#Properties-id-Inherited-from}%
 
 [StoreProperties](pinia.StoreProperties.md).[$id](pinia.StoreProperties.md#$id)
 
 ___
 
-### $state %{#Properties-$state}%
+### $state %{#Properties-state}%
 
 • **$state**: `UnwrapRef`<`S`\> & [`PiniaCustomStateProperties`](pinia.PiniaCustomStateProperties.md)<`S`\>
 
@@ -61,7 +61,7 @@ that should be displayed in devtools.
 
 ## Methods %{#Methods}%
 
-### $dispose %{#Methods-$dispose}%
+### $dispose %{#Methods-dispose}%
 
 ▸ **$dispose**(): `void`
 
@@ -72,13 +72,13 @@ Note this doesn't delete the state of the store, you have to do it manually with
 `delete pinia.state.value[store.$id]` if you want to. If you don't and the
 store is used again, it will reuse the previous state.
 
-#### Returns %{#Methods-$dispose-Returns}%
+#### Returns %{#Methods-dispose-Returns}%
 
 `void`
 
 ___
 
-### $onAction %{#Methods-$onAction}%
+### $onAction %{#Methods-onAction}%
 
 ▸ **$onAction**(`callback`, `detached?`): () => `void`
 
@@ -113,14 +113,14 @@ store.$onAction(({ after, onError }) => {
 })
 ```
 
-#### Parameters %{#Methods-$onAction-Parameters}%
+#### Parameters %{#Methods-onAction-Parameters}%
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `callback` | [`StoreOnActionListener`](../modules/pinia.md#storeonactionlistener)<`Id`, `S`, `G`, `A`\> | callback called before every action |
 | `detached?` | `boolean` | detach the subscription from the context this is called from |
 
-#### Returns %{#Methods-$onAction-Returns}%
+#### Returns %{#Methods-onAction-Returns}%
 
 `fn`
 
@@ -159,7 +159,7 @@ store.$onAction(({ after, onError }) => {
 })
 ```
 
-##### Returns %{#Methods-$onAction-Returns-Returns}%
+##### Returns %{#Methods-onAction-Returns-Returns}%
 
 `void`
 
@@ -167,19 +167,19 @@ function that removes the watcher
 
 ___
 
-### $patch %{#Methods-$patch}%
+### $patch %{#Methods-patch}%
 
 ▸ **$patch**(`partialState`): `void`
 
 Applies a state patch to current state. Allows passing nested values
 
-#### Parameters %{#Methods-$patch-Parameters}%
+#### Parameters %{#Methods-patch-Parameters}%
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `partialState` | [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`UnwrapRef`<`S`\>\> | patch to apply to the state |
 
-#### Returns %{#Methods-$patch-Returns}%
+#### Returns %{#Methods-patch-Returns}%
 
 `void`
 
@@ -189,38 +189,38 @@ Group multiple changes into one function. Useful when mutating objects like
 Sets or arrays and applying an object patch isn't practical, e.g. appending
 to an array. The function passed to `$patch()` **must be synchronous**.
 
-#### Type parameters %{#Methods-$patch-Type-parameters}%
+#### Type parameters %{#Methods-patch-Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
 | `F` | extends (`state`: `UnwrapRef`<`S`\>) => `any` |
 
-#### Parameters %{#Methods-$patch-Parameters_1}%
+#### Parameters %{#Methods-patch-Parameters_1}%
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `stateMutator` | `ReturnType`<`F`\> extends `Promise`<`any`\> ? `never` : `F` | function that mutates `state`, cannot be async |
 
-#### Returns %{#Methods-$patch-Returns_1}%
+#### Returns %{#Methods-patch-Returns_1}%
 
 `void`
 
 ___
 
-### $reset %{#Methods-$reset}%
+### $reset %{#Methods-reset}%
 
 ▸ **$reset**(): `void`
 
 Resets the store to its initial state by building a new state object.
 TODO: make this options only
 
-#### Returns %{#Methods-$reset-Returns}%
+#### Returns %{#Methods-reset-Returns}%
 
 `void`
 
 ___
 
-### $subscribe %{#Methods-$subscribe}%
+### $subscribe %{#Methods-subscribe}%
 
 ▸ **$subscribe**(`callback`, `options?`): () => `void`
 
@@ -228,14 +228,14 @@ Setups a callback to be called whenever the state changes. It also returns a fun
 that when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
 component gets unmounted unless `detached` is set to true.
 
-#### Parameters %{#Methods-$subscribe-Parameters}%
+#### Parameters %{#Methods-subscribe-Parameters}%
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `callback` | [`SubscriptionCallback`](../modules/pinia.md#subscriptioncallback)<`S`\> | callback passed to the watcher |
 | `options?` | { `detached?`: `boolean`  } & `WatchOptions`<`boolean`\> | `watch` options + `detached` to detach the subscription from the context (usually a component) this is called from. Note that the `flush` option does not affect calls to `store.$patch()`. |
 
-#### Returns %{#Methods-$subscribe-Returns}%
+#### Returns %{#Methods-subscribe-Returns}%
 
 `fn`
 
@@ -247,7 +247,7 @@ Setups a callback to be called whenever the state changes. It also returns a fun
 that when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
 component gets unmounted unless `detached` is set to true.
 
-##### Returns %{#Methods-$subscribe-Returns-Returns}%
+##### Returns %{#Methods-subscribe-Returns-Returns}%
 
 `void`
 
