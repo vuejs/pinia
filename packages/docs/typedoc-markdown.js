@@ -79,6 +79,8 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
           const slugifiedTitle = slugify(titleStack.slice(1).join('-'))
             // ensure the link is valid vuejs/router#1743
             .replaceAll('\\', '')
+            // remove invalid characters
+            .replaceAll('$', '')
           let id
           if (existingIds.has(slugifiedTitle)) {
             const current = existingIds.get(slugifiedTitle)
