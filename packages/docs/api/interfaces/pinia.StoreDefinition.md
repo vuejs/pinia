@@ -40,7 +40,7 @@ Returns a store, creates it if necessary.
 
 ## Properties %{#Properties}%
 
-### $id %{#Properties-$id}%
+### $id %{#Properties-id}%
 
 • **$id**: `Id`
 
