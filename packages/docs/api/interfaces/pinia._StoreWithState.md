@@ -199,7 +199,7 @@ to an array. The function passed to `$patch()` **must be synchronous**.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `stateMutator` | `ReturnType`<`F`\> extends `Promise`<`any`\> ? `never` : `F` | function that mutates `state`, cannot be async |
+| `stateMutator` | `ReturnType`<`F`\> extends `Promise`<`any`\> ? `never` : `F` | function that mutates `state`, cannot be asynchronous |
 
 #### Returns %{#Methods-$patch-Returns_1}%
 
