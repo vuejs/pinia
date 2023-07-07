@@ -428,22 +428,25 @@ function createSetupStore<
         () => stopWatcher()
       )
       const stopWatcher = scope.run(() =>
-        watch(
-          () => pinia.state.value[$id] as UnwrapRef<S>,
-          (state) => {
-            if (options.flush === 'sync' ? isSyncListening : isListening) {
-              callback(
-                {
-                  storeId: $id,
-                  type: MutationType.direct,
-                  events: debuggerEvents as DebuggerEvent,
-                },
-                state
-              )
-            }
-          },
-          assign({}, $subscribeOptions, options)
-        )
+        {    
+          const state = pinia.state.value[$id]
+          return watch(
+            () => state as UnwrapRef<S>,
+            (state) => {
+              if (options.flush === 'sync' ? isSyncListening : isListening) {
+                callback(
+                  {
+                    storeId: $id,
+                    type: MutationType.direct,
+                    events: debuggerEvents as DebuggerEvent,
+                  },
+                  state
+                )
+              }
+            },
+            assign({}, $subscribeOptions, options)
+          )
+        }
       )!
 
       return removeSubscription
