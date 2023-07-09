@@ -15,8 +15,6 @@ const head: UserConfig['head'] = [
   ['meta', {property: 'twitter:url', content: META_URL}],
   ['meta', {property: 'twitter:title', content: META_TITLE}],
   ['meta', {property: 'twitter:description', content: META_DESCRIPTION}],
-  ['link', {rel: 'preload', href: '/dank-mono.css', as: 'style', onload: "this.onload=null;this.rel='stylesheet'",},],
-  ['script', {src: 'https://unpkg.com/thesemetrics@latest', async: '', type: 'text/javascript',},],
 ]
 
 const config = defineConfig({

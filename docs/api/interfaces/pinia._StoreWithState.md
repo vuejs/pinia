@@ -146,16 +146,16 @@ up when the component gets unmounted unless `detached` is set to true.
 
 ```js
 store.$onAction(({ after, onError }) => {
-  // Here you could share variables between all of the hooks as well as
-  // setting up watchers and clean them up
-  after((resolvedValue) => {
-    // can be used to cleanup side effects
-  .  // `resolvedValue` is the value returned by the action, if it's a
-  .  // Promise, it will be the resolved value instead of the Promise
-  })
-  onError((error) => {
-    // can be used to pass up errors
-  })
+ // Here you could share variables between all of the hooks as well as
+ // setting up watchers and clean them up
+ after((resolvedValue) => {
+   // can be used to cleanup side effects
+.  // `resolvedValue` is the value returned by the action, if it's a
+.  // Promise, it will be the resolved value instead of the Promise
+ })
+ onError((error) => {
+   // can be used to pass up errors
+ })
 })
 ```
 
@@ -199,7 +199,7 @@ to an array. The function passed to `$patch()` **must be synchronous**.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `stateMutator` | `ReturnType`<`F`\> extends `Promise`<`any`\> ? `never` : `F` | function that mutates `state`, cannot be async |
+| `stateMutator` | `ReturnType`<`F`\> extends `Promise`<`any`\> ? `never` : `F` | function that mutates `state`, cannot be asynchronous |
 
 #### Returns %{#Methods-$patch-Returns_1}%
 

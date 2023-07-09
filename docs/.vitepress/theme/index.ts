@@ -17,8 +17,8 @@ const theme: Theme = {
   // },
 
   enhanceApp({ app }) {
-    app.component('VueSchoolLink', VueSchoolLink)
-    app.component('VueMasteryLogoLink', VueMasteryLogoLink)
+    // app.component('VueSchoolLink', VueSchoolLink)
+    // app.component('VueMasteryLogoLink', VueMasteryLogoLink)
   },
 
   // TODO: real date

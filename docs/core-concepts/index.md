@@ -157,6 +157,8 @@ const doubleValue = computed(() => store.doubleCount)
 </script>
 ```
 
+## 저장소에서 디스트럭처링 %{#destructuring-from-a-store}%
+
 반응형을 유지하면서 스토어에서 속성을 추출하려면, `storeToRefs()`를 사용해야 합니다.
 모든 반응형 속성에 대한 참조를 생성합니다.
 이것은 스토어의 상태만 사용하고, 액션을 호출하지 않을 때 유용합니다.
@@ -174,26 +176,4 @@ const { name, doubleCount } = storeToRefs(store)
 // increment 액션은 그냥 구조화 가능.
 const { increment } = store
 </script>
-```
-
-```js
-import { storeToRefs } from 'pinia'
-
-export default defineComponent({
-  setup() {
-    const store = useCounterStore()
-    // `name`과 `doubleCount`는 반응형 refs임.
-    // 이것은 플러그인에 의해 추가된 속성에 대한 'refs'도 생성함.
-    // 그러나 모든 액션 또는 비반응형(ref/반응형이 아닌) 속성을 건너뜀.
-    const { name, doubleCount } = storeToRefs(store)
-    // increment 액션은 그냥 추출 가능.
-    const { increment } = store
-
-    return {
-      name,
-      doubleCount,
-      increment,
-    }
-  },
-})
 ```
