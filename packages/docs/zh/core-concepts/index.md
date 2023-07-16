@@ -10,8 +10,8 @@
 ```js
 import { defineStore } from 'pinia'
 
-// 你可以对 `defineStore()` 的返回值进行任意命名
-// 但最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾。
+//  `defineStore()` 的返回值的命名是自由的
+// 但最好含有 store 的名字，且以 `use` 开头，以 `Store` 结尾。
 // (比如 `useUserStore`，`useCartStore`，`useProductStore`)
 // 第一个参数是你的应用中 Store 的唯一 ID。
 export const useAlertsStore = defineStore('alerts', {
@@ -123,7 +123,7 @@ const store = useCounterStore()
 // 下面的代码同样会提取那些来自插件的属性的响应式引用
 // 但是会跳过所有的 action 或者非响应式（非 ref 或者 非 reactive）的属性
 const { name, doubleCount } = storeToRefs(store)
-// 名为 increment 的 action可以被解构
+// 名为 increment 的 action 可以被解构
 const { increment } = store
 </script>
 ```
