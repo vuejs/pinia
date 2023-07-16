@@ -33,7 +33,7 @@ autoImports: [
 
 • `Optional` **disableVuex**: `boolean`
 
-默认情况下，Pinia 会禁用 Vuex，将此选项设置为 `false` 以避免禁用 Vuex，并在 Nuxt 2 中同时使用 Pinia 和 Vuex。
+默认情况下，Pinia 会禁用 Vuex，将此选项设置为 `false` 可启用 Vuex，然后便可同时使用 Pinia 和 Vuex（仅在 Nuxt 2 中支持）。
 
 **`Default`**
 
