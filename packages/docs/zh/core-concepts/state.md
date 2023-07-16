@@ -86,7 +86,7 @@ store.count++
 
 ## 重置 state %{#resetting-the-state}%
 
-你可以通过调用 store 的 `$reset()` 方法将 state 重置为初始值。
+使用[选项式 API](/zh/core-concepts/index.md#option-stores) 时，你可以通过调用 store 的 `$reset()` 方法将 state 重置为初始值。
 
 ```js
 const store = useStore()
