@@ -31,8 +31,7 @@ const useStore = defineStore('storeId', {
 
 ## TypeScript %{#typescript}%
 
-你并不需要做太多努力就能使你的 state 兼容 TS。 Pinia 会自动推断出你的 state 的类型，但在一些情况下，你得用一些方法来帮它一把。
-
+你并不需要做太多努力就能使你的 state 兼容 TS。确保启用了 strict，或者至少启用了 noImplicitThis，Pinia 将自动推断您的状态类型！ 但是，在某些情况下，您应该帮助它进行一些转换：
 ```ts
 const useStore = defineStore('storeId', {
   state: () => {
