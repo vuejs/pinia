@@ -458,7 +458,7 @@ ___
 
 ▸ (...`args`): `any`
 
-Generic type for a function that can infer arguments and return type
+可以推断参数和返回值类型的函数通用类型。
 
 **仅**供内部使用
 
