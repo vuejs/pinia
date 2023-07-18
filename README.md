@@ -147,6 +147,17 @@ new Vue({
 })
 ```
 
+```js
+// Nuxt 3
+export default defineNuxtConfig({
+  // ... other options
+  modules: [
+    // ...
+    '@pinia/nuxt',
+  ],
+})
+```
+
 ### Create a Store
 
 You can create as many stores as you want, and they should each exist in different files:
