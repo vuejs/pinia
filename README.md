@@ -147,6 +147,8 @@ new Vue({
 })
 ```
 
+For more detailed instructions, including [Nuxt configuration](https://pinia.vuejs.org/ssr/nuxt.html#nuxt-js), check the [Documentation](https://pinia.vuejs.org).
+
 ### Create a Store
 
 You can create as many stores as you want, and they should each exist in different files:
