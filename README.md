@@ -147,16 +147,7 @@ new Vue({
 })
 ```
 
-```js
-// Nuxt 3
-export default defineNuxtConfig({
-  // ... other options
-  modules: [
-    // ...
-    '@pinia/nuxt',
-  ],
-})
-```
+For more detailed instructions, including [Nuxt configuration](https://pinia.vuejs.org/ssr/nuxt.html#nuxt-js), check the [Documentation](https://pinia.vuejs.org).
 
 ### Create a Store
 
