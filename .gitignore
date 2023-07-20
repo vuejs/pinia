@@ -1,3 +1,5 @@
+docs/.vitepress/cache
+
 coverage
 npm-debug.log
 yarn-error.log
