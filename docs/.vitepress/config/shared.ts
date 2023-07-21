@@ -102,11 +102,11 @@ export const sharedConfig = defineConfig({
       text: '이 페이지 편집 제안하기'
     },
 
-    // algolia: {
-    //   appId: '69Y3N7LHI2',
-    //   apiKey: '45441f4b65a2f80329fd45c7cb371fea',
-    //   indexName: 'pinia',
-    // },
+    algolia: {
+      appId: 'PTO6MRQ22K',
+      apiKey: '0d5e8cf46df833b0dc402e94e5c22537',
+      indexName: 'pinia-vuejs',
+    },
 
     carbonAds: {
       code: "CEBICK3I",
