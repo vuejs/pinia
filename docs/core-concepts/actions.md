@@ -4,6 +4,11 @@ title: 액션
 
 # Actions (액션) %{#actions}%
 
+<VueSchoolLink
+href="https://vueschool.io/lessons/synchronous-and-asynchronous-actions-in-pinia"
+title="Learn all about actions in Pinia"
+/>
+
 액션은 컴포넌트의 [메서드](https://vuejs.kr/guide/essentials/reactivity-fundamentals.html#declaring-methods)와 동일합니다.
 이들은 `defineStore()`에서 `actions` 속성으로 정의할 수 있으며,
 **처리해야 할 작업의 로직을 정의하는 데 완벽합니다**:
@@ -101,6 +106,11 @@ export const useSettingsStore = defineStore('settings', {
 ```
 
 ## 옵션 API에서 사용 %{#usage-with-the-options-api}%
+
+<VueSchoolLink
+href="https://vueschool.io/lessons/access-pinia-actions-in-the-options-api"
+title="Access Pinia Getters via the Options API"
+/>
 
 다음 예제는 아래와 같이 저장소가 생성되었다고 가정합니다:
 

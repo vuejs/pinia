@@ -53,7 +53,7 @@ a:hover .highlight {
     width:100%;
   }
 }
-@media (max-width: 420px) {   
+@media (max-width: 420px) {
   a {
     display:block;
     margin-left: 10px;

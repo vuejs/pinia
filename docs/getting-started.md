@@ -3,6 +3,9 @@
 
 ## 설치 %{#installation}%
 
+<VueMasteryLogoLink for="pinia-cheat-sheet">
+</VueMasteryLogoLink>
+
 선호하는 패키지 관리자로 `pinia`를 설치합니다:
 
 ```bash

@@ -4,6 +4,11 @@ title: 소개
 
 # 소개 %{#introduction}%
 
+<VueSchoolLink
+href="https://vueschool.io/lessons/introduction-to-pinia"
+title="Get started with Pinia"
+/>
+
 피니아는 2019년 11월경에 [컴포지션 API](https://github.com/vuejs/composition-api)로 Vue용 스토어가 어떻게 생겼는지 재설계하기 위한 실험으로 [시작](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e)했습니다.
 그 이후로 초기 원칙은 여전히 동일하지만,
 피니아는 컴포지션 API를 사용할 필요가 없으며,
@@ -14,7 +19,7 @@ API는 설치와 SSR을 제외하고 모두 동일하며,
 ## 왜 피니아를 사용해야 하나요? %{#why-should-i-use-pinia}%
 
 피니아는 Vue의 스토어 라이브러리로 컴포넌트/페이지 간에 상태를 공유할 수 있습니다.
-컴포지션 API에 익숙하다면 간단한 `export const state = react({})`로 전역 상태를 공유할 수 있다고 생각할 수 있습니다.
+컴포지션 API에 익숙하다면 간단한 `export const state = reactive({})`로 전역 상태를 공유할 수 있다고 생각할 수 있습니다.
 이는 SPA에는 해당되지만 SSR의 경우,
 **앱이 [보안 취약성](https://vuejs.kr/guide/scaling-up/ssr.html#cross-request-state-pollution)에 노출됩니다.**
 그러나 작은 SPA에서도 피니아를 사용하면 많은 이점이 있습니다:
@@ -29,6 +34,9 @@ API는 설치와 SSR을 제외하고 모두 동일하며,
 - 플러그인: 플러그인으로 피니아 기능 확장
 - TypeScript 지원 또는 JS 사용자를 위한 적절한 **자동 완성**
 - SSR 지원
+
+<VueMasteryLogoLink for="pinia-cheat-sheet">
+</VueMasteryLogoLink>
 
 ## 기본 예제 %{#basic-example}%
 

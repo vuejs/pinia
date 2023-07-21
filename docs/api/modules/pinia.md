@@ -4,7 +4,7 @@ editLink: false
 
 [API Documentation](../index.md) / pinia
 
-# Module: pinia
+# Module: pinia %{#module-pinia}%
 
 ## Enumerations %{#Enumerations}%
 

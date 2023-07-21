@@ -17,8 +17,8 @@
 
       <div class="cta">
         <a class="become-sponsor" href="https://github.com/sponsors/posva">{{
-          translations[site.lang] || translations.en
-        }}</a>
+            translations[site.lang] || translations.en
+          }}</a>
       </div>
     </div>
   </div>

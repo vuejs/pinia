@@ -4,6 +4,11 @@ title: 상태
 
 # State (상태) %{#state}%
 
+<VueSchoolLink
+href="https://vueschool.io/lessons/access-state-from-a-pinia-store"
+title="Learn all about state in Pinia"
+/>
+
 상태는 대부분은, 스토어를 중심으로 이루어지며, 일반적으로 앱을 나타내는 상태를 정의하는 것으로 시작합니다.
 피니아에서 상태는 초기 상태를 반환하는 함수로 정의됩니다.
 이를 통해 피니아는 서버 측과 클라이언트 측 모두에서 작동할 수 있습니다.
@@ -124,6 +129,11 @@ export const useCounterStore = defineStore('counter', () => {
 ```
 
 ### 옵션 API와 함께 사용 %{#usage-with-the-options-api}%
+
+<VueSchoolLink
+href="https://vueschool.io/lessons/access-pinia-state-in-the-options-api"
+title="Access Pinia State via the Options API"
+/>
 
 다음 예제는 아래와 같은 스토어가 생성되었다고 가정합니다:
 
