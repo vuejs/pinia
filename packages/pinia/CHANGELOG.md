@@ -1,3 +1,10 @@
+## [2.1.5](https://github.com/vuejs/pinia/compare/pinia@2.1.4...pinia@2.1.5) (2023-07-26)
+
+### Bug Fixes
+
+- **devtools:** correctly load the state ([beff091](https://github.com/vuejs/pinia/commit/beff091f80302def494305779f8aa1d12301bce4))
+- **devtools:** wrong toast message ([#2290](https://github.com/vuejs/pinia/issues/2290)) ([dfc04d3](https://github.com/vuejs/pinia/commit/dfc04d356c86128f868b12182615bd57228111d6))
+
 ## [2.1.4](https://github.com/vuejs/pinia/compare/pinia@2.1.3...pinia@2.1.4) (2023-06-14)
 
 ### Bug Fixes
