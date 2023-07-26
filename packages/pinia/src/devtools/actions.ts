@@ -122,8 +122,12 @@ export async function actionGlobalOpenStateFile(pinia: Pinia) {
 function loadStoresState(pinia: Pinia, state: Record<string, unknown>) {
   for (const key in state) {
     const storeState = pinia.state.value[key]
+    // store is already instantiated, patch it
     if (storeState) {
       Object.assign(storeState, state[key])
+    } else {
+      // store is not instantiated, set the initial state
+      pinia.state.value[key] = state[key] as any
     }
   }
 }
