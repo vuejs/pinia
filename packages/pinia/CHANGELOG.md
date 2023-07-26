@@ -1,3 +1,9 @@
+## [2.1.6](https://github.com/vuejs/pinia/compare/pinia@2.1.5...pinia@2.1.6) (2023-07-26)
+
+### Bug Fixes
+
+- **devtools:** preserve store reactivity ([709ed3b](https://github.com/vuejs/pinia/commit/709ed3b3a4787c3a9b5a59f863558b480a96eaaf))
+
 ## [2.1.5](https://github.com/vuejs/pinia/compare/pinia@2.1.4...pinia@2.1.5) (2023-07-26)
 
 ### Bug Fixes
