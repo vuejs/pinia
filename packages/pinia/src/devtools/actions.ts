@@ -47,7 +47,10 @@ export async function actionGlobalCopyState(pinia: Pinia) {
 export async function actionGlobalPasteState(pinia: Pinia) {
   if (checkClipboardAccess()) return
   try {
-    pinia.state.value = JSON.parse(await navigator.clipboard.readText())
+    Object.assign(
+      pinia.state.value,
+      JSON.parse(await navigator.clipboard.readText())
+    )
     toastMessage('Global state pasted from clipboard.')
   } catch (error) {
     if (checkNotFocusedError(error)) return
@@ -104,11 +107,11 @@ function getFileOpener() {
 
 export async function actionGlobalOpenStateFile(pinia: Pinia) {
   try {
-    const open = await getFileOpener()
+    const open = getFileOpener()
     const result = await open()
     if (!result) return
     const { text, file } = result
-    pinia.state.value = JSON.parse(text)
+    Object.assign(pinia.state.value, JSON.parse(text))
     toastMessage(`Global state imported from "${file.name}".`)
   } catch (error) {
     toastMessage(
