@@ -157,22 +157,22 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
               editable: true,
               value: store._isOptionsAPI
                 ? {
-                    _custom: {
-                      value: toRaw(store.$state),
-                      actions: [
-                        {
-                          icon: 'restore',
-                          tooltip: 'Reset the state of this store',
-                          action: () => store.$reset(),
-                        },
-                      ],
-                    },
-                  }
+                  _custom: {
+                    value: toRaw(store.$state),
+                    actions: [
+                      {
+                        icon: 'restore',
+                        tooltip: 'Reset the state of this store',
+                        action: () => store.$reset(),
+                      },
+                    ],
+                  },
+                }
                 : // NOTE: workaround to unwrap transferred refs
-                  Object.keys(store.$state).reduce((state, key) => {
-                    state[key] = store.$state[key]
-                    return state
-                  }, {} as StateTree),
+                Object.keys(store.$state).reduce((state, key) => {
+                  state[key] = store.$state[key]
+                  return state
+                }, {} as StateTree),
             })
 
             if (store._getters && store._getters.length) {
@@ -203,14 +203,14 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
           payload.rootNodes = (
             payload.filter
               ? stores.filter((store) =>
-                  '$id' in store
-                    ? store.$id
-                        .toLowerCase()
-                        .includes(payload.filter.toLowerCase())
-                    : PINIA_ROOT_LABEL.toLowerCase().includes(
-                        payload.filter.toLowerCase()
-                      )
-                )
+                '$id' in store
+                  ? store.$id
+                    .toLowerCase()
+                    .includes(payload.filter.toLowerCase())
+                  : PINIA_ROOT_LABEL.toLowerCase().includes(
+                    payload.filter.toLowerCase()
+                  )
+              )
               : stores
           ).map(formatStoreForInspectorTree)
         }
@@ -525,15 +525,14 @@ function patchActionForGrouping(
       const _actionId = runningActionId
       const trackedStore = wrapWithProxy
         ? new Proxy(store, {
-            get(...args) {
-              activeAction = _actionId
-              return Reflect.get(...args)
-            },
-            set(...args) {
-              activeAction = _actionId
-              return Reflect.set(...args)
-            },
-          })
+          get(...args) {
+            activeAction = _actionId
+            return Reflect.get(...args)
+          },
+          set(...args) {
+            activeAction = _actionId
+          },
+        })
         : store
 
       // For Setup Stores we need https://github.com/tc39/proposal-async-context
