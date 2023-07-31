@@ -1,5 +1,9 @@
 <script lang="ts" setup>
+// import {useCounter }from '~/stores/counter'
+
 const counter = useCounter()
+
+useTestStore()
 
 if (process.server) {
   counter.increment()

@@ -7,7 +7,15 @@ export default defineNuxtConfig({
     pinia: fileURLToPath(new URL('../../pinia/src/index.ts', import.meta.url)),
   },
   modules: [piniaModule],
+
   pinia: {
-    autoImports: [['defineStore', 'definePiniaStore']],
+    storesDirs: ['./stores', './domain/*/stores'],
+  },
+
+  vite: {
+    define: {
+      __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production'),
+      __TEST__: 'false',
+    },
   },
 })
