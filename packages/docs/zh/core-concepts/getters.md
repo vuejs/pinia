@@ -1,4 +1,4 @@
-# Getter {#getters}
+# Getter %{#getters}%
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/getters-in-pinia"
@@ -42,22 +42,16 @@ export const useStore = defineStore('main', {
 然后你可以直接访问 store 实例上的 getter 了：
 
 ```vue
+<script setup>
+import { useCounterStore } from './counterStore'
+const store = useCounterStore()
+</script>
 <template>
   <p>Double count is {{ store.doubleCount }}</p>
 </template>
-
-<script>
-export default {
-  setup() {
-    const store = useStore()
-
-    return { store }
-  },
-}
-</script>
 ```
 
-## 访问其他 getter {#accessing-other-getters}
+## 访问其他 getter %{#accessing-other-getters}%
 
 与计算属性一样，你也可以组合多个 getter。通过 `this`，你可以访问到其他任何 getter。即使你没有使用 TypeScript，你也可以用 [JSDoc](https://jsdoc.app/tags-returns.html) 来让你的 IDE 提示类型。
 
@@ -84,7 +78,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## 向 getter 传递参数 {#passing-arguments-to-getters}
+## 向 getter 传递参数 %{#passing-arguments-to-getters}%
 
 *Getter* 只是幕后的**计算**属性，所以不可以向它们传递任何参数。不过，你可以从 *getter* 返回一个函数，该函数可以接受任意参数：
 
@@ -101,14 +95,12 @@ export const useStore = defineStore('main', {
 并在组件中使用：
 
 ```vue
-<script>
-export default {
-  setup() {
-    const store = useStore()
-
-    return { getUserById: store.getUserById }
-  },
-}
+<script setup>
+import { useUserListStore } from './store'
+const userList = useUserListStore()
+const { getUserById } = storeToRefs(userList)
+// 请注意，你需要使用 `getUserById.value` 来访问
+// <script setup> 中的函数
 </script>
 
 <template>
@@ -129,7 +121,7 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## 访问其他 store 的 getter {#accessing-other-stores-getters}
+## 访问其他 store 的 getter %{#accessing-other-stores-getters}%
 
 想要使用另一个 store 的 getter 的话，那就直接在 *getter* 内使用就好：
 
@@ -149,22 +141,19 @@ export const useStore = defineStore('main', {
 })
 ```
 
-## 使用 `setup()` 时的用法 {#usage-with-setup}
+## 使用 `setup()` 时的用法 %{#usage-with-setup}%
 
 作为 store 的一个属性，你可以直接访问任何 getter(与 state 属性完全一样)：
 
-```js
-export default {
-  setup() {
-    const store = useStore()
-
-    store.count = 3
-    store.doubleCount // 6
-  },
-}
+```vue
+<script setup>
+const store = useCounterStore()
+store.count = 3
+store.doubleCount // 6
+</script>
 ```
 
-## 使用选项式 API 的用法 {#usage-with-the-options-api}
+## 使用选项式 API 的用法 %{#usage-with-the-options-api}%
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-getters-in-the-options-api"
@@ -191,14 +180,15 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-### 使用 `setup()` {#with-setup}
+### 使用 `setup()` %{#with-setup}%
 
-虽然并不是每个开发者都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易用。并且不需要额外的映射辅助函数!
+虽然并不是每个开发者都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易用。并且不需要额外的映射辅助函数！
 
-```js
+```vue
+<script>
 import { useCounterStore } from '../stores/counter'
 
-export default {
+export default defineComponent({
   setup() {
     const counterStore = useCounterStore()
 
@@ -209,10 +199,13 @@ export default {
       return this.counterStore.doubleCount * 2
     },
   },
-}
+})
+</script>
 ```
 
-### 不使用 `setup()` {#without-setup}
+这在将组件从选项式 API 迁移到组合式 API 时很有用，但**应该只是一个迁移步骤**，始终尽量不要在同一组件中混合两种 API 样式。
+
+### 不使用 `setup()` %{#without-setup}%
 
 你可以使用[前一节的 state](./state.md#options-api) 中的 `mapState()` 函数来将其映射为 getters：
 

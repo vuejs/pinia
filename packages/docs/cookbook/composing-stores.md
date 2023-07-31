@@ -51,9 +51,10 @@ import { useUserStore } from './user'
 
 export const useCartStore = defineStore('cart', () => {
   const user = useUserStore()
+  const list = ref([])
 
   const summary = computed(() => {
-    return `Hi ${user.name}, you have ${state.list.length} items in your cart. It costs ${state.price}.`
+    return `Hi ${user.name}, you have ${list.value.length} items in your cart. It costs ${price.value}.`
   })
 
   function purchase() {
@@ -98,6 +99,32 @@ export const useCartStore = defineStore('cart', {
 
       try {
         await apiOrderCart(user.token, this.items)
+        // another action
+        this.emptyCart()
+      } catch (err) {
+        displayError(err)
+      }
+    },
+  },
+})
+```
+
+Since actions can be asynchronous, make sure **all of your `useStore()` calls appear before any `await`**. Otherwise, this could lead to using the wrong pinia instance _in SSR apps_:
+
+```js{7-8,11-13}
+import { defineStore } from 'pinia'
+import { useUserStore } from './user'
+
+export const useCartStore = defineStore('cart', {
+  actions: {
+    async orderCart() {
+      // ✅ call at the top of the action before any `await`
+      const user = useUserStore()
+
+      try {
+        await apiOrderCart(user.token, this.items)
+        // ❌ called after an `await` statement
+        const otherStore = useOtherStore()
         // another action
         this.emptyCart()
       } catch (err) {

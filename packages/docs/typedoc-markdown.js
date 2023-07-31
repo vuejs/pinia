@@ -2,9 +2,6 @@ const _fs = require('fs')
 const path = require('path')
 const TypeDoc = require('typedoc')
 const { PageEvent } = TypeDoc
-const {
-  prependYAML,
-} = require('typedoc-plugin-markdown/dist/utils/front-matter')
 
 const fs = _fs.promises
 
@@ -38,6 +35,9 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
   /** @type {'build' | 'serve'} */
   let targetMode = 'build'
 
+  const slugify = (s) => s.replaceAll(' ', '-')
+  // encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
+
   app.renderer.on(
     PageEvent.END,
     /**
@@ -47,17 +47,58 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
     (page) => {
       if (page.url !== 'index.md' && page.contents) {
         page.contents = prependYAML(page.contents, {
-          sidebar: 'auto',
           // TODO: figure out a way to point to the source files?
-          editLinks: false,
-          sidebarDepth: 3,
+          editLink: false,
         })
+      }
+
+      // avoid duplicated id titles
+      if (page.contents) {
+        const lines = page.contents.split('\n')
+        const titleStack = []
+        let currentLevel = 0
+        const TITLE_LEVEL = /^#+/
+        const existingIds = new Map()
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i]
+          if (!line.startsWith('#')) continue
+          const level = line.match(TITLE_LEVEL)[0].length
+
+          // remove extra levels
+          if (level <= currentLevel) {
+            titleStack.splice(level - 1)
+          }
+          // add the current title
+          titleStack.push(line.slice(level).trim())
+          currentLevel = level
+
+          // no need to add ids to h1
+          if (level < 2) continue
+
+          // ignore the root level (h1) to match the sidebar
+          const slugifiedTitle = slugify(titleStack.slice(1).join('-'))
+            // ensure the link is valid vuejs/router#1743
+            .replaceAll('\\', '')
+          let id
+          if (existingIds.has(slugifiedTitle)) {
+            const current = existingIds.get(slugifiedTitle)
+            existingIds.set(slugifiedTitle, current + 1)
+            id = ` %{#${slugifiedTitle}_${current + 1}}%`
+          } else {
+            existingIds.set(slugifiedTitle, 0)
+            id = ` %{#${slugifiedTitle}}%`
+          }
+          const newLine = line + id
+          lines.splice(i, 1, newLine)
+        }
+
+        page.contents = lines.join('\n')
       }
     }
   )
 
   async function serve() {
-    app.bootstrap(options)
+    await app.bootstrapWithPlugins(options)
     app.convertAndWatch(handleProject)
   }
 
@@ -68,7 +109,7 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
     ) {
       await fs.rm(options.out, { recursive: true })
     }
-    app.bootstrap(options)
+    await app.bootstrapWithPlugins(options)
     const project = app.convert()
     return handleProject(project)
   }
@@ -111,4 +152,45 @@ async function exists(path) {
   } catch {
     return false
   }
+}
+
+/**
+ * @typedef {Record<string, string | number | boolean>} FrontMatterVars
+ */
+
+/**
+ * Prepends YAML block to a string
+ * @param {string} contents - string to prepend to
+ * @param {FrontMattersVars} vars - object of required front matter variables
+ */
+function prependYAML(contents, vars) {
+  return contents
+    .replace(/^/, toYAML(vars) + '\n\n')
+    .replace(/[\r\n]{3,}/g, '\n\n')
+}
+
+/**
+ * Converts YAML object to a YAML string
+ * @param {FrontMatterVars} vars
+ */
+function toYAML(vars) {
+  const yaml = `---
+${Object.entries(vars)
+  .map(
+    ([key, value]) =>
+      `${key}: ${
+        typeof value === 'string' ? `"${escapeDoubleQuotes(value)}"` : value
+      }`
+  )
+  .join('\n')}
+---`
+  return yaml
+}
+
+/**
+ * Escapes double quotes in a string
+ * @param {string} str - string to escape
+ */
+function escapeDoubleQuotes(str) {
+  return str.replace(/"/g, '\\"')
 }

@@ -6,7 +6,7 @@
       rel="sponsored noopener"
       :title="title"
     >
-      <slot>{{ translations[site.lang]}}</slot>
+      <slot>{{ translations[site.lang] }}</slot>
     </a>
   </div>
 </template>
@@ -25,7 +25,7 @@ defineProps<{ href: string; title: string }>()
 <style scoped>
 .vueschool {
   margin-top: 20px;
-  background-color: var(--code-bg-color);
+  background-color: var(--vp-code-block-bg);
   padding: 1em 1.25em;
   border-radius: 2px;
   position: relative;

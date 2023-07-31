@@ -1,12 +1,12 @@
-# 从 Vuex ≤4 迁移 {#migrating-from-vuex-≤4}
+# 从 Vuex ≤4 迁移 %{#migrating-from-vuex-≤4}%
 
 虽然 Vuex 和 Pinia store 的结构不同，但很多逻辑都可以复用。本指南的作用是帮助你完成迁移，并指出一些可能出现的常见问题。
 
-## 准备 {#preparation}
+## 准备 %{#preparation}%
 
 首先，按照[入门指南](../getting-started.md)安装 Pinia。
 
-## 重构 store 的模块 {#restructuring-modules-to-stores}
+## 重构 store 的模块 %{#restructuring-modules-to-stores}%
 
 Vuex 有一个概念，带有多个模块的单一 store。这些模块可以被命名，甚至可以互相嵌套。
 
@@ -42,7 +42,7 @@ Pinia 的目录一般被命名为 `stores` 而不是 `store`。这是为了强�
 
 对于大型项目，你可能希望逐个模块进行转换，而不是一次性全部转换。其实在迁移过程中，你可以同时使用 Pinia 和 Vuex。这样也完全可以正常工作，这也是将 Pinia 目录命名为 `stores` 的另一个原因。
 
-## 转换单个模块 {#converting-a-single-module}
+## 转换单个模块 %{#converting-a-single-module}%
 
 下面有一个完整的例子，介绍了将 Vuex 模块转换为 Pinia store 的完整过程，请看下面的逐步指南。Pinia 的例子使用了一个 option store，因为其结构与 Vuex 最为相似。
 
@@ -164,7 +164,7 @@ export const useAuthUserStore = defineStore('auth/user', {
       this.lastName = payload.lastName
       this.userId = payload.userId
     },
-    // easily reset state using `$reset`
+    // 使用 `$reset` 可以轻松重置 state
     clearUser () {
       this.$reset()
     }
@@ -177,20 +177,20 @@ export const useAuthUserStore = defineStore('auth/user', {
 1. 为 store 添加一个必要的 `id`，你可以让它与之前的命名保持相同。
 2. 如果 `state` 不是一个函数的话 将它转换为一个函数。
 3. 转换 `getters`
-    1. 删除任何返回同名 state 的 getters(例如： `firstName: (state) => state.firstName`)，这些都不是必需的，因为你可以直接从 store 实例中访问任何状态。
+    1. 删除任何返回同名 state 的 getters (例如： `firstName: (state) => state.firstName`)，这些都不是必需的，因为你可以直接从 store 实例中访问任何状态。
     2. 如果你需要访问其他的 getter，可通过 `this` 访问它们，而不是第二个参数。记住，如果你使用 `this`，而且你不得不使用一个普通函数，而不是一个箭头函数，那么由于 TS 的限制，你需要指定一个返回类型，更多细节请阅读[这篇文档](../core-concepts/getters.md#accessing-other-getters)
     3. 如果使用 `rootState` 或 `rootGetters` 参数，可以直接导入其他 store 来替代它们，或者如果它们仍然存在于 Vuex ，则直接从 Vuex 中访问它们。
 4. 转换 `actions`
     1. 从每个 action 中删除第一个 `context` 参数。所有的东西都应该直接从 `this` 中访问。
     2. 如果使用其他 store，要么直接导入，要么与 getters 一样，在 Vuex 上访问。
 5. 转换 `mutations`
-    1. Mutation 已经被弃用了。它们可以被转换为 `action`，或者你可以在你的组件中直接赋值给 store(例如，`userStore.firstName = 'First'`)
+    1. Mutation 已经被弃用了。它们可以被转换为 `action`，或者你可以在你的组件中直接赋值给 store (例如：`userStore.firstName = 'First'`)
     2. 如果你想将它转换为 action，删除第一个 `state` 参数，用 `this` 代替任何赋值操作中的 `state`。
     3. 一个常见的 mutation 是将 state 重置为初始 state。而这就是 store 的 `$reset` 方法的内置功能。注意，这个功能只存在于 option stores。
 
 正如你所看到的，你的大部分代码都可以被重复使用。如果有什么遗漏，类型安全也应该可以帮助你确定需要修改的地方。
 
-## 组件内的使用 {#usage-inside-components}
+## 组件内的使用 %{#usage-inside-components}%
 
 现在你的 Vuex 模块已经被转换为 Pinia store，但其他使用该模块的组件或文件也需要更新。
 
@@ -240,7 +240,7 @@ export default defineComponent({
 })
 ```
 
-## 组件外的使用 {#usage-outside-components}
+## 组件外的使用 %{#usage-outside-components}%
 
 只要你注意**不在函数外使用 store**，单独更新组件外的用法应该很简单。下面是一个在 Vue Router 导航守卫中使用 store 的例子：
 
@@ -268,19 +268,19 @@ router.beforeEach((to, from, next) => {
 
 更多细节可在[这里](../core-concepts/outside-component-usage.md)找到。
 
-## Vuex 高级用法 {#advanced-vuex-usage}
+## Vuex 高级用法 %{#advanced-vuex-usage}%
 
 如果你的 Vuex store 使用了它所提供的一些更高级的功能，也有一些关于如何在 Pinia 中实现同样效果的指导。其中一些要点已经包含在这个[对比总结](../introduction.md#comparison-with-vuex-3-x-4-x)里了。
 
-### 动态模块 {#dynamic-modules}
+### 动态模块 %{#dynamic-modules}%
 
 在 Pinia 中不需要动态注册模块。store 设计之初就是动态的，只有在需要时才会被注册。如果一个 store 从未被使用过，它就永远不会被 “注册”。
 
-### 热更新 {#hot-module-replacement}
+### 热更新 %{#hot-module-replacement}%
 
 支持 HMR，但需要一些修改，见[HMR 指南](./hot-module-replacement.md)。
 
-### 插件 {#plugins}
+### 插件 %{#plugins}%
 
 如果你使用的是一个公共的 Vuex 插件，那么请检查是否有一个 Pinia 版的替代品。如果没有，你就需要自己写一个，或者评估一下是否还有必要使用这个插件。
 

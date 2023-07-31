@@ -7,6 +7,7 @@ import {
   isVue2,
   set,
   toRaw,
+  triggerRef,
 } from 'vue-demi'
 import type { ComputedRef, WritableComputedRef } from 'vue-demi'
 import {
@@ -33,7 +34,7 @@ export interface TestingOptions {
   plugins?: PiniaPlugin[]
 
   /**
-   * When set to false, actions are only spied, they still get executed. When
+   * When set to false, actions are only spied, but they will still get executed. When
    * set to true, actions will be replaced with spies, resulting in their code
    * not being executed. Defaults to true. NOTE: when providing `createSpy()`,
    * it will **only** make the `fn` argument `undefined`. You still have to
@@ -49,8 +50,14 @@ export interface TestingOptions {
   stubPatch?: boolean
 
   /**
+   * When set to true, calls to `$reset()` won't change the state. Defaults to
+   * false.
+   */
+  stubReset?: boolean
+
+  /**
    * Creates an empty App and calls `app.use(pinia)` with the created testing
-   * pinia. This is allows you to use plugins while unit testing stores as
+   * pinia. This allows you to use plugins while unit testing stores as
    * plugins **will wait for pinia to be installed in order to be executed**.
    * Defaults to false.
    */
@@ -58,7 +65,8 @@ export interface TestingOptions {
 
   /**
    * Function used to create a spy for actions and `$patch()`. Pre-configured
-   * with `jest.fn()` in jest projects or `vi.fn()` in vitest projects.
+   * with `jest.fn` in Jest projects or `vi.fn` in Vitest projects if
+   * `globals: true` is set.
    */
   createSpy?: (fn?: (...args: any[]) => any) => (...args: any[]) => any
 }
@@ -94,6 +102,7 @@ export function createTestingPinia({
   plugins = [],
   stubActions = true,
   stubPatch = false,
+  stubReset = false,
   fakeApp = false,
   createSpy: _createSpy,
 }: TestingOptions = {}): TestingPinia {
@@ -127,10 +136,12 @@ export function createTestingPinia({
   // stub actions
   pinia._p.push(({ store, options }) => {
     Object.keys(options.actions).forEach((action) => {
+      if (action === '$reset') return
       store[action] = stubActions ? createSpy() : createSpy(store[action])
     })
 
     store.$patch = stubPatch ? createSpy() : createSpy(store.$patch)
+    store.$reset = stubReset ? createSpy() : createSpy(store.$reset)
   })
 
   if (fakeApp) {
@@ -205,17 +216,35 @@ function isComputed<T>(
 function WritableComputed({ store }: PiniaPluginContext) {
   const rawStore = toRaw(store)
   for (const key in rawStore) {
-    const value = rawStore[key]
-    if (isComputed(value)) {
+    const originalComputed = rawStore[key]
+    if (isComputed(originalComputed)) {
+      const originalFn = originalComputed.effect.fn
       rawStore[key] = customRef((track, trigger) => {
-        let internalValue: any
+        // override the computed with a new one
+        const overriddenFn = () =>
+          // @ts-expect-error: internal value
+          originalComputed._value
+        // originalComputed.effect.fn = overriddenFn
         return {
           get: () => {
             track()
-            return internalValue !== undefined ? internalValue : value.value
+            return originalComputed.value
           },
           set: (newValue) => {
-            internalValue = newValue
+            // reset the computed to its original value by setting it to its initial state
+            if (newValue === undefined) {
+              originalComputed.effect.fn = originalFn
+              // @ts-expect-error: private api to remove the current cached value
+              delete originalComputed._value
+              // @ts-expect-error: private api to force the recomputation
+              originalComputed._dirty = true
+            } else {
+              originalComputed.effect.fn = overriddenFn
+              // @ts-expect-error: private api
+              originalComputed._value = newValue
+            }
+            // this allows to trigger the original computed in setup stores
+            triggerRef(originalComputed)
             trigger()
           },
         }

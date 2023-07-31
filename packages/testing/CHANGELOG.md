@@ -1,3 +1,32 @@
+## [0.1.3](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.2...@pinia/testing@0.1.3) (2023-07-26)
+
+This version contains no code changes.
+
+## [0.1.2](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.1...@pinia/testing@0.1.2) (2023-05-18)
+
+- Force vue-demi version
+
+## [0.1.1](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.0...@pinia/testing@0.1.1) (2023-05-17)
+
+This release contains no code changes.
+
+# [0.1.0](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.16...@pinia/testing@0.1.0) (2023-05-08)
+
+### Features
+
+- **testing:** allow mocking $reset ([5f526a3](https://github.com/vuejs/pinia/commit/5f526a33ab0ac441fe865344977a11e0e471ce17)), closes [#2188](https://github.com/vuejs/pinia/issues/2188)
+
+## [0.0.16](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.15...@pinia/testing@0.0.16) (2023-04-07)
+
+### Bug Fixes
+
+- support "types" condition in "exports" field ([#2078](https://github.com/vuejs/pinia/issues/2078)) ([66d3a5e](https://github.com/vuejs/pinia/commit/66d3a5edd03f28f52daf35449db8c5f660c70b01))
+- **testing:** override computed in setup stores ([f9534c9](https://github.com/vuejs/pinia/commit/f9534c926469027f8ccc75c43ce1ea329b58aa0d)), closes [#2109](https://github.com/vuejs/pinia/issues/2109)
+
+## [0.0.15](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.14...@pinia/testing@0.0.15) (2023-02-20)
+
+No changes in this release
+
 ## [0.0.14](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.13...@pinia/testing@0.0.14) (2022-08-18)
 
 - refactor changes

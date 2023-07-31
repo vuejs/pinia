@@ -13,33 +13,27 @@ import {
 import { nuxtCtx, useNuxt, createResolver } from '@nuxt/kit'
 import Module from '../src/module'
 
-describe('works with nuxt', async () => {
-  beforeAll(async () => {
-    await setup({
-      server: true,
-      rootDir: fileURLToPath(new URL('../playground', import.meta.url)),
-      nuxtConfig: {
-        hooks: {
-          'vite:extendConfig'(config, { isClient }) {
-            config.define!.__BROWSER__ = isClient
-          },
-        },
-        vite: {
-          define: {
-            __DEV__: false,
-            __TEST__: true,
-            __FEATURE_PROD_DEVTOOLS__: false,
-          },
-        },
+await setup({
+  server: true,
+  rootDir: fileURLToPath(new URL('../playground', import.meta.url)),
+  nuxtConfig: {
+    hooks: {
+      'vite:extendConfig'(config, { isClient }) {
+        config.define!.__BROWSER__ = isClient
       },
-    })
-    // await loadFixture()
-    // const ctx = useTestContext()
-    // await startServer()
-  })
+    },
+    vite: {
+      define: {
+        __DEV__: false,
+        __TEST__: true,
+        __FEATURE_PROD_DEVTOOLS__: false,
+      },
+    },
+  },
+})
 
-  // FIXME: this is consistently failing, seems to not be configured well with nuxt
-  it.skip('works on ssr', async () => {
+describe('works with nuxt', async () => {
+  it('works on ssr', async () => {
     const html = await $fetch('/')
     expect(html).toContain('Count: 101')
   })

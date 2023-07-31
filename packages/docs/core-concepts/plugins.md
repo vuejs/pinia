@@ -6,7 +6,7 @@ Pinia stores can be fully extended thanks to a low level API. Here is a list of 
 - Add new options when defining stores
 - Add new methods to stores
 - Wrap existing methods
-- Change or even cancel actions
+- Intercept actions and its results
 - Implement side effects like [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 - Apply **only** to specific stores
 
@@ -15,8 +15,8 @@ Plugins are added to the pinia instance with `pinia.use()`. The simplest example
 ```js
 import { createPinia } from 'pinia'
 
-// add a property named `secret` to every store that is created after this plugin is installed
-// this could be in a different file
+// add a property named `secret` to every store that is created
+// after this plugin is installed this could be in a different file
 function SecretPiniaPlugin() {
   return { secret: 'the cake is a lie' }
 }
@@ -144,7 +144,7 @@ If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](ht
 ```js
 import { set, toRef } from '@vue/composition-api'
 pinia.use(({ store }) => {
-  if (!Object.prototype.hasOwnProperty(store.$state, 'hello')) {
+  if (!Object.prototype.hasOwnProperty(store.$state, 'secret')) {
     const secretRef = ref('secret')
     // If the data is meant to be used during SSR, you should
     // set it on the `$state` property so it is serialized and
@@ -159,6 +159,34 @@ pinia.use(({ store }) => {
 ```
 
 :::
+
+#### Resetting state added in plugins
+
+By default, `$reset()` will not reset state added by plugins but you can override it to also reset the state you add:
+
+```js
+import { toRef, ref } from 'vue'
+
+pinia.use(({ store }) => {
+  // this is the same code as above for reference
+  if (!Object.prototype.hasOwnProperty(store.$state, 'hasError')) {
+    const hasError = ref(false)
+    store.$state.hasError = hasError
+  }
+  store.hasError = toRef(store.$state, 'hasError')
+
+ // make sure to set the context (`this`) to the store
+  const originalReset = store.$reset.bind(store)
+
+ // override the $reset function
+  return {
+    $reset() {
+      originalReset()
+      store.hasError = false
+    }
+  }
+})
+```
 
 ## Adding new external properties
 
@@ -269,6 +297,7 @@ When adding new properties to stores, you should also extend the `PiniaCustomPro
 
 ```ts
 import 'pinia'
+import type { Router } from 'vue-router'
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
@@ -278,6 +307,9 @@ declare module 'pinia' {
 
     // you can define simpler values too
     simpleNumber: number
+
+    // type the router added by the plugin above (#adding-new-external-properties)
+    router: Router
   }
 }
 ```

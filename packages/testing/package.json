@@ -1,6 +1,6 @@
 {
   "name": "@pinia/testing",
-  "version": "0.0.14",
+  "version": "0.1.3",
   "description": "Testing module for Pinia",
   "keywords": [
     "vue",
@@ -27,6 +27,7 @@
   },
   "sideEffects": false,
   "exports": {
+    "types": "./dist/index.d.ts",
     "require": "./dist/index.js",
     "import": "./dist/index.mjs"
   },
@@ -39,18 +40,18 @@
     "dist/*.d.ts"
   ],
   "scripts": {
-    "build": "siroc",
+    "build": "tsup",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/testing -r 1"
   },
   "dependencies": {
-    "vue-demi": "*"
+    "vue-demi": ">=0.14.5"
   },
   "devDependencies": {
     "pinia": "workspace:^2.0.18",
-    "siroc": "^0.16.0"
+    "tsup": "^6.7.0"
   },
   "peerDependencies": {
-    "pinia": ">=2.0.19"
+    "pinia": ">=2.1.5"
   },
   "publishConfig": {
     "access": "public"

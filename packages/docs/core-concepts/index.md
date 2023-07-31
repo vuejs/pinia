@@ -10,8 +10,8 @@ Before diving into core concepts, we need to know that a store is defined using 
 ```js
 import { defineStore } from 'pinia'
 
-// You can name the return value of `defineStore()` anything you want, 
-// but it's best to use the name of the store and surround it with `use` 
+// You can name the return value of `defineStore()` anything you want,
+// but it's best to use the name of the store and surround it with `use`
 // and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
 export const useAlertsStore = defineStore('alerts', {
@@ -68,7 +68,32 @@ In _Setup Stores_:
 - `computed()`s become `getters`
 - `function()`s become `actions`
 
+Note you **must** return **all state properties** in setup stores for pinia to pick them up as state. In other words, you cannot have _private_ state properties in stores.
+
 Setup stores bring a lot more flexibility than [Option Stores](#option-stores) as you can create watchers within a store and freely use any [composable](https://vuejs.org/guide/reusability/composables.html#composables). However, keep in mind that using composables will get more complex when using [SSR](../cookbook/composables.md).
+
+Setup stores are also able to rely on globally _provided_ properties like the Router or the Route. Any property [provided at the App level](https://vuejs.org/api/application.html#app-provide) can be accessed from the store using `inject()`, just like in components:
+
+```ts
+import { inject } from 'vue'
+import { useRoute } from 'vue-router'
+
+export const useSearchFilters = defineStore('search-filters', () => {
+  const route = useRoute()
+  // this assumes `app.provide('appProvided', 'value')` was called
+  const appProvided = inject('appProvided')
+
+  // ...
+
+  return {
+    // ...
+  }
+})
+```
+
+:::warning
+Do not return properties like `useRoute()` or `appProvided` (from the example above) as they do not belong to the store itself and you can directly access them within components with `useRoute()` and `inject('appProvided')`.
+:::
 
 ## What syntax should I pick?
 
@@ -76,21 +101,15 @@ As with [Vue's Composition API and Options API](https://vuejs.org/guide/introduc
 
 ## Using the store
 
-We are _defining_ a store because the store won't be created until `use...Store()` is called inside of `setup()`:
+We are _defining_ a store because the store won't be created until `use...Store()` is called within a component `<script setup>` (or within `setup()` **like all composables**):
 
-```js
+```vue
+<script setup>
 import { useCounterStore } from '@/stores/counter'
 
-export default {
-  setup() {
-    const store = useCounterStore()
-
-    return {
-      // you can return the whole store instance to use it in the template
-      store,
-    }
-  },
-}
+// access the `store` variable anywhere in the component ✨
+const store = useCounterStore()
+</script>
 ```
 
 :::tip
@@ -103,56 +122,39 @@ Once the store is instantiated, you can access any property defined in `state`, 
 
 Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it**:
 
-```js
-export default defineComponent({
-  setup() {
-    const store = useCounterStore()
-    // ❌ This won't work because it breaks reactivity
-    // it's the same as destructuring from `props`
-    const { name, doubleCount } = store
+```vue
+<script setup>
+const store = useCounterStore()
+// ❌ This won't work because it breaks reactivity
+// it's the same as destructuring from `props`
+const { name, doubleCount } = store // [!code warning]
+name // will always be "Eduardo" // [!code warning]
+doubleCount // will always be 0 // [!code warning]
 
-    name // "Eduardo"
-    doubleCount // 0
+setTimeout(() => {
+  store.increment()
+}, 1000)
 
-    setTimeout(() => {
-      store.increment()
-    }, 1000)
-
-    return {
-      // will always be "Eduardo"
-      name,
-      // will always be 0
-      doubleCount,
-      // will also always be 0
-      doubleNumber: store.doubleCount,
-
-      // ✅ this one will be reactive
-      doubleValue: computed(() => store.doubleCount),
-    }
-  },
-})
+// ✅ this one will be reactive
+// 💡 but you could also just use `store.doubleCount` directly
+const doubleValue = computed(() => store.doubleCount)
+</script>
 ```
+
+## Destructuring from a Store
 
 In order to extract properties from the store while keeping its reactivity, you need to use `storeToRefs()`. It will create refs for every reactive property. This is useful when you are only using state from the store but not calling any action. Note you can destructure actions directly from the store as they are bound to the store itself too:
 
-```js
+```vue
+<script setup>
 import { storeToRefs } from 'pinia'
 
-export default defineComponent({
-  setup() {
-    const store = useCounterStore()
-    // `name` and `doubleCount` are reactive refs
-    // This will also create refs for properties added by plugins
-    // but skip any action or non reactive (non ref/reactive) property
-    const { name, doubleCount } = storeToRefs(store)
-    // the increment action can just be extracted
-    const { increment } = store
-
-    return {
-      name,
-      doubleCount,
-      increment,
-    }
-  },
-})
+const store = useCounterStore()
+// `name` and `doubleCount` are reactive refs
+// This will also extract refs for properties added by plugins
+// but skip any action or non reactive (non ref/reactive) property
+const { name, doubleCount } = storeToRefs(store)
+// the increment action can just be destructured
+const { increment } = store
+</script>
 ```

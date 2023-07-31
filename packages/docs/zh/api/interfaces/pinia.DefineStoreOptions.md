@@ -6,7 +6,7 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptions
 
-# 接口：DefineStoreOptions<Id, S, G, A\> {#interface-definestoreoptions-id-s-g-a}
+# 接口：DefineStoreOptions<Id, S, G, A\> %{#interface-definestoreoptions-id-s-g-a}%
 
 [pinia](../modules/pinia.md).DefineStoreOptions
 
@@ -17,7 +17,7 @@ sidebarDepth: 3
 
 [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
-## 类型参数 {#type-parameters}
+## 类型参数 %{#type-parameters}%
 
 | 名字 | 类型 |
 | :------ | :------ |
@@ -26,15 +26,15 @@ sidebarDepth: 3
 | `G` | `G` |
 | `A` | `A` |
 
-## 层次结构 {#hierarchy}
+## 层次结构 %{#hierarchy}%
 
 - [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
 
   ↳ **`DefineStoreOptions`**
 
-## 属性 {#properties}
+## 属性
 
-### actions {#actions}
+### actions %{#actions}%
 
 • `Optional` **actions**: `A` & `ThisType`<`A` & `UnwrapRef`<`S`\> & [`_StoreWithState`](pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\>
 
@@ -42,7 +42,7 @@ action 的可选对象
 
 ___
 
-### getters {#getters}
+### getters %{#getters}%
 
 • `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
 
@@ -50,7 +50,7 @@ getter 的可选对象
 
 ___
 
-### id {#id}
+### id %{#id}%
 
 • **id**: `Id`
 
@@ -58,24 +58,24 @@ ___
 
 ___
 
-### state {#state}
+### state %{#state}%
 
 • `Optional` **state**: () => `S`
 
-#### 类型声明 {#type-declaration}
+#### 类型声明 %{#type-declaration}%
 
 ▸ (): `S`
 
 创建一个新 state 的函数。
 **必须是一个箭头函数**，以确保正确的类型标注!
 
-##### 返回值 {#returns}
+##### 返回值
 
 `S`
 
-## 方法 {#methods}
+## 方法 %{#methods}%
 
-### hydrate {#hydrate}
+### hydrate %{#hydrate}%
 
 ▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
 
@@ -85,7 +85,7 @@ ___
 **`Example`**
 
 如果在你的 `state` 中，你使用了任何在服务器和客户端有不同值的 `customRef`、`computed` 或 `ref`，
-你需要手动激活它们。 
+你需要手动激活它们。
 例如，一个存储在本地存储的自定义 ref：
 
 ```ts
@@ -100,13 +100,13 @@ const useStore = defineStore('main', {
 })
 ```
 
-#### 参数 {#parameters}
+#### 参数
 
 | 名字 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
 | `initialState` | `UnwrapRef`<`S`\> | initialState |
 
-#### 返回值 {#returns}
+#### 返回值
 
 `void`

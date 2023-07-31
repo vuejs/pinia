@@ -1,3 +1,28 @@
+## [0.4.11](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.10...@pinia/nuxt@0.4.11) (2023-05-17)
+
+This release only contains build related changes
+
+## [0.4.10](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.9...@pinia/nuxt@0.4.10) (2023-05-08)
+
+This release only contains build related changes
+
+## [0.4.9](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.8...@pinia/nuxt@0.4.9) (2023-04-20)
+
+### Bug Fixes
+
+- **nuxt:** add workaround to preserve type output ([#2147](https://github.com/vuejs/pinia/issues/2147)) ([65debf9](https://github.com/vuejs/pinia/commit/65debf9be0567159b932fcd0fc445a8a2bdbaa4d))
+- **types:** typescript 5.0 acceptHMRUpdate error ([#2098](https://github.com/vuejs/pinia/issues/2098)) ([#2152](https://github.com/vuejs/pinia/issues/2152)) ([1469971](https://github.com/vuejs/pinia/commit/146997196f87abc691340fd46ae758a0865b8a73))
+
+## [0.4.8](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.7...@pinia/nuxt@0.4.8) (2023-04-07)
+
+### Bug Fixes
+
+- support "types" condition in "exports" field ([#2078](https://github.com/vuejs/pinia/issues/2078)) ([66d3a5e](https://github.com/vuejs/pinia/commit/66d3a5edd03f28f52daf35449db8c5f660c70b01))
+
+## [0.4.7](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.6...@pinia/nuxt@0.4.7) (2023-02-20)
+
+No changes in this release
+
 ## [0.4.6](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.5...@pinia/nuxt@0.4.6) (2022-11-27)
 
 ### Bug Fixes
@@ -81,8 +106,8 @@
   `$fetch()` and `useNuxtApp()`. You can find more information about this
   in Nuxt documentation:
 
-  - https://v3.nuxtjs.org/bridge/bridge-composition-api/
-  - https://v3.nuxtjs.org/bridge/overview
+  - <https://v3.nuxtjs.org/bridge/bridge-composition-api/>
+  - <https://v3.nuxtjs.org/bridge/overview>
 
 - **nuxt:** in Nuxt 3, `$nuxt` is no longer available in stores.
   This is because it was removed in Nuxt 3 and it is no longer the

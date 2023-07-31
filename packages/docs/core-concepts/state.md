@@ -88,12 +88,28 @@ Note you cannot add a new state property **if you don't define it in `state()`**
 
 ## Resetting the state
 
-You can _reset_ the state to its initial value by calling the `$reset()` method on the store:
+In [Option Stores](/core-concepts/index.md#option-stores), you can _reset_ the state to its initial value by calling the `$reset()` method on the store:
 
 ```js
 const store = useStore()
 
 store.$reset()
+```
+
+Internally, this calls the `state()` function to create a new state object and replaces the current state with it.
+
+In [Setup Stores](/core-concepts/index.md#setup-stores), you need to create your own `$reset()` method:
+
+```ts
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+
+  function $reset() {
+    count.value = 0
+  }
+
+  return { count, $reset }
+})
 ```
 
 ### Usage with the Options API
@@ -156,7 +172,7 @@ export default {
     // gives access to this.count inside the component and allows setting it
     // this.count++
     // same as reading from store.count
-    ...mapWritableState(useCounterStore, ['count'])
+    ...mapWritableState(useCounterStore, ['count']),
     // same as above but registers it as this.myOwnName
     ...mapWritableState(useCounterStore, {
       myOwnName: 'count',
@@ -233,21 +249,17 @@ cartStore.$subscribe((mutation, state) => {
 
 By default, _state subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you also want to keep them after the component is unmounted, pass `{ detached: true }` as the second argument to _detach_ the _state subscription_ from the current component:
 
-```js
-export default {
-  setup() {
-    const someStore = useSomeStore()
+```vue
+<script setup>
+const someStore = useSomeStore()
 
-    // this subscription will be kept even after the component is unmounted
-    someStore.$subscribe(callback, { detached: true })
-
-    // ...
-  },
-}
+// this subscription will be kept even after the component is unmounted
+someStore.$subscribe(callback, { detached: true })
+</script>
 ```
 
 :::tip
-You can watch the whole state on the `pinia` instance:
+You can _watch_ the whole state on the `pinia` instance with a single `watch()`:
 
 ```js
 watch(

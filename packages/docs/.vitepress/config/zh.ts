@@ -1,20 +1,46 @@
-export default {
-  vitepressConfig: {
-    title: 'Pinia',
-    lang: 'zh-CN',
-    description: '值得你喜欢的 Vue Store',
-  },
+import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
+
+export const META_URL = 'https://pinia.vuejs.org'
+export const META_TITLE = 'Pinia 🍍'
+export const META_DESCRIPTION = '值得你喜欢的 Vue Store'
+// TODO: translation of this
+// 'Intuitive, type safe, light and flexible Store for Vue'
+
+export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
+  description: META_DESCRIPTION,
+  head: [
+    ['meta', { property: 'og:url', content: META_URL }],
+    ['meta', { property: 'og:description', content: META_DESCRIPTION }],
+    ['meta', { property: 'twitter:url', content: META_URL }],
+    ['meta', { property: 'twitter:title', content: META_TITLE }],
+    ['meta', { property: 'twitter:description', content: META_DESCRIPTION }],
+  ],
+
   themeConfig: {
-    label: '简体中文',
-    selectText: '选择语言',
-    editLinkText: '对本页提出修改建议',
-    lastUpdated: '最后更新',
+    editLink: {
+      pattern: 'https://github.com/vuejs/pinia/edit/v2/packages/docs/:path',
+      text: '对本页提出修改建议',
+    },
+
+    outline: {
+      label: '本页内容',
+    },
+
+    docFooter: {
+      prev: '上一页',
+      next: '下一页',
+    },
 
     nav: [
-      { text: '指南', link: '/zh/introduction.html' },
-      { text: 'API', link: '/zh/api/' },
       // { text: 'Config', link: '/config/' },
       // { text: 'Plugins', link: '/plugins/' },
+      {
+        text: '指南',
+        link: '/zh/core-concepts/',
+        activeMatch: '^/zh/core-concepts/',
+      },
+      { text: 'API', link: '/zh/api/', activeMatch: '^/zh/api/' },
+      { text: '手册', link: '/zh/cookbook/', activeMatch: '^/zh/cookbook/' },
       {
         text: '相关链接',
         items: [
@@ -23,26 +49,17 @@ export default {
             link: 'https://github.com/vuejs/pinia/discussions',
           },
           {
-            text: '聊天室',
-            link: 'https://chat.vuejs.org',
-          },
-          {
-            text: 'Twitter',
-            link: 'https://twitter.com/posva',
-          },
-          {
             text: '更新日志',
             link: 'https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md',
           },
         ],
       },
     ],
-
     sidebar: {
       '/zh/api/': [
         {
           text: 'packages',
-          children: [
+          items: [
             { text: 'pinia', link: '/zh/api/modules/pinia.html' },
             { text: '@pinia/nuxt', link: '/zh/api/modules/pinia_nuxt.html' },
             {
@@ -55,7 +72,7 @@ export default {
       '/zh/': [
         {
           text: '介绍',
-          children: [
+          items: [
             {
               text: 'Pinia 是什么？',
               link: '/zh/introduction.html',
@@ -68,7 +85,7 @@ export default {
         },
         {
           text: '核心概念',
-          children: [
+          items: [
             { text: '定义 Store', link: '/zh/core-concepts/' },
             { text: 'State', link: '/zh/core-concepts/state.html' },
             { text: 'Getter', link: '/zh/core-concepts/getters.html' },
@@ -82,7 +99,7 @@ export default {
         },
         {
           text: '服务端渲染 (SSR)',
-          children: [
+          items: [
             {
               text: 'Vue 与 Vite',
               link: '/zh/ssr/',
@@ -95,8 +112,12 @@ export default {
         },
         {
           text: '手册',
-          link: '/zh/cookbook/',
-          children: [
+          collapsed: false,
+          items: [
+            {
+              text: '目录',
+              link: '/zh/cookbook/',
+            },
             {
               text: '从 Vuex ≤4 迁移',
               link: '/zh/cookbook/migration-vuex.html',

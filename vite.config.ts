@@ -1,6 +1,6 @@
-/// <reference types="vitest" />
 import { fileURLToPath } from 'node:url'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
+
 export default defineConfig({
   define: {
     __DEV__: true,
@@ -24,6 +24,8 @@ export default defineConfig({
     ],
   },
   test: {
+    isolate: false,
+    include: ['packages/**/*.spec.ts'],
     coverage: {
       reporter: ['html', 'lcov', 'text'],
       include: ['packages/pinia/src/**/*.ts', 'packages/testing/src/**/*.ts'],
@@ -36,6 +38,7 @@ export default defineConfig({
         '**/src/vue2-plugin.ts',
       ],
     },
+    setupFiles: ['packages/pinia/__tests__/vitest-setup.ts'],
     environment: 'happy-dom',
     globals: true, // Specifically to make createTestingPinia happy
   },

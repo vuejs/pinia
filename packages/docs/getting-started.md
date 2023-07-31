@@ -1,3 +1,5 @@
+# Getting Started
+
 ## Installation
 
 <VueMasteryLogoLink for="pinia-cheat-sheet">

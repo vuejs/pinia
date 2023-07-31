@@ -60,13 +60,13 @@ describe('Store', () => {
       id: 'main',
       state: () => ({ n: 0 }),
     })
-    const TestComponent = {
+    const TestComponent = defineComponent({
       template: `<div>{{ store. n }}</div>`,
       setup() {
         const store = useStore()
         return { store }
       },
-    }
+    })
     const w1 = mount(TestComponent, { global: { plugins: [pinia] } })
     const w2 = mount(TestComponent, { global: { plugins: [pinia] } })
     expect(w1.text()).toBe('0')
@@ -378,5 +378,11 @@ describe('Store', () => {
     expect(
       `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "anyName" in store "main".`
     ).toHaveBeenWarnedTimes(1)
+  })
+
+  it('throws an error if no store id is provided', () => {
+    expect(() => defineStore({} as any)).toThrowError(
+      /must be passed a store id/
+    )
   })
 })

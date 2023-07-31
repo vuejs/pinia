@@ -1,4 +1,4 @@
-# State {#state}
+# State %{#state}%
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-state-from-a-pinia-store"
@@ -29,10 +29,9 @@ const useStore = defineStore('storeId', {
 如果你使用的是 Vue 2，你在 `state` 中创建的数据与 Vue 实例中的  `data` 遵循同样的规则，即 state 对象必须是清晰的，当你想向其**添加新属性**时，你需要调用 `Vue.set()` 。**参考：[Vue#data](https://v2.cn.vuejs.org/v2/api/#data)**。
 :::
 
-## TypeScript {#typescript}
+## TypeScript %{#typescript}%
 
-你并不需要做太多努力就能使你的 state 兼容 TS。 Pinia 会自动推断出你的 state 的类型，但在一些情况下，你得用一些方法来帮它一把。
-
+你并不需要做太多努力就能使你的 state 兼容 TS。确保启用了 strict，或者至少启用了 noImplicitThis，Pinia 将自动推断您的状态类型！ 但是，在某些情况下，您应该帮助它进行一些转换：
 ```ts
 const useStore = defineStore('storeId', {
   state: () => {
@@ -74,7 +73,7 @@ interface UserInfo {
 }
 ```
 
-## 访问 `state` {#accessing-the-state}
+## 访问 `state` %{#accessing-the-state}%
 
 默认情况下，你可以通过 `store` 实例访问 state，直接对其进行读写。
 
@@ -84,9 +83,9 @@ const store = useStore()
 store.count++
 ```
 
-## 重置 state {#resetting-the-state}
+## 重置 state %{#resetting-the-state}%
 
-你可以通过调用 store 的 `$reset()` 方法将 state 重置为初始值。
+使用[选项式 API](/zh/core-concepts/index.md#option-stores) 时，你可以通过调用 store 的 `$reset()` 方法将 state 重置为初始值。
 
 ```js
 const store = useStore()
@@ -94,7 +93,7 @@ const store = useStore()
 store.$reset()
 ```
 
-### 使用选项式 API 的用法 {#usage-with-the-options-api}
+### 使用选项式 API 的用法 %{#usage-with-the-options-api}%
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-state-in-the-options-api"
@@ -141,9 +140,9 @@ export default {
 }
 ```
 
-#### 可修改的 state {#modifiable-state}
+#### 可修改的 state %{#modifiable-state}%
 
-如果你想修改这些 state 属性(例如，如果你有一个表单)，你可以使用 `mapWritableState()` 作为代替。但注意你不能像 `mapState()` 那样传递一个函数：
+如果你想修改这些 state 属性 (例如，如果你有一个表单)，你可以使用 `mapWritableState()` 作为代替。但注意你不能像 `mapState()` 那样传递一个函数：
 
 ```js
 import { mapWritableState } from 'pinia'
@@ -167,7 +166,7 @@ export default {
 对于像数组这样的集合，你并不一定需要使用 `mapWritableState()`，`mapState()` 也允许你调用集合上的方法，除非你想用 `cartItems = []` 替换整个数组。
 :::
 
-## 变更 state {#mutating-the-state}
+## 变更 state %{#mutating-the-state}%
 
 <!-- TODO: disable this with `strictMode` -->
 
@@ -192,9 +191,9 @@ store.$patch((state) => {
 
 <!-- TODO: disable this with `strictMode`, `{ noDirectPatch: true }` -->
 
-两种变更 store 方法的主要区别是，`$patch()` 允许你将多个变更归入 devtools 的同一个条目中。同时请注意，**直接修改 `state`，`$patch()` 也会出现在 devtools 中**，而且可以进行 time travel(在 Vue 3 中还没有)。
+两种变更 store 方法的主要区别是，`$patch()` 允许你将多个变更归入 devtools 的同一个条目中。同时请注意，**直接修改 `state`，`$patch()` 也会出现在 devtools 中**，而且可以进行 time travel (在 Vue 3 中还没有)。
 
-## 替换 `state` {#replacing-the-state}
+## 替换 `state` %{#replacing-the-state}%
 
 你**不能完全替换掉** store 的 state，因为那样会破坏其响应性。但是，你可以 *patch* 它。
 
@@ -211,9 +210,9 @@ store.$patch({ count: 24 })
 pinia.state.value = {}
 ```
 
-## 订阅 state {#subscribing-to-the-state}
+## 订阅 state %{#subscribing-to-the-state}%
 
-类似于 Vuex 的 [subscribe 方法](https://vuex.vuejs.org/zh/api/index.html#subscribe)，你可以通过 store 的 `$subscribe()` 方法侦听 state 及其变化。比起普通的 `watch()`，使用 `$subscribe()` 的好处是 *subscriptions* 在 *patch* 后只触发一次(例如，当使用上面的函数版本时)。
+类似于 Vuex 的 [subscribe 方法](https://vuex.vuejs.org/zh/api/index.html#subscribe)，你可以通过 store 的 `$subscribe()` 方法侦听 state 及其变化。比起普通的 `watch()`，使用 `$subscribe()` 的好处是 *subscriptions* 在 *patch* 后只触发一次 (例如，当使用上面的函数版本时)。
 
 ```js
 cartStore.$subscribe((mutation, state) => {
@@ -229,23 +228,18 @@ cartStore.$subscribe((mutation, state) => {
 })
 ```
 
-默认情况下，*state subscription* 会被绑定到添加它们的组件上(如果 store 在组件的 `setup()` 里面)。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `{ detached: true }` 作为第二个参数，以将 *state subscription* 从当前组件中*分离*：
+默认情况下，*state subscription* 会被绑定到添加它们的组件上 (如果 store 在组件的 `setup()` 里面)。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `{ detached: true }` 作为第二个参数，以将 *state subscription* 从当前组件中*分离*：
 
-```js
-export default {
-  setup() {
-    const someStore = useSomeStore()
-
-    // 在组件被卸载后，该订阅依旧会被保留。
-    someStore.$subscribe(callback, { detached: true })
-
-    // ...
-  },
-}
+```vue
+<script setup>
+const someStore = useSomeStore()
+// 此订阅器即便在组件卸载之后仍会被保留
+someStore.$subscribe(callback, { detached: true })
+</script>
 ```
 
 :::tip
-你可以在 `pinia` 实例上侦听整个 state。
+你可以在 `pinia` 实例上使用 `watch()` 函数侦听整个 state。
 
 ```js
 watch(

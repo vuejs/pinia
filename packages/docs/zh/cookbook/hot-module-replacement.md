@@ -1,4 +1,4 @@
-# HMR (Hot Module Replacement) {#hmr-hot-module-replacement}
+# HMR (Hot Module Replacement) %{#hmr-hot-module-replacement}%
 
 Pinia 支持热更新，所以你可以编辑你的 store，并直接在你的应用中与它们互动，而不需要重新加载页面，允许你保持当前的 state、并添加甚至删除 state、action 和 getter。
 

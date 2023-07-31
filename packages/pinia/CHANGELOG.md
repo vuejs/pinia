@@ -1,3 +1,106 @@
+## [2.1.6](https://github.com/vuejs/pinia/compare/pinia@2.1.5...pinia@2.1.6) (2023-07-26)
+
+### Bug Fixes
+
+- **devtools:** preserve store reactivity ([709ed3b](https://github.com/vuejs/pinia/commit/709ed3b3a4787c3a9b5a59f863558b480a96eaaf))
+
+## [2.1.5](https://github.com/vuejs/pinia/compare/pinia@2.1.4...pinia@2.1.5) (2023-07-26)
+
+### Bug Fixes
+
+- **devtools:** correctly load the state ([beff091](https://github.com/vuejs/pinia/commit/beff091f80302def494305779f8aa1d12301bce4))
+- **devtools:** wrong toast message ([#2290](https://github.com/vuejs/pinia/issues/2290)) ([dfc04d3](https://github.com/vuejs/pinia/commit/dfc04d356c86128f868b12182615bd57228111d6))
+
+## [2.1.4](https://github.com/vuejs/pinia/compare/pinia@2.1.3...pinia@2.1.4) (2023-06-14)
+
+### Bug Fixes
+
+- **devtools:** group setup store sync actions mutations ([683efe1](https://github.com/vuejs/pinia/commit/683efe1a34cbca82c1ef19d268e3080503401de2))
+
+## [2.1.3](https://github.com/vuejs/pinia/compare/pinia@2.1.2...pinia@2.1.3) (2023-05-18)
+
+### Bug Fixes
+
+- **types:** revert declare module vue ([3000161](https://github.com/vuejs/pinia/commit/3000161205e66838d872e514a9e90f73a1b37039))
+
+## [2.1.2](https://github.com/vuejs/pinia/compare/pinia@2.1.1...pinia@2.1.2) (2023-05-18)
+
+- Force vue-demi version
+
+## [2.1.1](https://github.com/vuejs/pinia/compare/pinia@2.1.0...pinia@2.1.1) (2023-05-17)
+
+### Bug Fixes
+
+- expect Vue 3.3 ([b8fb165](https://github.com/vuejs/pinia/commit/b8fb1653211dbe6dc6aa3a8ac36185bf93bcfa25))
+
+# [2.1.0](https://github.com/vuejs/pinia/compare/pinia@2.0.36...pinia@2.1.0) (2023-05-17)
+
+‼️ This **requires** Vue 3.3 or latest vue-demi (for Vue 2)
+
+### Bug Fixes
+
+- **types:** use declare module vue ([b7f97dd](https://github.com/vuejs/pinia/commit/b7f97ddf160e999da7b639ba4fcaf554bed5f1e2))
+
+### Features
+
+- allow app injections in setup stores ([6a71019](https://github.com/vuejs/pinia/commit/6a71019ef2a633dcb097a63be895a8b1714863b6)), closes [#1784](https://github.com/vuejs/pinia/issues/1784)
+- **devtools:** allow resetting setup stores from inspector ([971dcdb](https://github.com/vuejs/pinia/commit/971dcdbf4b825e1791d02a85d6788fa72236107c)), closes [#2189](https://github.com/vuejs/pinia/issues/2189)
+
+### Reverts
+
+- Revert "chore: tmp upgrade to beta" ([2337130](https://github.com/vuejs/pinia/commit/2337130b0f11a3218a972555b84df6b2c055e6dc))
+
+## [2.0.36](https://github.com/vuejs/pinia/compare/pinia@2.0.35...pinia@2.0.36) (2023-05-08)
+
+### Features
+
+- **dx:** throw an error if store id is missing ([#2167](https://github.com/vuejs/pinia/issues/2167)) ([b74eb4f](https://github.com/vuejs/pinia/commit/b74eb4f9b5a2a20a9c8d3cedd221eea8dde201f6))
+- **warn:** improve warning message ([73518b3](https://github.com/vuejs/pinia/commit/73518b3f94fb164d02e740cb3132767a0d2a397b))
+
+## [2.0.35](https://github.com/vuejs/pinia/compare/pinia@2.0.34...pinia@2.0.35) (2023-04-20)
+
+### Bug Fixes
+
+- **types:** typescript 5.0 acceptHMRUpdate error ([#2098](https://github.com/vuejs/pinia/issues/2098)) ([#2152](https://github.com/vuejs/pinia/issues/2152)) ([1469971](https://github.com/vuejs/pinia/commit/146997196f87abc691340fd46ae758a0865b8a73))
+
+### Features
+
+- **types:** improve setActivePinia types ([1650c6e](https://github.com/vuejs/pinia/commit/1650c6efebc75fdc47b2ec082ba10c197b894aef))
+
+## [2.0.34](https://github.com/vuejs/pinia/compare/pinia@2.0.33...pinia@2.0.34) (2023-04-07)
+
+No changes in this release
+
+## [2.0.33](https://github.com/vuejs/pinia/compare/pinia@2.0.32...pinia@2.0.33) (2023-03-06)
+
+### Bug Fixes
+
+- allow `$reset` to be overridden by plugins ([#2054](https://github.com/vuejs/pinia/issues/2054)) ([709e2b1](https://github.com/vuejs/pinia/commit/709e2b1a77410331ee1ce88212ac55a4e92fa941))
+
+## [2.0.32](https://github.com/vuejs/pinia/compare/pinia@2.0.31...pinia@2.0.32) (2023-02-21)
+
+### Bug Fixes
+
+- **types:** mapWritableState array ([a7ad90d](https://github.com/vuejs/pinia/commit/a7ad90d319c4fad29f40622a6b95e605c47377f9)), closes [#2014](https://github.com/vuejs/pinia/issues/2014)
+
+## [2.0.31](https://github.com/vuejs/pinia/compare/pinia@2.0.30...pinia@2.0.31) (2023-02-20)
+
+### Bug Fixes
+
+- **types:** mapWritableState array ([07eaf99](https://github.com/vuejs/pinia/commit/07eaf99a566ef5de4173b782504a163bd276e12e)), closes [#2014](https://github.com/vuejs/pinia/issues/2014)
+
+## [2.0.30](https://github.com/vuejs/pinia/compare/pinia@2.0.29...pinia@2.0.30) (2023-02-01)
+
+### Bug Fixes
+
+- avoid spread operator even in devtools code ([d2a4def](https://github.com/vuejs/pinia/commit/d2a4defc381ae8e023b45b05e4ac8588fe2add9e)), closes [#1885](https://github.com/vuejs/pinia/issues/1885)
+
+## [2.0.29](https://github.com/vuejs/pinia/compare/pinia@2.0.28...pinia@2.0.29) (2023-01-15)
+
+### Bug Fixes
+
+- **types:** type storeToRefs getters as ComputedRef ([#1898](https://github.com/vuejs/pinia/issues/1898)) ([dcf7ef0](https://github.com/vuejs/pinia/commit/dcf7ef0d3a6773da97c5cdde4b9a958492a15d7d))
+
 ## [2.0.28](https://github.com/vuejs/pinia/compare/pinia@2.0.27...pinia@2.0.28) (2022-12-09)
 
 ### Bug Fixes

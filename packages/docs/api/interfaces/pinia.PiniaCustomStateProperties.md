@@ -1,7 +1,5 @@
 ---
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
+editLink: false
 ---
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / PiniaCustomStateProperties
@@ -12,7 +10,7 @@ sidebarDepth: 3
 
 Properties that are added to every `store.$state` by `pinia.use()`.
 
-## Type parameters
+## Type parameters %{#Type-parameters}%
 
 | Name | Type |
 | :------ | :------ |
