@@ -8,6 +8,7 @@ import {
   addImports,
   createResolver,
   resolveModule,
+  addImportsDir,
 } from '@nuxt/kit'
 import type { NuxtModule } from '@nuxt/schema'
 
@@ -21,20 +22,12 @@ export interface ModuleOptions {
   disableVuex?: boolean
 
   /**
-   * Array of auto imports to be added to the nuxt.config.js file.
+   * Automatically add stores dirs to the auto imports. This is the same as
+   * directly adding the dirs to the `imports.dirs` option.
    *
-   * @example
-   * ```js
-   * autoImports: [
-   *  // automatically import `defineStore`
-   *  'defineStore',
-   *  // automatically import `defineStore` as `definePiniaStore`
-   *  ['defineStore', 'definePiniaStore',
-   * ]
-   * ```
-   *
+   * @default `['./stores']`
    */
-  autoImports?: Array<string | [string, string]>
+  storesDirs?: string[]
 }
 
 const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
@@ -48,7 +41,7 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
   },
   defaults: {
     disableVuex: true,
-    autoImports: [],
+    storesDirs: ['./stores'],
   },
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
@@ -71,6 +64,7 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     // Make sure we use the mjs build for pinia
     nuxt.options.alias.pinia =
       nuxt.options.alias.pinia ||
+      // FIXME: remove this deprecated call. Ensure it works in Nuxt 2 to 3
       resolveModule('pinia/dist/pinia.mjs', {
         paths: [nuxt.options.rootDir, import.meta.url],
       })
@@ -92,13 +86,16 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     // Add auto imports
     const composables = resolver.resolve('./runtime/composables')
     addImports([
+      { from: composables, name: 'defineStore' },
+      { from: composables, name: 'acceptHMRUpdate' },
       { from: composables, name: 'usePinia' },
-      ...options.autoImports!.map((imports) =>
-        typeof imports === 'string'
-          ? { from: composables, name: imports }
-          : { from: composables, name: imports[0], as: imports[1] }
-      ),
     ])
+
+    if (options.storesDirs) {
+      for (const storeDir of options.storesDirs) {
+        addImportsDir(resolver.resolve(nuxt.options.rootDir, storeDir))
+      }
+    }
   },
 })
 
