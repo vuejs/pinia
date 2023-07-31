@@ -4,6 +4,7 @@
 const counter = useCounter()
 
 useTestStore()
+useSomeStoreStore()
 
 if (process.server) {
   counter.increment()

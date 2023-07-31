@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   modules: [piniaModule],
 
   pinia: {
-    storesDirs: ['./stores', './domain/*/stores'],
+    storesDirs: ['./stores/**', './domain/*/stores'],
   },
 
   vite: {
