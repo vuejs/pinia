@@ -1,6 +1,6 @@
-# VSCode Snippets
+# VS Code Snippets
 
-These are some snippets that I use in VSCode to make my life easier.
+These are some snippets that I use in VS Code to make my life easier.
 
 Manage user snippets with <kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>P</kbd> / <kbd>⇧</kbd> <kbd>⌃</kbd> <kbd>P</kbd> and then `Snippets: Configure User Snippets`.
 
