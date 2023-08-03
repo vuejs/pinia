@@ -8,13 +8,13 @@ editLink: false
 
 [@pinia/testing](../modules/pinia_testing.md).TestingOptions
 
-## Properties %{#Properties}%
+## Properties
 
-### createSpy %{#Properties-createSpy}%
+### createSpy
 
 • `Optional` **createSpy**: (`fn?`: (...`args`: `any`[]) => `any`) => (...`args`: `any`[]) => `any`
 
-#### Type declaration %{#Properties-createSpy-Type-declaration}%
+#### Type declaration
 
 ▸ (`fn?`): (...`args`: `any`[]) => `any`
 
@@ -22,31 +22,31 @@ Function used to create a spy for actions and `$patch()`. Pre-configured
 with `jest.fn` in Jest projects or `vi.fn` in Vitest projects if
 `globals: true` is set.
 
-##### Parameters %{#Properties-createSpy-Type-declaration-Parameters}%
+##### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `fn?` | (...`args`: `any`[]) => `any` |
 
-##### Returns %{#Properties-createSpy-Type-declaration-Returns}%
+##### Returns
 
 `fn`
 
 ▸ (`...args`): `any`
 
-##### Parameters %{#Properties-createSpy-Type-declaration-Parameters_1}%
+##### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `...args` | `any`[] |
 
-##### Returns %{#Properties-createSpy-Type-declaration-Returns_1}%
+##### Returns
 
 `any`
 
 ___
 
-### fakeApp %{#Properties-fakeApp}%
+### fakeApp
 
 • `Optional` **fakeApp**: `boolean`
 
@@ -57,7 +57,7 @@ Defaults to false.
 
 ___
 
-### initialState %{#Properties-initialState}%
+### initialState
 
 • `Optional` **initialState**: [`StateTree`](../modules/pinia.md#statetree)
 
@@ -66,7 +66,7 @@ allowing you to only set a few properties that are required in your test.
 
 ___
 
-### plugins %{#Properties-plugins}%
+### plugins
 
 • `Optional` **plugins**: [`PiniaPlugin`](pinia.PiniaPlugin.md)[]
 
@@ -75,7 +75,7 @@ your application that will be used while testing.
 
 ___
 
-### stubActions %{#Properties-stubActions}%
+### stubActions
 
 • `Optional` **stubActions**: `boolean`
 
@@ -87,7 +87,7 @@ handle this in `createSpy()`.
 
 ___
 
-### stubPatch %{#Properties-stubPatch}%
+### stubPatch
 
 • `Optional` **stubPatch**: `boolean`
 
@@ -97,7 +97,7 @@ argument `undefined`. You still have to handle this in `createSpy()`.
 
 ___
 
-### stubReset %{#Properties-stubReset}%
+### stubReset
 
 • `Optional` **stubReset**: `boolean`
 

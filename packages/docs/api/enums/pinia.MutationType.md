@@ -10,9 +10,9 @@ editLink: false
 
 Possible types for SubscriptionCallback
 
-## Enumeration Members %{#Enumeration-Members}%
+## Enumeration Members
 
-### direct %{#Enumeration-Members-direct}%
+### direct
 
 • **direct** = ``"direct"``
 
@@ -24,7 +24,7 @@ Direct mutation of the state:
 
 ___
 
-### patchFunction %{#Enumeration-Members-patchFunction}%
+### patchFunction
 
 • **patchFunction** = ``"patch function"``
 
@@ -34,7 +34,7 @@ Mutated the state with `$patch` and a function
 
 ___
 
-### patchObject %{#Enumeration-Members-patchObject}%
+### patchObject
 
 • **patchObject** = ``"patch object"``
 

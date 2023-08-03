@@ -10,7 +10,7 @@ editLink: false
 
 Interface to be extended by the user when they add properties through plugins.
 
-## Type parameters %{#Type-parameters}%
+## Type parameters
 
 | Name | Type |
 | :------ | :------ |

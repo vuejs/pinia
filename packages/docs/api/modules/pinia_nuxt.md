@@ -6,17 +6,17 @@ editLink: false
 
 # Module: @pinia/nuxt
 
-## Interfaces %{#Interfaces}%
+## Interfaces
 
 - [ModuleOptions](../interfaces/pinia_nuxt.ModuleOptions.md)
 
-## Functions %{#Functions}%
+## Functions
 
-### default %{#Functions-default}%
+### default
 
 ▸ **default**(`this`, `inlineOptions`, `nuxt`): `_ModuleSetupReturn`
 
-#### Parameters %{#Functions-default-Parameters}%
+#### Parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -24,6 +24,6 @@ editLink: false
 | `inlineOptions` | [`ModuleOptions`](../interfaces/pinia_nuxt.ModuleOptions.md) |
 | `nuxt` | `Nuxt` |
 
-#### Returns %{#Functions-default-Returns}%
+#### Returns
 
 `_ModuleSetupReturn`
