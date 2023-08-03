@@ -19,6 +19,25 @@ const productionHead: HeadConfig[] = [
   ],
 ]
 
+const rControl = /[\u0000-\u001f]/g
+const rSpecial = /[\s~`!@#$%^&*()\-_+=[\]{}|\\;:"'“”‘’<>,.?/]+/g
+const rCombining = /[\u0300-\u036F]/g
+
+/**
+ * Default slugification function
+ */
+export const slugify = (str: string): string =>
+  str
+    .normalize('NFKD')
+    // Remove accents
+    .replace(rCombining, '')
+    // Remove control characters
+    .replace(rControl, '')
+    // Replace special characters
+    .replace(rSpecial, '-')
+    // ensure it doesn't start with a number
+    .replace(/^(\d)/, '_$1')
+
 export const sharedConfig = defineConfig({
   title: 'Pinia',
   appearance: 'dark',
@@ -32,6 +51,10 @@ export const sharedConfig = defineConfig({
     attrs: {
       leftDelimiter: '%{',
       rightDelimiter: '}%',
+    },
+
+    anchor: {
+      slugify,
     },
   },
 
