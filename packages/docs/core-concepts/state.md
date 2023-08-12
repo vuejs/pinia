@@ -199,7 +199,7 @@ store.$patch({
 })
 ```
 
-However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the `$patch` method also accepts a function to group this kind of mutations that are difficult to apply with a patch object:
+However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the `$patch` method also accepts a function to group these kind of mutations that are difficult to apply with a patch object:
 
 ```js
 store.$patch((state) => {
