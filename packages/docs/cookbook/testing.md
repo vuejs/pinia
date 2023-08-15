@@ -6,18 +6,7 @@ Stores will, by design, be used at many places and can make testing much harder 
 - `actions`: most of the time, they contain the most complex logic of our stores. Wouldn't it be nice if they were mocked by default?
 - Plugins: If you rely on plugins, you will have to install them for tests too
 
-Depending on what or how you are testing, we need to take care of these three differently:
-
-- [Testing stores](#testing-stores)
-  - [Unit testing a store](#unit-testing-a-store)
-  - [Unit testing components](#unit-testing-components)
-    - [Initial State](#initial-state)
-    - [Customizing behavior of actions](#customizing-behavior-of-actions)
-    - [Specifying the createSpy function](#specifying-the-createspy-function)
-    - [Mocking getters](#mocking-getters)
-    - [Pinia Plugins](#pinia-plugins)
-  - [E2E tests](#e2e-tests)
-  - [Unit test components (Vue 2)](#unit-test-components-vue-2)
+Depending on what or how you are testing, we need to take care of these three things differently.
 
 ## Unit testing a store
 
