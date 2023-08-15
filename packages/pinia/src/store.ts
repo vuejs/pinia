@@ -479,10 +479,9 @@ function createSetupStore<
     (pinia._a && pinia._a.runWithContext) || fallbackRunWithContext
 
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
-  const setupStore = pinia._e.run(() => {
-    scope = effectScope()
-    return runWithContext(() => scope.run(setup))
-  })!
+  const setupStore = runWithContext(() =>
+    pinia._e.run(() => (scope = effectScope()).run(setup)!)
+  )!
 
   // overwrite existing actions to support $onAction
   for (const key in setupStore) {
