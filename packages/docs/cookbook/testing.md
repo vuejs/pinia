@@ -73,12 +73,16 @@ And make sure to create a testing pinia in your tests when mounting a component:
 ```js
 import { mount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
+import { setActivePinia } from 'pinia'
 // import any store you want to interact with in tests
 import { useSomeStore } from '@/stores/myStore'
 
+// Depending on your test framework, you may need to specify a createSpy function to the createTestingPinia method 
+const pinia = createTestingPinia()
+setActivePinia(pinia)
 const wrapper = mount(Counter, {
   global: {
-    plugins: [createTestingPinia()],
+    plugins: [pinia],
   },
 })
 
