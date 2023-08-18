@@ -1,8 +1,8 @@
 import {
   App,
   EffectScope,
-  getCurrentInstance,
   inject,
+  hasInjectionContext,
   InjectionKey,
   Ref,
 } from 'vue-demi'
@@ -30,14 +30,20 @@ export let activePinia: Pinia | undefined
  *
  * @param pinia - Pinia instance
  */
-export const setActivePinia = (pinia: Pinia | undefined) =>
-  (activePinia = pinia)
+// @ts-expect-error: cannot constrain the type of the return
+export const setActivePinia: _SetActivePinia = (pinia) => (activePinia = pinia)
+
+interface _SetActivePinia {
+  (pinia: Pinia): Pinia
+  (pinia: undefined): undefined
+  (pinia: Pinia | undefined): Pinia | undefined
+}
 
 /**
  * Get the currently active pinia if there is any.
  */
 export const getActivePinia = () =>
-  (getCurrentInstance() && inject(piniaSymbol)) || activePinia
+  (hasInjectionContext() && inject(piniaSymbol)) || activePinia
 
 /**
  * Every application must own its own pinia to be able to create stores

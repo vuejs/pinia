@@ -6,27 +6,16 @@ Stores will, by design, be used at many places and can make testing much harder 
 - `actions`: most of the time, they contain the most complex logic of our stores. Wouldn't it be nice if they were mocked by default?
 - Plugins: If you rely on plugins, you will have to install them for tests too
 
-Depending on what or how you are testing, we need to take care of these three differently:
-
-- [Testing stores](#testing-stores)
-  - [Unit testing a store](#unit-testing-a-store)
-  - [Unit testing components](#unit-testing-components)
-    - [Initial State](#initial-state)
-    - [Customizing behavior of actions](#customizing-behavior-of-actions)
-    - [Specifying the createSpy function](#specifying-the-createspy-function)
-    - [Mocking getters](#mocking-getters)
-    - [Pinia Plugins](#pinia-plugins)
-  - [E2E tests](#e2e-tests)
-  - [Unit test components (Vue 2)](#unit-test-components-vue-2)
+Depending on what or how you are testing, we need to take care of these three things differently.
 
 ## Unit testing a store
 
 To unit test a store, the most important part is creating a `pinia` instance:
 
 ```js
-// counterStore.spec.ts
+// stores/counter.spec.ts
 import { setActivePinia, createPinia } from 'pinia'
-import { useCounter } from '../src/stores/counter'
+import { useCounterStore } from '../src/stores/counter'
 
 describe('Counter Store', () => {
   beforeEach(() => {
@@ -37,14 +26,14 @@ describe('Counter Store', () => {
   })
 
   it('increments', () => {
-    const counter = useCounter()
+    const counter = useCounterStore()
     expect(counter.n).toBe(0)
     counter.increment()
     expect(counter.n).toBe(1)
   })
 
   it('increments by amount', () => {
-    const counter = useCounter()
+    const counter = useCounterStore()
     counter.increment(10)
     expect(counter.n).toBe(10)
   })
@@ -84,6 +73,8 @@ And make sure to create a testing pinia in your tests when mounting a component:
 ```js
 import { mount } from '@vue/test-utils'
 import { createTestingPinia } from '@pinia/testing'
+// import any store you want to interact with in tests
+import { useSomeStore } from '@/stores/myStore'
 
 const wrapper = mount(Counter, {
   global: {
@@ -186,7 +177,7 @@ By default, any getter will be computed like regular usage but you can manually 
 import { defineStore } from 'pinia'
 import { createTestingPinia } from '@pinia/testing'
 
-const useCounter = defineStore('counter', {
+const useCounterStore = defineStore('counter', {
   state: () => ({ n: 1 }),
   getters: {
     double: (state) => state.n * 2,
@@ -194,7 +185,7 @@ const useCounter = defineStore('counter', {
 })
 
 const pinia = createTestingPinia()
-const counter = useCounter(pinia)
+const counter = useCounterStore(pinia)
 
 counter.double = 3 // 🪄 getters are writable only in tests
 

@@ -2,6 +2,7 @@ import {
   watch,
   computed,
   inject,
+  hasInjectionContext,
   getCurrentInstance,
   reactive,
   DebuggerEvent,
@@ -47,16 +48,26 @@ import {
   _StoreWithState,
 } from './types'
 import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
-import { IS_CLIENT } from './env'
+import { IS_CLIENT, USE_DEVTOOLS } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
 
+const fallbackRunWithContext = (fn: () => unknown) => fn()
+
 type _ArrayType<AT> = AT extends Array<infer T> ? T : never
 
-function mergeReactiveObjects<T extends StateTree>(
-  target: T,
-  patchToApply: _DeepPartial<T>
-): T {
+function mergeReactiveObjects<
+  T extends Record<any, unknown> | Map<unknown, unknown> | Set<unknown>
+>(target: T, patchToApply: _DeepPartial<T>): T {
+  // Handle Map instances
+  if (target instanceof Map && patchToApply instanceof Map) {
+    patchToApply.forEach((value, key) => target.set(key, value))
+  }
+  // Handle Set instances
+  if (target instanceof Set && patchToApply instanceof Set) {
+    patchToApply.forEach(target.add, target)
+  }
+
   // no need to go through symbols because they cannot be serialized anyway
   for (const key in patchToApply) {
     if (!patchToApply.hasOwnProperty(key)) continue
@@ -69,6 +80,9 @@ function mergeReactiveObjects<T extends StateTree>(
       !isRef(subPatch) &&
       !isReactive(subPatch)
     ) {
+      // NOTE: here I wanted to warn about inconsistent types but it's not possible because in setup stores one might
+      // start the value of a property as a certain type e.g. a Map, and then for some reason, during SSR, change that
+      // to `undefined`. When trying to hydrate, we want to override the Map with `undefined`.
       target[key] = mergeReactiveObjects(targetValue, subPatch)
     } else {
       // @ts-expect-error: subPatch is a valid value
@@ -98,6 +112,12 @@ export function skipHydrate<T = any>(obj: T): T {
     : Object.defineProperty(obj, skipHydrateSymbol, {})
 }
 
+/**
+ * Returns whether a value should be hydrated
+ *
+ * @param obj - target variable
+ * @returns true if `obj` should be hydrated
+ */
 function shouldHydrate(obj: any) {
   return isVue2
     ? /* istanbul ignore next */ !skipHydrateMap.has(obj)
@@ -178,20 +198,12 @@ function createOptionsStore<
 
   store = createSetupStore(id, setup, options, pinia, hot, true)
 
-  store.$reset = function $reset() {
-    const newState = state ? state() : {}
-    // we use a patch to group all changes into one single subscription
-    this.$patch(($state) => {
-      assign($state, newState)
-    })
-  }
-
   return store as any
 }
 
 function createSetupStore<
   Id extends string,
-  SS,
+  SS extends Record<any, unknown>,
   S extends StateTree,
   G extends Record<string, _Method>,
   A extends _ActionsTree
@@ -213,7 +225,6 @@ function createSetupStore<
   )
 
   /* istanbul ignore if */
-  // @ts-expect-error: active is an internal property
   if (__DEV__ && !pinia._e.active) {
     throw new Error('Pinia destroyed')
   }
@@ -247,8 +258,8 @@ function createSetupStore<
   // internal state
   let isListening: boolean // set to true at the end
   let isSyncListening: boolean // set to true at the end
-  let subscriptions: SubscriptionCallback<S>[] = markRaw([])
-  let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = markRaw([])
+  let subscriptions: SubscriptionCallback<S>[] = []
+  let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = []
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
 
@@ -313,8 +324,17 @@ function createSetupStore<
     )
   }
 
-  /* istanbul ignore next */
-  const $reset = __DEV__
+  const $reset = isOptionsStore
+    ? function $reset(this: _StoreWithState<Id, S, G, A>) {
+        const { state } = options as DefineStoreOptions<Id, S, G, A>
+        const newState = state ? state() : {}
+        // we use a patch to group all changes into one single subscription
+        this.$patch(($state) => {
+          assign($state, newState)
+        })
+      }
+    : /* istanbul ignore next */
+    __DEV__
     ? () => {
         throw new Error(
           `🍍: Store "${$id}" is built using the setup syntax and does not implement $reset().`
@@ -380,7 +400,7 @@ function createSetupStore<
           })
       }
 
-      // allow the afterCallback to override the return value
+      // trigger after callbacks
       triggerSubscriptions(afterCallbackList, ret)
       return ret
     }
@@ -438,29 +458,30 @@ function createSetupStore<
   }
 
   const store: Store<Id, S, G, A> = reactive(
-    assign(
-      __DEV__ && IS_CLIENT
-        ? // devtools custom properties
+    __DEV__ || USE_DEVTOOLS
+      ? assign(
           {
-            _customProperties: markRaw(new Set<string>()),
             _hmrPayload,
-          }
-        : {},
-      partialStore
-      // must be added later
-      // setupStore
-    )
+            _customProperties: markRaw(new Set<string>()), // devtools custom properties
+          },
+          partialStore
+          // must be added later
+          // setupStore
+        )
+      : partialStore
   ) as unknown as Store<Id, S, G, A>
 
   // store the partial store now so the setup of stores can instantiate each other before they are finished without
   // creating infinite loops.
   pinia._s.set($id, store)
 
+  const runWithContext =
+    (pinia._a && pinia._a.runWithContext) || fallbackRunWithContext
+
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
-  const setupStore = pinia._e.run(() => {
-    scope = effectScope()
-    return scope.run(() => setup())
-  })!
+  const setupStore = runWithContext(() =>
+    pinia._e.run(() => (scope = effectScope()).run(setup)!)
+  )!
 
   // overwrite existing actions to support $onAction
   for (const key in setupStore) {
@@ -479,6 +500,7 @@ function createSetupStore<
             prop.value = initialState[key]
           } else {
             // probably a reactive object, lets recursively assign
+            // @ts-expect-error: prop is unknown
             mergeReactiveObjects(prop, initialState[key])
           }
         }
@@ -526,8 +548,9 @@ function createSetupStore<
           : prop
         if (IS_CLIENT) {
           const getters: string[] =
-            // @ts-expect-error: it should be on the store
-            setupStore._getters || (setupStore._getters = markRaw([]))
+            (setupStore._getters as string[]) ||
+            // @ts-expect-error: same
+            ((setupStore._getters = markRaw([])) as string[])
           getters.push(key)
         }
       }
@@ -538,12 +561,7 @@ function createSetupStore<
   /* istanbul ignore if */
   if (isVue2) {
     Object.keys(setupStore).forEach((key) => {
-      set(
-        store,
-        key,
-        // @ts-expect-error: valid key indexing
-        setupStore[key]
-      )
+      set(store, key, setupStore[key])
     })
   } else {
     assign(store, setupStore)
@@ -648,7 +666,9 @@ function createSetupStore<
       store._getters = newStore._getters
       store._hotUpdating = false
     })
+  }
 
+  if (USE_DEVTOOLS) {
     const nonEnumerable = {
       writable: true,
       configurable: true,
@@ -656,17 +676,16 @@ function createSetupStore<
       enumerable: false,
     }
 
-    if (IS_CLIENT) {
-      // avoid listing internal properties in devtools
-      ;(
-        ['_p', '_hmrPayload', '_getters', '_customProperties'] as const
-      ).forEach((p) => {
-        Object.defineProperty(store, p, {
-          value: store[p],
-          ...nonEnumerable,
-        })
-      })
-    }
+    // avoid listing internal properties in devtools
+    ;(['_p', '_hmrPayload', '_getters', '_customProperties'] as const).forEach(
+      (p) => {
+        Object.defineProperty(
+          store,
+          p,
+          assign({ value: store[p] }, nonEnumerable)
+        )
+      }
+    )
   }
 
   /* istanbul ignore if */
@@ -678,7 +697,7 @@ function createSetupStore<
   // apply all plugins
   pinia._p.forEach((extender) => {
     /* istanbul ignore else */
-    if (__DEV__ && IS_CLIENT) {
+    if (USE_DEVTOOLS) {
       const extensions = scope.run(() =>
         extender({
           store,
@@ -865,20 +884,26 @@ export function defineStore(
   } else {
     options = idOrOptions
     id = idOrOptions.id
+
+    if (__DEV__ && typeof id !== 'string') {
+      throw new Error(
+        `[🍍]: "defineStore()" must be passed a store id as its first argument.`
+      )
+    }
   }
 
   function useStore(pinia?: Pinia | null, hot?: StoreGeneric): StoreGeneric {
-    const currentInstance = getCurrentInstance()
+    const hasContext = hasInjectionContext()
     pinia =
       // in test mode, ignore the argument provided as we can always retrieve a
       // pinia instance with getActivePinia()
       (__TEST__ && activePinia && activePinia._testing ? null : pinia) ||
-      (currentInstance && inject(piniaSymbol))
+      (hasContext ? inject(piniaSymbol, null) : null)
     if (pinia) setActivePinia(pinia)
 
     if (__DEV__ && !activePinia) {
       throw new Error(
-        `[🍍]: getActivePinia was called with no active Pinia. Did you forget to install pinia?\n` +
+        `[🍍]: "getActivePinia()" was called but there was no active Pinia. Did you forget to install pinia?\n` +
           `\tconst pinia = createPinia()\n` +
           `\tapp.use(pinia)\n` +
           `This will fail in production.`
@@ -917,18 +942,19 @@ export function defineStore(
       pinia._s.delete(hotId)
     }
 
-    // save stores in instances to access them devtools
-    if (
-      __DEV__ &&
-      IS_CLIENT &&
-      currentInstance &&
-      currentInstance.proxy &&
-      // avoid adding stores that are just built for hot module replacement
-      !hot
-    ) {
-      const vm = currentInstance.proxy
-      const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
-      cache[id] = store
+    if (__DEV__ && IS_CLIENT) {
+      const currentInstance = getCurrentInstance()
+      // save stores in instances to access them devtools
+      if (
+        currentInstance &&
+        currentInstance.proxy &&
+        // avoid adding stores that are just built for hot module replacement
+        !hot
+      ) {
+        const vm = currentInstance.proxy
+        const cache = '_pStores' in vm ? vm._pStores! : (vm._pStores = {})
+        cache[id] = store
+      }
     }
 
     // StoreGeneric cannot be casted towards Store

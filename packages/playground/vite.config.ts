@@ -7,7 +7,7 @@ import path from 'path'
 export default defineConfig({
   plugins: [vue(), copyPiniaPlugin()],
   define: {
-    // __DEV__: 'true',
+    __DEV__: 'true',
     // __BROWSER__: 'true',
     __TEST__: 'false',
   },
@@ -15,7 +15,10 @@ export default defineConfig({
     // alias: {
     //   '@vue/composition-api': 'vue-demi',
     // },
-    dedupe: ['vue-demi', 'vue'],
+    dedupe: ['vue-demi', 'vue', 'pinia'],
+    alias: {
+      pinia: path.resolve(__dirname, '../pinia/src/index.ts'),
+    },
   },
   optimizeDeps: {
     exclude: ['vue-demi', '@vueuse/shared', '@vueuse/core', 'pinia'],

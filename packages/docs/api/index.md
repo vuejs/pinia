@@ -1,3 +1,7 @@
+---
+editLink: false
+---
+
 API Documentation
 
 # API Documentation

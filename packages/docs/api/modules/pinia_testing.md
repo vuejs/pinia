@@ -1,7 +1,5 @@
 ---
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
+editLink: false
 ---
 
 [API Documentation](../index.md) / @pinia/testing
@@ -37,7 +35,3 @@ they are replaced with `jest.fn()`, otherwise, you must provide your own
 [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 
 a augmented pinia instance
-
-#### Defined in
-
-[packages/testing/src/testing.ts:92](https://github.com/vuejs/pinia/blob/2b998ee/packages/testing/src/testing.ts#L92)

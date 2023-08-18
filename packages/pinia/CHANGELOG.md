@@ -1,3 +1,187 @@
+## [2.1.6](https://github.com/vuejs/pinia/compare/pinia@2.1.5...pinia@2.1.6) (2023-07-26)
+
+### Bug Fixes
+
+- **devtools:** preserve store reactivity ([709ed3b](https://github.com/vuejs/pinia/commit/709ed3b3a4787c3a9b5a59f863558b480a96eaaf))
+
+## [2.1.5](https://github.com/vuejs/pinia/compare/pinia@2.1.4...pinia@2.1.5) (2023-07-26)
+
+### Bug Fixes
+
+- **devtools:** correctly load the state ([beff091](https://github.com/vuejs/pinia/commit/beff091f80302def494305779f8aa1d12301bce4))
+- **devtools:** wrong toast message ([#2290](https://github.com/vuejs/pinia/issues/2290)) ([dfc04d3](https://github.com/vuejs/pinia/commit/dfc04d356c86128f868b12182615bd57228111d6))
+
+## [2.1.4](https://github.com/vuejs/pinia/compare/pinia@2.1.3...pinia@2.1.4) (2023-06-14)
+
+### Bug Fixes
+
+- **devtools:** group setup store sync actions mutations ([683efe1](https://github.com/vuejs/pinia/commit/683efe1a34cbca82c1ef19d268e3080503401de2))
+
+## [2.1.3](https://github.com/vuejs/pinia/compare/pinia@2.1.2...pinia@2.1.3) (2023-05-18)
+
+### Bug Fixes
+
+- **types:** revert declare module vue ([3000161](https://github.com/vuejs/pinia/commit/3000161205e66838d872e514a9e90f73a1b37039))
+
+## [2.1.2](https://github.com/vuejs/pinia/compare/pinia@2.1.1...pinia@2.1.2) (2023-05-18)
+
+- Force vue-demi version
+
+## [2.1.1](https://github.com/vuejs/pinia/compare/pinia@2.1.0...pinia@2.1.1) (2023-05-17)
+
+### Bug Fixes
+
+- expect Vue 3.3 ([b8fb165](https://github.com/vuejs/pinia/commit/b8fb1653211dbe6dc6aa3a8ac36185bf93bcfa25))
+
+# [2.1.0](https://github.com/vuejs/pinia/compare/pinia@2.0.36...pinia@2.1.0) (2023-05-17)
+
+‼️ This **requires** Vue 3.3 or latest vue-demi (for Vue 2)
+
+### Bug Fixes
+
+- **types:** use declare module vue ([b7f97dd](https://github.com/vuejs/pinia/commit/b7f97ddf160e999da7b639ba4fcaf554bed5f1e2))
+
+### Features
+
+- allow app injections in setup stores ([6a71019](https://github.com/vuejs/pinia/commit/6a71019ef2a633dcb097a63be895a8b1714863b6)), closes [#1784](https://github.com/vuejs/pinia/issues/1784)
+- **devtools:** allow resetting setup stores from inspector ([971dcdb](https://github.com/vuejs/pinia/commit/971dcdbf4b825e1791d02a85d6788fa72236107c)), closes [#2189](https://github.com/vuejs/pinia/issues/2189)
+
+### Reverts
+
+- Revert "chore: tmp upgrade to beta" ([2337130](https://github.com/vuejs/pinia/commit/2337130b0f11a3218a972555b84df6b2c055e6dc))
+
+## [2.0.36](https://github.com/vuejs/pinia/compare/pinia@2.0.35...pinia@2.0.36) (2023-05-08)
+
+### Features
+
+- **dx:** throw an error if store id is missing ([#2167](https://github.com/vuejs/pinia/issues/2167)) ([b74eb4f](https://github.com/vuejs/pinia/commit/b74eb4f9b5a2a20a9c8d3cedd221eea8dde201f6))
+- **warn:** improve warning message ([73518b3](https://github.com/vuejs/pinia/commit/73518b3f94fb164d02e740cb3132767a0d2a397b))
+
+## [2.0.35](https://github.com/vuejs/pinia/compare/pinia@2.0.34...pinia@2.0.35) (2023-04-20)
+
+### Bug Fixes
+
+- **types:** typescript 5.0 acceptHMRUpdate error ([#2098](https://github.com/vuejs/pinia/issues/2098)) ([#2152](https://github.com/vuejs/pinia/issues/2152)) ([1469971](https://github.com/vuejs/pinia/commit/146997196f87abc691340fd46ae758a0865b8a73))
+
+### Features
+
+- **types:** improve setActivePinia types ([1650c6e](https://github.com/vuejs/pinia/commit/1650c6efebc75fdc47b2ec082ba10c197b894aef))
+
+## [2.0.34](https://github.com/vuejs/pinia/compare/pinia@2.0.33...pinia@2.0.34) (2023-04-07)
+
+No changes in this release
+
+## [2.0.33](https://github.com/vuejs/pinia/compare/pinia@2.0.32...pinia@2.0.33) (2023-03-06)
+
+### Bug Fixes
+
+- allow `$reset` to be overridden by plugins ([#2054](https://github.com/vuejs/pinia/issues/2054)) ([709e2b1](https://github.com/vuejs/pinia/commit/709e2b1a77410331ee1ce88212ac55a4e92fa941))
+
+## [2.0.32](https://github.com/vuejs/pinia/compare/pinia@2.0.31...pinia@2.0.32) (2023-02-21)
+
+### Bug Fixes
+
+- **types:** mapWritableState array ([a7ad90d](https://github.com/vuejs/pinia/commit/a7ad90d319c4fad29f40622a6b95e605c47377f9)), closes [#2014](https://github.com/vuejs/pinia/issues/2014)
+
+## [2.0.31](https://github.com/vuejs/pinia/compare/pinia@2.0.30...pinia@2.0.31) (2023-02-20)
+
+### Bug Fixes
+
+- **types:** mapWritableState array ([07eaf99](https://github.com/vuejs/pinia/commit/07eaf99a566ef5de4173b782504a163bd276e12e)), closes [#2014](https://github.com/vuejs/pinia/issues/2014)
+
+## [2.0.30](https://github.com/vuejs/pinia/compare/pinia@2.0.29...pinia@2.0.30) (2023-02-01)
+
+### Bug Fixes
+
+- avoid spread operator even in devtools code ([d2a4def](https://github.com/vuejs/pinia/commit/d2a4defc381ae8e023b45b05e4ac8588fe2add9e)), closes [#1885](https://github.com/vuejs/pinia/issues/1885)
+
+## [2.0.29](https://github.com/vuejs/pinia/compare/pinia@2.0.28...pinia@2.0.29) (2023-01-15)
+
+### Bug Fixes
+
+- **types:** type storeToRefs getters as ComputedRef ([#1898](https://github.com/vuejs/pinia/issues/1898)) ([dcf7ef0](https://github.com/vuejs/pinia/commit/dcf7ef0d3a6773da97c5cdde4b9a958492a15d7d))
+
+## [2.0.28](https://github.com/vuejs/pinia/compare/pinia@2.0.27...pinia@2.0.28) (2022-12-09)
+
+### Bug Fixes
+
+- avoid missing injection not found warn in edge Vue 2 edge case ([#1849](https://github.com/vuejs/pinia/issues/1849)) ([78ec9a1](https://github.com/vuejs/pinia/commit/78ec9a186dcbce3d583db332ae22094a182358cc)), closes [#1650](https://github.com/vuejs/pinia/issues/1650)
+
+## [2.0.27](https://github.com/vuejs/pinia/compare/pinia@2.0.26...pinia@2.0.27) (2022-11-27)
+
+- api docs changes
+
+## [2.0.26](https://github.com/vuejs/pinia/compare/pinia@2.0.25...pinia@2.0.26) (2022-11-23)
+
+### Bug Fixes
+
+- **types:** support older ts versions ([78fb214](https://github.com/vuejs/pinia/commit/78fb21409b731f4822b076e83b31c234e75c722d)), closes [#1818](https://github.com/vuejs/pinia/issues/1818)
+
+## [2.0.25](https://github.com/vuejs/pinia/compare/pinia@2.0.24...pinia@2.0.25) (2022-11-21)
+
+### Bug Fixes
+
+- **types:** implemented a workaround to be TS 4.9.x compatible ([#1818](https://github.com/vuejs/pinia/issues/1818)) ([c42a54c](https://github.com/vuejs/pinia/commit/c42a54c5d6bf20ca4b1c619da44f18be3c84db87))
+
+## [2.0.24](https://github.com/vuejs/pinia/compare/pinia@2.0.23...pinia@2.0.24) (2022-11-17)
+
+## [2.0.23](https://github.com/vuejs/pinia/compare/pinia@2.0.22...pinia@2.0.23) (2022-10-08)
+
+### Bug Fixes
+
+- **devtools:** init `_customProperties` for devtools ([#1704](https://github.com/vuejs/pinia/issues/1704)) ([8c1dfce](https://github.com/vuejs/pinia/commit/8c1dfce2e67c37e09251a7b85fcae2d6a4030fb8))
+
+## [2.0.22](https://github.com/vuejs/pinia/compare/pinia@2.0.21...pinia@2.0.22) (2022-09-06)
+
+### Features
+
+- **ssr:** handle Maps and Sets ([f9843eb](https://github.com/vuejs/pinia/commit/f9843eb589ea9752f9021f9ebcfc49f6659350d2)), closes [#1608](https://github.com/vuejs/pinia/issues/1608)
+
+## [2.0.21](https://github.com/vuejs/pinia/compare/pinia@2.0.20...pinia@2.0.21) (2022-08-26)
+
+### Bug Fixes
+
+- **build:** remove problematic browser export ([6efa780](https://github.com/vuejs/pinia/commit/6efa780f2c6e401e1d82a80a2aeceeac962f1c4e)), closes [#1593](https://github.com/vuejs/pinia/issues/1593)
+
+## [2.0.20](https://github.com/vuejs/pinia/compare/pinia@2.0.19...pinia@2.0.20) (2022-08-19)
+
+- **build**: support vue 2 devtools flag
+
+## [2.0.19](https://github.com/vuejs/pinia/compare/pinia@2.0.18...pinia@2.0.19) (2022-08-18)
+
+### Bug Fixes
+
+- **devtools:** use flag to include devtools ([4e92c36](https://github.com/vuejs/pinia/commit/4e92c360a4b4b8a39b2e3c284f31560120742b6f))
+
+## [2.0.18](https://github.com/vuejs/pinia/compare/pinia@2.0.17...pinia@2.0.18) (2022-08-10)
+
+### Bug Fixes
+
+- **ie:** completely skip devtools in dev for IE ([ca73db9](https://github.com/vuejs/pinia/commit/ca73db964b56205d43aa798e10d5c5bb5c4ea847)), closes [#1440](https://github.com/vuejs/pinia/issues/1440)
+
+## [2.0.17](https://github.com/vuejs/pinia/compare/pinia@2.0.16...pinia@2.0.17) (2022-07-25)
+
+### Bug Fixes
+
+- **devtools:** state formatting ([b01f5c2](https://github.com/vuejs/pinia/commit/b01f5c2a5cb62cfd3e0df9da5570925f3a6f077a)), closes [#1358](https://github.com/vuejs/pinia/issues/1358)
+- setupStore getter types ([#1430](https://github.com/vuejs/pinia/issues/1430)) ([#1444](https://github.com/vuejs/pinia/issues/1444)) ([6be93f2](https://github.com/vuejs/pinia/commit/6be93f2301a7711873f49c94999913947e3896b8))
+
+### Features
+
+- **devtools:** allow resetting fromp pinia inspector ([cee0e16](https://github.com/vuejs/pinia/commit/cee0e16e0ea343f97fa6b96f80ff32380637110b))
+
+## [2.0.16](https://github.com/vuejs/pinia/compare/pinia@2.0.15...pinia@2.0.16) (2022-07-12)
+
+### Bug Fixes
+
+- add missing require in exports ([96c0dbc](https://github.com/vuejs/pinia/commit/96c0dbc66ee166e6bd11be60c8486f239d83af40))
+
+## [2.0.15](https://github.com/vuejs/pinia/compare/pinia@2.0.14...pinia@2.0.15) (2022-07-11)
+
+### Features
+
+- warn when a getter conflicts with the state ([#1356](https://github.com/vuejs/pinia/issues/1356)) ([667b81d](https://github.com/vuejs/pinia/commit/667b81dfd7888bbae562bbd02c3670d4c664a8e2))
+
 ## [2.0.14](https://github.com/vuejs/pinia/compare/pinia@2.0.13...pinia@2.0.14) (2022-05-05)
 
 ### Bug Fixes
@@ -270,7 +454,7 @@ This version supports Vue 2! [Here](https://github.com/vuejs/pinia-vue-2-vite-ex
 
 # [2.0.0-rc.1](https://github.com/vuejs/pinia/compare/v2.0.0-rc.0...v2.0.0-rc.1) (2021-07-30)
 
-Posted https://github.com/vuejs/pinia/issues/592 to help people installing or upgrading Pinia.
+Posted <https://github.com/vuejs/pinia/issues/592> to help people installing or upgrading Pinia.
 
 ### Bug Fixes
 
@@ -284,7 +468,7 @@ Posted https://github.com/vuejs/pinia/issues/592 to help people installing or up
 
 This release requires Vue 3.2.0, which is currently only available under the `beta` dist tag (`npm i vue@beta` or `yarn add vue@beta` + the corresponding packages like `@vue/compiler-sfc@beta`).
 
-Follow the instructions at https://github.com/vuejs/pinia/issues/592 if you need help updating your package versions.
+Follow the instructions at <https://github.com/vuejs/pinia/issues/592> if you need help updating your package versions.
 
 It contains major improvements:
 

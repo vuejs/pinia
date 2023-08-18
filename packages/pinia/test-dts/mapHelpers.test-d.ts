@@ -96,6 +96,8 @@ expectType<{
     set: (v: 'on' | 'off') => any
   }
 }>(mapWritableState(useStore, ['a']))
+// @ts-expect-error: only defined in array
+mapWritableState(useStore, ['a']).b
 
 expectType<{
   newA: {

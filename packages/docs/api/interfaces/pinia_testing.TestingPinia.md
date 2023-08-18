@@ -1,7 +1,5 @@
 ---
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
+editLink: false
 ---
 
 [API Documentation](../index.md) / [@pinia/testing](../modules/pinia_testing.md) / TestingPinia
@@ -11,7 +9,7 @@ sidebarDepth: 3
 [@pinia/testing](../modules/pinia_testing.md).TestingPinia
 
 Pinia instance specifically designed for testing. Extends a regular
-[Pinia](pinia.Pinia.md) instance with test specific properties.
+`Pinia` instance with test specific properties.
 
 ## Hierarchy
 
@@ -27,9 +25,29 @@ Pinia instance specifically designed for testing. Extends a regular
 
 App used by Pinia
 
-#### Defined in
+___
 
-[packages/testing/src/testing.ts:72](https://github.com/vuejs/pinia/blob/2b998ee/packages/testing/src/testing.ts#L72)
+### install
+
+• **install**: (`app`: `App`<`any`\>) => `void`
+
+#### Type declaration
+
+▸ (`app`): `void`
+
+##### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `app` | `App`<`any`\> |
+
+##### Returns
+
+`void`
+
+#### Inherited from
+
+[Pinia](pinia.Pinia.md).[install](pinia.Pinia.md#install)
 
 ___
 
@@ -43,35 +61,7 @@ root state
 
 [Pinia](pinia.Pinia.md).[state](pinia.Pinia.md#state)
 
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:51](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L51)
-
 ## Methods
-
-### install
-
-▸ **install**(`app`): `void`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `app` | `App`<`any`\> |
-
-#### Returns
-
-`void`
-
-#### Inherited from
-
-[Pinia](pinia.Pinia.md).[install](pinia.Pinia.md#install)
-
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:46](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L46)
-
-___
 
 ### use
 
@@ -92,7 +82,3 @@ Adds a store plugin to extend every store
 #### Inherited from
 
 [Pinia](pinia.Pinia.md).[use](pinia.Pinia.md#use)
-
-#### Defined in
-
-[packages/pinia/src/rootStore.ts:58](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/rootStore.ts#L58)

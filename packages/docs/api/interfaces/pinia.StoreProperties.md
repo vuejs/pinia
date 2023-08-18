@@ -1,7 +1,5 @@
 ---
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
+editLink: false
 ---
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / StoreProperties
@@ -32,10 +30,6 @@ Properties of a store.
 
 Unique identifier of the store
 
-#### Defined in
-
-[packages/pinia/src/types.ts:265](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L265)
-
 ___
 
 ### \_customProperties
@@ -45,7 +39,3 @@ ___
 Used by devtools plugin to retrieve properties added with plugins. Removed
 in production. Can be used by the user to add property keys of the store
 that should be displayed in devtools.
-
-#### Defined in
-
-[packages/pinia/src/types.ts:293](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L293)

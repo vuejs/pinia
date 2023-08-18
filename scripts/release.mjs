@@ -1,7 +1,7 @@
 import minimist from 'minimist'
-import _fs from 'fs'
-import { join, resolve, dirname } from 'path'
-import { fileURLToPath } from 'url'
+import fs from 'node:fs/promises'
+import { join, resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import chalk from 'chalk'
 import semver from 'semver'
 import enquirer from 'enquirer'
@@ -10,7 +10,6 @@ import pSeries from 'p-series'
 import { globby } from 'globby'
 
 const { prompt } = enquirer
-const fs = _fs.promises
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -179,6 +178,9 @@ async function main() {
   step('\nUpdating versions in package.json files...')
   await updateVersions(pkgWithVersions)
 
+  step('\nUpdating lock...')
+  await runIfNotDry(`pnpm`, ['install'])
+
   step('\nGenerating changelogs...')
   for (const pkg of pkgWithVersions) {
     step(` -> ${pkg.name} (${pkg.path})`)
@@ -217,6 +219,7 @@ async function main() {
       'add',
       'packages/*/CHANGELOG.md',
       'packages/*/package.json',
+      'pnpm-lock.yaml',
     ])
     await runIfNotDry('git', [
       'commit',
@@ -294,6 +297,7 @@ async function publishPackage(pkg) {
       [
         'publish',
         ...(optionTag ? ['--tag', optionTag] : []),
+        ...(skipCleanGitCheck ? ['--no-git-checks'] : []),
         '--access',
         'public',
         // specific to pinia

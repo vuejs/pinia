@@ -1,12 +1,8 @@
-const _fs = require('fs')
-const path = require('path')
+// @ts-check
+const fs = require('node:fs/promises')
+const path = require('node:path')
 const TypeDoc = require('typedoc')
 const { PageEvent } = TypeDoc
-const {
-  prependYAML,
-} = require('typedoc-plugin-markdown/dist/utils/front-matter')
-
-const fs = _fs.promises
 
 const DEFAULT_OPTIONS = {
   // disableOutputCheck: true,
@@ -38,6 +34,9 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
   /** @type {'build' | 'serve'} */
   let targetMode = 'build'
 
+  const slugify = (s) => s.replaceAll(' ', '-')
+  // encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
+
   app.renderer.on(
     PageEvent.END,
     /**
@@ -45,19 +44,18 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
      * @param {import('typedoc/dist/lib/output/events').PageEvent} page
      */
     (page) => {
-      if (page.url !== 'index.md' && page.contents) {
-        page.contents = prependYAML(page.contents, {
-          sidebar: 'auto',
-          // TODO: figure out a way to point to the source files?
-          editLinks: false,
-          sidebarDepth: 3,
-        })
+      if (!page.contents) {
+        return
       }
+      page.contents = prependYAML(page.contents, {
+        // TODO: figure out a way to point to the source files?
+        editLink: false,
+      })
     }
   )
 
   async function serve() {
-    app.bootstrap(options)
+    await app.bootstrapWithPlugins(options)
     app.convertAndWatch(handleProject)
   }
 
@@ -68,8 +66,11 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
     ) {
       await fs.rm(options.out, { recursive: true })
     }
-    app.bootstrap(options)
+    await app.bootstrapWithPlugins(options)
     const project = app.convert()
+    if (!project) {
+      throw new Error('No project')
+    }
     return handleProject(project)
   }
 
@@ -111,4 +112,45 @@ async function exists(path) {
   } catch {
     return false
   }
+}
+
+/**
+ * @typedef {Record<string, string | number | boolean>} FrontMatterVars
+ */
+
+/**
+ * Prepends YAML block to a string
+ * @param {string} contents - string to prepend to
+ * @param {FrontMatterVars} vars - object of required front matter variables
+ */
+function prependYAML(contents, vars) {
+  return contents
+    .replace(/^/, toYAML(vars) + '\n\n')
+    .replace(/[\r\n]{3,}/g, '\n\n')
+}
+
+/**
+ * Converts YAML object to a YAML string
+ * @param {FrontMatterVars} vars
+ */
+function toYAML(vars) {
+  const yaml = `---
+${Object.entries(vars)
+  .map(
+    ([key, value]) =>
+      `${key}: ${
+        typeof value === 'string' ? `"${escapeDoubleQuotes(value)}"` : value
+      }`
+  )
+  .join('\n')}
+---`
+  return yaml
+}
+
+/**
+ * Escapes double quotes in a string
+ * @param {string} str - string to escape
+ */
+function escapeDoubleQuotes(str) {
+  return str.replace(/"/g, '\\"')
 }

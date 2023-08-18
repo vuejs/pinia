@@ -1,4 +1,4 @@
-import { getCurrentInstance, onUnmounted } from 'vue-demi'
+import { getCurrentScope, onScopeDispose } from 'vue-demi'
 import { _Method } from './types'
 
 export const noop = () => {}
@@ -19,8 +19,8 @@ export function addSubscription<T extends _Method>(
     }
   }
 
-  if (!detached && getCurrentInstance()) {
-    onUnmounted(removeSubscription)
+  if (!detached && getCurrentScope()) {
+    onScopeDispose(removeSubscription)
   }
 
   return removeSubscription

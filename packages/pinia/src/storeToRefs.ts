@@ -1,14 +1,32 @@
 import {
+  ComputedRef,
   isReactive,
   isRef,
   isVue2,
+  Ref,
   toRaw,
+  ToRef,
   toRef,
   ToRefs,
   toRefs,
 } from 'vue-demi'
 import { StoreGetters, StoreState } from './store'
 import type { PiniaCustomStateProperties, StoreGeneric } from './types'
+
+type ToComputedRefs<T> = {
+  [K in keyof T]: ToRef<T[K]> extends Ref<infer U>
+    ? ComputedRef<U>
+    : ToRef<T[K]>
+}
+
+/**
+ * Extracts the return type for `storeToRefs`.
+ * Will convert any `getters` into `ComputedRef`.
+ */
+export type StoreToRefs<SS extends StoreGeneric> = ToRefs<
+  StoreState<SS> & PiniaCustomStateProperties<StoreState<SS>>
+> &
+  ToComputedRefs<StoreGetters<SS>>
 
 /**
  * Creates an object of references with all the state, getters, and plugin-added
@@ -20,9 +38,7 @@ import type { PiniaCustomStateProperties, StoreGeneric } from './types'
  */
 export function storeToRefs<SS extends StoreGeneric>(
   store: SS
-): ToRefs<
-  StoreState<SS> & StoreGetters<SS> & PiniaCustomStateProperties<StoreState<SS>>
-> {
+): StoreToRefs<SS> {
   // See https://github.com/vuejs/pinia/issues/852
   // It's easier to just use toRefs() even if it includes more stuff
   if (isVue2) {
@@ -31,11 +47,7 @@ export function storeToRefs<SS extends StoreGeneric>(
   } else {
     store = toRaw(store)
 
-    const refs = {} as ToRefs<
-      StoreState<SS> &
-        StoreGetters<SS> &
-        PiniaCustomStateProperties<StoreState<SS>>
-    >
+    const refs = {} as StoreToRefs<SS>
     for (const key in store) {
       const value = store[key]
       if (isRef(value) || isReactive(value)) {

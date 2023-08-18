@@ -60,4 +60,10 @@ if (import.meta.hot) {
   //   }
 }
 
-createApp(App).use(router).use(pinia).mount('#app')
+const app = createApp(App)
+  .use(pinia)
+  .use(router)
+  // used in counter setup for tests
+  .provide('injected', 'global')
+
+app.mount('#app')

@@ -1,20 +1,19 @@
+import { describe, it, expect } from 'vitest'
 import { createPinia, defineStore } from '../src'
-import { mockWarn } from 'jest-mock-warn'
+import { mockWarn } from './vitest-mock-warn'
 
 describe('Root State', () => {
   mockWarn()
-  const useA = defineStore({
-    id: 'a',
+  const useA = defineStore('a', {
     state: () => ({ a: 'a' }),
   })
 
-  const useB = defineStore({
-    id: 'b',
+  const useB = defineStore('b', {
     state: () => ({ b: 'b' }),
   })
 
   it('warns if creating a store without a pinia', () => {
-    expect(() => useA()).toThrowError(/with no active Pinia/)
+    expect(() => useA()).toThrowError(/there was no active Pinia/)
   })
 
   it('works with no stores', () => {

@@ -1,70 +1,103 @@
 /**
  * @module @pinia/nuxt
  */
-// import { isVue2 } from 'vue-demi'
-import type { Pinia } from 'pinia'
-import type { Context, Module } from '@nuxt/types'
+import {
+  defineNuxtModule,
+  addPlugin,
+  isNuxt2,
+  addImports,
+  createResolver,
+  resolveModule,
+  addImportsDir,
+} from '@nuxt/kit'
+import type { NuxtModule } from '@nuxt/schema'
 
-export interface PiniaNuxtOptions {
+export interface ModuleOptions {
   /**
    * Pinia disables Vuex by default, set this option to `false` to avoid it and
-   * use Pinia alongside Vuex.
+   * use Pinia alongside Vuex (Nuxt 2 only)
    *
    * @default `true`
    */
   disableVuex?: boolean
+
+  /**
+   * Automatically add stores dirs to the auto imports. This is the same as
+   * directly adding the dirs to the `imports.dirs` option. If you want to
+   * also import nested stores, you can use the glob pattern `./stores/**`
+   *
+   * @default `['./stores']`
+   */
+  storesDirs?: string[]
 }
 
-const DEFAULTS = {
-  disableVuex: true,
-}
+const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
+  meta: {
+    name: 'pinia',
+    configKey: 'pinia',
+    compatibility: {
+      nuxt: '^2.0.0 || ^3.0.0-rc.5',
+      bridge: true,
+    },
+  },
+  defaults: {
+    disableVuex: true,
+    storesDirs: ['./stores'],
+  },
+  setup(options, nuxt) {
+    const resolver = createResolver(import.meta.url)
 
-export default <Module>function (_options) {
-  const nuxt = this.nuxt
-  const options = {
-    ...DEFAULTS,
-    ...(_options || {}),
-    ...(nuxt.options.pinia || {}),
-  }
+    // Disable default Vuex store (Nuxt v2.10+ only)
+    if (
+      // @ts-expect-error: no feature flag anymore or private?
+      nuxt.options.features &&
+      // ts
+      options.disableVuex &&
+      isNuxt2()
+    ) {
+      // @ts-expect-error: same
+      nuxt.options.features.store = false
+    }
 
-  // Disable default Vuex store (options.features only exists in Nuxt v2.10+)
-  if (nuxt.options.features && options.disableVuex) {
-    nuxt.options.features.store = false
-  }
+    // Transpile runtime
+    nuxt.options.build.transpile.push(resolver.resolve('./runtime'))
 
-  // make sure we use the mjs for pinia so node doesn't complain about using a module js with an extension that is js
-  // but doesn't have the type: module in its packages.json file
-  nuxt.options.alias.pinia = 'pinia/dist/pinia.mjs'
+    // Make sure we use the mjs build for pinia
+    nuxt.options.alias.pinia =
+      nuxt.options.alias.pinia ||
+      // FIXME: remove this deprecated call. Ensure it works in Nuxt 2 to 3
+      resolveModule('pinia/dist/pinia.mjs', {
+        paths: [nuxt.options.rootDir, import.meta.url],
+      })
 
-  this.addPlugin({ src: require.resolve('./plugin.mjs') })
+    nuxt.hook('prepare:types', ({ references }) => {
+      references.push({ types: '@pinia/nuxt' })
+    })
 
-  // transpile pinia for nuxt 2 and nuxt bridge
-  // if (isVue2 && !nuxt.options.build.transpile.includes('pinia')) {
-  //   nuxt.options.build.transpile.push('pinia')
-  // }
-}
+    // Add runtime plugin before the router plugin
+    // https://github.com/nuxt/framework/issues/9130
+    nuxt.hook('modules:done', () => {
+      if (isNuxt2()) {
+        addPlugin(resolver.resolve('./runtime/plugin.vue2'))
+      } else {
+        addPlugin(resolver.resolve('./runtime/plugin.vue3'))
+      }
+    })
 
-declare module '@nuxt/types' {
-  export interface Context {
-    /**
-     * Pinia instance attached to the app.
-     *
-     * @deprecated: use context.$pinia instead
-     */
-    pinia: Pinia
+    // Add auto imports
+    const composables = resolver.resolve('./runtime/composables')
+    addImports([
+      { from: composables, name: 'defineStore' },
+      { from: composables, name: 'acceptHMRUpdate' },
+      { from: composables, name: 'usePinia' },
+    ])
 
-    /**
-     * Pinia instance attached to the app.
-     */
-    $pinia: Pinia
-  }
-}
+    if (options.storesDirs) {
+      for (const storeDir of options.storesDirs) {
+        addImportsDir(resolver.resolve(nuxt.options.rootDir, storeDir))
+      }
+    }
+  },
+})
 
-declare module 'pinia' {
-  export interface PiniaCustomProperties {
-    /**
-     * Nuxt context.
-     */
-    $nuxt: Context
-  }
-}
+export default module
