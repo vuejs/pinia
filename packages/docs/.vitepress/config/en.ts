@@ -42,6 +42,10 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             text: 'Changelog',
             link: 'https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md',
           },
+          {
+            text: 'Vue.js Certification',
+            link: 'https://certification.vuejs.org/?friend=VUEROUTER',
+          },
         ],
       },
     ],
