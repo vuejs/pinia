@@ -218,7 +218,7 @@ const wrapper = mount(Counter, {
 
 ## E2E tests
 
-When it comes to pinia, you don't need to change anything for e2e tests, that's the whole point of e2e tests! You could maybe test HTTP requests, but that's way beyond the scope of this guide 😄.
+When it comes to Pinia, you don't need to change anything for E2E tests, that's the whole point of these tests! You could maybe test HTTP requests, but that's way beyond the scope of this guide 😄.
 
 ## Unit test components (Vue 2)
 
