@@ -93,7 +93,7 @@ const store = useStore()
 store.$reset()
 ```
 
-在内部，这将调用 `state()` 函数来创建一个新的状态对象，并用它替换当前状态。
+在 `$reset()` 内部，会调用 `state()` 函数来创建一个新的状态对象，并用它替换当前状态。
 
 在 [Setup Stores](/core-concepts/index.md#setup-stores) 中，您需要创建自己的 `$reset()` 方法：
 
