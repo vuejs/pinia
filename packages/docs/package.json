@@ -2,9 +2,10 @@
   "name": "@pinia/docs",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "docs": "vitepress dev .",
-    "docs:api": "node run-typedoc.js",
+    "docs:api": "node run-typedoc.cjs",
     "docs:build": "vitepress build ."
   },
   "dependencies": {

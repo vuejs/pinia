@@ -1,4 +1,4 @@
-const { createTypeDocApp } = require('./typedoc-markdown')
+const { createTypeDocApp } = require('./typedoc-markdown.cjs')
 const path = require('path')
 
 createTypeDocApp({
