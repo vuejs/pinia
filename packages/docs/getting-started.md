@@ -51,7 +51,7 @@ new Vue({
 })
 ```
 
-This will also add devtools support. In Vue 3, some features like time traveling and editing are still not supported because vue-devtools doesn't expose the necessary APIs yet but the devtools have way more features and the developer experience as a whole is far superior. In Vue 2, Pinia uses the existing interface for Vuex (and can therefore not be used alongside it).
+This will also add devtools support. In Vue 3, some features like time traveling and editing are still not supported because vue-devtools doesn't expose the necessary APIs yet but the devtools have way more features and the developer experience as a whole is far superior.
 
 ## What is a Store?
 
