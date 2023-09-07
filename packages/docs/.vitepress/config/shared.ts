@@ -9,14 +9,15 @@ if (process.env.NETLIFY) {
 }
 
 const productionHead: HeadConfig[] = [
-  [
-    'script',
-    {
-      src: 'https://unpkg.com/thesemetrics@latest',
-      async: '',
-      type: 'text/javascript',
-    },
-  ],
+  // NOTE: removed because there is a bug that makes it load forever
+  // [
+  //   'script',
+  //   {
+  //     src: 'https://unpkg.com/thesemetrics@latest',
+  //     async: '',
+  //     type: 'text/javascript',
+  //   },
+  // ],
 ]
 
 const rControl = /[\u0000-\u001f]/g
