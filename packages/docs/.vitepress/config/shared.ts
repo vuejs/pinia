@@ -8,17 +8,7 @@ if (process.env.NETLIFY) {
   console.log('Netlify build', process.env.CONTEXT)
 }
 
-const productionHead: HeadConfig[] = [
-  // NOTE: removed because there is a bug that makes it load forever
-  // [
-  //   'script',
-  //   {
-  //     src: 'https://unpkg.com/thesemetrics@latest',
-  //     async: '',
-  //     type: 'text/javascript',
-  //   },
-  // ],
-]
+const productionHead: HeadConfig[] = []
 
 const rControl = /[\u0000-\u001f]/g
 const rSpecial = /[\s~`!@#$%^&*()\-_+=[\]{}|\\;:"'“”‘’<>,.?/]+/g
@@ -88,6 +78,16 @@ export const sharedConfig = defineConfig({
       {
         property: 'twitter:image',
         content: META_IMAGE,
+      },
+    ],
+
+    [
+      'script',
+      {
+        src: 'https://cdn.usefathom.com/script.js',
+        'data-site': 'KFPPRRIS',
+        'data-spa': 'auto',
+        defer: '',
       },
     ],
 
