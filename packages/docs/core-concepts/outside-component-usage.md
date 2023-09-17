@@ -57,4 +57,4 @@ router.beforeEach((to) => {
 
 When dealing with Server Side Rendering, you will have to pass the `pinia` instance to `useStore()`. This prevents pinia from sharing global state between different application instances.
 
-There is a whole section dedicated to it in the [SSR guide](/ssr/index.md), this is just a short explanation:
+There is a whole section dedicated to it in the [SSR guide](/ssr/index.md), this is just a short explanation.
