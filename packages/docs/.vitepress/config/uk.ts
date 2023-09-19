@@ -51,6 +51,10 @@ export const ukConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             text: 'Журнал змін',
             link: 'https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md',
           },
+          {
+            text: 'Сертифікація по Vue.js',
+            link: 'https://certification.vuejs.org/?friend=VUEROUTER',
+          },
         ],
       },
     ],

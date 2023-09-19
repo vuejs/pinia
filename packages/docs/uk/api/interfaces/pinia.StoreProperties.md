@@ -10,19 +10,19 @@ editLink: false
 
 Properties of a store.
 
-## Type parameters %{#Type-parameters}%
+## Type parameters
 
 | Name | Type |
 | :------ | :------ |
 | `Id` | extends `string` |
 
-## Hierarchy %{#Hierarchy}%
+## Hierarchy
 
 - **`StoreProperties`**
 
   ↳ [`_StoreWithState`](pinia._StoreWithState.md)
 
-## Properties %{#Properties}%
+## Properties
 
 ### $id %{#Properties-$id}%
 

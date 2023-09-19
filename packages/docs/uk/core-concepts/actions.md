@@ -1,4 +1,4 @@
-# Дії %{#actions}%
+# Дії
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/synchronous-and-asynchronous-actions-in-pinia"
@@ -69,7 +69,7 @@ store.randomizeCounter()
 </template>
 ```
 
-## Доступ до дій інших сховищ %{#accessing-other-stores-actions}%
+## Доступ до дій інших сховищ
 
 Щоб використовувати інше сховище, ви можете _використовувати його_ безпосередньо всередині _дії_:
 
@@ -94,7 +94,7 @@ export const useSettingsStore = defineStore('settings', {
 })
 ```
 
-## Використання з опційним API %{#usage-with-the-options-api}%
+## Використання з опційним API
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-actions-in-the-options-api"
@@ -121,7 +121,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-### З `setup()` %{#with-setup}%
+### З `setup()`
 
 Хоча композиційне API не для всіх, хук `setup()` може полегшити роботу з Pinia в опційному API. Додаткові допоміжні функції зіставлення не потрібні!
 
@@ -145,7 +145,7 @@ export default defineComponent({
 </script>
 ```
 
-### Без `setup()` %{#without-setup}%
+### Без `setup()`
 
 Якщо ви взагалі не бажаєте використовувати композиційний API, ви можете скористатися помічником `mapActions()`, щоб зіставити властивості дій як методи у вашому компоненті:
 
@@ -164,7 +164,7 @@ export default {
 }
 ```
 
-## Підписка на дії %{#subscribing-to-actions}%
+## Підписка на дії
 
 Можна спостерігати за діями та їх результатами за допомогою `store.$onAction()`. Функція зворотнього виклику, яка йому передається, буде виконана перед самою дією. `after` обробляє promises та дозволяє вам виконувати функцію після завершення дії. Подібним чином `onError` дозволяє вам виконувати функцію, якщо дія видає помилку або відхиляє promise. Вони корисні для відстеження помилок під час виконання, подібно до [цієї підказки в документах Vue](https://ua.v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors).
 

@@ -10,7 +10,7 @@ editLink: false
 
 Available `options` when creating a pinia plugin.
 
-## Type parameters %{#Type-parameters}%
+## Type parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -19,15 +19,15 @@ Available `options` when creating a pinia plugin.
 | `G` | `G` |
 | `A` | `A` |
 
-## Hierarchy %{#Hierarchy}%
+## Hierarchy
 
 - `Omit`<[`DefineStoreOptions`](pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\>, ``"id"`` \| ``"actions"``\>
 
   ↳ **`DefineStoreOptionsInPlugin`**
 
-## Properties %{#Properties}%
+## Properties
 
-### actions %{#Properties-actions}%
+### actions
 
 • **actions**: `A`
 
@@ -37,45 +37,56 @@ Defaults to an empty object if no actions are defined.
 
 ___
 
-### getters %{#Properties-getters}%
+### getters
 
 • `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
 
 Optional object of getters.
 
-#### Inherited from %{#Properties-getters-Inherited-from}%
+#### Inherited from
 
 Omit.getters
 
 ___
 
-### state %{#Properties-state}%
+### state
 
 • `Optional` **state**: () => `S`
 
-#### Type declaration %{#Properties-state-Type-declaration}%
+#### Type declaration
 
 ▸ (): `S`
 
 Function to create a fresh state. **Must be an arrow function** to ensure
 correct typings!
 
-##### Returns %{#Properties-state-Type-declaration-Returns}%
+##### Returns
 
 `S`
 
-#### Inherited from %{#Properties-state-Inherited-from}%
+#### Inherited from
 
 Omit.state
 
-## Methods %{#Methods}%
+## Methods
 
-### hydrate %{#Methods-hydrate}%
+### hydrate
 
 ▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
 
 Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
 definition and copying the value from `pinia.state` isn't enough.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
+| `initialState` | `UnwrapRef`<`S`\> | initialState |
+
+#### Returns
+
+`void`
 
 **`Example`**
 
@@ -95,17 +106,6 @@ const useStore = defineStore('main', {
 })
 ```
 
-#### Parameters %{#Methods-hydrate-Parameters}%
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
-| `initialState` | `UnwrapRef`<`S`\> | initialState |
-
-#### Returns %{#Methods-hydrate-Returns}%
-
-`void`
-
-#### Inherited from %{#Methods-hydrate-Inherited-from}%
+#### Inherited from
 
 Omit.hydrate
