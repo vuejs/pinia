@@ -145,6 +145,10 @@ export const ukConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               link: '/uk/cookbook/composing-stores.html',
             },
             {
+              text: 'Фрагменти VSCode',
+              link: '/cookbook/vscode-snippets.html',
+            },
+            {
               text: 'Міграція з v0/v1 до v2',
               link: '/uk/cookbook/migration-v1-v2.html',
             },
