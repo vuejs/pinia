@@ -10,54 +10,54 @@ editLink: false
 
 Every application must own its own pinia to be able to create stores
 
-## Hierarchy %{#Hierarchy}%
+## Hierarchy
 
 - **`Pinia`**
 
   ↳ [`TestingPinia`](pinia_testing.TestingPinia.md)
 
-## Properties %{#Properties}%
+## Properties
 
-### install %{#Properties-install}%
+### install
 
 • **install**: (`app`: `App`<`any`\>) => `void`
 
-#### Type declaration %{#Properties-install-Type-declaration}%
+#### Type declaration
 
 ▸ (`app`): `void`
 
-##### Parameters %{#Properties-install-Type-declaration-Parameters}%
+##### Parameters
 
 | Name | Type |
 | :------ | :------ |
 | `app` | `App`<`any`\> |
 
-##### Returns %{#Properties-install-Type-declaration-Returns}%
+##### Returns
 
 `void`
 
 ___
 
-### state %{#Properties-state}%
+### state
 
 • **state**: `Ref`<`Record`<`string`, [`StateTree`](../modules/pinia.md#statetree)\>\>
 
 root state
 
-## Methods %{#Methods}%
+## Methods
 
-### use %{#Methods-use}%
+### use
 
 ▸ **use**(`plugin`): [`Pinia`](pinia.Pinia.md)
 
 Adds a store plugin to extend every store
 
-#### Parameters %{#Methods-use-Parameters}%
+#### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | store plugin to add |
 
-#### Returns %{#Methods-use-Returns}%
+#### Returns
 
 [`Pinia`](pinia.Pinia.md)

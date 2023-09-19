@@ -8,16 +8,26 @@ if (process.env.NETLIFY) {
   console.log('Netlify build', process.env.CONTEXT)
 }
 
-const productionHead: HeadConfig[] = [
-  [
-    'script',
-    {
-      src: 'https://unpkg.com/thesemetrics@latest',
-      async: '',
-      type: 'text/javascript',
-    },
-  ],
-]
+const productionHead: HeadConfig[] = []
+
+const rControl = /[\u0000-\u001f]/g
+const rSpecial = /[\s~`!@#$%^&*()\-_+=[\]{}|\\;:"'“”‘’<>,.?/]+/g
+const rCombining = /[\u0300-\u036F]/g
+
+/**
+ * Default slugification function
+ */
+export const slugify = (str: string): string =>
+  str
+    .normalize('NFKD')
+    // Remove accents
+    .replace(rCombining, '')
+    // Remove control characters
+    .replace(rControl, '')
+    // Replace special characters
+    .replace(rSpecial, '-')
+    // ensure it doesn't start with a number
+    .replace(/^(\d)/, '_$1')
 
 export const sharedConfig = defineConfig({
   title: 'Pinia',
@@ -32,6 +42,10 @@ export const sharedConfig = defineConfig({
     attrs: {
       leftDelimiter: '%{',
       rightDelimiter: '}%',
+    },
+
+    anchor: {
+      slugify,
     },
   },
 
@@ -64,6 +78,16 @@ export const sharedConfig = defineConfig({
       {
         property: 'twitter:image',
         content: META_IMAGE,
+      },
+    ],
+
+    [
+      'script',
+      {
+        src: 'https://cdn.usefathom.com/script.js',
+        'data-site': 'KFPPRRIS',
+        'data-spa': 'auto',
+        defer: '',
       },
     ],
 

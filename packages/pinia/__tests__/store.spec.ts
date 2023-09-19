@@ -60,13 +60,13 @@ describe('Store', () => {
       id: 'main',
       state: () => ({ n: 0 }),
     })
-    const TestComponent = {
+    const TestComponent = defineComponent({
       template: `<div>{{ store. n }}</div>`,
       setup() {
         const store = useStore()
         return { store }
       },
-    }
+    })
     const w1 = mount(TestComponent, { global: { plugins: [pinia] } })
     const w2 = mount(TestComponent, { global: { plugins: [pinia] } })
     expect(w1.text()).toBe('0')

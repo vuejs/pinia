@@ -15,7 +15,7 @@ augment stores with the plugin API.
 
 [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
-## Type parameters %{#Type-parameters}%
+## Type parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -24,15 +24,15 @@ augment stores with the plugin API.
 | `G` | `G` |
 | `A` | `A` |
 
-## Hierarchy %{#Hierarchy}%
+## Hierarchy
 
 - [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
 
   ↳ **`DefineSetupStoreOptions`**
 
-## Properties %{#Properties}%
+## Properties
 
-### actions %{#Properties-actions}%
+### actions
 
 • `Optional` **actions**: `A`
 

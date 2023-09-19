@@ -428,9 +428,6 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
             groupId: activeAction,
           }
 
-          // reset for the next mutation
-          activeAction = undefined
-
           if (type === MutationType.patchFunction) {
             eventData.subtitle = '⤵️'
           } else if (type === MutationType.patchObject) {
@@ -510,7 +507,11 @@ let activeAction: number | undefined
  * @param store - store to patch
  * @param actionNames - list of actionst to patch
  */
-function patchActionForGrouping(store: StoreGeneric, actionNames: string[]) {
+function patchActionForGrouping(
+  store: StoreGeneric,
+  actionNames: string[],
+  wrapWithProxy: boolean
+) {
   // original actions of the store as they are given by pinia. We are going to override them
   const actions = actionNames.reduce((storeActions, actionName) => {
     // use toRaw to avoid tracking #541
@@ -520,23 +521,30 @@ function patchActionForGrouping(store: StoreGeneric, actionNames: string[]) {
 
   for (const actionName in actions) {
     store[actionName] = function () {
-      // setActivePinia(store._p)
       // the running action id is incremented in a before action hook
       const _actionId = runningActionId
-      const trackedStore = new Proxy(store, {
-        get(...args) {
-          activeAction = _actionId
-          return Reflect.get(...args)
-        },
-        set(...args) {
-          activeAction = _actionId
-          return Reflect.set(...args)
-        },
-      })
-      return actions[actionName].apply(
+      const trackedStore = wrapWithProxy
+        ? new Proxy(store, {
+            get(...args) {
+              activeAction = _actionId
+              return Reflect.get(...args)
+            },
+            set(...args) {
+              activeAction = _actionId
+              return Reflect.set(...args)
+            },
+          })
+        : store
+
+      // For Setup Stores we need https://github.com/tc39/proposal-async-context
+      activeAction = _actionId
+      const retValue = actions[actionName].apply(
         trackedStore,
         arguments as unknown as any[]
       )
+      // this is safer as async actions in Setup Stores would associate mutations done outside of the action
+      activeAction = undefined
+      return retValue
     }
   }
 }
@@ -556,29 +564,23 @@ export function devtoolsPlugin<
   }
 
   // detect option api vs setup api
-  if (options.state) {
-    store._isOptionsAPI = true
-  }
+  store._isOptionsAPI = !!options.state
 
-  // only wrap actions in option-defined stores as this technique relies on
-  // wrapping the context of the action with a proxy
-  if (typeof options.state === 'function') {
+  patchActionForGrouping(
+    store as StoreGeneric,
+    Object.keys(options.actions),
+    store._isOptionsAPI
+  )
+
+  // Upgrade the HMR to also update the new actions
+  const originalHotUpdate = store._hotUpdate
+  toRaw(store)._hotUpdate = function (newStore) {
+    originalHotUpdate.apply(this, arguments as any)
     patchActionForGrouping(
-      // @ts-expect-error: can cast the store...
-      store,
-      Object.keys(options.actions)
+      store as StoreGeneric,
+      Object.keys(newStore._hmrPayload.actions),
+      !!store._isOptionsAPI
     )
-
-    const originalHotUpdate = store._hotUpdate
-
-    // Upgrade the HMR to also update the new actions
-    toRaw(store)._hotUpdate = function (newStore) {
-      originalHotUpdate.apply(this, arguments as any)
-      patchActionForGrouping(
-        store as StoreGeneric,
-        Object.keys(newStore._hmrPayload.actions)
-      )
-    }
   }
 
   addStoreToDevtools(

@@ -42,6 +42,10 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             text: 'Changelog',
             link: 'https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md',
           },
+          {
+            text: 'Vue.js Certification',
+            link: 'https://certification.vuejs.org/?friend=VUEROUTER',
+          },
         ],
       },
     ],
@@ -104,7 +108,6 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         },
         {
           text: 'Cookbook',
-          collapsible: true,
           collapsed: false,
           items: [
             {
@@ -130,6 +133,10 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             {
               text: 'Composing Stores',
               link: '/cookbook/composing-stores.html',
+            },
+            {
+              text: 'VSCode Snippets',
+              link: '/cookbook/vscode-snippets.html',
             },
             {
               text: 'Migration from v0/v1 to v2',

@@ -4,8 +4,6 @@ layout: home
 title: Pinia
 titleTemplate: The intuitive store for Vue.js
 
-# TODO: translate text and tagline
-
 hero:
   name: Pinia
   text: "符合直觉的 \nVue.js 状态管理库"
@@ -20,6 +18,9 @@ hero:
     - theme: alt
       text: Demo 演示
       link: https://stackblitz.com/github/piniajs/example-vue-3-vite
+    - theme: cta mastering-pinia
+      text: ' '
+      link: https://masteringpinia.com
     - theme: cta vueschool
       text: 观看视频介绍
       link: https://vueschool.io/lessons/introduction-to-pinia?friend=vuerouter&utm_source=pinia&utm_medium=link&utm_campaign=homepage

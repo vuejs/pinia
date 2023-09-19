@@ -479,10 +479,9 @@ function createSetupStore<
     (pinia._a && pinia._a.runWithContext) || fallbackRunWithContext
 
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
-  const setupStore = pinia._e.run(() => {
-    scope = effectScope()
-    return runWithContext(() => scope.run(setup))
-  })!
+  const setupStore = runWithContext(() =>
+    pinia._e.run(() => (scope = effectScope()).run(setup)!)
+  )!
 
   // overwrite existing actions to support $onAction
   for (const key in setupStore) {
@@ -904,9 +903,8 @@ export function defineStore(
 
     if (__DEV__ && !activePinia) {
       throw new Error(
-        `[🍍]: "getActivePinia()" was called but there was no active Pinia. Did you forget to install pinia?\n` +
-          `\tconst pinia = createPinia()\n` +
-          `\tapp.use(pinia)\n` +
+        `[🍍]: "getActivePinia()" was called but there was no active Pinia. Are you trying to use a store before calling "app.use(pinia)"?\n` +
+          `See https://pinia.vuejs.org/core-concepts/outside-component-usage.html for help.\n` +
           `This will fail in production.`
       )
     }

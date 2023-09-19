@@ -1,8 +1,12 @@
+---
+editLink: false
+---
+
 API Documentation
 
 # API Documentation
 
-## Modules %{#Modules}%
+## Modules
 
 - [@pinia/nuxt](modules/pinia_nuxt.md)
 - [@pinia/testing](modules/pinia_testing.md)

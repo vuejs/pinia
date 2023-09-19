@@ -13,6 +13,7 @@ export function toastMessage(
   const piniaMessage = '🍍 ' + message
 
   if (typeof __VUE_DEVTOOLS_TOAST__ === 'function') {
+    // No longer available :(
     __VUE_DEVTOOLS_TOAST__(piniaMessage, type)
   } else if (type === 'error') {
     console.error(piniaMessage)

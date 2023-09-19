@@ -87,6 +87,7 @@ html.dark:root {
 
   --vp-c-bg: var(--vp-c-black);
   --vp-c-bg-soft: var(--vp-c-black-light);
+  --vp-c-bg-soft-up: var(--vp-c-black-lighter);
   --vp-c-bg-mute: var(--vp-c-black-light);
   --vp-c-bg-soft-mute: var(--vp-c-black-lighter);
   --vp-c-bg-alt: #0d121b;
@@ -217,4 +218,17 @@ html.dark .DocSearch-Logo svg .cls-2 {
   padding: 0.2em;
   width: auto;
   max-width: 150px;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 0.65em;
+  color: var(--vp-c-text-1);
+  vertical-align: middle;
+  background-color: var(--vp-c-bg-mute);
+  border: solid 1px var(--vp-c-bg-soft-mute);
+  border-radius: 6px;
+  box-shadow: inset 0 -1px 0 var(--vp-c-bg-soft-mute);
+  line-height: 0.95em;
 }

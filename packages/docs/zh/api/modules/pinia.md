@@ -458,7 +458,7 @@ ___
 
 ▸ (...`args`): `any`
 
-Generic type for a function that can infer arguments and return type
+可以推断参数和返回值类型的函数通用类型。
 
 **仅**供内部使用
 
@@ -855,7 +855,7 @@ export default {
 
 #### 参数
 
-| 名称 | 类型 |
+| 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
 | `keyMapper` | `KeyMapper` | object of state properties or getters |
@@ -898,7 +898,7 @@ export default {
 
 #### 参数
 
-| 名称 | 类型 |
+| 名称 | 类型 | 描述 |
 | :------ | :------ | :------ |
 | `useStore` | [`StoreDefinition`](../interfaces/pinia.StoreDefinition.md)<`Id`, `S`, `G`, `A`\> | store to map from |
 | `keys` | readonly `Keys`[] | array of state properties or getters |

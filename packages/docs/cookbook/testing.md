@@ -6,18 +6,7 @@ Stores will, by design, be used at many places and can make testing much harder 
 - `actions`: most of the time, they contain the most complex logic of our stores. Wouldn't it be nice if they were mocked by default?
 - Plugins: If you rely on plugins, you will have to install them for tests too
 
-Depending on what or how you are testing, we need to take care of these three differently:
-
-- [Testing stores](#testing-stores)
-  - [Unit testing a store](#unit-testing-a-store)
-  - [Unit testing components](#unit-testing-components)
-    - [Initial State](#initial-state)
-    - [Customizing behavior of actions](#customizing-behavior-of-actions)
-    - [Specifying the createSpy function](#specifying-the-createspy-function)
-    - [Mocking getters](#mocking-getters)
-    - [Pinia Plugins](#pinia-plugins)
-  - [E2E tests](#e2e-tests)
-  - [Unit test components (Vue 2)](#unit-test-components-vue-2)
+Depending on what or how you are testing, we need to take care of these three things differently.
 
 ## Unit testing a store
 
@@ -109,7 +98,7 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 expect(store.someAction).toHaveBeenLastCalledWith()
 ```
 
-Please note that if you are using Vue 2, `@vue/test-utils` requires a [slightly different configuration](#unit-test-components-vue-2).
+Please note that if you are using Vue 2, `@vue/test-utils` requires a [slightly different configuration](#Unit-test-components-Vue-2-).
 
 ### Initial State
 
@@ -229,7 +218,7 @@ const wrapper = mount(Counter, {
 
 ## E2E tests
 
-When it comes to pinia, you don't need to change anything for e2e tests, that's the whole point of e2e tests! You could maybe test HTTP requests, but that's way beyond the scope of this guide 😄.
+When it comes to Pinia, you don't need to change anything for E2E tests, that's the whole point of these tests! You could maybe test HTTP requests, but that's way beyond the scope of this guide 😄.
 
 ## Unit test components (Vue 2)
 

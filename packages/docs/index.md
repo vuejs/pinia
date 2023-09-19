@@ -4,7 +4,7 @@ layout: home
 title: Pinia
 titleTemplate: The intuitive store for Vue.js
 
-hero: 
+hero:
   name: Pinia
   text: The intuitive store for Vue.js
   tagline: Type Safe, Extensible, and Modular by design. Forget you are even using a store.
@@ -18,6 +18,9 @@ hero:
     - theme: alt
       text: Demo
       link: https://stackblitz.com/github/piniajs/example-vue-3-vite
+    - theme: cta mastering-pinia
+      text: ' '
+      link: https://masteringpinia.com
     - theme: cta vueschool
       text: Watch Video Introduction
       link: https://vueschool.io/lessons/introduction-to-pinia?friend=vuerouter&utm_source=pinia&utm_medium=link&utm_campaign=homepage

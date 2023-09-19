@@ -22,6 +22,52 @@ a.cta.vue-mastery::before {
   margin-right: 0.5em;
 }
 
+a.cta.mastering-pinia {
+  height: 100%;
+  line-height: 100%;
+  display: flex;
+  justify-content: center;
+  white-space: pre;
+  min-height: 41px;
+  position: relative;
+}
+a.cta.mastering-pinia::before {
+  content: '';
+  width: 156px;
+  height: 100%;
+  display: inline-block;
+  background-image: url('/mp-logo.svg');
+  background-size: 156px;
+  background-repeat: no-repeat;
+  vertical-align: bottom;
+  line-height: normal;
+  transform: translateY(6px);
+}
+a.cta.mastering-pinia:hover::after {
+  animation: none;
+}
+a.cta.mastering-pinia::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: var(--vp-button-brand-border); */
+  border: 1px solid var(--vp-button-brand-border);
+  border-radius: 20px;
+  animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+  z-index: -1;
+}
+
+@keyframes ping {
+  15%,
+  to {
+    transform: scale(1.25, 2);
+    opacity: 0;
+  }
+}
+
 a.cta.vueschool {
   position: relative;
   color: currentColor;
