@@ -28,7 +28,7 @@ export default defineConfig({
     uk: {
       label: 'Українська',
       lang: 'uk-UA',
-      link: 'https://pinia-ua.netlify.app/',
+      link: 'https://pinia-ua.netlify.app/uk/',
       ...ukConfig
     },
   },
