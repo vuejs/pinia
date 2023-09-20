@@ -8,28 +8,9 @@ editLink: false
 
 [@pinia/nuxt](../modules/pinia_nuxt.md).ModuleOptions
 
-## Properties %{#Properties}%
+## Properties
 
-### autoImports %{#Properties-autoImports}%
-
-• `Optional` **autoImports**: (`string` \| [`string`, `string`])[]
-
-Array of auto imports to be added to the nuxt.config.js file.
-
-**`Example`**
-
-```js
-autoImports: [
- // automatically import `defineStore`
- 'defineStore',
- // automatically import `defineStore` as `definePiniaStore`
- ['defineStore', 'definePiniaStore',
-]
-```
-
-___
-
-### disableVuex %{#Properties-disableVuex}%
+### disableVuex
 
 • `Optional` **disableVuex**: `boolean`
 
@@ -39,3 +20,17 @@ use Pinia alongside Vuex (Nuxt 2 only)
 **`Default`**
 
 `true`
+
+___
+
+### storesDirs
+
+• `Optional` **storesDirs**: `string`[]
+
+Automatically add stores dirs to the auto imports. This is the same as
+directly adding the dirs to the `imports.dirs` option. If you want to
+also import nested stores, you can use the glob pattern `./stores/**`
+
+**`Default`**
+
+`['./stores']`

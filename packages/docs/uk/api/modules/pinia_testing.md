@@ -6,14 +6,14 @@ editLink: false
 
 # Модуль: @pinia/testing
 
-## Інтерфейси %{#Interfaces}%
+## Інтерфейси
 
 - [TestingOptions](../interfaces/pinia_testing.TestingOptions.md)
 - [TestingPinia](../interfaces/pinia_testing.TestingPinia.md)
 
-## Функції %{#Functions}%
+## Функції
 
-### createTestingPinia %{#Functions-createTestingPinia}%
+### createTestingPinia
 
 ▸ **createTestingPinia**(`options?`): [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 
@@ -24,13 +24,13 @@ editLink: false
 jest, вони замінюються на `jest.fn()`, в іншому випадку, ви повинні надати 
 свій власний варіант за допомогою властивості `createSpy`.
 
-#### Параметри %{#Functions-createTestingPinia-Parameters}%
+#### Параметри
 
 | Ім'я | Тип | Опис                                    |
 | :------ | :------ |:----------------------------------------|
 | `options` | [`TestingOptions`](../interfaces/pinia_testing.TestingOptions.md) | опції для налаштування тестування Pinia |
 
-#### Повертає %{#Functions-createTestingPinia-Returns}%
+#### Повертає
 
 [`TestingPinia`](../interfaces/pinia_testing.TestingPinia.md)
 

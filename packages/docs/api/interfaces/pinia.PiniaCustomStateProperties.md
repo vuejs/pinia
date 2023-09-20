@@ -10,7 +10,7 @@ editLink: false
 
 Properties that are added to every `store.$state` by `pinia.use()`.
 
-## Type parameters %{#Type-parameters}%
+## Type parameters
 
 | Name | Type |
 | :------ | :------ |

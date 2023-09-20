@@ -51,6 +51,10 @@ export const ukConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             text: 'Журнал змін',
             link: 'https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md',
           },
+          {
+            text: 'Сертифікація по Vue.js',
+            link: 'https://certification.vuejs.org/?friend=VUEROUTER',
+          },
         ],
       },
     ],
@@ -139,6 +143,10 @@ export const ukConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             {
               text: 'Компонування сховищ',
               link: '/uk/cookbook/composing-stores.html',
+            },
+            {
+              text: 'Фрагменти VSCode',
+              link: '/cookbook/vscode-snippets.html',
             },
             {
               text: 'Міграція з v0/v1 до v2',

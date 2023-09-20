@@ -5,7 +5,7 @@ import { createPinia, setActivePinia, PiniaVuePlugin } from 'pinia'
 const Vue = 'default' in _Vue2 ? (_Vue2 as any).default : _Vue2
 Vue.use(PiniaVuePlugin)
 
-export default (context: any, inject: any) => {
+export default (context: any, provide: any) => {
   const pinia = createPinia()
   context.app.pinia = pinia
   setActivePinia(pinia)
@@ -25,7 +25,7 @@ export default (context: any, inject: any) => {
   }
 
   // Inject $pinia
-  inject('pinia', pinia)
+  provide('pinia', pinia)
 }
 
 declare module 'pinia' {

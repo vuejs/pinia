@@ -11,15 +11,15 @@ editLink: false
 Context passed to a subscription callback when `store.$patch()` is called
 with a function.
 
-## Hierarchy %{#Hierarchy}%
+## Hierarchy
 
 - [`_SubscriptionCallbackMutationBase`](pinia._SubscriptionCallbackMutationBase.md)
 
   ↳ **`SubscriptionCallbackMutationPatchFunction`**
 
-## Properties %{#Properties}%
+## Properties
 
-### events %{#Properties-events}%
+### events
 
 • **events**: `DebuggerEvent`[]
 
@@ -27,30 +27,30 @@ with a function.
 https://vuejs.org/guide/extras/reactivity-in-depth.html#reactivity-debugging and allows to track mutations in
 devtools and plugins **during development only**.
 
-#### Overrides %{#Properties-events-Overrides}%
+#### Overrides
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[events](pinia._SubscriptionCallbackMutationBase.md#events)
 
 ___
 
-### storeId %{#Properties-storeId}%
+### storeId
 
 • **storeId**: `string`
 
 `id` of the store doing the mutation.
 
-#### Inherited from %{#Properties-storeId-Inherited-from}%
+#### Inherited from
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
 ___
 
-### type %{#Properties-type}%
+### type
 
 • **type**: [`patchFunction`](../enums/pinia.MutationType.md#patchfunction)
 
 Type of the mutation.
 
-#### Overrides %{#Properties-type-Overrides}%
+#### Overrides
 
 [_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)

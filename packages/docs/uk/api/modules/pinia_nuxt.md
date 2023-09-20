@@ -6,17 +6,17 @@ editLink: false
 
 # Модуль: @pinia/nuxt
 
-## Інтерфейси %{#Interfaces}%
+## Інтерфейси
 
 - [ModuleOptions](../interfaces/pinia_nuxt.ModuleOptions.md)
 
-## Функції %{#Functions}%
+## Функції
 
-### за замовчуванням %{#Functions-default}%
+### за замовчуванням
 
 ▸ **default**(`this`, `inlineOptions`, `nuxt`): `void` \| `Promise`<`void`\>
 
-#### Параметри %{#Functions-default-Parameters}%
+#### Параметри
 
 | Ім'я | Тип |
 | :------ | :------ |
@@ -24,6 +24,6 @@ editLink: false
 | `inlineOptions` | [`ModuleOptions`](../interfaces/pinia_nuxt.ModuleOptions.md) |
 | `nuxt` | `Nuxt` |
 
-#### Повертає %{#Functions-default-Returns}%
+#### Повертає
 
-`void` \| `Promise`<`void`\>
+`_ModuleSetupReturn`

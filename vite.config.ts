@@ -25,6 +25,7 @@ export default defineConfig({
   },
   test: {
     isolate: false,
+    include: ['packages/**/*.spec.ts'],
     coverage: {
       reporter: ['html', 'lcov', 'text'],
       include: ['packages/pinia/src/**/*.ts', 'packages/testing/src/**/*.ts'],

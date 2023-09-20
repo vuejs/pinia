@@ -4,7 +4,7 @@ layout: home
 title: Pinia
 titleTemplate: Інтуїтивне сховище для Vue.js
 
-hero: 
+hero:
   name: Pinia
   text: Інтуїтивне сховище для Vue.js
   tagline: З безпечною типізацією, розширюване і модульне за конструкцією. Можна навіть забути, що ви використовуєте сховище.
@@ -18,6 +18,9 @@ hero:
     - theme: alt
       text: Демо
       link: https://stackblitz.com/github/piniajs/example-vue-3-vite
+    - theme: cta mastering-pinia
+      text: ' '
+      link: https://masteringpinia.com
     - theme: cta vueschool
       text: Дивитись вступне відео
       link: https://vueschool.io/lessons/introduction-to-pinia?friend=vuerouter&utm_source=pinia&utm_medium=link&utm_campaign=homepage

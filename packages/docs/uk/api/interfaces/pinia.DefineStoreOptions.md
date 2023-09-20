@@ -15,7 +15,7 @@ augment stores with the plugin API.
 
 [DefineStoreOptionsBase](pinia.DefineStoreOptionsBase.md).
 
-## Type parameters %{#Type-parameters}%
+## Type parameters
 
 | Name | Type |
 | :------ | :------ |
@@ -24,15 +24,15 @@ augment stores with the plugin API.
 | `G` | `G` |
 | `A` | `A` |
 
-## Hierarchy %{#Hierarchy}%
+## Hierarchy
 
 - [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>\>
 
   ↳ **`DefineStoreOptions`**
 
-## Properties %{#Properties}%
+## Properties
 
-### actions %{#Properties-actions}%
+### actions
 
 • `Optional` **actions**: `A` & `ThisType`<`A` & `UnwrapRef`<`S`\> & [`_StoreWithState`](pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\>
 
@@ -40,7 +40,7 @@ Optional object of actions.
 
 ___
 
-### getters %{#Properties-getters}%
+### getters
 
 • `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_storewithgetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#statetree), [`_GettersTree`](../modules/pinia.md#_getterstree)<[`StateTree`](../modules/pinia.md#statetree)\>, [`_ActionsTree`](../modules/pinia.md#_actionstree)\>\> & [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>
 
@@ -48,7 +48,7 @@ Optional object of getters.
 
 ___
 
-### id %{#Properties-id}%
+### id
 
 • **id**: `Id`
 
@@ -56,29 +56,40 @@ Unique string key to identify the store across the application.
 
 ___
 
-### state %{#Properties-state}%
+### state
 
 • `Optional` **state**: () => `S`
 
-#### Type declaration %{#Properties-state-Type-declaration}%
+#### Type declaration
 
 ▸ (): `S`
 
 Function to create a fresh state. **Must be an arrow function** to ensure
 correct typings!
 
-##### Returns %{#Properties-state-Type-declaration-Returns}%
+##### Returns
 
 `S`
 
-## Methods %{#Methods}%
+## Methods
 
-### hydrate %{#Methods-hydrate}%
+### hydrate
 
 ▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
 
 Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
 definition and copying the value from `pinia.state` isn't enough.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
+| `initialState` | `UnwrapRef`<`S`\> | initialState |
+
+#### Returns
+
+`void`
 
 **`Example`**
 
@@ -97,14 +108,3 @@ const useStore = defineStore('main', {
   }
 })
 ```
-
-#### Parameters %{#Methods-hydrate-Parameters}%
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
-| `initialState` | `UnwrapRef`<`S`\> | initialState |
-
-#### Returns %{#Methods-hydrate-Returns}%
-
-`void`

@@ -112,7 +112,6 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         },
         {
           text: '手册',
-          collapsible: true,
           collapsed: false,
           items: [
             {
