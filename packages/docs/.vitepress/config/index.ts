@@ -24,5 +24,10 @@ export default defineConfig({
     	lang: 'pt-PT',
     	link: 'https://pinia-docs-pt.netlify.app/',
     },
+    uk: {
+      label: 'Українська',
+      lang: 'uk-UA',
+      link: 'https://pinia-ua.netlify.app',
+    },
   },
 })
