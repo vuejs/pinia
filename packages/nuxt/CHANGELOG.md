@@ -1,3 +1,73 @@
+## [0.4.11](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.10...@pinia/nuxt@0.4.11) (2023-05-17)
+
+This release only contains build related changes
+
+## [0.4.10](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.9...@pinia/nuxt@0.4.10) (2023-05-08)
+
+This release only contains build related changes
+
+## [0.4.9](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.8...@pinia/nuxt@0.4.9) (2023-04-20)
+
+### Bug Fixes
+
+- **nuxt:** add workaround to preserve type output ([#2147](https://github.com/vuejs/pinia/issues/2147)) ([65debf9](https://github.com/vuejs/pinia/commit/65debf9be0567159b932fcd0fc445a8a2bdbaa4d))
+- **types:** typescript 5.0 acceptHMRUpdate error ([#2098](https://github.com/vuejs/pinia/issues/2098)) ([#2152](https://github.com/vuejs/pinia/issues/2152)) ([1469971](https://github.com/vuejs/pinia/commit/146997196f87abc691340fd46ae758a0865b8a73))
+
+## [0.4.8](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.7...@pinia/nuxt@0.4.8) (2023-04-07)
+
+### Bug Fixes
+
+- support "types" condition in "exports" field ([#2078](https://github.com/vuejs/pinia/issues/2078)) ([66d3a5e](https://github.com/vuejs/pinia/commit/66d3a5edd03f28f52daf35449db8c5f660c70b01))
+
+## [0.4.7](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.6...@pinia/nuxt@0.4.7) (2023-02-20)
+
+No changes in this release
+
+## [0.4.6](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.5...@pinia/nuxt@0.4.6) (2022-11-27)
+
+### Bug Fixes
+
+- **nuxt:** Avoid recursive import from Nuxt #imports ([#1823](https://github.com/vuejs/pinia/issues/1823)) ([e1c0a19](https://github.com/vuejs/pinia/commit/e1c0a19abca2b8574c81f6f6e3d1b324924ba68d))
+- **nuxt:** use #app imports ([6cf7e48](https://github.com/vuejs/pinia/commit/6cf7e48264c575d705aeb41c978817a48e55978d))
+
+## [0.4.5](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.4...@pinia/nuxt@0.4.5) (2022-11-21)
+
+### Bug Fixes
+
+- **nuxt:** ensure pinia plugin is added before router ([3e4e63c](https://github.com/vuejs/pinia/commit/3e4e63c1f4749ee09b045a771c546de33dd4c405))
+
+## [0.4.4](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.3...@pinia/nuxt@0.4.4) (2022-11-17)
+
+### Bug Fixes
+
+- **nuxt:** nuxt v3 compatibility ([#1808](https://github.com/vuejs/pinia/issues/1808)) ([aa12958](https://github.com/vuejs/pinia/commit/aa129582306c03a186e4ba2009225d3b95feb1d9))
+
+## [0.4.3](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.2...@pinia/nuxt@0.4.3) (2022-10-08)
+
+- Update nuxt version and usage to rc.11
+
+## [0.4.2](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.1...@pinia/nuxt@0.4.2) (2022-09-06)
+
+### Bug Fixes
+
+- **nuxt:** compatibility with `^3.0.0-rc.9` ([#1623](https://github.com/vuejs/pinia/issues/1623)) ([9864beb](https://github.com/vuejs/pinia/commit/9864beb9b4b12e4fa60db521b2943cb86dbedbef))
+
+## [0.4.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.0...@pinia/nuxt@0.4.1) (2022-08-18)
+
+### Features
+
+- **nuxt:** automatically add pinia types ([#1551](https://github.com/vuejs/pinia/issues/1551)) ([5ebfcd8](https://github.com/vuejs/pinia/commit/5ebfcd8bbaaaacba7d03c66ac67775448fb02363))
+
+# [0.4.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.3.1...@pinia/nuxt@0.4.0) (2022-08-10)
+
+### Bug Fixes
+
+- **nuxt:** fully resolve pinia path ([#1537](https://github.com/vuejs/pinia/issues/1537)) ([9c3b521](https://github.com/vuejs/pinia/commit/9c3b5213663555b1c21f8ca5ef22b386a96ed916))
+
+## [0.3.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.3.0...@pinia/nuxt@0.3.1) (2022-07-25)
+
+- doc generation changes
+
 # [0.3.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.2.1...@pinia/nuxt@0.3.0) (2022-07-13)
 
 **Please read the release notes if you are upgrading from a previous version.**
@@ -36,8 +106,8 @@
   `$fetch()` and `useNuxtApp()`. You can find more information about this
   in Nuxt documentation:
 
-  - https://v3.nuxtjs.org/bridge/bridge-composition-api/
-  - https://v3.nuxtjs.org/bridge/overview
+  - <https://v3.nuxtjs.org/bridge/bridge-composition-api/>
+  - <https://v3.nuxtjs.org/bridge/overview>
 
 - **nuxt:** in Nuxt 3, `$nuxt` is no longer available in stores.
   This is because it was removed in Nuxt 3 and it is no longer the

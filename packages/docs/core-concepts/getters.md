@@ -5,15 +5,15 @@
   title="Learn all about getters in Pinia"
 />
 
-Getters are exactly the equivalent of [computed values](https://v3.vuejs.org/guide/reactivity-computed-watchers.html#computed-values) for the state of a Store. They can be defined with the `getters` property in `defineStore()`. They receive the `state` as the first parameter **to encourage** the usage of arrow function:
+Getters are exactly the equivalent of [computed values](https://vuejs.org/guide/essentials/computed.html) for the state of a Store. They can be defined with the `getters` property in `defineStore()`. They receive the `state` as the first parameter **to encourage** the usage of arrow function:
 
 ```js
-export const useStore = defineStore('main', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
   getters: {
-    doubleCount: (state) => state.counter * 2,
+    doubleCount: (state) => state.count * 2,
   },
 })
 ```
@@ -21,14 +21,14 @@ export const useStore = defineStore('main', {
 Most of the time, getters will only rely on the state, however, they might need to use other getters. Because of this, we can get access to the _whole store instance_ through `this` when defining a regular function **but it is necessary to define the type of the return type (in TypeScript)**. This is due to a known limitation in TypeScript and **doesn't affect getters defined with an arrow function nor getters not using `this`**:
 
 ```ts
-export const useStore = defineStore('main', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
   getters: {
     // automatically infers the return type as a number
     doubleCount(state) {
-      return state.counter * 2
+      return state.count * 2
     },
     // the return type **must** be explicitly set
     doublePlusOne(): number {
@@ -42,19 +42,15 @@ export const useStore = defineStore('main', {
 Then you can access the getter directly on the store instance:
 
 ```vue
+<script setup>
+import { useCounterStore } from './counterStore'
+
+const store = useCounterStore()
+</script>
+
 <template>
   <p>Double count is {{ store.doubleCount }}</p>
 </template>
-
-<script>
-export default {
-  setup() {
-    const store = useStore()
-
-    return { store }
-  },
-}
-</script>
 ```
 
 ## Accessing other getters
@@ -62,17 +58,17 @@ export default {
 As with computed properties, you can combine multiple getters. Access any other getter via `this`. Even if you are not using TypeScript, you can hint your IDE for types with the [JSDoc](https://jsdoc.app/tags-returns.html):
 
 ```js
-export const useStore = defineStore('main', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0,
+    count: 0,
   }),
   getters: {
     // type is automatically inferred because we are not using `this`
-    doubleCount: (state) => state.counter * 2,
+    doubleCount: (state) => state.count * 2,
     // here we need to add the type ourselves (using JSDoc in JS). We can also
     // use this to document the getter
     /**
-     * Returns the counter value times two plus one.
+     * Returns the count value times two plus one.
      *
      * @returns {number}
      */
@@ -101,14 +97,14 @@ export const useStore = defineStore('main', {
 and use in component:
 
 ```vue
-<script>
-export default {
-  setup() {
-    const store = useStore()
+<script setup>
+import { storeToRefs } from 'pinia'
+import { useUserListStore } from './store'
 
-    return { getUserById: store.getUserById }
-  },
-}
+const userList = useUserListStore()
+const { getUserById } = storeToRefs(userList)
+// note you will have to use `getUserById.value` to access
+// the function within the <script setup>
 </script>
 
 <template>
@@ -153,15 +149,13 @@ export const useStore = defineStore('main', {
 
 You can directly access any getter as a property of the store (exactly like state properties):
 
-```js
-export default {
-  setup() {
-    const store = useStore()
+```vue
+<script setup>
+const store = useCounterStore()
 
-    store.counter = 3
-    store.doubleCount // 6
-  },
-}
+store.count = 3
+store.doubleCount // 6
+</script>
 ```
 
 ## Usage with the Options API
@@ -175,19 +169,19 @@ For the following examples, you can assume the following store was created:
 
 ```js
 // Example File Path:
-// ./src/stores/counterStore.js
+// ./src/stores/counter.js
 
-import { defineStore } from 'pinia',
+import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counterStore', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
-    counter: 0
+    count: 0,
   }),
   getters: {
-    doubleCounter(state) {
-      return state.counter * 2
-    }
-  }
+    doubleCount(state) {
+      return state.count * 2
+    },
+  },
 })
 ```
 
@@ -195,22 +189,27 @@ const useCounterStore = defineStore('counterStore', {
 
 While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work with in the Options API. No extra map helper functions needed!
 
-```js
-import { useCounterStore } from '../stores/counterStore'
+```vue
+<script>
+import { useCounterStore } from '../stores/counter'
 
-export default {
+export default defineComponent({
   setup() {
     const counterStore = useCounterStore()
 
+    // **only return the whole store** instead of destructuring
     return { counterStore }
   },
   computed: {
     quadrupleCounter() {
-      return this.counterStore.doubleCounter * 2
+      return this.counterStore.doubleCount * 2
     },
   },
-}
+})
+</script>
 ```
+
+This is useful while migrating a component from the Options API to the Composition API but **should only be a migration step**, always try not to mix both API styles within the same component.
 
 ### Without `setup()`
 
@@ -218,18 +217,18 @@ You can use the same `mapState()` function used in the [previous section of stat
 
 ```js
 import { mapState } from 'pinia'
-import { useCounterStore } from '../stores/counterStore'
+import { useCounterStore } from '../stores/counter'
 
 export default {
   computed: {
-    // gives access to this.doubleCounter inside the component
-    // same as reading from store.doubleCounter
-    ...mapState(useCounterStore, ['doubleCount'])
+    // gives access to this.doubleCount inside the component
+    // same as reading from store.doubleCount
+    ...mapState(useCounterStore, ['doubleCount']),
     // same as above but registers it as this.myOwnName
     ...mapState(useCounterStore, {
-      myOwnName: 'doubleCounter',
+      myOwnName: 'doubleCount',
       // you can also write a function that gets access to the store
-      double: store => store.doubleCount,
+      double: (store) => store.doubleCount,
     }),
   },
 }

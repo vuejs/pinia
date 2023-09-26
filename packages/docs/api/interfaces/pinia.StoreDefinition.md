@@ -1,7 +1,5 @@
 ---
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
+editLink: false
 ---
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / StoreDefinition
@@ -9,6 +7,8 @@ sidebarDepth: 3
 # Interface: StoreDefinition<Id, S, G, A\>
 
 [pinia](../modules/pinia.md).StoreDefinition
+
+Return type of `defineStore()`. Function that allows instantiating a store.
 
 ## Type parameters
 
@@ -38,10 +38,6 @@ Returns a store, creates it if necessary.
 
 [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
 
-#### Defined in
-
-[packages/pinia/src/types.ts:511](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L511)
-
 ## Properties
 
 ### $id
@@ -49,7 +45,3 @@ Returns a store, creates it if necessary.
 • **$id**: `Id`
 
 Id of the store. Used by map helpers.
-
-#### Defined in
-
-[packages/pinia/src/types.ts:516](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L516)

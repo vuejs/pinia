@@ -1,7 +1,5 @@
 ---
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
+editLink: false
 ---
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / \_StoreWithState
@@ -39,21 +37,13 @@ Unique identifier of the store
 
 [StoreProperties](pinia.StoreProperties.md).[$id](pinia.StoreProperties.md#$id)
 
-#### Defined in
-
-[packages/pinia/src/types.ts:265](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L265)
-
 ___
 
 ### $state
 
-• **$state**: `UnwrapRef`<`S`\> & `PiniaCustomStateProperties`<`S`\>
+• **$state**: `UnwrapRef`<`S`\> & [`PiniaCustomStateProperties`](pinia.PiniaCustomStateProperties.md)<`S`\>
 
-State of the Store. Setting it will replace the whole state.
-
-#### Defined in
-
-[packages/pinia/src/types.ts:335](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L335)
+State of the Store. Setting it will internally call `$patch()` to update the state.
 
 ___
 
@@ -69,10 +59,6 @@ that should be displayed in devtools.
 
 [StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#_customproperties)
 
-#### Defined in
-
-[packages/pinia/src/types.ts:293](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L293)
-
 ## Methods
 
 ### $dispose
@@ -82,14 +68,13 @@ that should be displayed in devtools.
 Stops the associated effect scope of the store and remove it from the store
 registry. Plugins can override this method to cleanup any added effects.
 e.g. devtools plugin stops displaying disposed stores from devtools.
+Note this doesn't delete the state of the store, you have to do it manually with
+`delete pinia.state.value[store.$id]` if you want to. If you don't and the
+store is used again, it will reuse the previous state.
 
 #### Returns
 
 `void`
-
-#### Defined in
-
-[packages/pinia/src/types.ts:423](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L423)
 
 ___
 
@@ -110,23 +95,6 @@ once the action finishes or when it fails.
 It also returns a function to remove the callback. Note than when calling
 `store.$onAction()` inside of a component, it will be automatically cleaned
 up when the component gets unmounted unless `detached` is set to true.
-
-**`example`**
-
-```js
-store.$onAction(({ after, onError }) => {
- // Here you could share variables between all of the hooks as well as
- // setting up watchers and clean them up
- after((resolvedValue) => {
-   // can be used to cleanup side effects
-.  // `resolvedValue` is the value returned by the action, if it's a
-.  // Promise, it will be the resolved value instead of the Promise
- })
- onError((error) => {
-   // can be used to pass up errors
- })
-})
-```
 
 #### Parameters
 
@@ -157,7 +125,13 @@ It also returns a function to remove the callback. Note than when calling
 `store.$onAction()` inside of a component, it will be automatically cleaned
 up when the component gets unmounted unless `detached` is set to true.
 
-**`example`**
+##### Returns
+
+`void`
+
+function that removes the watcher
+
+**`Example`**
 
 ```js
 store.$onAction(({ after, onError }) => {
@@ -174,15 +148,22 @@ store.$onAction(({ after, onError }) => {
 })
 ```
 
-##### Returns
+**`Example`**
 
-`void`
-
-function that removes the watcher
-
-#### Defined in
-
-[packages/pinia/src/types.ts:413](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L413)
+```js
+store.$onAction(({ after, onError }) => {
+ // Here you could share variables between all of the hooks as well as
+ // setting up watchers and clean them up
+ after((resolvedValue) => {
+   // can be used to cleanup side effects
+.  // `resolvedValue` is the value returned by the action, if it's a
+.  // Promise, it will be the resolved value instead of the Promise
+ })
+ onError((error) => {
+   // can be used to pass up errors
+ })
+})
+```
 
 ___
 
@@ -202,10 +183,6 @@ Applies a state patch to current state. Allows passing nested values
 
 `void`
 
-#### Defined in
-
-[packages/pinia/src/types.ts:342](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L342)
-
 ▸ **$patch**<`F`\>(`stateMutator`): `void`
 
 Group multiple changes into one function. Useful when mutating objects like
@@ -222,15 +199,11 @@ to an array. The function passed to `$patch()` **must be synchronous**.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `stateMutator` | `ReturnType`<`F`\> extends `Promise`<`any`\> ? `never` : `F` | function that mutates `state`, cannot be async |
+| `stateMutator` | `ReturnType`<`F`\> extends `Promise`<`any`\> ? `never` : `F` | function that mutates `state`, cannot be asynchronous |
 
 #### Returns
 
 `void`
-
-#### Defined in
-
-[packages/pinia/src/types.ts:351](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L351)
 
 ___
 
@@ -245,10 +218,6 @@ TODO: make this options only
 
 `void`
 
-#### Defined in
-
-[packages/pinia/src/types.ts:360](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L360)
-
 ___
 
 ### $subscribe
@@ -256,7 +225,7 @@ ___
 ▸ **$subscribe**(`callback`, `options?`): () => `void`
 
 Setups a callback to be called whenever the state changes. It also returns a function to remove the callback. Note
-than when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
+that when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
 component gets unmounted unless `detached` is set to true.
 
 #### Parameters
@@ -275,7 +244,7 @@ function that removes the watcher
 ▸ (): `void`
 
 Setups a callback to be called whenever the state changes. It also returns a function to remove the callback. Note
-than when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
+that when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
 component gets unmounted unless `detached` is set to true.
 
 ##### Returns
@@ -283,7 +252,3 @@ component gets unmounted unless `detached` is set to true.
 `void`
 
 function that removes the watcher
-
-#### Defined in
-
-[packages/pinia/src/types.ts:372](https://github.com/vuejs/pinia/blob/2b998ee/packages/pinia/src/types.ts#L372)

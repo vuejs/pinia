@@ -1,7 +1,5 @@
 ---
-sidebar: "auto"
-editLinks: false
-sidebarDepth: 3
+editLink: false
 ---
 
 [API Documentation](../index.md) / @pinia/nuxt
@@ -10,25 +8,22 @@ sidebarDepth: 3
 
 ## Interfaces
 
-- [PiniaNuxtOptions](../interfaces/pinia_nuxt.PiniaNuxtOptions.md)
+- [ModuleOptions](../interfaces/pinia_nuxt.ModuleOptions.md)
 
 ## Functions
 
 ### default
 
-▸ **default**(`this`, `moduleOptions`): `void` \| `Promise`<`void`\>
+▸ **default**(`this`, `inlineOptions`, `nuxt`): `_ModuleSetupReturn`
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `this` | `ModuleThis` |
-| `moduleOptions` | `any` |
+| `this` | `void` |
+| `inlineOptions` | [`ModuleOptions`](../interfaces/pinia_nuxt.ModuleOptions.md) |
+| `nuxt` | `Nuxt` |
 
 #### Returns
 
-`void` \| `Promise`<`void`\>
-
-#### Defined in
-
-node_modules/.pnpm/@nuxt+types@2.15.8/node_modules/@nuxt/types/config/module.d.ts:29
+`_ModuleSetupReturn`

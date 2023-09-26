@@ -34,6 +34,7 @@ declare module 'vue/types/options' {
   }
 }
 
+// TODO: figure out why it cannot be 'vue'
 // @ts-ignore: works on Vue 3, fails in Vue 2
 declare module '@vue/runtime-core' {
   export interface ComponentCustomProperties {

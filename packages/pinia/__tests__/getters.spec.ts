@@ -1,3 +1,4 @@
+import { beforeEach, describe, it, expect } from 'vitest'
 import { ref, computed } from 'vue'
 import { createPinia, defineStore, setActivePinia } from '../src'
 

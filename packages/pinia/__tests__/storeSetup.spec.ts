@@ -1,5 +1,7 @@
+import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia } from '../src'
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, createApp, inject, nextTick, ref, watch } from 'vue'
+import { mount } from '@vue/test-utils'
 
 function expectType<T>(_value: T): void {}
 
@@ -66,7 +68,7 @@ describe('store with setup syntax', () => {
 
   it('state can be watched', async () => {
     const store = useStore()
-    const spy = jest.fn()
+    const spy = vi.fn()
     watch(() => store.name, spy)
     expect(spy).not.toHaveBeenCalled()
     store.name = 'Ed'
@@ -77,7 +79,7 @@ describe('store with setup syntax', () => {
   // TODO: could be fixed by using computed or getters + setters in store
   it.skip('state refs can be watched', async () => {
     const store = useStore()
-    const spy = jest.fn()
+    const spy = vi.fn()
     watch(() => store.name, spy)
     expect(spy).not.toHaveBeenCalled()
     const nameRef = ref('Ed')
@@ -130,5 +132,54 @@ describe('store with setup syntax', () => {
     store.$patch({ counter: 2 })
     expect(store.counter).toBe(2)
     expect(counter.value).toBe(2)
+  })
+
+  it('can use app level injections', async () => {
+    const pinia = createPinia()
+    const app = createApp({}).use(pinia)
+    app.provide('hello', 'pinia')
+    const useStore = defineStore('id', () => {
+      const injected = ref(inject('hello', 'nope'))
+
+      return { injected }
+    })
+
+    const store = useStore()
+    expect(store.injected).toBe('pinia')
+  })
+
+  // TODO: until https://github.com/vuejs/test-utils/issues/2059 is fixed
+  it.skip('injects level app injections even within components', async () => {
+    const pinia = createPinia()
+    const useStore = defineStore('id', () => {
+      const injected = ref(inject('hello', 'nope'))
+
+      return { injected }
+    })
+
+    const NestedComponent = {
+      template: '<div>{{ injected }}</div>',
+      setup() {
+        const store = useStore()
+        return { injected: store.injected }
+      },
+    }
+    const Component = {
+      template: '<NestedComponent />',
+      components: { NestedComponent },
+      setup() {
+        // provide('hello', 'component')
+        return {}
+      },
+    }
+    const wrapper = mount(Component, {
+      global: {
+        plugins: [pinia],
+        provide: {
+          hello: 'pinia',
+        },
+      },
+    })
+    expect(wrapper.text()).toBe('pinia')
   })
 })

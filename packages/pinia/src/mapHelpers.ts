@@ -29,14 +29,17 @@ export type _StoreObject<S> = S extends StoreDefinition<
   infer Actions
 >
   ? {
-      [Id in `${Ids}${MapStoresCustomization extends Record<'suffix', string>
-        ? MapStoresCustomization['suffix']
+      [Id in `${Ids}${MapStoresCustomization extends Record<
+        'suffix',
+        infer Suffix
+      >
+        ? Suffix
         : 'Store'}`]: () => Store<
         Id extends `${infer RealId}${MapStoresCustomization extends Record<
           'suffix',
-          string
+          infer Suffix
         >
-          ? MapStoresCustomization['suffix']
+          ? Suffix
           : 'Store'}`
           ? RealId
           : string,
@@ -64,8 +67,8 @@ export let mapStoreSuffix = 'Store'
  * @param suffix - new suffix
  */
 export function setMapStoreSuffix(
-  suffix: MapStoresCustomization extends Record<'suffix', string>
-    ? MapStoresCustomization['suffix']
+  suffix: MapStoresCustomization extends Record<'suffix', infer Suffix>
+    ? Suffix
     : string // could be 'Store' but that would be annoying for JS
 ): void {
   mapStoreSuffix = suffix
@@ -459,11 +462,17 @@ export function mapWritableState<
   Id extends string,
   S extends StateTree,
   G extends _GettersTree<S>,
-  A
+  A,
+  Keys extends keyof S
 >(
   useStore: StoreDefinition<Id, S, G, A>,
-  keys: Array<keyof S>
-): _MapWritableStateReturn<S>
+  keys: readonly Keys[]
+): {
+  [K in Keys]: {
+    get: () => S[K]
+    set: (value: S[K]) => any
+  }
+}
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field

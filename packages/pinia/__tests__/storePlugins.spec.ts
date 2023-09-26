@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore } from '../src'
 import { mount } from '@vue/test-utils'
 import { App, computed, ref, toRef, watch } from 'vue'
@@ -22,9 +23,7 @@ declare module '../src' {
 }
 
 describe('store plugins', () => {
-  const useStore = defineStore({
-    id: 'test',
-
+  const useStore = defineStore('test', {
     actions: {
       incrementN() {
         return this.pluginN++
@@ -61,6 +60,41 @@ describe('store plugins', () => {
     store.pluginN.notExisting
     // @ts-expect-error: it should always be 'test'
     store.idFromPlugin == 'hello'
+  })
+
+  it('overrides $reset', () => {
+    const pinia = createPinia()
+
+    const useStore = defineStore('main', {
+      state: () => ({ n: 0 }),
+    })
+
+    mount({ template: 'none' }, { global: { plugins: [pinia] } })
+
+    pinia.use(({ app, store }) => {
+      if (!store.$state.hasOwnProperty('pluginN')) {
+        // @ts-expect-error: cannot be a ref yet
+        store.$state.pluginN = ref(20)
+      }
+      // @ts-expect-error: TODO: allow setting refs
+      store.pluginN = toRef(store.$state, 'pluginN')
+
+      const originalReset = store.$reset.bind(store)
+      return {
+        uid: app._uid,
+        $reset() {
+          originalReset()
+          store.pluginN = 20
+        },
+      }
+    })
+
+    const store = useStore(pinia)
+
+    store.pluginN = 200
+    store.$reset()
+    expect(store.$state.pluginN).toBe(20)
+    expect(store.pluginN).toBe(20)
   })
 
   it('can install plugins before installing pinia', () => {
@@ -158,7 +192,7 @@ describe('store plugins', () => {
     expect(store2.shared).toBe(1)
   })
 
-  it('passes the options of the options store', (done) => {
+  it('passes the options of the options store', async () => {
     const options = {
       id: 'main',
       state: () => ({ n: 0 }),
@@ -178,14 +212,16 @@ describe('store plugins', () => {
     const pinia = createPinia()
     mount({ template: 'none' }, { global: { plugins: [pinia] } })
 
-    pinia.use((context) => {
-      expect(context.options).toEqual(options)
-      done()
+    await new Promise<void>((done) => {
+      pinia.use((context) => {
+        expect(context.options).toEqual(options)
+        done()
+      })
+      useStore(pinia)
     })
-    useStore(pinia)
   })
 
-  it('passes the options of a setup store', (done) => {
+  it('passes the options of a setup store', async () => {
     const useStore = defineStore('main', () => {
       const n = ref(0)
 
@@ -199,18 +235,20 @@ describe('store plugins', () => {
     const pinia = createPinia()
     mount({ template: 'none' }, { global: { plugins: [pinia] } })
 
-    pinia.use((context) => {
-      expect(context.options).toEqual({
-        actions: {
-          increment: expect.any(Function),
-        },
+    await new Promise<void>((done) => {
+      pinia.use((context) => {
+        expect(context.options).toEqual({
+          actions: {
+            increment: expect.any(Function),
+          },
+        })
+        ;(context.store as any).increment()
+        expect((context.store as any).n).toBe(1)
+        done()
       })
-      ;(context.store as any).increment()
-      expect((context.store as any).n).toBe(1)
-      done()
-    })
 
-    useStore()
+      useStore()
+    })
   })
 
   it('run inside store effect', async () => {
@@ -239,7 +277,7 @@ describe('store plugins', () => {
 
     const store = useStore(pinia)
 
-    const spy = jest.fn()
+    const spy = vi.fn()
     watch(() => store.double, spy, { flush: 'sync' })
 
     expect(spy).toHaveBeenCalledTimes(0)
@@ -251,7 +289,7 @@ describe('store plugins', () => {
   it('only executes plugins once after multiple installs', async () => {
     const pinia = createPinia()
 
-    const spy = jest.fn()
+    const spy = vi.fn()
     pinia.use(spy)
 
     for (let i = 0; i < 3; i++) {

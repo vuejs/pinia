@@ -21,8 +21,9 @@
 - 🔌 Extensible
 - 🏗 Modular by design
 - 📦 Extremely light
+- ⛰️ Nuxt Module
 
-Pinia works both for Vue 2.x and Vue 3.x. It requires Vue 2 with the latest `@vue/composition-api` or Vue `^3.2.0-0`.
+Pinia works with both Vue 2 and Vue 3.
 
 Pinia is the most similar English pronunciation of the word _pineapple_ in Spanish: _piña_. A pineapple is in reality a group of individual flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
 
@@ -36,16 +37,6 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
 - [One-time donation via PayPal](https://paypal.me/posva)
 
 <!--sponsors start-->
-
-<h4 align="center">Gold Sponsors</h4>
-<p align="center">
-    <a href="https://vuejobs.com/?utm_source=vuerouter&utm_campaign=sponsor" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/vuejobs.svg" media="(prefers-color-scheme: dark)" height="72px" alt="VueJobs" />
-      <img src="https://posva-sponsors.pages.dev/logos/vuejobs.svg" height="72px" alt="VueJobs" />
-    </picture>
-  </a>
-</p>
 
 <h4 align="center">Silver Sponsors</h4>
 <p align="center">
@@ -71,7 +62,7 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
       <img src="https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4" height="26px" alt="Stanislas OrmiÃ¨res" />
     </picture>
   </a>
-    <a href="www.vuejs.de" target="_blank" rel="noopener noreferrer">
+    <a href="https://www.vuejs.de" target="_blank" rel="noopener noreferrer">
     <picture>
       <source srcset="https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4" media="(prefers-color-scheme: dark)" height="26px" alt="Antony Konstantinidis" />
       <img src="https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4" height="26px" alt="Antony Konstantinidis" />
@@ -85,8 +76,8 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
   </a>
     <a href="https://nuxtjs.org" target="_blank" rel="noopener noreferrer">
     <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/nuxt-dark.svg" media="(prefers-color-scheme: dark)" height="26px" alt="NuxtJS" />
-      <img src="https://posva-sponsors.pages.dev/logos/nuxt-light.svg" height="26px" alt="NuxtJS" />
+      <source srcset="https://posva-sponsors.pages.dev/logos/nuxt-dark.svg" media="(prefers-color-scheme: dark)" height="26px" alt="Nuxt Labs" />
+      <img src="https://posva-sponsors.pages.dev/logos/nuxt-light.svg" height="26px" alt="Nuxt Labs" />
     </picture>
   </a>
 </p>
@@ -107,22 +98,14 @@ A few notes about the project and possible questions:
 
 **A**: Dynamic modules are not type safe, so instead [we allow creating different stores](https://pinia.vuejs.org/cookbook/composing-stores.html) that can be imported anywhere
 
-## Roadmap / Ideas
-
-- [x] Should the state be merged at the same level as actions and getters?
-- [ ] ~~Allow grouping stores together into a similar structure and allow defining new getters (`pinia`)~~
-      You can directly call `useOtherStore()` inside of a getter or action.
-- [ ] ~~Getter with params that act like computed properties (@ktsn)~~ Can be implement through a custom composable and passed directly to state.
-
 ## Installation
 
 ```bash
-yarn add pinia
-# or with npm
+# or pnpm or yarn
 npm install pinia
 ```
 
-If you are using Vue 2, make sure to install latest `@vue/composition-api`:
+If you are using Vue <2.7, make sure to install latest `@vue/composition-api`:
 
 ```bash
 npm install pinia @vue/composition-api
@@ -135,10 +118,36 @@ npm install pinia @vue/composition-api
 Create a pinia (the root store) and pass it to app:
 
 ```js
+// Vue 3
+import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import App from './App.vue'
 
-app.use(createPinia())
+const pinia = createPinia()
+const app = createApp(App)
+
+app.use(pinia)
+app.mount('#app')
 ```
+
+```js
+// Vue 2
+import { createPinia, PiniaVuePlugin } from 'pinia'
+
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
+
+new Vue({
+  el: '#app',
+  // other options...
+  // ...
+  // note the same `pinia` instance can be used across multiple Vue apps on
+  // the same page
+  pinia,
+})
+```
+
+For more detailed instructions, including [Nuxt configuration](https://pinia.vuejs.org/ssr/nuxt.html#nuxt-js), check the [Documentation](https://pinia.vuejs.org).
 
 ### Create a Store
 
@@ -158,10 +167,10 @@ export const useMainStore = defineStore('main', {
   // optional getters
   getters: {
     // getters receive the state as first parameter
-    doubleCount: (state) => state.counter * 2,
+    doubleCounter: (state) => state.counter * 2,
     // use getters in other getters
-    doubleCountPlusOne(): number {
-      return this.doubleCount + 1
+    doubleCounterPlusOne(): number {
+      return this.doubleCounter + 1
     },
   },
   // optional actions
@@ -185,14 +194,14 @@ export default defineComponent({
     const main = useMainStore()
 
     // extract specific store properties
-    const { counter, doubleCount } = storeToRefs(main)
+    const { counter, doubleCounter } = storeToRefs(main)
 
     return {
       // gives access to the whole store in the template
       main,
       // gives access only to specific state or getter
       counter,
-      doubleCount,
+      doubleCounter,
     }
   },
 })
