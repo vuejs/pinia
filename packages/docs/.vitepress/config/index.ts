@@ -7,6 +7,6 @@ export default defineConfig({
   ...sharedConfig,
 
   locales: {
-    root: { label: 'Русский', lang: 'ru', link: '/', ...ruConfig },
+    root: { label: 'Русский', lang: 'ru-RU', link: '/', ...ruConfig },
   },
 })

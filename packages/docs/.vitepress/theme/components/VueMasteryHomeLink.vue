@@ -9,7 +9,7 @@
           <img alt="Vue Mastery Logo" width="25px" src="https://firebasestorage.googleapis.com/v0/b/vue-mastery.appspot.com/o/flamelink%2Fmedia%2Fvue-mastery-logo-small.png?alt=media&token=941fcc3a-2b6f-40e9-b4c8-56b3890da108">
         </span>
         <span class="description">
-          Get the <span class="highlight">Pinia Cheat Sheet</span> from Vue Mastery
+          Получить <span class="highlight">шпаргалку по Pinia</span> от Vue Mastery
         </span>
       </a>
     </div>
