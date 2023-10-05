@@ -1,11 +1,11 @@
-# Actions
+# Действия %{#actions}%
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/synchronous-and-asynchronous-actions-in-pinia"
-  title="Learn all about actions in Pinia"
+  title="Узнайте все о действиях в Pinia"
 />
 
-Actions are the equivalent of [methods](https://v3.vuejs.org/guide/data-methods.html#methods) in components. They can be defined with the `actions` property in `defineStore()` and **they are perfect to define business logic**:
+Действия (actions) являются эквивалентом [методов](https://v3.vuejs.org/guide/data-methods.html#methods) в компонентах. Их можно определить с помощью свойства `actions` в `defineStore()`, и **они отлично подходят для определения бизнес-логики**:
 
 ```js
 export const useCounterStore = defineStore('counter', {
@@ -13,7 +13,7 @@ export const useCounterStore = defineStore('counter', {
     count: 0,
   }),
   actions: {
-    // since we rely on `this`, we cannot use an arrow function
+    // поскольку мы опираемся на `this`, мы не можем использовать стрелочную функцию
     increment() {
       this.count++
     },
@@ -24,7 +24,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-Like [getters](./getters.md), actions get access to the _whole store instance_ through `this` with **full typing (and autocompletion ✨) support**. **Unlike getters, `actions` can be asynchronous**, you can `await` inside of actions any API call or even other actions! Here is an example using [Mande](https://github.com/posva/mande). Note the library you use doesn't matter as long as you get a `Promise`, you could even use the native `fetch` function (browser only):
+Как и [геттеры](./getters.md), действия получают доступ ко _всему экземпляру хранилища_ через `this` с **полной поддержкой типизации (и автозаполнением ✨)**. **В отличие от геттеров, действия могут быть асинхронными**, вы можете использовать `await` внутри действий для любого вызова API или даже вызова других действий! Вот пример с использованием [Mande](https://github.com/posva/mande). Обратите внимание, что библиотека, которую вы используете, не имеет значения, пока она возвращает `Promise`, вы даже можете использовать нативный `fetch` (только для браузера):
 
 ```js
 import { mande } from 'mande'
@@ -44,7 +44,7 @@ export const useUsers = defineStore('users', {
         showTooltip(`Welcome back ${this.userData.name}!`)
       } catch (error) {
         showTooltip(error)
-        // let the form component display the error
+        // пусть компонент формы отображает ошибку
         return error
       }
     },
@@ -52,26 +52,26 @@ export const useUsers = defineStore('users', {
 })
 ```
 
-You are also completely free to set whatever arguments you want and return anything. When calling actions, everything will be automatically inferred!
+Вы также абсолютно свободны устанавливать любые аргументы и возвращать что угодно. При вызове действий все будет автоматически выведено!
 
-Actions are invoked like function or regular methods:
+Действия вызываются подобно функциям или обычным методам:
 
 ```vue
 <script setup>
 const store = useCounterStore()
-// call the action as a method of the store
+// вызов действия как метода хранилища
 store.randomizeCounter()
 </script>
 
 <template>
-  <!-- Even on the template -->
+  <!-- Даже в шаблоне -->
   <button @click="store.randomizeCounter()">Randomize</button>
 </template>
 ```
 
-## Accessing other stores actions
+## Доступ к действиям других хранилищ %{#accessing-other-stores-actions}%
 
-To use another store, you can directly _use it_ inside of the _action_:
+Чтобы использовать другое хранилище, можно напрямую _использовать его_ внутри _действия_:
 
 ```js
 import { useAuthStore } from './auth-store'
@@ -94,36 +94,36 @@ export const useSettingsStore = defineStore('settings', {
 })
 ```
 
-## Usage with the Options API
+## Использование с Options API %{#usage-with-the-options-api}%
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/access-pinia-actions-in-the-options-api"
-  title="Access Pinia Getters via the Options API"
+  title="Доступ к геттерам Pinia через Options API"
 />
 
-For the following examples, you can assume the following store was created:
+Предположим, для следующих примеров было создано хранилище:
 
 ```js
-// Example File Path:
+// Пример пути файла:
 // ./src/stores/counter.js
 
 import { defineStore } from 'pinia'
 
 export const useCounterStore = defineStore('counter', {
   state: () => ({
-    count: 0
+    count: 0,
   }),
   actions: {
     increment() {
       this.count++
-    }
-  }
+    },
+  },
 })
 ```
 
-### With `setup()`
+### С `setup()` %{#with-setup}%
 
-While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work within the Options API. No extra map helper functions needed!
+Хотя Composition API не для всех, хук `setup()` может упростить работу с Pinia в Options API. Дополнительных функций map-помощников не требуется!
 
 ```vue
 <script>
@@ -145,9 +145,9 @@ export default defineComponent({
 </script>
 ```
 
-### Without `setup()`
+### Without `setup()` %{#without-setup}%
 
-If you would prefer not to use Composition API at all, you can use the `mapActions()` helper to map actions properties as methods in your component:
+Если вы предпочитаете вообще не использовать Composition API, вы можете использовать помощник `mapActions()`, чтобы отображать свойства действий как методы в вашем компоненте:
 
 ```js
 import { mapActions } from 'pinia'
@@ -155,37 +155,37 @@ import { useCounterStore } from '../stores/counter'
 
 export default {
   methods: {
-    // gives access to this.increment() inside the component
-    // same as calling from store.increment()
+    // предоставляет доступ к this.increment() внутри компонента
+    // то же самое, что и вызов из store.increment()
     ...mapActions(useCounterStore, ['increment']),
-    // same as above but registers it as this.myOwnName()
+    // то же самое, что и выше, но регистрирует его как this.myOwnName()
     ...mapActions(useCounterStore, { myOwnName: 'increment' }),
   },
 }
 ```
 
-## Subscribing to actions
+## Подписка на действия %{#subscribing-to-actions}%
 
-It is possible to observe actions and their outcome with `store.$onAction()`. The callback passed to it is executed before the action itself. `after` handles promises and allows you to execute a function after the action resolves. In a similar way, `onError` allows you to execute a function if the action throws or rejects. These are useful for tracking errors at runtime, similar to [this tip in the Vue docs](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors).
+Вы можете наблюдать за действиями и их результатом с помощью `store.$onAction()`. Обратный вызов, переданный ему, выполняется перед самим действием. `after` обрабатывает promise и позволяет выполнить функцию после выполнения действия. Аналогично `onError` позволяет выполнить функцию, если действие выбрасывает исключение или отклоняется (rejects). Эти функции полезны для отслеживания ошибок во время выполнения, аналогично [этому совету в документации Vue](https://v3.vuejs.org/guide/tooling/deployment.html#tracking-runtime-errors).
 
-Here is an example that logs before running actions and after they resolve/reject.
+Приведем пример, в котором ведется журнал до выполнения действий и после их разрешения/отклонения.
 
 ```js
 const unsubscribe = someStore.$onAction(
   ({
-    name, // name of the action
-    store, // store instance, same as `someStore`
-    args, // array of parameters passed to the action
-    after, // hook after the action returns or resolves
-    onError, // hook if the action throws or rejects
+    name, // название действия
+    store, // экземпляр хранилища, тоже самое что и `someStore`
+    args, // массив параметров, передаваемых действию
+    after, // // хук, выполняемый после return или promise resolve
+    onError, // хук, если действие выбрасывает исключение или promise reject
   }) => {
-    // a shared variable for this specific action call
+    // общая переменная для данного конкретного вызова действия
     const startTime = Date.now()
-    // this will trigger before an action on `store` is executed
+    // сработает перед выполнением действия над `store`
     console.log(`Start "${name}" with params [${args.join(', ')}].`)
 
-    // this will trigger if the action succeeds and after it has fully run.
-    // it waits for any returned promised
+    // будет вызвано, если действие завершится успешно и после его полного выполнения
+    // ждет любого возврата promise
     after((result) => {
       console.log(
         `Finished "${name}" after ${
@@ -194,6 +194,7 @@ const unsubscribe = someStore.$onAction(
       )
     })
 
+    // сработает, если действие выбросит исключение или вернет promise, который отклонен
     // this will trigger if the action throws or returns a promise that rejects
     onError((error) => {
       console.warn(
@@ -203,17 +204,17 @@ const unsubscribe = someStore.$onAction(
   }
 )
 
-// manually remove the listener
+// вручную удалить слушателя
 unsubscribe()
 ```
 
-By default, _action subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you also want to keep them after the component is unmounted, pass `true` as the second argument to _detach_ the _action subscription_ from the current component:
+По умолчанию _подписки на действия_ привязываются к компоненту, в который они добавляются (если хранилище находится внутри `setup()` компонента). Это означает, что они будут автоматически удалены при размонтировании компонента. Если вы хотите сохранить их и после размонтирования компонента, передайте `true` в качестве второго аргумента, чтобы _отсоединить подписку на действие_ от текущего компонента:
 
 ```vue
 <script setup>
 const someStore = useSomeStore()
 
-// this subscription will be kept even after the component is unmounted
+// эта подписка будет сохраняться даже после размонтирования компонента
 someStore.$onAction(callback, true)
 </script>
 ```
