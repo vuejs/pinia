@@ -1,68 +1,68 @@
-# Plugins
+# Плагины %{#plugins}%
 
-Pinia stores can be fully extended thanks to a low level API. Here is a list of things you can do:
+Хранилища Pinia можно полностью расширить благодаря низкоуровневому API. Вот список вещей, которые вы можете сделать:
 
-- Add new properties to stores
-- Add new options when defining stores
-- Add new methods to stores
-- Wrap existing methods
-- Intercept actions and its results
-- Implement side effects like [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
-- Apply **only** to specific stores
+- Добавление новых свойств в хранилища
+- Добавление новых опций при определении хранилищ
+- Добавление новых методов в хранилища
+- Оборачивание существующих методов
+- Перехват действий и их результатов
+- Реализация таких побочных эффектов (side-effects), как [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
+- Применять **только** к определенным хранилищам
 
-Plugins are added to the pinia instance with `pinia.use()`. The simplest example is adding a static property to all stores by returning an object:
+Плагины добавляются в экземпляр pinia с помощью `pinia.use()`. Простейший пример - добавление статического свойства ко всем хранилищам, путев возврата объекта:
 
 ```js
 import { createPinia } from 'pinia'
 
-// add a property named `secret` to every store that is created
-// after this plugin is installed this could be in a different file
+// добавить свойство `secret` в каждое создаваемое хранилище
+// после установки плагина это свойство может находиться в другом файле
 function SecretPiniaPlugin() {
   return { secret: 'the cake is a lie' }
 }
 
 const pinia = createPinia()
-// give the plugin to pinia
+// передать плагин pinia
 pinia.use(SecretPiniaPlugin)
 
-// in another file
+// в другом файле
 const store = useStore()
 store.secret // 'the cake is a lie'
 ```
 
-This is useful to add global objects like the router, modal, or toast managers.
+Это полезно для добавления глобальных объектов, таких как роутер, модальные окна или менеджеры уведомлений.
 
-## Introduction
+## Вступление %{#introduction}%
 
-A Pinia plugin is a function that optionally returns properties to be added to a store. It takes one optional argument, a _context_:
+Плагин Pinia - это функция, которая по желанию возвращает свойства, добавляемые в хранилище. Она принимает один необязательный аргумент - _контекст_:
 
 ```js
 export function myPiniaPlugin(context) {
-  context.pinia // the pinia created with `createPinia()`
-  context.app // the current app created with `createApp()` (Vue 3 only)
-  context.store // the store the plugin is augmenting
-  context.options // the options object defining the store passed to `defineStore()`
+  context.pinia // pinia, созданное с помощью `createPinia()`
+  context.app // текущее приложение, созданное с помощью `createApp()` (только для Vue 3)
+  context.store // хранилище, которое дополняется плагином
+  context.options // объект опций, переданный в `defineStore()`, определяющий хранилище
   // ...
 }
 ```
 
-This function is then passed to `pinia` with `pinia.use()`:
+Затем эта функция передается в `pinia` с помощью функции `pinia.use()`:
 
 ```js
 pinia.use(myPiniaPlugin)
 ```
 
-Plugins are only applied to stores created **after the plugins themselves, and after `pinia` is passed to the app**, otherwise they won't be applied.
+Плагины применяются только к хранилищам, созданным **после самих плагинов и после передачи `pinia` в приложение**, иначе они не будут применены.
 
-## Augmenting a Store
+## Расширение хранилища %{#augmenting-a-store}%
 
-You can add properties to every store by simply returning an object of them in a plugin:
+Вы можете добавлять свойства в каждое хранилище, просто возвращая их объект в плагине:
 
 ```js
 pinia.use(() => ({ hello: 'world' }))
 ```
 
-You can also set the property directly on the `store` but **if possible use the return version so they can be automatically tracked by devtools**:
+Вы также можете установить свойство напрямую в `store`, но **по возможности используйте версию с возвратом, чтобы они могли быть автоматически отслеживаемыми с помощью devtools**:
 
 ```js
 pinia.use(({ store }) => {
@@ -70,89 +70,89 @@ pinia.use(({ store }) => {
 })
 ```
 
-Any property _returned_ by a plugin will be automatically tracked by devtools so in order to make `hello` visible in devtools, make sure to add it to `store._customProperties` **in dev mode only** if you want to debug it in devtools:
+Любое свойство, _возвращаемое_ плагином, будет автоматически отслеживаться devtools. Чтобы сделать `hello` видимым в devtools, убедитесь, что добавили его в `store._customProperties` **только в режиме разработки**, если вы хотите отлаживать его в devtools:
 
 ```js
-// from the example above
+// из примера выше
 pinia.use(({ store }) => {
   store.hello = 'world'
-  // make sure your bundler handle this. webpack and vite should do it by default
+  // убедитесь, что ваш сборщик обработает этот код. webpack и vite должны делать это по умолчанию
   if (process.env.NODE_ENV === 'development') {
-    // add any keys you set on the store
+    // добавьте любые ключи, которые вы установили в хранилище
     store._customProperties.add('hello')
   }
 })
 ```
 
-Note that every store is wrapped with [`reactive`](https://v3.vuejs.org/api/basic-reactivity.html#reactive), automatically unwrapping any Ref (`ref()`, `computed()`, ...) it contains:
+Обратите внимание, что каждое хранилище оборачивается в [`reactive`](https://v3.vuejs.org/api/basic-reactivity.html#reactive), автоматически раскрывая любой Ref (`ref()`, ` computed()`, ...), который оно содержит:
 
 ```js
 const sharedRef = ref('shared')
 pinia.use(({ store }) => {
-  // each store has its individual `hello` property
+  // у каждого хранилища есть свое собственное свойство `hello`
   store.hello = ref('secret')
-  // it gets automatically unwrapped
+  // он автоматически разворачивается
   store.hello // 'secret'
 
-  // all stores are sharing the value `shared` property
+  // все хранилища совместно используют свойство `shared`
   store.shared = sharedRef
   store.shared // 'shared'
 })
 ```
 
-This is why you can access all computed properties without `.value` and why they are reactive.
+Именно поэтому ко всем вычисляемым свойствам можно обращаться без `.value` и именно поэтому они являются реактивными.
 
-### Adding new state
+### Добавление нового состояния %{#adding-new-state}%
 
-If you want to add new state properties to a store or properties that are meant to be used during hydration, **you will have to add it in two places**:
+Если вы хотите добавить в хранилище новые свойства состояния или свойства, которые предназначены для использования во время гидратации, **вам придется добавить их в двух местах**:
 
-- On the `store` so you can access it with `store.myState`
-- On `store.$state` so it can be used in devtools and, **be serialized during SSR**.
+- В `store`, чтобы вы могли получить к нему доступ с помощью `store.myState`
+- В `store.$state`, чтобы его можно было использовать в devtools и **сериализовать во время SSR**.
 
-On top of that, you will certainly have to use a `ref()` (or other reactive API) in order to share the value across different accesses:
+Кроме того, для разделения значения при разных обращениях к нему, конечно же, придется использовать `ref()` (или другой реактивный API):
 
 ```js
 import { toRef, ref } from 'vue'
 
 pinia.use(({ store }) => {
-  // to correctly handle SSR, we need to make sure we are not overriding an
-  // existing value
+  // чтобы правильно обработать SSR, нам нужно убедиться, что мы не
+  // переопределяем существующее значение
   if (!Object.prototype.hasOwnProperty(store.$state, 'hasError')) {
-    // hasError is defined within the plugin, so each store has their individual
-    // state property
+    // hasError определяется внутри плагина, поэтому каждое хранилище имеет свое
+    // индивидуальное свойство состояния
     const hasError = ref(false)
-    // setting the variable on `$state`, allows it be serialized during SSR
+    // установка переменной на `$state` позволяет сериализовать ее во время SSR
     store.$state.hasError = hasError
   }
-  // we need to transfer the ref from the state to the store, this way
-  // both accesses: store.hasError and store.$state.hasError will work
-  // and share the same variable
-  // See https://vuejs.org/api/reactivity-utilities.html#toref
+  // нам нужно перенести ref-ссылку из состояния в хранилище, таким образом
+  // оба доступа: store.hasError и store.$state.hasError будут работать
+  // и совместо использовать одну и ту же переменную
+  // См. https://vuejs.org/api/reactivity-utilities.html#toref
   store.hasError = toRef(store.$state, 'hasError')
 
-  // in this case it's better not to return `hasError` since it
-  // will be displayed in the `state` section in the devtools
-  // anyway and if we return it, devtools will display it twice.
+  // в этом случае лучше не возвращать hasError, так как он
+  // все равно будет отображаться в разделе state в devtools
+  // и если мы его вернем, devtools отобразят его дважды.
 })
 ```
 
-Note that state changes or additions that occur within a plugin (that includes calling `store.$patch()`) happen before the store is active and therefore **do not trigger any subscriptions**.
+Обратите внимание, что изменения состояние или его дополнения, которые происходят внутри плагина (включая вызов `store.$patch()`), происходят до того, как хранилище будет активным и, следовательно, **не вызывают никаких подписок**.
 
-:::warning
-If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](https://v2.vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats) as Vue. You will need to use `Vue.set()` (Vue 2.7) or `set()` (from `@vue/composition-api` for Vue <2.7) for when creating new state properties like `secret` and `hasError`:
+:::warning Предупреждение
+Если вы используете**Vue 2**, Pinia подвержена [тем же ограничениям реактивности](https://v2.vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats), что и Vue. При создании новых свойств состояния, таких как `secret` и `hasError`, вам нужно будет использовать `Vue.set()` (для Vue 2.7) или `set()` (из `@vue/composition-api` для Vue <2.7):
 
 ```js
 import { set, toRef } from '@vue/composition-api'
 pinia.use(({ store }) => {
   if (!Object.prototype.hasOwnProperty(store.$state, 'secret')) {
     const secretRef = ref('secret')
-    // If the data is meant to be used during SSR, you should
-    // set it on the `$state` property so it is serialized and
-    // picked up during hydration
+    // Если данные предназначены для использования во время SSR, их следует
+    // устанавливать в свойстве $state, чтобы они сериализовались и
+    // подхватывались во время гидратации
     set(store.$state, 'secret', secretRef)
   }
-  // set it directly on the store too so you can access it
-  // both ways: `store.$state.secret` / `store.secret`
+  // установить его непосредственно в хранилище, чтобы вы могли получить к нему доступ
+  // обоими способами: `store.$state.secret` / `store.secret`
   set(store, 'secret', toRef(store.$state, 'secret'))
   store.secret // 'secret'
 })
@@ -160,25 +160,25 @@ pinia.use(({ store }) => {
 
 :::
 
-#### Resetting state added in plugins
+#### Сброс состояния, добавленного в плагинах %{#resetting-state-added-in-plugins}%
 
-By default, `$reset()` will not reset state added by plugins but you can override it to also reset the state you add:
+По умолчанию `$reset()` не сбрасывает состояние, добавленное плагинами, но вы можете переопределить его, чтобы сбрасывалось и состояние, которое вы добавляете:
 
 ```js
 import { toRef, ref } from 'vue'
 
 pinia.use(({ store }) => {
-  // this is the same code as above for reference
+  // для справки, это тот же код, что и выше
   if (!Object.prototype.hasOwnProperty(store.$state, 'hasError')) {
     const hasError = ref(false)
     store.$state.hasError = hasError
   }
   store.hasError = toRef(store.$state, 'hasError')
 
- // make sure to set the context (`this`) to the store
+  // обязательно установите контекст (`this`) на хранилище
   const originalReset = store.$reset.bind(store)
 
- // override the $reset function
+  // переопределение функции $reset
   return {
     $reset() {
       originalReset()
@@ -188,13 +188,13 @@ pinia.use(({ store }) => {
 })
 ```
 
-## Adding new external properties
+## Добавление новых внешних свойств %{#adding-new-external-properties}%
 
-When adding external properties, class instances that come from other libraries, or simply things that are not reactive, you should wrap the object with `markRaw()` before passing it to pinia. Here is an example adding the router to every store:
+При добавлении внешних свойств, экземпляров классов, полученных из других библиотек, или просто вещей, не являющихся реактивными, перед передачей объекта в pinia следует обернуть его с помощью `markRaw()`. Приведем пример добавления роутера в каждое хранилище:
 
 ```js
 import { markRaw } from 'vue'
-// adapt this based on where your router is
+// адаптируйте это в зависимости от того, где находится ваш маршрутизатор
 import { router } from './router'
 
 pinia.use(({ store }) => {
@@ -202,24 +202,24 @@ pinia.use(({ store }) => {
 })
 ```
 
-## Calling `$subscribe` inside plugins
+## Вызов `$subscribe`внутри плагинов %{#сalling-subscribe-inside-plugins}%
 
-You can use [store.$subscribe](./state.md#subscribing-to-the-state) and [store.$onAction](./actions.md#subscribing-to-actions) inside plugins too:
+Вы можете использовать [store.$subscribe](./state.md#subscribing-to-the-state) и [store.$onAction](./actions.md#subscribing-to-actions) и внутри плагинов:
 
 ```ts
 pinia.use(({ store }) => {
   store.$subscribe(() => {
-    // react to store changes
+    // реагировать на изменения в хранилище
   })
   store.$onAction(() => {
-    // react to store actions
+    // реагировать на дейстия в хранилище
   })
 })
 ```
 
-## Adding new options
+## Adding new options %{#adding-new-options}%
 
-It is possible to create new options when defining stores to later on consume them from plugins. For example, you could create a `debounce` option that allows you to debounce any action:
+При определении хранилищ можно создавать новые опции, чтобы впоследствии использовать их в плагинах. Например, можно создать опцию `debounce`, которая позволяет отменить любое действие:
 
 ```js
 defineStore('search', {
@@ -229,23 +229,23 @@ defineStore('search', {
     },
   },
 
-  // this will be read by a plugin later on
+  // в дальнейшем это будет прочитано плагином
   debounce: {
-    // debounce the action searchContacts by 300ms
+    // задержать выполнение действия searchContacts на 300мс
     searchContacts: 300,
   },
 })
 ```
 
-The plugin can then read that option to wrap actions and replace the original ones:
+Затем плагин может прочитать эту опцию для оборачивания действий и замены исходных:
 
 ```js
-// use any debounce library
+// используйте любую библиотеку debounce
 import debounce from 'lodash/debounce'
 
 pinia.use(({ options, store }) => {
   if (options.debounce) {
-    // we are overriding the actions with new ones
+    // мы переопределяем действия на новые
     return Object.keys(options.debounce).reduce((debouncedActions, action) => {
       debouncedActions[action] = debounce(
         store[action],
@@ -257,7 +257,7 @@ pinia.use(({ options, store }) => {
 })
 ```
 
-Note that custom options are passed as the 3rd argument when using the setup syntax:
+Обратите внимание, что при использовании setup-синтаксиса пользовательские опции передаются в качестве 3-го аргумента:
 
 ```js
 defineStore(
@@ -266,22 +266,22 @@ defineStore(
     // ...
   },
   {
-    // this will be read by a plugin later on
+    // в дальнейшем это будет прочитано плагином
     debounce: {
-      // debounce the action searchContacts by 300ms
+      // задержать выполнение действия searchContacts на 300мс
       searchContacts: 300,
     },
   }
 )
 ```
 
-## TypeScript
+## TypeScript %{#typescript}%
 
-Everything shown above can be done with typing support, so you don't ever need to use `any` or `@ts-ignore`.
+Все, что показано выше, может быть сделано с поддержкой типизации, так что вам никогда не понадобится использовать `any` или `@ts-ignore`.
 
-### Typing plugins
+### Typing plugins %{#typing-plugins}%
 
-A Pinia plugin can be typed as follows:
+Плагин Pinia может быть типизирован следующим образом:
 
 ```ts
 import { PiniaPluginContext } from 'pinia'
@@ -291,9 +291,9 @@ export function myPiniaPlugin(context: PiniaPluginContext) {
 }
 ```
 
-### Typing new store properties
+### Typing new store properties %{#typing-new-store-properties}%
 
-When adding new properties to stores, you should also extend the `PiniaCustomProperties` interface.
+При добавлении новых свойств в хранилища, необходимо также расширять интерфейс `PiniaCustomProperties`.
 
 ```ts
 import 'pinia'
@@ -301,20 +301,20 @@ import type { Router } from 'vue-router'
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
-    // by using a setter we can allow both strings and refs
+    // используя сеттер, мы можем разрешить использование как строк, так и ref-ссылок
     set hello(value: string | Ref<string>)
     get hello(): string
 
-    // you can define simpler values too
+    // можно определять и более простые значения
     simpleNumber: number
 
-    // type the router added by the plugin above (#adding-new-external-properties)
+    // типизация роутера, добавленного плагином выше (#adding-new-external-properties)
     router: Router
   }
 }
 ```
 
-It can then be written and read safely:
+После этого его можно безопасно писать и читать:
 
 ```ts
 pinia.use(({ store }) => {
@@ -327,13 +327,13 @@ pinia.use(({ store }) => {
 })
 ```
 
-`PiniaCustomProperties` is a generic type that allows you to reference properties of a store. Imagine the following example where we copy over the initial options as `$options` (this would only work for option stores):
+`PiniaCustomProperties` - это общий тип, позволяющий ссылаться на свойства хранилища. Представьте себе следующий пример, в котором мы копируем исходные опции как `$options` (это будет работать только для option-хранилищ):
 
 ```ts
 pinia.use(({ options }) => ({ $options: options }))
 ```
 
-We can properly type this by using the 4 generic types of `PiniaCustomProperties`:
+Мы можем правильно типизировать его, используя 4 дженерика `PiniaCustomProperties`:
 
 ```ts
 import 'pinia'
@@ -350,19 +350,19 @@ declare module 'pinia' {
 }
 ```
 
-:::tip
-When extending types in generics, they must be named **exactly as in the source code**. `Id` cannot be named `id` or `I`, and `S` cannot be named `State`. Here is what every letter stands for:
+:::tip Совет
+При расширении типов в дженериках они должны быть названы **точно так же, как в исходном коде**. `Id` не может быть назван `id` или `I`, а `S` не может быть назван `State`. Вот что означает каждая буква:
 
-- S: State
-- G: Getters
-- A: Actions
-- SS: Setup Store / Store
+- S: Состояние
+- G: Геттеры
+- A: Действия
+- SS: Setup-хранилище / хранилище
 
 :::
 
-### Typing new state
+### Типизация нового состояния %{#typing-new-state}%
 
-When adding new state properties (to both, the `store` and `store.$state`), you need to add the type to `PiniaCustomStateProperties` instead. Differently from `PiniaCustomProperties`, it only receives the `State` generic:
+При добавлении новых свойств состояния (как в `store`, так и в `store.$state`), вы должны добавить тип в `PiniaCustomStateProperties` вместо этого. В отличие от `PiniaCustomProperties`, в него передается только дженерик `State`:
 
 ```ts
 import 'pinia'
@@ -374,28 +374,28 @@ declare module 'pinia' {
 }
 ```
 
-### Typing new creation options
+### Типизация новых опций создания %{#typing-new-creation-options}%
 
-When creating new options for `defineStore()`, you should extend the `DefineStoreOptionsBase`. Differently from `PiniaCustomProperties`, it only exposes two generics: the State and the Store type, allowing you to limit what can be defined. For example, you can use the names of the actions:
+При создании новых опций для `defineStore()`, вы должны расширять `DefineStoreOptionsBase`. В отличие от `PiniaCustomProperties`, в него передаются только два дженерика: State и Store, позволяя вам ограничить то, что можно определить. Например, вы можете использовать названия действий:
 
 ```ts
 import 'pinia'
 
 declare module 'pinia' {
   export interface DefineStoreOptionsBase<S, Store> {
-    // allow defining a number of ms for any of the actions
+    // позволяет определить тип number для мс для любого из действий
     debounce?: Partial<Record<keyof StoreActions<Store>, number>>
   }
 }
 ```
 
-:::tip
-There is also a `StoreGetters` type to extract the _getters_ from a Store type. You can also extend the options of _setup stores_ or _option stores_ **only** by extending the types `DefineStoreOptions` and `DefineSetupStoreOptions` respectively.
+:::tip Совет
+Существует также тип `StoreGetters` для извлечения _геттеров_ из типа Store. Вы также можете расширить опции _setup-хранилищ_ или _option-хранилищ_ **только**, расширив типы `DefineStoreOptions` и `DefineSetupStoreOptions` соответственно.
 :::
 
-## Nuxt.js
+## Nuxt.js %{#nuxt-js}%
 
-When [using pinia alongside Nuxt](../ssr/nuxt.md), you will have to create a [Nuxt plugin](https://nuxt.com/docs/guide/directory-structure/plugins) first. This will give you access to the `pinia` instance:
+При [использовании pinia вместе с Nuxt](../ssr/nuxt.md) необходимо сначала создать [Nuxt плагин](https://nuxt.com/docs/guide/directory-structure/plugins). Это даст вам доступ к экземпляру `pinia`:
 
 ```ts
 // plugins/myPiniaPlugin.ts
@@ -403,11 +403,11 @@ import { PiniaPluginContext } from 'pinia'
 
 function MyPiniaPlugin({ store }: PiniaPluginContext) {
   store.$subscribe((mutation) => {
-    // react to store changes
+    // реагировать на изменения  хранилища
     console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
   })
 
-  // Note this has to be typed if you are using TS
+  // Обратите внимание, что это должно быть типизировано, если вы используете TS
   return { creationTime: new Date() }
 }
 
@@ -416,11 +416,11 @@ export default defineNuxtPlugin(({ $pinia }) => {
 })
 ```
 
-Note the above example is using TypeScript, you have to remove the type annotations `PiniaPluginContext` and `Plugin` as well as their imports if you are using a `.js` file.
+Обратите внимание, что в приведенном примере используется TypeScript, поэтому при использовании файла `.js` необходимо удалить аннотации типов `PiniaPluginContext` и `Plugin`, а также их импорт.
 
-### Nuxt.js 2
+### Nuxt.js 2 %{#nuxt-js-2}%
 
-If you are using Nuxt.js 2, the types are slightly different:
+Если вы используете Nuxt.js 2, то типы немного отличаются:
 
 ```ts
 // plugins/myPiniaPlugin.ts
@@ -429,11 +429,11 @@ import { Plugin } from '@nuxt/types'
 
 function MyPiniaPlugin({ store }: PiniaPluginContext) {
   store.$subscribe((mutation) => {
-    // react to store changes
+    // реагировать на изменения  хранилища
     console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
   })
 
-  // Note this has to be typed if you are using TS
+  // Обратите внимание, что это должно быть типизировано, если вы используете TS
   return { creationTime: new Date() }
 }
 
