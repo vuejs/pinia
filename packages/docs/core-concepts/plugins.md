@@ -202,7 +202,7 @@ pinia.use(({ store }) => {
 })
 ```
 
-## Вызов `$subscribe`внутри плагинов %{#сalling-subscribe-inside-plugins}%
+## Вызов `$subscribe` внутри плагинов %{#сalling-subscribe-inside-plugins}%
 
 Вы можете использовать [store.$subscribe](./state.md#subscribing-to-the-state) и [store.$onAction](./actions.md#subscribing-to-actions) и внутри плагинов:
 
@@ -217,7 +217,7 @@ pinia.use(({ store }) => {
 })
 ```
 
-## Adding new options %{#adding-new-options}%
+## Добавление новых опций %{#adding-new-options}%
 
 При определении хранилищ можно создавать новые опции, чтобы впоследствии использовать их в плагинах. Например, можно создать опцию `debounce`, которая позволяет отменить любое действие:
 
@@ -279,7 +279,7 @@ defineStore(
 
 Все, что показано выше, может быть сделано с поддержкой типизации, так что вам никогда не понадобится использовать `any` или `@ts-ignore`.
 
-### Typing plugins %{#typing-plugins}%
+### Типизация плагинов %{#typing-plugins}%
 
 Плагин Pinia может быть типизирован следующим образом:
 
@@ -291,7 +291,7 @@ export function myPiniaPlugin(context: PiniaPluginContext) {
 }
 ```
 
-### Typing new store properties %{#typing-new-store-properties}%
+### Типизация новых свойств хранилища %{#typing-new-store-properties}%
 
 При добавлении новых свойств в хранилища, необходимо также расширять интерфейс `PiniaCustomProperties`.
 
