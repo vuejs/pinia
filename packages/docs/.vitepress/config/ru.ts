@@ -31,7 +31,11 @@ export const ruConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         activeMatch: '^/core-concepts/',
       },
       { text: 'API', link: '/api/', activeMatch: '^/api/' },
-      { text: 'Cookbook', link: '/cookbook/', activeMatch: '^/cookbook/' },
+      {
+        text: 'Книга рецептов',
+        link: '/cookbook/',
+        activeMatch: '^/cookbook/',
+      },
       {
         text: 'Ссылки',
         items: [
@@ -108,7 +112,7 @@ export const ruConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           ],
         },
         {
-          text: 'Cookbook',
+          text: 'Книга рецептов',
           collapsed: false,
           items: [
             {
