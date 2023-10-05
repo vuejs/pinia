@@ -1,35 +1,35 @@
-# Defining a Store
+# Определение хранилища %{#defining-a-store}%
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/define-your-first-pinia-store"
-  title="Learn how to define and use stores in Pinia"
+  title="Узнайте, как определять и использовать хранилища в Pinia"
 />
 
-Before diving into core concepts, we need to know that a store is defined using `defineStore()` and that it requires a **unique** name, passed as the first argument:
+Прежде чем погружаться в основные концепции, нужно знать, что хранилище определяется с использованием `defineStore()` и требует уникального названия, передаваемого в качестве первого аргумента:
 
 ```js
 import { defineStore } from 'pinia'
 
-// You can name the return value of `defineStore()` anything you want,
-// but it's best to use the name of the store and surround it with `use`
-// and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
-// the first argument is a unique id of the store across your application
+// Вы можете называть возвращаемое значение defineStore() как угодно,
+// но лучше всего использовать имя хранилища и окружить его `use`
+// и `Store` (например, `useUserStore`, `useCartStore`, `useProductStore`)
+// первый аргумент - это уникальный id хранилища в вашем приложении.
 export const useAlertsStore = defineStore('alerts', {
-  // other options...
+  // остальные параметры...
 })
 ```
 
-This _name_, also referred to as _id_, is necessary and is used by Pinia to connect the store to the devtools. Naming the returned function _use..._ is a convention across composables to make its usage idiomatic.
+Это _название_, также называемое _id_, необходимо и используется Pinia для подключения хранилища к Devtools. Именование возвращаемой функции как _use..._ - это соглашение, которое соблюдается во многих composables, чтобы использование было идиоматичным.
 
-`defineStore()` accepts two distinct values for its second argument: a Setup function or an Options object.
+`defineStore()` принимает два различных значения для своего второго аргумента: функцию Setup или объект Options.
 
-## Option Stores
+## Option-хранилища %{#option-stores}%
 
-Similar to Vue's Options API, we can also pass an Options Object with `state`, `actions`, and `getters` properties.
+Аналогично Options API в Vue, мы также можем передать объект опций со свойствами `state`, `actions` и `getters`.
 
 ```js {2-10}
 export const useCounterStore = defineStore('counter', {
-  state: () => ({ count: 0, name: 'Eduardo' }),
+  state: () => ({ count: 0, name: 'Иван' }),
   getters: {
     doubleCount: (state) => state.count * 2,
   },
@@ -41,18 +41,18 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-You can think of `state` as the `data` of the store, `getters` as the `computed` properties of the store, and `actions` as the `methods`.
+Можно представить `state` как `data` хранилища, `getters` как `computed` свойства хранилища и `actions` как `methods`.
 
-Option stores should feel intuitive and simple to get started with.
+Option-хранилища должны быть интуитивными и простыми в использовании для начала работы.
 
-## Setup Stores
+## Setup-хранилища %{#setup-stores}%
 
-There is also another possible syntax to define stores. Similar to the Vue Composition API's [setup function](https://vuejs.org/api/composition-api-setup.html), we can pass in a function that defines reactive properties and methods and returns an object with the properties and methods we want to expose.
+Существует также другой возможный синтаксис для определения хранилищ. Аналогично [функции setup](https://vuejs.org/api/composition-api-setup.html) в Composition API Vue, мы можем передать функцию, которая определяет реактивные свойства и методы, и возвращает объект с свойствами и методами, которые мы хотим предоставить.
 
 ```js
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
-  const name = ref('Eduardo')
+  const name = ref('Иван')
   const doubleCount = computed(() => count.value * 2)
   function increment() {
     count.value++
@@ -62,17 +62,17 @@ export const useCounterStore = defineStore('counter', () => {
 })
 ```
 
-In _Setup Stores_:
+В _setup-хранилищах_:
 
-- `ref()`s become `state` properties
-- `computed()`s become `getters`
-- `function()`s become `actions`
+- `ref()` становятся свойствами `состояния`
+- `computed()` становятся `геттерами`
+- `function()` становятся `действиями`
 
-Note you **must** return **all state properties** in setup stores for pinia to pick them up as state. In other words, you cannot have _private_ state properties in stores.
+Обратите внимание, что вы **должны** вернуть **все свойства состояния** в setup-хранилищах, чтобы Pinia мог их распознать как состояние. Другими словами, в хранилищах нельзя иметь _приватные_ свойства состояния.
 
-Setup stores bring a lot more flexibility than [Option Stores](#option-stores) as you can create watchers within a store and freely use any [composable](https://vuejs.org/guide/reusability/composables.html#composables). However, keep in mind that using composables will get more complex when using [SSR](../cookbook/composables.md).
+Setup-хранилища предоставляют гораздо большую гибкость по сравнению с [options-хранилищами](#option-stores), так как вы можете создавать наблюдателей (watchers) внутри хранилища и свободно использовать любые [композиции (composables)](https://vuejs.org/guide/reusability/composables.html#composables). Однако имейте в виду, что использование композиций может стать более сложным при использовании [рендеринга на стороне сервера (SSR)](../cookbook/composables.md).
 
-Setup stores are also able to rely on globally _provided_ properties like the Router or the Route. Any property [provided at the App level](https://vuejs.org/api/application.html#app-provide) can be accessed from the store using `inject()`, just like in components:
+Setup-хранилища также могут зависеть от глобальных _предоставленных_ свойств, таких как Router или Route. Любое свойство, [предоставленное на уровне приложения](https://vuejs.org/api/application.html#app-provide), может быть доступно из хранилища с использованием `inject()`, точно так же, как в компонентах:
 
 ```ts
 import { inject } from 'vue'
@@ -80,7 +80,7 @@ import { useRoute } from 'vue-router'
 
 export const useSearchFilters = defineStore('search-filters', () => {
   const route = useRoute()
-  // this assumes `app.provide('appProvided', 'value')` was called
+  // это предполагает, что был вызван `app.provide('appProvided', 'value')`
   const appProvided = inject('appProvided')
 
   // ...
@@ -91,70 +91,70 @@ export const useSearchFilters = defineStore('search-filters', () => {
 })
 ```
 
-:::warning
-Do not return properties like `useRoute()` or `appProvided` (from the example above) as they do not belong to the store itself and you can directly access them within components with `useRoute()` and `inject('appProvided')`.
+:::warning Предупреждение
+Не возвращайте свойства, такие как `useRoute() `или `appProvided` (из приведенного выше примера), так как они не принадлежат самому хранилищу, и вы можете получить к ним прямой доступ внутри компонентов с помощью `useRoute()` и `inject('appProvided')`.
 :::
 
-## What syntax should I pick?
+## Какой синтаксис выбрать? %{#what-syntax-should-i-pick}%
 
-As with [Vue's Composition API and Options API](https://vuejs.org/guide/introduction.html#which-to-choose), pick the one that you feel the most comfortable with. If you're not sure, try [Option Stores](#option-stores) first.
+Как и с [Composition API и Options API в Vue](https://vuejs.org/guide/introduction.html#which-to-choose), выбирайте тот подход, с которым вы чувствуете себя наиболее комфортно. Если вы не уверены, попробуйте сначала [option-хранилища](#option-stores).
 
-## Using the store
+## Using the store %{#using-the-store}%
 
-We are _defining_ a store because the store won't be created until `use...Store()` is called within a component `<script setup>` (or within `setup()` **like all composables**):
+Мы _определяем_ хранилище, потому что хранилище не будет создано, пока не будет вызвано `use...Store()` внутри `<script setup>` компонента (или внутри `setup()` **как и во всех composables**):
 
 ```vue
 <script setup>
 import { useCounterStore } from '@/stores/counter'
 
-// access the `store` variable anywhere in the component ✨
+// доступ к переменной `store` в любом месте компонента ✨
 const store = useCounterStore()
 </script>
 ```
 
-:::tip
-If you are not using `setup` components yet, [you can still use Pinia with _map helpers_](../cookbook/options-api.md).
+:::tip Совет
+Если вы пока не используете компоненты с `setup`, [вы все равно можете использовать Pinia с помощью _map-помощников_](../cookbook/options-api.md).
 :::
 
-You can define as many stores as you want and **you should define each store in a different file** to get the most out of Pinia (like automatically allowing your bundler to code split and providing TypeScript inference).
+Вы можете определять столько хранилищ, сколько вам нужно, и **вы должны определять каждое хранилище в разных файлах**, чтобы наилучшим образом использовать возможности Pinia (например, позволить сборщика автоматически разделять код и обеспечивать вывод типов TypeScript).
 
-Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will look at these in detail in the next pages but autocompletion will help you.
+После создания экземпляра хранилища, вы можете получить доступ к любому свойству, определенному в `state`, `getters` и `actions` напрямую в хранилище. Мы рассмотрим это более подробно на следующих страницах, но автозаполнение поможет вам.
 
-Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it**:
+Обратите внимание, что `store` - это объект, обернутый через `reactive`, то есть нет необходимости писать `.value` после геттеров, но, как и `props` в `setup`, **мы не можем его деструктурировать**:
 
 ```vue
 <script setup>
 const store = useCounterStore()
-// ❌ This won't work because it breaks reactivity
-// it's the same as destructuring from `props`
+// ❌ Это не будет работать, так как нарушает реактивность
+// это то же самое, что и деструктуризация из `props`.
 const { name, doubleCount } = store // [!code warning]
-name // will always be "Eduardo" // [!code warning]
-doubleCount // will always be 0 // [!code warning]
+name // всегда будет "Иван" // [!code warning]
+doubleCount // всегда будет 0 // [!code warning]
 
 setTimeout(() => {
   store.increment()
 }, 1000)
 
-// ✅ this one will be reactive
-// 💡 but you could also just use `store.doubleCount` directly
+// ✅ это будет реактивно.
+// 💡 но вы также можете просто использовать `store.doubleCount` напрямую
 const doubleValue = computed(() => store.doubleCount)
 </script>
 ```
 
-## Destructuring from a Store
+## Деструктуризация из хранилища %{#destructuring-from-a-store}%
 
-In order to extract properties from the store while keeping its reactivity, you need to use `storeToRefs()`. It will create refs for every reactive property. This is useful when you are only using state from the store but not calling any action. Note you can destructure actions directly from the store as they are bound to the store itself too:
+Чтобы извлечь свойства из хранилища, сохраняя их реактивность, вам нужно использовать `storeToRefs()`. Он создаст ref-ссылки для каждого реактивного свойства. Это полезно, когда вы используете только состояние из хранилища, но не вызываете никакие действия. Обратите внимание, что вы также можете деструктурировать действия напрямую из хранилища, так как они также привязаны к самому хранилищу:
 
 ```vue
 <script setup>
 import { storeToRefs } from 'pinia'
 
 const store = useCounterStore()
-// `name` and `doubleCount` are reactive refs
-// This will also extract refs for properties added by plugins
-// but skip any action or non reactive (non ref/reactive) property
+// `name` и `doubleCount` являются реактивными ref-ссылками
+// При этом также будут извлечены ref-ссылки на свойства, добавленные плагинами
+// но будет пропущено любое действие или нереактивное (не ref/reactive) свойство
 const { name, doubleCount } = storeToRefs(store)
-// the increment action can just be destructured
+// действие increment может быть просто деструктурировано
 const { increment } = store
 </script>
 ```
