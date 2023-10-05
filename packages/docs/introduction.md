@@ -1,33 +1,33 @@
-# Introduction
+# Вступление
 
 <VueSchoolLink
   href="https://vueschool.io/lessons/introduction-to-pinia"
-  title="Get started with Pinia"
+  title="Начало работы с Pinia"
 />
 
-Pinia [started](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e) as an experiment to redesign what a Store for Vue could look like with the [Composition API](https://github.com/vuejs/composition-api) around November 2019. Since then, the initial principles have remained the same, but Pinia works for both Vue 2 and Vue 3 **and doesn't require you to use the composition API**. The API is the same for both except for _installation_ and _SSR_, and these docs are targeted to Vue 3 **with notes about Vue 2** whenever necessary so it can be read by Vue 2 and Vue 3 users!
+Pinia [начался](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e) как эксперимент по перепроектированию того, как может выглядеть хранилище для Vue с [Composition API](https://github.com/vuejs/composition-api) примерно в ноябре 2019 года. С тех пор начальные принципы остались неизменными, но Pinia работает как для Vue 2, так и для Vue 3 **и не требует использования composition API**. API одинаков для обоих вариантов, за исключением _установки_ и _SSR_, и эта документация ориентирована на Vue 3 **с примечаниями для Vue 2**, когда это необходимо, чтобы ее могли читать пользователи Vue 2 и Vue 3!
 
-## Why should I use Pinia?
+## Почему вы должны использовать Pinia?
 
-Pinia is a store library for Vue, it allows you to share a state across components/pages. If you are familiar with the Composition API, you might be thinking you can already share a global state with a simple `export const state = reactive({})`. This is true for single page applications but **exposes your application to [security vulnerabilities](https://vuejs.org/guide/scaling-up/ssr.html#cross-request-state-pollution)** if it is server side rendered. But even in small single page applications, you get a lot from using Pinia:
+Pinia - это библиотека для создания хранилища для Vue, которая позволяет вам совместно использовать состояние между компонентами/страницами. Если вы знакомы с Composition API, вы, возможно, думаете, что уже можете совместно использовать глобальное состояние с помощью простого `export const state = reactive({})`. Это верно для одностраничных приложений (SPA), **но при использовании рендеринга на стороне сервера (SSR) это может привести к [уязвимостям безопасности](https://vuejs.org/guide/scaling-up/ssr.html#cross-request-state-pollution)**. Но даже в небольших одностраничных приложениях вы получаете много возможностей от использования Pinia:
 
-- Devtools support
-  - A timeline to track actions, mutations
-  - Stores appear in components where they are used
-  - Time travel and easier debugging
-- Hot module replacement
-  - Modify your stores without reloading your page
-  - Keep any existing state while developing
-- Plugins: extend Pinia features with plugins
-- Proper TypeScript support or **autocompletion** for JS users
-- Server Side Rendering Support
+- Поддержка Devtools
+  - Хронология для отслеживания действий, мутаций
+  - Хранилища отображаются в компонентах, в которых они используются
+  - Легкая отладка с возможностью перемещения во времени
+- Горячая замена модулей (HMR)
+  - Изменение вашего хранилища без перезагрузки страницы
+  - Сохранение существующего состояния в процессе разработки
+- Плагины: расширение возможностей Pinia с помощью плагинов
+- Полноценная поддержка TypeScript или **автозаполнение** для пользователей JS
+- Поддержка рендеринга на стороне сервера (SSR)
 
 <VueMasteryLogoLink for="pinia-cheat-sheet">
 </VueMasteryLogoLink>
 
-## Basic example
+## Простой пример
 
-This is what using Pinia looks like in terms of API (make sure to check the [Getting Started](./getting-started.md) for complete instructions). You start by creating a store:
+Вот как выглядит использование Pinia в терминах его API (не забудьте посмотреть [руководство по началу работы](./getting-started.md), чтобы получить полную инструкцию). Начнем с создания хранилища:
 
 ```js
 // stores/counter.js
@@ -37,7 +37,7 @@ export const useCounterStore = defineStore('counter', {
   state: () => {
     return { count: 0 }
   },
-  // could also be defined as
+  // также может быть объявлено как
   // state: () => ({ count: 0 })
   actions: {
     increment() {
@@ -47,7 +47,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-And then you _use_ it in a component:
+Затем вы используете его в компоненте:
 
 ```vue
 <script setup>
@@ -56,19 +56,19 @@ import { useCounterStore } from '@/stores/counter'
 const counter = useCounterStore()
 
 counter.count++
-// with autocompletion ✨
+// автозаполнение ✨
 counter.$patch({ count: counter.count + 1 })
-// or using an action instead
+// или используете действие (action) вместо этого:
 counter.increment()
 </script>
 
 <template>
-  <!-- Access the state directly from the store -->
+  <!-- Обращайтесь к состоянию напрямую из хранилища -->
   <div>Current Count: {{ counter.count }}</div>
 </template>
 ```
 
-You can even use a function (similar to a component `setup()`) to define a Store for more advanced use cases:
+Вы даже можете использовать функцию (аналогичную `setup()` в компоненте) для определения хранилища для более сложных случаев использования:
 
 ```js
 export const useCounterStore = defineStore('counter', () => {
@@ -81,7 +81,7 @@ export const useCounterStore = defineStore('counter', () => {
 })
 ```
 
-If you are still not into `setup()` and Composition API, don't worry, Pinia also supports a similar set of [_map helpers_ like Vuex](https://vuex.vuejs.org/guide/state.html#the-mapstate-helper). You define stores the same way but then use `mapStores()`, `mapState()`, or `mapActions()`:
+Если вы еще не знакомы с `setup()` и Composition API, не переживайте, Pinia также поддерживает набор [_map-помощников_, аналогичных Vuex](https://vuex.vuejs.org/guide/state.html#the-mapstate-helper). Вы определяете хранилища так же, как и раньше, но затем используете `mapStores()`, `mapState()`, или `mapActions()`:
 
 ```js {22,24,28}
 const useCounterStore = defineStore('counter', {
@@ -102,29 +102,29 @@ const useUserStore = defineStore('user', {
 
 export default defineComponent({
   computed: {
-    // other computed properties
+    // другие вычисляемые свойства
     // ...
-    // gives access to this.counterStore and this.userStore
+    // предоставляет доступ к this.counterStore и this.userStore
     ...mapStores(useCounterStore, useUserStore),
-    // gives read access to this.count and this.double
+    // предоставляет доступ только для чтения к this.count и this.double
     ...mapState(useCounterStore, ['count', 'double']),
   },
   methods: {
-    // gives access to this.increment()
+    // предоставляет доступ к this.increment()
     ...mapActions(useCounterStore, ['increment']),
   },
 })
 ```
 
-You will find more information about each _map helper_ in the core concepts.
+Более подробную информацию о каждом из _помощников для отображения (map helper)_ вы найдете в разделе "Основные концепции".
 
-## Why _Pinia_
+## Почему _Pinia_
 
-Pinia (pronounced `/piːnjʌ/`, like "peenya" in English) is the closest word to _piña_ (_pineapple_ in Spanish) that is a valid package name. A pineapple is in reality a group of individual flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
+Pinia (произносится `/piːnjʌ/`, как "peenya" на английском) - это слово, наиболее близкое к "piña" (_ананас_ на испанском), которое является допустимым именем пакета. На самом деле ананас - это группа отдельных цветов, которые объединяются, создавая несколько плодов. Подобно хранилищам, каждый из них рождается отдельно, но в конечном итоге все они соединяются. Это также вкусный тропический фрукт, происходящий из Южной Америки.
 
-## A more realistic example
+## Более реалистичный пример
 
-Here is a more complete example of the API you will be using with Pinia **with types even in JavaScript**. For some people, this might be enough to get started without reading further but we still recommend checking the rest of the documentation or even skipping this example and coming back once you have read about all of the _Core Concepts_.
+Вот более полный пример использования API, которое вы будете использовать с Pinia **с типами даже в JavaScript**. Для некоторых людей этого может быть достаточно, чтобы начать, даже без дальнейшего чтения, но мы всё же рекомендуем ознакомиться с остальной документацией или даже пропустить этот пример и вернуться к нему после прочтения всех _Основных концепций_.
 
 ```js
 import { defineStore } from 'pinia'
@@ -135,12 +135,12 @@ export const useTodos = defineStore('todos', {
     todos: [],
     /** @type {'all' | 'finished' | 'unfinished'} */
     filter: 'all',
-    // type will be automatically inferred to number
+    // тип будет автоматически приведен к числу
     nextId: 0,
   }),
   getters: {
     finishedTodos(state) {
-      // autocompletion! ✨
+      // автозаполнение! ✨
       return state.todos.filter((todo) => todo.isFinished)
     },
     unfinishedTodos(state) {
@@ -151,7 +151,7 @@ export const useTodos = defineStore('todos', {
      */
     filteredTodos(state) {
       if (this.filter === 'finished') {
-        // call other getters with autocompletion ✨
+        // вызов других геттеров (getters) с автозаполнением ✨
         return this.finishedTodos
       } else if (this.filter === 'unfinished') {
         return this.unfinishedTodos
@@ -160,39 +160,39 @@ export const useTodos = defineStore('todos', {
     },
   },
   actions: {
-    // any amount of arguments, return a promise or not
+    // любое количество аргументов, возвращает Promise или нет
     addTodo(text) {
-      // you can directly mutate the state
+      // можно изменять состояние напрямую
       this.todos.push({ text, id: this.nextId++, isFinished: false })
     },
   },
 })
 ```
 
-## Comparison with Vuex
+## Сравнение с Vuex
 
-Pinia started out as an exploration of what the next iteration of Vuex could look like, incorporating many ideas from core team discussions for Vuex 5. Eventually, we realized that Pinia already implements most of what we wanted in Vuex 5, and decided to make it the new recommendation instead.
+Pinia начал свой путь как исследование того, как может выглядеть следующая версия Vuex, включая множество идей, обсуждаемых в команде разработчиков для Vuex 5. В конечном итоге мы поняли, что Pinia уже реализует большую часть того, что мы хотели видеть в Vuex 5, и решили рекомендовать Pinia вместо него.
 
-Compared to Vuex, Pinia provides a simpler API with less ceremony, offers Composition-API-style APIs, and most importantly, has solid type inference support when used with TypeScript.
+По сравнению с Vuex, Pinia предоставляет более простой API с меньшим количеством формальностей, предлагает API в стиле Composition API и, что самое важное, обеспечивает надежную поддержку вывода типов при использовании TypeScript.
 
 ### RFCs
 
-Initially Pinia didn't go through any RFC process. I tested out ideas based on my experience developing applications, reading other people's code, working for clients who use Pinia, and answering questions on Discord.
-This allowed me to provide a solution that works and is adapted to a variety of cases and application sizes. I used to publish often and made the library evolve while keeping its core API the same.
+Изначально Pinia не проходил через процесс RFC (Request for Comments). Я тестировал идеи, опираясь на свой опыт разработки приложений, изучение код других разработчиков, работу с клиентами, использующими Pinia, и ответы на вопросы в Discord.
+Это позволило мне предложить решение, которое работает и адаптировано к различным случаям и размерам приложений. Ранее я часто публиковал обновления и развивал библиотеку, сохраняя её основной API неизменным.
 
-Now that Pinia has become the default state management solution, it is subject to the same RFC process as other core libraries in the Vue ecosystem and its API has entered a stable state.
+Теперь, когда Pinia стал рекомендуемым средством управления состоянием, он подлежит тому же процессу RFC, что и другие основные библиотеки в экосистеме Vue, и его API находится в стабильном состоянии.
 
-### Comparison with Vuex 3.x/4.x
+### Сравнение с Vuex 3.x/4.x
 
-> Vuex 3.x is Vuex for Vue 2 while Vuex 4.x is for Vue 3
+> Vuex 3.x - это Vuex для Vue 2, а Vuex 4.x - для Vue 3
 
-Pinia API is very different from Vuex ≤4, namely:
+API Pinia сильно отличается от Vuex ≤4, а именно:
 
-- _mutations_ no longer exist. They were often perceived as **_extremely_ verbose**. They initially brought devtools integration but that is no longer an issue.
-- No need to create custom complex wrappers to support TypeScript, everything is typed and the API is designed in a way to leverage TS type inference as much as possible.
-- No more magic strings to inject, import the functions, call them, enjoy autocompletion!
-- No need to dynamically add stores, they are all dynamic by default and you won't even notice. Note you can still manually use a store to register it whenever you want but because it is automatic you don't need to worry about it.
-- No more nested structuring of _modules_. You can still nest stores implicitly by importing and _using_ a store inside another but Pinia offers a flat structuring by design while still enabling ways of cross composition among stores. **You can even have circular dependencies of stores**.
-- No _namespaced modules_. Given the flat architecture of stores, "namespacing" stores is inherent to how they are defined and you could say all stores are namespaced.
+- _мутаций (mutations)_ больше не существуют. Их часто воспринимали как **чрезмерно многословные**. Изначально они вносили интеграцию с Devtools, но теперь это больше не является проблемой.
+- Не нужно создавать сложные пользовательские обёртки для поддержки TypeScript; всё типизировано, и API разработано таким образом, чтобы максимально использовать вывод типов в TypeScript.
+- Больше нет магических строк для инъекции; импортируйте функции, вызывайте их и наслаждайтесь автозаполнением!
+- Нет необходимости динамически добавлять хранилища; они все являются динамическими по умолчанию, и вы даже не заметите этого. Обратите внимание, что вы всё равно можете вручную использовать хранилище для его регистрации в любое время, но поскольку это происходит автоматически, вам не нужно об этом беспокоиться.
+- Больше нет вложенного структурирования _модулей (modules)_. Вы по-прежнему можете неявно вкладывать хранилища, импортируя и _используя_ одно хранилище внутри другого, но Pinia предлагает плоскую структуру по дизайну, сохраняя при этом возможности перекрестной композиции между хранилищами. **Вы даже можете иметь циклические зависимости между хранилищами**.
+- Нет _модулей с пространством имён (namespaced modules)_. Учитывая плоскую архитектуру хранилищ, "пространство имён" хранилищ встроено в то, как они определяются, и можно сказать, что все хранилища имеют свои собственные пространства имён.
 
-For more detailed instructions on how to convert an existing Vuex ≤4 project to use Pinia, see the [Migration from Vuex Guide](./cookbook/migration-vuex.md).
+Для более подробных инструкций о том, как преобразовать существующий проект с использованием Vuex ≤4 для использования Pinia, смотрите [Руководство по миграции с Vuex](./cookbook/migration-vuex.md).
