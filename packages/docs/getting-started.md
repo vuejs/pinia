@@ -1,25 +1,25 @@
-# Getting Started
+# Начало работы
 
-## Installation
+## Установка
 
 <VueMasteryLogoLink for="pinia-cheat-sheet">
 </VueMasteryLogoLink>
 
-Install `pinia` with your favorite package manager:
+Установите `pinia` с помощью вашего любимого менеджера пакетов:
 
 ```bash
 yarn add pinia
-# or with npm
+# или с помощью npm
 npm install pinia
 ```
 
-:::tip
-If your app is using Vue <2.7, you also need to install the composition api: `@vue/composition-api`. If you are using Nuxt, you should follow [these instructions](/ssr/nuxt.md).
+:::tip Совет
+Если ваше приложение использует Vue <2.7, вам также нужно установить composition api: `@vue/composition-api`. Если вы используете Nuxt, следуйте [этим инструкциям](/ssr/nuxt.md).
 :::
 
-If you are using the Vue CLI, you can instead give this [**unofficial plugin**](https://github.com/wobsoriano/vue-cli-plugin-pinia) a try.
+Если вы используете Vue CLI, вы также можете попробовать этот [**неофициальный плагин**](https://github.com/wobsoriano/vue-cli-plugin-pinia).
 
-Create a pinia instance (the root store) and pass it to the app as a plugin:
+Создайте экземпляр Pinia (корневое хранилище) и передайте его в приложение как плагин:
 
 ```js {2,5-6,8}
 import { createApp } from 'vue'
@@ -33,7 +33,7 @@ app.use(pinia)
 app.mount('#app')
 ```
 
-If you are using Vue 2, you also need to install a plugin and inject the created `pinia` at the root of the app:
+Если вы используете Vue 2, вам также нужно установить плагин и внедрить созданный `pinia` в корень приложения:
 
 ```js {1,3-4,12}
 import { createPinia, PiniaVuePlugin } from 'pinia'
@@ -43,24 +43,24 @@ const pinia = createPinia()
 
 new Vue({
   el: '#app',
-  // other options...
+  // другие...
   // ...
-  // note the same `pinia` instance can be used across multiple Vue apps on
-  // the same page
+  // обратите внимание, что один и тот же экземпляр `pinia` может
+  // использоваться в нескольких приложениях Vue на одной и той же странице
   pinia,
 })
 ```
 
-This will also add devtools support. In Vue 3, some features like time traveling and editing are still not supported because vue-devtools doesn't expose the necessary APIs yet but the devtools have way more features and the developer experience as a whole is far superior.
+Это также добавит поддержку Devtools. В Vue 3 некоторые функции, такие как перемещение во времени и редактирование, все еще не поддерживаются, потому что vue-devtools пока не предоставляет необходимых API, но в целом Devtools имеет гораздо больше функций, и опыт разработчика в целом значительно улучшен.
 
-## What is a Store?
+## Что такое хранилище?
 
-A Store (like Pinia) is an entity holding state and business logic that isn't bound to your Component tree. In other words, **it hosts global state**. It's a bit like a component that is always there and that everybody can read off and write to. It has **three concepts**, the [state](./core-concepts/state.md), [getters](./core-concepts/getters.md) and [actions](./core-concepts/actions.md) and it's safe to assume these concepts are the equivalent of `data`, `computed` and `methods` in components.
+Хранилище (как, например, Pinia) - это сущность, которая содержит состояние и бизнес-логику, не привязанную к дереву компонентов. Другими словами, она содержит глобальное состояние. Это немного похоже на компонент, и у которого все могут читать и записывать данные. В нем есть три основных концепции: [состояние (state)](./core-concepts/state.md), [геттеры (getters)](./core-concepts/getters.md) и [действия (actions)](./core-concepts/actions.md) , и можно с уверенностью предположить, что эти концепции эквивалентны `data`, `computed` и `methods` в компонентах.
 
-## When should I use a Store
+## Когда мне стоит использовать хранилище
 
-A store should contain data that can be accessed throughout your application. This includes data that is used in many places, e.g. User information that is displayed in the navbar, as well as data that needs to be preserved through pages, e.g. a very complicated multi-step form.
+Хранилище должно содержать данные, к которым можно получить доступ во всем вашем приложении. Сюда входят данные, используемые во многих местах, например, информация о пользователе, отображаемая в навигационной панели, а также данные, которые должны сохраняться при переходе между страницами, например, в случае сложной многоступенчатой формой.
 
-On the other hand, you should avoid including in the store local data that could be hosted in a component instead, e.g. the visibility of an element local to a page.
+С другой стороны, следует избегать включения в хранилище локальных данных, которые могут быть размещены в компоненте, например, видимость элемента, локального для страницы.
 
-Not all applications need access to a global state, but if yours need one, Pinia will make your life easier.
+Не все приложения требуют доступа к глобальному состоянию, но если вашему приложению нужен такой доступ, то Pinia сделает вашу жизнь проще.
