@@ -93,7 +93,7 @@ export const ruConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             { text: 'Действия', link: '/core-concepts/actions.html' },
             { text: 'Плагины', link: '/core-concepts/plugins.html' },
             {
-              text: 'Хранилища за пределами компонентов',
+              text: 'Хранилища все компонентов',
               link: '/core-concepts/outside-component-usage.html',
             },
           ],

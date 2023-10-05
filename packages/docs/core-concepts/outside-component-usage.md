@@ -1,12 +1,12 @@
-# Using a store outside of a component
+# Использование хранилища за пределами компонентов %{#using-a-store-outside-of-a-component}%
 
-Pinia stores rely on the `pinia` instance to share the same store instance across all calls. Most of the time, this works out of the box by just calling your `useStore()` function. For example, in `setup()`, you don't need to do anything else. But things are a bit different outside of a component.
-Behind the scenes, `useStore()` _injects_ the `pinia` instance you gave to your `app`. This means that if the `pinia` instance cannot be automatically injected, you have to manually provide it to the `useStore()` function.
-You can solve this differently depending on the kind of application you are writing.
+Хранилища Pinia полагаются на экземпляр `pinia`, чтобы обеспечить совместное использование одного и того же экземпляра хранилища во всех вызовах. В большинстве случаев это работает "из коробки" просто путем вызова вашей функции `useStore()`. Например, в setup() вам больше ничего не нужно делать. Но ситуация немного отличается за пределами компонента.
+Под капотом функция `useStore()` внедряет экземпляр `pinia`, который вы передали своему `app`. Это означает, что если экземпляр `pinia` не может быть автоматически внедрен, вам придется вручную предоставить его функции `useStore()`.
+Вы можете решить эту проблему по-разному в зависимости от типа приложения, которое вы разрабатываете.
 
-## Single Page Applications
+## Одностраничное приложение %{#single-page-applications}%
 
-If you are not doing any SSR (Server Side Rendering), any call of `useStore()` after installing the pinia plugin with `app.use(pinia)` will work:
+Если вы не используете SSR (рендеринг на стороне сервера), то любой вызов `useStore()` после установки плагина pinia с помощью `app.use(pinia)` будет работать:
 
 ```js
 import { useUserStore } from '@/stores/user'
@@ -14,20 +14,20 @@ import { createPinia } from 'pinia';
 import { createApp } from 'vue'
 import App from './App.vue'
 
-// ❌  fails because it's called before the pinia is created
+// ❌ не работает, так как вызывается до создания pinia
 const userStore = useUserStore()
 
 const pinia = createPinia()
 const app = createApp(App)
 app.use(pinia)
 
-// ✅ works because the pinia instance is now active
+// ✅ работает, так как экземпляр pinia теперь активен
 const userStore = useUserStore()
 ```
 
-The easiest way to ensure this is always applied is to _defer_ calls of `useStore()` by placing them inside functions that will always run after pinia is installed.
+Самый простой способ обеспечить его постоянное применение - это _отложить_ вызовы `useStore()`, поместив их в функции, которые всегда будут выполняться после установки pinia.
 
-Let's take a look at this example of using a store inside of a navigation guard with Vue Router:
+Давайте рассмотрим пример использования хранилища внутри навигационного куха в Vue Router:
 
 ```js
 import { createRouter } from 'vue-router'
@@ -35,26 +35,26 @@ const router = createRouter({
   // ...
 })
 
-// ❌ Depending on the order of imports this will fail
+// ❌ В зависимости от порядка импорта это приведет к ошибке
 const store = useStore()
 
 router.beforeEach((to, from, next) => {
-  // we wanted to use the store here
+  // мы хотели использовать хранилище здесь
   if (store.isLoggedIn) next()
   else next('/login')
 })
 
 router.beforeEach((to) => {
-  // ✅ This will work because the router starts its navigation after
-  // the router is installed and pinia will be installed too
+  // ✅ Это будет работать, потому что маршрутизатор начинает свою навигацию после того,
+  // как router и pinia будут установлены
   const store = useStore()
 
   if (to.meta.requiresAuth && !store.isLoggedIn) return '/login'
 })
 ```
 
-## SSR Apps
+## SSR Apps %{#ssr-apps}%
 
-When dealing with Server Side Rendering, you will have to pass the `pinia` instance to `useStore()`. This prevents pinia from sharing global state between different application instances.
+При работе с рендерингом на стороне сервера (SSR) вам придется передавать экземпляр `pinia` функции `useStore()`. Это предотвращает pinia от совместного использования глобального состояния между разными экземплярами приложения.
 
-There is a whole section dedicated to it in the [SSR guide](/ssr/index.md), this is just a short explanation.
+В [руководстве по SSR](/ssr/index.md) есть целый раздел, посвященный этому, это всего лишь краткое объяснение.
