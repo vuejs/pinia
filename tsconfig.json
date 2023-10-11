@@ -9,6 +9,7 @@
     "packages/pinia/__tests__/test-utils.ts",
     "packages/pinia/test-dts",
     "packages/playground",
+    "packages/online-playground",
     "packages/nuxt"
   ],
   "compilerOptions": {
