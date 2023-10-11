@@ -64,7 +64,7 @@ function toggleDark() {
       <VersionSelect
         v-model="store.state.typescriptVersion"
         pkg="typescript"
-        label="TypeScript Version"
+        label="TypeScript"
       />
       <!-- <VersionSelect
         :model-value="vueVersion"
@@ -87,7 +87,7 @@ function toggleDark() {
         :model-value="store.vueVersion || 'latest'"
         @update:model-value="setVueVersion"
         pkg="vue"
-        label="Vue Version"
+        label="Vue"
       />
       <button
         title="Toggle development production mode"

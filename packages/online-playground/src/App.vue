@@ -2,7 +2,7 @@
 import Header from './Header.vue'
 import { Repl, ReplStore, SFCOptions, ReplProps } from '@vue/repl'
 import Monaco from '@vue/repl/monaco-editor'
-import { ref, watchEffect, onMounted, inject, provide, onUnmounted } from 'vue'
+import { ref, watchEffect, onMounted, provide } from 'vue'
 import { AppVue, PiniaVersionKey, counterTs } from './defaults'
 
 const setVH = () => {
@@ -56,30 +56,32 @@ provide(PiniaVersionKey, piniaVersion)
 //     piniaVersion.value === 'latest' ? '^2.1.0' : piniaVersion.value
 // })
 
+console.log('files', store.getFiles()['import-map.json'])
+
 if (!hash) {
   store.setImportMap({
     imports: {
       ...store.getImportMap().imports,
       pinia: import.meta.env.PROD
-        ? `${location.origin}/'pinia.esm-browser.js'`
+        ? `${location.origin}/pinia.esm-browser.js`
         : `${location.origin}/src/pinia-dev-proxy`,
+      ...(import.meta.env.PROD
+        ? {
+            '@vue/devtools-api':
+              'https://cdn.jsdelivr.net/npm/@vue/devtools-api@6.5.1/lib/esm/index.js',
+            'vue-demi':
+              'https://cdn.jsdelivr.net/npm/vue-demi@0.14.6/lib/v3/index.mjs',
+          }
+        : {}),
     },
   })
 
-  store
-    .setFiles({
-      // gets the tsconfig and import map
-      ...store.getFiles(),
-      'App.vue': AppVue,
-      'counter.ts': counterTs,
-    })
-    .then(() => {
-      console.log(store.state.mainFile)
-    })
-
-  // store.setFiles({}, 'main.ts').then(() => {
-  //   console.log('done')
-  // })
+  store.setFiles({
+    // gets the tsconfig and import map
+    ...store.getFiles(),
+    'App.vue': AppVue,
+    'counter.ts': counterTs,
+  })
 }
 
 // persist state
