@@ -20,9 +20,9 @@ export default defineConfig({
       link: 'https://pinia.vuejs.kr/',
     },
     pt: {
-    	label: 'Português',
-    	lang: 'pt-PT',
-    	link: 'https://pinia-docs-pt.netlify.app/',
+      label: 'Português',
+      lang: 'pt-PT',
+      link: 'https://pinia-docs-pt.netlify.app/',
     },
     uk: {
       label: 'Українська',
