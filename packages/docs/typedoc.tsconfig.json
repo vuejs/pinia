@@ -8,6 +8,7 @@
     "../*/src/*.spec.ts",
     "../nuxt/playground",
     "../playground",
+    "../online-playground",
     "../nuxt/src/runtime",
     "**/*.spec.ts"
   ],
