@@ -57,11 +57,11 @@ function toggleDark() {
       <span>Pinia Playground</span>
     </h1>
     <div class="links">
-      <VersionSelect
-        v-model="store.state.typescriptVersion"
-        pkg="typescript"
-        label="TypeScript"
-      />
+      <VersionSelect v-model="store.state.typescriptVersion" pkg="typescript">
+        <template #label>
+          <img src="/logo-ts.svg" alt="TypeScript" class="version-logo" />
+        </template>
+      </VersionSelect>
       <!-- <VersionSelect
         :model-value="vueVersion"
         @update:model-value="setVueVersion"
@@ -83,8 +83,11 @@ function toggleDark() {
         :model-value="store.vueVersion || 'latest'"
         @update:model-value="setVueVersion"
         pkg="vue"
-        label="Vue"
-      />
+      >
+        <template #label>
+          <img src="/logo-vue.svg" alt="Vue" class="version-logo" />
+        </template>
+      </VersionSelect>
       <button
         title="Toggle development production mode"
         class="toggle-dev"
@@ -268,5 +271,10 @@ h1 img {
 
 .links > * + * {
   margin-left: 4px;
+}
+
+.version-logo {
+  height: 1.2em;
+  margin-right: 4px;
 }
 </style>

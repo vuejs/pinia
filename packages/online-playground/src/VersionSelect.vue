@@ -7,7 +7,7 @@ const versions = ref<string[]>()
 const version = defineModel()
 const props = defineProps<{
   pkg: string
-  label: string
+  label?: string
 }>()
 
 async function toggle() {
@@ -79,7 +79,9 @@ onMounted(() => {
 <template>
   <div class="version" @click.stop>
     <span class="active-version" @click="toggle">
-      {{ label }}
+      <slot name="label">
+        {{ label }}
+      </slot>
       <span class="number">{{ version }}</span>
     </span>
 
