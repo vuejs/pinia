@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { downloadProject } from './download/download'
-import { inject, provide, ref } from 'vue'
+import { inject, ref } from 'vue'
 import Sun from './icons/Sun.vue'
 import Moon from './icons/Moon.vue'
 import Share from './icons/Share.vue'
@@ -19,18 +19,14 @@ const emit = defineEmits(['toggle-theme', 'toggle-dev'])
 const { store } = props
 
 const currentCommit = __COMMIT__
-const vueVersion = ref(`latest`)
+// parse version from the runtimeURL
+const vueVersion = ref('latest')
 const piniaVersion = inject(PiniaVersionKey)!
 
 async function setVueVersion(v: string) {
   vueVersion.value = `loading...`
   await store.setVueVersion(v)
   vueVersion.value = `v${v}`
-}
-
-function resetVueVersion() {
-  store.resetVueVersion()
-  vueVersion.value = `latest`
 }
 
 async function copyLink(e: MouseEvent) {

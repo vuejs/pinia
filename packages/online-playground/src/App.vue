@@ -56,8 +56,6 @@ provide(PiniaVersionKey, piniaVersion)
 //     piniaVersion.value === 'latest' ? '^2.1.0' : piniaVersion.value
 // })
 
-console.log('files', store.getFiles()['import-map.json'])
-
 if (!hash) {
   store.setImportMap({
     imports: {
