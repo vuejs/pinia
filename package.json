@@ -1,6 +1,6 @@
 {
   "name": "@pinia/root",
-  "packageManager": "pnpm@8.6.11",
+  "packageManager": "pnpm@8.9.0",
   "private": true,
   "workspaces": [
     "packages/*"
