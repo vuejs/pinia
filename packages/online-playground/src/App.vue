@@ -21,6 +21,10 @@ if (hash.startsWith('__DEV__')) {
 
 const store = new ReplStore({
   serializedState: hash,
+  defaultVueRuntimeURL:
+    'https://cdn.jsdelivr.net/npm/@vue/runtime-dom@3.3.4/+esm',
+  defaultVueServerRendererURL:
+    'https://cdn.jsdelivr.net/npm/@vue/server-renderer@3.3.4/+esm',
 })
 
 const previewOptions: ReplProps['previewOptions'] = {
@@ -67,8 +71,7 @@ if (!hash) {
         ? {
             '@vue/devtools-api':
               'https://cdn.jsdelivr.net/npm/@vue/devtools-api@6.5.1/lib/esm/index.js',
-            'vue-demi':
-              'https://cdn.jsdelivr.net/npm/vue-demi@0.14.6/lib/v3/index.mjs',
+            'vue-demi': 'https://cdn.jsdelivr.net/npm/vue-demi@0.14.6/+esm',
           }
         : {}),
     },
