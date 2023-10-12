@@ -136,6 +136,21 @@ onMounted(() => {
 </template>
 
 <style>
+:root {
+  --c-branding: #987a00;
+  --c-branding-dark: #5ad26c;
+
+  --color-branding: var(--c-branding);
+  --color-branding-dark: var(--c-branding-dark);
+}
+
+.dark {
+  --c-branding: #ffe166;
+
+  --color-branding: var(--c-branding);
+  --color-branding-dark: var(--c-branding-dark);
+}
+
 .dark {
   color-scheme: dark;
 }
@@ -159,5 +174,12 @@ button {
   cursor: pointer;
   margin: 0;
   background-color: transparent;
+}
+</style>
+
+<style scoped>
+.vue-repl :deep(.split-pane) {
+  --color-branding: var(--c-branding);
+  --color-branding-dark: var(--c-branding-dark);
 }
 </style>

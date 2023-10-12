@@ -111,7 +111,6 @@ onMounted(() => {
 }
 
 .active-version .number {
-  color: var(--green);
   margin-left: 4px;
 }
 

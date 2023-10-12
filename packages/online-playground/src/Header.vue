@@ -53,8 +53,10 @@ function toggleDark() {
 <template>
   <nav>
     <h1>
-      <img alt="logo" src="/logo.svg" />
-      <span>Pinia Playground</span>
+      <a href="https://masteringpinia.com" target="_blank">
+        <img alt="logo" src="/logo-mp.png" />
+        <span>Pinia Playground</span>
+      </a>
     </h1>
     <div class="links">
       <VersionSelect v-model="store.state.typescriptVersion" pkg="typescript">
@@ -88,6 +90,7 @@ function toggleDark() {
           <img src="/logo-vue.svg" alt="Vue" class="version-logo" />
         </template>
       </VersionSelect>
+
       <button
         title="Toggle development production mode"
         class="toggle-dev"
@@ -111,7 +114,7 @@ function toggleDark() {
         <Download />
       </button>
       <a
-        href="https://github.com/vuejs/core/tree/main/packages/sfc-playground"
+        href="https://github.com/vuejs/pinia/tree/main/packages/online-playground"
         target="_blank"
         title="View on GitHub"
         class="github"
@@ -163,19 +166,48 @@ h1 {
   place-items: center;
 }
 
+h1 a {
+  color: var(--color-branding);
+  text-decoration: none;
+}
+
 h1 img {
   height: 24px;
   margin-right: 10px;
-}
 
-@media (max-width: 560px) {
-  h1 span {
-    font-size: 0.9em;
+  animation: hithere 4s ease 5;
+  /* animation-delay: 5s; */
+}
+@keyframes hithere {
+  78% {
+    transform: scale(1);
+  }
+  79% {
+    transform: scale(1.2);
+  }
+  82%,
+  86% {
+    transform: rotate(-20deg) scale(1.2);
+  }
+  85% {
+    transform: rotate(20deg) scale(1.2);
+  }
+  91% {
+    transform: rotate(0deg) scale(1.2);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 570px) {
   h1 span {
+    display: none;
+  }
+}
+
+@media (max-width: 770px) {
+  btn.download {
     display: none;
   }
 }
@@ -257,7 +289,7 @@ h1 img {
 }
 
 .versions a:hover {
-  color: var(--green);
+  color: var(--color-branding);
 }
 
 .versions.expanded {
