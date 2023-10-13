@@ -1,3 +1,14 @@
+## [2.1.7](https://github.com/vuejs/pinia/compare/pinia@2.1.6...pinia@2.1.7) (2023-10-13)
+
+### Bug Fixes
+
+- **devtools:** correctly load initial states ([9d49e30](https://github.com/vuejs/pinia/commit/9d49e3005ca677f8892e7af209e96d43b41e121c))
+
+### Features
+
+- **types:** SetupStoreDefinition ([391f9ac](https://github.com/vuejs/pinia/commit/391f9ac4f5e845afdd4b7d44fb1a9c7fb2b299a0))
+- **warn:** improve getActivePinia warning ([4640f09](https://github.com/vuejs/pinia/commit/4640f09d12094d8c2c2d9d2039b4479fd7d38d35))
+
 ## [2.1.6](https://github.com/vuejs/pinia/compare/pinia@2.1.5...pinia@2.1.6) (2023-07-26)
 
 ### Bug Fixes

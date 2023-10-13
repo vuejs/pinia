@@ -1,3 +1,18 @@
+# [0.5.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.11...@pinia/nuxt@0.5.0) (2023-10-13)
+
+### Features
+
+- **imports:** add storeDirs auto import ([70a95ba](https://github.com/vuejs/pinia/commit/70a95ba9b1d6a55aeea72088dfedd478aa4db766)), closes [#1604](https://github.com/vuejs/pinia/issues/1604)
+
+### BREAKING CHANGES
+
+- **imports:** the option `autoImports` has been removed as it offered  
+  no value compared to the existing `imports` option in Nuxt. Instead, we
+  are automatically adding `defineStore()`, and `acceptHMRUpdate()` to the
+  list of auto imported functions. We are also adding the `./stores` dirs
+  to auto imports now, so if you were manually adding that option, it can
+  be removed.
+
 ## [0.4.11](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.4.10...@pinia/nuxt@0.4.11) (2023-05-17)
 
 This release only contains build related changes
