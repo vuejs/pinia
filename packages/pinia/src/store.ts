@@ -964,3 +964,17 @@ export function defineStore(
 
   return useStore
 }
+
+/**
+ * Return type of `defineStore()` with a setup function.
+ * - `Id` is a string literal of the store's name
+ * - `SS` is the return type of the setup function
+ * @see {@link StoreDefinition}
+ */
+export interface SetupStoreDefinition<Id extends string, SS>
+  extends StoreDefinition<
+    Id,
+    _ExtractStateFromSetupStore<SS>,
+    _ExtractGettersFromSetupStore<SS>,
+    _ExtractActionsFromSetupStore<SS>
+  > {}

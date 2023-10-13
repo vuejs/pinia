@@ -1,6 +1,7 @@
-import { StoreDefinition } from './'
-import { computed, ref } from 'vue'
+import { ComputedRef, Ref, computed, ref } from 'vue'
 import {
+  StoreDefinition,
+  SetupStoreDefinition,
   StoreState,
   StoreGetters,
   StoreActions,
@@ -60,10 +61,26 @@ expectType<{ n: number }>(storeState(useOptionsStore))
 
 expectType<{ double: number }>(storeGetters(useOptionsStore))
 
-expectType<{ n: number }>(
-  storeState(
-    defineStore('', {
-      state: () => ({ n: ref(0) }),
-    })
-  )
+expectType<
+  SetupStoreDefinition<
+    'a',
+    {
+      n: Ref<number>
+      double: ComputedRef<number>
+      increment: () => void
+    }
+  >
+>(
+  defineStore('a', () => {
+    const n = ref(0)
+    const double = computed(() => n.value * 2)
+    function increment() {
+      n.value++
+    }
+    return {
+      double,
+      increment,
+      n,
+    }
+  })
 )
