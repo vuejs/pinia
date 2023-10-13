@@ -8,7 +8,7 @@
   "scripts": {
     "release": "node scripts/release.mjs",
     "size": "pnpm run -r size",
-    "build": "pnpm run -r build",
+    "build": "pnpm run -C packages/pinia build && pnpm run -C packages/nuxt build && pnpm run -C packages/testing build",
     "docs": "pnpm run docs:api && pnpm run --filter ./packages/docs -r docs:build",
     "play": "pnpm run -r play",
     "build:dts": "pnpm run -r --parallel build:dts",
