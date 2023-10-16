@@ -9,7 +9,7 @@ You need to add this snippet of code next to any store declaration. Let's say yo
 // auth.js
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
-const useAuth = defineStore('auth', {
+export const useAuth = defineStore('auth', {
   // options...
 })
 

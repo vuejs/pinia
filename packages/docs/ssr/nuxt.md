@@ -61,22 +61,26 @@ const { data } = await useAsyncData('user', () => store.fetchUser())
 
 ## Auto imports
 
-By default `@pinia/nuxt` exposes one single auto import: `usePinia()`, which is similar to `getActivePinia()` but works better with Nuxt. You can add auto imports to make your life easier:
+By default `@pinia/nuxt` exposes a few auto imports:
 
-```js
-// nuxt.config.js
+- `usePinia()`, which is similar to `getActivePinia()` but works better with Nuxt. You can add auto imports to make your life easier:
+- `defineStore()`
+- `acceptHMRUpdate()` for [hot module replacement](../cookbook/hot-module-replacement.md)
+
+It also automatically imports **all stores** defined withing your `stores` folder. It doesn't lookup for nested stores though. You can customize this behavior by setting the `storeDirs` option:
+
+```ts
+// nuxt.config.ts
 export default defineNuxtConfig({
   // ... other options
   modules: ['@pinia/nuxt'],
   pinia: {
-    autoImports: [
-      // automatically imports `defineStore`
-      'defineStore', // import { defineStore } from 'pinia'
-      ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
-    ],
+    storeDirs: ['./stores/**', './custom-folder/stores/**'],
   },
 })
 ```
+
+Note the folders are relative to the root of your project. If you change the `srcDir` option, you need to adapt the paths accordingly.
 
 ## Nuxt 2 without bridge
 
