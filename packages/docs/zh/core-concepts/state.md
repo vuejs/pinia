@@ -93,6 +93,22 @@ const store = useStore()
 store.$reset()
 ```
 
+在 `$reset()` 内部，会调用 `state()` 函数来创建一个新的状态对象，并用它替换当前状态。
+
+在 [Setup Stores](/core-concepts/index.md#setup-stores) 中，您需要创建自己的 `$reset()` 方法：
+
+```ts
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+
+  function $reset() {
+    count.value = 0
+  }
+
+  return { count, $reset }
+})
+```
+
 ### 使用选项式 API 的用法 %{#usage-with-the-options-api}%
 
 <VueSchoolLink
