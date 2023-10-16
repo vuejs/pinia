@@ -152,7 +152,10 @@ function createOptionsStore<
     if (!initialState && (!__DEV__ || !hot)) {
       /* istanbul ignore if */
       if (isVue2) {
+        const store = pinia._s.get(id)
         set(pinia.state.value, id, state ? state() : {})
+        // @ts-ignore: internal method
+        store?._s?.on();
       } else {
         pinia.state.value[id] = state ? state() : {}
       }
@@ -415,7 +418,6 @@ function createSetupStore<
 
   const partialStore = {
     _p: pinia,
-    // _s: scope,
     $id,
     $onAction: addSubscription.bind(null, actionSubscriptions),
     $patch,
@@ -479,9 +481,13 @@ function createSetupStore<
     (pinia._a && pinia._a.runWithContext) || fallbackRunWithContext
 
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
-  const setupStore = runWithContext(() =>
-    pinia._e.run(() => (scope = effectScope()).run(setup)!)
-  )!
+  const setupStore = runWithContext(() => {
+    return pinia._e.run(() => {
+      scope = effectScope()
+      store._s = scope
+      return scope.run(setup)
+    });
+  })!
 
   // overwrite existing actions to support $onAction
   for (const key in setupStore) {

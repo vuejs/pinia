@@ -1,6 +1,7 @@
 import type {
   ComputedRef,
   DebuggerEvent,
+  EffectScope,
   Ref,
   UnwrapRef,
   WatchOptions,
@@ -423,6 +424,7 @@ export interface _StoreWithState<
    * @internal
    */
   _r?: boolean
+  _s?: EffectScope
 }
 
 /**
