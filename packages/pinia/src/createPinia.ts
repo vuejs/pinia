@@ -63,3 +63,18 @@ export function createPinia(): Pinia {
 
   return pinia
 }
+
+/**
+ * Dispose a Pinia instance by stopping its effectScope and removing the state, plugins and stores. This is mostly
+ * useful in tests, with both a testing pinia or a regular pinia and in applications that use multiple pinia instances.
+ *
+ * @param pinia - pinia instance
+ */
+export function disposePinia(pinia: Pinia) {
+  pinia._e.stop()
+  pinia._s.clear()
+  pinia._p.splice(0)
+  pinia.state.value = {}
+  // @ts-expect-error: non valid
+  pinia._a = null
+}

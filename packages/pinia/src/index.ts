@@ -2,7 +2,7 @@
  * @module pinia
  */
 export { setActivePinia, getActivePinia } from './rootStore'
-export { createPinia } from './createPinia'
+export { createPinia, disposePinia } from './createPinia'
 export type {
   Pinia,
   // TODO: remove in next release
