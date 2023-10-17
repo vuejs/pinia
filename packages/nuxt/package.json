@@ -55,7 +55,7 @@
     "@nuxt/test-utils": "^3.5.0",
     "nuxt": "^3.5.0",
     "typescript": "^5.0.4",
-    "vue-tsc": "^1.6.5"
+    "vue-tsc": "^1.8.19"
   },
   "publishConfig": {
     "access": "public"
