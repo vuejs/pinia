@@ -182,7 +182,7 @@ function createOptionsStore<
             const store = pinia._s.get(id)!
 
             // allow cross using stores
-            /* istanbul ignore next */
+            /* istanbul ignore if */
             if (isVue2 && !store._r) return
 
             // @ts-expect-error
