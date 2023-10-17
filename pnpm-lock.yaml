@@ -194,8 +194,8 @@ importers:
         specifier: ^2.6.14 || ^3.3.0
         version: 3.3.4
       vue-demi:
-        specifier: ^0.14.6
-        version: 0.14.6(vue@3.3.4)
+        specifier: '>=0.14.6'
+        version: 0.14.6(@vue/composition-api@1.4.0)(vue@3.3.4)
     devDependencies:
       '@microsoft/api-extractor':
         specifier: 7.34.4
@@ -235,7 +235,7 @@ importers:
   packages/size-check:
     dependencies:
       pinia:
-        specifier: workspace:^2.0.18
+        specifier: workspace:*
         version: link:../pinia
     devDependencies:
       brotli-wasm:
@@ -248,8 +248,8 @@ importers:
   packages/testing:
     dependencies:
       vue-demi:
-        specifier: ^0.14.6
-        version: 0.14.6(vue@3.3.4)
+        specifier: '>=0.14.6'
+        version: 0.14.6(@vue/composition-api@1.4.0)(vue@3.3.4)
     devDependencies:
       pinia:
         specifier: workspace:^2.0.18
@@ -2442,7 +2442,7 @@ packages:
       '@types/web-bluetooth': 0.0.17
       '@vueuse/metadata': 10.3.0
       '@vueuse/shared': 10.3.0(vue@3.3.4)
-      vue-demi: 0.14.6(vue@3.3.4)
+      vue-demi: 0.14.6(@vue/composition-api@1.4.0)(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -2454,7 +2454,7 @@ packages:
       '@types/web-bluetooth': 0.0.18
       '@vueuse/metadata': 10.5.0
       '@vueuse/shared': 10.5.0(vue@3.3.4)
-      vue-demi: 0.14.6(vue@3.3.4)
+      vue-demi: 0.14.6(@vue/composition-api@1.4.0)(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -2504,7 +2504,7 @@ packages:
       '@vueuse/core': 10.3.0(vue@3.3.4)
       '@vueuse/shared': 10.3.0(vue@3.3.4)
       focus-trap: 7.5.2
-      vue-demi: 0.14.6(vue@3.3.4)
+      vue-demi: 0.14.6(@vue/composition-api@1.4.0)(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -2521,7 +2521,7 @@ packages:
   /@vueuse/shared@10.3.0(vue@3.3.4):
     resolution: {integrity: sha512-kGqCTEuFPMK4+fNWy6dUOiYmxGcUbtznMwBZLC1PubidF4VZY05B+Oht7Jh7/6x4VOWGpvu3R37WHi81cKpiqg==}
     dependencies:
-      vue-demi: 0.14.6(vue@3.3.4)
+      vue-demi: 0.14.6(@vue/composition-api@1.4.0)(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -2530,7 +2530,7 @@ packages:
   /@vueuse/shared@10.5.0(vue@3.3.4):
     resolution: {integrity: sha512-18iyxbbHYLst9MqU1X1QNdMHIjks6wC7XTVf0KNOv5es/Ms6gjVFCAAWTVP2JStuGqydg3DT+ExpFORUEi9yhg==}
     dependencies:
-      vue-demi: 0.14.6(vue@3.3.4)
+      vue-demi: 0.14.6(@vue/composition-api@1.4.0)(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -8153,7 +8153,7 @@ packages:
     resolution: {integrity: sha512-6bnLkn8O0JJyiFSIF0EfCogzeqNXpnjJ0vW/SZzNHfe6sPx30lTtTXlE5TFs2qhJlAtDFybStVNpL73cPe3OMQ==}
     dev: true
 
-  /vue-demi@0.14.6(vue@3.3.4):
+  /vue-demi@0.14.6(@vue/composition-api@1.4.0)(vue@3.3.4):
     resolution: {integrity: sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w==}
     engines: {node: '>=12'}
     hasBin: true
@@ -8165,6 +8165,7 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
+      '@vue/composition-api': 1.4.0(vue@3.3.4)
       vue: 3.3.4
     dev: false
 
@@ -8182,7 +8183,7 @@ packages:
         optional: true
     dependencies:
       vue: 3.3.4
-      vue-demi: 0.14.6(vue@3.3.4)
+      vue-demi: 0.14.6(@vue/composition-api@1.4.0)(vue@3.3.4)
     dev: false
 
   /vue-router@4.2.0(vue@3.3.4):
