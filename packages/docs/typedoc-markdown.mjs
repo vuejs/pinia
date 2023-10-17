@@ -1,8 +1,9 @@
 // @ts-check
-const fs = require('node:fs/promises')
-const path = require('node:path')
-const TypeDoc = require('typedoc')
-const { PageEvent } = TypeDoc
+import fs from 'node:fs/promises'
+import path from 'node:path'
+import { Application, TSConfigReader, PageEvent } from 'typedoc'
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
 const DEFAULT_OPTIONS = {
   // disableOutputCheck: true,
@@ -13,35 +14,29 @@ const DEFAULT_OPTIONS = {
   entryDocument: 'index.md',
   hideBreadcrumbs: false,
   hideInPageTOC: true,
+  preserveAnchorCasing: true,
 }
 
 /**
  *
  * @param {Partial<import('typedoc').TypeDocOptions>} config
  */
-exports.createTypeDocApp = function createTypeDocApp(config = {}) {
+export async function createTypeDocApp(config = {}) {
   const options = {
     ...DEFAULT_OPTIONS,
     ...config,
   }
 
-  const app = new TypeDoc.Application()
+  const app = await Application.bootstrapWithPlugins(options)
 
   // If you want TypeDoc to load tsconfig.json / typedoc.json files
-  app.options.addReader(new TypeDoc.TSConfigReader())
-  // app.options.addReader(new TypeDoc.TypeDocReader())
-
-  /** @type {'build' | 'serve'} */
-  let targetMode = 'build'
-
-  const slugify = (s) => s.replaceAll(' ', '-')
-  // encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'))
+  app.options.addReader(new TSConfigReader())
 
   app.renderer.on(
     PageEvent.END,
     /**
      *
-     * @param {import('typedoc/dist/lib/output/events').PageEvent} page
+     * @param {import('typedoc').PageEvent} page
      */
     (page) => {
       if (!page.contents) {
@@ -55,7 +50,6 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
   )
 
   async function serve() {
-    await app.bootstrapWithPlugins(options)
     app.convertAndWatch(handleProject)
   }
 
@@ -66,17 +60,13 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
     ) {
       await fs.rm(options.out, { recursive: true })
     }
-    await app.bootstrapWithPlugins(options)
-    const project = app.convert()
-    if (!project) {
-      throw new Error('No project')
-    }
+    const project = await app.convert()
     return handleProject(project)
   }
 
   /**
    *
-   * @param {import('typedoc').ProjectReflection} project
+   * @param {import('typedoc').ProjectReflection | undefined} project
    */
   async function handleProject(project) {
     if (project) {
@@ -95,13 +85,6 @@ exports.createTypeDocApp = function createTypeDocApp(config = {}) {
   return {
     build,
     serve,
-    /**
-     *
-     * @param {'build' | 'serve'} command
-     */
-    setTargetMode(command) {
-      targetMode = command
-    },
   }
 }
 

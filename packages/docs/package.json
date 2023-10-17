@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "docs": "vitepress dev .",
-    "docs:api": "node run-typedoc.cjs",
+    "docs:api": "node run-typedoc.mjs",
     "docs:build": "vitepress build ."
   },
   "dependencies": {

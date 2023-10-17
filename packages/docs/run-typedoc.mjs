@@ -1,10 +1,13 @@
-const { createTypeDocApp } = require('./typedoc-markdown.cjs')
-const path = require('path')
+import path from 'node:path'
+import { createTypeDocApp } from './typedoc-markdown.mjs'
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname)
 
 createTypeDocApp({
   name: 'API Documentation',
   tsconfig: path.resolve(__dirname, './typedoc.tsconfig.json'),
   // entryPointStrategy: 'packages',
+  categorizeByGroup: true,
   githubPages: false,
   disableSources: true,
   plugin: ['typedoc-plugin-markdown'],
@@ -13,4 +16,4 @@ createTypeDocApp({
     path.resolve(__dirname, '../testing/src/index.ts'),
     path.resolve(__dirname, '../nuxt/src/module.ts'),
   ],
-}).build()
+}).then((app) => app.build())
