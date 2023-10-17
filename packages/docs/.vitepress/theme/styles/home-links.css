@@ -30,6 +30,7 @@ a.cta.mastering-pinia {
   white-space: pre;
   min-height: 41px;
   position: relative;
+  background-color: var(--c-black);
 }
 a.cta.mastering-pinia::before {
   content: '';
