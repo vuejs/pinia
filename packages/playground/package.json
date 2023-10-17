@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.5.0",
-    "mande": "^1.0.1",
+    "mande": "^2.0.8",
     "pinia": "workspace:^2.0.18",
     "swrv": "^1.0.4",
     "vue-promised": "^2.2.0",
