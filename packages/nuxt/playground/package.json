@@ -1,4 +1,6 @@
 {
   "private": true,
+  "type": "module",
+  "main": "fake-main.js",
   "name": "pinia-nuxt-playground"
 }

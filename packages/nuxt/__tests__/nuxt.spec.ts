@@ -2,12 +2,15 @@
  * @vitest-env node
  */
 import { fileURLToPath } from 'node:url'
+import path from 'node:path'
 import { describe, it, expect } from 'vitest'
 import { setup, $fetch } from '@nuxt/test-utils'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
 await setup({
   server: true,
-  rootDir: fileURLToPath(new URL('../playground', import.meta.url)),
+  rootDir: path.join(__dirname, '../playground'),
   nuxtConfig: {
     hooks: {
       'vite:extendConfig'(config, { isClient }) {
