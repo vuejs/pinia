@@ -1,9 +1,10 @@
-import fs from 'fs'
+// @ts-check
+import fs from 'node:fs'
 import { globby } from 'globby'
-import path from 'path'
+import path from 'node:path'
 import chalk from 'chalk'
-import { gzipSync } from 'zlib'
-import { fileURLToPath } from 'url'
+import { gzipSync } from 'node:zlib'
+import { fileURLToPath } from 'node:url'
 import { compress } from 'brotli-wasm'
 
 const __filename = fileURLToPath(import.meta.url)
