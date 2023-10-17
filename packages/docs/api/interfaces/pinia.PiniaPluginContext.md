@@ -15,9 +15,9 @@ Context argument passed to Pinia plugins.
 | Name | Type |
 | :------ | :------ |
 | `Id` | extends `string` = `string` |
-| `S` | extends [`StateTree`](../modules/pinia.md#statetree) = [`StateTree`](../modules/pinia.md#statetree) |
-| `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
-| `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
+| `S` | extends [`StateTree`](../modules/pinia.md#StateTree) = [`StateTree`](../modules/pinia.md#StateTree) |
+| `G` | [`_GettersTree`](../modules/pinia.md#_GettersTree)<`S`\> |
+| `A` | [`_ActionsTree`](../modules/pinia.md#_ActionsTree) |
 
 ## Properties
 
@@ -47,6 +47,6 @@ ___
 
 ### store
 
-• **store**: [`Store`](../modules/pinia.md#store)<`Id`, `S`, `G`, `A`\>
+• **store**: [`Store`](../modules/pinia.md#Store)<`Id`, `S`, `G`, `A`\>
 
 Current store being extended.

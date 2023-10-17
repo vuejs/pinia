@@ -15,7 +15,7 @@ Base store with state and functions. Should not be used directly.
 | Name | Type |
 | :------ | :------ |
 | `Id` | extends `string` |
-| `S` | extends [`StateTree`](../modules/pinia.md#statetree) |
+| `S` | extends [`StateTree`](../modules/pinia.md#StateTree) |
 | `G` | `G` |
 | `A` | `A` |
 
@@ -57,7 +57,7 @@ that should be displayed in devtools.
 
 #### Inherited from
 
-[StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#_customproperties)
+[StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#_customProperties)
 
 ## Methods
 
@@ -100,7 +100,7 @@ up when the component gets unmounted unless `detached` is set to true.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `callback` | [`StoreOnActionListener`](../modules/pinia.md#storeonactionlistener)<`Id`, `S`, `G`, `A`\> | callback called before every action |
+| `callback` | [`StoreOnActionListener`](../modules/pinia.md#StoreOnActionListener)<`Id`, `S`, `G`, `A`\> | callback called before every action |
 | `detached?` | `boolean` | detach the subscription from the context this is called from |
 
 #### Returns
@@ -177,7 +177,7 @@ Applies a state patch to current state. Allows passing nested values
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `partialState` | [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`UnwrapRef`<`S`\>\> | patch to apply to the state |
+| `partialState` | [`_DeepPartial`](../modules/pinia.md#_DeepPartial)<`UnwrapRef`<`S`\>\> | patch to apply to the state |
 
 #### Returns
 
@@ -232,7 +232,7 @@ component gets unmounted unless `detached` is set to true.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `callback` | [`SubscriptionCallback`](../modules/pinia.md#subscriptioncallback)<`S`\> | callback passed to the watcher |
+| `callback` | [`SubscriptionCallback`](../modules/pinia.md#SubscriptionCallback)<`S`\> | callback passed to the watcher |
 | `options?` | { `detached?`: `boolean`  } & `WatchOptions`<`boolean`\> | `watch` options + `detached` to detach the subscription from the context (usually a component) this is called from. Note that the `flush` option does not affect calls to `store.$patch()`. |
 
 #### Returns

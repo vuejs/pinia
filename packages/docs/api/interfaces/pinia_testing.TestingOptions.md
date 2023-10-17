@@ -59,7 +59,7 @@ ___
 
 ### initialState
 
-• `Optional` **initialState**: [`StateTree`](../modules/pinia.md#statetree)
+• `Optional` **initialState**: [`StateTree`](../modules/pinia.md#StateTree)
 
 Allows defining a partial initial state of all your stores. This state gets applied after a store is created,
 allowing you to only set a few properties that are required in your test.

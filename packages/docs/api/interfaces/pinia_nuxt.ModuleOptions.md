@@ -33,4 +33,4 @@ also import nested stores, you can use the glob pattern `./stores/**`
 
 **`Default`**
 
-`['./stores']`
+`['stores']`
