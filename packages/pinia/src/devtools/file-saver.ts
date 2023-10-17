@@ -90,8 +90,7 @@ function click(node: Element) {
   }
 }
 
-const _navigator =
-  /*#__PURE__*/ typeof navigator === 'object' ? navigator : { userAgent: '' }
+const _navigator = typeof navigator === 'object' ? navigator : { userAgent: '' }
 
 // Detect WebView inside a native macOS app by ruling out all browsers
 // We just need to check for 'Safari' because all other browsers (besides Firefox) include that too
