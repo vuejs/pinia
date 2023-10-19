@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import {
   createPinia,
   defineStore,
+  disposePinia,
   getActivePinia,
   setActivePinia,
 } from '../src'
@@ -167,5 +168,27 @@ describe('Store Lifespan', () => {
     expect(globalWatch).toHaveBeenCalledTimes(4)
 
     destroy()
+  })
+
+  it('dispose stops store reactivity', () => {
+    const n = ref(0)
+    const pinia = createPinia()
+    setActivePinia(pinia)
+    const inStoreWatch = vi.fn()
+
+    const useStore = defineStore('a', () => {
+      watch(n, inStoreWatch, {
+        flush: 'sync',
+      })
+      return { n }
+    })
+
+    const store = useStore()
+    store.n++
+    expect(inStoreWatch).toHaveBeenCalledTimes(1)
+
+    disposePinia(pinia)
+    store.n++
+    expect(inStoreWatch).toHaveBeenCalledTimes(1)
   })
 })
