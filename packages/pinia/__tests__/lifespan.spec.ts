@@ -68,7 +68,7 @@ describe('Store Lifespan', () => {
     expect(getActivePinia()).toBe(pinia)
   })
 
-  it('state reactivity outlives component life', async () => {
+  it('state reactivity outlives component life', () => {
     const useStore = defineMyStore()
 
     const inComponentWatch = vi.fn()
@@ -77,7 +77,9 @@ describe('Store Lifespan', () => {
       render: () => null,
       setup() {
         const store = useStore()
-        watch(() => store.n, inComponentWatch)
+        watch(() => store.n, inComponentWatch, {
+          flush: 'sync',
+        })
         onMounted(() => {
           store.n++
         })
@@ -91,28 +93,21 @@ describe('Store Lifespan', () => {
     }
 
     let wrapper = mount(Component, options)
-    await nextTick()
-
     wrapper.unmount()
-    await nextTick()
 
     expect(inComponentWatch).toHaveBeenCalledTimes(1)
 
     let store = useStore()
     store.n++
-    await nextTick()
     expect(inComponentWatch).toHaveBeenCalledTimes(1)
 
     wrapper = mount(Component, options)
-    await nextTick()
     wrapper.unmount()
-    await nextTick()
 
     expect(inComponentWatch).toHaveBeenCalledTimes(2)
 
     store = useStore()
     store.n++
-    await nextTick()
     expect(inComponentWatch).toHaveBeenCalledTimes(2)
   })
 
