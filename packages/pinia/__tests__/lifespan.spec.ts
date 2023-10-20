@@ -166,12 +166,12 @@ describe('Store Lifespan', () => {
   })
 
   it('dispose stops store reactivity', () => {
-    const n = ref(0)
     const pinia = createPinia()
     setActivePinia(pinia)
     const inStoreWatch = vi.fn()
 
     const useStore = defineStore('a', () => {
+      const n = ref(0)
       watch(n, inStoreWatch, {
         flush: 'sync',
       })
