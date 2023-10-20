@@ -2,7 +2,7 @@
 
 ### Bug Fixes
 
-- **nuxt:** use srcDir by default for storeDirs ([dd90708](https://github.com/vuejs/pinia/commit/dd907089a688742d609bfd24c182cb7b6d6df375)), closes [#2447](https://github.com/vuejs/pinia/issues/2447)
+- **nuxt:** use srcDir by default for storesDirs ([dd90708](https://github.com/vuejs/pinia/commit/dd907089a688742d609bfd24c182cb7b6d6df375)), closes [#2447](https://github.com/vuejs/pinia/issues/2447)
 
 ### Features
 
@@ -12,7 +12,7 @@
 
 ### Features
 
-- **imports:** add storeDirs auto import ([70a95ba](https://github.com/vuejs/pinia/commit/70a95ba9b1d6a55aeea72088dfedd478aa4db766)), closes [#1604](https://github.com/vuejs/pinia/issues/1604)
+- **imports:** add storesDirs auto import ([70a95ba](https://github.com/vuejs/pinia/commit/70a95ba9b1d6a55aeea72088dfedd478aa4db766)), closes [#1604](https://github.com/vuejs/pinia/issues/1604)
 
 ### BREAKING CHANGES
 
