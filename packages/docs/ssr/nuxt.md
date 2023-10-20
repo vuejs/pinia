@@ -76,7 +76,7 @@ export default defineNuxtConfig({
   // ... other options
   modules: ['@pinia/nuxt'],
   pinia: {
-    storeDirs: ['./stores/**', './custom-folder/stores/**'],
+    storesDirs: ['./stores/**', './custom-folder/stores/**'],
   },
 })
 ```
