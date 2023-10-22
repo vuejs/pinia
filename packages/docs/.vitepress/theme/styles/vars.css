@@ -62,7 +62,6 @@ html.dark:root {
   --vp-c-brand-1: var(--c-yellow-1);
   --vp-c-brand-2: var(--c-yellow-2);
   --vp-c-brand-3: var(--c-yellow-3);
-  --vp-c-brand-soft: var(--c-yellow-soft-1);
 
   --vp-c-bg-alpha-with-backdrop: rgba(20, 25, 36, 0.7);
   --vp-c-bg-alpha-without-backdrop: rgba(20, 25, 36, 0.9);
