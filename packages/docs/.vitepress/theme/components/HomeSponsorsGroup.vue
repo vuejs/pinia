@@ -33,13 +33,15 @@ import sponsors from './sponsors.json'
 import { computed } from 'vue'
 import { useData } from 'vitepress'
 
-interface Props {
-  name: 'Gold' | 'Platinum' | 'Silver' | 'Bronze'
-  size?: number | string
-}
-const props = withDefaults(defineProps<Props>(), {
-  size: 140,
-})
+const props = withDefaults(
+  defineProps<{
+    name: 'Gold' | 'Platinum' | 'Silver' | 'Bronze'
+    size?: number | string
+  }>(),
+  {
+    size: 140,
+  }
+)
 
 const { isDark } = useData()
 
