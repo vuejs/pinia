@@ -95,6 +95,10 @@ html.dark:root {
   );
 }
 
+html.dark .DocSearch {
+  --docsearch-hit-active-color: var(--c-text-light-1);
+}
+
 /**
  * Component: Button
  * -------------------------------------------------------------------------- */
