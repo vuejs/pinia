@@ -110,7 +110,7 @@ export const sharedConfig = defineConfig({
     outline: [2, 3],
 
     socialLinks: [
-      { icon: 'x', link: 'https://x.com/posva' },
+      { icon: 'x', link: 'https://twitter.com/posva' },
       {
         icon: 'github',
         link: 'https://github.com/vuejs/pinia',
