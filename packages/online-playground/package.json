@@ -11,7 +11,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.4.0",
     "execa": "^8.0.1",
-    "vite": "^4.4.11"
+    "vite": "^4.5.0"
   },
   "dependencies": {
     "@vue/repl": "^2.5.8",
