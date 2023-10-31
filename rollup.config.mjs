@@ -172,23 +172,29 @@ function createReplacePlugin(
   isGlobalBuild,
   isNodeBuild
 ) {
+  const __DEV__ =
+    (isBundlerESMBuild && !isRawESMBuild) || (isNodeBuild && !isProduction)
+      ? // preserve to be handled by bundlers
+        `(process.env.NODE_ENV !== 'production')`
+      : // hard coded dev/prod builds
+        JSON.stringify(!isProduction)
+  const __FEATURE_PROD_DEVTOOLS__ = isBundlerESMBuild
+    ? `(typeof __VUE_PROD_DEVTOOLS__ !== 'undefined' && __VUE_PROD_DEVTOOLS__)`
+    : 'false'
+
+  const __TEST__ =
+    (isBundlerESMBuild && !isRawESMBuild) || isNodeBuild
+      ? `(process.env.NODE_ENV === 'test')`
+      : 'false'
+
   const replacements = {
     __COMMIT__: `"${process.env.COMMIT}"`,
     __VERSION__: `"${pkg.version}"`,
-    __DEV__:
-      (isBundlerESMBuild && !isRawESMBuild) || (isNodeBuild && !isProduction)
-        ? // preserve to be handled by bundlers
-          `(process.env.NODE_ENV !== 'production')`
-        : // hard coded dev/prod builds
-          JSON.stringify(!isProduction),
+    __USE_DEVTOOLS__: `((${__DEV__} || ${__FEATURE_PROD_DEVTOOLS__}) && !${__TEST__})`,
+    __DEV__,
     // this is only used during tests
-    __TEST__:
-      (isBundlerESMBuild && !isRawESMBuild) || isNodeBuild
-        ? `(process.env.NODE_ENV === 'test')`
-        : 'false',
-    __FEATURE_PROD_DEVTOOLS__: isBundlerESMBuild
-      ? `(typeof __VUE_PROD_DEVTOOLS__ !== 'undefined' && __VUE_PROD_DEVTOOLS__)`
-      : 'false',
+    __TEST__,
+    __FEATURE_PROD_DEVTOOLS__,
     // If the build is expected to run directly in the browser (global / esm builds)
     __BROWSER__: JSON.stringify(isRawESMBuild),
     // is targeting bundlers?

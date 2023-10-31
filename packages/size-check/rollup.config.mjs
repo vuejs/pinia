@@ -5,6 +5,7 @@ import replace from '@rollup/plugin-replace'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import terser from '@rollup/plugin-terser'
+import alias from '@rollup/plugin-alias'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -21,13 +22,22 @@ export default config
  */
 function createConfig(file) {
   return {
-    external: ['vue'],
+    external: [
+      'vue',
+      // this is left to test things
+      // '@vue/devtools-api'
+    ],
     output: {
       file: resolve(__dirname, `./dist/${file}.js`),
-      format: 'es',
+      format: 'esm',
     },
     input: resolve(__dirname, `./src/${file}.js`),
     plugins: [
+      alias({
+        entries: {
+          pinia: resolve(__dirname, '../pinia/dist/pinia.mjs'),
+        },
+      }),
       replace({
         preventAssignment: true,
         values: {
@@ -66,7 +76,7 @@ function createConfig(file) {
         },
         module: true,
         compress: {
-          ecma: 2015,
+          ecma: 2019,
           pure_getters: true,
         },
       }),

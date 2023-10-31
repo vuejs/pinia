@@ -1,6 +1,7 @@
 {
   "name": "@pinia/size-check",
   "private": true,
+  "type": "module",
   "description": "size checks",
   "version": "0.0.0",
   "scripts": {
@@ -13,6 +14,6 @@
     "zlib": "^1.0.5"
   },
   "dependencies": {
-    "pinia": "workspace:^2.0.18"
+    "pinia": "workspace:*"
   }
 }

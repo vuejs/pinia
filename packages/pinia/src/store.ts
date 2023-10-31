@@ -48,7 +48,7 @@ import {
   _StoreWithState,
 } from './types'
 import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
-import { IS_CLIENT, USE_DEVTOOLS } from './env'
+import { IS_CLIENT } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
 
@@ -379,7 +379,7 @@ function createSetupStore<
         onError,
       })
 
-      let ret: any
+      let ret: unknown
       try {
         ret = action.apply(this && this.$id === $id ? this : store, args)
         // handle sync errors
@@ -458,7 +458,7 @@ function createSetupStore<
   }
 
   const store: Store<Id, S, G, A> = reactive(
-    __DEV__ || USE_DEVTOOLS
+    __DEV__ || (__USE_DEVTOOLS__ && IS_CLIENT)
       ? assign(
           {
             _hmrPayload,
@@ -668,7 +668,7 @@ function createSetupStore<
     })
   }
 
-  if (USE_DEVTOOLS) {
+  if (__USE_DEVTOOLS__ && IS_CLIENT) {
     const nonEnumerable = {
       writable: true,
       configurable: true,
@@ -697,7 +697,7 @@ function createSetupStore<
   // apply all plugins
   pinia._p.forEach((extender) => {
     /* istanbul ignore else */
-    if (USE_DEVTOOLS) {
+    if (__USE_DEVTOOLS__ && IS_CLIENT) {
       const extensions = scope.run(() =>
         extender({
           store: store as Store,
