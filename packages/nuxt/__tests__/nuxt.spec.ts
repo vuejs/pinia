@@ -22,6 +22,7 @@ await setup({
         __DEV__: false,
         __TEST__: true,
         __FEATURE_PROD_DEVTOOLS__: false,
+        __USE_DEVTOOLS__: false,
       },
     },
   },

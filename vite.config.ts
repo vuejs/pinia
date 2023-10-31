@@ -6,6 +6,7 @@ export default defineConfig({
     __DEV__: true,
     __TEST__: true,
     __BROWSER__: true,
+    __USE_DEVTOOLS__: false,
   },
   resolve: {
     alias: [
