@@ -38,10 +38,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "pnpm dev:prepare && nuxt-module-build",
+    "build": "pnpm run prepare && nuxt-module-build build",
+    "prepare": "nuxt-module-build prepare && nuxi prepare playground",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "dev:prepare": "nuxt-module-build build --stub . && nuxi prepare playground",
     "test:types": "pnpm dev:prepare && nuxi typecheck",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/nuxt -r 1"
   },
