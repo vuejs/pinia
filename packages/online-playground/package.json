@@ -14,10 +14,10 @@
     "vite": "^4.5.0"
   },
   "dependencies": {
-    "@vue/repl": "^2.5.8",
+    "@vue/repl": "^2.6.1",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "pinia": "workspace:*",
-    "vue": "^3.3.4"
+    "vue": "^3.3.7"
   }
 }
