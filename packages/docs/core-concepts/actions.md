@@ -54,7 +54,7 @@ export const useUsers = defineStore('users', {
 
 You are also completely free to set whatever arguments you want and return anything. When calling actions, everything will be automatically inferred!
 
-Actions are invoked like function or regular methods:
+Actions are invoked like regular functions and methods:
 
 ```vue
 <script setup>
