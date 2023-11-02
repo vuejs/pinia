@@ -29,13 +29,7 @@
       "imgSrcLight": "https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4"
     },
     {
-      "href": "https://storyblok.com",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/storyblok.png",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/storyblok.png",
-      "alt": "Storyblok"
-    },
-    {
-      "href": "https://nuxtjs.org",
+      "href": "https://nuxtlabs.com",
       "imgSrcLight": "https://posva-sponsors.pages.dev/logos/nuxt-light.svg",
       "imgSrcDark": "https://posva-sponsors.pages.dev/logos/nuxt-dark.svg",
       "alt": "Nuxt Labs"
