@@ -58,7 +58,6 @@ export function createPinia(): Pinia {
   // pinia devtools rely on dev only features so they cannot be forced unless
   // the dev build of Vue is used. Avoid old browsers like IE11.
   if (__USE_DEVTOOLS__ && typeof Proxy !== 'undefined') {
-    console.log('GREP blank')
     pinia.use(devtoolsPlugin)
   }
 
