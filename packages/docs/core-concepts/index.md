@@ -124,6 +124,7 @@ Note that `store` is an object wrapped with `reactive`, meaning there is no need
 
 ```vue
 <script setup>
+import { useCounterStore } from '@/stores/counter'
 const store = useCounterStore()
 // ❌ This won't work because it breaks reactivity
 // it's the same as destructuring from `props`
@@ -147,6 +148,7 @@ In order to extract properties from the store while keeping its reactivity, you 
 
 ```vue
 <script setup>
+import { useCounterStore } from '@/stores/counter'
 import { storeToRefs } from 'pinia'
 
 const store = useCounterStore()
