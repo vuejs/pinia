@@ -9,7 +9,6 @@ import {
 import {
   StateTree,
   PiniaCustomProperties,
-  _Method,
   Store,
   _GettersTree,
   _ActionsTree,

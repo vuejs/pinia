@@ -6,7 +6,6 @@ import {
   StoreDefinition,
   StoreGeneric,
   _GettersTree,
-  _Method,
   _ActionsTree,
 } from './types'
 

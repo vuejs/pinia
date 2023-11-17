@@ -1,7 +1,6 @@
 import type { ComponentPublicInstance } from 'vue-demi'
 import type {
   _GettersTree,
-  _Method,
   StateTree,
   Store,
   StoreDefinition,
