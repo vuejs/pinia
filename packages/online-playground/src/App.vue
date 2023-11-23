@@ -60,6 +60,8 @@ provide(PiniaVersionKey, piniaVersion)
 //     piniaVersion.value === 'latest' ? '^2.1.0' : piniaVersion.value
 // })
 
+// FIXME: use a CDN that can fix the sub deps: https://play.pinia.vuejs.org/#eNp9VMFy2jAQ/RWNL8AEJJikOTCQuu3kkB7aTtOjL8ZeQMReaaQ1YYbxv3ctg0MI5GR79+3bt09a76Nv1sptBdE0mvnMaUvCA1VWFCmu5klEPokeEtSlNY7EXlQensk4ELVYOlOKnlSZqZDASfK9BBPMDHomCaB5h+8PEpyptgPz8QdBaYuUgL+EmC0qIoMizgqdvXDfUC/x5obbP2HmoATk/vuWWKKo65lqi5hgpjq2aBi1YkdlauXGG+TR9k2P5JDgiaYiRJqY1ajTJpJEKrxL8OVo4cyr55k2DB4eoTH7pHLYkjGFH6VWt2VrIuunSnGd9Gv1ARXfyy9yogq9aCBKYw67j8RsFDvp4CrnERBPxsw3/pqD9XOOj3IodTyWkzt5f8J5zFzkOyvruOJbeSvv3rNcI7iEVezZFtzIAQ/pwF036Ax4JGu46gRrPkXyfJOWenV2hpkprS7A/bak+aa9O8u0KMzrzxAjV0GnLFtD9nIhvvG7VuEfB0HQyTSUuhVQm358/gU7fu+Spcmr4uDMleRf8KaoGo0t7HuFOcs+wQW1T+FKalz98487AvTHoRqhwY2AD+7++GT0N7ns5ImLb8vJFnZbnMNS49kih8vPG9yBHCy7JHcPyw27kGx3vPsXzE8J+72wor1hK84Tb+VU9Adi/iD6B704FeMwVz3gRz2I6v/N038l
+
 if (!hash) {
   store.setImportMap({
     imports: {
