@@ -3,16 +3,16 @@
   "gold": [],
   "silver": [
     {
-      "href": "https://www.vuemastery.com/",
       "alt": "VueMastery",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuemastery-light.svg",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuemastery-dark.png"
+      "href": "https://www.vuemastery.com/",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuemastery-dark.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuemastery-light.svg"
     },
     {
+      "alt": "Prefect",
       "href": "https://www.prefect.io/",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg",
       "imgSrcDark": "https://posva-sponsors.pages.dev/logos/prefectlogo-dark.svg",
-      "alt": "Prefect"
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg"
     }
   ],
   "bronze": [
@@ -29,10 +29,16 @@
       "imgSrcLight": "https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4"
     },
     {
-      "href": "https://nuxtlabs.com",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/nuxt-light.svg",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/nuxt-dark.svg",
-      "alt": "Nuxt Labs"
+      "alt": "Storyblok",
+      "href": "https://storyblok.com",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/storyblok.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/storyblok.png"
+    },
+    {
+      "alt": "Nuxt UI Pro Templates",
+      "href": "https://ui.nuxt.com/pro",
+      "imgSrcDark": "https://avatars.githubusercontent.com/u/81570812?v=4",
+      "imgSrcLight": "https://avatars.githubusercontent.com/u/81570812?v=4"
     }
   ]
 }
