@@ -19,12 +19,13 @@ if (hash.startsWith('__DEV__')) {
   useDevMode.value = true
 }
 
+// TODO: we should fetch the latest version and set it by default here
 const store = new ReplStore({
   serializedState: hash,
   defaultVueRuntimeURL:
-    'https://cdn.jsdelivr.net/npm/@vue/runtime-dom@3.3.4/+esm',
+    'https://cdn.jsdelivr.net/npm/@vue/runtime-dom@3.3.9/dist/runtime-dom.esm-browser.js',
   defaultVueServerRendererURL:
-    'https://cdn.jsdelivr.net/npm/@vue/server-renderer@3.3.4/+esm',
+    'https://cdn.jsdelivr.net/npm/@vue/server-renderer@3.3.9/dist/server-renderer.esm-browser.js',
 })
 
 const previewOptions: ReplProps['previewOptions'] = {
@@ -67,13 +68,14 @@ if (!hash) {
     imports: {
       ...store.getImportMap().imports,
       pinia: import.meta.env.PROD
-        ? `${location.origin}/pinia.esm-browser.js`
-        : `${location.origin}/src/pinia-dev-proxy`,
+        ? `/pinia.esm-browser.js`
+        : `/src/pinia-dev-proxy`,
       ...(import.meta.env.PROD
         ? {
             '@vue/devtools-api':
               'https://cdn.jsdelivr.net/npm/@vue/devtools-api@6.5.1/lib/esm/index.js',
-            'vue-demi': 'https://cdn.jsdelivr.net/npm/vue-demi@0.14.6/+esm',
+            'vue-demi':
+              'https://cdn.jsdelivr.net/npm/vue-demi@0.14.6/lib/v3/index.mjs',
           }
         : {}),
     },
