@@ -92,7 +92,7 @@ export const useSearchFilters = defineStore('search-filters', () => {
 ```
 
 :::warning
-Do not return properties like `useRoute()` or `appProvided` (from the example above) as they do not belong to the store itself and you can directly access them within components with `useRoute()` and `inject('appProvided')`.
+Do not return properties like `route` or `appProvided` (from the example above) as they do not belong to the store itself and you can directly access them within components with `useRoute()` and `inject('appProvided')`.
 :::
 
 ## What syntax should I pick?
