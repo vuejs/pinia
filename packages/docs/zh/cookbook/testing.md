@@ -79,7 +79,7 @@ beforeEach(() => {
 npm i -D @pinia/testing
 ```
 
-确保挂在组件时，在你的测试中创建一个用于测试的 pinia 实例：
+确保挂载组件时，在你的测试中创建一个用于测试的 pinia 实例：
 
 ```js
 import { mount } from '@vue/test-utils'
