@@ -8,7 +8,7 @@
     <span>
       <p class="extra-info">Complete guide to</p>
       <p class="heading">Mastering Pinia</p>
-      <p class="extra-info">written by its author</p>
+      <p class="extra-info">written by its creator</p>
     </span>
   </a>
 
