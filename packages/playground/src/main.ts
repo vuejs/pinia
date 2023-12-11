@@ -7,6 +7,9 @@ import {
   RouteLocationNormalizedLoaded,
 } from 'vue-router'
 
+// for local development
+window.__USE_DEVTOOLS__ = true
+
 const pinia = createPinia()
 
 declare module 'pinia' {
@@ -19,7 +22,6 @@ declare module 'pinia' {
 }
 
 pinia.use(() => ({
-  // @ts-expect-error: WHY?
   route: computed(() => markRaw(router.currentRoute.value)),
 }))
 
