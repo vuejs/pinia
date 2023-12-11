@@ -21,12 +21,12 @@
     "docs:api": "pnpm run --filter ./packages/docs -r docs:api"
   },
   "devDependencies": {
-    "@rollup/plugin-alias": "^5.0.1",
+    "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
     "@rollup/plugin-terser": "^0.4.4",
-    "@types/lodash.kebabcase": "^4.1.8",
+    "@types/lodash.kebabcase": "^4.1.9",
     "@types/node": "^20.10.4",
     "@vitest/coverage-v8": "^0.34.6",
     "@vue/compiler-sfc": "^3.3.11",
@@ -35,7 +35,7 @@
     "conventional-changelog-cli": "^2.2.2",
     "enquirer": "^2.4.1",
     "execa": "^8.0.1",
-    "globby": "^13.2.2",
+    "globby": "^14.0.0",
     "happy-dom": "^12.10.3",
     "lint-staged": "^15.2.0",
     "lodash.kebabcase": "^4.1.1",
