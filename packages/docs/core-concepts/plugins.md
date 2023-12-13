@@ -84,7 +84,7 @@ pinia.use(({ store }) => {
 })
 ```
 
-Note that every store is wrapped with [`reactive`](https://v3.vuejs.org/api/basic-reactivity.html#reactive), automatically unwrapping any Ref (`ref()`, `computed()`, ...) it contains:
+Note that every store is wrapped with [`reactive`](https://vuejs.org/api/reactivity-core#reactive), automatically unwrapping any Ref (`ref()`, `computed()`, ...) it contains:
 
 ```js
 const sharedRef = ref('shared')
