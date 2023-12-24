@@ -33,8 +33,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-const isVisible = ref<Boolean>(true)
-const showFlash = ref<Boolean>(false)
+const isVisible = ref(false)
+const showFlash = ref(false)
 const nameStorage = 'VUEMASTERY-BANNER-DECEMBER-2023'
 
 const closeBanner = () => {
