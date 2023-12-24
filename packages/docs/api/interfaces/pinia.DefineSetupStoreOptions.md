@@ -4,7 +4,7 @@ editLink: false
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / DefineSetupStoreOptions
 
-# Interface: DefineSetupStoreOptions<Id, S, G, A\>
+# Interface: DefineSetupStoreOptions\<Id, S, G, A\>
 
 [pinia](../modules/pinia.md).DefineSetupStoreOptions
 
@@ -26,7 +26,7 @@ augment stores with the plugin API.
 
 ## Hierarchy
 
-- [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#Store)<`Id`, `S`, `G`, `A`\>\>
+- [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)\<`S`, [`Store`](../modules/pinia.md#Store)\<`Id`, `S`, `G`, `A`\>\>
 
   ↳ **`DefineSetupStoreOptions`**
 

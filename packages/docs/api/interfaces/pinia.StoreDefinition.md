@@ -4,7 +4,7 @@ editLink: false
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / StoreDefinition
 
-# Interface: StoreDefinition<Id, S, G, A\>
+# Interface: StoreDefinition\<Id, S, G, A\>
 
 [pinia](../modules/pinia.md).StoreDefinition
 
@@ -16,7 +16,7 @@ Return type of `defineStore()`. Function that allows instantiating a store.
 | :------ | :------ |
 | `Id` | extends `string` = `string` |
 | `S` | extends [`StateTree`](../modules/pinia.md#StateTree) = [`StateTree`](../modules/pinia.md#StateTree) |
-| `G` | [`_GettersTree`](../modules/pinia.md#_GettersTree)<`S`\> |
+| `G` | [`_GettersTree`](../modules/pinia.md#_GettersTree)\<`S`\> |
 | `A` | [`_ActionsTree`](../modules/pinia.md#_ActionsTree) |
 
 ## Hierarchy
@@ -29,7 +29,7 @@ Return type of `defineStore()`. Function that allows instantiating a store.
 
 ### StoreDefinition
 
-▸ **StoreDefinition**(`pinia?`, `hot?`): [`Store`](../modules/pinia.md#Store)<`Id`, `S`, `G`, `A`\>
+▸ **StoreDefinition**(`pinia?`, `hot?`): [`Store`](../modules/pinia.md#Store)\<`Id`, `S`, `G`, `A`\>
 
 Returns a store, creates it if necessary.
 
@@ -42,7 +42,7 @@ Returns a store, creates it if necessary.
 
 #### Returns
 
-[`Store`](../modules/pinia.md#Store)<`Id`, `S`, `G`, `A`\>
+[`Store`](../modules/pinia.md#Store)\<`Id`, `S`, `G`, `A`\>
 
 ## Properties
 

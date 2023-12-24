@@ -4,7 +4,7 @@ editLink: false
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptions
 
-# Interface: DefineStoreOptions<Id, S, G, A\>
+# Interface: DefineStoreOptions\<Id, S, G, A\>
 
 [pinia](../modules/pinia.md).DefineStoreOptions
 
@@ -26,7 +26,7 @@ augment stores with the plugin API.
 
 ## Hierarchy
 
-- [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)<`S`, [`Store`](../modules/pinia.md#Store)<`Id`, `S`, `G`, `A`\>\>
+- [`DefineStoreOptionsBase`](pinia.DefineStoreOptionsBase.md)\<`S`, [`Store`](../modules/pinia.md#Store)\<`Id`, `S`, `G`, `A`\>\>
 
   ↳ **`DefineStoreOptions`**
 
@@ -34,7 +34,7 @@ augment stores with the plugin API.
 
 ### actions
 
-• `Optional` **actions**: `A` & `ThisType`<`A` & `UnwrapRef`<`S`\> & [`_StoreWithState`](pinia._StoreWithState.md)<`Id`, `S`, `G`, `A`\> & [`_StoreWithGetters`](../modules/pinia.md#_StoreWithGetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#StateTree), [`_GettersTree`](../modules/pinia.md#_GettersTree)<[`StateTree`](../modules/pinia.md#StateTree)\>, [`_ActionsTree`](../modules/pinia.md#_ActionsTree)\>\>
+• `Optional` **actions**: `A` & `ThisType`\<`A` & `UnwrapRef`\<`S`\> & [`_StoreWithState`](pinia._StoreWithState.md)\<`Id`, `S`, `G`, `A`\> & [`_StoreWithGetters`](../modules/pinia.md#_StoreWithGetters)\<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)\<`string`, [`StateTree`](../modules/pinia.md#StateTree), [`_GettersTree`](../modules/pinia.md#_GettersTree)\<[`StateTree`](../modules/pinia.md#StateTree)\>, [`_ActionsTree`](../modules/pinia.md#_ActionsTree)\>\>
 
 Optional object of actions.
 
@@ -42,7 +42,7 @@ ___
 
 ### getters
 
-• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_StoreWithGetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#StateTree), [`_GettersTree`](../modules/pinia.md#_GettersTree)<[`StateTree`](../modules/pinia.md#StateTree)\>, [`_ActionsTree`](../modules/pinia.md#_ActionsTree)\>\> & [`_GettersTree`](../modules/pinia.md#_GettersTree)<`S`\>
+• `Optional` **getters**: `G` & `ThisType`\<`UnwrapRef`\<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_StoreWithGetters)\<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)\<`string`, [`StateTree`](../modules/pinia.md#StateTree), [`_GettersTree`](../modules/pinia.md#_GettersTree)\<[`StateTree`](../modules/pinia.md#StateTree)\>, [`_ActionsTree`](../modules/pinia.md#_ActionsTree)\>\> & [`_GettersTree`](../modules/pinia.md#_GettersTree)\<`S`\>
 
 Optional object of getters.
 
@@ -75,7 +75,7 @@ correct typings!
 
 ### hydrate
 
-▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
+▸ **hydrate**(`storeState`, `initialState`): `void`
 
 Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
 definition and copying the value from `pinia.state` isn't enough.
@@ -84,8 +84,8 @@ definition and copying the value from `pinia.state` isn't enough.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
-| `initialState` | `UnwrapRef`<`S`\> | initialState |
+| `storeState` | `UnwrapRef`\<`S`\> | the current state in the store |
+| `initialState` | `UnwrapRef`\<`S`\> | initialState |
 
 #### Returns
 

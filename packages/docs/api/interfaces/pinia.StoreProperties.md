@@ -4,7 +4,7 @@ editLink: false
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / StoreProperties
 
-# Interface: StoreProperties<Id\>
+# Interface: StoreProperties\<Id\>
 
 [pinia](../modules/pinia.md).StoreProperties
 
@@ -34,7 +34,7 @@ ___
 
 ### \_customProperties
 
-• **\_customProperties**: `Set`<`string`\>
+• **\_customProperties**: `Set`\<`string`\>
 
 Used by devtools plugin to retrieve properties added with plugins. Removed
 in production. Can be used by the user to add property keys of the store
