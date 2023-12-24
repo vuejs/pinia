@@ -36,7 +36,28 @@ export default defineNuxtConfig({
 
 And that's it, use your store as usual!
 
-## Using the store outside of `setup()`
+## Awaiting for actions in pages
+
+As with `onServerPrefetch()`, you can call a store action within `asyncData()`. Given how `useASyncData()` works, **make sure to return a value**. This will allow Nuxt to skip running the action on the client side and reuse the value from the server.
+
+```vue{3-4}
+<script setup>
+const store = useStore()
+// we could also extract the data, but it's already present in the store
+await useAsyncData('user', () => store.fetchUser())
+</script>
+```
+
+If your action doesn't resolve a value, you can add any non nullish value:
+
+```vue{3}
+<script setup>
+const store = useStore()
+await useAsyncData('user', () => store.fetchUser().then(() => true))
+</script>
+```
+
+::: tip
 
 If you want to use a store outside of `setup()`, remember to pass the `pinia` object to `useStore()`. We added it to [the context](https://nuxtjs.org/docs/2.x/internals-glossary/context) so you have access to it in `asyncData()` and `fetch()`:
 
@@ -50,14 +71,7 @@ export default {
 }
 ```
 
-As with `onServerPrefetch()`, you don't need to do anything special if you want to call a store action within `asyncData()`:
-
-```vue
-<script setup>
-const store = useStore()
-const { data } = await useAsyncData('user', () => store.fetchUser())
-</script>
-```
+:::
 
 ## Auto imports
 
