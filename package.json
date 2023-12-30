@@ -18,7 +18,8 @@
     "test:vitest": "vitest --coverage",
     "test:types": "tsc --build ./tsconfig.json",
     "test:dts": "pnpm run -r test:dts",
-    "docs:api": "pnpm run --filter ./packages/docs -r docs:api"
+    "docs:api": "pnpm run --filter ./packages/docs -r docs:api",
+    "postinstall": "simple-git-hooks"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^5.1.0",
@@ -47,19 +48,19 @@
     "rollup": "^4.2.0",
     "rollup-plugin-typescript2": "^0.36.0",
     "semver": "^7.5.4",
+    "simple-git-hooks": "^2.9.0",
     "typedoc": "^0.25.3",
     "typedoc-plugin-markdown": "^3.17.0",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6",
-    "vue": "^3.3.11",
-    "yorkie": "^2.0.0"
+    "vue": "^3.3.11"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged",
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged",
     "commit-msg": "node scripts/verifyCommit.mjs"
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,mjs,json,cjs}": [
       "prettier --write"
     ],
     "*.ts?(x)": [
