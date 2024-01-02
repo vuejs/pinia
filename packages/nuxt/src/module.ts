@@ -53,6 +53,7 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
       options.disableVuex &&
       isNuxt2()
     ) {
+      // @ts-expect-error: no `store` feature flag in nuxt v3
       nuxt.options.features.store = false
     }
 
