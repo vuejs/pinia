@@ -65,7 +65,7 @@ export const useCounterStore = defineStore('counter', () => {
 - `computed()` 就是 `getters`
 - `function()` 就是 `actions`
 
-注意，要让 pinia 正确识别 `state`，你**必须**在setup store中返回 **`state` 的所有属性**。这意味着，你不能在 store 中使用**私有**属性。不完整返回会影响 [SSR](../cookbook/composables.md) ，开发工具和其他插件的正常运行。
+注意，要让 pinia 正确识别 `state`，你**必须**在 setup store 中返回 **`state` 的所有属性**。这意味着，你不能在 store 中使用**私有**属性。不完整返回会影响 [SSR](../cookbook/composables.md) ，开发工具和其他插件的正常运行。
 
 Setup store 比 [Option Store](#option-stores) 带来了更多的灵活性，因为你可以在一个 store 内创建侦听器，并自由地使用任何[组合式函数](https://cn.vuejs.org/guide/reusability/composables.html#composables)。不过，请记住，使用组合式函数会让 SSR 变得更加复杂。
 
