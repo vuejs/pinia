@@ -89,7 +89,7 @@ export const useSearchFilters = defineStore('search-filters', () => {
 ```
 
 :::warning
-不要返回像 `route` 或 `appProvided` (上例中)之类的属性，因为它们不属于 store ，而且你可以在组建中直接用 `useRoute()` 和 `inject('appProvided')` 访问。
+不要返回像 `route` 或 `appProvided` (上例中)之类的属性，因为它们不属于 store，而且你可以在组件中直接用 `useRoute()` 和 `inject('appProvided')` 访问。
 :::
 
 ## 你应该选用哪种语法？ %{#what-syntax-should-i-pick}%
