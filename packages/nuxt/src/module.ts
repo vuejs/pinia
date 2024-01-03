@@ -48,13 +48,12 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
 
     // Disable default Vuex store (Nuxt v2.10+ only)
     if (
-      // @ts-expect-error: no feature flag anymore or private?
       nuxt.options.features &&
       // ts
       options.disableVuex &&
       isNuxt2()
     ) {
-      // @ts-expect-error: same
+      // @ts-expect-error: no `store` feature flag in nuxt v3
       nuxt.options.features.store = false
     }
 
