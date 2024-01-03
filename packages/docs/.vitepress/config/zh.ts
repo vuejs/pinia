@@ -184,7 +184,7 @@ export const zhSearch: DefaultTheme.AlgoliaSearchOptions['locales'] = {
           selectText: '选择',
           navigateText: '切换',
           closeText: '关闭',
-          searchByText: '搜索提供者',
+          searchByText: '搜索供应商',
         },
         noResultsScreen: {
           noResultsText: '无法找到相关结果',
