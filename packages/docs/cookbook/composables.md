@@ -34,7 +34,7 @@ import { defineStore, skipHydrate } from 'pinia'
 import { useMediaControls } from '@vueuse/core'
 
 export const useVideoPlayer = defineStore('video', () => {
-  // we won't expose this element directly
+  // we won't expose (return) this element directly
   const videoElement = ref<HTMLVideoElement>()
   const src = ref('/data/video.mp4')
   const { playing, volume, currentTime, togglePictureInPicture } =
@@ -56,6 +56,10 @@ export const useVideoPlayer = defineStore('video', () => {
   }
 })
 ```
+
+:::warning
+Differently from regular state, `ref<HTMLVideoElement>()` contains a non-serializable reference to the DOM element. This is why we don't return it directly. Since it's client-only state, we know it won't be set on the server and will **always** start as `undefined` on the client.
+:::
 
 ## SSR
 
