@@ -38,7 +38,7 @@ And that's it, use your store as usual!
 
 ## Awaiting for actions in pages
 
-As with `onServerPrefetch()`, you can call a store action within `asyncData()`. Given how `useASyncData()` works, **make sure to return a value**. This will allow Nuxt to skip running the action on the client side and reuse the value from the server.
+As with `onServerPrefetch()`, you can call a store action within `asyncData()`. Given how `useAsyncData()` works, **make sure to return a value**. This will allow Nuxt to skip running the action on the client side and reuse the value from the server.
 
 ```vue{3-4}
 <script setup>
