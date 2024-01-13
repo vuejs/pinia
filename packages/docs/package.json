@@ -6,8 +6,9 @@
   "scripts": {
     "docs": "vitepress dev .",
     "docs:api": "node run-typedoc.mjs",
-    "docs:compare-to-translate": "node compare-to-translate.mjs",
-    "docs:translation-status": "node generate-translation-status.mjs",
+    "docs:translation:compare": "v-translation compare",
+    "docs:translation:update": "v-translation update",
+    "docs:translation:status": "v-translation status",
     "docs:build": "vitepress build .",
     "docs:preview": "vitepress preview ."
   },
@@ -15,6 +16,7 @@
     "@chenfengyuan/vue-countdown": "^2.1.2",
     "@vueuse/core": "^10.7.0",
     "pinia": "workspace:^2.0.18",
-    "vitepress": "1.0.0-rc.35"
+    "vitepress": "1.0.0-rc.36",
+    "vitepress-translation-helper": "^0.1.3"
   }
 }
