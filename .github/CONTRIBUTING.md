@@ -42,7 +42,9 @@ If you want to start translating the docs in a _new_ language:
 1. Create the corresponding `<lang>` sub-folder for your translation.
 2. Modify the i18n configuration in the `.vitepress` sub-folder.
 3. Translate the docs and run the doc site to self-test locally.
-4. Create a checkpoint for your language by running `pnpm run docs:translation:update <lang> [<commit>]`. A checkpoint is the hash and date of the latest commit when you do the translation. The checkpoint information is stored in the status file `packages/docs/.vitepress/translation-status.json`. _It's crucial for long-term maintenance since all the further translation sync-ups are based on their previous checkpoints._ Usually, you can skip the commit argument because the default value is `v2`.
+4. Create a checkpoint for your language by running `pnpm run docs:translation:update <lang> [<commit>]`. A checkpoint is the hash and date of the latest commit when you do the translation. The checkpoint information is stored in the status file `packages/docs/.vitepress/translation-status.json`. _It's crucial for long-term maintenance since all the further translation sync-ups are based on their previous checkpoints._
+   > [!TIP]
+   > Please remember to pass the second "commit" argument as `v2` since that's the base branch of Pinia now.
 5. Commit all the changes and create a pull request to our GitHub repo.
 
 We will have a paragraph at the top of each translation page that shows the translation status. That way, users can quickly determine if the translation is up-to-date or lags behind the English version.
@@ -51,9 +53,11 @@ Speaking of the up-to-date translation, we also need good long-term maintenance 
 
 1. See what translation you need to sync up with the original docs. There are two popular ways:
    1. Via the [GitHub Compare](https://github.com/vuejs/pinia/compare/) page, only see the changes in `packages/docs/*` from the checkpoint hash to `v2` branch. You can find the checkpoint hash for your language via the translation status file `packages/docs/.vitepress/translation-status.json`. The compare page can be directly opened with the hash as part of the URL, e.g. https://github.com/vuejs/pinia/compare/c67a5c9...v2
-   2. Via a local command: `pnpm run docs:translation:compare <lang> [<commit>]`.
+   2. Via a local command: `pnpm run docs:translation:compare <lang> v2`.
 2. Create your own branch and start the translation update, following the previous comparison.
-3. Create a checkpoint for your language by running `pnpm run docs:translation:update <lang> [<commit>]`.
+3. Create a checkpoint for your language by running `pnpm run docs:translation:update <lang> v2`.
+   > [!TIP]
+   > Please remember fetch the latest v2 branch ahead.
 4. Commit all the changes and create a pull request to our GitHub repo.
 
 <!-- TODO: add an example once we have got one -->
