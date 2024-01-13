@@ -43,9 +43,10 @@ If you want to start translating the docs in a _new_ language:
 2. Modify the i18n configuration in the `.vitepress` sub-folder.
 3. Translate the docs and run the doc site to self-test locally.
 4. Create a checkpoint for your language by running `pnpm run docs:translation:update <lang> [<commit>]`. A checkpoint is the hash and date of the latest commit when you do the translation. The checkpoint information is stored in the status file `packages/docs/.vitepress/translation-status.json`. _It's crucial for long-term maintenance since all the further translation sync-ups are based on their previous checkpoints._
-   > [!TIP]
-   > Please remember to pass the second "commit" argument as `v2` since that's the base branch of Pinia now.
 5. Commit all the changes and create a pull request to our GitHub repo.
+
+> [!TIP]
+> When you create the checkpoint, please remember to pass the second "commit" argument as `v2` since that's the base branch of Pinia now.
 
 We will have a paragraph at the top of each translation page that shows the translation status. That way, users can quickly determine if the translation is up-to-date or lags behind the English version.
 
@@ -56,11 +57,12 @@ Speaking of the up-to-date translation, we also need good long-term maintenance 
    2. Via a local command: `pnpm run docs:translation:compare <lang> v2`.
 2. Create your own branch and start the translation update, following the previous comparison.
 3. Create a checkpoint for your language by running `pnpm run docs:translation:update <lang> v2`.
-   > [!TIP]
-   > Please remember fetch the latest v2 branch ahead.
 4. Commit all the changes and create a pull request to our GitHub repo.
 
 <!-- TODO: add an example once we have got one -->
+
+> [!TIP]
+> Before you create the new checkpoint, please remember fetch the latest v2 branch ahead.
 
 ### Self-host the translation
 
