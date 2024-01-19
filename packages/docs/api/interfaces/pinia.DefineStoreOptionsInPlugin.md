@@ -4,7 +4,7 @@ editLink: false
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptionsInPlugin
 
-# Interface: DefineStoreOptionsInPlugin<Id, S, G, A\>
+# Interface: DefineStoreOptionsInPlugin\<Id, S, G, A\>
 
 [pinia](../modules/pinia.md).DefineStoreOptionsInPlugin
 
@@ -21,7 +21,7 @@ Available `options` when creating a pinia plugin.
 
 ## Hierarchy
 
-- `Omit`<[`DefineStoreOptions`](pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\>, ``"id"`` \| ``"actions"``\>
+- `Omit`\<[`DefineStoreOptions`](pinia.DefineStoreOptions.md)\<`Id`, `S`, `G`, `A`\>, ``"id"`` \| ``"actions"``\>
 
   ↳ **`DefineStoreOptionsInPlugin`**
 
@@ -39,7 +39,7 @@ ___
 
 ### getters
 
-• `Optional` **getters**: `G` & `ThisType`<`UnwrapRef`<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_StoreWithGetters)<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)<`string`, [`StateTree`](../modules/pinia.md#StateTree), [`_GettersTree`](../modules/pinia.md#_GettersTree)<[`StateTree`](../modules/pinia.md#StateTree)\>, [`_ActionsTree`](../modules/pinia.md#_ActionsTree)\>\> & [`_GettersTree`](../modules/pinia.md#_GettersTree)<`S`\>
+• `Optional` **getters**: `G` & `ThisType`\<`UnwrapRef`\<`S`\> & [`_StoreWithGetters`](../modules/pinia.md#_StoreWithGetters)\<`G`\> & [`PiniaCustomProperties`](pinia.PiniaCustomProperties.md)\<`string`, [`StateTree`](../modules/pinia.md#StateTree), [`_GettersTree`](../modules/pinia.md#_GettersTree)\<[`StateTree`](../modules/pinia.md#StateTree)\>, [`_ActionsTree`](../modules/pinia.md#_ActionsTree)\>\> & [`_GettersTree`](../modules/pinia.md#_GettersTree)\<`S`\>
 
 Optional object of getters.
 
@@ -72,7 +72,7 @@ Omit.state
 
 ### hydrate
 
-▸ `Optional` **hydrate**(`storeState`, `initialState`): `void`
+▸ **hydrate**(`storeState`, `initialState`): `void`
 
 Allows hydrating the store during SSR when complex state (like client side only refs) are used in the store
 definition and copying the value from `pinia.state` isn't enough.
@@ -81,8 +81,8 @@ definition and copying the value from `pinia.state` isn't enough.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
-| `initialState` | `UnwrapRef`<`S`\> | initialState |
+| `storeState` | `UnwrapRef`\<`S`\> | the current state in the store |
+| `initialState` | `UnwrapRef`\<`S`\> | initialState |
 
 #### Returns
 

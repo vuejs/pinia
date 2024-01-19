@@ -4,7 +4,7 @@ editLink: false
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / \_StoreWithState
 
-# Interface: \_StoreWithState<Id, S, G, A\>
+# Interface: \_StoreWithState\<Id, S, G, A\>
 
 [pinia](../modules/pinia.md)._StoreWithState
 
@@ -21,7 +21,7 @@ Base store with state and functions. Should not be used directly.
 
 ## Hierarchy
 
-- [`StoreProperties`](pinia.StoreProperties.md)<`Id`\>
+- [`StoreProperties`](pinia.StoreProperties.md)\<`Id`\>
 
   ↳ **`_StoreWithState`**
 
@@ -41,7 +41,7 @@ ___
 
 ### $state
 
-• **$state**: `UnwrapRef`<`S`\> & [`PiniaCustomStateProperties`](pinia.PiniaCustomStateProperties.md)<`S`\>
+• **$state**: `UnwrapRef`\<`S`\> & [`PiniaCustomStateProperties`](pinia.PiniaCustomStateProperties.md)\<`S`\>
 
 State of the Store. Setting it will internally call `$patch()` to update the state.
 
@@ -49,7 +49,7 @@ ___
 
 ### \_customProperties
 
-• **\_customProperties**: `Set`<`string`\>
+• **\_customProperties**: `Set`\<`string`\>
 
 Used by devtools plugin to retrieve properties added with plugins. Removed
 in production. Can be used by the user to add property keys of the store
@@ -100,7 +100,7 @@ up when the component gets unmounted unless `detached` is set to true.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `callback` | [`StoreOnActionListener`](../modules/pinia.md#StoreOnActionListener)<`Id`, `S`, `G`, `A`\> | callback called before every action |
+| `callback` | [`StoreOnActionListener`](../modules/pinia.md#StoreOnActionListener)\<`Id`, `S`, `G`, `A`\> | callback called before every action |
 | `detached?` | `boolean` | detach the subscription from the context this is called from |
 
 #### Returns
@@ -177,13 +177,13 @@ Applies a state patch to current state. Allows passing nested values
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `partialState` | [`_DeepPartial`](../modules/pinia.md#_DeepPartial)<`UnwrapRef`<`S`\>\> | patch to apply to the state |
+| `partialState` | [`_DeepPartial`](../modules/pinia.md#_DeepPartial)\<`UnwrapRef`\<`S`\>\> | patch to apply to the state |
 
 #### Returns
 
 `void`
 
-▸ **$patch**<`F`\>(`stateMutator`): `void`
+▸ **$patch**\<`F`\>(`stateMutator`): `void`
 
 Group multiple changes into one function. Useful when mutating objects like
 Sets or arrays and applying an object patch isn't practical, e.g. appending
@@ -193,13 +193,13 @@ to an array. The function passed to `$patch()` **must be synchronous**.
 
 | Name | Type |
 | :------ | :------ |
-| `F` | extends (`state`: `UnwrapRef`<`S`\>) => `any` |
+| `F` | extends (`state`: `UnwrapRef`\<`S`\>) => `any` |
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `stateMutator` | `ReturnType`<`F`\> extends `Promise`<`any`\> ? `never` : `F` | function that mutates `state`, cannot be asynchronous |
+| `stateMutator` | `ReturnType`\<`F`\> extends `Promise`\<`any`\> ? `never` : `F` | function that mutates `state`, cannot be asynchronous |
 
 #### Returns
 
@@ -212,7 +212,6 @@ ___
 ▸ **$reset**(): `void`
 
 Resets the store to its initial state by building a new state object.
-TODO: make this options only
 
 #### Returns
 
@@ -232,8 +231,8 @@ component gets unmounted unless `detached` is set to true.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `callback` | [`SubscriptionCallback`](../modules/pinia.md#SubscriptionCallback)<`S`\> | callback passed to the watcher |
-| `options?` | { `detached?`: `boolean`  } & `WatchOptions`<`boolean`\> | `watch` options + `detached` to detach the subscription from the context (usually a component) this is called from. Note that the `flush` option does not affect calls to `store.$patch()`. |
+| `callback` | [`SubscriptionCallback`](../modules/pinia.md#SubscriptionCallback)\<`S`\> | callback passed to the watcher |
+| `options?` | \{ `detached?`: `boolean`  } & `WatchOptions`\<`boolean`\> | `watch` options + `detached` to detach the subscription from the context (usually a component) this is called from. Note that the `flush` option does not affect calls to `store.$patch()`. |
 
 #### Returns
 

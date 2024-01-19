@@ -15,7 +15,8 @@ export default defineNuxtConfig({
   vite: {
     define: {
       __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production'),
-      __TEST__: 'false',
+      __USE_DEVTOOLS__: true,
+      __TEST__: false,
     },
   },
 })

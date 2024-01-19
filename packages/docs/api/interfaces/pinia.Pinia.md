@@ -20,7 +20,7 @@ Every application must own its own pinia to be able to create stores
 
 ### install
 
-• **install**: (`app`: `App`<`any`\>) => `void`
+• **install**: (`app`: `App`\<`any`\>) => `void`
 
 #### Type declaration
 
@@ -30,7 +30,7 @@ Every application must own its own pinia to be able to create stores
 
 | Name | Type |
 | :------ | :------ |
-| `app` | `App`<`any`\> |
+| `app` | `App`\<`any`\> |
 
 ##### Returns
 
@@ -40,7 +40,7 @@ ___
 
 ### state
 
-• **state**: `Ref`<`Record`<`string`, [`StateTree`](../modules/pinia.md#StateTree)\>\>
+• **state**: `Ref`\<`Record`\<`string`, [`StateTree`](../modules/pinia.md#StateTree)\>\>
 
 root state
 

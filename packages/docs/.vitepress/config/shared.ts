@@ -1,4 +1,5 @@
 import { defineConfig, HeadConfig } from 'vitepress'
+import { zhSearch } from './zh'
 
 export const META_IMAGE = 'https://pinia.vuejs.org/social.png'
 export const isProduction =
@@ -131,10 +132,14 @@ export const sharedConfig = defineConfig({
       text: 'Suggest changes',
     },
 
-    algolia: {
-      appId: '69Y3N7LHI2',
-      apiKey: '45441f4b65a2f80329fd45c7cb371fea',
-      indexName: 'pinia',
+    search: {
+      provider: 'algolia',
+      options: {
+        appId: '69Y3N7LHI2',
+        apiKey: '45441f4b65a2f80329fd45c7cb371fea',
+        indexName: 'pinia',
+        locales: { ...zhSearch },
+      },
     },
 
     carbonAds: {

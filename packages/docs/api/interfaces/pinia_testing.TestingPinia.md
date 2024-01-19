@@ -21,7 +21,7 @@ Pinia instance specifically designed for testing. Extends a regular
 
 ### app
 
-• **app**: `App`<`any`\>
+• **app**: `App`\<`any`\>
 
 App used by Pinia
 
@@ -29,7 +29,7 @@ ___
 
 ### install
 
-• **install**: (`app`: `App`<`any`\>) => `void`
+• **install**: (`app`: `App`\<`any`\>) => `void`
 
 #### Type declaration
 
@@ -39,7 +39,7 @@ ___
 
 | Name | Type |
 | :------ | :------ |
-| `app` | `App`<`any`\> |
+| `app` | `App`\<`any`\> |
 
 ##### Returns
 
@@ -53,7 +53,7 @@ ___
 
 ### state
 
-• **state**: `Ref`<`Record`<`string`, [`StateTree`](../modules/pinia.md#StateTree)\>\>
+• **state**: `Ref`\<`Record`\<`string`, [`StateTree`](../modules/pinia.md#StateTree)\>\>
 
 root state
 

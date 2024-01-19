@@ -4,7 +4,7 @@ editLink: false
 
 [API Documentation](../index.md) / [pinia](../modules/pinia.md) / DefineStoreOptionsBase
 
-# Interface: DefineStoreOptionsBase<S, Store\>
+# Interface: DefineStoreOptionsBase\<S, Store\>
 
 [pinia](../modules/pinia.md).DefineStoreOptionsBase
 
