@@ -17,7 +17,7 @@ export const useAlertsStore = defineStore('alerts', {
 })
 ```
 
-这个**名字** ，也被用作 *id* ，是必须传入的， Pinia 将用它来连接 store 和 devtools。为了养成习惯性的用法，将返回的函数命名为 *use...* 是一个符合组合式函数风格的约定。
+这个**名字** ，也被用作 _id_ ，是必须传入的， Pinia 将用它来连接 store 和 devtools。为了养成习惯性的用法，将返回的函数命名为 _use..._ 是一个符合组合式函数风格的约定。
 
 `defineStore()` 的第二个参数可接受两类值：Setup 函数或 Option 对象。
 
@@ -50,15 +50,16 @@ export const useCounterStore = defineStore('counter', {
 ```js
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
+  const doubleCount = computed(() => count.value * 2)
   function increment() {
     count.value++
   }
 
-  return { count, increment }
+  return { count, doubleCount, increment }
 })
 ```
 
-在 *Setup Store* 中：
+在 _Setup Store_ 中：
 
 - `ref()` 就是 `state` 属性
 - `computed()` 就是 `getters`

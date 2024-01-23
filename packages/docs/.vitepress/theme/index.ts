@@ -1,5 +1,5 @@
 import { h } from 'vue'
-import { Theme, useData } from 'vitepress'
+import { type Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import AsideSponsors from './components/AsideSponsors.vue'
 // import AsideSponsors from './components/AsideSponsors.vue'
@@ -8,7 +8,6 @@ import './styles/vars.css'
 import './styles/playground-links.css'
 import VueSchoolLink from './components/VueSchoolLink.vue'
 import VueMasteryLogoLink from './components/VueMasteryLogoLink.vue'
-import VueMasteryBanner from './components/VueMasteryBanner.vue'
 import status from '../translation-status.json'
 
 const i18nLabels = {
@@ -21,8 +20,8 @@ const theme: Theme = {
     return h(DefaultTheme.Layout, null, {
       // 'home-features-after': () => h(HomeSponsors),
       'aside-ads-before': () => h(AsideSponsors),
+      // 'layout-top': () => h(VueMasteryBanner),
       'doc-before': () => h(TranslationStatus, { status, i18nLabels }),
-      'layout-top': () => h(VueMasteryBanner),
     })
   },
 
