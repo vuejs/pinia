@@ -133,11 +133,8 @@ export const sharedConfig = defineConfig({
     },
 
     search: {
-      provider: 'algolia',
+      provider: 'local',
       options: {
-        appId: '69Y3N7LHI2',
-        apiKey: '45441f4b65a2f80329fd45c7cb371fea',
-        indexName: 'pinia',
         locales: { ...zhSearch },
       },
     },
