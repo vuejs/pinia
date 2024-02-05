@@ -115,6 +115,8 @@ ___
 
 Ƭ **StoreOnActionListener**\<`Id`, `S`, `G`, `A`\>: (`context`: [`StoreOnActionListenerContext`](pinia.md#StoreOnActionListenerContext)\<`Id`, `S`, `G`, {} extends `A` ? [`_ActionsTree`](pinia.md#_ActionsTree) : `A`\>) => `void`
 
+Argument of `store.$onAction()`
+
 #### Type parameters
 
 | Name | Type |
@@ -127,8 +129,6 @@ ___
 #### Type declaration
 
 ▸ (`context`): `void`
-
-Argument of `store.$onAction()`
 
 ##### Parameters
 
@@ -179,6 +179,8 @@ ___
 
 Ƭ **SubscriptionCallback**\<`S`\>: (`mutation`: [`SubscriptionCallbackMutation`](pinia.md#SubscriptionCallbackMutation)\<`S`\>, `state`: `UnwrapRef`\<`S`\>) => `void`
 
+Callback of a subscription
+
 #### Type parameters
 
 | Name |
@@ -188,8 +190,6 @@ ___
 #### Type declaration
 
 ▸ (`mutation`, `state`): `void`
-
-Callback of a subscription
 
 ##### Parameters
 
@@ -453,13 +453,13 @@ ___
 
 Ƭ **\_Method**: (...`args`: `any`[]) => `any`
 
-#### Type declaration
-
-▸ (`...args`): `any`
-
 Generic type for a function that can infer arguments and return type
 
 For internal use **only**
+
+#### Type declaration
+
+▸ (`...args`): `any`
 
 ##### Parameters
 

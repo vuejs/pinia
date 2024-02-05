@@ -14,6 +14,10 @@ editLink: false
 
 • `Optional` **createSpy**: (`fn?`: (...`args`: `any`[]) => `any`) => (...`args`: `any`[]) => `any`
 
+Function used to create a spy for actions and `$patch()`. Pre-configured
+with `jest.fn` in Jest projects or `vi.fn` in Vitest projects if
+`globals: true` is set.
+
 #### Type declaration
 
 ▸ (`fn?`): (...`args`: `any`[]) => `any`

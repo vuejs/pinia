@@ -111,42 +111,9 @@ function that removes the watcher
 
 ▸ (): `void`
 
-Setups a callback to be called every time an action is about to get
-invoked. The callback receives an object with all the relevant information
-of the invoked action:
-- `store`: the store it is invoked on
-- `name`: The name of the action
-- `args`: The parameters passed to the action
-
-On top of these, it receives two functions that allow setting up a callback
-once the action finishes or when it fails.
-
-It also returns a function to remove the callback. Note than when calling
-`store.$onAction()` inside of a component, it will be automatically cleaned
-up when the component gets unmounted unless `detached` is set to true.
-
 ##### Returns
 
 `void`
-
-function that removes the watcher
-
-**`Example`**
-
-```js
-store.$onAction(({ after, onError }) => {
- // Here you could share variables between all of the hooks as well as
- // setting up watchers and clean them up
- after((resolvedValue) => {
-   // can be used to cleanup side effects
-.  // `resolvedValue` is the value returned by the action, if it's a
-.  // Promise, it will be the resolved value instead of the Promise
- })
- onError((error) => {
-   // can be used to pass up errors
- })
-})
-```
 
 **`Example`**
 
@@ -242,12 +209,6 @@ function that removes the watcher
 
 ▸ (): `void`
 
-Setups a callback to be called whenever the state changes. It also returns a function to remove the callback. Note
-that when calling `store.$subscribe()` inside of a component, it will be automatically cleaned up when the
-component gets unmounted unless `detached` is set to true.
-
 ##### Returns
 
 `void`
-
-function that removes the watcher

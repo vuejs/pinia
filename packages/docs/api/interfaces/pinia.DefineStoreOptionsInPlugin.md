@@ -53,6 +53,9 @@ ___
 
 • `Optional` **state**: () => `S`
 
+Function to create a fresh state. **Must be an arrow function** to ensure
+correct typings!
+
 #### Type declaration
 
 ▸ (): `S`

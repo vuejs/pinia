@@ -26,6 +26,9 @@ For internal use **only**
 
 • **after**: (`callback`: `A` extends `Record`\<`ActionName`, [`_Method`](../modules/pinia.md#_Method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_Awaited)\<`ReturnType`\<`A`[`ActionName`]\>\>) => `void` : () => `void`) => `void`
 
+Sets up a hook once the action is finished. It receives the return value
+of the action, if it's a Promise, it will be unwrapped.
+
 #### Type declaration
 
 ▸ (`callback`): `void`
@@ -64,6 +67,9 @@ ___
 ### onError
 
 • **onError**: (`callback`: (`error`: `unknown`) => `void`) => `void`
+
+Sets up a hook if the action fails. Return `false` to catch the error and
+stop it from propagating.
 
 #### Type declaration
 
