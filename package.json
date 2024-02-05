@@ -35,8 +35,8 @@
     "@types/lodash.kebabcase": "^4.1.9",
     "@types/node": "^20.10.4",
     "@vitest/coverage-v8": "^0.34.6",
-    "@vue/compiler-sfc": "^3.3.11",
-    "@vue/server-renderer": "^3.3.11",
+    "@vue/compiler-sfc": "^3.4.15",
+    "@vue/server-renderer": "^3.4.15",
     "chalk": "^5.3.0",
     "conventional-changelog-cli": "^2.2.2",
     "enquirer": "^2.4.1",
@@ -54,11 +54,11 @@
     "rollup-plugin-typescript2": "^0.36.0",
     "semver": "^7.5.4",
     "simple-git-hooks": "^2.9.0",
-    "typedoc": "^0.25.3",
+    "typedoc": "^0.25.7",
     "typedoc-plugin-markdown": "^3.17.0",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.3",
     "vitest": "^0.34.6",
-    "vue": "^3.3.11"
+    "vue": "^3.4.15"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged",

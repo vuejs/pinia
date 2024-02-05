@@ -34,9 +34,13 @@ declare module 'vue/types/options' {
   }
 }
 
-// TODO: figure out why it cannot be 'vue'
+/**
+ * NOTE: Used to be `@vue/runtime-core` but it break types from time to time. Then, in Vue docs, we started recommending
+ * to use `vue` instead of `@vue/runtime-core` but that broke others' types so we reverted it. Now, local types do not
+ * work if we use `@vue/runtime-core` so we are using `vue` again.
+ */
 // @ts-ignore: works on Vue 3, fails in Vue 2
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   export interface ComponentCustomProperties {
     /**
      * Access to the application's Pinia
@@ -52,3 +56,6 @@ declare module '@vue/runtime-core' {
     _pStores?: Record<string, StoreGeneric>
   }
 }
+
+// normally this is only needed in .d.ts files
+export {}

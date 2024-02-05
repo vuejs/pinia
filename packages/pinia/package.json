@@ -74,7 +74,7 @@
   },
   "dependencies": {
     "@vue/devtools-api": "^6.5.1",
-    "vue-demi": ">=0.14.6"
+    "vue-demi": ">=0.14.7"
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.4.0",
