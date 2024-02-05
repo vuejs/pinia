@@ -33,7 +33,7 @@
     "@rollup/plugin-replace": "^5.0.5",
     "@rollup/plugin-terser": "^0.4.4",
     "@types/lodash.kebabcase": "^4.1.9",
-    "@types/node": "^20.10.4",
+    "@types/node": "^20.11.16",
     "@vitest/coverage-v8": "^1.2.2",
     "@vue/compiler-sfc": "^3.4.15",
     "@vue/server-renderer": "^3.4.15",
