@@ -9,7 +9,13 @@
     "release": "node scripts/release.mjs",
     "size": "pnpm run -r size",
     "build": "pnpm run -C packages/pinia build && pnpm run -C packages/nuxt build && pnpm run -C packages/testing build",
-    "docs": "pnpm run docs:api && pnpm run --filter ./packages/docs -r docs:build",
+    "docs": "pnpm run --filter ./packages/docs -r docs",
+    "docs:api": "pnpm run --filter ./packages/docs -r docs:api",
+    "docs:translation:compare": "pnpm run --filter ./packages/docs -r docs:translation:compare",
+    "docs:translation:update": "pnpm run --filter ./packages/docs -r docs:translation:update",
+    "docs:translation:status": "pnpm run --filter ./packages/docs -r docs:translation:status",
+    "docs:build": "pnpm run docs:api && pnpm run --filter ./packages/docs -r docs:build",
+    "docs:preview": "pnpm run --filter ./packages/docs -r docs:preview",
     "play": "pnpm run -r play",
     "build:dts": "pnpm run -r --parallel build:dts",
     "lint": "prettier -c --parser typescript \"packages/*/{src,__tests__,e2e}/**/*.[jt]s?(x)\" \"packages/docs/**/*.[jt]s\"",
@@ -18,7 +24,6 @@
     "test:vitest": "vitest --coverage",
     "test:types": "tsc --build ./tsconfig.json",
     "test:dts": "pnpm run -r test:dts",
-    "docs:api": "pnpm run --filter ./packages/docs -r docs:api",
     "postinstall": "simple-git-hooks"
   },
   "devDependencies": {
