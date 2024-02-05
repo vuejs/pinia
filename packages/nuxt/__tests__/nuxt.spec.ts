@@ -28,8 +28,7 @@ await setup({
   },
 })
 
-// FIXME: these tests are so flaky...
-describe.skip('works with nuxt', async () => {
+describe('works with nuxt', async () => {
   it('works on ssr', async () => {
     const html = await $fetch('/')
     expect(html).toContain('Count: 101')
