@@ -53,10 +53,13 @@ export function formatStoreForInspectorState(
           return {
             editable: false,
             key: id,
-            value: store._getters!.reduce((getters, key) => {
-              getters[key] = store[key]
-              return getters
-            }, {} as Record<string, any>),
+            value: store._getters!.reduce(
+              (getters, key) => {
+                getters[key] = store[key]
+                return getters
+              },
+              {} as Record<string, any>
+            ),
           }
         }),
     }

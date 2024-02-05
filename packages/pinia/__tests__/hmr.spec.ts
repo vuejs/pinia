@@ -9,7 +9,7 @@ import {
 } from '../src'
 
 function defineOptions<
-  O extends Omit<DefineStoreOptions<string, StateTree, any, any>, 'id'>
+  O extends Omit<DefineStoreOptions<string, StateTree, any, any>, 'id'>,
 >(options: O): O {
   return options
 }

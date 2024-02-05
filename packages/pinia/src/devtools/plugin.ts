@@ -556,7 +556,7 @@ export function devtoolsPlugin<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends object = _GettersTree<S>,
-  A extends object = _ActionsTree
+  A extends object = _ActionsTree,
 >({ app, store, options }: PiniaPluginContext<Id, S, G, A>) {
   // HMR module
   if (store.$id.startsWith('__hot:')) {

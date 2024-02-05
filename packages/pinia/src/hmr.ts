@@ -82,7 +82,7 @@ export function acceptHMRUpdate<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends _GettersTree<S> = _GettersTree<S>,
-  A = _ActionsTree
+  A = _ActionsTree,
 >(initialUseStore: StoreDefinition<Id, S, G, A>, hot: any) {
   // strip as much as possible from iife.prod
   if (!__DEV__) {

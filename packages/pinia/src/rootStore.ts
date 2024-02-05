@@ -110,7 +110,7 @@ export interface PiniaPluginContext<
   Id extends string = string,
   S extends StateTree = StateTree,
   G /* extends _GettersTree<S> */ = _GettersTree<S>,
-  A /* extends _ActionsTree */ = _ActionsTree
+  A /* extends _ActionsTree */ = _ActionsTree,
 > {
   /**
    * pinia instance.
@@ -143,9 +143,9 @@ export interface PiniaPlugin {
    *
    * @param context - Context
    */
-  (context: PiniaPluginContext): Partial<
-    PiniaCustomProperties & PiniaCustomStateProperties
-  > | void
+  (
+    context: PiniaPluginContext
+  ): Partial<PiniaCustomProperties & PiniaCustomStateProperties> | void
 }
 
 /**

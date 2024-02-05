@@ -57,7 +57,7 @@ const fallbackRunWithContext = (fn: () => unknown) => fn()
 type _ArrayType<AT> = AT extends Array<infer T> ? T : never
 
 function mergeReactiveObjects<
-  T extends Record<any, unknown> | Map<unknown, unknown> | Set<unknown>
+  T extends Record<any, unknown> | Map<unknown, unknown> | Set<unknown>,
 >(target: T, patchToApply: _DeepPartial<T>): T {
   // Handle Map instances
   if (target instanceof Map && patchToApply instanceof Map) {
@@ -135,7 +135,7 @@ function createOptionsStore<
   Id extends string,
   S extends StateTree,
   G extends _GettersTree<S>,
-  A extends _ActionsTree
+  A extends _ActionsTree,
 >(
   id: Id,
   options: DefineStoreOptions<Id, S, G, A>,
@@ -168,31 +168,34 @@ function createOptionsStore<
     return assign(
       localState,
       actions,
-      Object.keys(getters || {}).reduce((computedGetters, name) => {
-        if (__DEV__ && name in localState) {
-          console.warn(
-            `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "${name}" in store "${id}".`
+      Object.keys(getters || {}).reduce(
+        (computedGetters, name) => {
+          if (__DEV__ && name in localState) {
+            console.warn(
+              `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "${name}" in store "${id}".`
+            )
+          }
+
+          computedGetters[name] = markRaw(
+            computed(() => {
+              setActivePinia(pinia)
+              // it was created just before
+              const store = pinia._s.get(id)!
+
+              // allow cross using stores
+              /* istanbul ignore if */
+              if (isVue2 && !store._r) return
+
+              // @ts-expect-error
+              // return getters![name].call(context, context)
+              // TODO: avoid reading the getter while assigning with a global variable
+              return getters![name].call(store, store)
+            })
           )
-        }
-
-        computedGetters[name] = markRaw(
-          computed(() => {
-            setActivePinia(pinia)
-            // it was created just before
-            const store = pinia._s.get(id)!
-
-            // allow cross using stores
-            /* istanbul ignore if */
-            if (isVue2 && !store._r) return
-
-            // @ts-expect-error
-            // return getters![name].call(context, context)
-            // TODO: avoid reading the getter while assigning with a global variable
-            return getters![name].call(store, store)
-          })
-        )
-        return computedGetters
-      }, {} as Record<string, ComputedRef>)
+          return computedGetters
+        },
+        {} as Record<string, ComputedRef>
+      )
     )
   }
 
@@ -206,7 +209,7 @@ function createSetupStore<
   SS extends Record<any, unknown>,
   S extends StateTree,
   G extends Record<string, _Method>,
-  A extends _ActionsTree
+  A extends _ActionsTree,
 >(
   $id: Id,
   setup: () => SS,
@@ -334,13 +337,13 @@ function createSetupStore<
         })
       }
     : /* istanbul ignore next */
-    __DEV__
-    ? () => {
-        throw new Error(
-          `🍍: Store "${$id}" is built using the setup syntax and does not implement $reset().`
-        )
-      }
-    : noop
+      __DEV__
+      ? () => {
+          throw new Error(
+            `🍍: Store "${$id}" is built using the setup syntax and does not implement $reset().`
+          )
+        }
+      : noop
 
   function $dispose() {
     scope.stop()
@@ -760,40 +763,28 @@ function createSetupStore<
  * Extract the actions of a store type. Works with both a Setup Store or an
  * Options Store.
  */
-export type StoreActions<SS> = SS extends Store<
-  string,
-  StateTree,
-  _GettersTree<StateTree>,
-  infer A
->
-  ? A
-  : _ExtractActionsFromSetupStore<SS>
+export type StoreActions<SS> =
+  SS extends Store<string, StateTree, _GettersTree<StateTree>, infer A>
+    ? A
+    : _ExtractActionsFromSetupStore<SS>
 
 /**
  * Extract the getters of a store type. Works with both a Setup Store or an
  * Options Store.
  */
-export type StoreGetters<SS> = SS extends Store<
-  string,
-  StateTree,
-  infer G,
-  _ActionsTree
->
-  ? _StoreWithGetters<G>
-  : _ExtractGettersFromSetupStore<SS>
+export type StoreGetters<SS> =
+  SS extends Store<string, StateTree, infer G, _ActionsTree>
+    ? _StoreWithGetters<G>
+    : _ExtractGettersFromSetupStore<SS>
 
 /**
  * Extract the state of a store type. Works with both a Setup Store or an
  * Options Store. Note this unwraps refs.
  */
-export type StoreState<SS> = SS extends Store<
-  string,
-  infer S,
-  _GettersTree<StateTree>,
-  _ActionsTree
->
-  ? UnwrapRef<S>
-  : _ExtractStateFromSetupStore<SS>
+export type StoreState<SS> =
+  SS extends Store<string, infer S, _GettersTree<StateTree>, _ActionsTree>
+    ? UnwrapRef<S>
+    : _ExtractStateFromSetupStore<SS>
 
 // type a1 = _ExtractStateFromSetupStore<{ a: Ref<number>; action: () => void }>
 // type a2 = _ExtractActionsFromSetupStore<{ a: Ref<number>; action: () => void }>
@@ -814,7 +805,7 @@ export function defineStore<
   S extends StateTree = {},
   G extends _GettersTree<S> = {},
   // cannot extends ActionsTree because we loose the typings
-  A /* extends ActionsTree */ = {}
+  A /* extends ActionsTree */ = {},
 >(
   id: Id,
   options: Omit<DefineStoreOptions<Id, S, G, A>, 'id'>
@@ -830,7 +821,7 @@ export function defineStore<
   S extends StateTree = {},
   G extends _GettersTree<S> = {},
   // cannot extends ActionsTree because we loose the typings
-  A /* extends ActionsTree */ = {}
+  A /* extends ActionsTree */ = {},
 >(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A>
 
 /**
