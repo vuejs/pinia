@@ -69,8 +69,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@microsoft/api-extractor": "7.38.2",
-    "@vue/test-utils": "^2.4.3"
+    "@microsoft/api-extractor": "7.39.4",
+    "@vue/test-utils": "^2.4.4"
   },
   "dependencies": {
     "@vue/devtools-api": "^6.5.1",
