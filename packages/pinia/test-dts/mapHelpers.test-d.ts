@@ -1,3 +1,4 @@
+import { computed, ref } from 'vue'
 import {
   defineStore,
   expectType,
@@ -5,9 +6,10 @@ import {
   mapActions,
   mapState,
   mapWritableState,
+  TypeEqual,
 } from './'
 
-const useStore = defineStore({
+const useOptionsStore = defineStore({
   id: 'name',
   state: () => ({ a: 'on' as 'on' | 'off', nested: { counter: 0 } }),
   getters: {
@@ -24,6 +26,18 @@ const useStore = defineStore({
   },
 })
 
+const useSetupStore = defineStore('setupStore', () => {
+  const a = ref('on' as 'on' | 'off')
+  const upper = computed(() => a.value.toUpperCase())
+  function toggleA() {
+    a.value = a.value === 'off' ? 'on' : 'off'
+  }
+  function setToggle(aVal: 'on' | 'off') {
+    return (a.value = aVal)
+  }
+  return { a, upper, toggleA, setToggle }
+})
+
 const useCounter = defineStore({
   id: 'counter',
   state: () => ({ n: 0 }),
@@ -34,11 +48,11 @@ const useStoreDos = defineStore({
   state: () => ({}),
 })
 
-type MainStore = ReturnType<typeof useStore>
+type MainStore = ReturnType<typeof useOptionsStore>
 type DosStore = ReturnType<typeof useStoreDos>
 type CounterStore = ReturnType<typeof useCounter>
 
-const computedStores = mapStores(useStore, useStoreDos, useCounter)
+const computedStores = mapStores(useOptionsStore, useStoreDos, useCounter)
 
 expectType<{
   nameStore: () => MainStore
@@ -54,24 +68,24 @@ expectType<{
 expectType<{
   a: () => 'on' | 'off'
   upper: () => string
-}>(mapState(useStore, ['a', 'upper']))
+}>(mapState(useOptionsStore, ['a', 'upper']))
 
 // @ts-expect-error
-mapState(useStore, ['a']).nested
+mapState(useOptionsStore, ['a']).nested
 
 // @ts-expect-error
-mapState(useStore, ['a', 'upper']).nested
+mapState(useOptionsStore, ['a', 'upper']).nested
 
 expectType<{
   newA: () => 'on' | 'off'
   newUpper: () => string
-}>(mapState(useStore, { newA: 'a', newUpper: 'upper' }))
+}>(mapState(useOptionsStore, { newA: 'a', newUpper: 'upper' }))
 
 expectType<{
   newA: () => 'on' | 'off'
   newUpper: () => string
 }>(
-  mapState(useStore, {
+  mapState(useOptionsStore, {
     newA: (store) => {
       expectType<string>(store.upper)
       return store.a
@@ -83,19 +97,24 @@ expectType<{
 expectType<{
   setToggle: (a: 'on' | 'off') => 'on' | 'off'
   toggleA: () => void
-}>(mapActions(useStore, ['setToggle', 'toggleA']))
+}>(mapActions(useOptionsStore, ['setToggle', 'toggleA']))
 
 expectType<{
   newSetToggle: (a: 'on' | 'off') => 'on' | 'off'
   newToggleA: () => void
-}>(mapActions(useStore, { newSetToggle: 'setToggle', newToggleA: 'toggleA' }))
+}>(
+  mapActions(useOptionsStore, {
+    newSetToggle: 'setToggle',
+    newToggleA: 'toggleA',
+  })
+)
 
 expectType<{
   a: {
     get: () => 'on' | 'off'
     set: (v: 'on' | 'off') => any
   }
-}>(mapWritableState(useStore, ['a']))
+}>(mapWritableState(useOptionsStore, ['a']))
 // @ts-expect-error: only defined in array
 mapWritableState(useStore, ['a']).b
 
@@ -104,9 +123,33 @@ expectType<{
     get: () => 'on' | 'off'
     set: (v: 'on' | 'off') => any
   }
-}>(mapWritableState(useStore, { newA: 'a' }))
+}>(mapWritableState(useOptionsStore, { newA: 'a' }))
 
 // @ts-expect-error: cannot use a getter
 mapWritableState(useStore, ['upper'])
 // @ts-expect-error: cannot use a getter
 mapWritableState(useStore, { up: 'upper' })
+
+const setupStoreWithState = mapState(useSetupStore, ['a'])
+
+// store with no getters
+expectType<
+  TypeEqual<
+    {
+      a: () => 'on' | 'off'
+    },
+    typeof setupStoreWithState
+  >
+>(true)
+
+const setupStoreWithGetters = mapState(useSetupStore, ['a', 'upper'])
+
+expectType<
+  TypeEqual<
+    {
+      a: () => 'on' | 'off'
+      upper: () => string
+    },
+    typeof setupStoreWithGetters
+  >
+>(true)
