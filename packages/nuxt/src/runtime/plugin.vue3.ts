@@ -4,7 +4,11 @@ import { defineNuxtPlugin, Plugin } from '#app'
 
 const plugin: Plugin<{ pinia: Pinia }> = defineNuxtPlugin((nuxtApp) => {
   const pinia = createPinia()
-  nuxtApp.vueApp.use(pinia)
+
+  if (process.env.NODE_ENV !== 'test') {
+    nuxtApp.vueApp.use(pinia)
+  }
+
   setActivePinia(pinia)
 
   if (process.server) {
