@@ -1,4 +1,4 @@
-import type { ComponentPublicInstance } from 'vue-demi'
+import type { ComponentPublicInstance, ComputedRef } from 'vue-demi'
 import type {
   _GettersTree,
   _Method,
@@ -128,7 +128,7 @@ export function mapStores<Stores extends any[]>(
  */
 export type _MapStateReturn<
   S extends StateTree,
-  G extends _GettersTree<S>,
+  G extends _GettersTree<S> | { [key: string]: ComputedRef },
   Keys extends keyof S | keyof G = keyof S | keyof G,
 > = {
   // [key in keyof S | keyof G]: () => key extends keyof S
@@ -145,7 +145,7 @@ export type _MapStateReturn<
 export type _MapStateObjectReturn<
   Id extends string,
   S extends StateTree,
-  G extends _GettersTree<S>,
+  G extends _GettersTree<S> | { [key: string]: ComputedRef },
   A,
   T extends Record<
     string,
@@ -198,7 +198,7 @@ export type _MapStateObjectReturn<
 export function mapState<
   Id extends string,
   S extends StateTree,
-  G extends _GettersTree<S>,
+  G extends _GettersTree<S> | { [key: string]: ComputedRef },
   A,
   KeyMapper extends Record<
     string,
@@ -235,7 +235,7 @@ export function mapState<
 export function mapState<
   Id extends string,
   S extends StateTree,
-  G extends _GettersTree<S>,
+  G extends _GettersTree<S> | { [key: string]: ComputedRef },
   A,
   Keys extends keyof S | keyof G,
 >(
@@ -254,7 +254,7 @@ export function mapState<
 export function mapState<
   Id extends string,
   S extends StateTree,
-  G extends _GettersTree<S>,
+  G extends _GettersTree<S> | { [key: string]: ComputedRef },
   A,
 >(
   useStore: StoreDefinition<Id, S, G, A>,
