@@ -233,10 +233,7 @@ function createSetupStore<
   }
 
   // watcher options for $subscribe
-  const $subscribeOptions: WatchOptions = {
-    deep: true,
-    // flush: 'post',
-  }
+  const $subscribeOptions: WatchOptions = { deep: true }
   /* istanbul ignore else */
   if (__DEV__ && !isVue2) {
     $subscribeOptions.onTrigger = (event) => {
