@@ -21,7 +21,7 @@ const plugin: Plugin<{ pinia: Pinia }> = defineNuxtPlugin({
         pinia,
       },
     }
-  }
+  },
 })
 
 export default plugin
