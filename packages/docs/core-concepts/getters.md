@@ -76,7 +76,7 @@ export const useCounterStore = defineStore('counter', {
 ```
 
 ```js [counterStore.js]
-// You can use [JSDoc](https://jsdoc.app/tags-returns.html) in JavaScript
+// You can use JSDoc (https://jsdoc.app/tags-returns.html) in JavaScript
 export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
