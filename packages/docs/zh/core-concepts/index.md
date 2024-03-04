@@ -117,10 +117,11 @@ const store = useCounterStore()
 
 一旦 store 被实例化，你可以直接访问在 store 的 `state`、`getters` 和 `actions` 中定义的任何属性。我们将在后续章节继续了解这些细节，目前自动补全将帮助你使用相关属性。
 
-请注意，`store` 是一个用 `reactive` 包装的对象，这意味着不需要在 getters 后面写 `.value`，就像 `setup` 中的 `props` 一样，**如果你写了，我们也不能解构它**：
+请注意，`store` 是一个用 `reactive` 包装的对象，这意味着不需要在 getters 后面写 `.value`。就像 `setup` 中的 `props` 一样，**我们不能对它进行解构**：
 
 ```vue
 <script setup>
+import { useCounterStore } from '@/stores/counter'
 const store = useCounterStore()
 // ❌ 这将不起作用，因为它破坏了响应性
 // 这就和直接解构 `props` 一样
@@ -135,6 +136,8 @@ setTimeout(() => {
 const doubleValue = computed(() => store.doubleCount)
 </script>
 ```
+
+## 从 Store 解构
 
 为了从 store 中提取属性时保持其响应性，你需要使用 `storeToRefs()`。它将为每一个响应式属性创建引用。当你只使用 store 的状态而不调用任何 action 时，它会非常有用。请注意，你可以直接从 store 中解构 action，因为它们也被绑定到 store 上：
 
