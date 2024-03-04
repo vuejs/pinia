@@ -55,9 +55,28 @@ const store = useCounterStore()
 
 ## Accessing other getters
 
-As with computed properties, you can combine multiple getters. Access any other getter via `this`. Even if you are not using TypeScript, you can hint your IDE for types with the [JSDoc](https://jsdoc.app/tags-returns.html):
+As with computed properties, you can combine multiple getters. Access any other getter via `this`. In this scenario, **you will need to specify a return type** for the getter.
 
-```js
+::: code-group
+
+```ts [counterStore.ts]
+export const useCounterStore = defineStore('counter', {
+  state: () => ({
+    count: 0,
+  }),
+  getters: {
+    doubleCount(state) {
+      return state.count * 2
+    },
+    doubleCountPlusOne(): number {
+      return this.doubleCount + 1
+    },
+  },
+})
+```
+
+```js [counterStore.js]
+// You can use [JSDoc](https://jsdoc.app/tags-returns.html) in JavaScript
 export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
@@ -79,6 +98,8 @@ export const useCounterStore = defineStore('counter', {
   },
 })
 ```
+
+:::
 
 ## Passing arguments to getters
 
