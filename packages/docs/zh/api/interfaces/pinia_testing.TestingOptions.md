@@ -52,7 +52,7 @@ ___
 • `Optional` **fakeApp**: `boolean`
 
 创建一个空的 App，并通过创建的测试 pinia 调用 `app.use(pinia)`。
-这养可以让你在单元测试时使用插件，
+这样可以让你在单元测试时使用插件，
 因为插件**必须等待 pinia 安装好后才会执行**。
 默认为 false。
 
