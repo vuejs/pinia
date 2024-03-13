@@ -155,6 +155,51 @@ store.someAction()
 expect(store.someAction).toHaveBeenCalledTimes(1)
 ```
 
+### Mocking the returned value of an action
+
+Actions are automatically spied but type-wise, they are still the regular actions. In order to get the correct type, we must implement a custom type-wrapper that is applies the `Mock` type to each action. **This type depends on the testing framework you are using**. Here is an example with Vitest:
+
+```ts
+import type { Mock } from 'vitest'
+import type { Store, StoreDefinition } from 'pinia'
+
+function mockedStore<TStoreDef extends () => unknown>(
+  useStore: TStoreDef
+): TStoreDef extends StoreDefinition<
+  infer Id,
+  infer State,
+  infer Getters,
+  infer Actions
+>
+  ? Store<
+      Id,
+      State,
+      Getters,
+      {
+        [K in keyof Actions]: Actions[K] extends (
+          ...args: infer Args
+        ) => infer ReturnT
+          ? // 👇 depends on your testing framework
+            Mock<Args, ReturnT>
+          : Actions[K]
+      }
+    >
+  : ReturnType<TStoreDef> {
+  return useStore() as any
+}
+```
+
+This can be used in tests to get a correctly typed store:
+
+```ts
+import { mockedStore } from './mockedStore'
+import { useSomeStore } from '@/stores/myStore'
+
+const store = mockedStore(useSomeStore)
+// typed!
+store.someAction.mockResolvedValue('some value')
+```
+
 ### Specifying the createSpy function
 
 When using Jest, or vitest with `globals: true`, `createTestingPinia` automatically stubs actions using the spy function based on the existing test framework (`jest.fn` or `vitest.fn`). If you are not using `globals: true` or using a different framework, you'll need to provide a [createSpy](/api/interfaces/pinia_testing.TestingOptions.html#createspy) option:
