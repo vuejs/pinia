@@ -133,7 +133,7 @@ const { getUserById } = storeToRefs(userList)
 </template>
 ```
 
-Note that when doing this, **getters are not cached anymore** — they are simply functions that you invoke. You can, however, cache some results inside of the getter itself, which is uncommon but should prove more performant:
+Note that when doing this, **getters are not cached anymore**. They are simply functions you invoke. You can, however, cache some results inside of the getter itself, which is uncommon but should prove more performant:
 
 ```js
 export const useStore = defineStore('main', {
