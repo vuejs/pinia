@@ -31,7 +31,7 @@ If you are using Vue 2, the data you create in `state` follows the same rules as
 
 ## TypeScript
 
-You don't need to do much in order to make your state compatible with TS: make sure [`strict`](https://www.typescriptlang.org/tsconfig#strict), or at the very least, [`noImplicitThis`](https://www.typescriptlang.org/tsconfig#noImplicitThis), are enabled and Pinia will infer the type of your state automatically! However, there are a few cases where you should give it a hand with some casting:
+You don't need to do much in order to make your state compatible with TS: make sure [`strict`](https://www.typescriptlang.org/tsconfig#strict), or at the very least, [`noImplicitThis`](https://www.typescriptlang.org/tsconfig#noImplicitThis), is enabled and Pinia will infer the type of your state automatically! However, there are a few cases where you should give it a hand with some casting:
 
 ```ts
 export const useUserStore = defineStore('user', {
@@ -84,7 +84,7 @@ const store = useStore()
 store.count++
 ```
 
-Note you cannot add a new state property **if you don't define it in `state()`**, it must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
+Note you cannot add a new state property **if you don't define it in `state()`**. It must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
 
 ## Resetting the state
 
@@ -199,7 +199,7 @@ store.$patch({
 })
 ```
 
-However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the `$patch` method also accepts a function to group these kind of mutations that are difficult to apply with a patch object:
+However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the `$patch` method also accepts a function to group these kinds of mutations that are difficult to apply with a patch object:
 
 ```js
 store.$patch((state) => {
@@ -210,7 +210,7 @@ store.$patch((state) => {
 
 <!-- TODO: disable this with `strictMode`, `{ noDirectPatch: true }` -->
 
-The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note **both, direct changes to `state` and `$patch()` appear in the devtools** and can be time traveled (not yet in Vue 3).
+The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note that **both direct changes to `state` and `$patch()` appear in the devtools** and can be time traveled (not yet in Vue 3).
 
 ## Replacing the `state`
 
