@@ -18,7 +18,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-Most of the time, getters will only rely on the state, however, they might need to use other getters. Because of this, we can get access to the _whole store instance_ through `this` when defining a regular function **but it is necessary to define the type of the return type (in TypeScript)**. This is due to a known limitation in TypeScript and **doesn't affect getters defined with an arrow function nor getters not using `this`**:
+Most of the time, getters will only rely on the state. However, they might need to use other getters. Because of this, we can get access to the _whole store instance_ through `this` when defining a regular function **but it is necessary to define the type of the return type (in TypeScript)**. This is due to a known limitation in TypeScript and **doesn't affect getters defined with an arrow function nor getters not using `this`**:
 
 ```ts
 export const useCounterStore = defineStore('counter', {
@@ -133,7 +133,7 @@ const { getUserById } = storeToRefs(userList)
 </template>
 ```
 
-Note that when doing this, **getters are not cached anymore**, they are simply functions that you invoke. You can however cache some results inside of the getter itself, which is uncommon but should prove more performant:
+Note that when doing this, **getters are not cached anymore**. They are simply functions you invoke. You can, however, cache some results inside of the getter itself, which is uncommon but should prove more performant:
 
 ```js
 export const useStore = defineStore('main', {
@@ -148,7 +148,7 @@ export const useStore = defineStore('main', {
 
 ## Accessing other stores getters
 
-To use another store getters, you can directly _use it_ inside of the _getter_:
+To use another store's getters, you can directly _use it_ inside of the _getter_:
 
 ```js
 import { useOtherStore } from './other-store'
@@ -230,7 +230,7 @@ export default defineComponent({
 </script>
 ```
 
-This is useful while migrating a component from the Options API to the Composition API but **should only be a migration step**, always try not to mix both API styles within the same component.
+This is useful while migrating a component from the Options API to the Composition API but **should only be a migration step**. Always try not to mix both API styles within the same component.
 
 ### Without `setup()`
 
