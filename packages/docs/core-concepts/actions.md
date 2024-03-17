@@ -24,7 +24,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-Like [getters](./getters.md), actions get access to the _whole store instance_ through `this` with **full typing (and autocompletion ✨) support**. **Unlike getters, `actions` can be asynchronous**, you can `await` inside of actions any API call or even other actions! Here is an example using [Mande](https://github.com/posva/mande). Note the library you use doesn't matter as long as you get a `Promise`, you could even use the native `fetch` function (browser only):
+Like [getters](./getters.md), actions get access to the _whole store instance_ through `this` with **full typing (and autocompletion ✨) support**. **Unlike getters, `actions` can be asynchronous**, you can `await` inside of actions any API call or even other actions! Here is an example using [Mande](https://github.com/posva/mande). Note the library you use doesn't matter as long as you get a `Promise`. You could even use the native `fetch` function (browser only):
 
 ```js
 import { mande } from 'mande'
@@ -71,7 +71,7 @@ store.randomizeCounter()
 
 ## Accessing other stores actions
 
-To use another store, you can directly _use it_ inside of the _action_:
+To consume another store, you can directly _use it_ inside of the _action_:
 
 ```js
 import { useAuthStore } from './auth-store'
@@ -123,7 +123,7 @@ export const useCounterStore = defineStore('counter', {
 
 ### With `setup()`
 
-While Composition API is not for everyone, the `setup()` hook can make using Pinia easier to work within the Options API. No extra map helper functions needed!
+While Composition API is not for everyone, the `setup()` hook can make Pinia easier to work with while using the Options API. No extra map helper functions needed!
 
 ```vue
 <script>
