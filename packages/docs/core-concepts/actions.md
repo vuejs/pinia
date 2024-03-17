@@ -71,7 +71,7 @@ store.randomizeCounter()
 
 ## Accessing other stores actions
 
-To utilize another store, you can directly _get_ it inside of the _action_:
+To consume another store, you can directly _use it_ inside of the _action_:
 
 ```js
 import { useAuthStore } from './auth-store'
