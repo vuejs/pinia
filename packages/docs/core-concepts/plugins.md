@@ -175,15 +175,15 @@ pinia.use(({ store }) => {
   }
   store.hasError = toRef(store.$state, 'hasError')
 
- // make sure to set the context (`this`) to the store
+  // make sure to set the context (`this`) to the store
   const originalReset = store.$reset.bind(store)
 
- // override the $reset function
+  // override the $reset function
   return {
     $reset() {
       originalReset()
       store.hasError = false
-    }
+    },
   }
 })
 ```
@@ -397,7 +397,7 @@ There is also a `StoreGetters` type to extract the _getters_ from a Store type. 
 
 When [using pinia alongside Nuxt](../ssr/nuxt.md), you will have to create a [Nuxt plugin](https://nuxt.com/docs/guide/directory-structure/plugins) first. This will give you access to the `pinia` instance:
 
-```ts
+```ts{14-16}
 // plugins/myPiniaPlugin.ts
 import { PiniaPluginContext } from 'pinia'
 
@@ -416,13 +416,17 @@ export default defineNuxtPlugin(({ $pinia }) => {
 })
 ```
 
-Note the above example is using TypeScript, you have to remove the type annotations `PiniaPluginContext` and `Plugin` as well as their imports if you are using a `.js` file.
+::: info
+
+The above example is using TypeScript, you have to remove the type annotations `PiniaPluginContext` and `Plugin` as well as their imports if you are using a `.js` file.
+
+:::
 
 ### Nuxt.js 2
 
 If you are using Nuxt.js 2, the types are slightly different:
 
-```ts
+```ts{3,15-17}
 // plugins/myPiniaPlugin.ts
 import { PiniaPluginContext } from 'pinia'
 import { Plugin } from '@nuxt/types'
