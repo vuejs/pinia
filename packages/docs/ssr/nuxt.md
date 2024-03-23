@@ -5,9 +5,17 @@ Using Pinia with [Nuxt](https://nuxt.com/) is easier since Nuxt takes care of a 
 ## Installation
 
 ```bash
-yarn add pinia @pinia/nuxt
-# or with npm
-npm install pinia @pinia/nuxt
+# Using yarn
+yarn add pinia 
+yarn add --dev @pinia/nuxt
+
+# Using npm
+npm install pinia 
+npm install --save-dev @pinia/nuxt
+
+# Using pnpm
+pnpm add pinia
+pnpm add -D @pinia/nuxt
 ```
 
 :::tip
