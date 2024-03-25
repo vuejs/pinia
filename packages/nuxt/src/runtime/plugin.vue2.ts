@@ -16,7 +16,7 @@ export default (context: any, provide: any) => {
     Object.defineProperty(store, '$nuxt', { value: context })
   })
 
-  if (process.server) {
+  if (import.meta.server) {
     context.beforeNuxtRender((ctx: any) => {
       ctx.nuxtState.pinia = pinia.state.value
     })

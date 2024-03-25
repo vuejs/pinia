@@ -92,7 +92,7 @@ const pinia = createPinia()
 const app = createApp(App)
 app.use(pinia)
 
-// `isClient` depends on the environment, e.g. on Nuxt it's `process.client`
+// `isClient` depends on the environment, e.g. on Nuxt it's `import.meta.client`
 if (isClient) {
   pinia.state.value = JSON.parse(window.__pinia)
 }

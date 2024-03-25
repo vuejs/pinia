@@ -9,7 +9,7 @@ const plugin: Plugin<{ pinia: Pinia }> = defineNuxtPlugin({
     nuxtApp.vueApp.use(pinia)
     setActivePinia(pinia)
 
-    if (process.server) {
+    if (import.meta.server) {
       nuxtApp.payload.pinia = pinia.state.value
     } else if (nuxtApp.payload && nuxtApp.payload.pinia) {
       pinia.state.value = nuxtApp.payload.pinia
