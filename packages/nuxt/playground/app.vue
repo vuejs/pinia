@@ -8,7 +8,7 @@ useSomeStoreStore()
 
 // await useAsyncData('counter', () => counter.asyncIncrement().then(() => true))
 
-if (process.server) {
+if (import.meta.server) {
   counter.increment()
 }
 </script>
