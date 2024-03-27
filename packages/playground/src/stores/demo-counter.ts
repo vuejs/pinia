@@ -8,6 +8,9 @@ export const useCounter = defineStore('demo-counter', {
   state: () => ({
     n: 0,
   }),
+  getters: {
+    double: (state) => state.n * 2,
+  },
 })
 
 if (import.meta.hot) {
