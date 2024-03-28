@@ -2,11 +2,10 @@
   "extends": "../../tsconfig.json",
   "files": ["./src/**/*.ts"],
   "exclude": ["./src/**/*.spec.ts"],
-
   "compilerOptions": {
     "rootDir": "../..",
     "target": "esnext",
     "module": "esnext",
-    "strict": true,
+    "strict": true
   }
 }

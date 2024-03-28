@@ -40,8 +40,6 @@ const sfcOptions: SFCOptions = {
   script: {
     inlineTemplate: !useDevMode.value,
     isProd: !useDevMode.value,
-    reactivityTransform: true,
-    defineModel: true,
   },
   style: {
     isProd: !useDevMode.value,
@@ -67,17 +65,19 @@ if (!hash) {
   store.setImportMap({
     imports: {
       ...store.getImportMap().imports,
-      pinia: import.meta.env.PROD
-        ? `/pinia.esm-browser.js`
-        : `/src/pinia-dev-proxy`,
       ...(import.meta.env.PROD
         ? {
+            pinia: '/pinia.esm-browser.js',
             '@vue/devtools-api':
-              'https://cdn.jsdelivr.net/npm/@vue/devtools-api@6.5.1/lib/esm/index.js',
+              'https://cdn.jsdelivr.net/npm/@vue/devtools-api@6.6.1/lib/esm/index.js',
             'vue-demi':
-              'https://cdn.jsdelivr.net/npm/vue-demi@0.14.6/lib/v3/index.mjs',
+              'https://cdn.jsdelivr.net/npm/vue-demi@0.14.7/lib/v3/index.mjs',
           }
-        : {}),
+        : {
+            pinia: '/src/pinia-dev-proxy',
+            vue: '/src/vue-dev-proxy',
+            'vue/server-renderer': '/src/vue-server-renderer-dev-proxy',
+          }),
     },
   })
 
