@@ -14,7 +14,7 @@
 
   <a
     class="banner"
-    href="https://certificates.dev/vuejs?friend=VUEROUTER"
+    href="https://certificates.dev/vuejs/?friend=VUEROUTER&utm_source=pinia_vuejs&utm_medium=link&utm_campaign=pinia_vuejs_links&utm_content=sidebar"
     target="_blank"
   >
     <img src="/banners/vuejs-certification.svg" alt="Vue.js Certification" />

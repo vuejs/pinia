@@ -52,6 +52,10 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             text: '更新日志',
             link: 'https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md',
           },
+          {
+            text: 'Vue.js 认证',
+            link: 'https://certificates.dev/vuejs/?friend=VUEROUTER&utm_source=pinia_vuejs&utm_medium=link&utm_campaign=pinia_vuejs_links&utm_content=navbar',
+          },
         ],
       },
     ],
