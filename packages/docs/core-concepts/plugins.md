@@ -117,7 +117,7 @@ import { toRef, ref } from 'vue'
 pinia.use(({ store }) => {
   // to correctly handle SSR, we need to make sure we are not overriding an
   // existing value
-  if (!Object.prototype.hasOwnProperty(store.$state, 'hasError')) {
+  if (!store.$state.hasOwnProperty('hasError')) {
     // hasError is defined within the plugin, so each store has their individual
     // state property
     const hasError = ref(false)
@@ -144,7 +144,7 @@ If you are using **Vue 2**, Pinia is subject to the [same reactivity caveats](ht
 ```js
 import { set, toRef } from '@vue/composition-api'
 pinia.use(({ store }) => {
-  if (!Object.prototype.hasOwnProperty(store.$state, 'secret')) {
+  if (!store.$state.hasOwnProperty('secret')) {
     const secretRef = ref('secret')
     // If the data is meant to be used during SSR, you should
     // set it on the `$state` property so it is serialized and
@@ -169,7 +169,7 @@ import { toRef, ref } from 'vue'
 
 pinia.use(({ store }) => {
   // this is the same code as above for reference
-  if (!Object.prototype.hasOwnProperty(store.$state, 'hasError')) {
+  if (!store.$state.hasOwnProperty('hasError')) {
     const hasError = ref(false)
     store.$state.hasError = hasError
   }
