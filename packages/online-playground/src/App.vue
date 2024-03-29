@@ -23,9 +23,9 @@ if (hash.startsWith('__DEV__')) {
 const store = new ReplStore({
   serializedState: hash,
   defaultVueRuntimeURL:
-    'https://cdn.jsdelivr.net/npm/@vue/runtime-dom@3.3.9/dist/runtime-dom.esm-browser.js',
+    'https://cdn.jsdelivr.net/npm/@vue/runtime-dom@3.4.21/dist/runtime-dom.esm-browser.js',
   defaultVueServerRendererURL:
-    'https://cdn.jsdelivr.net/npm/@vue/server-renderer@3.3.9/dist/server-renderer.esm-browser.js',
+    'https://cdn.jsdelivr.net/npm/@vue/server-renderer@3.4.21/dist/server-renderer.esm-browser.js',
 })
 
 const previewOptions: ReplProps['previewOptions'] = {

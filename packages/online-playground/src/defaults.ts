@@ -10,18 +10,18 @@ const store = useStore()
 <template>
   <button @click="store.n++">Increment {{ store.n }}</button>
 </template>
-`.trim()
+`.trimStart()
 
 export const counterTs = `
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export const useStore = defineStore('store', () => {
+export const useStore = defineStore('counter', () => {
   const n = ref(0)
 
   return { n }
 })
-`.trim()
+`.trimStart()
 
 export const PiniaVersionKey: InjectionKey<Ref<string>> =
   Symbol('pinia-version')

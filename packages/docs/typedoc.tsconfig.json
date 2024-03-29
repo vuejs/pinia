@@ -38,7 +38,6 @@
     "isolatedModules": true,
 
     "experimentalDecorators": true,
-    "resolveJsonModule": true,
     "esModuleInterop": true,
     "removeComments": false,
     "jsx": "preserve",
