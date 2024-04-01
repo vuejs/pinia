@@ -12,8 +12,11 @@ import {
 } from 'vue-demi'
 import { StoreGetters, StoreState } from './store'
 import type {
+  _ActionsTree,
+  _GettersTree,
   _UnwrapAll,
   PiniaCustomStateProperties,
+  StateTree,
   Store,
   StoreGeneric,
 } from './types'
@@ -28,14 +31,19 @@ type ToComputedRefs<T> = {
  * Extracts the refs of a state object from a store. If the state value is a Ref or type that extends ref, it will be kept as is.
  * Otherwise, it will be converted into a Ref.
  */
-type ToStateRefs<SS> =
-  SS extends Store<string, infer UnwrappedState>
+declare type ToStateRefs<SS> =
+  SS extends Store<
+    string,
+    infer UnwrappedState,
+    _GettersTree<StateTree>,
+    _ActionsTree
+  >
     ? UnwrappedState extends _UnwrapAll<Pick<infer State, infer Key>>
       ? {
-          [K in Key]: State[K] extends Ref ? State[K] : Ref<State[K]>
+          [K in Key]: ToRef<State[K]>
         }
       : ToRefs<UnwrappedState>
-    : ToRefs<SS>
+    : ToRefs<StoreState<SS>>
 
 /**
  * Extracts the return type for `storeToRefs`.
