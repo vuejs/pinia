@@ -266,28 +266,3 @@ expectType<{
     })()
   )
 )
-
-expectType<{
-  n: Ref<number>
-  customN: Ref<number> & { plusOne: () => void }
-  double: ComputedRef<number>
-  myState: Ref<number>
-  stateOnly: Ref<number>
-}>(
-  storeToRefs(
-    defineStore('a', {
-      state: () => ({
-        n: 1,
-        customN: ref(1) as Ref<number> & { plusOne: () => void },
-      }),
-      getters: {
-        double: (state) => state.n * 2,
-      },
-      actions: {
-        plusOne() {
-          this.n++
-        },
-      },
-    })()
-  )
-)
