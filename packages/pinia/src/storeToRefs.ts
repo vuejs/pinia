@@ -30,8 +30,9 @@ type ToComputedRefs<T> = {
 /**
  * Extracts the refs of a state object from a store. If the state value is a Ref or type that extends ref, it will be kept as is.
  * Otherwise, it will be converted into a Ref.
+ * @internal
  */
-declare type ToStateRefs<SS> =
+type ToStateRefs<SS> =
   SS extends Store<
     string,
     infer UnwrappedState,
