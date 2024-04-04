@@ -28,8 +28,6 @@ let {
 //   (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0])
 const EXPECTED_BRANCH = 'v2'
 
-const incrementVersion = (increment) =>
-  semver.inc(currentVersion, increment, preId)
 const bin = (name) => resolve(__dirname, '../node_modules/.bin/' + name)
 /**
  * @param bin {string}
@@ -137,6 +135,11 @@ async function main() {
         message: `Select release type for ${chalk.bold.white(name)}`,
         choices: versionIncrements
           .map((i) => `${i}: ${name} (${semver.inc(version, i, preId)})`)
+          .concat(
+            optionTag === 'beta'
+              ? [`beta: ${name} (${semver.inc(version, 'prerelease', 'beta')})`]
+              : []
+          )
           .concat(['custom']),
       })
 
@@ -176,10 +179,8 @@ async function main() {
     return
   }
 
-  if (!noDepsUpdate) {
-    step('\nUpdating versions in package.json files...')
-    await updateVersions(pkgWithVersions)
-  }
+  step('\nUpdating versions in package.json files...')
+  await updateVersions(pkgWithVersions)
 
   step('\nUpdating lock...')
   await runIfNotDry(`pnpm`, ['install'])
@@ -260,8 +261,10 @@ async function updateVersions(packageList) {
   return Promise.all(
     packageList.map(({ pkg, version, path, name }) => {
       pkg.version = version
-      updateDeps(pkg, 'dependencies', packageList)
-      updateDeps(pkg, 'peerDependencies', packageList)
+      if (!noDepsUpdate) {
+        updateDeps(pkg, 'dependencies', packageList)
+        updateDeps(pkg, 'peerDependencies', packageList)
+      }
       const content = JSON.stringify(pkg, null, 2) + '\n'
       return isDryRun
         ? dryRun('write', [name], {
