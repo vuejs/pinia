@@ -20,6 +20,7 @@ let {
   tag: optionTag,
   dry: isDryRun,
   skipCleanCheck: skipCleanGitCheck,
+  noDepsUpdate,
 } = args
 
 // const preId =
@@ -175,8 +176,10 @@ async function main() {
     return
   }
 
-  step('\nUpdating versions in package.json files...')
-  await updateVersions(pkgWithVersions)
+  if (!noDepsUpdate) {
+    step('\nUpdating versions in package.json files...')
+    await updateVersions(pkgWithVersions)
+  }
 
   step('\nUpdating lock...')
   await runIfNotDry(`pnpm`, ['install'])
