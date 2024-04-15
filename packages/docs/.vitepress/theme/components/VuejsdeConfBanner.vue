@@ -19,7 +19,7 @@ import { ref, onMounted } from 'vue'
 
 const isVisible = ref(false)
 
-const nameStorage = 'VUEJSDECONF-BANNER-MAY-2024'
+const nameStorage = 'VUEJSDECONF-BANNER-JUNE-2024'
 
 const resetLayoutTopHeight = () => {
   document.documentElement.classList.add('banner-dismissed')
