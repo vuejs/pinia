@@ -79,7 +79,6 @@ import { inject } from 'vue'
 import { useRoute } from 'vue-router'
 import { defineStore } from 'pinia'
 
-
 export const useSearchFilters = defineStore('search-filters', () => {
   const route = useRoute()
   // this assumes `app.provide('appProvided', 'value')` was called
