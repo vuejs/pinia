@@ -29,10 +29,9 @@ type ToComputedRefs<T> = {
 
 /**
  * Extracts the refs of a state object from a store. If the state value is a Ref or type that extends ref, it will be kept as is.
- * Otherwise, it will be converted into a Ref.
- * @internal
+ * Otherwise, it will be converted into a Ref. **Internal type DO NOT USE**.
  */
-type ToStateRefs<SS> =
+type _ToStateRefs<SS> =
   SS extends Store<
     string,
     infer UnwrappedState,
@@ -50,7 +49,7 @@ type ToStateRefs<SS> =
  * Extracts the return type for `storeToRefs`.
  * Will convert any `getters` into `ComputedRef`.
  */
-export type StoreToRefs<SS extends StoreGeneric> = ToStateRefs<SS> &
+export type StoreToRefs<SS extends StoreGeneric> = _ToStateRefs<SS> &
   ToRefs<PiniaCustomStateProperties<StoreState<SS>>> &
   ToComputedRefs<StoreGetters<SS>>
 
