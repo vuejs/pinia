@@ -77,6 +77,7 @@ Setup stores are also able to rely on globally _provided_ properties like the Ro
 ```ts
 import { inject } from 'vue'
 import { useRoute } from 'vue-router'
+import { defineStore } from 'pinia'
 
 export const useSearchFilters = defineStore('search-filters', () => {
   const route = useRoute()
@@ -125,6 +126,8 @@ Note that `store` is an object wrapped with `reactive`, meaning there is no need
 ```vue
 <script setup>
 import { useCounterStore } from '@/stores/counter'
+import { computed } from 'vue'
+
 const store = useCounterStore()
 // ❌ This won't work because it breaks reactivity
 // it's the same as destructuring from `props`
