@@ -128,7 +128,6 @@ Note that `store` is an object wrapped with `reactive`, meaning there is no need
 import { useCounterStore } from '@/stores/counter'
 import { computed } from 'vue'
 
-
 const store = useCounterStore()
 // ❌ This won't work because it breaks reactivity
 // it's the same as destructuring from `props`
