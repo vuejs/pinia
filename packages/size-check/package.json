@@ -10,7 +10,7 @@
     "size:check": "node scripts/check-size.mjs"
   },
   "devDependencies": {
-    "brotli-wasm": "~1.2.0",
+    "brotli-wasm": "~2.0.1",
     "zlib": "^1.0.5"
   },
   "dependencies": {
