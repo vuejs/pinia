@@ -126,8 +126,8 @@ Note that `store` is an object wrapped with `reactive`, meaning there is no need
 
 ```vue
 <script setup>
-import { useCounterStore } from '@/stores/counter';
-import { computed } from 'vue';
+import { useCounterStore } from '@/stores/counter'
+import { computed } from 'vue'
 
 
 const store = useCounterStore()
