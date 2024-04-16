@@ -38,7 +38,7 @@
     "@vue/compiler-sfc": "^3.4.23",
     "@vue/server-renderer": "^3.4.23",
     "chalk": "^5.3.0",
-    "conventional-changelog-cli": "^4.1.0",
+    "conventional-changelog-cli": "^2.2.2",
     "enquirer": "^2.4.1",
     "execa": "^8.0.1",
     "globby": "^14.0.1",
