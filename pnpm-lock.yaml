@@ -118,7 +118,7 @@ importers:
         specifier: ^10.9.0
         version: 10.9.0(vue@3.4.23)
       pinia:
-        specifier: workspace:^2.0.18
+        specifier: workspace:*
         version: link:../pinia
       vitepress:
         specifier: 1.1.0
@@ -134,7 +134,7 @@ importers:
         version: 3.11.2(rollup@3.29.4)
       pinia:
         specifier: '>=2.1.7'
-        version: link:../pinia
+        version: 2.1.7(typescript@5.4.3)(vue@3.4.23)
     devDependencies:
       '@nuxt/module-builder':
         specifier: ^0.5.5
@@ -217,7 +217,7 @@ importers:
         specifier: ^2.0.8
         version: 2.0.8
       pinia:
-        specifier: workspace:^2.0.18
+        specifier: workspace:*
         version: link:../pinia
       swrv:
         specifier: ^1.0.4
@@ -256,7 +256,7 @@ importers:
         version: 0.14.7(vue@3.4.23)
     devDependencies:
       pinia:
-        specifier: workspace:^2.0.18
+        specifier: workspace:*
         version: link:../pinia
       tsup:
         specifier: ^7.2.0
@@ -7480,6 +7480,24 @@ packages:
     resolution: {integrity: sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==}
     engines: {node: '>=4'}
     dev: true
+
+  /pinia@2.1.7(typescript@5.4.3)(vue@3.4.23):
+    resolution: {integrity: sha512-+C2AHFtcFqjPih0zpYuvof37SFxMQ7OEG2zV9jRI12i9BOy3YQVAHwdKtyyc8pDcDyIc33WCIsZaCFWU7WWxGQ==}
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.3.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/devtools-api': 6.6.1
+      typescript: 5.4.3
+      vue: 3.4.23(typescript@5.4.3)
+      vue-demi: 0.14.7(vue@3.4.23)
+    dev: false
 
   /pirates@4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}

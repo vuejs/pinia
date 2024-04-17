@@ -47,7 +47,7 @@
     "vue-demi": ">=0.14.7"
   },
   "devDependencies": {
-    "pinia": "workspace:^2.0.18",
+    "pinia": "workspace:*",
     "tsup": "^7.2.0"
   },
   "peerDependencies": {
