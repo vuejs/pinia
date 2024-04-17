@@ -287,14 +287,15 @@ async function updateVersions(packageList) {
       if (!noDepsUpdate) {
         updateDeps(pkg, 'dependencies', packageList)
         updateDeps(pkg, 'peerDependencies', packageList)
-        const content = JSON.stringify(pkg, null, 2) + '\n'
-        return isDryRun
-          ? dryRun('write', [name], {
-              dependencies: pkg.dependencies,
-              peerDependencies: pkg.peerDependencies,
-            })
-          : fs.writeFile(join(path, 'package.json'), content)
       }
+      const content = JSON.stringify(pkg, null, 2) + '\n'
+      return isDryRun
+        ? dryRun('write', [name], {
+            version: pkg.version,
+            dependencies: pkg.dependencies,
+            peerDependencies: pkg.peerDependencies,
+          })
+        : fs.writeFile(join(path, 'package.json'), content)
     })
   )
 }
