@@ -21,6 +21,7 @@ let {
   dry: isDryRun,
   skipCleanCheck: skipCleanGitCheck,
   noDepsUpdate,
+  noPublish,
 } = args
 
 if (args.h || args.help) {
@@ -35,6 +36,7 @@ Flags:
   --dry               Dry run
   --skipCleanCheck    Skip checking if the git repo is clean
   --noDepsUpdate      Skip updating dependencies in package.json files
+  --noPublish         Skip publishing packages
 `.trim()
   )
   process.exit(0)
@@ -260,14 +262,18 @@ async function main() {
     await runIfNotDry('git', ['tag', `${pkg.name}@${pkg.version}`])
   }
 
-  step('\nPublishing packages...')
-  for (const pkg of pkgWithVersions) {
-    await publishPackage(pkg)
-  }
+  if (!noPublish) {
+    step('\nPublishing packages...')
+    for (const pkg of pkgWithVersions) {
+      await publishPackage(pkg)
+    }
 
-  step('\nPushing to Github...')
-  await runIfNotDry('git', ['push', 'origin', ...versionsToPush])
-  await runIfNotDry('git', ['push'])
+    step('\nPushing to Github...')
+    await runIfNotDry('git', ['push', 'origin', ...versionsToPush])
+    await runIfNotDry('git', ['push'])
+  } else {
+    console.log(chalk.bold.white(`Skipping publishing...`))
+  }
 }
 
 /**
