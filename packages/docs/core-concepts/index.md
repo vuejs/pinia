@@ -113,21 +113,20 @@ Note that `store` is an object wrapped with `reactive`, meaning there is no need
 export default defineComponent({
   setup() {
     const store = useCounterStore()
-    // ❌ Bad (breaks reactivity, as it's the same
-    // as destructuring from `props`):
-    const { doubleCount } = store
+    // ❌ This won't work because it breaks reactivity
+    // it's the same as destructuring from `props`
+    const { name, doubleCount } = store
 
-    // Increment count to demonstrate reactivity
-    setTimeout(() => {
-      store.increment()
-    }, 1000)
+    // These are not Refs, they are plain primitives
+    name // "Eduardo"
+    doubleCount // 0
 
     return {
-      // ❌ Bad (will always be 0):
+      // ❌ will always be 0
       doubleCount,
-      // ❌ Bad (will also always be 0):
+      // ❌ will also always be 0
       doubleNumber: store.doubleCount,
-      // ✔️ Good (will be reactive):
+      // ✅ will be reactive because it goes through the store instance
       doubleValue: computed(() => store.doubleCount),
     }
   },
@@ -144,9 +143,7 @@ import { storeToRefs } from 'pinia'
 export default defineComponent({
   setup() {
     const store = useCounterStore()
-    // ❌ Bad (breaks reactivity):
-    const { name, doubleCount } = store
-    // ✔️ Good (creates refs for properties):
+    // ✅ Extract Refs
     const { name, doubleCount } = storeToRefs(store)
 
     // Actions can just be extracted
