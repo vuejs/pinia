@@ -23,6 +23,23 @@ let {
   noDepsUpdate,
 } = args
 
+if (args.h || args.help) {
+  console.log(
+    `
+Usage: node release.mjs [flags]
+       node release.mjs [ -h | --help ]
+
+Flags:
+  --skipBuild         Skip building packages
+  --tag               Publish under a given npm dist tag
+  --dry               Dry run
+  --skipCleanCheck    Skip checking if the git repo is clean
+  --noDepsUpdate      Skip updating dependencies in package.json files
+`.trim()
+  )
+  process.exit(0)
+}
+
 // const preId =
 //   args.preid ||
 //   (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0])
@@ -264,14 +281,14 @@ async function updateVersions(packageList) {
       if (!noDepsUpdate) {
         updateDeps(pkg, 'dependencies', packageList)
         updateDeps(pkg, 'peerDependencies', packageList)
+        const content = JSON.stringify(pkg, null, 2) + '\n'
+        return isDryRun
+          ? dryRun('write', [name], {
+              dependencies: pkg.dependencies,
+              peerDependencies: pkg.peerDependencies,
+            })
+          : fs.writeFile(join(path, 'package.json'), content)
       }
-      const content = JSON.stringify(pkg, null, 2) + '\n'
-      return isDryRun
-        ? dryRun('write', [name], {
-            dependencies: pkg.dependencies,
-            peerDependencies: pkg.peerDependencies,
-          })
-        : fs.writeFile(join(path, 'package.json'), content)
     })
   )
 }
