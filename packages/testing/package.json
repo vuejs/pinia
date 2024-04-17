@@ -1,6 +1,6 @@
 {
   "name": "@pinia/testing",
-  "version": "0.1.3",
+  "version": "0.1.4-beta.0",
   "description": "Testing module for Pinia",
   "keywords": [
     "vue",

@@ -1,6 +1,6 @@
 {
   "name": "@pinia/nuxt",
-  "version": "0.5.1",
+  "version": "0.5.2-beta.0",
   "description": "Nuxt Module for pinia",
   "keywords": [
     "pinia",
