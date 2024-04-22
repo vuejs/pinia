@@ -98,7 +98,7 @@ Do not return properties like `route` or `appProvided` (from the example above) 
 
 ## What syntax should I pick?
 
-As with [Vue's Composition API and Options API](https://vuejs.org/guide/introduction.html#which-to-choose), pick the one that you feel the most comfortable with. If you're not sure, try [Option Stores](#option-stores) first.
+As with [Vue's Composition API and Options API](https://vuejs.org/guide/introduction.html#which-to-choose), pick the one that you feel the most comfortable with. Both have their strengths and weaknesses. Options stores are easier to work with while Setup stores are more flexible and powerful. If you want to dive deeper into the differences, check the [Option Stores vs Setup Stores chapter](https://masteringpinia.com/lessons/when-to-choose-one-syntax-over-the-other) in Mastering Pinia.
 
 ## Using the store
 
