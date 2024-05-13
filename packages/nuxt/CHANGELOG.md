@@ -1,3 +1,10 @@
+## [0.5.2-beta.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.5.1...@pinia/nuxt@0.5.2-beta.0) (2024-04-17)
+
+### Bug Fixes
+
+- opt in to `import.meta.*` properties ([#2622](https://github.com/vuejs/pinia/issues/2622)) ([0a94c3c](https://github.com/vuejs/pinia/commit/0a94c3c8c917a29c8e58cded33aa6f3e073f3577))
+- **types:** use declare module vue ([8a6ce86](https://github.com/vuejs/pinia/commit/8a6ce86db83b6315c067c8a98c898b3c74efe62e))
+
 ## [0.5.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.5.1...@pinia/nuxt@0.5.1) (2024-04-04)
 
 ### Bug Fixes

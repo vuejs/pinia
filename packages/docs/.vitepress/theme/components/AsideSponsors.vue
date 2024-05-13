@@ -1,6 +1,6 @@
 <template>
   <a
-    class="mp-banner"
+    class="banner mp"
     href="https://masteringpinia.com?utm=pinia-sidebar"
     target="_blank"
   >
@@ -13,21 +13,22 @@
   </a>
 
   <a
-    class="banner"
+    class="banner cert"
     href="https://certificates.dev/vuejs/?friend=VUEROUTER&utm_source=pinia_vuejs&utm_medium=link&utm_campaign=pinia_vuejs_links&utm_content=sidebar"
     target="_blank"
   >
-    <img src="/banners/vuejs-certification.svg" alt="Vue.js Certification" />
+    <img width="22" height="22" src="/vue-cert-logo.svg" />
+    <span>
+      <p class="extra-info">The official</p>
+      <p class="heading">Vue.js Certification</p>
+      <p class="extra-info">Get certified!</p>
+    </span>
   </a>
 </template>
 
 <style scoped>
 .banner {
-  margin-bottom: 0.5rem;
-}
-
-.mp-banner {
-  margin: 1rem 0;
+  margin: 0.25rem 0;
   padding: 0.4rem 0;
   border-radius: 14px;
   position: relative;
@@ -44,19 +45,27 @@
   transition: border-color 0.5s;
 }
 
-.mp-banner:hover {
+.banner:last-of-type {
+  margin-bottom: 1rem;
+}
+
+.banner:hover {
   border: 2px solid var(--vp-c-brand-1);
 }
 
-.mp-banner img {
+.banner.cert:hover {
+  border: 2px solid var(--vp-c-green-1);
+}
+
+.banner img {
   transition: transform 0.5s;
   transform: scale(1.25);
 }
-.mp-banner:hover img {
+.banner:hover img {
   transform: scale(1.75);
 }
 
-.mp-banner .extra-info {
+.banner .extra-info {
   color: var(--vp-c-text-1);
   opacity: 0;
   font-size: 0.7rem;
@@ -64,7 +73,7 @@
   transition: opacity 0.5s;
 }
 
-.mp-banner .heading {
+.banner .heading {
   background-image: linear-gradient(
     120deg,
     var(--vp-c-brand-3) 16%,
@@ -76,7 +85,16 @@
   -webkit-text-fill-color: transparent;
 }
 
-.mp-banner:hover .extra-info {
+.banner.cert .heading {
+  background-image: linear-gradient(
+    120deg,
+    var(--vp-c-green-3) 16%,
+    var(--vp-c-green-2),
+    var(--vp-c-green-1)
+  );
+}
+
+.banner:hover .extra-info {
   opacity: 0.9;
 }
 </style>

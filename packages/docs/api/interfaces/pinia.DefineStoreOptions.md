@@ -67,9 +67,6 @@ correct typings!
 
 ▸ (): `S`
 
-Function to create a fresh state. **Must be an arrow function** to ensure
-correct typings!
-
 ##### Returns
 
 `S`

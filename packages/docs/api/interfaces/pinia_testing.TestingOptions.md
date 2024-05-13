@@ -22,10 +22,6 @@ with `jest.fn` in Jest projects or `vi.fn` in Vitest projects if
 
 ▸ (`fn?`): (...`args`: `any`[]) => `any`
 
-Function used to create a spy for actions and `$patch()`. Pre-configured
-with `jest.fn` in Jest projects or `vi.fn` in Vitest projects if
-`globals: true` is set.
-
 ##### Parameters
 
 | Name | Type |

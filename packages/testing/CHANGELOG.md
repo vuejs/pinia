@@ -1,3 +1,9 @@
+## [0.1.4-beta.0](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.3...@pinia/testing@0.1.4-beta.0) (2024-04-17)
+
+### Bug Fixes
+
+- **types:** use declare module vue ([8a6ce86](https://github.com/vuejs/pinia/commit/8a6ce86db83b6315c067c8a98c898b3c74efe62e))
+
 ## [0.1.3](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.3...@pinia/testing@0.1.3) (2024-04-04)
 
 ### Bug Fixes
