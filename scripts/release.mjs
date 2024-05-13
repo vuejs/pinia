@@ -21,7 +21,26 @@ let {
   dry: isDryRun,
   skipCleanCheck: skipCleanGitCheck,
   noDepsUpdate,
+  noPublish,
 } = args
+
+if (args.h || args.help) {
+  console.log(
+    `
+Usage: node release.mjs [flags]
+       node release.mjs [ -h | --help ]
+
+Flags:
+  --skipBuild         Skip building packages
+  --tag               Publish under a given npm dist tag
+  --dry               Dry run
+  --skipCleanCheck    Skip checking if the git repo is clean
+  --noDepsUpdate      Skip updating dependencies in package.json files
+  --noPublish         Skip publishing packages
+`.trim()
+  )
+  process.exit(0)
+}
 
 // const preId =
 //   args.preid ||
@@ -243,14 +262,18 @@ async function main() {
     await runIfNotDry('git', ['tag', `${pkg.name}@${pkg.version}`])
   }
 
-  step('\nPublishing packages...')
-  for (const pkg of pkgWithVersions) {
-    await publishPackage(pkg)
-  }
+  if (!noPublish) {
+    step('\nPublishing packages...')
+    for (const pkg of pkgWithVersions) {
+      await publishPackage(pkg)
+    }
 
-  step('\nPushing to Github...')
-  await runIfNotDry('git', ['push', 'origin', ...versionsToPush])
-  await runIfNotDry('git', ['push'])
+    step('\nPushing to Github...')
+    await runIfNotDry('git', ['push', 'origin', ...versionsToPush])
+    await runIfNotDry('git', ['push'])
+  } else {
+    console.log(chalk.bold.white(`Skipping publishing...`))
+  }
 }
 
 /**
@@ -268,6 +291,7 @@ async function updateVersions(packageList) {
       const content = JSON.stringify(pkg, null, 2) + '\n'
       return isDryRun
         ? dryRun('write', [name], {
+            version: pkg.version,
             dependencies: pkg.dependencies,
             peerDependencies: pkg.peerDependencies,
           })
@@ -350,9 +374,13 @@ async function getChangedPackages() {
     )
     lastTag = stdout
   }
-  const folders = await globby(join(__dirname, '../packages/*'), {
-    onlyFiles: false,
-  })
+  // globby expects `/` even on windows
+  const folders = await globby(
+    join(__dirname, '../packages/*').replace(/\\/g, '/'),
+    {
+      onlyFiles: false,
+    }
+  )
 
   const pkgs = await Promise.all(
     folders.map(async (folder) => {

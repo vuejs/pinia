@@ -398,7 +398,7 @@ For internal use **only**
 | :------ | :------ |
 | `Id` | extends `string` |
 | `S` | extends [`StateTree`](pinia.md#StateTree) |
-| `G` | extends [`_GettersTree`](pinia.md#_GettersTree)\<`S`\> |
+| `G` | extends [`_GettersTree`](pinia.md#_GettersTree)\<`S`\> \| \{ `[key: string]`: `ComputedRef`;  } |
 | `A` | `A` |
 | `T` | extends `Record`\<`string`, keyof `S` \| keyof `G` \| (`store`: [`Store`](pinia.md#Store)\<`Id`, `S`, `G`, `A`\>) => `any`\> = {} |
 
@@ -415,7 +415,7 @@ For internal use **only**
 | Name | Type |
 | :------ | :------ |
 | `S` | extends [`StateTree`](pinia.md#StateTree) |
-| `G` | extends [`_GettersTree`](pinia.md#_GettersTree)\<`S`\> |
+| `G` | extends [`_GettersTree`](pinia.md#_GettersTree)\<`S`\> \| \{ `[key: string]`: `ComputedRef`;  } |
 | `Keys` | extends keyof `S` \| keyof `G` = keyof `S` \| keyof `G` |
 
 ___
@@ -717,6 +717,7 @@ ___
 
 Dispose a Pinia instance by stopping its effectScope and removing the state, plugins and stores. This is mostly
 useful in tests, with both a testing pinia or a regular pinia and in applications that use multiple pinia instances.
+Once disposed, the pinia instance cannot be used anymore.
 
 #### Parameters
 
@@ -845,7 +846,7 @@ Alias for `mapState()`. You should use `mapState()` instead.
 | :------ | :------ |
 | `Id` | extends `string` |
 | `S` | extends [`StateTree`](pinia.md#StateTree) |
-| `G` | extends [`_GettersTree`](pinia.md#_GettersTree)\<`S`\> |
+| `G` | extends [`_GettersTree`](pinia.md#_GettersTree)\<`S`\> \| \{ `[key: string]`: `ComputedRef`;  } |
 | `A` | `A` |
 | `KeyMapper` | extends `Record`\<`string`, keyof `S` \| keyof `G` \| (`store`: [`Store`](pinia.md#Store)\<`Id`, `S`, `G`, `A`\>) => `any`\> |
 
@@ -874,7 +875,7 @@ Alias for `mapState()`. You should use `mapState()` instead.
 | :------ | :------ |
 | `Id` | extends `string` |
 | `S` | extends [`StateTree`](pinia.md#StateTree) |
-| `G` | extends [`_GettersTree`](pinia.md#_GettersTree)\<`S`\> |
+| `G` | extends [`_GettersTree`](pinia.md#_GettersTree)\<`S`\> \| \{ `[key: string]`: `ComputedRef`;  } |
 | `A` | `A` |
 | `Keys` | extends `string` \| `number` \| `symbol` |
 
@@ -913,7 +914,7 @@ instance via `this`, it won't be typed.
 | :------ | :------ |
 | `Id` | extends `string` |
 | `S` | extends [`StateTree`](pinia.md#StateTree) |
-| `G` | extends [`_GettersTree`](pinia.md#_GettersTree)\<`S`\> |
+| `G` | extends [`_GettersTree`](pinia.md#_GettersTree)\<`S`\> \| \{ `[key: string]`: `ComputedRef`;  } |
 | `A` | `A` |
 | `KeyMapper` | extends `Record`\<`string`, keyof `S` \| keyof `G` \| (`store`: [`Store`](pinia.md#Store)\<`Id`, `S`, `G`, `A`\>) => `any`\> |
 
@@ -965,7 +966,7 @@ of a component.
 | :------ | :------ |
 | `Id` | extends `string` |
 | `S` | extends [`StateTree`](pinia.md#StateTree) |
-| `G` | extends [`_GettersTree`](pinia.md#_GettersTree)\<`S`\> |
+| `G` | extends [`_GettersTree`](pinia.md#_GettersTree)\<`S`\> \| \{ `[key: string]`: `ComputedRef`;  } |
 | `A` | `A` |
 | `Keys` | extends `string` \| `number` \| `symbol` |
 

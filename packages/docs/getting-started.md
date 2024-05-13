@@ -64,3 +64,7 @@ A store should contain data that can be accessed throughout your application. Th
 On the other hand, you should avoid including in the store local data that could be hosted in a component instead, e.g. the visibility of an element local to a page.
 
 Not all applications need access to a global state, but if yours need one, Pinia will make your life easier.
+
+## When should I **not** use a Store
+
+Sometimes we end up using a store for too many things. If you feel like your application is over using stores, you might want to re consider the purposes of your stores. Namely, if some of their logic should just be composables or if some of their state should be local to a component. This is covered in depth in the [(Not) Overusing stores](https://masteringpinia.com/lessons/not-overusing-stores) lesson of Mastering Pinia.

@@ -36,7 +36,7 @@ features:
   - title: ⚙️ Devtools support
     details: Pinia hooks into Vue devtools to give you an enhanced development experience in both Vue 2 and Vue 3.
   - title: 🔌 Extensible
-    details: React to store changes to extend Pinia with transactions, local storage synchronization, etc.
+    details: React to store changes and actions to extend Pinia with transactions, local storage synchronization, etc.
   - title: 🏗 Modular by design
     details: Build multiple stores and let your bundler code split them automatically.
   - title: 📦 Extremely light
