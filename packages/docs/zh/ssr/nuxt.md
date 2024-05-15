@@ -1,5 +1,10 @@
 # Nuxt.js %{#nuxt-js}%
 
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/ssr-friendly-state"
+  title="Learn about SSR best practices"
+/>
+
 搭配 [Nuxt](https://nuxt.com/) 的 Pinia 更易用，因为 Nuxt 处理了很多与**服务器端渲染**有关的事情。例如，**你不需要关心序列化或 XSS 攻击**。Pinia 既支持 Nuxt Bridge 和 Nuxt 3，也支持纯 Nuxt 2，[见下文](#nuxt-2-without-bridge)。
 
 ## 安装 %{#installation}%

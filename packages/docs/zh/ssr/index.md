@@ -1,5 +1,10 @@
 # 服务端渲染 (SSR) %{#server-side-rendering-ssr}%
 
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/ssr-friendly-state"
+  title="Learn about SSR best practices"
+/>
+
 :::tip
 如果你使用的是 **Nuxt.js**，你需要阅读的是[**这些说明文档**](./nuxt.md)。
 :::

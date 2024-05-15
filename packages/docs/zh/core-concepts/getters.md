@@ -1,7 +1,12 @@
 # Getter %{#getters}%
 
-<VueSchoolLink
+<!-- <VueSchoolLink
   href="https://vueschool.io/lessons/getters-in-pinia"
+  title="Learn all about getters in Pinia"
+/> -->
+
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/the-3-pillars-of-pinia-getters"
   title="Learn all about getters in Pinia"
 />
 

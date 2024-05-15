@@ -8,6 +8,7 @@ import './styles/vars.css'
 import './styles/playground-links.css'
 import VueSchoolLink from './components/VueSchoolLink.vue'
 import VueMasteryLogoLink from './components/VueMasteryLogoLink.vue'
+import MasteringPiniaLink from './components/MasteringPiniaLink.vue'
 // import VuejsdeConfBanner from './components/VuejsdeConfBanner.vue'
 import status from '../translation-status.json'
 
@@ -29,6 +30,7 @@ const theme: Theme = {
   enhanceApp({ app }) {
     app.component('VueSchoolLink', VueSchoolLink)
     app.component('VueMasteryLogoLink', VueMasteryLogoLink)
+    app.component('MasteringPiniaLink', MasteringPiniaLink)
   },
 }
 

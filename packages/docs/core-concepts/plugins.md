@@ -1,5 +1,10 @@
 # Plugins
 
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/What-is-a-pinia-plugin"
+  title="Learn all about Pinia plugins"
+/>
+
 Pinia stores can be fully extended thanks to a low level API. Here is a list of things you can do:
 
 - Add new properties to stores

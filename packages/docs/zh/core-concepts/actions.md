@@ -1,7 +1,12 @@
 # Action %{#actions}%
 
-<VueSchoolLink
+<!-- <VueSchoolLink
   href="https://vueschool.io/lessons/synchronous-and-asynchronous-actions-in-pinia"
+  title="Learn all about actions in Pinia"
+/> -->
+
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/the-3-pillars-of-pinia-actions"
   title="Learn all about actions in Pinia"
 />
 

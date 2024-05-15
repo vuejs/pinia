@@ -1,5 +1,10 @@
 # Server Side Rendering (SSR)
 
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/ssr-friendly-state"
+  title="Learn about SSR best practices"
+/>
+
 :::tip
 If you are using **Nuxt.js,** you need to read [**these instructions**](./nuxt.md) instead.
 :::
