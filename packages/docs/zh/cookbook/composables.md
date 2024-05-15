@@ -4,6 +4,11 @@
 
 ## Option Stores %{#option-stores}%
 
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/using-composables-in-option-stores"
+  title="Using Composables in Option Stores"
+/>
+
 当定义一个 option store 时，你可以在 `state` 属性中调用组合式函数：
 
 ```ts
@@ -26,6 +31,11 @@ export const useAuthStore = defineStore('auth', {
 - [useEyeDropper](https://vueuse.org/core/useEyeDropper/): exposes readonly data and functions
 
 ## Setup Stores %{#setup-stores}%
+
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/using-composables-in-setup-stores"
+  title="Using Composables in Setup Stores"
+/>
 
 另外，当定义一个 setup store 时，你几乎可以使用任何组合式函数，因为每一个属性都会被辨别为 state 、action 或者 getter：
 
