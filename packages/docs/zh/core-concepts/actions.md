@@ -74,7 +74,7 @@ store.randomizeCounter()
 
 ## 访问其他 store 的 action %{#accessing-other-stores-actions}%
 
-想要使用另一个 store 的话，那你直接在 *action* 中调用就好了：
+想要使用另一个 store 的话，那你直接在 _action_ 中调用就好了：
 
 ```js
 import { useAuthStore } from './auth-store'
@@ -114,13 +114,13 @@ import { defineStore } from 'pinia'
 
 const useCounterStore = defineStore('counter', {
   state: () => ({
-    count: 0
+    count: 0,
   }),
   actions: {
     increment() {
       this.count++
-    }
-  }
+    },
+  },
 })
 ```
 
@@ -208,7 +208,7 @@ const unsubscribe = someStore.$onAction(
 unsubscribe()
 ```
 
-默认情况下，*action 订阅器*会被绑定到添加它们的组件上(如果 store 在组件的 `setup()` 内)。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `true` 作为第二个参数传递给 *action 订阅器*，以便将其从当前组件中分离：
+默认情况下，*action 订阅器*会被绑定到添加它们的组件上(如果 store 在组件的 `setup()` 内)。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `true` 作为第二个参数传递给 _action 订阅器_，以便将其从当前组件中分离：
 
 ```vue
 <script setup>

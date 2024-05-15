@@ -87,7 +87,7 @@ export const useCounterStore = defineStore('counter', {
 
 ## 向 getter 传递参数 %{#passing-arguments-to-getters}%
 
-*Getter* 只是幕后的**计算**属性，所以不可以向它们传递任何参数。不过，你可以从 *getter* 返回一个函数，该函数可以接受任意参数：
+_Getter_ 只是幕后的**计算**属性，所以不可以向它们传递任何参数。不过，你可以从 _getter_ 返回一个函数，该函数可以接受任意参数：
 
 ```js
 export const useUserListStore = defineStore('userList', {
@@ -130,7 +130,7 @@ export const useUserListStore = defineStore('userList', {
 
 ## 访问其他 store 的 getter %{#accessing-other-stores-getters}%
 
-想要使用另一个 store 的 getter 的话，那就直接在 *getter* 内使用就好：
+想要使用另一个 store 的 getter 的话，那就直接在 _getter_ 内使用就好：
 
 ```js
 import { useOtherStore } from './other-store'
@@ -229,7 +229,7 @@ export default {
     ...mapState(useCounterStore, {
       myOwnName: 'doubleCount',
       // 你也可以写一个函数来获得对 store 的访问权
-      double: store => store.doubleCount,
+      double: (store) => store.doubleCount,
     }),
   },
 }

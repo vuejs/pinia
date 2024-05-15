@@ -10,7 +10,7 @@
 
 Vuex 有一个概念，带有多个模块的单一 store。这些模块可以被命名，甚至可以互相嵌套。
 
-将这个概念过渡到 Pinia 最简单的方法是，你以前使用的每个模块现在都是一个 *store*。每个 store 都需要一个 `id`，类似于 Vuex 中的命名空间。这意味着每个 store 都有命名空间的设计。嵌套模块也可以成为自己的 store。互相依赖的 store 可以直接导入其他 store。
+将这个概念过渡到 Pinia 最简单的方法是，你以前使用的每个模块现在都是一个 _store_。每个 store 都需要一个 `id`，类似于 Vuex 中的命名空间。这意味着每个 store 都有命名空间的设计。嵌套模块也可以成为自己的 store。互相依赖的 store 可以直接导入其他 store。
 
 你的 Vuex 模块如何重构为 Pinia store，完全取决于你，不过这里有一个示例：
 
@@ -63,7 +63,7 @@ const storeModule: Module<State, RootState> = {
   state: {
     firstName: '',
     lastName: '',
-    userId: null
+    userId: null,
   },
   getters: {
     firstName: (state) => state.firstName,
@@ -77,29 +77,29 @@ const storeModule: Module<State, RootState> = {
         // 读取另一个名为 `auth` 模块的 state
         ...rootState.auth.preferences,
         // 读取嵌套于 `auth` 模块的 `email` 模块的 getter
-        ...rootGetters['auth/email'].details
+        ...rootGetters['auth/email'].details,
       }
-    }
+    },
   },
   actions: {
-    async loadUser ({ state, commit }, id: number) {
+    async loadUser({ state, commit }, id: number) {
       if (state.userId !== null) throw new Error('Already logged in')
       const res = await api.user.load(id)
       commit('updateUser', res)
-    }
+    },
   },
   mutations: {
-    updateUser (state, payload) {
+    updateUser(state, payload) {
       state.firstName = payload.firstName
       state.lastName = payload.lastName
       state.userId = payload.userId
     },
-    clearUser (state) {
+    clearUser(state) {
       state.firstName = ''
       state.lastName = ''
       state.userId = null
-    }
-  }
+    },
+  },
 }
 
 export default storeModule
@@ -123,14 +123,14 @@ export const useAuthUserStore = defineStore('auth/user', {
   state: (): State => ({
     firstName: '',
     lastName: '',
-    userId: null
+    userId: null,
   }),
   getters: {
     // 不在需要 firstName getter，移除
     fullName: (state) => `${state.firstName} ${state.lastName}`,
     loggedIn: (state) => state.userId !== null,
     // 由于使用了 `this`，必须定义一个返回类型
-    fullUserDetails (state): FullUserDetails {
+    fullUserDetails(state): FullUserDetails {
       // 导入其他 store
       const authPreferencesStore = useAuthPreferencesStore()
       const authEmailStore = useAuthEmailStore()
@@ -139,7 +139,7 @@ export const useAuthUserStore = defineStore('auth/user', {
         // `this` 上的其他 getter
         fullName: this.fullName,
         ...authPreferencesStore.$state,
-        ...authEmailStore.details
+        ...authEmailStore.details,
       }
 
       // 如果其他模块仍在 Vuex 中，可替代为
@@ -149,26 +149,26 @@ export const useAuthUserStore = defineStore('auth/user', {
       //   ...vuexStore.state.auth.preferences,
       //   ...vuexStore.getters['auth/email'].details
       // }
-    }
+    },
   },
   actions: {
     //没有作为第一个参数的上下文，用 `this` 代替
-    async loadUser (id: number) {
+    async loadUser(id: number) {
       if (this.userId !== null) throw new Error('Already logged in')
       const res = await api.user.load(id)
       this.updateUser(res)
     },
     // mutation 现在可以成为 action 了，不再用 `state` 作为第一个参数，而是用 `this`。
-    updateUser (payload) {
+    updateUser(payload) {
       this.firstName = payload.firstName
       this.lastName = payload.lastName
       this.userId = payload.userId
     },
     // 使用 `$reset` 可以轻松重置 state
-    clearUser () {
+    clearUser() {
       this.$reset()
-    }
-  }
+    },
+  },
 })
 ```
 
@@ -177,16 +177,16 @@ export const useAuthUserStore = defineStore('auth/user', {
 1. 为 store 添加一个必要的 `id`，你可以让它与之前的命名保持相同。
 2. 如果 `state` 不是一个函数的话 将它转换为一个函数。
 3. 转换 `getters`
-    1. 删除任何返回同名 state 的 getters (例如： `firstName: (state) => state.firstName`)，这些都不是必需的，因为你可以直接从 store 实例中访问任何状态。
-    2. 如果你需要访问其他的 getter，可通过 `this` 访问它们，而不是第二个参数。记住，如果你使用 `this`，而且你不得不使用一个普通函数，而不是一个箭头函数，那么由于 TS 的限制，你需要指定一个返回类型，更多细节请阅读[这篇文档](../core-concepts/getters.md#accessing-other-getters)
-    3. 如果使用 `rootState` 或 `rootGetters` 参数，可以直接导入其他 store 来替代它们，或者如果它们仍然存在于 Vuex ，则直接从 Vuex 中访问它们。
+   1. 删除任何返回同名 state 的 getters (例如： `firstName: (state) => state.firstName`)，这些都不是必需的，因为你可以直接从 store 实例中访问任何状态。
+   2. 如果你需要访问其他的 getter，可通过 `this` 访问它们，而不是第二个参数。记住，如果你使用 `this`，而且你不得不使用一个普通函数，而不是一个箭头函数，那么由于 TS 的限制，你需要指定一个返回类型，更多细节请阅读[这篇文档](../core-concepts/getters.md#accessing-other-getters)
+   3. 如果使用 `rootState` 或 `rootGetters` 参数，可以直接导入其他 store 来替代它们，或者如果它们仍然存在于 Vuex ，则直接从 Vuex 中访问它们。
 4. 转换 `actions`
-    1. 从每个 action 中删除第一个 `context` 参数。所有的东西都应该直接从 `this` 中访问。
-    2. 如果使用其他 store，要么直接导入，要么与 getters 一样，在 Vuex 上访问。
+   1. 从每个 action 中删除第一个 `context` 参数。所有的东西都应该直接从 `this` 中访问。
+   2. 如果使用其他 store，要么直接导入，要么与 getters 一样，在 Vuex 上访问。
 5. 转换 `mutations`
-    1. Mutation 已经被弃用了。它们可以被转换为 `action`，或者你可以在你的组件中直接赋值给 store (例如：`userStore.firstName = 'First'`)
-    2. 如果你想将它转换为 action，删除第一个 `state` 参数，用 `this` 代替任何赋值操作中的 `state`。
-    3. 一个常见的 mutation 是将 state 重置为初始 state。而这就是 store 的 `$reset` 方法的内置功能。注意，这个功能只存在于 option stores。
+   1. Mutation 已经被弃用了。它们可以被转换为 `action`，或者你可以在你的组件中直接赋值给 store (例如：`userStore.firstName = 'First'`)
+   2. 如果你想将它转换为 action，删除第一个 `state` 参数，用 `this` 代替任何赋值操作中的 `state`。
+   3. 一个常见的 mutation 是将 state 重置为初始 state。而这就是 store 的 `$reset` 方法的内置功能。注意，这个功能只存在于 option stores。
 
 正如你所看到的，你的大部分代码都可以被重复使用。如果有什么遗漏，类型安全也应该可以帮助你确定需要修改的地方。
 
@@ -204,7 +204,7 @@ import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default defineComponent({
-  setup () {
+  setup() {
     const store = useStore()
 
     const firstName = computed(() => store.state.auth.user.firstName)
@@ -212,9 +212,9 @@ export default defineComponent({
 
     return {
       firstName,
-      fullName
+      fullName,
     }
-  }
+  },
 })
 ```
 
@@ -224,7 +224,7 @@ import { defineComponent, computed } from 'vue'
 import { useAuthUserStore } from '@/stores/auth-user'
 
 export default defineComponent({
-  setup () {
+  setup() {
     const authUserStore = useAuthUserStore()
 
     const firstName = computed(() => authUserStore.firstName)
@@ -234,9 +234,9 @@ export default defineComponent({
       // 你也可以在你的组件中通过返回 store 来访问整个 store
       authUserStore,
       firstName,
-      fullName
+      fullName,
     }
-  }
+  },
 })
 ```
 

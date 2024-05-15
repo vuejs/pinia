@@ -15,17 +15,18 @@ yarn add pinia @pinia/nuxt
 npm install pinia @pinia/nuxt
 ```
 
-:::tip 
-如果你正在使用 npm，你可能会遇到 *ERESOLVE unable to resolve dependency tree* 错误。如果那样的话，将以下内容添加到 `package.json` 中：
+:::tip
+如果你正在使用 npm，你可能会遇到 _ERESOLVE unable to resolve dependency tree_ 错误。如果那样的话，将以下内容添加到 `package.json` 中：
 
 ```js
-"overrides": { 
+"overrides": {
   "vue": "latest"
 }
 ```
+
 :::
 
-我们提供了一个 *module* 来为你处理一切，你只需要在 `nuxt.config.js` 文件的 `modules` 中添加它。
+我们提供了一个 _module_ 来为你处理一切，你只需要在 `nuxt.config.js` 文件的 `modules` 中添加它。
 
 ```js
 // nuxt.config.js
@@ -98,7 +99,7 @@ yarn add pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
 npm install pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
 ```
 
-我们提供了一个 *module* 来为你处理一切工作，你只需要在 `nuxt.config.js` 文件的 `buildModules` 中添加它。
+我们提供了一个 _module_ 来为你处理一切工作，你只需要在 `nuxt.config.js` 文件的 `buildModules` 中添加它。
 
 ```js
 // nuxt.config.js

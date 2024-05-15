@@ -14,7 +14,7 @@ Pinia [started](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c6282
 
 ## Why should I use Pinia?
 
-<!-- 
+<!--
 https://masteringpinia.com/lessons/why-use-pinia
  -->
 

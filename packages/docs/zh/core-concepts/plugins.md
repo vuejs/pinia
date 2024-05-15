@@ -39,11 +39,11 @@ store.secret // 'the cake is a lie'
 
 ## 简介 %{#introduction}%
 
-Pinia 插件是一个函数，可以选择性地返回要添加到 store 的属性。它接收一个可选参数，即 *context*。
+Pinia 插件是一个函数，可以选择性地返回要添加到 store 的属性。它接收一个可选参数，即 _context_。
 
 ```js
 export function myPiniaPlugin(context) {
-  context.pinia // 用 `createPinia()` 创建的 pinia。 
+  context.pinia // 用 `createPinia()` 创建的 pinia。
   context.app // 用 `createApp()` 创建的当前应用(仅 Vue 3)。
   context.store // 该插件想扩展的 store
   context.options // 定义传给 `defineStore()` 的 store 的可选对象。
@@ -120,7 +120,7 @@ pinia.use(({ store }) => {
 import { toRef, ref } from 'vue'
 
 pinia.use(({ store }) => {
-  // 为了正确地处理 SSR，我们需要确保我们没有重写任何一个 
+  // 为了正确地处理 SSR，我们需要确保我们没有重写任何一个
   // 现有的值
   if (!Object.prototype.hasOwnProperty(store.$state, 'hasError')) {
     // 在插件中定义 hasError，因此每个 store 都有各自的
@@ -366,7 +366,7 @@ declare module 'pinia' {
 ```
 
 :::tip
-还有一个可以从一个 store 类型中提取 *getter* 的 `StoreGetters` 类型。你也可以且**只可以**通过扩展 `DefineStoreOptions` 或 `DefineSetupStoreOptions` 类型来扩展 *setup store* 或 *option store* 的选项。
+还有一个可以从一个 store 类型中提取 _getter_ 的 `StoreGetters` 类型。你也可以且**只可以**通过扩展 `DefineStoreOptions` 或 `DefineSetupStoreOptions` 类型来扩展 _setup store_ 或 _option store_ 的选项。
 :::
 
 ## Nuxt.js %{#nuxt-js}%

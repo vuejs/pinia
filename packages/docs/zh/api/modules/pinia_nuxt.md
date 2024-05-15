@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -20,11 +20,11 @@ sidebarDepth: 3
 
 #### 参数
 
-| Name | Type |
-| :------ | :------ |
-| `this` | `void` |
+| Name            | Type                                                         |
+| :-------------- | :----------------------------------------------------------- |
+| `this`          | `void`                                                       |
 | `inlineOptions` | [`ModuleOptions`](../interfaces/pinia_nuxt.ModuleOptions.md) |
-| `nuxt` | `Nuxt` |
+| `nuxt`          | `Nuxt`                                                       |
 
 #### 返回值
 

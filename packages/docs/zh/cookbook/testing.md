@@ -113,7 +113,7 @@ expect(store.someAction).toHaveBeenLastCalledWith()
 
 ### 初始 State %{#initial-state}%
 
-在创建测试 Pinia 时，你可以通过传递一个 `initialState` 对象来设置**所有 store 的初始状态**。这个对象将被 pinia 的测试实例用于创建 store 时 *patch* store。比方说，你想初始化这个 store 的状态：
+在创建测试 Pinia 时，你可以通过传递一个 `initialState` 对象来设置**所有 store 的初始状态**。这个对象将被 pinia 的测试实例用于创建 store 时 _patch_ store。比方说，你想初始化这个 store 的状态：
 
 ```ts
 import { defineStore } from 'pinia'
@@ -124,7 +124,7 @@ const useCounterStore = defineStore('counter', {
 })
 ```
 
-由于 store 的名字是 *"counter"*，所以你需要传递相应的对象给 `initialState`：
+由于 store 的名字是 _"counter"_，所以你需要传递相应的对象给 `initialState`：
 
 ```ts
 // 在测试中的某处

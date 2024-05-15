@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -8,18 +8,18 @@ sidebarDepth: 3
 
 # 接口：\_StoreWithState<Id, S, G, A\> %{#interface-storewithstate-id-s-g-a}%
 
-[pinia](../modules/pinia.md)._StoreWithState
+[pinia](../modules/pinia.md).\_StoreWithState
 
 具有 state 和部分功能的基础 store。不应直接使用。
 
 ## 类型参数 %{#type-parameters}%
 
-| 名称 | 类型 |
-| :------ | :------ |
-| `Id` | extends `string` |
-| `S` | extends [`StateTree`](../modules/pinia.md#statetree) |
-| `G` | `G` |
-| `A` | `A` |
+| 名称 | 类型                                                 |
+| :--- | :--------------------------------------------------- |
+| `Id` | extends `string`                                     |
+| `S`  | extends [`StateTree`](../modules/pinia.md#statetree) |
+| `G`  | `G`                                                  |
+| `A`  | `A`                                                  |
 
 ## 层次结构 %{#hierarchy}%
 
@@ -39,7 +39,7 @@ store 的唯一标识符
 
 [StoreProperties](pinia.StoreProperties.md).[$id](pinia.StoreProperties.md#$id)
 
-___
+---
 
 ### $state %{#state}%
 
@@ -47,7 +47,7 @@ ___
 
 Store 的 State。给它赋值可替换整个 state。
 
-___
+---
 
 ### \_customProperties %{#customproperties}%
 
@@ -59,7 +59,7 @@ ___
 
 #### 继承自
 
-[StoreProperties](pinia.StoreProperties.md).[_customProperties](pinia.StoreProperties.md#_customproperties)
+[StoreProperties](pinia.StoreProperties.md).[\_customProperties](pinia.StoreProperties.md#_customproperties)
 
 ## 方法 %{#methods}%
 
@@ -75,7 +75,7 @@ ___
 
 `void`
 
-___
+---
 
 ### $onAction %{#onaction}%
 
@@ -100,25 +100,25 @@ ___
 
 ```js
 store.$onAction(({ after, onError }) => {
- // 你可以在这里创建所有钩子之间的共享变量，
- // 同时设置侦听器并清理它们。
- after((resolvedValue) => {
-   // 可以用来清理副作用 
-   // `resolvedValue` 是 action 返回的值，
-   // 如果是一个 Promise，它将是已经 resolved 的值
- })
- onError((error) => {
-   // 可以用于向上传递错误
- })
+  // 你可以在这里创建所有钩子之间的共享变量，
+  // 同时设置侦听器并清理它们。
+  after((resolvedValue) => {
+    // 可以用来清理副作用
+    // `resolvedValue` 是 action 返回的值，
+    // 如果是一个 Promise，它将是已经 resolved 的值
+  })
+  onError((error) => {
+    // 可以用于向上传递错误
+  })
 })
 ```
 
 #### 参数
 
-| 名称 | 类型 | 描述 |
-| :------ | :------ | :------ |
-| `callback` | [`StoreOnActionListener`](../modules/pinia.md#storeonactionlistener)<`Id`, `S`, `G`, `A`\> | callback called before every action |
-| `detached?` | `boolean` | detach the subscription from the context this is called from |
+| 名称        | 类型                                                                                       | 描述                                                         |
+| :---------- | :----------------------------------------------------------------------------------------- | :----------------------------------------------------------- |
+| `callback`  | [`StoreOnActionListener`](../modules/pinia.md#storeonactionlistener)<`Id`, `S`, `G`, `A`\> | callback called before every action                          |
+| `detached?` | `boolean`                                                                                  | detach the subscription from the context this is called from |
 
 #### 返回值
 
@@ -149,14 +149,14 @@ store.$onAction(({ after, onError }) => {
 store.$onAction(({ after, onError }) => {
   // 你可以在这里创建所有钩子之间的共享变量，
   // 同时设置侦听器并清理它们。
- after((resolvedValue) => {
-   // 可以用来清理副作用 
-   // `resolvedValue` 是 action 返回的值，
-   // 如果是一个 Promise，它将是已解决的值
- })
- onError((error) => {
-   // 可以用于向上传递错误
- })
+  after((resolvedValue) => {
+    // 可以用来清理副作用
+    // `resolvedValue` 是 action 返回的值，
+    // 如果是一个 Promise，它将是已解决的值
+  })
+  onError((error) => {
+    // 可以用于向上传递错误
+  })
 })
 ```
 
@@ -166,7 +166,7 @@ store.$onAction(({ after, onError }) => {
 
 移除侦听器的函数
 
-___
+---
 
 ### $patch %{#patch}%
 
@@ -176,8 +176,8 @@ ___
 
 #### 参数
 
-| 名称 | 类型 | 描述 |
-| :------ | :------ | :------ |
+| 名称           | 类型                                                                   | 描述                        |
+| :------------- | :--------------------------------------------------------------------- | :-------------------------- |
 | `partialState` | [`_DeepPartial`](../modules/pinia.md#_deeppartial)<`UnwrapRef`<`S`\>\> | patch to apply to the state |
 
 #### 返回值
@@ -192,21 +192,21 @@ ___
 
 #### 类型参数 %{#type-parameters_1}%
 
-| 名称 | 类型 |
-| :------ | :------ |
-| `F` | extends (`state`: `UnwrapRef`<`S`\>) => `any` |
+| 名称 | 类型                                          |
+| :--- | :-------------------------------------------- |
+| `F`  | extends (`state`: `UnwrapRef`<`S`\>) => `any` |
 
 #### 参数
 
-| 名称 | 类型 | 描述 |
-| :------ | :------ | :------ |
+| 名称           | 类型                                                         | 描述                                           |
+| :------------- | :----------------------------------------------------------- | :--------------------------------------------- |
 | `stateMutator` | `ReturnType`<`F`\> extends `Promise`<`any`\> ? `never` : `F` | function that mutates `state`, cannot be async |
 
 #### 返回值 {returns}
 
 `void`
 
-___
+---
 
 ### $reset %{#reset}%
 
@@ -219,7 +219,7 @@ TODO: make this options only
 
 `void`
 
-___
+---
 
 ### $subscribe %{#subscribe}%
 
@@ -231,10 +231,10 @@ ___
 
 #### 参数
 
-| 名称 | 类型 | 描述 |
-| :------ | :------ | :------ |
-| `callback` | [`SubscriptionCallback`](../modules/pinia.md#subscriptioncallback)<`S`\> | callback passed to the watcher |
-| `options?` | { `detached?`: `boolean`  } & `WatchOptions`<`boolean`\> | `watch` options + `detached` to detach the subscription from the context (usually a component) this is called from. Note that the `flush` option does not affect calls to `store.$patch()`. |
+| 名称       | 类型                                                                     | 描述                                                                                                                                                                                        |
+| :--------- | :----------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `callback` | [`SubscriptionCallback`](../modules/pinia.md#subscriptioncallback)<`S`\> | callback passed to the watcher                                                                                                                                                              |
+| `options?` | { `detached?`: `boolean` } & `WatchOptions`<`boolean`\>                  | `watch` options + `detached` to detach the subscription from the context (usually a component) this is called from. Note that the `flush` option does not affect calls to `store.$patch()`. |
 
 #### 返回值
 
