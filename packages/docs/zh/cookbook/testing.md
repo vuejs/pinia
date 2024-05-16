@@ -18,7 +18,7 @@
   - [对组件单元测试](#unit-testing-components)
     - [初始 state](#initial-state)
     - [自定义 action 的行为](#customizing-behavior-of-actions)
-    - [指定 createSpy 函数](#specifying-the-creespy-function)
+    - [指定 createSpy 函数](#specifying-the-createspy-function)
     - [Mocking getters](#mocking-getters)
     - [Pinia 插件](#pinia-plugins)
   - [端到端测试](#e2e-tests)
