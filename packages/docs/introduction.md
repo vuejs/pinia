@@ -6,7 +6,8 @@
 /> -->
 
 <MasteringPiniaLink
-  href="https://masteringpinia.com/lessons/the-what-and-why-of-state-management-and-stores"
+  href="https://play.gumlet.io/embed/651ecf274c2f339c6860e36b"
+  mp-link="https://masteringpinia.com/lessons/the-what-and-why-of-state-management-and-stores"
   title="Create your own Pinia from scratch"
 />
 

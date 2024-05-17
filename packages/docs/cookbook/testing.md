@@ -1,8 +1,8 @@
 # Testing stores
 
 <MasteringPiniaLink
-  href="https://masteringpinia.com/lessons/introduction-to-testing-stores"
-  title="Learn how to test stores"
+  href="https://play.gumlet.io/embed/65f9a9c10bfab01f414c25dc"
+  title="Watch a free video of Mastering Pinia about testing stores"
 />
 
 Stores will, by design, be used at many places and can make testing much harder than it should be. Fortunately, this doesn't have to be the case. We need to take care of three things when testing stores:
@@ -64,6 +64,13 @@ beforeEach(() => {
 ```
 
 ## Unit testing components
+
+<!-- NOTE: too long maybe but good value -->
+<!-- <MasteringPiniaLink
+  href="https://play.gumlet.io/embed/6630f540c418f8419b73b2b2?t1=1715867840&t2=1715867570609?preload=false&autoplay=false&loop=false&disable_player_controls=false"
+  title="Watch a free video of Mastering Pinia about testing stores"
+/> -->
+
 
 This can be achieved with `createTestingPinia()`, which returns a pinia instance designed to help unit tests components.
 
