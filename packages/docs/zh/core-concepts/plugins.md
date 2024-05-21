@@ -165,26 +165,25 @@ pinia.use(({ store }) => {
 
 :::
 
-<!-- TODO: translation -->
-#### Resetting state added in plugins
+#### 重置插件中添加的 state
 
-By default, `$reset()` will not reset state added by plugins but you can override it to also reset the state you add:
+默认情况下，`$reset()` 不会重置插件添加的 state，但你可以重写它来重置你添加的 state：
 
 ```js
 import { toRef, ref } from 'vue'
 
 pinia.use(({ store }) => {
-  // this is the same code as above for reference
+  // 和上面的代码一样，只是为了参考
   if (!store.$state.hasOwnProperty('hasError')) {
     const hasError = ref(false)
     store.$state.hasError = hasError
   }
   store.hasError = toRef(store.$state, 'hasError')
 
-  // make sure to set the context (`this`) to the store
+  // 确认将上下文 (`this`) 设置为 store
   const originalReset = store.$reset.bind(store)
 
-  // override the $reset function
+  // 覆写其 $reset 函数
   return {
     $reset() {
       originalReset()
@@ -430,10 +429,9 @@ export default myPlugin
 
 :::
 
-<!-- TODO: translation -->
 ### Nuxt.js 2
 
-If you are using Nuxt.js 2, the types are slightly different:
+如果你使用的是 Nuxt.js 2，其类型会稍有不同：
 
 ```ts{3,15-17}
 // plugins/myPiniaPlugin.ts
@@ -442,11 +440,11 @@ import { Plugin } from '@nuxt/types'
 
 function MyPiniaPlugin({ store }: PiniaPluginContext) {
   store.$subscribe((mutation) => {
-    // react to store changes
+    // 响应 store 变更
     console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
   })
 
-  // Note this has to be typed if you are using TS
+  // 请注意，如果你使用的是 TS，则必须添加类型。
   return { creationTime: new Date() }
 }
 

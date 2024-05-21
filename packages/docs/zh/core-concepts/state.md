@@ -89,8 +89,7 @@ const store = useStore()
 store.count++
 ```
 
-<!-- TODO: translation -->
-Note you cannot add a new state property **if you don't define it in `state()`**. It must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
+注意，新的属性**如果没有在 `state()` 中被定义**，则不能被添加。它必须包含初始状态。例如：如果 `secondCount` 没有在 `state()` 中定义，我们无法执行 `store.secondCount = 2`。
 
 ## 重置 state %{#resetting-the-state}%
 

@@ -65,7 +65,6 @@ Store (如 Pinia) 是一个保存状态和业务逻辑的实体，它并不与�
 
 并非所有的应用都需要访问全局状态，但如果你的应用确实需要一个全局状态，那 Pinia 将使你的开发过程更轻松。
 
-<!-- TODO: translation -->
-## When should I **not** use a Store
+## 什么时候**不**应该使用 Store
 
-Sometimes we end up using a store for too many things. If you feel like your application is over using stores, you might want to re consider the purposes of your stores. Namely, if some of their logic should just be composables or if some of their state should be local to a component. This is covered in depth in the [(Not) Overusing stores](https://masteringpinia.com/lessons/not-overusing-stores) lesson of Mastering Pinia.
+有的时候我们会过度使用 store。如果觉得应用程序的 store 过多，你可能需要重新考虑使用 store 的目的。例如其中一些逻辑应该只是组合式函数，或者应该只是组件的本地状态。这在 Mastering Pinia 的 [(不要) 滥用 store](https://masteringpinia.com/lessons/not-overusing-stores) 课程中有详细介绍。
