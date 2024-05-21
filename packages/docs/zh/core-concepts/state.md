@@ -89,6 +89,9 @@ const store = useStore()
 store.count++
 ```
 
+<!-- TODO: translation -->
+Note you cannot add a new state property **if you don't define it in `state()`**. It must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
+
 ## 重置 state %{#resetting-the-state}%
 
 使用[选项式 API](/zh/core-concepts/index.md#option-stores) 时，你可以通过调用 store 的 `$reset()` 方法将 state 重置为初始值。

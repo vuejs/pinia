@@ -75,7 +75,7 @@ pinia.use(({ store }) => {
 })
 ```
 
-任何由插件返回的属性都会被 devtools 自动追踪，所以如果你想在 devtools 中调试 `hello` 属性，为了使 devtools 能追踪到 `hello`，请确保**在 dev 模式下**将其添加到 `store._customProperties` 中：
+任何由插件*返回的*属性都会被 devtools 自动追踪，所以如果你想在 devtools 中调试 `hello` 属性，为了使 devtools 能追踪到 `hello`，请确保**在 dev 模式下**将其添加到 `store._customProperties` 中：
 
 ```js
 // 上文示例
@@ -122,7 +122,7 @@ import { toRef, ref } from 'vue'
 pinia.use(({ store }) => {
   // 为了正确地处理 SSR，我们需要确保我们没有重写任何一个
   // 现有的值
-  if (!Object.prototype.hasOwnProperty(store.$state, 'hasError')) {
+  if (!store.$state.hasOwnProperty('hasError')) {
     // 在插件中定义 hasError，因此每个 store 都有各自的
     // hasError 状态
     const hasError = ref(false)
@@ -149,7 +149,7 @@ pinia.use(({ store }) => {
 ```js
 import { set, toRef } from '@vue/composition-api'
 pinia.use(({ store }) => {
-  if (!Object.prototype.hasOwnProperty(store.$state, 'hello')) {
+  if (!store.$state.hasOwnProperty('secret')) {
     const secretRef = ref('secret')
     // 如果这些数据是要在 SSR 过程中使用的
     // 你应该将其设置在 `$state' 属性上
@@ -164,6 +164,35 @@ pinia.use(({ store }) => {
 ```
 
 :::
+
+<!-- TODO: translation -->
+#### Resetting state added in plugins
+
+By default, `$reset()` will not reset state added by plugins but you can override it to also reset the state you add:
+
+```js
+import { toRef, ref } from 'vue'
+
+pinia.use(({ store }) => {
+  // this is the same code as above for reference
+  if (!store.$state.hasOwnProperty('hasError')) {
+    const hasError = ref(false)
+    store.$state.hasError = hasError
+  }
+  store.hasError = toRef(store.$state, 'hasError')
+
+  // make sure to set the context (`this`) to the store
+  const originalReset = store.$reset.bind(store)
+
+  // override the $reset function
+  return {
+    $reset() {
+      originalReset()
+      store.hasError = false
+    },
+  }
+})
+```
 
 ## 添加新的外部属性 %{#adding-new-external-properties}%
 
@@ -373,7 +402,7 @@ declare module 'pinia' {
 
 当[在 Nuxt 中使用 pinia](../ssr/nuxt.md) 时，你必须先创建一个 [Nuxt 插件](https://nuxt.com/docs/guide/directory-structure/plugins)。这样你才能访问到 `pinia` 实例：
 
-```ts
+```ts{14-16}
 // plugins/myPiniaPlugin.js
 import { PiniaPluginContext } from 'pinia'
 import { Plugin } from '@nuxt/types'
@@ -395,4 +424,35 @@ const myPlugin: Plugin = ({ $pinia }) => {
 export default myPlugin
 ```
 
+::: info
+
 注意上面的例子使用的是 TypeScript。如果你使用的是 `.js` 文件，你必须删除类型标注 `PiniaPluginContext` 和 `Plugin` 以及它们的导入语句。
+
+:::
+
+<!-- TODO: translation -->
+### Nuxt.js 2
+
+If you are using Nuxt.js 2, the types are slightly different:
+
+```ts{3,15-17}
+// plugins/myPiniaPlugin.ts
+import { PiniaPluginContext } from 'pinia'
+import { Plugin } from '@nuxt/types'
+
+function MyPiniaPlugin({ store }: PiniaPluginContext) {
+  store.$subscribe((mutation) => {
+    // react to store changes
+    console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
+  })
+
+  // Note this has to be typed if you are using TS
+  return { creationTime: new Date() }
+}
+
+const myPlugin: Plugin = ({ $pinia }) => {
+  $pinia.use(MyPiniaPlugin)
+}
+
+export default myPlugin
+```

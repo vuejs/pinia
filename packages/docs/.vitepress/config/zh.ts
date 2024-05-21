@@ -143,6 +143,10 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               link: '/zh/cookbook/composing-stores.html',
             },
             {
+              text: 'VSCode 代码片段',
+              link: '/zh/cookbook/vscode-snippets.html',
+            },
+            {
               text: '从 v0/v1 迁移至 v2',
               link: '/zh/cookbook/migration-v1-v2.html',
             },
