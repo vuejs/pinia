@@ -1,5 +1,12 @@
 # State
+*********************************************
+I hope the documentation make the direct change more clear 
+what is the different ways to make direct change in both option api and composition api :-
 
+vue option api:  like mapWritableState, is patch also do with option api ?
+vue composition api : like patch and story.count ++ 
+
+********************************************
 <!-- <VueSchoolLink
   href="https://vueschool.io/lessons/access-state-from-a-pinia-store"
   title="Learn all about state in Pinia"
