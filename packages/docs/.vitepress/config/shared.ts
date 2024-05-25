@@ -29,6 +29,8 @@ export const slugify = (str: string): string =>
     .replace(rSpecial, '-')
     // ensure it doesn't start with a number
     .replace(/^(\d)/, '_$1')
+    // ensure lowercase for the anchor slug
+    .toLowerCase()
 
 export const sharedConfig = defineConfig({
   title: 'Pinia',
