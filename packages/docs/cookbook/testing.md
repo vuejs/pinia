@@ -71,7 +71,6 @@ beforeEach(() => {
   title="Watch a free video of Mastering Pinia about testing stores"
 /> -->
 
-
 This can be achieved with `createTestingPinia()`, which returns a pinia instance designed to help unit tests components.
 
 Start by installing `@pinia/testing`:
@@ -213,6 +212,8 @@ const store = mockedStore(useSomeStore)
 // typed!
 store.someAction.mockResolvedValue('some value')
 ```
+
+If you are interesting in learning more tricks like this, you should check out the Testing lessons on [Mastering Pinia](https://masteringpinia.com/lessons/exercise-mocking-stores-introduction).
 
 ### Specifying the createSpy function
 
