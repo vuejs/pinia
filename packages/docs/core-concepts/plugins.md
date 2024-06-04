@@ -452,3 +452,7 @@ const myPlugin: Plugin = ({ $pinia }) => {
 
 export default myPlugin
 ```
+
+## See also
+
+- [Pinia plugins projects on GitHub](https://github.com/topics/pinia-plugin)
