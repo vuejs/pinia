@@ -68,6 +68,7 @@ export {
 } from './mapHelpers'
 
 export { storeToRefs } from './storeToRefs'
+export { destructureStore } from './destructureStore'
 
 export type {
   MapStoresCustomization,
