@@ -89,6 +89,7 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
       { from: composables, name: 'acceptHMRUpdate' },
       { from: composables, name: 'usePinia' },
       { from: composables, name: 'storeToRefs' },
+      { from: composables, name: 'destructureStore' },
     ])
 
     if (!options.storesDirs) {
