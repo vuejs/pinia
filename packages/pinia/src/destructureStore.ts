@@ -1,15 +1,23 @@
+import { toRaw, toRef } from 'vue'
 import { StoreActions } from './store'
-import { StoreToRefs, storeToRefs } from './storeToRefs'
+import { StoreToRefs } from './storeToRefs'
 import { Store } from './types'
 
 export function destructureStore<S extends Store>(
   store: S
 ): StoreToRefs<S> & StoreActions<S> {
-  const refs = storeToRefs(store)
+  const _store = toRaw(store)
 
-  const actions = Object.fromEntries(
-    Object.entries(store).filter(([, value]) => typeof value === 'function')
-  ) as StoreActions<S>
+  return Object.entries(_store).reduce(
+    (acc, [key, value]) => {
+      if (typeof value === 'function') {
+        ;(acc as any)[key] = value
+      } else {
+        ;(acc as any)[key] = toRef(_store, key as keyof S)
+      }
 
-  return { ...refs, ...actions }
+      return acc
+    },
+    {} as StoreToRefs<S> & StoreActions<S>
+  )
 }
