@@ -258,8 +258,13 @@ async function main() {
   step('\nCreating tags...')
   let versionsToPush = []
   for (const pkg of pkgWithVersions) {
-    versionsToPush.push(`refs/tags/${pkg.name}@${pkg.version}`)
-    await runIfNotDry('git', ['tag', `${pkg.name}@${pkg.version}`])
+    const tagName =
+      pkg.name === 'vue-router'
+        ? `v${pkg.version}`
+        : `${pkg.name}@${pkg.version}`
+
+    versionsToPush.push(`refs/tags/${tagName}`)
+    await runIfNotDry('git', ['tag', `${tagName}`])
   }
 
   if (!noPublish) {
@@ -332,7 +337,7 @@ async function publishPackage(pkg) {
         'public',
         // specific to pinia
         '--publish-branch',
-        'v2',
+        EXPECTED_BRANCH,
       ],
       {
         cwd: pkg.path,
