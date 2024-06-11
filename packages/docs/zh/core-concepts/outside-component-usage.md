@@ -16,6 +16,7 @@ Pinia store 依靠 `pinia` 实例在所有调用中共享同一个 store 实例�
 
 ```js
 import { useUserStore } from '@/stores/user'
+import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import App from './App.vue'
 

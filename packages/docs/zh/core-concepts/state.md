@@ -89,6 +89,8 @@ const store = useStore()
 store.count++
 ```
 
+注意，新的属性**如果没有在 `state()` 中被定义**，则不能被添加。它必须包含初始状态。例如：如果 `secondCount` 没有在 `state()` 中定义，我们无法执行 `store.secondCount = 2`。
+
 ## 重置 state %{#resetting-the-state}%
 
 使用[选项式 API](/zh/core-concepts/index.md#option-stores) 时，你可以通过调用 store 的 `$reset()` 方法将 state 重置为初始值。

@@ -1,4 +1,9 @@
+# 开始
+
 ## 安装 %{#installation}%
+
+<VueMasteryLogoLink for="pinia-cheat-sheet">
+</VueMasteryLogoLink>
 
 用你喜欢的包管理器安装 `pinia`：
 
@@ -59,3 +64,7 @@ Store (如 Pinia) 是一个保存状态和业务逻辑的实体，它并不与�
 另一方面，你应该避免在 Store 中引入那些原本可以在组件中保存的本地数据，例如，一个元素在页面中的可见性。
 
 并非所有的应用都需要访问全局状态，但如果你的应用确实需要一个全局状态，那 Pinia 将使你的开发过程更轻松。
+
+## 什么时候**不**应该使用 Store
+
+有的时候我们会过度使用 store。如果觉得应用程序的 store 过多，你可能需要重新考虑使用 store 的目的。例如其中一些逻辑应该只是组合式函数，或者应该只是组件的本地状态。这在 Mastering Pinia 的 [(不要) 滥用 store](https://masteringpinia.com/lessons/not-overusing-stores) 课程中有详细介绍。

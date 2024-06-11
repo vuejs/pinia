@@ -44,7 +44,7 @@ import { defineStore, skipHydrate } from 'pinia'
 import { useMediaControls } from '@vueuse/core'
 
 export const useVideoPlayer = defineStore('video', () => {
-  // 我们不会直接暴露这个元素
+  // 我们不会直接暴露 (返回) 这个元素
   const videoElement = ref<HTMLVideoElement>()
   const src = ref('/data/video.mp4')
   const { playing, volume, currentTime, togglePictureInPicture } =
@@ -66,6 +66,10 @@ export const useVideoPlayer = defineStore('video', () => {
   }
 })
 ```
+
+:::warning
+和常规的状态不同，`ref<HTMLVideoElement>()` 包含了一个不可序列化的 DOM 元素引用。这就是为什么我们不直接返回它的原因。由于它是客户端专用的状态，我们知道它不会被设置在服务器上，并且在客户端上**始终**以 `undefined` 作为开始。
+:::
 
 ## 服务端渲染 %{#ssr}%
 
