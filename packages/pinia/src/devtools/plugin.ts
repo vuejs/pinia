@@ -230,6 +230,12 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
           }
 
           if (inspectedStore) {
+            const win = window as any
+            if (win) {
+              win.$p = payload.nodeId === PINIA_ROOT_ID
+                ? inspectedStore
+                : toRaw(inspectedStore)
+            }
             payload.state = formatStoreForInspectorState(inspectedStore)
           }
         }
