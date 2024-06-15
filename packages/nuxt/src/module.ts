@@ -36,7 +36,7 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     name: 'pinia',
     configKey: 'pinia',
     compatibility: {
-      nuxt: '^2.0.0 || ^3.0.0-rc.5',
+      nuxt: '^2.0.0 || >=3.0.0-rc.5',
       bridge: true,
     },
   },
