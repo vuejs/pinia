@@ -7,7 +7,7 @@ import {
   isNuxt2,
   addImports,
   createResolver,
-  resolveModule,
+  resolvePath,
   addImportsDir,
 } from '@nuxt/kit'
 import type { NuxtModule } from '@nuxt/schema'
@@ -43,7 +43,7 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
   defaults: {
     disableVuex: true,
   },
-  setup(options, nuxt) {
+  async setup(options, nuxt) {
     const resolver = createResolver(import.meta.url)
 
     // Disable default Vuex store (Nuxt v2.10+ only)
@@ -61,12 +61,9 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push(resolver.resolve('./runtime'))
 
     // Make sure we use the mjs build for pinia
-    nuxt.options.alias.pinia =
-      nuxt.options.alias.pinia ||
-      // FIXME: remove this deprecated call. Ensure it works in Nuxt 2 to 3
-      resolveModule('pinia/dist/pinia.mjs', {
-        paths: [nuxt.options.rootDir, import.meta.url],
-      })
+    if (!nuxt.options.alias.pinia) {
+      nuxt.options.alias.pinia = await resolvePath('pinia/dist/pinia.mjs')
+    }
 
     nuxt.hook('prepare:types', ({ references }) => {
       references.push({ types: '@pinia/nuxt' })
@@ -97,7 +94,11 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     }
 
     if (options.storesDirs) {
-      for (const storeDir of options.storesDirs) {
+      for (const storeDir of [
+        ...options.storesDirs,
+        /* @ts-expect-error storesDirs isn't on base NuxtOptions type */
+        ...(nuxt.options.pinia?.storesDirs || []),
+      ]) {
         addImportsDir(resolver.resolve(nuxt.options.rootDir, storeDir))
       }
     }
