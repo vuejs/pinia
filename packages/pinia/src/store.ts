@@ -327,9 +327,10 @@ function createSetupStore<
   const $reset = isOptionsStore
     ? function $reset(this: _StoreWithState<Id, S, G, A>) {
         const { state } = options as DefineStoreOptions<Id, S, G, A>
-        const newState = state ? state() : {}
+        const newState: _DeepPartial<UnwrapRef<S>> = state ? state() : {}
         // we use a patch to group all changes into one single subscription
         this.$patch(($state) => {
+          // @ts-expect-error: FIXME: shouldn't error?
           assign($state, newState)
         })
       }
@@ -490,14 +491,14 @@ function createSetupStore<
     if ((isRef(prop) && !isComputed(prop)) || isReactive(prop)) {
       // mark it as a piece of state to be serialized
       if (__DEV__ && hot) {
-        set(hotState.value, key, toRef(setupStore as any, key))
+        set(hotState.value, key, toRef(setupStore, key))
         // createOptionStore directly sets the state in pinia.state.value so we
         // can just skip that
       } else if (!isOptionsStore) {
         // in setup stores we must hydrate the state and sync pinia state tree with the refs the user just created
         if (initialState && shouldHydrate(prop)) {
           if (isRef(prop)) {
-            prop.value = initialState[key]
+            prop.value = initialState[key as keyof UnwrapRef<S>]
           } else {
             // probably a reactive object, lets recursively assign
             // @ts-expect-error: prop is unknown
@@ -581,6 +582,7 @@ function createSetupStore<
         throw new Error('cannot set hotState')
       }
       $patch(($state) => {
+        // @ts-expect-error: FIXME: shouldn't error?
         assign($state, state)
       })
     },
@@ -594,7 +596,7 @@ function createSetupStore<
       newStore._hmrPayload.state.forEach((stateKey) => {
         if (stateKey in store.$state) {
           const newStateTarget = newStore.$state[stateKey]
-          const oldStateSource = store.$state[stateKey]
+          const oldStateSource = store.$state[stateKey as keyof UnwrapRef<S>]
           if (
             typeof newStateTarget === 'object' &&
             isPlainObject(newStateTarget) &&

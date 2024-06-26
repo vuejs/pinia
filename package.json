@@ -54,9 +54,9 @@
     "rollup-plugin-typescript2": "^0.36.0",
     "semver": "^7.6.2",
     "simple-git-hooks": "^2.11.1",
-    "typedoc": "^0.25.13",
-    "typedoc-plugin-markdown": "^3.17.1",
-    "typescript": "~5.3.3",
+    "typedoc": "^0.26.2",
+    "typedoc-plugin-markdown": "^4.1.0",
+    "typescript": "~5.5.2",
     "vitest": "^1.6.0",
     "vue": "^3.4.30"
   },

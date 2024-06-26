@@ -136,7 +136,9 @@ export type _MapStateReturn<
   //   : key extends keyof G
   //   ? G[key]
   //   : never
-  [key in Keys]: () => Store<string, S, G, {}>[key]
+  [key in Keys]: key extends keyof Store<string, S, G, {}>
+    ? () => Store<string, S, G, {}>[key]
+    : never
 }
 
 /**
@@ -403,6 +405,7 @@ export function mapActions<
           this: ComponentPublicInstance,
           ...args: any[]
         ) {
+          // @ts-expect-error: FIXME: should work?
           return useStore(this.$pinia)[key](...args)
         }
         return reduced
@@ -414,6 +417,7 @@ export function mapActions<
             this: ComponentPublicInstance,
             ...args: any[]
           ) {
+            // @ts-expect-error: FIXME: should work?
             return useStore(this.$pinia)[keysOrMapper[key]](...args)
           }
           return reduced
@@ -509,11 +513,12 @@ export function mapWritableState<
         // @ts-ignore
         reduced[key] = {
           get(this: ComponentPublicInstance) {
+            // @ts-expect-error: FIXME: should work?
             return useStore(this.$pinia)[key]
           },
           set(this: ComponentPublicInstance, value) {
-            // it's easier to type it here as any
-            return (useStore(this.$pinia)[key] = value as any)
+            // @ts-expect-error: FIXME: should work?
+            return (useStore(this.$pinia)[key] = value)
           },
         }
         return reduced
@@ -523,11 +528,12 @@ export function mapWritableState<
           // @ts-ignore
           reduced[key] = {
             get(this: ComponentPublicInstance) {
+              // @ts-expect-error: FIXME: should work?
               return useStore(this.$pinia)[keysOrMapper[key]]
             },
             set(this: ComponentPublicInstance, value) {
-              // it's easier to type it here as any
-              return (useStore(this.$pinia)[keysOrMapper[key]] = value as any)
+              // @ts-expect-error: FIXME: should work?
+              return (useStore(this.$pinia)[keysOrMapper[key]] = value)
             },
           }
           return reduced
