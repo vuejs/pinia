@@ -70,11 +70,11 @@
   "license": "MIT",
   "devDependencies": {
     "@microsoft/api-extractor": "7.43.1",
-    "@vue/test-utils": "^2.4.5"
+    "@vue/test-utils": "^2.4.6"
   },
   "dependencies": {
-    "@vue/devtools-api": "^6.6.1",
-    "vue-demi": ">=0.14.7"
+    "@vue/devtools-api": "^6.6.3",
+    "vue-demi": "^0.14.8"
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.4.0",

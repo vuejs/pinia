@@ -44,7 +44,7 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/testing -r 1"
   },
   "dependencies": {
-    "vue-demi": ">=0.14.7"
+    "vue-demi": "^0.14.8"
   },
   "devDependencies": {
     "pinia": "workspace:*",
