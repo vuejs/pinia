@@ -130,7 +130,7 @@ importers:
   packages/nuxt:
     dependencies:
       '@nuxt/kit':
-        specifier: ^3.12.2
+        specifier: ^3.9.0
         version: 3.12.2(magicast@0.3.4)(rollup@4.18.0)
       pinia:
         specifier: '>=2.1.7'
@@ -140,7 +140,7 @@ importers:
         specifier: ^0.8.0
         version: 0.8.0(@nuxt/kit@3.12.2(magicast@0.3.4)(rollup@4.18.0))(nuxi@3.12.0)(typescript@5.4.3)(vue-tsc@2.0.13(typescript@5.4.3))
       '@nuxt/schema':
-        specifier: ^3.12.2
+        specifier: ^3.9.0
         version: 3.12.2(rollup@4.18.0)
       '@nuxt/test-utils':
         specifier: ^3.13.1
@@ -9782,7 +9782,7 @@ snapshots:
     dependencies:
       acorn: 8.11.3
       pathe: 1.1.2
-      pkg-types: 1.0.3
+      pkg-types: 1.1.1
       ufo: 1.5.3
 
   mlly@1.7.1:
