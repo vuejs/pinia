@@ -217,7 +217,7 @@ If you are interesting in learning more tricks like this, you should check out t
 
 ### Specifying the createSpy function
 
-When using Jest, or vitest with `globals: true`, `createTestingPinia` automatically stubs actions using the spy function based on the existing test framework (`jest.fn` or `vitest.fn`). If you are not using `globals: true` or using a different framework, you'll need to provide a [createSpy](/api/interfaces/pinia_testing.TestingOptions.html#createspy) option:
+When using Jest, or vitest with `globals: true`, `createTestingPinia` automatically stubs actions using the spy function based on the existing test framework (`jest.fn` or `vitest.fn`). If you are not using `globals: true` or using a different framework, you'll need to provide a [createSpy](../api/@pinia/testing/interfaces/TestingOptions.html#createSpy-) option:
 
 ::: code-group
 
