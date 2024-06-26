@@ -217,8 +217,7 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
       })
 
       // Expose pinia instance as $pinia to window
-      const win = window as any
-      if (win) win.$pinia = pinia
+      globalThis.$pinia = pinia
 
       api.on.getInspectorState((payload) => {
         if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
@@ -235,8 +234,8 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
 
           if (inspectedStore) {
             // Expose selected store as $store to window
-            if (win && payload.nodeId !== PINIA_ROOT_ID)
-              win.$store = toRaw(inspectedStore)
+            if (payload.nodeId !== PINIA_ROOT_ID)
+              globalThis.$store = toRaw(inspectedStore as StoreGeneric)
             payload.state = formatStoreForInspectorState(inspectedStore)
           }
         }
@@ -593,4 +592,15 @@ export function devtoolsPlugin<
     // FIXME: is there a way to allow the assignment from Store<Id, S, G, A> to StoreGeneric?
     store as StoreGeneric
   )
+}
+
+declare global {
+  /**
+   * Exposes the `pinia` instance when Devtools are opened.
+   */
+  var $pinia: Pinia | undefined
+  /**
+   * Exposes the current store when Devtools are opened.
+   */
+  var $store: StoreGeneric | undefined
 }
