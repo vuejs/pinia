@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^5.1.0",
-    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.7",
     "@rollup/plugin-terser": "^0.4.4",
@@ -48,7 +48,7 @@
     "minimist": "^1.2.8",
     "p-series": "^3.0.0",
     "pascalcase": "^2.0.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.2",
     "rimraf": "^5.0.7",
     "rollup": "^4.18.0",
     "rollup-plugin-typescript2": "^0.36.0",
