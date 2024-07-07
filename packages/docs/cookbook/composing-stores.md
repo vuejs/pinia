@@ -67,7 +67,7 @@ export const useCartStore = defineStore('cart', () => {
 
 ## Shared Getters
 
-You can simply call `useOtherStore()` inside a _getter_:
+You can simply call `useUserStore()` inside a _getter_:
 
 ```js
 import { defineStore } from 'pinia'
