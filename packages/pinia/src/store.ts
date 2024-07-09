@@ -62,9 +62,8 @@ function mergeReactiveObjects<
   // Handle Map instances
   if (target instanceof Map && patchToApply instanceof Map) {
     patchToApply.forEach((value, key) => target.set(key, value))
-  }
-  // Handle Set instances
-  if (target instanceof Set && patchToApply instanceof Set) {
+  } else if (target instanceof Set && patchToApply instanceof Set) {
+    // Handle Set instances
     patchToApply.forEach(target.add, target)
   }
 
