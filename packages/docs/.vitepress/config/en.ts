@@ -55,11 +55,14 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         {
           text: 'packages',
           items: [
-            { text: 'pinia', link: '/api/modules/pinia.html' },
-            { text: '@pinia/nuxt', link: '/api/modules/pinia_nuxt.html' },
+            { text: 'pinia', link: '/api/pinia/' },
+            {
+              text: '@pinia/nuxt',
+              link: '/api/@pinia/nuxt/',
+            },
             {
               text: '@pinia/testing',
-              link: '/api/modules/pinia_testing.html',
+              link: '/api/@pinia/testing/',
             },
           ],
         },
