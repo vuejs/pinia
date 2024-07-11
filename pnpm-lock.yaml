@@ -126,6 +126,9 @@ importers:
       vitepress-translation-helper:
         specifier: ^0.2.1
         version: 0.2.1(vitepress@1.2.3(@algolia/client-search@4.24.0)(@types/node@20.14.9)(@vue/composition-api@1.7.2(vue@3.4.30(typescript@5.5.2)))(postcss@8.4.38)(search-insights@2.14.0)(terser@5.31.1)(typescript@5.5.2))(vue@3.4.30(typescript@5.5.2))
+      vue-use-spring:
+        specifier: ^0.1.1
+        version: 0.1.1(@vue/composition-api@1.7.2(vue@3.4.30(typescript@5.5.2)))(vue@3.4.30(typescript@5.5.2))
 
   packages/nuxt:
     dependencies:
@@ -5410,6 +5413,17 @@ packages:
   vue-component-type-helpers@2.0.22:
     resolution: {integrity: sha512-gPr2Ba7efUwy/Vfbuf735bHSVdN4ycoZUCHfypkI33M9DUH+ieRblLLVM2eImccFYaWNWwEzURx02EgoXDBmaQ==}
 
+  vue-demi@0.11.4:
+    resolution: {integrity: sha512-/3xFwzSykLW2HiiLie43a+FFgNOcokbBJ+fzvFXd0r2T8MYohqvphUyDQ8lbAwzQ3Dlcrb1c9ykifGkhSIAk6A==}
+    engines: {node: '>=12'}
+    hasBin: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+
   vue-demi@0.14.8:
     resolution: {integrity: sha512-Uuqnk9YE9SsWeReYqK2alDI5YzciATE0r2SkA6iMAtuXvNTMNACJLJEXNXaEy94ECuBe4Sk6RzRU80kjdbIo1Q==}
     engines: {node: '>=12'}
@@ -5446,6 +5460,15 @@ packages:
     hasBin: true
     peerDependencies:
       typescript: '*'
+
+  vue-use-spring@0.1.1:
+    resolution: {integrity: sha512-SNzVt6aLbcJvYz5DDUbVIo2+SdipYpPQDXWtMExD420LQMWCHz8eNbZjdCIFWsUtPGexm0DGYZiVInFjr0ILsA==}
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^2.6.12 || ^3.0.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
 
   vue@3.4.30:
     resolution: {integrity: sha512-NcxtKCwkdf1zPsr7Y8+QlDBCGqxvjLXF2EX+yi76rV5rrz90Y6gK1cq0olIhdWGgrlhs9ElHuhi9t3+W5sG5Xw==}
@@ -11426,6 +11449,12 @@ snapshots:
 
   vue-component-type-helpers@2.0.22: {}
 
+  vue-demi@0.11.4(@vue/composition-api@1.7.2(vue@3.4.30(typescript@5.5.2)))(vue@3.4.30(typescript@5.5.2)):
+    dependencies:
+      vue: 3.4.30(typescript@5.5.2)
+    optionalDependencies:
+      '@vue/composition-api': 1.7.2(vue@3.4.30(typescript@5.5.2))
+
   vue-demi@0.14.8(@vue/composition-api@1.7.2(vue@3.4.30(typescript@5.5.2)))(vue@3.4.30(typescript@5.5.2)):
     dependencies:
       vue: 3.4.30(typescript@5.5.2)
@@ -11457,6 +11486,13 @@ snapshots:
       '@vue/language-core': 2.0.22(typescript@5.5.2)
       semver: 7.6.2
       typescript: 5.5.2
+
+  vue-use-spring@0.1.1(@vue/composition-api@1.7.2(vue@3.4.30(typescript@5.5.2)))(vue@3.4.30(typescript@5.5.2)):
+    dependencies:
+      vue: 3.4.30(typescript@5.5.2)
+      vue-demi: 0.11.4(@vue/composition-api@1.7.2(vue@3.4.30(typescript@5.5.2)))(vue@3.4.30(typescript@5.5.2))
+    optionalDependencies:
+      '@vue/composition-api': 1.7.2(vue@3.4.30(typescript@5.5.2))
 
   vue@3.4.30(typescript@5.5.2):
     dependencies:

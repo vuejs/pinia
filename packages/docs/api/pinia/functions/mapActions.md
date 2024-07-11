@@ -64,11 +64,11 @@ export default {
   methods: {
     // other methods properties
     // useCounterStore has two actions named `increment` and `setCount`
-    ...mapActions(useCounterStore, { moar: 'increment', setIt: 'setCount' })
+    ...mapActions(useCounterStore, { more: 'increment', setIt: 'setCount' })
   },
 
   created() {
-    this.moar()
+    this.more()
     this.setIt(2)
   }
 }
