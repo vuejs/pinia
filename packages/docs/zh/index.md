@@ -6,7 +6,7 @@ titleTemplate: The intuitive store for Vue.js
 
 hero:
   name: Pinia
-  text: "得心应手的 \nVue.js 状态管理库"
+  text: "符合直觉的 \nVue.js 状态管理库"
   tagline: "类型安全、可扩展性以及模块化设计。\n甚至让你忘记正在使用的是一个状态库。"
   image:
     src: /logo.svg
