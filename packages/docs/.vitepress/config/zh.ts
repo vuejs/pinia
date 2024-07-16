@@ -64,11 +64,11 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         {
           text: 'packages',
           items: [
-            { text: 'pinia', link: '/zh/api/pinia/' },
-            { text: '@pinia/nuxt', link: '/zh/api/@pinia/nuxt/' },
+            { text: 'pinia', link: '/zh/api/modules/pinia.html' },
+            { text: '@pinia/nuxt', link: '/zh/api/modules/pinia_nuxt.html' },
             {
               text: '@pinia/testing',
-              link: '/zh/api/@pinia/testing/',
+              link: '/zh/api/modules/pinia_testing.html',
             },
           ],
         },

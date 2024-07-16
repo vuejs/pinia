@@ -6,7 +6,7 @@ sidebarDepth: 3
 
 [API 文档](../index.md) / @pinia/nuxt
 
-# Module: @pinia/nuxt %{#module-pinia-nuxt}%
+# 模块: @pinia/nuxt %{#module-pinia-nuxt}%
 
 ## 接口 %{#interfaces}%
 
