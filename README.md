@@ -40,10 +40,10 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
 
 <h4 align="center">Silver Sponsors</h4>
 <p align="center">
-    <a href="https://www.vuemastery.com/" target="_blank" rel="noopener noreferrer">
+    <a href="https://route4me.com" target="_blank" rel="noopener noreferrer">
     <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/vuemastery-dark.png" media="(prefers-color-scheme: dark)" height="42px" alt="VueMastery" />
-      <img src="https://posva-sponsors.pages.dev/logos/vuemastery-light.svg" height="42px" alt="VueMastery" />
+      <source srcset="https://posva-sponsors.pages.dev/logos/route4me.png" media="(prefers-color-scheme: dark)" height="42px" alt="Route Optimizer and Route Planner Software" />
+      <img src="https://posva-sponsors.pages.dev/logos/route4me.png" height="42px" alt="Route Optimizer and Route Planner Software" />
     </picture>
   </a>
     <a href="https://www.prefect.io/" target="_blank" rel="noopener noreferrer">
@@ -52,22 +52,16 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
       <img src="https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg" height="42px" alt="Prefect" />
     </picture>
   </a>
+    <a href="https://www.vuemastery.com/" target="_blank" rel="noopener noreferrer">
+    <picture>
+      <source srcset="https://posva-sponsors.pages.dev/logos/vuemastery-dark.png" media="(prefers-color-scheme: dark)" height="42px" alt="VueMastery" />
+      <img src="https://posva-sponsors.pages.dev/logos/vuemastery-light.svg" height="42px" alt="VueMastery" />
+    </picture>
+  </a>
 </p>
 
 <h4 align="center">Bronze Sponsors</h4>
 <p align="center">
-    <a href="https://stormier.ninja" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4" media="(prefers-color-scheme: dark)" height="26px" alt="Stanislas Ormières" />
-      <img src="https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4" height="26px" alt="Stanislas Ormières" />
-    </picture>
-  </a>
-    <a href="https://www.vuejs.de" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4" media="(prefers-color-scheme: dark)" height="26px" alt="Antony Konstantinidis" />
-      <img src="https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4" height="26px" alt="Antony Konstantinidis" />
-    </picture>
-  </a>
     <a href="https://storyblok.com" target="_blank" rel="noopener noreferrer">
     <picture>
       <source srcset="https://posva-sponsors.pages.dev/logos/storyblok.png" media="(prefers-color-scheme: dark)" height="26px" alt="Storyblok" />
@@ -76,8 +70,20 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
   </a>
     <a href="https://ui.nuxt.com/pro" target="_blank" rel="noopener noreferrer">
     <picture>
-      <source srcset="https://avatars.githubusercontent.com/u/81570812?v=4" media="(prefers-color-scheme: dark)" height="26px" alt="Nuxt UI Pro Templates" />
-      <img src="https://avatars.githubusercontent.com/u/81570812?v=4" height="26px" alt="Nuxt UI Pro Templates" />
+      <source srcset="https://posva-sponsors.pages.dev/logos/nuxt-dark.svg" media="(prefers-color-scheme: dark)" height="26px" alt="Nuxt UI Pro Templates" />
+      <img src="https://posva-sponsors.pages.dev/logos/nuxt-light.svg" height="26px" alt="Nuxt UI Pro Templates" />
+    </picture>
+  </a>
+    <a href="https://www.vuejs.de" target="_blank" rel="noopener noreferrer">
+    <picture>
+      <source srcset="https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4" media="(prefers-color-scheme: dark)" height="26px" alt="Antony Konstantinidis" />
+      <img src="https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4" height="26px" alt="Antony Konstantinidis" />
+    </picture>
+  </a>
+    <a href="https://stormier.ninja" target="_blank" rel="noopener noreferrer">
+    <picture>
+      <source srcset="https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4" media="(prefers-color-scheme: dark)" height="26px" alt="Stanislas Ormières" />
+      <img src="https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4" height="26px" alt="Stanislas Ormières" />
     </picture>
   </a>
 </p>
