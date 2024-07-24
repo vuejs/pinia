@@ -169,7 +169,7 @@ html.dark .DocSearch {
   border: 2px solid var(--c-yellow-2);
 }
 
-.become-sponsor:hover {
+.become-sponsor.become-sponsor:hover {
   background-color: var(--c-yellow-1);
   text-decoration: none;
   border-color: var(--c-yellow-1);
