@@ -173,7 +173,7 @@ html.dark .DocSearch {
   background-color: var(--c-yellow-1);
   text-decoration: none;
   border-color: var(--c-yellow-1);
-  color: var(--c-text-light-1);
+  color: var(--c-text-light-1) !important;
 }
 
 .vp-doc a {
