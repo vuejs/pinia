@@ -35,8 +35,8 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@types/lodash.kebabcase": "^4.1.9",
     "@types/node": "^20.14.12",
-    "@vitest/coverage-v8": "^1.6.0",
-    "@vitest/ui": "^1.6.0",
+    "@vitest/coverage-v8": "^2.0.4",
+    "@vitest/ui": "^2.0.4",
     "@vue/compiler-sfc": "^3.4.34",
     "@vue/server-renderer": "^3.4.34",
     "chalk": "^5.3.0",
@@ -59,7 +59,7 @@
     "typedoc": "^0.26.5",
     "typedoc-plugin-markdown": "^4.2.3",
     "typescript": "~5.5.4",
-    "vitest": "^1.6.0",
+    "vitest": "^2.0.4",
     "vue": "^3.4.34"
   },
   "simple-git-hooks": {
