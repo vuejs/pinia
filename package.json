@@ -6,6 +6,7 @@
     "packages/*"
   ],
   "scripts": {
+    "dev": "vitest --coverage --ui",
     "release": "node scripts/release.mjs",
     "size": "pnpm run -r size",
     "build": "pnpm run -C packages/pinia build && pnpm run -C packages/nuxt build && pnpm run -C packages/testing build",
