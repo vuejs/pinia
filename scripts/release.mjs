@@ -22,6 +22,7 @@ let {
   skipCleanCheck: skipCleanGitCheck,
   noDepsUpdate,
   noPublish,
+  noLockUpdate,
 } = args
 
 if (args.h || args.help) {
@@ -37,6 +38,7 @@ Flags:
   --skipCleanCheck    Skip checking if the git repo is clean
   --noDepsUpdate      Skip updating dependencies in package.json files
   --noPublish         Skip publishing packages
+  --noLockUpdate      Skips updating the lock with "pnpm install"
 `.trim()
   )
   process.exit(0)
@@ -201,8 +203,10 @@ async function main() {
   step('\nUpdating versions in package.json files...')
   await updateVersions(pkgWithVersions)
 
-  step('\nUpdating lock...')
-  await runIfNotDry(`pnpm`, ['install'])
+  if (!noLockUpdate) {
+    step('\nUpdating lock...')
+    await runIfNotDry(`pnpm`, ['install'])
+  }
 
   step('\nGenerating changelogs...')
   for (const pkg of pkgWithVersions) {
