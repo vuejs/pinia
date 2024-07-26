@@ -453,6 +453,6 @@ const myPlugin: Plugin = ({ $pinia }) => {
 export default myPlugin
 ```
 
-## See also
+## Existing plugins
 
-- [Pinia plugins projects on GitHub](https://github.com/topics/pinia-plugin)
+You can check existing [Pinia plugins on GitHub](https://github.com/topics/pinia-plugin) with the topic _pinia-plugin_.
