@@ -490,4 +490,9 @@ describe('HMR', () => {
       })
     })
   })
+
+  describe('both', () => {
+    it.todo('keeps $subscribe subscriptions')
+    it.todo('$onAction subscriptions')
+  })
 })
