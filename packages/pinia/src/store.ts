@@ -56,6 +56,26 @@ const fallbackRunWithContext = (fn: () => unknown) => fn()
 
 type _ArrayType<AT> = AT extends Array<infer T> ? T : never
 
+/**
+ * Marks a function as an action for `$onAction`
+ * @internal
+ */
+const ACTION_MARKER = Symbol()
+/**
+ * Action name symbol. Allows to add a name to an action after defining it
+ * @internal
+ */
+const ACTION_NAME = Symbol()
+/**
+ * Function type extended with action markers
+ * @internal
+ */
+interface MarkedAction<Fn extends _Method = _Method> {
+  (...args: Parameters<Fn>): ReturnType<Fn>
+  [ACTION_MARKER]: boolean
+  [ACTION_NAME]: string
+}
+
 function mergeReactiveObjects<
   T extends Record<any, unknown> | Map<unknown, unknown> | Set<unknown>,
 >(target: T, patchToApply: _DeepPartial<T>): T {
@@ -211,7 +231,7 @@ function createSetupStore<
   A extends _ActionsTree,
 >(
   $id: Id,
-  setup: () => SS,
+  setup: (helpers: SetupStoreHelpers) => SS,
   options:
     | DefineSetupStoreOptions<Id, S, G, A>
     | DefineStoreOptions<Id, S, G, A> = {},
@@ -350,14 +370,18 @@ function createSetupStore<
   }
 
   /**
-   * Wraps an action to handle subscriptions.
-   *
+   * Helper that wraps function so it can be tracked with $onAction
+   * @param fn - action to wrap
    * @param name - name of the action
-   * @param action - action to wrap
-   * @returns a wrapped action to handle subscriptions
    */
-  function wrapAction(name: string, action: _Method) {
-    return function (this: any) {
+  const action = <Fn extends _Method>(fn: Fn, name: string = ''): Fn => {
+    if (ACTION_MARKER in fn) {
+      // we ensure the name is set from the returned function
+      ;(fn as unknown as MarkedAction<Fn>)[ACTION_NAME] = name
+      return fn
+    }
+
+    const wrappedAction = function (this: any) {
       setActivePinia(pinia)
       const args = Array.from(arguments)
 
@@ -373,7 +397,7 @@ function createSetupStore<
       // @ts-expect-error
       triggerSubscriptions(actionSubscriptions, {
         args,
-        name,
+        name: wrappedAction[ACTION_NAME],
         store,
         after,
         onError,
@@ -381,7 +405,7 @@ function createSetupStore<
 
       let ret: unknown
       try {
-        ret = action.apply(this && this.$id === $id ? this : store, args)
+        ret = fn.apply(this && this.$id === $id ? this : store, args)
         // handle sync errors
       } catch (error) {
         triggerSubscriptions(onErrorCallbackList, error)
@@ -403,7 +427,14 @@ function createSetupStore<
       // trigger after callbacks
       triggerSubscriptions(afterCallbackList, ret)
       return ret
-    }
+    } as MarkedAction<Fn>
+
+    wrappedAction[ACTION_MARKER] = true
+    wrappedAction[ACTION_NAME] = name // will be set later
+
+    // @ts-expect-error: we are intentionally limiting the returned type to just Fn
+    // because all the added properties are internals that are exposed through `$onAction()` only
+    return wrappedAction
   }
 
   const _hmrPayload = /*#__PURE__*/ markRaw({
@@ -480,7 +511,7 @@ function createSetupStore<
 
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
   const setupStore = runWithContext(() =>
-    pinia._e.run(() => (scope = effectScope()).run(setup)!)
+    pinia._e.run(() => (scope = effectScope()).run(() => setup({ action }))!)
   )!
 
   // overwrite existing actions to support $onAction
@@ -519,8 +550,7 @@ function createSetupStore<
       }
       // action
     } else if (typeof prop === 'function') {
-      // @ts-expect-error: we are overriding the function we avoid wrapping if
-      const actionValue = __DEV__ && hot ? prop : wrapAction(key, prop)
+      const actionValue = __DEV__ && hot ? prop : action(prop as _Method, key)
       // this a hot module replacement store because the hotUpdate method needs
       // to do it with the right context
       /* istanbul ignore if */
@@ -629,9 +659,9 @@ function createSetupStore<
       })
 
       for (const actionName in newStore._hmrPayload.actions) {
-        const action: _Method = newStore[actionName]
+        const actionFn: _Method = newStore[actionName]
 
-        set(store, actionName, wrapAction(actionName, action))
+        set(store, actionName, action(actionFn, actionName))
       }
 
       // TODO: does this work in both setup and option store?
@@ -784,13 +814,9 @@ export type StoreState<SS> =
     ? UnwrapRef<S>
     : _ExtractStateFromSetupStore<SS>
 
-// type a1 = _ExtractStateFromSetupStore<{ a: Ref<number>; action: () => void }>
-// type a2 = _ExtractActionsFromSetupStore<{ a: Ref<number>; action: () => void }>
-// type a3 = _ExtractGettersFromSetupStore<{
-//   a: Ref<number>
-//   b: ComputedRef<string>
-//   action: () => void
-// }>
+export interface SetupStoreHelpers {
+  action: <Fn extends _Method>(fn: Fn) => Fn
+}
 
 /**
  * Creates a `useStore` function that retrieves the store instance
@@ -831,7 +857,7 @@ export function defineStore<
  */
 export function defineStore<Id extends string, SS>(
   id: Id,
-  storeSetup: () => SS,
+  storeSetup: (helpers: SetupStoreHelpers) => SS,
   options?: DefineSetupStoreOptions<
     Id,
     _ExtractStateFromSetupStore<SS>,
