@@ -50,12 +50,12 @@
     "pinia": "workspace:*"
   },
   "devDependencies": {
-    "@nuxt/module-builder": "^0.8.0",
+    "@nuxt/module-builder": "^0.8.1",
     "@nuxt/schema": "^3.9.0",
     "@nuxt/test-utils": "^3.13.1",
-    "nuxt": "^3.12.2",
-    "typescript": "^5.5.2",
-    "vue-tsc": "^2.0.22"
+    "nuxt": "^3.12.4",
+    "typescript": "^5.5.4",
+    "vue-tsc": "^2.0.29"
   },
   "publishConfig": {
     "access": "public"
