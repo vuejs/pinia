@@ -1,3 +1,14 @@
+# [2.2.0](https://github.com/vuejs/pinia/compare/pinia@2.1.8-beta.0...pinia@2.2.0) (2024-07-26)
+
+### Bug Fixes
+
+- **types:** require unwrapped state in patch ([c38fa0d](https://github.com/vuejs/pinia/commit/c38fa0dbae5629509bc7d1ffc999b5aedfc3d3b7))
+
+### Features
+
+- add `action` helper to consistently `$onAction` ([a8526fc](https://github.com/vuejs/pinia/commit/a8526fc78894423ee87c3059228cd97097e37f27))
+- **devtools:** expose selected store as global variable ([#2692](https://github.com/vuejs/pinia/issues/2692)) ([e0a7351](https://github.com/vuejs/pinia/commit/e0a73512af38050111ecbcf881908541aff9414d))
+
 ## [2.1.8-beta.0](https://github.com/vuejs/pinia/compare/pinia@2.1.7...pinia@2.1.8-beta.0) (2024-04-17)
 
 ### Bug Fixes
