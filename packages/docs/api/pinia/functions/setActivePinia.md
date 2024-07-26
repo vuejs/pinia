@@ -32,6 +32,10 @@ actions and getters
 
 [`Pinia`](../interfaces/Pinia.md)
 
+### Param
+
+Pinia instance
+
 ## setActivePinia(pinia)
 
 > **setActivePinia**(`pinia`): `undefined`
@@ -47,6 +51,10 @@ actions and getters
 
 `undefined`
 
+### Param
+
+Pinia instance
+
 ## setActivePinia(pinia)
 
 > **setActivePinia**(`pinia`): `undefined` \| [`Pinia`](../interfaces/Pinia.md)
@@ -61,3 +69,7 @@ actions and getters
 ### Returns
 
 `undefined` \| [`Pinia`](../interfaces/Pinia.md)
+
+### Param
+
+Pinia instance

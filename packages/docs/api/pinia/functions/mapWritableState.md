@@ -56,6 +56,14 @@ object of state properties
 
 [`_MapWritableStateObjectReturn`](../type-aliases/MapWritableStateObjectReturn.md)\<`S`, `KeyMapper`\>
 
+### Param
+
+store to map from
+
+### Param
+
+array or object
+
 ## mapWritableState(useStore, keys)
 
 > **mapWritableState**\<`Id`, `S`, `G`, `A`, `Keys`\>(`useStore`, `keys`): `{ [K in Keys]: Object }`
@@ -89,3 +97,11 @@ array of state properties
 ### Returns
 
 `{ [K in Keys]: Object }`
+
+### Param
+
+store to map from
+
+### Param
+
+array or object

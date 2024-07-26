@@ -60,6 +60,14 @@ object of state properties or getters
 
 [`_MapStateObjectReturn`](../type-aliases/MapStateObjectReturn.md)\<`Id`, `S`, `G`, `A`, `KeyMapper`\>
 
+### Param
+
+store to map from
+
+### Param
+
+array or object
+
 ### Example
 
 ```js
@@ -118,6 +126,14 @@ array of state properties or getters
 ### Returns
 
 [`_MapStateReturn`](../type-aliases/MapStateReturn.md)\<`S`, `G`, `Keys`\>
+
+### Param
+
+store to map from
+
+### Param
+
+array or object
 
 ### Example
 

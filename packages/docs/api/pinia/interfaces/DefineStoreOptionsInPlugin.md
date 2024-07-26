@@ -88,10 +88,6 @@ initialState
 
 `void`
 
-#### Inherited from
-
-`Omit.hydrate`
-
 #### Example
 
 If in your `state`, you use any `customRef`s, any `computed`s, or any `ref`s that have a different value on
@@ -109,3 +105,7 @@ const useStore = defineStore('main', {
   }
 })
 ```
+
+#### Inherited from
+
+`Omit.hydrate`

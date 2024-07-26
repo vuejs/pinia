@@ -54,6 +54,10 @@ object of state properties or getters
 
 [`_MapStateObjectReturn`](../type-aliases/MapStateObjectReturn.md)\<`Id`, `S`, `G`, `A`, `KeyMapper`\>
 
+### Deprecated
+
+use `mapState()` instead.
+
 ### Example
 
 ```js
@@ -112,6 +116,10 @@ array of state properties or getters
 ### Returns
 
 [`_MapStateReturn`](../type-aliases/MapStateReturn.md)\<`S`, `G`, `Keys`\>
+
+### Deprecated
+
+use `mapState()` instead.
 
 ### Example
 

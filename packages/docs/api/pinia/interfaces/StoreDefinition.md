@@ -28,7 +28,7 @@ Return type of `defineStore()`. Function that allows instantiating a store.
 
 > **StoreDefinition**(`pinia`?, `hot`?): [`Store`](../type-aliases/Store.md)\<`Id`, `S`, `G`, `A`\>
 
-Returns a store, creates it if necessary.
+Return type of `defineStore()`. Function that allows instantiating a store.
 
 ## Parameters
 
