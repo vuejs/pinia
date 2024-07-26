@@ -139,8 +139,8 @@ importers:
         specifier: ^3.9.0
         version: 3.12.2(magicast@0.3.4)(rollup@4.18.0)
       pinia:
-        specifier: '>=2.2.0'
-        version: 2.2.0(@vue/composition-api@1.7.2(vue@3.4.30(typescript@5.5.2)))(typescript@5.5.2)(vue@3.4.30(typescript@5.5.2))
+        specifier: workspace:*
+        version: link:../pinia
     devDependencies:
       '@nuxt/module-builder':
         specifier: ^0.8.0
@@ -4134,18 +4134,6 @@ packages:
   pify@3.0.0:
     resolution: {integrity: sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==}
     engines: {node: '>=4'}
-
-  pinia@2.2.0:
-    resolution: {integrity: sha512-iPrIh26GMqfpUlMOGyxuDowGmYousTecbTHFwT0xZ1zJvh23oQ+Cj99ZoPQA1TnUPhU6AuRPv6/drkTCJ0VHQA==}
-    peerDependencies:
-      '@vue/composition-api': ^1.4.0
-      typescript: '>=4.4.4'
-      vue: ^2.6.14 || ^3.3.0
-    peerDependenciesMeta:
-      '@vue/composition-api':
-        optional: true
-      typescript:
-        optional: true
 
   pirates@4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
@@ -10100,15 +10088,6 @@ snapshots:
   pify@2.3.0: {}
 
   pify@3.0.0: {}
-
-  pinia@2.2.0(@vue/composition-api@1.7.2(vue@3.4.30(typescript@5.5.2)))(typescript@5.5.2)(vue@3.4.30(typescript@5.5.2)):
-    dependencies:
-      '@vue/devtools-api': 6.6.3
-      vue: 3.4.30(typescript@5.5.2)
-      vue-demi: 0.14.10(@vue/composition-api@1.7.2(vue@3.4.30(typescript@5.5.2)))(vue@3.4.30(typescript@5.5.2))
-    optionalDependencies:
-      '@vue/composition-api': 1.7.2(vue@3.4.30(typescript@5.5.2))
-      typescript: 5.5.2
 
   pirates@4.0.6: {}
 
