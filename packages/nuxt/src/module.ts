@@ -93,14 +93,8 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
       options.storesDirs = [resolver.resolve(nuxt.options.srcDir, 'stores')]
     }
 
-    if (options.storesDirs) {
-      for (const storeDir of [
-        ...options.storesDirs,
-        /* @ts-expect-error storesDirs isn't on base NuxtOptions type */
-        ...(nuxt.options.pinia?.storesDirs || []),
-      ]) {
-        addImportsDir(resolver.resolve(nuxt.options.rootDir, storeDir))
-      }
+    for (const storeDir of options.storesDirs) {
+      addImportsDir(resolver.resolve(nuxt.options.rootDir, storeDir))
     }
   },
 })
