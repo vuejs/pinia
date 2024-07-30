@@ -4,5 +4,9 @@
     "./shims.d.ts",
     // missing in the playground
     "./src"
-  ]
+  ],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "ESNext"
+  }
 }
