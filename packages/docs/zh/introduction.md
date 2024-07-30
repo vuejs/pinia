@@ -28,7 +28,6 @@ Pinia 是 Vue 的专属状态管理库，它允许你跨组件或页面共享状
 - 热更新
   - 不必重载页面即可修改 Store
   - 开发时可保持当前的 State
-- 插件：可通过插件扩展 Pinia 功能
 
 如果你仍然有疑问，请查看[**官方**的 Mastering Pinia 课程](https://masteringpinia.com)。在一开始，我们会介绍如何创建自己的 `defineStore()` 函数，然后我们会转向官方的 Pinia API。
 
