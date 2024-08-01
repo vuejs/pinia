@@ -10,9 +10,7 @@ Using Pinia with [Nuxt](https://nuxt.com/) is easier since Nuxt takes care of a 
 ## Installation
 
 ```bash
-yarn add pinia @pinia/nuxt
-# or with npm
-npm install pinia @pinia/nuxt
+npx nuxi@latest module add pinia
 ```
 
 :::tip
