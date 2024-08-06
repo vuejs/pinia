@@ -41,6 +41,7 @@ declare module 'vue/types/options' {
  */
 // @ts-ignore: works on Vue 3, fails in Vue 2
 declare module 'vue' {
+  export interface GlobalComponents {}
   export interface ComponentCustomProperties {
     /**
      * Access to the application's Pinia
