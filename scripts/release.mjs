@@ -317,12 +317,21 @@ function updateDeps(pkg, depType, updatedPackages) {
     const updatedDep = updatedPackages.find((pkg) => pkg.name === dep)
     // avoid updated peer deps that are external like @vue/devtools-api
     if (dep && updatedDep) {
-      console.log(
-        chalk.yellow(
-          `${pkg.name} -> ${depType} -> ${dep}@~${updatedDep.version}`
+      // skip any workspace reference, pnpm will handle it
+      if (deps[dep].startsWith('workspace:')) {
+        console.log(
+          chalk.yellow.dim(
+            `${pkg.name} -> ${depType} -> ${dep}@${deps[dep]} (skipped)`
+          )
         )
-      )
-      deps[dep] = '>=' + updatedDep.version
+      } else {
+        console.log(
+          chalk.yellow(
+            `${pkg.name} -> ${depType} -> ${dep}@>=${updatedDep.version}`
+          )
+        )
+        deps[dep] = '>=' + updatedDep.version
+      }
     }
   })
 }
