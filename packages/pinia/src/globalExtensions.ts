@@ -41,8 +41,10 @@ declare module 'vue/types/options' {
  */
 // @ts-ignore: works on Vue 3, fails in Vue 2
 declare module 'vue' {
-  export interface GlobalComponents {}
-  export interface ComponentCustomProperties {
+  // This seems to be needed to not break auto import types based on the order
+  // https://github.com/vuejs/pinia/pull/2730
+  interface GlobalComponents {}
+  interface ComponentCustomProperties {
     /**
      * Access to the application's Pinia
      */
