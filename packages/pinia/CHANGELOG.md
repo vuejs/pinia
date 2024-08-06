@@ -1,3 +1,9 @@
+## [2.2.1](https://github.com/vuejs/pinia/compare/pinia@2.2.0...pinia@2.2.1) (2024-08-06)
+
+### Bug Fixes
+
+- **types:** breaking type with auto imported components ([#2730](https://github.com/vuejs/pinia/issues/2730)) ([82ca41c](https://github.com/vuejs/pinia/commit/82ca41c7d0f15439356c032bc12a4f825a290af6))
+
 # [2.2.0](https://github.com/vuejs/pinia/compare/pinia@2.1.8-beta.0...pinia@2.2.0) (2024-07-26)
 
 ### Bug Fixes
