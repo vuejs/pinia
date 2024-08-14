@@ -99,6 +99,10 @@ export const useSearchFilters = defineStore('search-filters', () => {
 ```
 
 :::warning
+The injected properties must be **provided globally**. Component-provided properties cannot be accessed within the `defineStore()` function and will return `undefined` if injected.
+
+If you are using Nuxt, use `useNuxtApp().vueApp.provide('appProvided', 'value')` to provide a property globally.
+
 Do not return properties like `route` or `appProvided` (from the example above) as they do not belong to the store itself and you can directly access them within components with `useRoute()` and `inject('appProvided')`.
 :::
 

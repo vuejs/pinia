@@ -97,6 +97,10 @@ export const useSearchFilters = defineStore('search-filters', () => {
 ```
 
 :::warning
+使用 `inject()` 注入的属性必须是**全局提供的**，组件提供的属性在 `defineStore()` 里无法被访问，若尝试注入这些属性，将会得到 `undefined` 。
+
+如果你使用 Nuxt，你可以使用 `useNuxtApp().vueApp.provide('appProvided', 'value')` 来全局提供一个属性。
+
 不要返回像 `route` 或 `appProvided` (上例中)之类的属性，因为它们不属于 store，而且你可以在组件中直接用 `useRoute()` 和 `inject('appProvided')` 访问。
 :::
 
