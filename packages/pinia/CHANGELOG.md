@@ -1,3 +1,9 @@
+## [2.2.2](https://github.com/vuejs/pinia/compare/pinia@2.2.1...pinia@2.2.2) (2024-08-15)
+
+### Features
+
+- improve tree shaking on `defineStore` ([#2740](https://github.com/vuejs/pinia/issues/2740)) ([3069105](https://github.com/vuejs/pinia/commit/3069105f15858393e5386bac7e62ea32a46c80bb))
+
 ## [2.2.1](https://github.com/vuejs/pinia/compare/pinia@2.2.0...pinia@2.2.1) (2024-08-06)
 
 ### Bug Fixes
