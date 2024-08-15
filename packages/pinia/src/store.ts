@@ -870,7 +870,7 @@ export function defineStore<Id extends string, SS>(
   _ExtractGettersFromSetupStore<SS>,
   _ExtractActionsFromSetupStore<SS>
 >
-
+// improves tree shaking
 /*#__NO_SIDE_EFFECTS__*/
 export function defineStore(
   // TODO: add proper types from above
