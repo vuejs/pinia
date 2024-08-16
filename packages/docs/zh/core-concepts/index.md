@@ -34,9 +34,9 @@ export const useAlertsStore = defineStore('alerts', {
 
 ```js {2-10}
 export const useCounterStore = defineStore('counter', {
-  state: () => ({ count: 0 }),
+  state: () => ({ count: 0, name: 'Eduardo' }),
   getters: {
-    double: (state) => state.count * 2,
+    doubleCount: (state) => state.count * 2,
   },
   actions: {
     increment() {
