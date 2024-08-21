@@ -139,7 +139,7 @@ importers:
         specifier: ^3.9.0
         version: 3.12.4(magicast@0.3.4)(rollup@4.19.0)
       pinia:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../pinia
     devDependencies:
       '@nuxt/module-builder':

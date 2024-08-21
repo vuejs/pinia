@@ -185,6 +185,13 @@ async function main() {
     })
   )
 
+  // TODO: we need to reorder packages based on dependencies
+  // pinia needs to be first
+  const piniaPkgIndx = packagesToRelease.find(({ name }) => name === 'pinia')
+  if (piniaPkgIndx > 0) {
+    packagesToRelease.unshift(packagesToRelease.splice(piniaPkgIndx, 1)[0])
+  }
+
   const { yes: isReleaseConfirmed } = await prompt({
     type: 'confirm',
     name: 'yes',

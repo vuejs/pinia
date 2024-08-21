@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.9.0",
-    "pinia": "workspace:*"
+    "pinia": "workspace:^"
   },
   "devDependencies": {
     "@nuxt/module-builder": "^0.8.1",
