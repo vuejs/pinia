@@ -1,3 +1,9 @@
+## [0.5.4](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.5.3...@pinia/nuxt@0.5.4) (2024-08-21)
+
+### Bug Fixes
+
+- use correct pinia version range ([c34c0b6](https://github.com/vuejs/pinia/commit/c34c0b67fd635ae7b8d8dab5557ec5bdfc6d2741)), closes [vuejs/pinia#2748](https://github.com/vuejs/pinia/issues/2748)
+
 ## [0.5.3](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.5.2...@pinia/nuxt@0.5.3) (2024-08-06)
 
 This release contain no code changes.
