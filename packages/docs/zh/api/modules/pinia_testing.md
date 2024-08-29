@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -28,8 +28,8 @@ sidebarDepth: 3
 
 #### 参数
 
-| 名称 | 类型 | 描述 |
-| :------ | :------ | :------ |
+| 名称      | 类型                                                              | 描述                      |
+| :-------- | :---------------------------------------------------------------- | :------------------------ |
 | `options` | [`TestingOptions`](../interfaces/pinia_testing.TestingOptions.md) | 配置 pinia 测试实例的选项 |
 
 #### 返回值

@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -19,12 +19,12 @@ sidebarDepth: 3
 
 ## 类型参数 %{#type-parameters}%
 
-| 名称 | 类型 |
-| :------ | :------ |
-| `Id` | extends `string` |
-| `S` | extends [`StateTree`](../modules/pinia.md#statetree) |
-| `G` | `G` |
-| `A` | `A` |
+| 名称 | 类型                                                 |
+| :--- | :--------------------------------------------------- |
+| `Id` | extends `string`                                     |
+| `S`  | extends [`StateTree`](../modules/pinia.md#statetree) |
+| `G`  | `G`                                                  |
+| `A`  | `A`                                                  |
 
 ## 层次结构 %{#hierarchy}%
 

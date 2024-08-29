@@ -1,5 +1,5 @@
 __build__
 dist
 coverage
-.vitepress/cache
+packages/docs/.vitepress/cache
 temp

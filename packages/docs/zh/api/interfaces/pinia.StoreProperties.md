@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -10,12 +10,12 @@ sidebarDepth: 3
 
 [pinia](../modules/pinia.md).StoreProperties
 
- store 的属性。
+store 的属性。
 
 ## 类型参数 %{#type-parameters}%
 
-| 名称 | 类型 |
-| :------ | :------ |
+| 名称 | 类型             |
+| :--- | :--------------- |
 | `Id` | extends `string` |
 
 ## 层次结构 %{#hierarchy}%
@@ -32,7 +32,7 @@ sidebarDepth: 3
 
 store 的唯一标识符
 
-___
+---
 
 ### \_customProperties %{#customproperties}%
 

@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -8,7 +8,7 @@ sidebarDepth: 3
 
 # 接口：\_StoreOnActionListenerContext<Store, ActionName, A\> %{#interface-storeonactionlistenercontext-store-actionname-a}%
 
-[pinia](../modules/pinia.md)._StoreOnActionListenerContext
+[pinia](../modules/pinia.md).\_StoreOnActionListenerContext
 
 [StoreOnActionListenerContext](../modules/pinia.md#storeonactionlistenercontext)的实际类型。
 存在的目的是重构。仅供内部使用。
@@ -16,11 +16,11 @@ sidebarDepth: 3
 
 ## 类型参数 %{#type-parameters}%
 
-| 名称 | 类型 |
-| :------ | :------ |
-| `Store` | `Store` |
+| 名称         | 类型             |
+| :----------- | :--------------- |
+| `Store`      | `Store`          |
 | `ActionName` | extends `string` |
-| `A` | `A` |
+| `A`          | `A`              |
 
 ## 属性
 
@@ -37,15 +37,15 @@ action 执行完的钩子。
 
 ##### 参数 %{#parameters}%
 
-| 名称 | 类型 |
-| :------ | :------ |
+| 名称       | 类型                                                                                                                                                                                                       |
+| :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `callback` | `A` extends `Record`<`ActionName`, [`_Method`](../modules/pinia.md#_method)\> ? (`resolvedReturn`: [`_Awaited`](../modules/pinia.md#_awaited)<`ReturnType`<`A`[`ActionName`]\>\>) => `void` : () => `void` |
 
 ##### 返回值
 
 `void`
 
-___
+---
 
 ### args %{#args}%
 
@@ -53,7 +53,7 @@ ___
 
 传递给 action 的参数
 
-___
+---
 
 ### name %{#name}%
 
@@ -61,7 +61,7 @@ ___
 
 action 的名称
 
-___
+---
 
 ### onError %{#onerror}%
 
@@ -76,15 +76,15 @@ action 的错误钩子。
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
+| 名称       | 类型                           |
+| :--------- | :----------------------------- |
 | `callback` | (`error`: `unknown`) => `void` |
 
 ##### 返回值
 
 `void`
 
-___
+---
 
 ### store %{#store}%
 

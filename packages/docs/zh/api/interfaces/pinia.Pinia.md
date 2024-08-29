@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -30,15 +30,15 @@ Every application must own its own pinia to be able to create stores
 
 ##### 参数
 
-| Name | Type |
-| :------ | :------ |
+| Name  | Type          |
+| :---- | :------------ |
 | `app` | `App`<`any`\> |
 
 ##### 返回值
 
 `void`
 
-___
+---
 
 ### state %{#state}%
 
@@ -56,8 +56,8 @@ ___
 
 #### 参数 %{#paramters}%
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
+| Name     | Type                                  | Description         |
+| :------- | :------------------------------------ | :------------------ |
 | `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | store plugin to add |
 
 #### 返回值

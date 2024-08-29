@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -16,8 +16,8 @@ sidebarDepth: 3
 ## 类型参数 %{#type-parameters}%
 
 | 名称 |
-| :------ |
-| `S` |
+| :--- |
+| `S`  |
 
 ## 层次结构 %{#hierarchy}%
 
@@ -33,7 +33,7 @@ sidebarDepth: 3
 
 仅限 DEV， patch 调用的数组。
 
-___
+---
 
 ### payload %{#payload}%
 
@@ -41,7 +41,7 @@ ___
 
 传递给 `store.$patch()` 的对象
 
-___
+---
 
 ### storeId %{#storeid}%
 
@@ -51,9 +51,9 @@ ___
 
 #### 继承于
 
-[_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
+[\_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
-___
+---
 
 ### 类型 %{#type}%
 
@@ -63,4 +63,4 @@ mutation 的类型
 
 #### 重写 %{#overrides}%
 
-[_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)
+[\_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)

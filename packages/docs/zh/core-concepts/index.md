@@ -1,8 +1,14 @@
 # 定义 Store %{#defining-a-store}%
 
-<VueSchoolLink
+<!-- <VueSchoolLink
   href="https://vueschool.io/lessons/define-your-first-pinia-store"
   title="Learn how to define and use stores in Pinia"
+/> -->
+
+<MasteringPiniaLink
+  href="https://play.gumlet.io/embed/651ecff2e4c322668b0a17af"
+  mp-link="https://masteringpinia.com/lessons/quick-start-with-pinia"
+  title="Get started with Pinia"
 />
 
 在深入研究核心概念之前，我们得知道 Store 是用 `defineStore()` 定义的，它的第一个参数要求是一个**独一无二的**名字：
@@ -28,9 +34,9 @@ export const useAlertsStore = defineStore('alerts', {
 
 ```js {2-10}
 export const useCounterStore = defineStore('counter', {
-  state: () => ({ count: 0 }),
+  state: () => ({ count: 0, name: 'Eduardo' }),
   getters: {
-    double: (state) => state.count * 2,
+    doubleCount: (state) => state.count * 2,
   },
   actions: {
     increment() {
@@ -75,6 +81,7 @@ Setup store 也可以依赖于全局**提供**的属性，比如路由。任何[
 ```ts
 import { inject } from 'vue'
 import { useRoute } from 'vue-router'
+import { defineStore } from 'pinia'
 
 export const useSearchFilters = defineStore('search-filters', () => {
   const route = useRoute()
@@ -95,7 +102,7 @@ export const useSearchFilters = defineStore('search-filters', () => {
 
 ## 你应该选用哪种语法？ %{#what-syntax-should-i-pick}%
 
-和[在 Vue 中如何选择组合式 API 与选项式 API](https://cn.vuejs.org/guide/introduction.html#which-to-choose) 一样，选择你觉得最舒服的那一个就好。如果你还不确定，可以先试试 [Option Store](#option-stores)。
+和[在 Vue 中如何选择组合式 API 与选项式 API](https://cn.vuejs.org/guide/introduction.html#which-to-choose) 一样，选择你觉得最舒服的那一个就好。两种语法都有各自的优势和劣势。Option Store 更容易使用，而 Setup Store 更灵活和强大。如果你想深入了解两者之间的区别，请查看 Mastering Pinia 中的 [Option Stores vs Setup Stores 章节](https://masteringpinia.com/lessons/when-to-choose-one-syntax-over-the-other)。
 
 ## 使用 Store %{#using-the-store}%
 
@@ -122,6 +129,8 @@ const store = useCounterStore()
 ```vue
 <script setup>
 import { useCounterStore } from '@/stores/counter'
+import { computed } from 'vue'
+
 const store = useCounterStore()
 // ❌ 这将不起作用，因为它破坏了响应性
 // 这就和直接解构 `props` 一样

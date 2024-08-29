@@ -4,6 +4,11 @@
 
 ## Option Stores
 
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/using-composables-in-option-stores"
+  title="Using Composables in Option Stores"
+/>
+
 When defining an option store, you can call a composable inside of the `state` property:
 
 ```ts
@@ -26,6 +31,11 @@ Here are some examples of composables that cannot be used in an option stores (b
 - [useEyeDropper](https://vueuse.org/core/useEyeDropper/): exposes readonly data and functions
 
 ## Setup Stores
+
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/using-composables-in-setup-stores"
+  title="Using Composables in Setup Stores"
+/>
 
 On the other hand, when defining a setup store, you can use almost any composable since every property gets discerned into state, action, or getter:
 
@@ -84,7 +94,7 @@ export const useAuthStore = defineStore('auth', {
 })
 ```
 
-In [Setup Stores](#setup-stores), you need to use a helper named `skipHydrate()` on any state property that shouldn't be picked up from the initial state. Differently from option stores, setup stores cannot just _skip calling `state()`_, so we mark properties that cannot be hydrated with `skipHydrate()`. Note that this only applies to writable reactive properties:
+In [Setup Stores](#setup-stores), you need to use a helper named `skipHydrate()` on any state property that shouldn't be picked up from the initial state. Differently from option stores, setup stores cannot just _skip calling `state()`_, so we mark properties that cannot be hydrated with `skipHydrate()`. Note that this only applies to state properties:
 
 ```ts
 import { defineStore, skipHydrate } from 'pinia'

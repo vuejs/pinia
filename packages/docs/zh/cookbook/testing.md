@@ -1,5 +1,10 @@
 # store 测试 %{#testing-stores}%
 
+<MasteringPiniaLink
+  href="https://play.gumlet.io/embed/65f9a9c10bfab01f414c25dc"
+  title="Watch a free video of Mastering Pinia about testing stores"
+/>
+
 从设计上来说，许多地方都会使用 store，所以可能比正常情况更难测试。但幸运的是，这不一定是真的。在测试 store 时，我们需要注意三件事：
 
 - `pinia` 实例：没有它，store 不能正常工作
@@ -13,7 +18,7 @@
   - [对组件单元测试](#unit-testing-components)
     - [初始 state](#initial-state)
     - [自定义 action 的行为](#customizing-behavior-of-actions)
-    - [指定 createSpy 函数](#specifying-the-creespy-function)
+    - [指定 createSpy 函数](#specifying-the-createspy-function)
     - [Mocking getters](#mocking-getters)
     - [Pinia 插件](#pinia-plugins)
   - [端到端测试](#e2e-tests)
@@ -113,7 +118,7 @@ expect(store.someAction).toHaveBeenLastCalledWith()
 
 ### 初始 State %{#initial-state}%
 
-在创建测试 Pinia 时，你可以通过传递一个 `initialState` 对象来设置**所有 store 的初始状态**。这个对象将被 pinia 的测试实例用于创建 store 时 *patch* store。比方说，你想初始化这个 store 的状态：
+在创建测试 Pinia 时，你可以通过传递一个 `initialState` 对象来设置**所有 store 的初始状态**。这个对象将被 pinia 的测试实例用于创建 store 时 _patch_ store。比方说，你想初始化这个 store 的状态：
 
 ```ts
 import { defineStore } from 'pinia'
@@ -124,7 +129,7 @@ const useCounterStore = defineStore('counter', {
 })
 ```
 
-由于 store 的名字是 *"counter"*，所以你需要传递相应的对象给 `initialState`：
+由于 store 的名字是 _"counter"_，所以你需要传递相应的对象给 `initialState`：
 
 ```ts
 // 在测试中的某处
@@ -164,6 +169,53 @@ store.someAction()
 
 // ...但它仍然被一个 spy 包装着，所以你可以检查调用
 expect(store.someAction).toHaveBeenCalledTimes(1)
+```
+
+<!-- TODO: translation -->
+
+### Mocking the returned value of an action
+
+Actions are automatically spied but type-wise, they are still the regular actions. In order to get the correct type, we must implement a custom type-wrapper that is applies the `Mock` type to each action. **This type depends on the testing framework you are using**. Here is an example with Vitest:
+
+```ts
+import type { Mock } from 'vitest'
+import type { Store, StoreDefinition } from 'pinia'
+
+function mockedStore<TStoreDef extends () => unknown>(
+  useStore: TStoreDef
+): TStoreDef extends StoreDefinition<
+  infer Id,
+  infer State,
+  infer Getters,
+  infer Actions
+>
+  ? Store<
+      Id,
+      State,
+      Getters,
+      {
+        [K in keyof Actions]: Actions[K] extends (
+          ...args: infer Args
+        ) => infer ReturnT
+          ? // 👇 depends on your testing framework
+            Mock<Args, ReturnT>
+          : Actions[K]
+      }
+    >
+  : ReturnType<TStoreDef> {
+  return useStore() as any
+}
+```
+
+This can be used in tests to get a correctly typed store:
+
+```ts
+import { mockedStore } from './mockedStore'
+import { useSomeStore } from '@/stores/myStore'
+
+const store = mockedStore(useSomeStore)
+// typed!
+store.someAction.mockResolvedValue('some value')
 ```
 
 ### 指定 createSpy 函数 %{#specifying-the-createspy-function}%

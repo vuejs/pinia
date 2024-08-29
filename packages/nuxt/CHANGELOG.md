@@ -1,3 +1,19 @@
+## [0.5.4](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.5.3...@pinia/nuxt@0.5.4) (2024-08-21)
+
+### Bug Fixes
+
+- use correct pinia version range ([c34c0b6](https://github.com/vuejs/pinia/commit/c34c0b67fd635ae7b8d8dab5557ec5bdfc6d2741)), closes [vuejs/pinia#2748](https://github.com/vuejs/pinia/issues/2748)
+
+## [0.5.3](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.5.2...@pinia/nuxt@0.5.3) (2024-08-06)
+
+This release contain no code changes.
+
+## [0.5.2](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.5.2-beta.0...@pinia/nuxt@0.5.2) (2024-07-26)
+
+### Bug Fixes
+
+- **types:** require unwrapped state in patch ([c38fa0d](https://github.com/vuejs/pinia/commit/c38fa0dbae5629509bc7d1ffc999b5aedfc3d3b7))
+
 ## [0.5.2-beta.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.5.1...@pinia/nuxt@0.5.2-beta.0) (2024-04-17)
 
 ### Bug Fixes

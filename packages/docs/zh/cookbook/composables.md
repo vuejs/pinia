@@ -4,6 +4,11 @@
 
 ## Option Stores %{#option-stores}%
 
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/using-composables-in-option-stores"
+  title="Using Composables in Option Stores"
+/>
+
 当定义一个 option store 时，你可以在 `state` 属性中调用组合式函数：
 
 ```ts
@@ -27,6 +32,11 @@ export const useAuthStore = defineStore('auth', {
 
 ## Setup Stores %{#setup-stores}%
 
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/using-composables-in-setup-stores"
+  title="Using Composables in Setup Stores"
+/>
+
 另外，当定义一个 setup store 时，你几乎可以使用任何组合式函数，因为每一个属性都会被辨别为 state 、action 或者 getter：
 
 ```ts
@@ -34,7 +44,7 @@ import { defineStore, skipHydrate } from 'pinia'
 import { useMediaControls } from '@vueuse/core'
 
 export const useVideoPlayer = defineStore('video', () => {
-  // 我们不会直接暴露这个元素
+  // 我们不会直接暴露 (返回) 这个元素
   const videoElement = ref<HTMLVideoElement>()
   const src = ref('/data/video.mp4')
   const { playing, volume, currentTime, togglePictureInPicture } =
@@ -56,6 +66,10 @@ export const useVideoPlayer = defineStore('video', () => {
   }
 })
 ```
+
+:::warning
+和常规的状态不同，`ref<HTMLVideoElement>()` 包含了一个不可序列化的 DOM 元素引用。这就是为什么我们不直接返回它的原因。由于它是客户端专用的状态，我们知道它不会被设置在服务器上，并且在客户端上**始终**以 `undefined` 作为开始。
+:::
 
 ## 服务端渲染 %{#ssr}%
 

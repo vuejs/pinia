@@ -1,5 +1,10 @@
 # Testing stores
 
+<MasteringPiniaLink
+  href="https://play.gumlet.io/embed/65f9a9c10bfab01f414c25dc"
+  title="Watch a free video of Mastering Pinia about testing stores"
+/>
+
 Stores will, by design, be used at many places and can make testing much harder than it should be. Fortunately, this doesn't have to be the case. We need to take care of three things when testing stores:
 
 - The `pinia` instance: Stores cannot work without it
@@ -59,6 +64,12 @@ beforeEach(() => {
 ```
 
 ## Unit testing components
+
+<!-- NOTE: too long maybe but good value -->
+<!-- <MasteringPiniaLink
+  href="https://play.gumlet.io/embed/6630f540c418f8419b73b2b2?t1=1715867840&t2=1715867570609?preload=false&autoplay=false&loop=false&disable_player_controls=false"
+  title="Watch a free video of Mastering Pinia about testing stores"
+/> -->
 
 This can be achieved with `createTestingPinia()`, which returns a pinia instance designed to help unit tests components.
 
@@ -174,7 +185,7 @@ function mockedStore<TStoreDef extends () => unknown>(
   ? Store<
       Id,
       State,
-      Getters,
+      Record<string, never>,
       {
         [K in keyof Actions]: Actions[K] extends (
           ...args: infer Args
@@ -183,7 +194,9 @@ function mockedStore<TStoreDef extends () => unknown>(
             Mock<Args, ReturnT>
           : Actions[K]
       }
-    >
+    > & {
+      [K in keyof Getters]: Getters[K] extends ComputedRef<infer T> ? T : never
+    }
   : ReturnType<TStoreDef> {
   return useStore() as any
 }
@@ -200,9 +213,11 @@ const store = mockedStore(useSomeStore)
 store.someAction.mockResolvedValue('some value')
 ```
 
+If you are interesting in learning more tricks like this, you should check out the Testing lessons on [Mastering Pinia](https://masteringpinia.com/lessons/exercise-mocking-stores-introduction).
+
 ### Specifying the createSpy function
 
-When using Jest, or vitest with `globals: true`, `createTestingPinia` automatically stubs actions using the spy function based on the existing test framework (`jest.fn` or `vitest.fn`). If you are not using `globals: true` or using a different framework, you'll need to provide a [createSpy](/api/interfaces/pinia_testing.TestingOptions.html#createspy) option:
+When using Jest, or vitest with `globals: true`, `createTestingPinia` automatically stubs actions using the spy function based on the existing test framework (`jest.fn` or `vitest.fn`). If you are not using `globals: true` or using a different framework, you'll need to provide a [createSpy](../api/@pinia/testing/interfaces/TestingOptions.html#createSpy-) option:
 
 ::: code-group
 

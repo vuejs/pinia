@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -25,8 +25,8 @@ sidebarDepth: 3
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
+| 名称  | 类型                          |
+| :---- | :---------------------------- |
 | `fn?` | (...`args`: `any`[]) => `any` |
 
 ##### 返回值
@@ -37,15 +37,15 @@ sidebarDepth: 3
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
+| 名称      | 类型    |
+| :-------- | :------ |
 | `...args` | `any`[] |
 
 ##### 返回值
 
 `any`
 
-___
+---
 
 ### fakeApp %{#fakeapp}%
 
@@ -56,7 +56,7 @@ ___
 因为插件**必须等待 pinia 安装好后才会执行**。
 默认为 false。
 
-___
+---
 
 ### initialState %{#initialstate}%
 
@@ -65,7 +65,7 @@ ___
 允许你定义每个 store 的部分初始 state。
 这个 state 会在 store 创建后被应用，这样可以让你只设置测试中需要的几个属性。
 
-___
+---
 
 ### 插件 %{#plugins}%
 
@@ -74,7 +74,7 @@ ___
 在测试插件之前必装的插件。
 可以向你的应用添加测试时使用的任意插件。
 
-___
+---
 
 ### stubActions %{#stubactions}%
 
@@ -86,7 +86,7 @@ ___
 注意：当提供 `createSpy()` 时，它将**只**给 `fn` 参数 传递 `undefined`。
 你仍然需要在 `createSpy()` 中处理这个问题。
 
-___
+---
 
 ### stubPatch %{#stubpatch}%
 

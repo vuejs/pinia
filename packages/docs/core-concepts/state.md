@@ -1,11 +1,12 @@
 # State
 
-<!--
-https://masteringpinia.com/lessons/the-3-pillars-of-pinia-state
- -->
-
-<VueSchoolLink
+<!-- <VueSchoolLink
   href="https://vueschool.io/lessons/access-state-from-a-pinia-store"
+  title="Learn all about state in Pinia"
+/> -->
+
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/the-3-pillars-of-pinia-state"
   title="Learn all about state in Pinia"
 />
 

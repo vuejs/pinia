@@ -1,7 +1,12 @@
 # Actions
 
-<VueSchoolLink
+<!-- <VueSchoolLink
   href="https://vueschool.io/lessons/synchronous-and-asynchronous-actions-in-pinia"
+  title="Learn all about actions in Pinia"
+/> -->
+
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/the-3-pillars-of-pinia-actions"
   title="Learn all about actions in Pinia"
 />
 
@@ -111,13 +116,13 @@ import { defineStore } from 'pinia'
 
 export const useCounterStore = defineStore('counter', {
   state: () => ({
-    count: 0
+    count: 0,
   }),
   actions: {
     increment() {
       this.count++
-    }
-  }
+    },
+  },
 })
 ```
 

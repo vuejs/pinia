@@ -3,31 +3,25 @@
   "gold": [],
   "silver": [
     {
-      "alt": "VueMastery",
-      "href": "https://www.vuemastery.com/",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuemastery-dark.png",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuemastery-light.svg"
+      "alt": "Route Optimizer and Route Planner Software",
+      "href": "https://route4me.com",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/route4me.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/route4me.png"
     },
     {
       "alt": "Prefect",
       "href": "https://www.prefect.io/",
       "imgSrcDark": "https://posva-sponsors.pages.dev/logos/prefectlogo-dark.svg",
       "imgSrcLight": "https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg"
+    },
+    {
+      "alt": "VueMastery",
+      "href": "https://www.vuemastery.com/",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuemastery-dark.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuemastery-light.svg"
     }
   ],
   "bronze": [
-    {
-      "alt": "Stanislas Ormières",
-      "href": "https://stormier.ninja",
-      "imgSrcDark": "https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4",
-      "imgSrcLight": "https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4"
-    },
-    {
-      "alt": "Antony Konstantinidis",
-      "href": "https://www.vuejs.de",
-      "imgSrcDark": "https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4",
-      "imgSrcLight": "https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4"
-    },
     {
       "alt": "Storyblok",
       "href": "https://storyblok.com",
@@ -37,8 +31,20 @@
     {
       "alt": "Nuxt UI Pro Templates",
       "href": "https://ui.nuxt.com/pro",
-      "imgSrcDark": "https://avatars.githubusercontent.com/u/81570812?v=4",
-      "imgSrcLight": "https://avatars.githubusercontent.com/u/81570812?v=4"
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/nuxt-dark.svg",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/nuxt-light.svg"
+    },
+    {
+      "alt": "Antony Konstantinidis",
+      "href": "https://www.vuejs.de",
+      "imgSrcDark": "https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4",
+      "imgSrcLight": "https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4"
+    },
+    {
+      "alt": "Stanislas Ormières",
+      "href": "https://stormier.ninja",
+      "imgSrcDark": "https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4",
+      "imgSrcLight": "https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4"
     }
   ]
 }

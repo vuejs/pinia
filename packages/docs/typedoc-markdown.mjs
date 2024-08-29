@@ -11,9 +11,9 @@ const DEFAULT_OPTIONS = {
   excludeInternal: true,
   readme: 'none',
   out: path.resolve(__dirname, './api'),
-  entryDocument: 'index.md',
+  entryFileName: 'index.md',
   hideBreadcrumbs: false,
-  hideInPageTOC: true,
+  // hideInPageTOC: true,
   preserveAnchorCasing: true,
 }
 

@@ -2,12 +2,14 @@
 editLink: false
 ---
 
-API Documentation
+**API Documentation** • **Docs**
+
+***
 
 # API Documentation
 
 ## Modules
 
-- [@pinia/nuxt](modules/pinia_nuxt.md)
-- [@pinia/testing](modules/pinia_testing.md)
-- [pinia](modules/pinia.md)
+- [@pinia/nuxt](@pinia/nuxt/index.md)
+- [@pinia/testing](@pinia/testing/index.md)
+- [pinia](pinia/index.md)

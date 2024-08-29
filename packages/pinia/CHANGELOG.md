@@ -1,3 +1,26 @@
+## [2.2.2](https://github.com/vuejs/pinia/compare/pinia@2.2.1...pinia@2.2.2) (2024-08-15)
+
+### Features
+
+- improve tree shaking on `defineStore` ([#2740](https://github.com/vuejs/pinia/issues/2740)) ([3069105](https://github.com/vuejs/pinia/commit/3069105f15858393e5386bac7e62ea32a46c80bb))
+
+## [2.2.1](https://github.com/vuejs/pinia/compare/pinia@2.2.0...pinia@2.2.1) (2024-08-06)
+
+### Bug Fixes
+
+- **types:** breaking type with auto imported components ([#2730](https://github.com/vuejs/pinia/issues/2730)) ([82ca41c](https://github.com/vuejs/pinia/commit/82ca41c7d0f15439356c032bc12a4f825a290af6))
+
+# [2.2.0](https://github.com/vuejs/pinia/compare/pinia@2.1.8-beta.0...pinia@2.2.0) (2024-07-26)
+
+### Bug Fixes
+
+- **types:** require unwrapped state in patch ([c38fa0d](https://github.com/vuejs/pinia/commit/c38fa0dbae5629509bc7d1ffc999b5aedfc3d3b7))
+
+### Features
+
+- add `action` helper to consistently `$onAction` ([a8526fc](https://github.com/vuejs/pinia/commit/a8526fc78894423ee87c3059228cd97097e37f27))
+- **devtools:** expose selected store as global variable ([#2692](https://github.com/vuejs/pinia/issues/2692)) ([e0a7351](https://github.com/vuejs/pinia/commit/e0a73512af38050111ecbcf881908541aff9414d))
+
 ## [2.1.8-beta.0](https://github.com/vuejs/pinia/compare/pinia@2.1.7...pinia@2.1.8-beta.0) (2024-04-17)
 
 ### Bug Fixes

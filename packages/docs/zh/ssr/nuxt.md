@@ -1,5 +1,10 @@
 # Nuxt.js %{#nuxt-js}%
 
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/ssr-friendly-state"
+  title="Learn about SSR best practices"
+/>
+
 搭配 [Nuxt](https://nuxt.com/) 的 Pinia 更易用，因为 Nuxt 处理了很多与**服务器端渲染**有关的事情。例如，**你不需要关心序列化或 XSS 攻击**。Pinia 既支持 Nuxt Bridge 和 Nuxt 3，也支持纯 Nuxt 2，[见下文](#nuxt-2-without-bridge)。
 
 ## 安装 %{#installation}%
@@ -10,17 +15,18 @@ yarn add pinia @pinia/nuxt
 npm install pinia @pinia/nuxt
 ```
 
-:::tip 
-如果你正在使用 npm，你可能会遇到 *ERESOLVE unable to resolve dependency tree* 错误。如果那样的话，将以下内容添加到 `package.json` 中：
+:::tip
+如果你正在使用 npm，你可能会遇到 _ERESOLVE unable to resolve dependency tree_ 错误。如果那样的话，将以下内容添加到 `package.json` 中：
 
 ```js
-"overrides": { 
+"overrides": {
   "vue": "latest"
 }
 ```
+
 :::
 
-我们提供了一个 *module* 来为你处理一切，你只需要在 `nuxt.config.js` 文件的 `modules` 中添加它。
+我们提供了一个 _module_ 来为你处理一切，你只需要在 `nuxt.config.js` 文件的 `modules` 中添加它。
 
 ```js
 // nuxt.config.js
@@ -93,7 +99,7 @@ yarn add pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
 npm install pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
 ```
 
-我们提供了一个 *module* 来为你处理一切工作，你只需要在 `nuxt.config.js` 文件的 `buildModules` 中添加它。
+我们提供了一个 _module_ 来为你处理一切工作，你只需要在 `nuxt.config.js` 文件的 `buildModules` 中添加它。
 
 ```js
 // nuxt.config.js

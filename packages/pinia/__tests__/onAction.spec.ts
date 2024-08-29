@@ -144,6 +144,29 @@ describe('Subscriptions', () => {
     expect(func2).toHaveBeenCalledTimes(1)
   })
 
+  it('can listen to setup actions within other actions thanks to `action`', () => {
+    const store = defineStore('id', ({ action }) => {
+      const a1 = action(() => 1)
+      const a2 = action(() => a1() * 2)
+      return { a1, a2 }
+    })()
+    const spy = vi.fn()
+    store.$onAction(spy)
+    store.a1()
+    expect(spy).toHaveBeenCalledTimes(1)
+
+    store.a2()
+    expect(spy).toHaveBeenCalledTimes(3)
+    expect(spy).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({ name: 'a2' })
+    )
+    expect(spy).toHaveBeenNthCalledWith(
+      3,
+      expect.objectContaining({ name: 'a1' })
+    )
+  })
+
   describe('multiple store instances', () => {
     const useStore = defineStore({
       id: 'main',

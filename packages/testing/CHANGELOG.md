@@ -1,3 +1,11 @@
+## [0.1.5](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.4...@pinia/testing@0.1.5) (2024-08-06)
+
+This release contain no code changes.
+
+## [0.1.4](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.4-beta.0...@pinia/testing@0.1.4) (2024-07-26)
+
+No changes in this release
+
 ## [0.1.4-beta.0](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.3...@pinia/testing@0.1.4-beta.0) (2024-04-17)
 
 ### Bug Fixes

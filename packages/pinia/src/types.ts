@@ -113,7 +113,7 @@ export interface SubscriptionCallbackMutationPatchObject<S>
   /**
    * Object passed to `store.$patch()`.
    */
-  payload: _DeepPartial<S>
+  payload: _DeepPartial<UnwrapRef<S>>
 }
 
 /**

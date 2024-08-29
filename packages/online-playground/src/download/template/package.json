@@ -7,7 +7,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "pinia": "^2.1.0",
+    "pinia": "workspace:*",
     "vue": "^3.3.0"
   },
   "devDependencies": {
