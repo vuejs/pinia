@@ -71,6 +71,10 @@ a {
   text-decoration: underline;
 }
 
+.close {
+  font-size: 24px;
+}
+
 .banner-vuejsconf {
   background: linear-gradient(90deg, #fff 50%, #6f97c4 50%);
 }
