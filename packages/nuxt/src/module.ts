@@ -67,8 +67,12 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     ])
 
     if (!options.storesDirs) {
-      // resolve it against the src dir which is the root by default
-      options.storesDirs = [resolve(nuxt.options.srcDir, 'stores')]
+      // Add stores directory for each layer, including the main src dir
+      options.storesDirs = []
+      for (const layer of nuxt.options._layers) {
+        console.log(layer)
+        options.storesDirs.push(resolve(layer.config.srcDir, 'stores'))
+      }
     }
 
     if (options.storesDirs) {

@@ -26,6 +26,7 @@ describe('works with nuxt', async () => {
   it('works on ssr', async () => {
     const html = await $fetch('/')
     expect(html).toContain('Count: 101')
+    expect(html).toContain('Layer: store state')
   })
 
   it('drops state that is marked with skipHydrate', async () => {

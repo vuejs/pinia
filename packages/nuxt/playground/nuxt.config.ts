@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   telemetry: {
     enabled: false,
   },
+  extends: ['../example-layer'],
 
   pinia: {
     storesDirs: ['./stores/**', './domain/*/stores'],
