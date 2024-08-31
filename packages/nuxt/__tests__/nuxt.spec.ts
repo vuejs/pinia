@@ -32,5 +32,6 @@ describe('works with nuxt', async () => {
   it('works on ssr', async () => {
     const html = await $fetch('/')
     expect(html).toContain('Count: 101')
+    expect(html).toContain('Layer: store state')
   })
 })
