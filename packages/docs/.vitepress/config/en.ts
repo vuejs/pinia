@@ -155,3 +155,49 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
     },
   },
 }
+
+// options to translate instructions of algolia tool to your language.
+// you just need to do the same we did with the chinese configuration.
+export const enSearch: DefaultTheme.AlgoliaSearchOptions['locales'] = {
+	en: {
+    placeholder: 'Search for Documents',
+    translations: {
+      button: {
+        buttonText: 'Search for Documents',
+        buttonAriaLabel: 'Search for Documents',
+      },
+      modal: {
+        searchBox: {
+          resetButtonTitle: 'Clear the search criteria',
+          resetButtonAriaLabel: 'Clear the search criteria',
+          cancelButtonText: 'Cancel',
+          cancelButtonAriaLabel: 'Cancel',
+        },
+        startScreen: {
+          recentSearchesTitle: 'Search History',
+          noRecentSearchesText: 'No search history',
+          saveRecentSearchButtonTitle: 'Save to Search History',
+          removeRecentSearchButtonTitle: 'Remove from search history',
+          favoriteSearchesTitle: 'Favorite',
+          removeFavoriteSearchButtonTitle: 'Remove from Favorites',
+        },
+        errorScreen: {
+          titleText: 'Unable to get results',
+          helpText: 'You may need to check your internet connection',
+        },
+        footer: {
+          selectText: 'Option',
+          navigateText: 'Switch modes or data streams',
+          closeText: 'close',
+          searchByText: 'Search for suppliers',
+        },
+        noResultsScreen: {
+          noResultsText: 'No results could be found',
+          suggestedQueryText: 'You can try querying',
+          reportMissingResultsText: 'Do you think the query should yield results?',
+          reportMissingResultsLinkText: 'Click on Feedback',
+        },
+      },
+    },
+  },
+}
