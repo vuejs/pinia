@@ -1,11 +1,12 @@
 <template>
   <div class="banner banner-vuejsconf" v-if="isVisible">
-    <a href="https://conf.vuejs.de/?utm_source=vuejs&utm_medium=referral&utm_campaign=banner-placement&utm_content=banner"
+    <a href="https://conf.vuejs.de/tickets/?voucher=COMMUNITY&utm_source=vuejs&utm_medium=referral&utm_campaign=banner-placement&utm_content=banner"
       target="_blank">
       <picture>
-        <source media="(min-width:1200px)" srcset="/vuejsde-conf/vuejsdeconf_banner_large.png" />
-        <source media="(min-width:920px)" srcset="/vuejsde-conf/vuejsdeconf_banner_medium.png" />
-        <img src="/vuejsde-conf/vuejsdeconf_banner_small.png" alt="" />
+        <source media="(min-width:1260px)" srcset="/vuejsde-conf/vuejsdeconf_banner_large.png" />
+        <source media="(min-width:970px)" srcset="/vuejsde-conf/vuejsdeconf_banner_medium.png" />
+        <source media="(min-width:576px)" srcset="/vuejsde-conf/vuejsdeconf_banner_small.png" />
+        <img src="/vuejsde-conf/vuejsdeconf_banner_smallest.png" alt="" />
       </picture>
     </a>
     <div class="close-btn" @click.stop.prevent="closeBanner">
@@ -19,7 +20,7 @@ import { ref, onMounted } from 'vue'
 
 const isVisible = ref(false)
 
-const nameStorage = 'VUEJSDECONF-BANNER-JUNE-2024'
+const nameStorage = 'VUEJSDECONF-BANNER-SEPTEMBER-2024'
 
 const resetLayoutTopHeight = () => {
   document.documentElement.classList.add('banner-dismissed')
@@ -43,7 +44,7 @@ onMounted(() => {
 </script>
 <style>
 html:not(.banner-dismissed) {
-  --vp-layout-top-height: 60px;
+  --vp-layout-top-height: 72px;
 }
 </style>
 <style scoped>
@@ -59,7 +60,7 @@ html:not(.banner-dismissed) {
   text-align: center;
   font-size: 12px;
   font-weight: 600;
-  color: #fff;
+  color: #000;
 }
 
 .banner-dismissed .banner {
@@ -70,8 +71,12 @@ a {
   text-decoration: underline;
 }
 
+.close {
+  font-size: 24px;
+}
+
 .banner-vuejsconf {
-  background: linear-gradient(90deg, #fff 50%, #43b883 50%);
+  background: linear-gradient(90deg, #fff 50%, #6f97c4 50%);
 }
 
 .banner-vuejsconf a {
@@ -80,8 +85,8 @@ a {
 }
 
 .banner-vuejsconf .close-btn {
-  top: 10px;
-  right: 10px;
+  top: 0;
+  left: 0;
   z-index: 99;
   position: absolute;
   border-radius: 50%;
