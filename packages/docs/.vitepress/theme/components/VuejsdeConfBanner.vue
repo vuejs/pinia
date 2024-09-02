@@ -3,10 +3,16 @@
     <a href="https://conf.vuejs.de/tickets/?voucher=COMMUNITY&utm_source=vuejs&utm_medium=referral&utm_campaign=banner-placement&utm_content=banner"
       target="_blank">
       <picture>
-        <source media="(min-width:1260px)" srcset="/vuejsde-conf/vuejsdeconf_banner_large.png" />
-        <source media="(min-width:970px)" srcset="/vuejsde-conf/vuejsdeconf_banner_medium.png" />
-        <source media="(min-width:576px)" srcset="/vuejsde-conf/vuejsdeconf_banner_small.png" />
-        <img src="/vuejsde-conf/vuejsdeconf_banner_smallest.png" alt="" />
+        <source media="(min-width:1260px)"
+          srcset="/vuejsde-conf/vuejsdeconf_banner_large.png, /vuejsde-conf/vuejsdeconf_banner_large_2x.png 2x" />
+        <source media="(min-width:970px)"
+          srcset="/vuejsde-conf/vuejsdeconf_banner_medium.png, /vuejsde-conf/vuejsdeconf_banner_medium_2x.png 2x" />
+        <source media="(min-width:576px)"
+          srcset="/vuejsde-conf/vuejsdeconf_banner_small.png, /vuejsde-conf/vuejsdeconf_banner_small_2x.png 2x" />
+        <source media="(min-width:320px)"
+          srcset="/vuejsde-conf/vuejsdeconf_banner_smallest.png, /vuejsde-conf/vuejsdeconf_banner_smallest_2x.png 2x"
+          alt="" />
+        <img src="/vuejsde-conf/vuejsdeconf_banner_smallest_2x.png" alt="" />
       </picture>
     </a>
     <div class="close-btn" @click.stop.prevent="closeBanner">
