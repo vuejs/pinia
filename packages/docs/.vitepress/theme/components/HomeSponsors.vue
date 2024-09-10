@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import HomeSponsorsGroup from './HomeSponsorsGroup.vue'
+import sponsors from './sponsors.json'
+import { useData } from 'vitepress'
+
+const { site } = useData()
+const translations = {
+  en: 'Become a sponsor',
+  'en-US': 'Become a Sponsor!',
+  'zh-CN': '成为赞助者！',
+}
+</script>
+
 <template>
   <div class="sponsors_outer">
     <div>
@@ -23,19 +36,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import HomeSponsorsGroup from './HomeSponsorsGroup.vue'
-import sponsors from './sponsors.json'
-import { useData } from 'vitepress'
-
-const { site } = useData()
-const translations = {
-  en: 'Become a sponsor',
-  'en-US': 'Become a Sponsor!',
-  'zh-CN': '成为赞助者！',
-}
-</script>
 
 <style scoped>
 .become-sponsor {
