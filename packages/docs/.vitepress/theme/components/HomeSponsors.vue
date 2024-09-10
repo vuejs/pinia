@@ -38,39 +38,12 @@ const translations = {
 </template>
 
 <style scoped>
-.become-sponsor {
-  font-size: 0.9em;
-  width: auto;
-  text-align: center;
-  background-color: transparent;
-  padding: 0.75em 2em;
-  border-radius: 2em;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-  border: 2px solid var(--vp-button-brand-hover-bg);
-  text-decoration: none;
-}
-
-.become-sponsor:hover {
-  text-decoration: none;
-  background-color: var(--vp-button-brand-hover-bg);
-  color: var(--vp-button-brand-text) !important;
-}
-
-.sponsors-top .become-sponsor {
-  font-size: 0.75em;
-  padding: 0.2em;
-  width: auto;
-  max-width: 150px;
-}
-
 .sponsors_outer {
   text-align: center;
   padding: 35px 40px 45px;
+  background-color: var(--vp-c-bg-accent);
   /* transition when toggling dark mode */
-  transition:
-    background-color 300ms ease-in-out,
-    color 300ms ease-in-out;
+  transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
 }
 
 .cta {

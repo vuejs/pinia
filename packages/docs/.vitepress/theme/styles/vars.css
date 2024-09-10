@@ -156,11 +156,38 @@ html.dark .DocSearch {
   }
 }
 
+.become-sponsor {
+  font-size: 0.9em;
+  font-weight: 700;
+  width: auto;
+  text-align: center;
+  background-color: transparent;
+  padding: 0.75em 2em;
+  border-radius: 2em;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+  border: 2px solid var(--c-yellow-2);
+}
+
+.become-sponsor.become-sponsor:hover {
+  background-color: var(--c-yellow-1);
+  text-decoration: none;
+  border-color: var(--c-yellow-1);
+  color: var(--c-text-light-1);
+}
+
 .vp-doc a {
   text-decoration: none;
 }
 .vp-doc a:hover {
   text-decoration: underline;
+}
+
+.sponsors-top .become-sponsor {
+  font-size: 0.75em;
+  padding: 0.2em;
+  width: auto;
+  max-width: 150px;
 }
 
 kbd {
