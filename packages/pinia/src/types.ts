@@ -583,7 +583,7 @@ export type _UnwrapAll<SS> = { [K in keyof SS]: UnwrapRef<SS[K]> }
 export type _ExtractStateFromSetupStore<SS> = SS extends undefined | void
   ? {}
   : _ExtractStateFromSetupStore_Keys<SS> extends keyof SS
-    ? _UnwrapAll<Pick<SS, _ExtractStateFromSetupStore_Keys<SS>>>
+    ? Pick<SS, _ExtractStateFromSetupStore_Keys<SS>>
     : never
 
 /**

@@ -1,4 +1,4 @@
-import { computed, ref, shallowRef } from 'vue'
+import { computed, Ref, ref, shallowRef } from 'vue'
 import { defineStore, expectType } from './'
 
 const name = ref('Eduardo')
@@ -19,6 +19,7 @@ const useStore = defineStore({
     counter,
     aRef: ref(0),
     aShallowRef: shallowRef({ msg: 'hi' }),
+    anotherShallowRef: shallowRef({ aRef: ref('hello') }),
   }),
 
   getters: {
@@ -67,6 +68,8 @@ expectType<number>(store.fromARef)
 
 expectType<{ msg: string }>(store.aShallowRef)
 expectType<{ msg: string }>(store.$state.aShallowRef)
+expectType<{ aRef: Ref<string> }>(store.anotherShallowRef)
+expectType<{ aRef: Ref<string> }>(store.$state.anotherShallowRef)
 
 const onlyState = defineStore({
   id: 'main',
@@ -83,3 +86,11 @@ onlyState.$patch((state) => {
   expectType<string>(state.some)
   expectType<string>(state.name)
 })
+
+const useSetupStore = defineStore('composition', () => ({
+  anotherShallowRef: shallowRef({ aRef: ref('hello') }),
+}))
+
+const setupStore = useSetupStore()
+expectType<{ aRef: Ref<string> }>(setupStore.anotherShallowRef)
+expectType<{ aRef: Ref<string> }>(setupStore.$state.anotherShallowRef)
