@@ -81,7 +81,7 @@ Any property _returned_ by a plugin will be automatically tracked by devtools so
 // from the example above
 pinia.use(({ store }) => {
   store.hello = 'world'
-  // make sure your bundler handle this. webpack and vite should do it by default
+  // make sure your bundler handles this. webpack and vite should do it by default
   if (process.env.NODE_ENV === 'development') {
     // add any keys you set on the store
     store._customProperties.add('hello')
