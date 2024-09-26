@@ -22,9 +22,7 @@ import type {
 } from './types'
 
 type ToComputedRefs<T> = {
-  [K in keyof T]: ToRef<T[K]> extends Ref
-    ? ComputedRef<T[K]>
-    : ToRef<T[K]>
+  [K in keyof T]: ToRef<T[K]> extends Ref ? ComputedRef<T[K]> : ToRef<T[K]>
 }
 
 /**
