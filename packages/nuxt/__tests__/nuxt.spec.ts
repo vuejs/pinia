@@ -33,4 +33,9 @@ describe('works with nuxt', async () => {
     const html = await $fetch('/')
     expect(html).toContain('Count: 101')
   })
+
+  it.todo('drop state that is marked with skipHydrate', async () => {
+    const html = await $fetch('/skip-hydrate')
+    // TODO:
+  })
 })
