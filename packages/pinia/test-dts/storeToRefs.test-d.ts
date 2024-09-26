@@ -1,11 +1,5 @@
-import {
-  expectType,
-  createPinia,
-  defineStore,
-  mapStores,
-  storeToRefs,
-} from './'
-import { App, computed, ComputedRef, ref, Ref, shallowRef } from 'vue'
+import { expectType, defineStore, storeToRefs } from './'
+import { computed, ComputedRef, ref, Ref, shallowRef } from 'vue'
 
 const useOptionsStore = defineStore('main', {
   state: () => ({
@@ -39,6 +33,9 @@ const useSetupStore = defineStore('main', () => {
       n: 0,
       ref: ref(0),
     }),
+    // https://github.com/vuejs/pinia/issues/2658
+    accidentallyNestedComputed: computed(() => computed(() => 'a')),
+    computedRef: computed(() => ref(0)),
   }
 })
 
@@ -48,3 +45,5 @@ const setupRefs = storeToRefs(setupStore)
 expectType<Ref<number>>(setupRefs.n)
 expectType<Ref<{ n: number; ref: number }>>(setupRefs.ref)
 expectType<Ref<{ n: number; ref: Ref<number> }>>(setupRefs.shallowRef)
+expectType<ComputedRef<string>>(setupRefs.accidentallyNestedComputed.value)
+expectType<Ref<number>>(setupRefs.computedRef.value)
