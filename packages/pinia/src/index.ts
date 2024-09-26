@@ -11,7 +11,7 @@ export type {
   PiniaPluginContext,
 } from './rootStore'
 
-export { defineStore, skipHydrate } from './store'
+export { defineStore, skipHydrate, shouldHydrate } from './store'
 export type {
   StoreActions,
   StoreGetters,
