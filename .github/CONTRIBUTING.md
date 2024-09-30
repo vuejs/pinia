@@ -2,7 +2,7 @@
 
 Contributions are welcome and will be fully credited!
 
-We accept contributions via Pull Requests on [Github](https://github.com/{{ githubAccount }}/{{ name }}).
+We accept contributions via Pull Requests on [Github](https://github.com/vuejs/pinia).
 
 ## Pull Requests
 
@@ -19,7 +19,7 @@ Here are some guidelines to make the process smoother:
 
 ### Bug reports
 
-Always try to provide as much information as possible. If you are reporting a bug, try to provide a repro on jsfiddle.net (or anything else) or a stacktrace at the very least. This will help us check the problem quicker.
+Always try to provide as much information as possible. If you are reporting a bug, try to provide a repro on [this playground](https://play.pinia.vuejs.org) (or anything else) or a stacktrace at the very least. This will help us check the problem quicker.
 
 ### Feature requests
 
