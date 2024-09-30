@@ -1,3 +1,11 @@
+## [2.2.3](https://github.com/vuejs/pinia/compare/pinia@2.2.2...pinia@2.2.3) (2024-09-30)
+
+### Bug Fixes
+
+- **types:** allow writable getters ([94f5a63](https://github.com/vuejs/pinia/commit/94f5a63fdc86f17f1dd17ed16534fbdecb8c448f)), closes [#2767](https://github.com/vuejs/pinia/issues/2767)
+- **types:** Don't double UnwrapRef in setup stores ([#2771](https://github.com/vuejs/pinia/issues/2771)) ([5ad1765](https://github.com/vuejs/pinia/commit/5ad17654de4153b6f26b45b20029ca9ac4885f8d)), closes [#2770](https://github.com/vuejs/pinia/issues/2770)
+- **types:** storeToRefs with nested refs ([#2659](https://github.com/vuejs/pinia/issues/2659)) ([623e5a0](https://github.com/vuejs/pinia/commit/623e5a0fe3444a4aa9c4908668927ee66f6352ba))
+
 ## [2.2.2](https://github.com/vuejs/pinia/compare/pinia@2.2.1...pinia@2.2.2) (2024-08-15)
 
 ### Features
