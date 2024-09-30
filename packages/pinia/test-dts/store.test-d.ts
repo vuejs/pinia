@@ -1,5 +1,5 @@
 import { StoreGeneric, acceptHMRUpdate, defineStore, expectType } from './'
-import { UnwrapRef, watch } from 'vue'
+import { computed, ref, UnwrapRef, watch } from 'vue'
 
 const useStore = defineStore({
   id: 'name',
@@ -236,7 +236,7 @@ function takeStore<TStore extends StoreGeneric>(store: TStore): TStore['$id'] {
 
 export const useSyncValueToStore = <
   TStore extends StoreGeneric,
-  TKey extends keyof TStore['$state']
+  TKey extends keyof TStore['$state'],
 >(
   propGetter: () => TStore[TKey],
   store: TStore,
@@ -282,3 +282,33 @@ useSyncValueToStore(() => 2, genericStore, 'myState')
 // @ts-expect-error: this type is known so it should yield an error
 useSyncValueToStore(() => false, genericStore, 'myState')
 useSyncValueToStore(() => 2, genericStore, 'random')
+
+const writableComputedStore = defineStore('computed-writable', () => {
+  const fruitsBasket = ref(['banana', 'apple', 'banana', 'orange'])
+  const bananasAmount = computed<number>({
+    get: () => fruitsBasket.value.filter((fruit) => fruit === 'banana').length,
+    set: (newAmount) => {
+      fruitsBasket.value = fruitsBasket.value.filter(
+        (fruit) => fruit !== 'banana'
+      )
+      fruitsBasket.value.push(...Array(newAmount).fill('banana'))
+    },
+  })
+  const bananas = computed({
+    get: () => fruitsBasket.value.filter((fruit) => fruit === 'banana'),
+    set: (newFruit: string) =>
+      (fruitsBasket.value = fruitsBasket.value.map((fruit) =>
+        fruit === 'banana' ? newFruit : fruit
+      )),
+  })
+  bananas.value = 'hello' // TS ok
+  return { fruitsBasket, bananas, bananasAmount }
+})()
+
+expectType<number>(writableComputedStore.bananasAmount)
+// should allow writing to it
+writableComputedStore.bananasAmount = 0
+expectType<string[]>(writableComputedStore.bananas)
+// should allow setting a different type
+// @ts-expect-error: still not doable
+writableComputedStore.bananas = 'hello'

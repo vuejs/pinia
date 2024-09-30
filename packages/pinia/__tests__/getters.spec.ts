@@ -106,6 +106,49 @@ describe('Getters', () => {
     expect(store.upperCaseName).toBe('ED')
   })
 
+  it('can use getters with setters', () => {
+    const useStore = defineStore('main', () => {
+      const name = ref('Eduardo')
+      const upperCaseName = computed({
+        get() {
+          return name.value.toUpperCase()
+        },
+        set(value: string) {
+          store.name = value.toLowerCase()
+        },
+      })
+      return { name, upperCaseName }
+    })
+
+    const store = useStore()
+    expect(store.upperCaseName).toBe('EDUARDO')
+    store.upperCaseName = 'ED'
+    expect(store.name).toBe('ed')
+  })
+
+  it('can use getters with setters with different types', () => {
+    const useStore = defineStore('main', () => {
+      const n = ref(0)
+      const double = computed({
+        get() {
+          return n.value * 2
+        },
+        set(value: string | number) {
+          n.value =
+            (typeof value === 'string' ? parseInt(value) || 0 : value) / 2
+        },
+      })
+      return { n, double }
+    })
+
+    const store = useStore()
+    store.double = 4
+    expect(store.n).toBe(2)
+    // @ts-expect-error: still not doable
+    store.double = '6'
+    expect(store.n).toBe(3)
+  })
+
   describe('cross used stores', () => {
     const useA = defineStore('a', () => {
       const B = useB()
