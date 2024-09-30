@@ -609,18 +609,14 @@ export type _ExtractStateFromSetupStore<SS> = SS extends undefined | void
  */
 export type _ExtractActionsFromSetupStore<SS> = SS extends undefined | void
   ? {}
-  : _ExtractActionsFromSetupStore_Keys<SS> extends keyof SS
-    ? Pick<SS, _ExtractActionsFromSetupStore_Keys<SS>>
-    : never
+  : Pick<SS, _ExtractActionsFromSetupStore_Keys<SS>>
 
 /**
  * For internal use **only**
  */
 export type _ExtractGettersFromSetupStore<SS> = SS extends undefined | void
   ? {}
-  : _ExtractGettersFromSetupStore_Keys<SS> extends keyof SS
-    ? Pick<SS, _ExtractGettersFromSetupStore_Keys<SS>>
-    : never
+  : Pick<SS, _ExtractGettersFromSetupStore_Keys<SS>>
 
 /**
  * Options passed to `defineStore()` that are common between option and setup
