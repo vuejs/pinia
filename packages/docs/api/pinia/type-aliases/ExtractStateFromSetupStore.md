@@ -10,7 +10,7 @@ editLink: false
 
 # Type Alias: \_ExtractStateFromSetupStore\<SS\>
 
-> **\_ExtractStateFromSetupStore**\<`SS`\>: `SS` *extends* `undefined` \| `void` ? `object` : [`_ExtractStateFromSetupStore_Keys`](ExtractStateFromSetupStore_Keys.md)\<`SS`\> *extends* keyof `SS` ? [`_UnwrapAll`](UnwrapAll.md)\<`Pick`\<`SS`, [`_ExtractStateFromSetupStore_Keys`](ExtractStateFromSetupStore_Keys.md)\<`SS`\>\>\> : `never`
+> **\_ExtractStateFromSetupStore**\<`SS`\>: `SS` *extends* `undefined` \| `void` ? `object` : `Pick`\<`SS`, [`_ExtractStateFromSetupStore_Keys`](ExtractStateFromSetupStore_Keys.md)\<`SS`\>\>
 
 For internal use **only**
 

@@ -22,14 +22,6 @@ Properties of a store.
 
 ## Properties
 
-### $id
-
-> **$id**: `Id`
-
-Unique identifier of the store
-
-***
-
 ### \_customProperties
 
 > **\_customProperties**: `Set`\<`string`\>
@@ -37,3 +29,11 @@ Unique identifier of the store
 Used by devtools plugin to retrieve properties added with plugins. Removed
 in production. Can be used by the user to add property keys of the store
 that should be displayed in devtools.
+
+***
+
+### $id
+
+> **$id**: `Id`
+
+Unique identifier of the store

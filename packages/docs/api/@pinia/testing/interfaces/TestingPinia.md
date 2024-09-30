@@ -47,7 +47,7 @@ App used by Pinia
 
 ### state
 
-> **state**: `Ref`\<`Record`\<`string`, [`StateTree`](../../../pinia/type-aliases/StateTree.md)\>\>
+> **state**: `Ref`\<`Record`\<`string`, [`StateTree`](../../../pinia/type-aliases/StateTree.md)\>, `Record`\<`string`, [`StateTree`](../../../pinia/type-aliases/StateTree.md)\>\>
 
 root state
 

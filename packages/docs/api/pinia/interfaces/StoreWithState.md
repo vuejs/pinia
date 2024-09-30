@@ -28,6 +28,20 @@ Base store with state and functions. Should not be used directly.
 
 ## Properties
 
+### \_customProperties
+
+> **\_customProperties**: `Set`\<`string`\>
+
+Used by devtools plugin to retrieve properties added with plugins. Removed
+in production. Can be used by the user to add property keys of the store
+that should be displayed in devtools.
+
+#### Inherited from
+
+[`StoreProperties`](StoreProperties.md).[`_customProperties`](StoreProperties.md#_customProperties)
+
+***
+
 ### $id
 
 > **$id**: `Id`
@@ -45,20 +59,6 @@ Unique identifier of the store
 > **$state**: `UnwrapRef`\<`S`\> & [`PiniaCustomStateProperties`](PiniaCustomStateProperties.md)\<`S`\>
 
 State of the Store. Setting it will internally call `$patch()` to update the state.
-
-***
-
-### \_customProperties
-
-> **\_customProperties**: `Set`\<`string`\>
-
-Used by devtools plugin to retrieve properties added with plugins. Removed
-in production. Can be used by the user to add property keys of the store
-that should be displayed in devtools.
-
-#### Inherited from
-
-[`StoreProperties`](StoreProperties.md).[`_customProperties`](StoreProperties.md#_customProperties)
 
 ## Methods
 

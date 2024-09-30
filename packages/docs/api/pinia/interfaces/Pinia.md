@@ -34,7 +34,7 @@ Every application must own its own pinia to be able to create stores
 
 ### state
 
-> **state**: `Ref`\<`Record`\<`string`, [`StateTree`](../type-aliases/StateTree.md)\>\>
+> **state**: `Ref`\<`Record`\<`string`, [`StateTree`](../type-aliases/StateTree.md)\>, `Record`\<`string`, [`StateTree`](../type-aliases/StateTree.md)\>\>
 
 root state
 
