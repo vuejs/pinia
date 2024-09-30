@@ -86,3 +86,7 @@ pnpm run docs:translation:compare <lang> upstream/v2
 ```
 
 <!-- TODO: add an example once we have got one -->
+
+### Translating Search text
+
+The search box is powered by Algolia and you will need to translate the properties. Inspire yourself from `.vitepress/config/zh.ts` `zhSearch` variable.
