@@ -142,6 +142,7 @@ describe('Getters', () => {
     })
 
     const store = useStore()
+    expect(store.$state).not.toHaveProperty('double')
     store.double = 4
     expect(store.n).toBe(2)
     // @ts-expect-error: still not doable
