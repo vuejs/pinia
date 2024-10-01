@@ -1,4 +1,10 @@
-import { StoreGeneric, acceptHMRUpdate, defineStore, expectType } from './'
+import {
+  StoreGeneric,
+  acceptHMRUpdate,
+  defineStore,
+  expectType,
+  storeToRefs,
+} from './'
 import { computed, ref, UnwrapRef, watch } from 'vue'
 
 const useStore = defineStore({
@@ -285,6 +291,7 @@ useSyncValueToStore(() => 2, genericStore, 'random')
 
 const writableComputedStore = defineStore('computed-writable', () => {
   const fruitsBasket = ref(['banana', 'apple', 'banana', 'orange'])
+  const total = computed(() => fruitsBasket.value.length)
   const bananasAmount = computed<number>({
     get: () => fruitsBasket.value.filter((fruit) => fruit === 'banana').length,
     set: (newAmount) => {
@@ -302,13 +309,22 @@ const writableComputedStore = defineStore('computed-writable', () => {
       )),
   })
   bananas.value = 'hello' // TS ok
-  return { fruitsBasket, bananas, bananasAmount }
+  return { fruitsBasket, bananas, bananasAmount, total }
 })()
 
 expectType<number>(writableComputedStore.bananasAmount)
 // should allow writing to it
 writableComputedStore.bananasAmount = 0
+// @ts-expect-error: this one is readonly
+writableComputedStore.total = 0
 expectType<string[]>(writableComputedStore.bananas)
 // should allow setting a different type
 // @ts-expect-error: still not doable
 writableComputedStore.bananas = 'hello'
+
+const refs = storeToRefs(writableComputedStore)
+expectType<string[]>(refs.bananas.value)
+expectType<number>(refs.bananasAmount.value)
+refs.bananasAmount.value = 0
+// @ts-expect-error: this one is readonly
+refs.total.value = 0

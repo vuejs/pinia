@@ -3,12 +3,12 @@ import {
   isReactive,
   isRef,
   isVue2,
-  Ref,
   toRaw,
   ToRef,
   toRef,
   ToRefs,
   toRefs,
+  WritableComputedRef,
 } from 'vue-demi'
 import { StoreGetters, StoreState } from './store'
 import type {
@@ -21,8 +21,29 @@ import type {
   StoreGeneric,
 } from './types'
 
-type ToComputedRefs<T> = {
-  [K in keyof T]: ToRef<T[K]> extends Ref ? ComputedRef<T[K]> : ToRef<T[K]>
+/**
+ * Internal utility type
+ */
+type _IfEquals<X, Y, A = true, B = false> =
+  (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? A : B
+
+/**
+ * Internal utility type
+ */
+type _IsReadonly<T, K extends keyof T> = _IfEquals<
+  { [P in K]: T[P] },
+  { -readonly [P in K]: T[P] },
+  false, // Property is not readonly if they are the same
+  true // Property is readonly if they differ
+>
+
+/**
+ * Extracts the getters of a store while keeping writable and readonly properties. **Internal type DO NOT USE**.
+ */
+type _ToComputedRefs<SS> = {
+  [K in keyof SS]: true extends _IsReadonly<SS, K>
+    ? ComputedRef<SS[K]>
+    : WritableComputedRef<SS[K]>
 }
 
 /**
@@ -49,7 +70,7 @@ type _ToStateRefs<SS> =
  */
 export type StoreToRefs<SS extends StoreGeneric> = _ToStateRefs<SS> &
   ToRefs<PiniaCustomStateProperties<StoreState<SS>>> &
-  ToComputedRefs<StoreGetters<SS>>
+  _ToComputedRefs<StoreGetters<SS>>
 
 /**
  * Creates an object of references with all the state, getters, and plugin-added

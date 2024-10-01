@@ -727,3 +727,16 @@ export interface DefineStoreOptionsInPlugin<
    */
   actions: A
 }
+
+/**
+ * Utility type. For internal use **only**
+ */
+export interface _Empty {}
+
+/**
+ * Merges type objects for better readability in the code.
+ * Utility type. For internal use **only**
+ */
+export type _Simplify<T> = _Empty extends T
+  ? _Empty
+  : { [key in keyof T]: T[key] } & {}
