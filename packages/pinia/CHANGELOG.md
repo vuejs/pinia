@@ -1,3 +1,9 @@
+## [2.2.4](https://github.com/vuejs/pinia/compare/pinia@2.2.3...pinia@2.2.4) (2024-10-01)
+
+### Bug Fixes
+
+- **types:** allow writable getters with storeToRefs ([b464a1f](https://github.com/vuejs/pinia/commit/b464a1f4ff499aff34087cc9cd77ad19cf8646a7)), closes [#2767](https://github.com/vuejs/pinia/issues/2767)
+
 ## [2.2.3](https://github.com/vuejs/pinia/compare/pinia@2.2.2...pinia@2.2.3) (2024-09-30)
 
 ### Bug Fixes
