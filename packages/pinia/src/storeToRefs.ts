@@ -68,9 +68,11 @@ type _ToStateRefs<SS> =
  * Extracts the return type for `storeToRefs`.
  * Will convert any `getters` into `ComputedRef`.
  */
-export type StoreToRefs<SS extends StoreGeneric> = _ToStateRefs<SS> &
-  ToRefs<PiniaCustomStateProperties<StoreState<SS>>> &
-  _ToComputedRefs<StoreGetters<SS>>
+export type StoreToRefs<SS extends StoreGeneric> = SS extends unknown
+  ? _ToStateRefs<SS> &
+      ToRefs<PiniaCustomStateProperties<StoreState<SS>>> &
+      _ToComputedRefs<StoreGetters<SS>>
+  : never
 
 /**
  * Creates an object of references with all the state, getters, and plugin-added
