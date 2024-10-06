@@ -5,7 +5,7 @@ import {
   expectType,
   storeToRefs,
 } from './'
-import { computed, ref, UnwrapRef, watch } from 'vue'
+import { computed, Ref, ref, UnwrapRef, watch, WritableComputedRef } from 'vue'
 
 const useStore = defineStore({
   id: 'name',
@@ -328,3 +328,12 @@ expectType<number>(refs.bananasAmount.value)
 refs.bananasAmount.value = 0
 // @ts-expect-error: this one is readonly
 refs.total.value = 0
+
+const refStore = defineStore('ref-bananas', () => {
+  const bananas = ref(['banana1', 'banana2'])
+  return { bananas }
+})()
+declare const conditionalStore: typeof refStore | typeof writableComputedStore
+expectType<Ref<string[]> | WritableComputedRef<'banana'[]>>(
+  storeToRefs(conditionalStore).bananas
+)
