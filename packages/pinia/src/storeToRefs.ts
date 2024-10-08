@@ -94,11 +94,11 @@ export function storeToRefs<SS extends StoreGeneric>(
     // @ts-expect-error: toRefs include methods and others
     return toRefs(store)
   } else {
-    store = toRaw(store)
+    const rawStore = toRaw(store)
 
     const refs = {} as StoreToRefs<SS>
-    for (const key in store) {
-      const value = store[key]
+    for (const key in rawStore) {
+      const value = rawStore[key]
       if (isRef(value) || isReactive(value)) {
         // @ts-expect-error: the key is state or getter
         refs[key] =
