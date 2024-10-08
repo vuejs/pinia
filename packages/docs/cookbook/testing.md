@@ -191,7 +191,7 @@ function mockedStore<TStoreDef extends () => unknown>(
           ...args: infer Args
         ) => infer ReturnT
           ? // 👇 depends on your testing framework
-            Mock<Args, ReturnT>
+            Mock<Actions[K]>
           : Actions[K]
       }
     > & {
