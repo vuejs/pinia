@@ -25,11 +25,8 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-
-    - run: corepack enable
-
-    - name: Set node
-      uses: actions/setup-node@v4
+    - uses: pnpm/action-setup@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: lts/*
         cache: pnpm
