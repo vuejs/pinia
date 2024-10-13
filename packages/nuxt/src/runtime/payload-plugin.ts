@@ -11,9 +11,10 @@ import { shouldHydrate } from 'pinia'
 const payloadPlugin = definePayloadPlugin(() => {
   definePayloadReducer(
     'skipHydrate',
-    (data: unknown) => !shouldHydrate(data) && undefined
+    // We need to return something truthy to be treated as a match
+    (data: unknown) => !shouldHydrate(data) && 1
   )
-  definePayloadReviver('skipHydrate', (data: undefined) => data)
+  definePayloadReviver('skipHydrate', (_data: 1) => undefined)
 })
 
 export default payloadPlugin
