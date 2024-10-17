@@ -18,6 +18,9 @@ editLink: false
 
 ### Interfaces
 
+- [\_StoreOnActionListenerContext](interfaces/StoreOnActionListenerContext.md)
+- [\_StoreWithState](interfaces/StoreWithState.md)
+- [\_SubscriptionCallbackMutationBase](interfaces/SubscriptionCallbackMutationBase.md)
 - [DefineSetupStoreOptions](interfaces/DefineSetupStoreOptions.md)
 - [DefineStoreOptions](interfaces/DefineStoreOptions.md)
 - [DefineStoreOptionsBase](interfaces/DefineStoreOptionsBase.md)
@@ -34,23 +37,9 @@ editLink: false
 - [SubscriptionCallbackMutationDirect](interfaces/SubscriptionCallbackMutationDirect.md)
 - [SubscriptionCallbackMutationPatchFunction](interfaces/SubscriptionCallbackMutationPatchFunction.md)
 - [SubscriptionCallbackMutationPatchObject](interfaces/SubscriptionCallbackMutationPatchObject.md)
-- [\_StoreOnActionListenerContext](interfaces/StoreOnActionListenerContext.md)
-- [\_StoreWithState](interfaces/StoreWithState.md)
-- [\_SubscriptionCallbackMutationBase](interfaces/SubscriptionCallbackMutationBase.md)
 
 ### Type Aliases
 
-- [PiniaStorePlugin](type-aliases/PiniaStorePlugin.md)
-- [StateTree](type-aliases/StateTree.md)
-- [Store](type-aliases/Store.md)
-- [StoreActions](type-aliases/StoreActions.md)
-- [StoreGeneric](type-aliases/StoreGeneric.md)
-- [StoreGetters](type-aliases/StoreGetters.md)
-- [StoreOnActionListener](type-aliases/StoreOnActionListener.md)
-- [StoreOnActionListenerContext](type-aliases/StoreOnActionListenerContext.md)
-- [StoreState](type-aliases/StoreState.md)
-- [SubscriptionCallback](type-aliases/SubscriptionCallback.md)
-- [SubscriptionCallbackMutation](type-aliases/SubscriptionCallbackMutation.md)
 - [\_ActionsTree](type-aliases/ActionsTree.md)
 - [\_Awaited](type-aliases/Awaited.md)
 - [\_DeepPartial](type-aliases/DeepPartial.md)
@@ -73,6 +62,17 @@ editLink: false
 - [\_StoreWithActions](type-aliases/StoreWithActions.md)
 - [\_StoreWithGetters](type-aliases/StoreWithGetters.md)
 - [\_UnwrapAll](type-aliases/UnwrapAll.md)
+- [PiniaStorePlugin](type-aliases/PiniaStorePlugin.md)
+- [StateTree](type-aliases/StateTree.md)
+- [Store](type-aliases/Store.md)
+- [StoreActions](type-aliases/StoreActions.md)
+- [StoreGeneric](type-aliases/StoreGeneric.md)
+- [StoreGetters](type-aliases/StoreGetters.md)
+- [StoreOnActionListener](type-aliases/StoreOnActionListener.md)
+- [StoreOnActionListenerContext](type-aliases/StoreOnActionListenerContext.md)
+- [StoreState](type-aliases/StoreState.md)
+- [SubscriptionCallback](type-aliases/SubscriptionCallback.md)
+- [SubscriptionCallbackMutation](type-aliases/SubscriptionCallbackMutation.md)
 
 ### Variables
 

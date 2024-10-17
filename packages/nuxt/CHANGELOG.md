@@ -1,3 +1,7 @@
+## [0.5.5](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.5.4...@pinia/nuxt@0.5.5) (2024-09-30)
+
+No changes in this release
+
 ## [0.5.4](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.5.3...@pinia/nuxt@0.5.4) (2024-08-21)
 
 ### Bug Fixes

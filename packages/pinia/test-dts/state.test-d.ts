@@ -1,4 +1,4 @@
-import { computed, Ref, ref, shallowRef } from 'vue'
+import { computed, type Ref, ref, shallowRef } from 'vue'
 import { defineStore, expectType } from './'
 
 const name = ref('Eduardo')
@@ -9,9 +9,9 @@ const double = computed({
     counter.value = val / 2
   },
 })
+const nestedRef = ref({ a: ref(0) })
 
-const useStore = defineStore({
-  id: 'name',
+const useStore = defineStore('name', {
   state: () => ({
     n: 0,
     name,
@@ -20,12 +20,14 @@ const useStore = defineStore({
     aRef: ref(0),
     aShallowRef: shallowRef({ msg: 'hi' }),
     anotherShallowRef: shallowRef({ aRef: ref('hello') }),
+    nestedRef,
   }),
 
   getters: {
     myDouble: (state) => {
       expectType<number>(state.double)
       expectType<number>(state.counter)
+      expectType<number>(state.nestedRef.a)
       return state.n * 2
     },
     other(): undefined {
@@ -71,8 +73,7 @@ expectType<{ msg: string }>(store.$state.aShallowRef)
 expectType<{ aRef: Ref<string> }>(store.anotherShallowRef)
 expectType<{ aRef: Ref<string> }>(store.$state.anotherShallowRef)
 
-const onlyState = defineStore({
-  id: 'main',
+const onlyState = defineStore('main', {
   state: () => ({
     // counter: 0,
     // TODO: having only name fails...

@@ -4,6 +4,7 @@ import type {
   Ref,
   UnwrapRef,
   WatchOptions,
+  WritableComputedRef,
 } from 'vue-demi'
 import { Pinia } from './rootStore'
 
@@ -451,10 +452,29 @@ export type _StoreWithActions<A> = {
  * Store augmented with getters. For internal usage only.
  * For internal use **only**
  */
-export type _StoreWithGetters<G> = {
-  readonly [k in keyof G]: G[k] extends (...args: any[]) => infer R
-    ? R
-    : UnwrapRef<G[k]>
+export type _StoreWithGetters<G> = _StoreWithGetters_Readonly<G> &
+  _StoreWithGetters_Writable<G>
+
+/**
+ * Store augmented with readonly getters. For internal usage **only**.
+ */
+export type _StoreWithGetters_Readonly<G> = {
+  readonly [K in keyof G as G[K] extends (...args: any[]) => any
+    ? K
+    : ComputedRef extends G[K]
+      ? K
+      : never]: G[K] extends (...args: any[]) => infer R ? R : UnwrapRef<G[K]>
+}
+
+/**
+ * Store augmented with writable getters. For internal usage **only**.
+ */
+export type _StoreWithGetters_Writable<G> = {
+  [K in keyof G as G[K] extends WritableComputedRef<any>
+    ? K
+    : // NOTE: there is still no way to have a different type for a setter and a getter in TS with dynamic keys
+      // https://github.com/microsoft/TypeScript/issues/43826
+      never]: G[K] extends WritableComputedRef<infer R, infer _S> ? R : never
 }
 
 /**
@@ -582,27 +602,21 @@ export type _UnwrapAll<SS> = { [K in keyof SS]: UnwrapRef<SS[K]> }
  */
 export type _ExtractStateFromSetupStore<SS> = SS extends undefined | void
   ? {}
-  : _ExtractStateFromSetupStore_Keys<SS> extends keyof SS
-    ? Pick<SS, _ExtractStateFromSetupStore_Keys<SS>>
-    : never
+  : Pick<SS, _ExtractStateFromSetupStore_Keys<SS>>
 
 /**
  * For internal use **only**
  */
 export type _ExtractActionsFromSetupStore<SS> = SS extends undefined | void
   ? {}
-  : _ExtractActionsFromSetupStore_Keys<SS> extends keyof SS
-    ? Pick<SS, _ExtractActionsFromSetupStore_Keys<SS>>
-    : never
+  : Pick<SS, _ExtractActionsFromSetupStore_Keys<SS>>
 
 /**
  * For internal use **only**
  */
 export type _ExtractGettersFromSetupStore<SS> = SS extends undefined | void
   ? {}
-  : _ExtractGettersFromSetupStore_Keys<SS> extends keyof SS
-    ? Pick<SS, _ExtractGettersFromSetupStore_Keys<SS>>
-    : never
+  : Pick<SS, _ExtractGettersFromSetupStore_Keys<SS>>
 
 /**
  * Options passed to `defineStore()` that are common between option and setup
@@ -713,3 +727,16 @@ export interface DefineStoreOptionsInPlugin<
    */
   actions: A
 }
+
+/**
+ * Utility type. For internal use **only**
+ */
+export interface _Empty {}
+
+/**
+ * Merges type objects for better readability in the code.
+ * Utility type. For internal use **only**
+ */
+export type _Simplify<T> = _Empty extends T
+  ? _Empty
+  : { [key in keyof T]: T[key] } & {}

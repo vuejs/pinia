@@ -172,6 +172,7 @@ Actions are automatically spied but type-wise, they are still the regular action
 
 ```ts
 import type { Mock } from 'vitest'
+import type { UnwrapRef } from 'vue'
 import type { Store, StoreDefinition } from 'pinia'
 
 function mockedStore<TStoreDef extends () => unknown>(
@@ -187,15 +188,13 @@ function mockedStore<TStoreDef extends () => unknown>(
       State,
       Record<string, never>,
       {
-        [K in keyof Actions]: Actions[K] extends (
-          ...args: infer Args
-        ) => infer ReturnT
+        [K in keyof Actions]: Actions[K] extends (...args: any[]) => any
           ? // 👇 depends on your testing framework
-            Mock<Args, ReturnT>
+            Mock<Actions[K]>
           : Actions[K]
       }
     > & {
-      [K in keyof Getters]: Getters[K] extends ComputedRef<infer T> ? T : never
+      [K in keyof Getters]: UnwrapRef<Getters[K]>
     }
   : ReturnType<TStoreDef> {
   return useStore() as any

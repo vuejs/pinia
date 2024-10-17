@@ -10,16 +10,16 @@ editLink: false
 
 # Function: default()
 
-> **default**(`this`, `inlineOptions`, `nuxt`): `_ModuleSetupReturn`
+> **default**(`this`, `resolvedOptions`, `nuxt`): `ModuleSetupReturn`
 
 ## Parameters
 
 • **this**: `void`
 
-• **inlineOptions**: [`ModuleOptions`](../interfaces/ModuleOptions.md)
+• **resolvedOptions**: [`ModuleOptions`](../interfaces/ModuleOptions.md)
 
 • **nuxt**: `Nuxt`
 
 ## Returns
 
-`_ModuleSetupReturn`
+`ModuleSetupReturn`

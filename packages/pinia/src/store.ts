@@ -42,6 +42,8 @@ import {
   DefineStoreOptionsInPlugin,
   StoreGeneric,
   _StoreWithGetters,
+  _StoreWithGetters_Readonly,
+  _StoreWithGetters_Writable,
   _ExtractActionsFromSetupStore,
   _ExtractGettersFromSetupStore,
   _ExtractStateFromSetupStore,

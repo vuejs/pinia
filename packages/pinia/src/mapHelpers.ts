@@ -266,6 +266,7 @@ export function mapState<
     ? keysOrMapper.reduce(
         (reduced, key) => {
           reduced[key] = function (this: ComponentPublicInstance) {
+            // @ts-expect-error: FIXME: should work?
             return useStore(this.$pinia)[key]
           } as () => any
           return reduced
@@ -285,7 +286,8 @@ export function mapState<
                   this,
                   store
                 )
-              : store[storeKey]
+              : // @ts-expect-error: FIXME: should work?
+                store[storeKey]
           }
           return reduced
         },
