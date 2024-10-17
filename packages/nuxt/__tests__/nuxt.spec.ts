@@ -33,4 +33,10 @@ describe('works with nuxt', async () => {
     const html = await $fetch('/')
     expect(html).toContain('Count: 101')
   })
+
+  it('drops state that is marked with skipHydrate', async () => {
+    const html = await $fetch('/skip-hydrate')
+    expect(html).not.toContain('I should not be serialized or hydrated')
+    expect(html).toContain('skipHydrate-wrapped state is correct')
+  })
 })

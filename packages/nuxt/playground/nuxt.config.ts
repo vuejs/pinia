@@ -3,9 +3,11 @@ import { defineNuxtConfig } from 'nuxt/config'
 import piniaModule from '../src/module'
 
 export default defineNuxtConfig({
+  devtools: { enabled: true },
   alias: {
     pinia: fileURLToPath(new URL('../../pinia/src/index.ts', import.meta.url)),
   },
+
   modules: [piniaModule],
 
   pinia: {
@@ -19,4 +21,6 @@ export default defineNuxtConfig({
       __TEST__: false,
     },
   },
+
+  compatibilityDate: '2024-09-26',
 })
