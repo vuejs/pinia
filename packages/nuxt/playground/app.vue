@@ -6,6 +6,7 @@ const counter = useCounter()
 useTestStore()
 useSomeStoreStore()
 
+const layerStore = useLayerStore()
 // await useAsyncData('counter', () => counter.asyncIncrement().then(() => true))
 
 if (import.meta.server) {
@@ -17,5 +18,7 @@ if (import.meta.server) {
   <div>
     <p>Count: {{ counter.$state.count }}</p>
     <button @click="counter.increment()">+</button>
+
+    <p>Layer: {{ layerStore.state }}</p>
   </div>
 </template>

@@ -85,7 +85,7 @@ By default `@pinia/nuxt` exposes a few auto imports:
 - `storeToRefs()` when you need to extract individual refs from a store
 - `acceptHMRUpdate()` for [hot module replacement](../cookbook/hot-module-replacement.md)
 
-It also automatically imports **all stores** defined within your `stores` folder. It doesn't lookup for nested stores though. You can customize this behavior by setting the `storesDirs` option:
+It also automatically imports **all stores** defined within your `stores` folder in the main `srcDir` and all layers. It doesn't lookup nested stores though. You can customize this behavior by setting the `storesDirs` option:
 
 ```ts
 // nuxt.config.ts
@@ -98,7 +98,38 @@ export default defineNuxtConfig({
 })
 ```
 
+**Note**: The folders are relative to the root of your project. If you change the `srcDir` option, you need to adjust the paths accordingly.
+
+#### Merging Pinia Options Across Layers
+
+Nuxt merges Pinia options from all layers, but defining the `storesDirs` option, such as `['./stores/**', './custom-folder/**']`, in your main `nuxt.config.ts` will only be resolved relative to the main `srcDir`. To ensure that your stores are correctly auto imported in layers, you need to define the `storesDirs` option for each layer individually.
+
+#### Example: Defining Stores in a Custom Layer
+
+To define store directories for a specific layer, use the following approach:
+
+```ts
+import { fileURLToPath } from 'node:url'
+import { defineNuxtConfig } from 'nuxt/config'
+import { dirname, join } from 'path'
+
+const currentDir = dirname(fileURLToPath(import.meta.url))
+
+export default defineNuxtConfig({
+  pinia: {
+    storesDirs: [join(currentDir, './stores/**')],
+  },
+})
+```
+
+In this example:
+
+- `currentDir` represents the directory of the current layer.
+- `storesDirs` is set to point to the `stores` folder relative to the current layer's directory.
+
 Note the folders are relative to the root of your project. If you change the `srcDir` option, you need to adapt the paths accordingly.
+
+For more detailed information on working with layers and relative paths in Nuxt, refer to the [Nuxt Documentation on Layers](https://nuxt.com/docs/guide/going-further/layers#relative-paths-and-aliases).
 
 ## Nuxt 2 without bridge
 

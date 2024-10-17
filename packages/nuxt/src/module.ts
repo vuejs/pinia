@@ -91,9 +91,12 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
       { from: composables, name: 'storeToRefs' },
     ])
 
-    if (!options.storesDirs) {
-      // resolve it against the src dir which is the root by default
-      options.storesDirs = [resolver.resolve(nuxt.options.srcDir, 'stores')]
+    if (options.storesDirs == null) {
+      // Add stores directory for each layer, including the main src dir
+      options.storesDirs = []
+      for (const layer of nuxt.options._layers) {
+        options.storesDirs.push(resolver.resolve(layer.config.srcDir, 'stores'))
+      }
     }
 
     if (options.storesDirs) {

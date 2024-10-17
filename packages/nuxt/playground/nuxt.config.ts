@@ -8,6 +8,8 @@ export default defineNuxtConfig({
   },
   modules: [piniaModule],
 
+  extends: ['../example-layer'],
+
   pinia: {
     storesDirs: ['./stores/**', './domain/*/stores'],
   },
