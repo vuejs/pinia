@@ -37,4 +37,8 @@ describe('Nuxt', async () => {
   it('can auto import from layers', async () => {
     expect(await $fetch('/')).toContain('Layer store: 0')
   })
+
+  it('throws an error server-side when the nuxt context is not available', async () => {
+    await expect($fetch('/usage-after-await')).rejects.toThrow()
+  })
 })
