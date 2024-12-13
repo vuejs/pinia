@@ -39,6 +39,8 @@ describe('Nuxt', async () => {
   })
 
   it('throws an error server-side when the nuxt context is not available', async () => {
-    await expect($fetch('/usage-after-await')).rejects.toThrow()
+    await expect($fetch('/usage-after-await')).rejects.toThrowError(
+      '[nuxt] instance unavailable'
+    )
   })
 })
