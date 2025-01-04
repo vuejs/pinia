@@ -368,12 +368,23 @@ describe('Subscriptions', () => {
       store.user = 'a'
       expect(syncSpy).toHaveBeenCalledTimes(2)
 
-      // FIXME: ideally, these should be 2 but we cannot use
-      // a sync flush within the store's $subscribe method
-      // https://github.com/vuejs/pinia/issues/610
       await nextTick()
-      expect(preSpy).toHaveBeenCalledTimes(1)
-      expect(postSpy).toHaveBeenCalledTimes(1)
+      expect(preSpy).toHaveBeenCalledTimes(2)
+      expect(postSpy).toHaveBeenCalledTimes(2)
+    })
+
+    it('debuggerEvents is not an array when subscription is not triggered by patch', () => {
+      const store = useStore()
+      store.$subscribe(
+        ({ type, events }) => {
+          if (type === MutationType.direct) {
+            expect(Array.isArray(events)).toBe(false)
+          }
+        },
+        { flush: 'sync' }
+      )
+      store.$patch({ user: 'Edu' })
+      store.user = 'a'
     })
   })
 })
