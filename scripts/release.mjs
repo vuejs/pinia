@@ -16,7 +16,7 @@ const __dirname = dirname(__filename)
 const args = minimist(process.argv.slice(2))
 const {
   skipBuild,
-  tag: optionTag,
+  tag: optionTag = 'v2',
   dry: isDryRun,
   skipCleanCheck: skipCleanGitCheck,
   noDepsUpdate,
