@@ -43,22 +43,23 @@ And that's it, use your store as usual!
 
 ## Awaiting for actions in pages
 
-As with `onServerPrefetch()`, you can call a store action within `asyncData()`. Given how `useAsyncData()` works, **make sure to return a value**. This will allow Nuxt to skip running the action on the client side and reuse the value from the server.
+As with `onServerPrefetch()`, you can call a store action within the `callOnce()` composable.
+This will allow Nuxt to run the action only once and avoids refetching data that is already present.
 
 ```vue{3-4}
 <script setup>
 const store = useStore()
 // we could also extract the data, but it's already present in the store
-await useAsyncData('user', () => store.fetchUser())
+await callOnce('user', () => store.fetchUser())
 </script>
 ```
 
-If your action doesn't resolve a value, you can add any non nullish value:
+Depending on your requirements, you can choose to run the action only once on the client, or on every navigation (which is closer to data fetching behavior of `useFetch()`/`useAsyncData()`)
 
 ```vue{3}
 <script setup>
 const store = useStore()
-await useAsyncData('user', () => store.fetchUser().then(() => true))
+await callOnce('user', () => store.fetchUser(), { mode: 'navigation' })
 </script>
 ```
 
