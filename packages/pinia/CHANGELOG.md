@@ -17,6 +17,9 @@ See the [migration guide](https://pinia.vuejs.org/cookbook/migration-v2-v3.html)
 - `defineStore({ id: 'id' })` is now removed. Use `defineStore('id')` instead
 - Pinia is now published as a `type: module` package but it still provides CJS versions dist files
 
+> [!NOTE]  
+> Pinia >= 3.0.0 is only compatible with Vue Devtools v7. To use Pinia with Devtools v6, use Pinia 2
+
 ### Code Refactoring
 
 - remove deprecated aliases ([87c6182](https://github.com/vuejs/pinia/commit/87c6182c4bf61e1f96a4877eb884fd59cf824e1f))
