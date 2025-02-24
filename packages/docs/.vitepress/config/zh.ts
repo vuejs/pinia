@@ -18,7 +18,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 
   themeConfig: {
     editLink: {
-      pattern: 'https://github.com/vuejs/pinia/edit/v2/packages/docs/:path',
+      pattern: 'https://github.com/vuejs/pinia/edit/v3/packages/docs/:path',
       text: '对本页提出修改建议',
     },
 
@@ -50,7 +50,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
           {
             text: '更新日志',
-            link: 'https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md',
+            link: 'https://github.com/vuejs/pinia/blob/v3/packages/pinia/CHANGELOG.md',
           },
           {
             text: 'Vue.js 认证',
