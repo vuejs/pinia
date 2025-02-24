@@ -230,7 +230,7 @@ createTestingPinia({
 })
 ```
 
-你可以在[测试包的测试源码](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts)中找到更多的例子。
+你可以在[测试包的测试源码](https://github.com/vuejs/pinia/blob/v3/packages/testing/src/testing.spec.ts)中找到更多的例子。
 
 ### Mocking getters %{#mocking-getters}%
 
