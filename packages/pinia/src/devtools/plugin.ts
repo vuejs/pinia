@@ -53,6 +53,15 @@ interface TimelineEvent<TData = any, TMeta = any> {
 const getStoreType = (id: string) => '🍍 ' + id
 
 /**
+ * Check if Vue DevTools is legacy
+ */
+function isLegacyVueDevTools() {
+  return (
+    +(globalThis.__VUE_DEVTOOLS_GLOBAL_HOOK__.devtoolsVersion?.[0] ?? 0) < 7
+  )
+}
+
+/**
  * Add the pinia plugin without any store. Allows displaying a Pinia plugin tab
  * as soon as it is added to the application.
  *
@@ -60,6 +69,11 @@ const getStoreType = (id: string) => '🍍 ' + id
  * @param pinia - pinia instance
  */
 export function registerPiniaDevtools(app: App, pinia: Pinia) {
+  if (isLegacyVueDevTools()) {
+    toastMessage(
+      'Pinia >= 3.0.0 is only compatible with Vue Devtools v7. To use Pinia with Devtools v6, use Pinia 2'
+    )
+  }
   setupDevtoolsPlugin(
     {
       id: 'dev.esm.pinia',
