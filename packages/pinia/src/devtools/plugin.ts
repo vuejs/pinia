@@ -71,7 +71,8 @@ function isLegacyVueDevTools() {
 export function registerPiniaDevtools(app: App, pinia: Pinia) {
   if (isLegacyVueDevTools()) {
     toastMessage(
-      'Pinia >= 3.0.0 is only compatible with Vue Devtools v7. To use Pinia with Devtools v6, use Pinia 2'
+      'Pinia >= 3.0.0 is only compatible with Vue Devtools v7. To use Pinia with Devtools v6, use Pinia 2',
+      'warn'
     )
   }
   setupDevtoolsPlugin(
