@@ -28,6 +28,9 @@ This deprecated type alias has been removed in favor of `PiniaPlugin`.
 - TypeScript 5 or newer is required.
 - The devtools API has been upgraded to [v7](https://devtools.vuejs.org).
 
+> [!NOTE]  
+> To use Pinia with Devtools v6, use Pinia 2
+
 ## Nuxt
 
 The Nuxt module has been updated to support Nuxt 3. If you are using Nuxt 2 or Nuxt bridge, you can keep using the old version of Pinia.
