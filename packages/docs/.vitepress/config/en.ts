@@ -99,7 +99,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               link: '/ssr/',
             },
             {
-              text: 'Nuxt.js',
+              text: 'Nuxt',
               link: '/ssr/nuxt.html',
             },
           ],

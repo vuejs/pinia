@@ -113,7 +113,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               link: '/zh/ssr/',
             },
             {
-              text: 'Nuxt.js',
+              text: 'Nuxt',
               link: '/zh/ssr/nuxt.html',
             },
           ],

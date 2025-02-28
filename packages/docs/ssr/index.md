@@ -6,7 +6,7 @@
 />
 
 :::tip
-If you are using **Nuxt.js,** you need to read [**these instructions**](./nuxt.md) instead.
+If you are using **Nuxt,** you need to read [**these instructions**](./nuxt.md) instead.
 :::
 
 Creating stores with Pinia should work out of the box for SSR as long as you call your `useStore()` functions at the top of `setup` functions, `getters` and `actions`:
@@ -63,7 +63,7 @@ onServerPrefetch(async () => {
 
 ## State hydration
 
-To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on. Depending on what you are using for SSR, **you should escape the state for security reasons**. We recommend using [devalue](https://github.com/Rich-Harris/devalue) which is the one used by Nuxt.js:
+To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on. Depending on what you are using for SSR, **you should escape the state for security reasons**. We recommend using [devalue](https://github.com/Rich-Harris/devalue) which is the one used by Nuxt:
 
 ```js
 import devalue from 'devalue'

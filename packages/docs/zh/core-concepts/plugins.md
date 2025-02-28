@@ -397,7 +397,7 @@ declare module 'pinia' {
 还有一个可以从一个 store 类型中提取 _getter_ 的 `StoreGetters` 类型。你也可以且**只可以**通过扩展 `DefineStoreOptions` 或 `DefineSetupStoreOptions` 类型来扩展 _setup store_ 或 _option store_ 的选项。
 :::
 
-## Nuxt.js %{#nuxt-js}%
+## Nuxt %{#nuxt}%
 
 当[在 Nuxt 中使用 pinia](../ssr/nuxt.md) 时，你必须先创建一个 [Nuxt 插件](https://nuxt.com/docs/guide/directory-structure/plugins)。这样你才能访问到 `pinia` 实例：
 
@@ -429,9 +429,9 @@ export default myPlugin
 
 :::
 
-### Nuxt.js 2
+### Nuxt 2
 
-如果你使用的是 Nuxt.js 2，其类型会稍有不同：
+如果你使用的是 Nuxt 2，其类型会稍有不同：
 
 ```ts{3,15-17}
 // plugins/myPiniaPlugin.ts
