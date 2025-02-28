@@ -1,4 +1,4 @@
-# Nuxt.js %{#nuxt-js}%
+# Nuxt %{#nuxt}%
 
 <MasteringPiniaLink
   href="https://masteringpinia.com/lessons/ssr-friendly-state"

@@ -6,7 +6,7 @@
 />
 
 :::tip
-如果你使用的是 **Nuxt.js**，你需要阅读的是[**这些说明文档**](./nuxt.md)。
+如果你使用的是 **Nuxt**，你需要阅读的是[**这些说明文档**](./nuxt.md)。
 :::
 
 只要你只在 `setup` 函数、`getter` 和 `action` 的顶部调用你定义的 `useStore()` 函数，那么使用 Pinia 创建 store 对于 SSR 来说应该是开箱即用的：
@@ -51,7 +51,7 @@ export default {
 
 ## State 激活 %{#state-hydration}%
 
-为了激活初始 state，你需要确保 rootState 包含在 HTML 中的某个地方，以便 Pinia 稍后能够接收到它。根据你服务端所渲染的内容，**为了安全你应该转义 state**。我们推荐 Nuxt.js 目前使用的 [@nuxt/devalue](https://github.com/nuxt-contrib/devalue)：
+为了激活初始 state，你需要确保 rootState 包含在 HTML 中的某个地方，以便 Pinia 稍后能够接收到它。根据你服务端所渲染的内容，**为了安全你应该转义 state**。我们推荐 Nuxt 目前使用的 [@nuxt/devalue](https://github.com/nuxt-contrib/devalue)：
 
 ```js
 import devalue from '@nuxt/devalue'
