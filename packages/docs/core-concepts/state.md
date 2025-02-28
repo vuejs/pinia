@@ -83,7 +83,7 @@ interface UserInfo {
 
 ## Accessing the `state`
 
-By default, you can directly read and write to the state by accessing it through the `store` instance:
+By default, you can directly read from and write to the state by accessing it through the `store` instance:
 
 ```js
 const store = useStore()
