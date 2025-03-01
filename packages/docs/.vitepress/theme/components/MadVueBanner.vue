@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 
 const isVisible = ref(false)
 const nameStorage = 'MADVUE-BANNER-MARCH-2025'
-const target = 'https://madvue.es/?utm_source=vue-router&utm_content=top_banner'
+const target = 'https://madvue.es/?utm_source=pinia&utm_content=top_banner'
 
 function closeBanner() {
   // Hide the banner
@@ -19,10 +19,13 @@ onMounted(() => {
   }
 
   const keys = Object.keys(localStorage).filter(
-    key => key.includes('FREEWEEKEND25') && key.endsWith('_CLOSED')
+    (key) => key.includes('FREEWEEKEND25') && key.endsWith('_CLOSED')
   )
 
-  if (keys.length > 0 && keys.every(key => localStorage.getItem(key) != null)) {
+  if (
+    keys.length > 0 &&
+    keys.every((key) => localStorage.getItem(key) != null)
+  ) {
     isVisible.value = true
     document.documentElement.classList.add('has-banner')
   }
