@@ -5,21 +5,16 @@ const isVisible = ref(false)
 const nameStorage = 'MADVUE-BANNER-MARCH-2025'
 const target = 'https://madvue.es/?utm_source=vue-router&utm_content=top_banner'
 
-function resetLayoutTopHeight() {
-  document.documentElement.classList.add('banner-dismissed')
-}
-
 function closeBanner() {
   // Hide the banner
   isVisible.value = false
   // Save action in the local storage
   localStorage.setItem(nameStorage, String(true))
-  resetLayoutTopHeight()
+  document.documentElement.classList.remove('has-banner')
 }
 
 onMounted(() => {
   if (localStorage.getItem(nameStorage) != null) {
-    document.documentElement.classList.add('banner-dismissed')
     return
   }
 
@@ -29,10 +24,7 @@ onMounted(() => {
 
   if (keys.length > 0 && keys.every(key => localStorage.getItem(key) != null)) {
     isVisible.value = true
-  }
-
-  if (!isVisible.value) {
-    resetLayoutTopHeight()
+    document.documentElement.classList.add('has-banner')
   }
 })
 </script>
@@ -150,10 +142,11 @@ onMounted(() => {
 </template>
 
 <style>
-html:not(.banner-dismissed) {
+html.has-banner {
   --vp-layout-top-height: 72px;
 }
 </style>
+
 <style scoped>
 .banner {
   position: fixed;
