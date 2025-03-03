@@ -1,4 +1,4 @@
-import { createApp, customRef, isReactive, isRef, toRaw, triggerRef } from 'vue'
+import { computed, createApp, isReactive, isRef, toRaw, triggerRef } from 'vue'
 import type { App, ComputedRef, WritableComputedRef } from 'vue'
 import {
   Pinia,
@@ -9,6 +9,9 @@ import {
   _DeepPartial,
   PiniaPluginContext,
 } from 'pinia'
+// NOTE: the implementation type is correct and contains up to date types
+// while the other types hide internal properties
+import type { ComputedRefImpl } from '@vue/reactivity'
 
 export interface TestingOptions {
   /**
@@ -206,7 +209,7 @@ function isPlainObject(
 
 function isComputed<T>(
   v: ComputedRef<T> | WritableComputedRef<T> | unknown
-): v is ComputedRef<T> | WritableComputedRef<T> {
+): v is (ComputedRef<T> | WritableComputedRef<T>) & ComputedRefImpl<T> {
   return !!v && isRef(v) && 'effect' in v
 }
 
@@ -215,36 +218,33 @@ function WritableComputed({ store }: PiniaPluginContext) {
   for (const key in rawStore) {
     const originalComputed = rawStore[key]
     if (isComputed(originalComputed)) {
-      const originalFn = originalComputed.effect.fn
-      rawStore[key] = customRef((track, trigger) => {
-        // override the computed with a new one
-        const overriddenFn = () =>
-          // @ts-expect-error: internal value
-          originalComputed._value
-        // originalComputed.effect.fn = overriddenFn
-        return {
-          get: () => {
-            track()
-            return originalComputed.value
-          },
-          set: (newValue) => {
-            // reset the computed to its original value by setting it to its initial state
-            if (newValue === undefined) {
-              originalComputed.effect.fn = originalFn
-              // @ts-expect-error: private api to remove the current cached value
-              delete originalComputed._value
-              // @ts-expect-error: private api to force the recomputation
-              originalComputed._dirty = true
-            } else {
-              originalComputed.effect.fn = overriddenFn
-              // @ts-expect-error: private api
-              originalComputed._value = newValue
-            }
-            // this allows to trigger the original computed in setup stores
-            triggerRef(originalComputed)
-            trigger()
-          },
-        }
+      const originalFn = originalComputed.fn
+      // override the computed with a new one
+      const overriddenFn = () =>
+        // @ts-expect-error: internal cached value
+        originalComputed._value
+      // originalComputed.fn = overriddenFn
+
+      rawStore[key] = computed<unknown>({
+        get() {
+          return originalComputed.value
+        },
+        set(newValue) {
+          // reset the computed to its original value by setting it to its initial state
+          if (newValue === undefined) {
+            originalComputed.fn = originalFn
+            // @ts-expect-error: private api to remove the current cached value
+            delete originalComputed._value
+            // @ts-expect-error: private api to force the recomputation
+            originalComputed._dirty = true
+          } else {
+            originalComputed.fn = overriddenFn
+            // @ts-expect-error: private api
+            originalComputed._value = newValue
+          }
+          // this allows to trigger the original computed in setup stores
+          triggerRef(originalComputed)
+        },
       })
     }
   }

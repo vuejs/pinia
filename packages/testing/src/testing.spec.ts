@@ -1,14 +1,18 @@
 import { describe, expect, it, vi } from 'vitest'
 import { createTestingPinia, TestingOptions } from './testing'
-import { createPinia, defineStore, setActivePinia } from 'pinia'
+import { createPinia, defineStore, setActivePinia, storeToRefs } from 'pinia'
 import { mount } from '@vue/test-utils'
 import { defineComponent, ref, computed } from 'vue'
 
 describe('Testing', () => {
   const useCounter = defineStore('counter', {
-    state: () => ({ n: 0 }),
+    state: () => ({ n: 0, doubleComputedCallCount: 0 }),
     getters: {
-      double: (state) => state.n * 2,
+      double: (state) => {
+        // NOTE: not supposed to be done in a getter...
+        state.doubleComputedCallCount++
+        return state.n * 2
+      },
       doublePlusOne(): number {
         return this.double + 1
       },
@@ -22,7 +26,11 @@ describe('Testing', () => {
 
   const useCounterSetup = defineStore('counter-setup', () => {
     const n = ref(0)
-    const double = computed(() => n.value * 2)
+    const doubleComputedCallCount = ref(0)
+    const double = computed(() => {
+      doubleComputedCallCount.value++
+      return n.value * 2
+    })
     const doublePlusOne = computed(() => double.value + 1)
     function increment(amount = 1) {
       n.value += amount
@@ -31,7 +39,14 @@ describe('Testing', () => {
       n.value = 0
     }
 
-    return { n, double, doublePlusOne, increment, $reset }
+    return {
+      n,
+      doubleComputedCallCount,
+      double,
+      doublePlusOne,
+      increment,
+      $reset,
+    }
   })
 
   type CounterStore =
@@ -300,6 +315,16 @@ describe('Testing', () => {
         expect(store.double).toBe(6)
         expect(store.doublePlusOne).toBe(7)
       })
+    })
+
+    // https://github.com/vuejs/pinia/issues/2913
+    it('does not compute getters immediately with storeToRefs', () => {
+      const pinia = createTestingPinia()
+      const store = useStore(pinia)
+
+      expect(store.doubleComputedCallCount).toBe(0)
+      storeToRefs(store)
+      expect(store.doubleComputedCallCount).toBe(0)
     })
   }
 
