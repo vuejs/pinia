@@ -119,8 +119,8 @@ onMounted(() => {
       </div>
 
       <div class="claim">
-        <span class="mv-text-primary">Early bird</span> tickets available
-        <span class="mv-text-primary">Get 30% off</span>
+        <span class="mv-text-primary">Discounted</span> tickets available
+        <span class="mv-text-primary">Get 10% off</span>
       </div>
     </div>
     <a target="_blank" class="action" :href="target">
