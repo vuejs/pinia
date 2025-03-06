@@ -27,7 +27,7 @@ const theme: Theme = {
       'aside-ads-before': () => h(AsideSponsors),
       // 'layout-top': () => h(VuejsdeConfBanner),
       'doc-before': () => h(TranslationStatus, { status, i18nLabels }),
-      'layout-top': () => h(MadVueBanner)
+      'layout-top': () => h(MadVueBanner),
     })
   },
 
