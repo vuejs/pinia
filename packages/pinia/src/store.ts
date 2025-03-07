@@ -780,7 +780,15 @@ export type StoreState<SS> =
     : _ExtractStateFromSetupStore<SS>
 
 export interface SetupStoreHelpers {
-  action: <Fn extends _Method>(fn: Fn) => Fn
+  /**
+   * Helper that wraps function so it can be tracked with $onAction when the
+   * action is called **within the store**. This helper is rarely needed in
+   * applications. It's intended for advanced use cases like Pinia Colada.
+   *
+   * @param fn - action to wrap
+   * @param name - name of the action. Will be picked up by the store at creation
+   */
+  action: <Fn extends _Method>(fn: Fn, name?: string) => Fn
 }
 
 /**
