@@ -77,7 +77,7 @@ const packageConfigs = packageBuilds.map((format) =>
 packageBuilds.forEach((buildName) => {
   if (buildName === 'cjs') {
     packageConfigs.push(createProductionConfig(buildName))
-  } else if (buildName === 'global') {
+  } else if (buildName === 'global' || buildName === 'browser') {
     packageConfigs.push(createMinifiedConfig(buildName))
   }
 })
@@ -99,7 +99,7 @@ function createConfig(buildName, output, plugins = []) {
 
   const isProductionBuild = /\.prod\.[cm]?js$/.test(output.file)
   const isGlobalBuild = buildName === 'global'
-  const isRawESMBuild = buildName === 'browser'
+  const isRawESMBuild = buildName.includes('browser')
   const isNodeBuild = buildName === 'cjs'
   const isBundlerESMBuild = buildName === 'browser' || buildName === 'mjs'
 
@@ -125,7 +125,8 @@ function createConfig(buildName, output, plugins = []) {
   // during a single build.
   hasTSChecked = true
 
-  const external = ['vue', '@vue/devtools-api']
+  const external = ['vue']
+  if (buildName !== 'browser-prod') external.push('@vue/devtools-api')
 
   const nodePlugins = [nodeResolve(), commonjs()]
 
@@ -219,9 +220,9 @@ function createProductionConfig(format) {
 
 function createMinifiedConfig(format) {
   return createConfig(
-    format,
+    format === 'browser' ? 'browser-prod' : format,
     {
-      file: `dist/${name}.${format === 'global' ? 'iife' : format}.prod.js`,
+      file: `dist/${name}.${format === 'browser' ? 'esm-browser' : format === 'global' ? 'iife' : format}.prod.js`,
       format: outputConfigs[format].format,
     },
     [
