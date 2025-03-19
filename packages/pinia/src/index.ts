@@ -76,4 +76,6 @@ export type {
 
 export { acceptHMRUpdate } from './hmr'
 
+export { registerPiniaDevtools } from './devtools'
+
 export * from './globalExtensions'

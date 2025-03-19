@@ -4,10 +4,14 @@ import { registerPiniaDevtools, devtoolsPlugin } from './devtools'
 import { IS_CLIENT } from './env'
 import { StateTree, StoreGeneric } from './types'
 
+export type CreatePiniaOptions = {
+  skipDevtoolsRegistration?: boolean
+}
+
 /**
  * Creates a Pinia instance to be used by the application
  */
-export function createPinia(): Pinia {
+export function createPinia(options?: CreatePiniaOptions): Pinia {
   const scope = effectScope(true)
   // NOTE: here we could check the window object for a state and directly set it
   // if there is anything like it with Vue 3 SSR
@@ -28,7 +32,7 @@ export function createPinia(): Pinia {
       app.provide(piniaSymbol, pinia)
       app.config.globalProperties.$pinia = pinia
       /* istanbul ignore else */
-      if (__USE_DEVTOOLS__ && IS_CLIENT) {
+      if (__USE_DEVTOOLS__ && IS_CLIENT && !options?.skipDevtoolsRegistration) {
         registerPiniaDevtools(app, pinia)
       }
       toBeInstalled.forEach((plugin) => _p.push(plugin))
