@@ -20,7 +20,3 @@ export const useCounter = defineStore('counter', {
     getCount: (state) => state.count,
   },
 })
-
-if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useCounter, import.meta.hot))
-}
