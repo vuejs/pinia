@@ -598,11 +598,54 @@ function createSetupStore<
             newStore.$state[stateKey] = oldStateSource
           }
         }
-        // patch direct access properties to allow store.stateProperty to work as
-        // store.$state.stateProperty
-        // @ts-expect-error: any type
-        store[stateKey] = toRef(newStore.$state, stateKey)
       })
+
+      // Update state and sync properties
+      if (options && 'state' in options) {
+        // // For option stores
+        const currentState = pinia.state.value[$id]
+        // Remove deleted properties
+        Object.keys(currentState).forEach((key) => {
+          if (!(key in newStore.$state)) {
+            delete currentState[key]
+          }
+        })
+        // Assign new state properties, preserving reactivity of the existing object
+        assign(currentState, newStore.$state)
+
+        // Remove all old direct state properties from store
+        store._hmrPayload.state.forEach((oldStateKey) => {
+          if (!(oldStateKey in newStore.$state)) {
+            /// @ts-expect-error any
+            delete store[oldStateKey]
+          }
+        })
+
+        // Add new direct state properties
+        newStore._hmrPayload.state.forEach((stateKey) => {
+          // patch direct access properties to allow store.stateProperty to work as
+          // store.$state.stateProperty
+          // @ts-expect-error: any type
+          store[stateKey] = toRef(pinia.state.value[$id], stateKey)
+        })
+      } else {
+        // For setup stores, use hotState
+        pinia.state.value[$id] = toRef(newStore._hmrPayload, 'hotState')
+
+        store._hmrPayload.state.forEach((oldStateKey) => {
+          if (!(oldStateKey in newStore.$state)) {
+            /// @ts-expect-error any
+            delete store[oldStateKey]
+          }
+        })
+        // Sync direct properties for setup stores
+        newStore._hmrPayload.state.forEach((stateKey) => {
+          // patch direct access properties to allow store.stateProperty to work as
+          // store.$state.stateProperty
+          // @ts-expect-error: any type
+          store[stateKey] = toRef(pinia.state.value[$id], stateKey)
+        })
+      }
 
       // remove deleted state properties
       Object.keys(store.$state).forEach((stateKey) => {
@@ -615,7 +658,6 @@ function createSetupStore<
       // avoid devtools logging this as a mutation
       isListening = false
       isSyncListening = false
-      pinia.state.value[$id] = toRef(newStore._hmrPayload, 'hotState')
       isSyncListening = true
       nextTick().then(() => {
         isListening = true
