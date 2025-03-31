@@ -1,5 +1,5 @@
 // @ts-check
-import { dirname, resolve } from 'node:path'
+import { dirname, parse, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { readFileSync } from 'node:fs'
 import ts from 'rollup-plugin-typescript2'
@@ -23,7 +23,6 @@ const packageDir = resolve(packagesDir, process.env.TARGET)
 const pkg = JSON.parse(
   readFileSync(resolve(packageDir, `package.json`), 'utf-8')
 )
-const name = pkg.name
 
 function getAuthors(pkg) {
   const { contributors, author } = pkg
@@ -68,18 +67,10 @@ const outputConfigs = {
   },
 }
 
-const packageBuilds = Object.keys(outputConfigs)
-const packageConfigs = packageBuilds.map((format) =>
-  createConfig(format, outputConfigs[format])
-)
-
-// only add the production ready if we are bundling the options
-packageBuilds.forEach((buildName) => {
-  if (buildName === 'cjs') {
-    packageConfigs.push(createProductionConfig(buildName))
-  } else if (buildName === 'global' || buildName === 'browser') {
-    packageConfigs.push(createMinifiedConfig(buildName))
-  }
+const packageConfigs = []
+Object.entries(outputConfigs).forEach(([buildName, output]) => {
+  packageConfigs.push(createConfig(buildName, output))
+  packageConfigs.push(createProductionConfig(buildName, output))
 })
 
 export default packageConfigs
@@ -99,7 +90,7 @@ function createConfig(buildName, output, plugins = []) {
 
   const isProductionBuild = /\.prod\.[cm]?js$/.test(output.file)
   const isGlobalBuild = buildName === 'global'
-  const isRawESMBuild = buildName.includes('browser')
+  const isRawESMBuild = buildName === 'browser'
   const isNodeBuild = buildName === 'cjs'
   const isBundlerESMBuild = buildName === 'browser' || buildName === 'mjs'
 
@@ -126,7 +117,7 @@ function createConfig(buildName, output, plugins = []) {
   hasTSChecked = true
 
   const external = ['vue']
-  if (buildName !== 'browser-prod') external.push('@vue/devtools-api')
+  if (!isProductionBuild) external.push('@vue/devtools-api')
 
   const nodePlugins = [nodeResolve(), commonjs()]
 
@@ -209,25 +200,17 @@ function createReplacePlugin(
   })
 }
 
-function createProductionConfig(format) {
-  const extension = format === 'cjs' ? 'cjs' : 'js'
-  const descriptor = format === 'cjs' ? '' : `.${format}`
-  return createConfig(format, {
-    file: `dist/${name}${descriptor}.prod.${extension}`,
-    format: outputConfigs[format].format,
-  })
-}
-
-function createMinifiedConfig(format) {
+function createProductionConfig(buildName, output) {
+  const parsedPath = parse(output.file)
   return createConfig(
-    format === 'browser' ? 'browser-prod' : format,
+    buildName,
     {
-      file: `dist/${name}.${format === 'browser' ? 'esm-browser' : format === 'global' ? 'iife' : format}.prod.js`,
-      format: outputConfigs[format].format,
+      file: resolve(parsedPath.dir, `${parsedPath.name}.prod${parsedPath.ext}`),
+      format: output.format,
     },
     [
       terser({
-        module: /^esm/.test(format),
+        module: output.format === 'es',
         compress: {
           ecma: 2015,
           pure_getters: true,
