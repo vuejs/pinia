@@ -13,6 +13,10 @@ import {
 // while the other types hide internal properties
 import type { ComputedRefImpl } from '@vue/reactivity'
 
+type MockFn = ((...args: any[]) => any) & {
+  mockReturnValue: (value: any) => MockFn
+}
+
 export interface TestingOptions {
   /**
    * Allows defining a partial initial state of all your stores. This state gets applied after a store is created,
@@ -61,7 +65,7 @@ export interface TestingOptions {
    * with `jest.fn` in Jest projects or `vi.fn` in Vitest projects if
    * `globals: true` is set.
    */
-  createSpy?: (fn?: (...args: any[]) => any) => (...args: any[]) => any
+  createSpy?: (fn?: (...args: any[]) => any) => MockFn
 }
 
 /**
@@ -76,7 +80,7 @@ export interface TestingPinia extends Pinia {
 declare var vi:
   | undefined
   | {
-      fn: (fn?: (...args: any[]) => any) => (...args: any[]) => any
+      fn: (fn?: (...args: any[]) => any) => MockFn
     }
 
 /**
@@ -135,15 +139,30 @@ export function createTestingPinia({
     )
   }
 
+  const trySpyWithMock = (fn: any) => {
+    try {
+      // user provided createSpy might not have a mockReturnValue similar to jest and vitest
+      return createSpy(fn).mockReturnValue(undefined)
+    } catch (e) {
+      return createSpy()
+    }
+  }
+
   // stub actions
   pinia._p.push(({ store, options }) => {
     Object.keys(options.actions).forEach((action) => {
       if (action === '$reset') return
-      store[action] = stubActions ? createSpy() : createSpy(store[action])
+      store[action] = stubActions
+        ? trySpyWithMock(store[action])
+        : createSpy(store[action])
     })
 
-    store.$patch = stubPatch ? createSpy() : createSpy(store.$patch)
-    store.$reset = stubReset ? createSpy() : createSpy(store.$reset)
+    store.$patch = stubPatch
+      ? trySpyWithMock(store.$patch)
+      : createSpy(store.$patch)
+    store.$reset = stubReset
+      ? trySpyWithMock(store.$reset)
+      : createSpy(store.$reset)
   })
 
   if (fakeApp) {

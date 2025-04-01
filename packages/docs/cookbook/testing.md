@@ -164,6 +164,33 @@ store.someAction()
 expect(store.someAction).toHaveBeenCalledTimes(1)
 ```
 
+If you want to normally execute only some of the actions with `stubActions: true` you can reset them with `mockRestore`:
+
+```js
+const wrapper = mount(Counter, {
+  global: {
+    // stubActions is set to 'true' by default
+    plugins: [createTestingPinia()],
+  },
+})
+
+const store = useSomeStore()
+
+// All subsequent calls of this action WILL execute the implementation defined by the store
+store.someAction.mockRestore()
+
+// Runs the actual implementation
+store.someAction()
+
+// Runs the mocked function
+store.anotherAction()
+
+// the spy is kept on unmocked functions as well
+expect(store.someAction).toHaveBeenCalledTimes(1)
+```
+
+Note: this behaviour is supported only when using either jest or vitest.
+
 ### Mocking the returned value of an action
 
 Actions are automatically spied but type-wise, they are still the regular actions. In order to get the correct type, we must implement a custom type-wrapper that applies the `Mock` type to each action. **This type depends on the testing framework you are using**. Here is an example with Vitest:

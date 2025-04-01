@@ -138,6 +138,33 @@ describe('Testing', () => {
           expect(counter.increment).toHaveBeenCalledTimes(4)
           expect(counter.increment).toHaveBeenLastCalledWith(10)
         })
+
+        it(`can unstub actions with ${name}`, () => {
+          const { counter, wrapper } = factory(undefined, useStore)
+
+          // @ts-ignore
+          counter.increment.mockRestore()
+
+          counter.increment()
+          expect(counter.n).toBe(1)
+          expect(counter.increment).toHaveBeenCalledTimes(1)
+          expect(counter.increment).toHaveBeenLastCalledWith()
+
+          counter.increment(5)
+          expect(counter.n).toBe(6)
+          expect(counter.increment).toHaveBeenCalledTimes(2)
+          expect(counter.increment).toHaveBeenLastCalledWith(5)
+
+          wrapper.findAll('button')[0].trigger('click')
+          expect(counter.n).toBe(7)
+          expect(counter.increment).toHaveBeenCalledTimes(3)
+          expect(counter.increment).toHaveBeenLastCalledWith()
+
+          wrapper.findAll('button')[1].trigger('click')
+          expect(counter.n).toBe(17)
+          expect(counter.increment).toHaveBeenCalledTimes(4)
+          expect(counter.increment).toHaveBeenLastCalledWith(10)
+        })
       })
     })
 
