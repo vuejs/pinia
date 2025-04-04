@@ -259,7 +259,7 @@ cartStore.$subscribe((mutation, state) => {
 Under the hood, `$subscribe()` uses Vue's `watch()` function. You can pass the same options as you would with `watch()`. This is useful when you want to immediately trigger subscriptions after **each** state change:
 
 ```ts{4}
-cartStore.$subscribe((state) => {
+cartStore.$subscribe((mutation, state) => {
   // persist the whole state to the local storage whenever it changes
   localStorage.setItem('cart', JSON.stringify(state))
 }, { flush: 'sync' })
