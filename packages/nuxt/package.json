@@ -26,14 +26,10 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/types.d.ts",
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
-    }
+    ".": "./dist/module.mjs"
   },
-  "main": "./dist/module.cjs",
-  "types": "./dist/types.d.ts",
+  "main": "./dist/module.mjs",
+  "types": "./dist/module.d.mts",
   "files": [
     "dist"
   ],
@@ -52,7 +48,7 @@
     "pinia": "workspace:^"
   },
   "devDependencies": {
-    "@nuxt/module-builder": "^0.8.4",
+    "@nuxt/module-builder": "1.0.0-alpha.1",
     "@nuxt/schema": "^3.9.0",
     "@nuxt/test-utils": "^3.15.4",
     "nuxt": "^3.15.4",
