@@ -1,3 +1,10 @@
+## [0.11.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.10.1...@pinia/nuxt@0.11.0) (2025-04-09)
+
+### Features
+
+- **nuxt:** move to esm-only ([#2947](https://github.com/vuejs/pinia/issues/2947)) ([4865716](https://github.com/vuejs/pinia/commit/4865716011cde049aef05e029d2720ac93483389))
+- fix `obj.hasOwnProperty` in `shouldHydrate`
+
 ### [0.10.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.10.0...@pinia/nuxt@0.10.1) (2025-02-12)
 
 ### Bug Fixes
