@@ -78,5 +78,10 @@
   "resolutions": {
     "@nuxt/kit": "^3.9.0",
     "@nuxt/schema": "^3.9.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }
