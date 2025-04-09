@@ -2,7 +2,7 @@
  * @vitest-environment node
  */
 import { describe, it, expect } from 'vitest'
-import { createPinia, defineStore } from '../src'
+import { createPinia, defineStore, shouldHydrate } from '../src'
 import { Component, createSSRApp, inject, ref, computed, customRef } from 'vue'
 import { renderToString, ssrInterpolate } from '@vue/server-renderer'
 import { useUserStore } from './pinia/stores/user'
@@ -152,11 +152,14 @@ describe('SSR', () => {
     expect(store.$state).toEqual({ start: 'start' })
   })
 
-  it('accepts a store with no null state', () => {
-    const pinia = createPinia()
-    pinia.state.value.a = Object.create(null)
-    const store = defineStore('a', {})(pinia)
-    expect(store.$state).toEqual({})
+  // NOTE: added to make things easier but people should avoid creating objects
+  // with `Object.create(null)` and store them in pinia stores
+  // https://github.com/vuejs/pinia/issues/2837
+  it('can hydrate objects without a a null prototype chain', () => {
+    const obj = Object.create(null)
+    expect(() => {
+      shouldHydrate(obj)
+    }).not.toThrow()
   })
 
   describe('Setup Store', () => {
