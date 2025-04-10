@@ -1,12 +1,19 @@
 {
   "platinum": [],
-  "gold": [],
+  "gold": [
+    {
+      "alt": "CodeRabbit",
+      "href": "https://www.coderabbit.ai/?utm_source=cr_org&utm_medium=github",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/coderabbitai.svg",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/coderabbitai.svg"
+    }
+  ],
   "silver": [
     {
-      "alt": "Route Optimizer and Route Planner Software",
-      "href": "https://route4me.com",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/route4me.png",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/route4me.png"
+      "alt": "VueMastery",
+      "href": "https://www.vuemastery.com/",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuemastery-dark.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuemastery-light.svg"
     },
     {
       "alt": "Prefect",
@@ -15,10 +22,10 @@
       "imgSrcLight": "https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg"
     },
     {
-      "alt": "VueMastery",
-      "href": "https://www.vuemastery.com/",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuemastery-dark.png",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuemastery-light.svg"
+      "alt": "Route Optimizer and Route Planner Software",
+      "href": "https://route4me.com",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/route4me.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/route4me.png"
     }
   ],
   "bronze": [
@@ -29,16 +36,10 @@
       "imgSrcLight": "https://posva-sponsors.pages.dev/logos/storyblok.png"
     },
     {
-      "alt": "Nuxt UI Pro Templates",
-      "href": "https://ui.nuxt.com/pro",
+      "alt": "NuxtLabs",
+      "href": "https://nuxtlabs.com",
       "imgSrcDark": "https://posva-sponsors.pages.dev/logos/nuxt-dark.svg",
       "imgSrcLight": "https://posva-sponsors.pages.dev/logos/nuxt-light.svg"
-    },
-    {
-      "alt": "Antony Konstantinidis",
-      "href": "https://www.vuejs.de",
-      "imgSrcDark": "https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4",
-      "imgSrcLight": "https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4"
     },
     {
       "alt": "Stanislas Ormières",
