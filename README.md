@@ -110,9 +110,22 @@ A few notes about the project and possible questions:
 
 ## Installation
 
+npm
+
 ```bash
-# or pnpm or yarn
 npm install pinia
+```
+
+pnpm
+
+```bash
+pnpm add pinia
+```
+
+yarn
+
+```bash
+yarn add pinia
 ```
 
 ## Usage
