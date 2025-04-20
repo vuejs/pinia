@@ -9,7 +9,11 @@ Install `pinia` with your favorite package manager:
 
 ```bash
 yarn add pinia
-# or with npm
+```
+
+Or with npm
+
+```bash
 npm install pinia
 ```
 
