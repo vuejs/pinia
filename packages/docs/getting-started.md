@@ -7,15 +7,19 @@
 
 Install `pinia` with your favorite package manager:
 
-```bash
+
+::: code-group
+
+```bash [npm]
+npm install pinia
+```
+
+```bash [yarn]
 yarn add pinia
 ```
 
-Or with npm
+:::
 
-```bash
-npm install pinia
-```
 
 :::tip
 If your app is using Vue <2.7, you also need to install the composition api: `@vue/composition-api`. If you are using Nuxt, you should follow [these instructions](/ssr/nuxt.md).
