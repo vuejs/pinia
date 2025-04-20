@@ -18,6 +18,14 @@ npm install pinia
 yarn add pinia
 ```
 
+```bash [pnpm]
+pnpm add pinia
+```
+
+```bash [bun]
+bun add pinia
+```
+
 :::
 
 
