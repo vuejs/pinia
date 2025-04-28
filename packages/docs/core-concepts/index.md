@@ -136,7 +136,7 @@ import { computed } from 'vue'
 
 const store = useCounterStore()
 // ❌ This won't work because it breaks reactivity
-// it's the same as destructuring from `props`
+// it's the same as destructuring from `props` for Vue < 3.5
 const { name, doubleCount } = store // [!code warning]
 name // will always be "Eduardo" // [!code warning]
 doubleCount // will always be 0 // [!code warning]
