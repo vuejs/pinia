@@ -92,7 +92,8 @@ function createConfig(buildName, output, plugins = []) {
   const isGlobalBuild = buildName === 'global'
   const isRawESMBuild = buildName === 'browser'
   const isNodeBuild = buildName === 'cjs'
-  const isBundlerESMBuild = buildName === 'browser' || buildName === 'mjs'
+  const isBundlerESMBuild =
+    !isProductionBuild && (buildName === 'browser' || buildName === 'mjs')
 
   if (isGlobalBuild) output.name = pascalcase(pkg.name)
 
@@ -205,7 +206,7 @@ function createProductionConfig(buildName, output) {
   return createConfig(
     buildName,
     {
-      file: resolve(parsedPath.dir, `${parsedPath.name}.prod${parsedPath.ext}`),
+      file: `${parsedPath.dir}/${parsedPath.name}.prod${parsedPath.ext}`,
       format: output.format,
     },
     [
