@@ -2,6 +2,7 @@
   "extends": "./playground/.nuxt/tsconfig.json",
   "include": [
     "./shims.d.ts",
+    "./global.d.ts",
     // missing in the playground
     "./src"
   ]
