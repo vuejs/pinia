@@ -90,5 +90,5 @@
   "bugs": {
     "url": "https://github.com/vuejs/pinia/issues"
   },
-  "homepage": "https://github.com/vuejs/pinia#readme"
+  "homepage": "https://pinia.vuejs.org"
 }
