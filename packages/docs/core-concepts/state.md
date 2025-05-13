@@ -32,7 +32,7 @@ export const useStore = defineStore('storeId', {
 
 :::tip
 
-In order for Vue to properly detect state, you must declare every state piece in `data`, even if its initial value is `undefined`.
+In order for Vue to properly detect state, you must declare every state piece in `state`, even if its initial value is `undefined`.
 
 :::
 
