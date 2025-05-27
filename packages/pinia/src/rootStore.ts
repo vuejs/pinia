@@ -6,6 +6,7 @@ import {
   InjectionKey,
   Ref,
 } from 'vue'
+import { createPinia } from './createPinia'
 import {
   StateTree,
   PiniaCustomProperties,
@@ -42,13 +43,22 @@ interface _SetActivePinia {
 /**
  * Get the currently active pinia if there is any.
  */
-export const getActivePinia = () =>
-  (hasInjectionContext() && inject(piniaSymbol)) ||
-  (import.meta.server
-    ? throw new Error(
-        'Pinia instance not found in context and cannot fall back to global activePinia on server - this would lead to shared state between requests'
-      )
-    : activePinia)
+export const getActivePinia = () => {
+  const pinia = (hasInjectionContext() && inject(piniaSymbol))
+
+  if (pinia) return pinia
+
+  if (import.meta.server) {
+    console.error(
+      'Pinia instance not found in context and cannot fall back to global activePinia on server - this would lead to shared state between requests, instead it falls back to new pinia'
+    )
+
+    return createPinia()
+  }
+
+  return activePinia
+}
+
 /**
  * Every application must own its own pinia to be able to create stores
  */
