@@ -43,7 +43,7 @@ interface _SetActivePinia {
  * Get the currently active pinia if there is any.
  */
 export const getActivePinia = () =>
-  (hasInjectionContext() && inject(piniaSymbol)) || activePinia
+  (hasInjectionContext() && inject(piniaSymbol)) || (import.meta.server ? throw new Error("Cannot get active pinia as it does not find context") : activePinia)
 
 /**
  * Every application must own its own pinia to be able to create stores
