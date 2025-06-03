@@ -1,23 +1,17 @@
 # Testing stores
 
+<MasteringPiniaLink
+  href="https://play.gumlet.io/embed/65f9a9c10bfab01f414c25dc"
+  title="Watch a free video of Mastering Pinia about testing stores"
+/>
+
 Stores will, by design, be used at many places and can make testing much harder than it should be. Fortunately, this doesn't have to be the case. We need to take care of three things when testing stores:
 
 - The `pinia` instance: Stores cannot work without it
 - `actions`: most of the time, they contain the most complex logic of our stores. Wouldn't it be nice if they were mocked by default?
 - Plugins: If you rely on plugins, you will have to install them for tests too
 
-Depending on what or how you are testing, we need to take care of these three differently:
-
-- [Testing stores](#testing-stores)
-  - [Unit testing a store](#unit-testing-a-store)
-  - [Unit testing components](#unit-testing-components)
-    - [Initial State](#initial-state)
-    - [Customizing behavior of actions](#customizing-behavior-of-actions)
-    - [Specifying the createSpy function](#specifying-the-createspy-function)
-    - [Mocking getters](#mocking-getters)
-    - [Pinia Plugins](#pinia-plugins)
-  - [E2E tests](#e2e-tests)
-  - [Unit test components (Vue 2)](#unit-test-components-vue-2)
+Depending on what or how you are testing, we need to take care of these three things differently.
 
 ## Unit testing a store
 
@@ -26,25 +20,25 @@ To unit test a store, the most important part is creating a `pinia` instance:
 ```js
 // stores/counter.spec.ts
 import { setActivePinia, createPinia } from 'pinia'
-import { useCounter } from '../src/stores/counter'
+import { useCounterStore } from '../src/stores/counter'
 
 describe('Counter Store', () => {
   beforeEach(() => {
-    // creates a fresh pinia and make it active so it's automatically picked
-    // up by any useStore() call without having to pass it to it:
-    // `useStore(pinia)`
+    // creates a fresh pinia and makes it active
+    // so it's automatically picked up by any useStore() call
+    // without having to pass it to it: `useStore(pinia)`
     setActivePinia(createPinia())
   })
 
   it('increments', () => {
-    const counter = useCounter()
+    const counter = useCounterStore()
     expect(counter.n).toBe(0)
     counter.increment()
     expect(counter.n).toBe(1)
   })
 
   it('increments by amount', () => {
-    const counter = useCounter()
+    const counter = useCounterStore()
     counter.increment(10)
     expect(counter.n).toBe(10)
   })
@@ -70,6 +64,12 @@ beforeEach(() => {
 ```
 
 ## Unit testing components
+
+<!-- NOTE: too long maybe but good value -->
+<!-- <MasteringPiniaLink
+  href="https://play.gumlet.io/embed/6630f540c418f8419b73b2b2?t1=1715867840&t2=1715867570609?preload=false&autoplay=false&loop=false&disable_player_controls=false"
+  title="Watch a free video of Mastering Pinia about testing stores"
+/> -->
 
 This can be achieved with `createTestingPinia()`, which returns a pinia instance designed to help unit tests components.
 
@@ -108,8 +108,6 @@ store.someAction()
 expect(store.someAction).toHaveBeenCalledTimes(1)
 expect(store.someAction).toHaveBeenLastCalledWith()
 ```
-
-Please note that if you are using Vue 2, `@vue/test-utils` requires a [slightly different configuration](#unit-test-components-vue-2).
 
 ### Initial State
 
@@ -166,19 +164,80 @@ store.someAction()
 expect(store.someAction).toHaveBeenCalledTimes(1)
 ```
 
+### Mocking the returned value of an action
+
+Actions are automatically spied but type-wise, they are still the regular actions. In order to get the correct type, we must implement a custom type-wrapper that applies the `Mock` type to each action. **This type depends on the testing framework you are using**. Here is an example with Vitest:
+
+```ts
+import type { Mock } from 'vitest'
+import type { UnwrapRef } from 'vue'
+import type { Store, StoreDefinition } from 'pinia'
+
+function mockedStore<TStoreDef extends () => unknown>(
+  useStore: TStoreDef
+): TStoreDef extends StoreDefinition<
+  infer Id,
+  infer State,
+  infer Getters,
+  infer Actions
+>
+  ? Store<
+      Id,
+      State,
+      Record<string, never>,
+      {
+        [K in keyof Actions]: Actions[K] extends (...args: any[]) => any
+          ? // 👇 depends on your testing framework
+            Mock<Actions[K]>
+          : Actions[K]
+      }
+    > & {
+      [K in keyof Getters]: UnwrapRef<Getters[K]>
+    }
+  : ReturnType<TStoreDef> {
+  return useStore() as any
+}
+```
+
+This can be used in tests to get a correctly typed store:
+
+```ts
+import { mockedStore } from './mockedStore'
+import { useSomeStore } from '@/stores/myStore'
+
+const store = mockedStore(useSomeStore)
+// typed!
+store.someAction.mockResolvedValue('some value')
+```
+
+If you are interesting in learning more tricks like this, you should check out the Testing lessons on [Mastering Pinia](https://masteringpinia.com/lessons/exercise-mocking-stores-introduction).
+
 ### Specifying the createSpy function
 
-When using Jest, or vitest with `globals: true`, `createTestingPinia` automatically stubs actions using the spy function based on the existing test framework (`jest.fn` or `vitest.fn`). If you are using a different framework, you'll need to provide a [createSpy](/api/interfaces/pinia_testing.TestingOptions.html#createspy) option:
+When using Jest, or vitest with `globals: true`, `createTestingPinia` automatically stubs actions using the spy function based on the existing test framework (`jest.fn` or `vitest.fn`). If you are not using `globals: true` or using a different framework, you'll need to provide a [createSpy](../api/@pinia/testing/interfaces/TestingOptions.html#createSpy-) option:
 
-```js
-import sinon from 'sinon'
+::: code-group
+
+```ts [vitest]
+// NOTE: not needed with `globals: true`
+import { vi } from 'vitest'
 
 createTestingPinia({
-  createSpy: sinon.spy, // use sinon's spy to wrap actions
+  createSpy: vi.fn,
 })
 ```
 
-You can find more examples in [the tests of the testing package](https://github.com/vuejs/pinia/blob/v2/packages/testing/src/testing.spec.ts).
+```ts [sinon]
+import sinon from 'sinon'
+
+createTestingPinia({
+  createSpy: sinon.spy,
+})
+```
+
+:::
+
+You can find more examples in [the tests of the testing package](https://github.com/vuejs/pinia/blob/v3/packages/testing/src/testing.spec.ts).
 
 ### Mocking getters
 
@@ -188,7 +247,7 @@ By default, any getter will be computed like regular usage but you can manually 
 import { defineStore } from 'pinia'
 import { createTestingPinia } from '@pinia/testing'
 
-const useCounter = defineStore('counter', {
+const useCounterStore = defineStore('counter', {
   state: () => ({ n: 1 }),
   getters: {
     double: (state) => state.n * 2,
@@ -196,7 +255,7 @@ const useCounter = defineStore('counter', {
 })
 
 const pinia = createTestingPinia()
-const counter = useCounter(pinia)
+const counter = useCounterStore(pinia)
 
 counter.double = 3 // 🪄 getters are writable only in tests
 
@@ -229,24 +288,4 @@ const wrapper = mount(Counter, {
 
 ## E2E tests
 
-When it comes to pinia, you don't need to change anything for e2e tests, that's the whole point of e2e tests! You could maybe test HTTP requests, but that's way beyond the scope of this guide 😄.
-
-## Unit test components (Vue 2)
-
-When using [Vue Test Utils 1](https://v1.test-utils.vuejs.org/), install Pinia on a `localVue`:
-
-```js
-import { PiniaVuePlugin } from 'pinia'
-import { createLocalVue, mount } from '@vue/test-utils'
-import { createTestingPinia } from '@pinia/testing'
-
-const localVue = createLocalVue()
-localVue.use(PiniaVuePlugin)
-
-const wrapper = mount(Counter, {
-  localVue,
-  pinia: createTestingPinia(),
-})
-
-const store = useSomeStore() // uses the testing pinia!
-```
+When it comes to Pinia, you don't need to change anything for E2E tests, that's the whole point of these tests! You could maybe test HTTP requests, but that's way beyond the scope of this guide 😄.

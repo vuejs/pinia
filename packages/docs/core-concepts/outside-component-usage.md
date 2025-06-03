@@ -1,5 +1,11 @@
 # Using a store outside of a component
 
+<MasteringPiniaLink
+  href="https://play.gumlet.io/embed/651ed1ec4c2f339c6860fd06"
+  mp-link="https://masteringpinia.com/lessons/how-does-usestore-work"
+  title="Using stores outside of components"
+/>
+
 Pinia stores rely on the `pinia` instance to share the same store instance across all calls. Most of the time, this works out of the box by just calling your `useStore()` function. For example, in `setup()`, you don't need to do anything else. But things are a bit different outside of a component.
 Behind the scenes, `useStore()` _injects_ the `pinia` instance you gave to your `app`. This means that if the `pinia` instance cannot be automatically injected, you have to manually provide it to the `useStore()` function.
 You can solve this differently depending on the kind of application you are writing.
@@ -10,6 +16,7 @@ If you are not doing any SSR (Server Side Rendering), any call of `useStore()` a
 
 ```js
 import { useUserStore } from '@/stores/user'
+import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import App from './App.vue'
 
@@ -35,7 +42,7 @@ const router = createRouter({
 })
 
 // ❌ Depending on the order of imports this will fail
-const store = useStore()
+const store = useUserStore()
 
 router.beforeEach((to, from, next) => {
   // we wanted to use the store here
@@ -46,7 +53,7 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to) => {
   // ✅ This will work because the router starts its navigation after
   // the router is installed and pinia will be installed too
-  const store = useStore()
+  const store = useUserStore()
 
   if (to.meta.requiresAuth && !store.isLoggedIn) return '/login'
 })
@@ -56,4 +63,4 @@ router.beforeEach((to) => {
 
 When dealing with Server Side Rendering, you will have to pass the `pinia` instance to `useStore()`. This prevents pinia from sharing global state between different application instances.
 
-There is a whole section dedicated to it in the [SSR guide](/ssr/index.md), this is just a short explanation:
+There is a whole section dedicated to it in the [SSR guide](/ssr/index.md), this is just a short explanation.

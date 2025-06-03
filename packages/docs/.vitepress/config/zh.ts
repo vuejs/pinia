@@ -18,7 +18,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 
   themeConfig: {
     editLink: {
-      pattern: 'https://github.com/vuejs/pinia/edit/v2/packages/docs/:path',
+      pattern: 'https://github.com/vuejs/pinia/edit/v3/packages/docs/:path',
       text: '对本页提出修改建议',
     },
 
@@ -50,9 +50,17 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
           {
             text: '更新日志',
-            link: 'https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md',
+            link: 'https://github.com/vuejs/pinia/blob/v3/packages/pinia/CHANGELOG.md',
+          },
+          {
+            text: 'Vue.js 认证',
+            link: 'https://certificates.dev/vuejs/?friend=VUEROUTER&utm_source=pinia_vuejs&utm_medium=link&utm_campaign=pinia_vuejs_links&utm_content=navbar',
           },
         ],
+      },
+      {
+        text: 'v3.x',
+        items: [{ text: 'v2.x', link: 'https://v2.pinia.vuejs.org' }],
       },
     ],
     sidebar: {
@@ -105,14 +113,13 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               link: '/zh/ssr/',
             },
             {
-              text: 'Nuxt.js',
+              text: 'Nuxt',
               link: '/zh/ssr/nuxt.html',
             },
           ],
         },
         {
           text: '手册',
-          collapsible: true,
           collapsed: false,
           items: [
             {
@@ -140,6 +147,10 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               link: '/zh/cookbook/composing-stores.html',
             },
             {
+              text: 'VSCode 代码片段',
+              link: '/zh/cookbook/vscode-snippets.html',
+            },
+            {
               text: '从 v0/v1 迁移至 v2',
               link: '/zh/cookbook/migration-v1-v2.html',
             },
@@ -150,6 +161,50 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           ],
         },
       ],
+    },
+  },
+}
+
+export const zhSearch: DefaultTheme.AlgoliaSearchOptions['locales'] = {
+  zh: {
+    placeholder: '搜索文档',
+    translations: {
+      button: {
+        buttonText: '搜索文档',
+        buttonAriaLabel: '搜索文档',
+      },
+      modal: {
+        searchBox: {
+          resetButtonTitle: '清除查询条件',
+          resetButtonAriaLabel: '清除查询条件',
+          cancelButtonText: '取消',
+          cancelButtonAriaLabel: '取消',
+        },
+        startScreen: {
+          recentSearchesTitle: '搜索历史',
+          noRecentSearchesText: '没有搜索历史',
+          saveRecentSearchButtonTitle: '保存至搜索历史',
+          removeRecentSearchButtonTitle: '从搜索历史中移除',
+          favoriteSearchesTitle: '收藏',
+          removeFavoriteSearchButtonTitle: '从收藏中移除',
+        },
+        errorScreen: {
+          titleText: '无法获取结果',
+          helpText: '你可能需要检查你的网络连接',
+        },
+        footer: {
+          selectText: '选择',
+          navigateText: '切换',
+          closeText: '关闭',
+          searchByText: '搜索供应商',
+        },
+        noResultsScreen: {
+          noResultsText: '无法找到相关结果',
+          suggestedQueryText: '你可以尝试查询',
+          reportMissingResultsText: '你认为该查询应该有结果？',
+          reportMissingResultsLinkText: '点击反馈',
+        },
+      },
     },
   },
 }

@@ -1,14 +1,5 @@
-import {
-  App,
-  createApp,
-  customRef,
-  isReactive,
-  isRef,
-  isVue2,
-  set,
-  toRaw,
-} from 'vue-demi'
-import type { ComputedRef, WritableComputedRef } from 'vue-demi'
+import { computed, createApp, isReactive, isRef, toRaw, triggerRef } from 'vue'
+import type { App, ComputedRef, WritableComputedRef } from 'vue'
 import {
   Pinia,
   PiniaPlugin,
@@ -18,6 +9,9 @@ import {
   _DeepPartial,
   PiniaPluginContext,
 } from 'pinia'
+// NOTE: the implementation type is correct and contains up to date types
+// while the other types hide internal properties
+import type { ComputedRefImpl } from '@vue/reactivity'
 
 export interface TestingOptions {
   /**
@@ -49,6 +43,12 @@ export interface TestingOptions {
   stubPatch?: boolean
 
   /**
+   * When set to true, calls to `$reset()` won't change the state. Defaults to
+   * false.
+   */
+  stubReset?: boolean
+
+  /**
    * Creates an empty App and calls `app.use(pinia)` with the created testing
    * pinia. This allows you to use plugins while unit testing stores as
    * plugins **will wait for pinia to be installed in order to be executed**.
@@ -58,7 +58,8 @@ export interface TestingOptions {
 
   /**
    * Function used to create a spy for actions and `$patch()`. Pre-configured
-   * with `jest.fn()` in jest projects or `vi.fn()` in vitest projects.
+   * with `jest.fn` in Jest projects or `vi.fn` in Vitest projects if
+   * `globals: true` is set.
    */
   createSpy?: (fn?: (...args: any[]) => any) => (...args: any[]) => any
 }
@@ -94,6 +95,7 @@ export function createTestingPinia({
   plugins = [],
   stubActions = true,
   stubPatch = false,
+  stubReset = false,
   fakeApp = false,
   createSpy: _createSpy,
 }: TestingOptions = {}): TestingPinia {
@@ -120,17 +122,28 @@ export function createTestingPinia({
   /* istanbul ignore if */
   if (!createSpy) {
     throw new Error(
-      '[@pinia/testing]: You must configure the `createSpy` option.'
+      '[@pinia/testing]: You must configure the `createSpy` option. See https://pinia.vuejs.org/cookbook/testing.html#Specifying-the-createSpy-function'
+    )
+  } else if (
+    typeof createSpy !== 'function' ||
+    // When users pass vi.fn() instead of vi.fn
+    // https://github.com/vuejs/pinia/issues/2896
+    'mockReturnValue' in createSpy
+  ) {
+    throw new Error(
+      '[@pinia/testing]: Invalid `createSpy` option. See https://pinia.vuejs.org/cookbook/testing.html#Specifying-the-createSpy-function'
     )
   }
 
   // stub actions
   pinia._p.push(({ store, options }) => {
     Object.keys(options.actions).forEach((action) => {
+      if (action === '$reset') return
       store[action] = stubActions ? createSpy() : createSpy(store[action])
     })
 
     store.$patch = stubPatch ? createSpy() : createSpy(store.$patch)
+    store.$reset = stubReset ? createSpy() : createSpy(store.$reset)
   })
 
   if (fakeApp) {
@@ -171,12 +184,10 @@ function mergeReactiveObjects<T extends StateTree>(
     ) {
       target[key] = mergeReactiveObjects(targetValue, subPatch)
     } else {
-      if (isVue2) {
-        set(target, key, subPatch)
-      } else {
-        // @ts-expect-error: subPatch is a valid value
-        target[key] = subPatch
-      }
+      // @ts-expect-error: subPatch is a valid value
+      target[key] =
+        //
+        subPatch
     }
   }
 
@@ -198,27 +209,42 @@ function isPlainObject(
 
 function isComputed<T>(
   v: ComputedRef<T> | WritableComputedRef<T> | unknown
-): v is ComputedRef<T> | WritableComputedRef<T> {
+): v is (ComputedRef<T> | WritableComputedRef<T>) & ComputedRefImpl<T> {
   return !!v && isRef(v) && 'effect' in v
 }
 
 function WritableComputed({ store }: PiniaPluginContext) {
   const rawStore = toRaw(store)
   for (const key in rawStore) {
-    const value = rawStore[key]
-    if (isComputed(value)) {
-      rawStore[key] = customRef((track, trigger) => {
-        let internalValue: any
-        return {
-          get: () => {
-            track()
-            return internalValue !== undefined ? internalValue : value.value
-          },
-          set: (newValue) => {
-            internalValue = newValue
-            trigger()
-          },
-        }
+    const originalComputed = rawStore[key]
+    if (isComputed(originalComputed)) {
+      const originalFn = originalComputed.fn
+      // override the computed with a new one
+      const overriddenFn = () =>
+        // @ts-expect-error: internal cached value
+        originalComputed._value
+      // originalComputed.fn = overriddenFn
+
+      rawStore[key] = computed<unknown>({
+        get() {
+          return originalComputed.value
+        },
+        set(newValue) {
+          // reset the computed to its original value by setting it to its initial state
+          if (newValue === undefined) {
+            originalComputed.fn = originalFn
+            // @ts-expect-error: private api to remove the current cached value
+            delete originalComputed._value
+            // @ts-expect-error: private api to force the recomputation
+            originalComputed._dirty = true
+          } else {
+            originalComputed.fn = overriddenFn
+            // @ts-expect-error: private api
+            originalComputed._value = newValue
+          }
+          // this allows to trigger the original computed in setup stores
+          triggerRef(originalComputed)
+        },
       })
     }
   }

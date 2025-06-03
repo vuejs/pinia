@@ -1,8 +1,14 @@
 # 定义 Store %{#defining-a-store}%
 
-<VueSchoolLink
+<!-- <VueSchoolLink
   href="https://vueschool.io/lessons/define-your-first-pinia-store"
   title="Learn how to define and use stores in Pinia"
+/> -->
+
+<MasteringPiniaLink
+  href="https://play.gumlet.io/embed/651ecff2e4c322668b0a17af"
+  mp-link="https://masteringpinia.com/lessons/quick-start-with-pinia"
+  title="Get started with Pinia"
 />
 
 在深入研究核心概念之前，我们得知道 Store 是用 `defineStore()` 定义的，它的第一个参数要求是一个**独一无二的**名字：
@@ -19,7 +25,7 @@ export const useAlertsStore = defineStore('alerts', {
 })
 ```
 
-这个**名字** ，也被用作 *id* ，是必须传入的， Pinia 将用它来连接 store 和 devtools。为了养成习惯性的用法，将返回的函数命名为 *use...* 是一个符合组合式函数风格的约定。
+这个**名字** ，也被用作 _id_ ，是必须传入的， Pinia 将用它来连接 store 和 devtools。为了养成习惯性的用法，将返回的函数命名为 _use..._ 是一个符合组合式函数风格的约定。
 
 `defineStore()` 的第二个参数可接受两类值：Setup 函数或 Option 对象。
 
@@ -62,17 +68,43 @@ export const useCounterStore = defineStore('counter', () => {
 })
 ```
 
-在 *Setup Store* 中：
+在 _Setup Store_ 中：
 
 - `ref()` 就是 `state` 属性
 - `computed()` 就是 `getters`
 - `function()` 就是 `actions`
 
-Setup store 比 [Option Store](#option-stores) 带来了更多的灵活性，因为你可以在一个 store 内创建侦听器，并自由地使用任何[组合式函数](https://cn.vuejs.org/guide/reusability/composables.html#composables)。不过，请记住，使用组合式函数会让 [SSR](../cookbook/composables.md) 变得更加复杂。
+注意，要让 pinia 正确识别 `state`，你**必须**在 setup store 中返回 **`state` 的所有属性**。这意味着，你不能在 store 中使用**私有**属性。不完整返回会影响 [SSR](../cookbook/composables.md) ，开发工具和其他插件的正常运行。
+
+Setup store 比 [Option Store](#option-stores) 带来了更多的灵活性，因为你可以在一个 store 内创建侦听器，并自由地使用任何[组合式函数](https://cn.vuejs.org/guide/reusability/composables.html#composables)。不过，请记住，使用组合式函数会让 SSR 变得更加复杂。
+
+Setup store 也可以依赖于全局**提供**的属性，比如路由。任何[应用层面提供](https://vuejs.org/api/application.html#app-provide)的属性都可以在 store 中使用 `inject()` 访问，就像在组件中一样：
+
+```ts
+import { inject } from 'vue'
+import { useRoute } from 'vue-router'
+import { defineStore } from 'pinia'
+
+export const useSearchFilters = defineStore('search-filters', () => {
+  const route = useRoute()
+  // 这里假定 `app.provide('appProvided', 'value')` 已经调用过
+  const appProvided = inject('appProvided')
+
+  // ...
+
+  return {
+    // ...
+  }
+})
+```
+
+:::warning
+不要返回像 `route` 或 `appProvided` (上例中)之类的属性，因为它们不属于 store，而且你可以在组件中直接用 `useRoute()` 和 `inject('appProvided')` 访问。
+:::
 
 ## 你应该选用哪种语法？ %{#what-syntax-should-i-pick}%
 
-和[在 Vue 中如何选择组合式 API 与选项式 API](https://cn.vuejs.org/guide/introduction.html#which-to-choose) 一样，选择你觉得最舒服的那一个就好。如果你还不确定，可以先试试 [Option Store](#option-stores)。
+和[在 Vue 中如何选择组合式 API 与选项式 API](https://cn.vuejs.org/guide/introduction.html#which-to-choose) 一样，选择你觉得最舒服的那一个就好。两种语法都有各自的优势和劣势。Option Store 更容易使用，而 Setup Store 更灵活和强大。如果你想深入了解两者之间的区别，请查看 Mastering Pinia 中的 [Option Stores vs Setup Stores 章节](https://masteringpinia.com/lessons/when-to-choose-one-syntax-over-the-other)。
 
 ## 使用 Store %{#using-the-store}%
 
@@ -94,10 +126,13 @@ const store = useCounterStore()
 
 一旦 store 被实例化，你可以直接访问在 store 的 `state`、`getters` 和 `actions` 中定义的任何属性。我们将在后续章节继续了解这些细节，目前自动补全将帮助你使用相关属性。
 
-请注意，`store` 是一个用 `reactive` 包装的对象，这意味着不需要在 getters 后面写 `.value`，就像 `setup` 中的 `props` 一样，**如果你写了，我们也不能解构它**：
+请注意，`store` 是一个用 `reactive` 包装的对象，这意味着不需要在 getters 后面写 `.value`。就像 `setup` 中的 `props` 一样，**我们不能对它进行解构**：
 
 ```vue
 <script setup>
+import { useCounterStore } from '@/stores/counter'
+import { computed } from 'vue'
+
 const store = useCounterStore()
 // ❌ 下面这部分代码不会生效，因为它的响应式被破坏了
 // 它和解构 `props` 的操作是一样的
@@ -112,6 +147,8 @@ setTimeout(() => {
 const doubleValue = computed(() => store.doubleCount)
 </script>
 ```
+
+## 从 Store 解构
 
 为了从 store 中提取属性时保持其响应性，你需要使用 `storeToRefs()`。它将为每一个响应式属性创建引用。当你只使用 store 的状态而不调用任何 action 时，它会非常有用。请注意，你可以直接从 store 中解构 action，因为它们也被绑定到 store 上：
 

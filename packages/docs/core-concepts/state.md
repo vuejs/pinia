@@ -1,7 +1,12 @@
 # State
 
-<VueSchoolLink
+<!-- <VueSchoolLink
   href="https://vueschool.io/lessons/access-state-from-a-pinia-store"
+  title="Learn all about state in Pinia"
+/> -->
+
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/the-3-pillars-of-pinia-state"
   title="Learn all about state in Pinia"
 />
 
@@ -26,12 +31,14 @@ export const useStore = defineStore('storeId', {
 ```
 
 :::tip
-If you are using Vue 2, the data you create in `state` follows the same rules as the `data` in a Vue instance, i.e. the state object must be plain and you need to call `Vue.set()` when **adding new** properties to it. **See also: [Vue#data](https://v2.vuejs.org/v2/api/#data)**.
+
+In order for Vue to properly detect state, you must declare every state piece in `state`, even if its initial value is `undefined`.
+
 :::
 
 ## TypeScript
 
-You don't need to do much in order to make your state compatible with TS: make sure [`strict`](https://www.typescriptlang.org/tsconfig#strict), or at the very least, [`noImplicitThis`](https://www.typescriptlang.org/tsconfig#noImplicitThis), are enabled and Pinia will infer the type of your state automatically! However, there are a few cases where you should give it a hand with some casting:
+You don't need to do much in order to make your state compatible with TS: make sure [`strict`](https://www.typescriptlang.org/tsconfig#strict), or at the very least, [`noImplicitThis`](https://www.typescriptlang.org/tsconfig#noImplicitThis), is enabled and Pinia will infer the type of your state automatically! However, there are a few cases where you should give it a hand with some casting:
 
 ```ts
 export const useUserStore = defineStore('user', {
@@ -76,7 +83,7 @@ interface UserInfo {
 
 ## Accessing the `state`
 
-By default, you can directly read and write to the state by accessing it through the `store` instance:
+By default, you can directly read from and write to the state by accessing it through the `store` instance:
 
 ```js
 const store = useStore()
@@ -84,7 +91,7 @@ const store = useStore()
 store.count++
 ```
 
-Note you cannot add a new state property **if you don't define it in `state()`**, it must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
+Note you cannot add a new state property **if you don't define it in `state()`**. It must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
 
 ## Resetting the state
 
@@ -172,7 +179,7 @@ export default {
     // gives access to this.count inside the component and allows setting it
     // this.count++
     // same as reading from store.count
-    ...mapWritableState(useCounterStore, ['count'])
+    ...mapWritableState(useCounterStore, ['count']),
     // same as above but registers it as this.myOwnName
     ...mapWritableState(useCounterStore, {
       myOwnName: 'count',
@@ -199,7 +206,7 @@ store.$patch({
 })
 ```
 
-However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the `$patch` method also accepts a function to group this kind of mutations that are difficult to apply with a patch object:
+However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the `$patch` method also accepts a function to group these kinds of mutations that are difficult to apply with a patch object:
 
 ```js
 store.$patch((state) => {
@@ -210,7 +217,7 @@ store.$patch((state) => {
 
 <!-- TODO: disable this with `strictMode`, `{ noDirectPatch: true }` -->
 
-The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note **both, direct changes to `state` and `$patch()` appear in the devtools** and can be time traveled (not yet in Vue 3).
+The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note that **both direct changes to `state` and `$patch()` are tracked in devtools** and can be time traveled.
 
 ## Replacing the `state`
 
@@ -246,6 +253,19 @@ cartStore.$subscribe((mutation, state) => {
   localStorage.setItem('cart', JSON.stringify(state))
 })
 ```
+
+### Flush timing
+
+Under the hood, `$subscribe()` uses Vue's `watch()` function. You can pass the same options as you would with `watch()`. This is useful when you want to immediately trigger subscriptions after **each** state change:
+
+```ts{4}
+cartStore.$subscribe((state) => {
+  // persist the whole state to the local storage whenever it changes
+  localStorage.setItem('cart', JSON.stringify(state))
+}, { flush: 'sync' })
+```
+
+### Detaching subscriptions
 
 By default, _state subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you also want to keep them after the component is unmounted, pass `{ detached: true }` as the second argument to _detach_ the _state subscription_ from the current component:
 

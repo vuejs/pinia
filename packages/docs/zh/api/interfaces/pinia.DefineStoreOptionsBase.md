@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -16,10 +16,10 @@ sidebarDepth: 3
 
 ## 类型参数 %{#type-parameters}%
 
-| Name | Type |
-| :------ | :------ |
-| `S` | extends [`StateTree`](../modules/pinia.md#statetree) |
-| `Store` | `Store` |
+| Name    | Type                                                 |
+| :------ | :--------------------------------------------------- |
+| `S`     | extends [`StateTree`](../modules/pinia.md#statetree) |
+| `Store` | `Store`                                              |
 
 ## 层次结构 %{#hierarchy}%
 

@@ -270,7 +270,7 @@ More details can be found [here](../core-concepts/outside-component-usage.md).
 
 ## Advanced Vuex Usage
 
-In the case your Vuex store using some of the more advanced features it offers, here is some guidance on how to accomplish the same in Pinia. Some of these points are already covered in [this comparison summary](../introduction.md#comparison-with-vuex-3-x-4-x).
+In the case your Vuex store using some of the more advanced features it offers, here is some guidance on how to accomplish the same in Pinia. Some of these points are already covered in [this comparison summary](../introduction.md#Comparison-with-Vuex-3-x-4-x).
 
 ### Dynamic Modules
 

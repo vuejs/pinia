@@ -31,21 +31,19 @@
 <script setup lang="ts">
 import sponsors from './sponsors.json'
 import { computed } from 'vue'
-import type { PropType } from 'vue'
 import { useData } from 'vitepress'
 
-const { isDark } = useData()
+const props = withDefaults(
+  defineProps<{
+    name: 'Gold' | 'Platinum' | 'Silver' | 'Bronze'
+    size?: number | string
+  }>(),
+  {
+    size: 140,
+  }
+)
 
-const props = defineProps({
-  name: {
-    type: String as PropType<'Gold' | 'Platinum' | 'Silver' | 'Bronze'>,
-    required: true,
-  },
-  size: {
-    type: [Number, String],
-    default: 140,
-  },
-})
+const { isDark } = useData()
 
 const list = computed(() =>
   sponsors[props.name.toLowerCase()].map((sponsor) => ({

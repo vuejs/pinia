@@ -27,7 +27,7 @@ export default {
   computed: {
     // 注意，我们不是在传递一个数组，而是一个接一个的 store。
     // 可以 id+'Store' 的形式访问每个 store 。
-    ...mapStores(useCartStore, useUserStore)
+    ...mapStores(useCartStore, useUserStore),
   },
 
   methods: {

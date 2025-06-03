@@ -1,7 +1,12 @@
 # Getters
 
-<VueSchoolLink
+<!-- <VueSchoolLink
   href="https://vueschool.io/lessons/getters-in-pinia"
+  title="Learn all about getters in Pinia"
+/> -->
+
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/the-3-pillars-of-pinia-getters"
   title="Learn all about getters in Pinia"
 />
 
@@ -18,7 +23,7 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-Most of the time, getters will only rely on the state, however, they might need to use other getters. Because of this, we can get access to the _whole store instance_ through `this` when defining a regular function **but it is necessary to define the type of the return type (in TypeScript)**. This is due to a known limitation in TypeScript and **doesn't affect getters defined with an arrow function nor getters not using `this`**:
+Most of the time, getters will only rely on the state. However, they might need to use other getters. Because of this, we can get access to the _whole store instance_ through `this` when defining a regular function **but it is necessary to define the type of the return type (in TypeScript)**. This is due to a known limitation in TypeScript and **doesn't affect getters defined with an arrow function nor getters not using `this`**:
 
 ```ts
 export const useCounterStore = defineStore('counter', {
@@ -55,9 +60,28 @@ const store = useCounterStore()
 
 ## Accessing other getters
 
-As with computed properties, you can combine multiple getters. Access any other getter via `this`. Even if you are not using TypeScript, you can hint your IDE for types with the [JSDoc](https://jsdoc.app/tags-returns.html):
+As with computed properties, you can combine multiple getters. Access any other getter via `this`. In this scenario, **you will need to specify a return type** for the getter.
 
-```js
+::: code-group
+
+```ts [counterStore.ts]
+export const useCounterStore = defineStore('counter', {
+  state: () => ({
+    count: 0,
+  }),
+  getters: {
+    doubleCount(state) {
+      return state.count * 2
+    },
+    doubleCountPlusOne(): number {
+      return this.doubleCount + 1
+    },
+  },
+})
+```
+
+```js [counterStore.js]
+// You can use JSDoc (https://jsdoc.app/tags-returns.html) in JavaScript
 export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
@@ -80,6 +104,8 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
+:::
+
 ## Passing arguments to getters
 
 _Getters_ are just _computed_ properties behind the scenes, so it's not possible to pass any parameters to them. However, you can return a function from the _getter_ to accept any arguments:
@@ -98,6 +124,7 @@ and use in component:
 
 ```vue
 <script setup>
+import { storeToRefs } from 'pinia'
 import { useUserListStore } from './store'
 
 const userList = useUserListStore()
@@ -111,7 +138,7 @@ const { getUserById } = storeToRefs(userList)
 </template>
 ```
 
-Note that when doing this, **getters are not cached anymore**, they are simply functions that you invoke. You can however cache some results inside of the getter itself, which is uncommon but should prove more performant:
+Note that when doing this, **getters are not cached anymore**. They are simply functions you invoke. You can, however, cache some results inside of the getter itself, which is uncommon but should prove more performant:
 
 ```js
 export const useStore = defineStore('main', {
@@ -126,7 +153,7 @@ export const useStore = defineStore('main', {
 
 ## Accessing other stores getters
 
-To use another store getters, you can directly _use it_ inside of the _getter_:
+To use another store's getters, you can directly _use it_ inside of the _getter_:
 
 ```js
 import { useOtherStore } from './other-store'
@@ -208,7 +235,7 @@ export default defineComponent({
 </script>
 ```
 
-This is useful while migrating a component from the Options API to the Composition API but **should only be a migration step**, always try not to mix both API styles within the same component.
+This is useful while migrating a component from the Options API to the Composition API but **should only be a migration step**. Always try not to mix both API styles within the same component.
 
 ### Without `setup()`
 

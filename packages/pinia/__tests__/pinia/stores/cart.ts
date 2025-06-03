@@ -8,17 +8,20 @@ export const useCartStore = defineStore('cart', {
   }),
   getters: {
     items: (state) =>
-      state.rawItems.reduce((items, item) => {
-        const existingItem = items.find((it) => it.name === item)
+      state.rawItems.reduce(
+        (items, item) => {
+          const existingItem = items.find((it) => it.name === item)
 
-        if (!existingItem) {
-          items.push({ name: item, amount: 1 })
-        } else {
-          existingItem.amount++
-        }
+          if (!existingItem) {
+            items.push({ name: item, amount: 1 })
+          } else {
+            existingItem.amount++
+          }
 
-        return items
-      }, [] as { name: string; amount: number }[]),
+          return items
+        },
+        [] as { name: string; amount: number }[]
+      ),
   },
 
   actions: {

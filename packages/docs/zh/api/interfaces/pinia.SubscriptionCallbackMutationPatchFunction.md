@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -27,7 +27,7 @@ sidebarDepth: 3
 
 仅限开发环境。在回调中所有已完成的 mutation 的数组。
 
-___
+---
 
 ### storeId %{#storeid}%
 
@@ -37,9 +37,9 @@ ___
 
 #### 继承于
 
-[_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
+[\_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[storeId](pinia._SubscriptionCallbackMutationBase.md#storeid)
 
-___
+---
 
 ### 类型 %{#type}%
 
@@ -49,4 +49,4 @@ mutation 的类型
 
 #### 重写 %{#overrides}%
 
-[_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)
+[\_SubscriptionCallbackMutationBase](pinia._SubscriptionCallbackMutationBase.md).[type](pinia._SubscriptionCallbackMutationBase.md#type)

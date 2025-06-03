@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -8,7 +8,7 @@ sidebarDepth: 3
 
 # 接口：\_SubscriptionCallbackMutationBase %{#interface-subscriptioncallbackmutationbase}%
 
-[pinia](../modules/pinia.md)._SubscriptionCallbackMutationBase
+[pinia](../modules/pinia.md).\_SubscriptionCallbackMutationBase
 
 传递给订阅回调的上下文的基本类型。内部类型。
 
@@ -30,7 +30,7 @@ sidebarDepth: 3
 
 执行 mutation 的 store 的`id`。
 
-___
+---
 
 ### 类型 %{#type}%
 

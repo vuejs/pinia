@@ -2,15 +2,24 @@
   "name": "@pinia/docs",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
+    "predocs": "node run-typedoc.mjs",
     "docs": "vitepress dev .",
-    "docs:api": "node run-typedoc.js",
-    "docs:build": "vitepress build ."
+    "docs:api": "node run-typedoc.mjs",
+    "docs:translation:compare": "v-translation compare",
+    "docs:translation:update": "v-translation update",
+    "docs:translation:status": "v-translation status",
+    "docs:build": "vitepress build .",
+    "docs:preview": "vitepress preview ."
   },
   "dependencies": {
-    "@chenfengyuan/vue-countdown": "^2.1.0",
-    "@vueuse/core": "^9.11.1",
-    "pinia": "workspace:^2.0.18",
-    "vitepress": "1.0.0-alpha.40"
+    "@chenfengyuan/vue-countdown": "^2.1.2",
+    "@vueuse/core": "^12.5.0",
+    "pinia": "workspace:*",
+    "typedoc-vitepress-theme": "^1.1.2",
+    "vitepress": "1.6.3",
+    "vitepress-translation-helper": "^0.2.2",
+    "vue-use-spring": "^0.3.3"
   }
 }

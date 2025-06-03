@@ -1,4 +1,4 @@
 [build]
-command = "pnpm run docs"
+command = "pnpm run docs:build"
 ignore = "./scripts/docs-check.sh"
 publish = "packages/docs/.vitepress/dist"

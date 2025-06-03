@@ -17,7 +17,7 @@ yarn add 'pinia@^0.x.x'
 - `createStore()` 变成 `defineStore()`
 - 在订阅中，`storeName` 变成 `storeId`
 - `PiniaPlugin` 更名为 `PiniaVuePlugin`(Vue 2 的 Pinia 插件)
-- `$subscribe()` 不再接受 *boolean* 作为第二个参数，而是传递一个带有 `detached: true` 的对象。
+- `$subscribe()` 不再接受 _boolean_ 作为第二个参数，而是传递一个带有 `detached: true` 的对象。
 - Pinia 插件不再直接接收 store 的 `id`。使用 `store.$id` 代替。
 
 ## 非兼容性更新 %{#breaking-changes}%
@@ -100,6 +100,7 @@ Can't import the named export 'computed' from non EcmaScript module (only defaul
 这是构建文件为支持 Node.js 中的原生 ESM 模块进行的现代化适配。为更好地支持 Node，文件现在使用的扩展名是 `.mjs` 和 `.cjs`。要解决这个问题，你有两种可用的方法：
 
 - 如果你使用 Vue CLI 4.x，升级你的依赖。具体修复步骤如下。
+
   - 如果你不可能升级，请将下面的代码添加到你的 `vue.config.js` 中：
 
     ```js

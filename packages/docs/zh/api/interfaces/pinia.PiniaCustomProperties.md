@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -14,12 +14,12 @@ sidebarDepth: 3
 
 ## 类型参数 %{#type-parameters}%
 
-| 名称 | 类型 |
-| :------ | :------ |
-| `Id` | extends `string` = `string` |
-| `S` | extends [`StateTree`](../modules/pinia.md#statetree) = [`StateTree`](../modules/pinia.md#statetree) |
-| `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
-| `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
+| 名称 | 类型                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `Id` | extends `string` = `string`                                                                         |
+| `S`  | extends [`StateTree`](../modules/pinia.md#statetree) = [`StateTree`](../modules/pinia.md#statetree) |
+| `G`  | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>                                            |
+| `A`  | [`_ActionsTree`](../modules/pinia.md#_actionstree)                                                  |
 
 ## Accessors %{#accessors}%
 
@@ -35,8 +35,8 @@ sidebarDepth: 3
 
 #### 参数
 
-| Name | Type |
-| :------ | :------ |
+| Name    | Type                                                                       |
+| :------ | :------------------------------------------------------------------------- |
 | `value` | `RouteLocationNormalizedLoaded` \| `Ref`<`RouteLocationNormalizedLoaded`\> |
 
 #### 返回值

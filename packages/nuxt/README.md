@@ -5,7 +5,7 @@
 ## Installation
 
 ```shell
-npm i @pinia/nuxt
+npm i pinia @pinia/nuxt
 ```
 
 ## Usage

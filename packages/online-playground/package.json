@@ -1,0 +1,23 @@
+{
+  "name": "@pinia/playground",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "pnpm -C ../pinia run build && vite build",
+    "serve": "vite preview"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "execa": "^9.5.2",
+    "vite": "^6.0.11"
+  },
+  "dependencies": {
+    "@vue/repl": "^3.0.0",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.1",
+    "pinia": "workspace:*",
+    "vue": "^3.5.13"
+  }
+}

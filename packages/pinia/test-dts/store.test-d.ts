@@ -1,8 +1,13 @@
-import { StoreGeneric, defineStore, expectType } from './'
-import { UnwrapRef, watch } from 'vue'
+import {
+  StoreGeneric,
+  acceptHMRUpdate,
+  defineStore,
+  expectType,
+  storeToRefs,
+} from './'
+import { computed, Ref, ref, UnwrapRef, watch, WritableComputedRef } from 'vue'
 
-const useStore = defineStore({
-  id: 'name',
+const useStore = defineStore('name', {
   state: () => ({ a: 'on' as 'on' | 'off', nested: { counter: 0 } }),
   getters: {
     upper: (state) => {
@@ -36,10 +41,6 @@ const useStore = defineStore({
   },
 })
 
-defineStore('name', {
-  // @ts-expect-error: id is passed as the first argument
-  id: 'name',
-})
 defineStore('name', {})
 // @ts-expect-error
 defineStore('name')
@@ -48,8 +49,7 @@ defineStore('name', {
 })
 
 // actions on not existing properties
-defineStore({
-  id: '',
+defineStore('', {
   actions: {
     a() {
       // @ts-expect-error
@@ -58,8 +58,7 @@ defineStore({
   },
 })
 
-defineStore({
-  id: '',
+defineStore('', {
   state: () => ({}),
   actions: {
     a() {
@@ -69,8 +68,7 @@ defineStore({
   },
 })
 
-defineStore({
-  id: '',
+defineStore('', {
   getters: {},
   actions: {
     a() {
@@ -107,8 +105,7 @@ const s = init()()
 s.set({ id: 1 })
 
 // getters on not existing properties
-defineStore({
-  id: '',
+defineStore('', {
   getters: {
     a(): number {
       // @ts-expect-error
@@ -123,8 +120,7 @@ defineStore({
   },
 })
 
-defineStore({
-  id: '',
+defineStore('', {
   state: () => ({}),
   getters: {
     a(): number {
@@ -141,6 +137,10 @@ defineStore({
 })
 
 const store = useStore()
+
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useStore, import.meta.hot))
+}
 
 expectType<{ a: 'on' | 'off' }>(store.$state)
 expectType<number>(store.nested.counter)
@@ -164,36 +164,13 @@ store.$patch(() => {
   return
 })
 
-const useNoSAG = defineStore({
-  id: 'noSAG',
-})
-const useNoAG = defineStore({
-  id: 'noAG',
-  state: () => ({}),
-})
-const useNoSG = defineStore({
-  id: 'noAG',
-  actions: {},
-})
-const useNoSA = defineStore({
-  id: 'noAG',
-  getters: {},
-})
-const useNoS = defineStore({
-  id: 'noAG',
-  actions: {},
-  getters: {},
-})
-const useNoA = defineStore({
-  id: 'noAG',
-  state: () => ({}),
-  getters: {},
-})
-const useNoG = defineStore({
-  id: 'noAG',
-  state: () => ({}),
-  actions: {},
-})
+const useNoSAG = defineStore('noSAG', {})
+const useNoAG = defineStore('noAG', { state: () => ({}) })
+const useNoSG = defineStore('noAG', { actions: {} })
+const useNoSA = defineStore('noAG', { getters: {} })
+const useNoS = defineStore('noAG', { actions: {}, getters: {} })
+const useNoA = defineStore('noAG', { state: () => ({}), getters: {} })
+const useNoG = defineStore('noAG', { state: () => ({}), actions: {} })
 
 const noSAG = useNoSAG()
 const noSA = useNoSA()
@@ -232,7 +209,7 @@ function takeStore<TStore extends StoreGeneric>(store: TStore): TStore['$id'] {
 
 export const useSyncValueToStore = <
   TStore extends StoreGeneric,
-  TKey extends keyof TStore['$state']
+  TKey extends keyof TStore['$state'],
 >(
   propGetter: () => TStore[TKey],
   store: TStore,
@@ -278,3 +255,52 @@ useSyncValueToStore(() => 2, genericStore, 'myState')
 // @ts-expect-error: this type is known so it should yield an error
 useSyncValueToStore(() => false, genericStore, 'myState')
 useSyncValueToStore(() => 2, genericStore, 'random')
+
+const writableComputedStore = defineStore('computed-writable', () => {
+  const fruitsBasket = ref(['banana', 'apple', 'banana', 'orange'])
+  const total = computed(() => fruitsBasket.value.length)
+  const bananasAmount = computed<number>({
+    get: () => fruitsBasket.value.filter((fruit) => fruit === 'banana').length,
+    set: (newAmount) => {
+      fruitsBasket.value = fruitsBasket.value.filter(
+        (fruit) => fruit !== 'banana'
+      )
+      fruitsBasket.value.push(...Array(newAmount).fill('banana'))
+    },
+  })
+  const bananas = computed({
+    get: () => fruitsBasket.value.filter((fruit) => fruit === 'banana'),
+    set: (newFruit: string) =>
+      (fruitsBasket.value = fruitsBasket.value.map((fruit) =>
+        fruit === 'banana' ? newFruit : fruit
+      )),
+  })
+  bananas.value = 'hello' // TS ok
+  return { fruitsBasket, bananas, bananasAmount, total }
+})()
+
+expectType<number>(writableComputedStore.bananasAmount)
+// should allow writing to it
+writableComputedStore.bananasAmount = 0
+// @ts-expect-error: this one is readonly
+writableComputedStore.total = 0
+expectType<string[]>(writableComputedStore.bananas)
+// should allow setting a different type
+// @ts-expect-error: still not doable
+writableComputedStore.bananas = 'hello'
+
+const refs = storeToRefs(writableComputedStore)
+expectType<string[]>(refs.bananas.value)
+expectType<number>(refs.bananasAmount.value)
+refs.bananasAmount.value = 0
+// @ts-expect-error: this one is readonly
+refs.total.value = 0
+
+const refStore = defineStore('ref-bananas', () => {
+  const bananas = ref(['banana1', 'banana2'])
+  return { bananas }
+})()
+declare const conditionalStore: typeof refStore | typeof writableComputedStore
+expectType<Ref<string[]> | WritableComputedRef<'banana'[]>>(
+  storeToRefs(conditionalStore).bananas
+)

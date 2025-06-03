@@ -1,44 +1,51 @@
 {
   "platinum": [],
-  "gold": [],
+  "gold": [
+    {
+      "alt": "CodeRabbit",
+      "href": "https://www.coderabbit.ai/?utm_source=cr_org&utm_medium=github",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/coderabbitai-dark.svg",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/coderabbitai-light.svg"
+    }
+  ],
   "silver": [
     {
-      "href": "https://www.vuemastery.com/",
       "alt": "VueMastery",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuemastery-light.svg",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuemastery-dark.png"
+      "href": "https://www.vuemastery.com/",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuemastery-dark.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuemastery-light.svg"
     },
     {
+      "alt": "Prefect",
       "href": "https://www.prefect.io/",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg",
       "imgSrcDark": "https://posva-sponsors.pages.dev/logos/prefectlogo-dark.svg",
-      "alt": "Prefect"
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg"
+    },
+    {
+      "alt": "Route Optimizer and Route Planner Software",
+      "href": "https://route4me.com",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/route4me.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/route4me.png"
     }
   ],
   "bronze": [
+    {
+      "alt": "Storyblok",
+      "href": "https://storyblok.com",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/storyblok.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/storyblok.png"
+    },
+    {
+      "alt": "NuxtLabs",
+      "href": "https://nuxtlabs.com",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/nuxt-dark.svg",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/nuxt-light.svg"
+    },
     {
       "alt": "Stanislas Ormières",
       "href": "https://stormier.ninja",
       "imgSrcDark": "https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4",
       "imgSrcLight": "https://avatars.githubusercontent.com/u/2486424?u=7b0c73ae5d090ce53bf59473094e9606fe082c59&v=4"
-    },
-    {
-      "alt": "Antony Konstantinidis",
-      "href": "https://www.vuejs.de",
-      "imgSrcDark": "https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4",
-      "imgSrcLight": "https://avatars.githubusercontent.com/u/4183726?u=6b50a8ea16de29d2982f43c5640b1db9299ebcd1&v=4"
-    },
-    {
-      "href": "https://storyblok.com",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/storyblok.png",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/storyblok.png",
-      "alt": "Storyblok"
-    },
-    {
-      "href": "https://nuxtjs.org",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/nuxt-light.svg",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/nuxt-dark.svg",
-      "alt": "Nuxt Labs"
     }
   ]
 }

@@ -1,9 +1,5 @@
-import {
-  setupDevtoolsPlugin,
-  TimelineEvent,
-  App as DevtoolsApp,
-} from '@vue/devtools-api'
-import { ComponentPublicInstance, markRaw, toRaw, unref, watch } from 'vue-demi'
+import { setupDevtoolsPlugin } from '@vue/devtools-api'
+import { App, ComponentPublicInstance, markRaw, toRaw, unref, watch } from 'vue'
 import { Pinia, PiniaPluginContext } from '../rootStore'
 import {
   _GettersTree,
@@ -37,6 +33,17 @@ const MUTATIONS_LAYER_ID = 'pinia:mutations'
 const INSPECTOR_ID = 'pinia'
 const { assign } = Object
 
+// copied from devtools
+interface TimelineEvent<TData = any, TMeta = any> {
+  time: number
+  data: TData
+  logType?: 'default' | 'warning' | 'error'
+  meta?: TMeta
+  groupId?: number | string
+  title?: string
+  subtitle?: string
+}
+
 /**
  * Gets the displayed name of a store in devtools
  *
@@ -52,7 +59,7 @@ const getStoreType = (id: string) => '🍍 ' + id
  * @param app - Vue application
  * @param pinia - pinia instance
  */
-export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
+export function registerPiniaDevtools(app: App, pinia: Pinia) {
   setupDevtoolsPlugin(
     {
       id: 'dev.esm.pinia',
@@ -118,7 +125,7 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
         nodeActions: [
           {
             icon: 'restore',
-            tooltip: 'Reset the state (option store only)',
+            tooltip: 'Reset the state (with "$reset")',
             action: (nodeId) => {
               const store = pinia._s.get(nodeId)
               if (!store) {
@@ -126,9 +133,9 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
                   `Cannot reset "${nodeId}" store because it wasn't found.`,
                   'warn'
                 )
-              } else if (!store._isOptionsAPI) {
+              } else if (typeof store.$reset !== 'function') {
                 toastMessage(
-                  `Cannot reset "${nodeId}" store because it's a setup store.`,
+                  `Cannot reset "${nodeId}" store because it doesn't have a "$reset" method implemented.`,
                   'warn'
                 )
               } else {
@@ -140,7 +147,7 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
         ],
       })
 
-      api.on.inspectComponent((payload, ctx) => {
+      api.on.inspectComponent((payload) => {
         const proxy = (payload.componentInstance &&
           payload.componentInstance.proxy) as
           | ComponentPublicInstance
@@ -216,6 +223,9 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
         }
       })
 
+      // Expose pinia instance as $pinia to window
+      globalThis.$pinia = pinia
+
       api.on.getInspectorState((payload) => {
         if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
           const inspectedStore =
@@ -230,12 +240,15 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
           }
 
           if (inspectedStore) {
+            // Expose selected store as $store to window
+            if (payload.nodeId !== PINIA_ROOT_ID)
+              globalThis.$store = toRaw(inspectedStore as StoreGeneric)
             payload.state = formatStoreForInspectorState(inspectedStore)
           }
         }
       })
 
-      api.on.editInspectorState((payload, ctx) => {
+      api.on.editInspectorState((payload) => {
         if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
           const inspectedStore =
             payload.nodeId === PINIA_ROOT_ID
@@ -295,7 +308,7 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
   )
 }
 
-function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
+function addStoreToDevtools(app: App, store: StoreGeneric) {
   if (!componentStateTypes.includes(getStoreType(store.$id))) {
     componentStateTypes.push(getStoreType(store.$id))
   }
@@ -428,9 +441,6 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
             groupId: activeAction,
           }
 
-          // reset for the next mutation
-          activeAction = undefined
-
           if (type === MutationType.patchFunction) {
             eventData.subtitle = '⤵️'
           } else if (type === MutationType.patchObject) {
@@ -510,7 +520,11 @@ let activeAction: number | undefined
  * @param store - store to patch
  * @param actionNames - list of actionst to patch
  */
-function patchActionForGrouping(store: StoreGeneric, actionNames: string[]) {
+function patchActionForGrouping(
+  store: StoreGeneric,
+  actionNames: string[],
+  wrapWithProxy: boolean
+) {
   // original actions of the store as they are given by pinia. We are going to override them
   const actions = actionNames.reduce((storeActions, actionName) => {
     // use toRaw to avoid tracking #541
@@ -520,23 +534,30 @@ function patchActionForGrouping(store: StoreGeneric, actionNames: string[]) {
 
   for (const actionName in actions) {
     store[actionName] = function () {
-      // setActivePinia(store._p)
       // the running action id is incremented in a before action hook
       const _actionId = runningActionId
-      const trackedStore = new Proxy(store, {
-        get(...args) {
-          activeAction = _actionId
-          return Reflect.get(...args)
-        },
-        set(...args) {
-          activeAction = _actionId
-          return Reflect.set(...args)
-        },
-      })
-      return actions[actionName].apply(
+      const trackedStore = wrapWithProxy
+        ? new Proxy(store, {
+            get(...args) {
+              activeAction = _actionId
+              return Reflect.get(...args)
+            },
+            set(...args) {
+              activeAction = _actionId
+              return Reflect.set(...args)
+            },
+          })
+        : store
+
+      // For Setup Stores we need https://github.com/tc39/proposal-async-context
+      activeAction = _actionId
+      const retValue = actions[actionName].apply(
         trackedStore,
         arguments as unknown as any[]
       )
+      // this is safer as async actions in Setup Stores would associate mutations done outside of the action
+      activeAction = undefined
+      return retValue
     }
   }
 }
@@ -548,7 +569,7 @@ export function devtoolsPlugin<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends object = _GettersTree<S>,
-  A extends object = _ActionsTree
+  A extends object = _ActionsTree,
 >({ app, store, options }: PiniaPluginContext<Id, S, G, A>) {
   // HMR module
   if (store.$id.startsWith('__hot:')) {
@@ -556,27 +577,24 @@ export function devtoolsPlugin<
   }
 
   // detect option api vs setup api
-  if (options.state) {
-    store._isOptionsAPI = true
-  }
+  store._isOptionsAPI = !!options.state
 
-  // only wrap actions in option-defined stores as this technique relies on
-  // wrapping the context of the action with a proxy
-  if (typeof options.state === 'function') {
+  // Do not overwrite actions mocked by @pinia/testing (#2298)
+  if (!store._p._testing) {
     patchActionForGrouping(
-      // @ts-expect-error: can cast the store...
-      store,
-      Object.keys(options.actions)
+      store as StoreGeneric,
+      Object.keys(options.actions),
+      store._isOptionsAPI
     )
 
-    const originalHotUpdate = store._hotUpdate
-
     // Upgrade the HMR to also update the new actions
+    const originalHotUpdate = store._hotUpdate
     toRaw(store)._hotUpdate = function (newStore) {
       originalHotUpdate.apply(this, arguments as any)
       patchActionForGrouping(
         store as StoreGeneric,
-        Object.keys(newStore._hmrPayload.actions)
+        Object.keys(newStore._hmrPayload.actions),
+        !!store._isOptionsAPI
       )
     }
   }
@@ -586,4 +604,15 @@ export function devtoolsPlugin<
     // FIXME: is there a way to allow the assignment from Store<Id, S, G, A> to StoreGeneric?
     store as StoreGeneric
   )
+}
+
+declare global {
+  /**
+   * Exposes the `pinia` instance when Devtools are opened.
+   */
+  var $pinia: Pinia | undefined
+  /**
+   * Exposes the current store when Devtools are opened.
+   */
+  var $store: StoreGeneric | undefined
 }

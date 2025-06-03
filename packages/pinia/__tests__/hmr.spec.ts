@@ -9,7 +9,7 @@ import {
 } from '../src'
 
 function defineOptions<
-  O extends Omit<DefineStoreOptions<string, StateTree, any, any>, 'id'>
+  O extends Omit<DefineStoreOptions<string, StateTree, any, any>, 'id'>,
 >(options: O): O {
   return options
 }
@@ -489,5 +489,10 @@ describe('HMR', () => {
         expect(spy).toHaveBeenCalledTimes(2)
       })
     })
+  })
+
+  describe('both', () => {
+    it.todo('keeps $subscribe subscriptions')
+    it.todo('$onAction subscriptions')
   })
 })

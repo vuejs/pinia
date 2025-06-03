@@ -1,4 +1,4 @@
-import { computed, toRefs, reactive } from 'vue'
+import { computed, toRefs, reactive, inject } from 'vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
 const delay = (t: number) => new Promise((r) => setTimeout(r, t))
@@ -10,6 +10,9 @@ export const useCounter = defineStore('counter-setup', () => {
     decrementedTimes: 0,
     numbers: [] as number[],
   })
+
+  const injected = inject('injected', 'fallback value')
+  console.log('injected (should be global)', injected)
 
   const double = computed(() => state.n * 2)
 

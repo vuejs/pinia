@@ -42,22 +42,25 @@ const useY = defineStore('y', () => {
 
 ## Nested Stores
 
-Note that if one store uses another store, you can directly import and call the `useStore()` function within _actions_ and _getters_. Then you can interact with the store just like you would from within a Vue component. See [Shared Getters](#shared-getters) and [Shared Actions](#shared-actions).
+Note that if one store uses another store, you can directly import and call the `useStore()` function within _actions_ and _getters_. Then you can interact with the store just like you would from within a Vue component. See [Shared Getters](#Shared-Getters) and [Shared Actions](#Shared-Actions).
 
 When it comes to _setup stores_, you can simply use one of the stores **at the top** of the store function:
 
 ```ts
+import { defineStore } from 'pinia'
 import { useUserStore } from './user'
+import { apiPurchase } from './api'
 
 export const useCartStore = defineStore('cart', () => {
   const user = useUserStore()
+  const list = ref([])
 
   const summary = computed(() => {
-    return `Hi ${user.name}, you have ${state.list.length} items in your cart. It costs ${state.price}.`
+    return `Hi ${user.name}, you have ${list.value.length} items in your cart. It costs ${price.value}.`
   })
 
   function purchase() {
-    return apiPurchase(user.id, this.list)
+    return apiPurchase(user.id, list.value)
   }
 
   return { summary, purchase }
@@ -66,7 +69,7 @@ export const useCartStore = defineStore('cart', () => {
 
 ## Shared Getters
 
-You can simply call `useOtherStore()` inside a _getter_:
+You can simply call `useUserStore()` inside a _getter_:
 
 ```js
 import { defineStore } from 'pinia'
@@ -90,7 +93,8 @@ The same applies to _actions_:
 ```js
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
-
+import { apiOrderCart } from './api'
+ 
 export const useCartStore = defineStore('cart', {
   actions: {
     async orderCart() {
@@ -113,7 +117,8 @@ Since actions can be asynchronous, make sure **all of your `useStore()` calls ap
 ```js{7-8,11-13}
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
-
+import { apiOrderCart } from './api'
+  
 export const useCartStore = defineStore('cart', {
   actions: {
     async orderCart() {

@@ -4,6 +4,11 @@
 
 ## Option Stores
 
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/using-composables-in-option-stores"
+  title="Using Composables in Option Stores"
+/>
+
 When defining an option store, you can call a composable inside of the `state` property:
 
 ```ts
@@ -27,14 +32,19 @@ Here are some examples of composables that cannot be used in an option stores (b
 
 ## Setup Stores
 
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/using-composables-in-setup-stores"
+  title="Using Composables in Setup Stores"
+/>
+
 On the other hand, when defining a setup store, you can use almost any composable since every property gets discerned into state, action, or getter:
 
 ```ts
-import { defineStore, skipHydrate } from 'pinia'
+import { defineStore } from 'pinia'
 import { useMediaControls } from '@vueuse/core'
 
 export const useVideoPlayer = defineStore('video', () => {
-  // we won't expose this element directly
+  // we won't expose (return) this element directly
   const videoElement = ref<HTMLVideoElement>()
   const src = ref('/data/video.mp4')
   const { playing, volume, currentTime, togglePictureInPicture } =
@@ -57,6 +67,10 @@ export const useVideoPlayer = defineStore('video', () => {
 })
 ```
 
+:::warning
+Differently from regular state, `ref<HTMLVideoElement>()` contains a non-serializable reference to the DOM element. This is why we don't return it directly. Since it's client-only state, we know it won't be set on the server and will **always** start as `undefined` on the client.
+:::
+
 ## SSR
 
 When dealing with [Server Side Rendering](../ssr/index.md), you need to take care of some extra steps in order to use composables within your stores.
@@ -64,7 +78,7 @@ When dealing with [Server Side Rendering](../ssr/index.md), you need to take car
 In [Option Stores](#option-stores), you need to define a `hydrate()` function. This function is called when the store is instantiated on the client (the browser) when there is an initial state available at the time the store is created. The reason we need to define this function is because in such scenario, `state()` is not called.
 
 ```ts
-import { defineStore, skipHydrate } from 'pinia'
+import { defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
 
 export const useAuthStore = defineStore('auth', {
@@ -80,7 +94,7 @@ export const useAuthStore = defineStore('auth', {
 })
 ```
 
-In [Setup Stores](#setup-stores), you need to use a helper named `skipHydrate()` on any state property that shouldn't be picked up from the initial state. Differently from option stores, setup stores cannot just _skip calling `state()`_, so we mark properties that cannot be hydrated with `skipHydrate()`. Note that this only applies to writable reactive properties:
+In [Setup Stores](#setup-stores), you need to use a helper named `skipHydrate()` on any state property that shouldn't be picked up from the initial state. Differently from option stores, setup stores cannot just _skip calling `state()`_, so we mark properties that cannot be hydrated with `skipHydrate()`. Note that this only applies to state properties:
 
 ```ts
 import { defineStore, skipHydrate } from 'pinia'

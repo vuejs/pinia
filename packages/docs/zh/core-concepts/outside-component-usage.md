@@ -1,5 +1,11 @@
 # 在组件外使用 store %{#using-a-store-outside-of-a-component}%
 
+<MasteringPiniaLink
+  href="https://play.gumlet.io/embed/651ed1ec4c2f339c6860fd06"
+  mp-link="https://masteringpinia.com/lessons/how-does-usestore-work"
+  title="Using stores outside of components"
+/>
+
 Pinia store 依靠 `pinia` 实例在所有调用中共享同一个 store 实例。大多数时候，只需调用你定义的 `useStore()` 函数，完全开箱即用。例如，在 `setup()` 中，你不需要再做任何事情。但在组件之外，情况就有点不同了。
 实际上，`useStore()` 给你的 `app` 自动注入了 `pinia` 实例。这意味着，如果 `pinia` 实例不能自动注入，你必须手动提供给 `useStore()` 函数。
 你可以根据不同的应用，以不同的方式解决这个问题。
@@ -10,6 +16,7 @@ Pinia store 依靠 `pinia` 实例在所有调用中共享同一个 store 实例�
 
 ```js
 import { useUserStore } from '@/stores/user'
+import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import App from './App.vue'
 
@@ -24,8 +31,7 @@ app.use(pinia)
 const userStore = useUserStore()
 ```
 
-为确保 pinia 实例被激活，最简单的方法就是将 `useStore()` 的调用放在 pinia 安
-装后才会执行的函数中。
+为确保 pinia 实例被激活，最简单的方法就是将 `useStore()` 的调用放在 pinia 安装后才会执行的函数中。
 
 让我们来看看这个在 Vue Router 的导航守卫中使用 store 的例子。
 
@@ -39,14 +45,14 @@ const router = createRouter({
 const store = useStore()
 
 router.beforeEach((to, from, next) => {
-  // 我们想用这里的 store
+  // 我们想要在这里使用 store
   if (store.isLoggedIn) next()
   else next('/login')
 })
 
 router.beforeEach((to) => {
-  // ✅ 这样做是可行的，因为路由器在安装完之后就会开始导航。
-  // Pinia 也将被安装。
+  // ✅ 这样做是可行的，因为路由器是在其被安装之后开始导航的，
+  // 而此时 Pinia 也已经被安装。
   const store = useStore()
 
   if (to.meta.requiresAuth && !store.isLoggedIn) return '/login'

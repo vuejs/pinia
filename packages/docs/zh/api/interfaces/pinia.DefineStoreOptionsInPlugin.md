@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -14,16 +14,16 @@ sidebarDepth: 3
 
 ## 类型参数 %{#type-parameters}%
 
-| 名字 | 类型 |
-| :------ | :------ |
-| `Id` | extends `string` |
-| `S` | extends [`StateTree`](../modules/pinia.md#statetree) |
-| `G` | `G` |
-| `A` | `A` |
+| 名字 | 类型                                                 |
+| :--- | :--------------------------------------------------- |
+| `Id` | extends `string`                                     |
+| `S`  | extends [`StateTree`](../modules/pinia.md#statetree) |
+| `G`  | `G`                                                  |
+| `A`  | `A`                                                  |
 
 ## 层次结构 %{#hierarchy}%
 
-- `Omit`<[`DefineStoreOptions`](pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\>, ``"id"`` \| ``"actions"``\>
+- `Omit`<[`DefineStoreOptions`](pinia.DefineStoreOptions.md)<`Id`, `S`, `G`, `A`\>, `"id"` \| `"actions"`\>
 
   ↳ **`DefineStoreOptionsInPlugin`**
 
@@ -37,7 +37,7 @@ sidebarDepth: 3
 否则使用传递给 `defineStore()` 的对象。
 如果没有定义 action，则默认为一个空对象。
 
-___
+---
 
 ### getters %{#getters}%
 
@@ -49,7 +49,7 @@ getter 的可选对象
 
 Omit.getters
 
-___
+---
 
 ### state
 
@@ -88,21 +88,21 @@ Omit.state
 ```ts
 const useStore = defineStore('main', {
   state: () => ({
-    n: useLocalStorage('key', 0)
+    n: useLocalStorage('key', 0),
   }),
   hydrate(storeState, initialState) {
     // @ts-expect-error: https://github.com/microsoft/TypeScript/issues/43826
     storeState.n = useLocalStorage('key', 0)
-  }
+  },
 })
 ```
 
 #### 参数
 
-| 名字 | 类型 | 描述 |
-| :------ | :------ | :------ |
-| `storeState` | `UnwrapRef`<`S`\> | the current state in the store |
-| `initialState` | `UnwrapRef`<`S`\> | initialState |
+| 名字           | 类型              | 描述                           |
+| :------------- | :---------------- | :----------------------------- |
+| `storeState`   | `UnwrapRef`<`S`\> | the current state in the store |
+| `initialState` | `UnwrapRef`<`S`\> | initialState                   |
 
 #### 返回值
 

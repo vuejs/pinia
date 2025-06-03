@@ -25,11 +25,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, provide } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
+
+provide('hello', 'from component')
 
 const pages = router
   .getRoutes()
@@ -38,9 +40,11 @@ const pages = router
 
 const sourceCodeLink = computed(() => {
   if (route.name) {
-    return `https://github.com/vuejs/pinia/blob/v2/packages/playground/src/views/${route.name}.vue`
+    return `https://github.com/vuejs/pinia/blob/v3/packages/playground/src/views/${String(
+      route.name
+    )}.vue`
   } else {
-    return `https://github.com/vuejs/pinia/blob/v2/packages/playground/src/`
+    return `https://github.com/vuejs/pinia/blob/v3/packages/playground/src/`
   }
 })
 </script>

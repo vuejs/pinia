@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -14,12 +14,12 @@ sidebarDepth: 3
 
 ## 类型参数 %{#type-parameters}%
 
-| Name | Type |
-| :------ | :------ |
-| `Id` | extends `string` = `string` |
-| `S` | extends [`StateTree`](../modules/pinia.md#statetree) = [`StateTree`](../modules/pinia.md#statetree) |
-| `G` | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\> |
-| `A` | [`_ActionsTree`](../modules/pinia.md#_actionstree) |
+| Name | Type                                                                                                |
+| :--- | :-------------------------------------------------------------------------------------------------- |
+| `Id` | extends `string` = `string`                                                                         |
+| `S`  | extends [`StateTree`](../modules/pinia.md#statetree) = [`StateTree`](../modules/pinia.md#statetree) |
+| `G`  | [`_GettersTree`](../modules/pinia.md#_getterstree)<`S`\>                                            |
+| `A`  | [`_ActionsTree`](../modules/pinia.md#_actionstree)                                                  |
 
 ## 属性
 
@@ -29,7 +29,7 @@ sidebarDepth: 3
 
 用 `Vue.createApp()`创建的当前应用。
 
-___
+---
 
 ### options %{#options}%
 
@@ -37,7 +37,7 @@ ___
 
 调用 `defineStore()` 时定义 store 的初始选项。
 
-___
+---
 
 ### pinia %{#pinia}%
 
@@ -45,7 +45,7 @@ ___
 
 pinia 实例
 
-___
+---
 
 ### store %{#store}%
 

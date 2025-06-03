@@ -1,4 +1,5 @@
 import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
+import typedocSidebar from '../../api/typedoc-sidebar.json'
 
 export const META_URL = 'https://pinia.vuejs.org'
 export const META_TITLE = 'Pinia 🍍'
@@ -17,7 +18,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 
   themeConfig: {
     editLink: {
-      pattern: 'https://github.com/vuejs/pinia/edit/v2/packages/docs/:path',
+      pattern: 'https://github.com/vuejs/pinia/edit/v3/packages/docs/:path',
       text: 'Suggest changes to this page',
     },
 
@@ -40,24 +41,25 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
           {
             text: 'Changelog',
-            link: 'https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md',
+            link: 'https://github.com/vuejs/pinia/blob/v3/packages/pinia/CHANGELOG.md',
+          },
+          {
+            text: 'Vue.js Certification',
+            link: 'https://certificates.dev/vuejs/?friend=VUEROUTER&utm_source=pinia_vuejs&utm_medium=link&utm_campaign=pinia_vuejs_links&utm_content=navbar',
           },
         ],
+      },
+      {
+        text: 'v3.x',
+        items: [{ text: 'v2.x', link: 'https://v2.pinia.vuejs.org' }],
       },
     ],
 
     sidebar: {
       '/api/': [
         {
-          text: 'packages',
-          items: [
-            { text: 'pinia', link: '/api/modules/pinia.html' },
-            { text: '@pinia/nuxt', link: '/api/modules/pinia_nuxt.html' },
-            {
-              text: '@pinia/testing',
-              link: '/api/modules/pinia_testing.html',
-            },
-          ],
+          text: 'API',
+          items: typedocSidebar,
         },
       ],
       // catch-all fallback
@@ -97,14 +99,13 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               link: '/ssr/',
             },
             {
-              text: 'Nuxt.js',
+              text: 'Nuxt',
               link: '/ssr/nuxt.html',
             },
           ],
         },
         {
           text: 'Cookbook',
-          collapsible: true,
           collapsed: false,
           items: [
             {
@@ -130,6 +131,14 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             {
               text: 'Composing Stores',
               link: '/cookbook/composing-stores.html',
+            },
+            {
+              text: 'VSCode Snippets',
+              link: '/cookbook/vscode-snippets.html',
+            },
+            {
+              text: 'Migration from v2 to v3',
+              link: '/cookbook/migration-v2-v3.html',
             },
             {
               text: 'Migration from v0/v1 to v2',

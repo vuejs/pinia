@@ -1,4 +1,4 @@
-import { describe, beforeEach, it, expect } from 'vitest'
+import { describe, beforeEach, it, expect, vi } from 'vitest'
 import { computed, reactive, ref, ToRefs } from 'vue'
 import { createPinia, defineStore, setActivePinia, storeToRefs } from '../src'
 
@@ -18,7 +18,6 @@ describe('storeToRefs', () => {
   it('empty state', () => {
     expect(storeToRefs(defineStore('a', {})())).toEqual({})
     expect(storeToRefs(defineStore('a', () => {})())).toEqual({})
-    expect(storeToRefs(defineStore({ id: 'a' })())).toEqual({})
   })
 
   it('plain values', () => {
@@ -149,6 +148,56 @@ describe('storeToRefs', () => {
         })()
       )
     ).toEqual(objectOfRefs({ n: 0, pluginN: 20 }))
+  })
+
+  it('preserve setters in getters', () => {
+    const useStore = defineStore('main', () => {
+      const n = ref(0)
+      const double = computed({
+        get() {
+          return n.value * 2
+        },
+        set(value: string | number) {
+          n.value =
+            (typeof value === 'string' ? parseInt(value) || 0 : value) / 2
+        },
+      })
+      return { n, double }
+    })
+    const refs = storeToRefs(useStore())
+    refs.double.value = 4
+    expect(refs.n.value).toBe(2)
+  })
+
+  it('keep reactivity', () => {
+    const store = defineStore('a', () => {
+      const n = ref(0)
+      const double = computed(() => n.value * 2)
+      return { n, double }
+    })()
+
+    const { double } = storeToRefs(store)
+
+    // Assuming HMR operation
+    // @ts-expect-error: hmr
+    store.double =
+      //
+      computed(() => 1)
+
+    expect(double.value).toEqual(1)
+  })
+
+  it('does not trigger getters', () => {
+    const n = ref(0)
+    const spy = vi.fn(() => n.value * 2)
+    const store = defineStore('a', () => {
+      const double = computed(spy)
+      return { n, double }
+    })()
+
+    expect(spy).toHaveBeenCalledTimes(0)
+    storeToRefs(store)
+    expect(spy).toHaveBeenCalledTimes(0)
   })
 
   tds(() => {

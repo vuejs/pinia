@@ -2,17 +2,16 @@
  * @module pinia
  */
 export { setActivePinia, getActivePinia } from './rootStore'
-export { createPinia } from './createPinia'
-export type {
-  Pinia,
-  // TODO: remove in next release
-  PiniaStorePlugin,
-  PiniaPlugin,
-  PiniaPluginContext,
-} from './rootStore'
+export { createPinia, disposePinia } from './createPinia'
+export type { Pinia, PiniaPlugin, PiniaPluginContext } from './rootStore'
 
-export { defineStore, skipHydrate } from './store'
-export type { StoreActions, StoreGetters, StoreState } from './store'
+export { defineStore, skipHydrate, shouldHydrate } from './store'
+export type {
+  StoreActions,
+  StoreGetters,
+  StoreState,
+  SetupStoreDefinition,
+} from './store'
 
 export type {
   StateTree,
@@ -49,7 +48,6 @@ export type {
   _ExtractGettersFromSetupStore_Keys,
   _ExtractStateFromSetupStore_Keys,
   _UnwrapAll,
-  _Awaited,
 } from './types'
 export { MutationType } from './types'
 
@@ -77,7 +75,5 @@ export type {
 } from './mapHelpers'
 
 export { acceptHMRUpdate } from './hmr'
-
-export { PiniaVuePlugin } from './vue2-plugin'
 
 export * from './globalExtensions'

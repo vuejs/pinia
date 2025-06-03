@@ -4,8 +4,6 @@ layout: home
 title: Pinia
 titleTemplate: The intuitive store for Vue.js
 
-# TODO: translate text and tagline
-
 hero:
   name: Pinia
   text: "符合直觉的 \nVue.js 状态管理库"
@@ -20,6 +18,9 @@ hero:
     - theme: alt
       text: Demo 演示
       link: https://stackblitz.com/github/piniajs/example-vue-3-vite
+    - theme: cta mastering-pinia
+      text: ' '
+      link: https://masteringpinia.com
     - theme: cta vueschool
       text: 观看视频介绍
       link: https://vueschool.io/lessons/introduction-to-pinia?friend=vuerouter&utm_source=pinia&utm_medium=link&utm_campaign=homepage
@@ -35,7 +36,7 @@ features:
   - title: ⚙️ 开发工具支持
     details: 不管是 Vue 2 还是 Vue 3，支持 Vue devtools 钩子的 Pinia 都能给你更好的开发体验。
   - title: 🔌 可扩展性
-    details: 可通过事务、同步本地存储等方式扩展 Pinia，以响应 store 的变更。
+    details: 可通过事务、同步本地存储等方式扩展 Pinia，以响应 store 的变更以及 action。
   - title: 🏗 模块化设计
     details: 可构建多个 Store 并允许你的打包工具自动拆分它们。
   - title: 📦 极致轻量化

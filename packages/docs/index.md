@@ -4,7 +4,7 @@ layout: home
 title: Pinia
 titleTemplate: The intuitive store for Vue.js
 
-hero: 
+hero:
   name: Pinia
   text: The intuitive store for Vue.js
   tagline: Type Safe, Extensible, and Modular by design. Forget you are even using a store.
@@ -18,6 +18,9 @@ hero:
     - theme: alt
       text: Demo
       link: https://stackblitz.com/github/piniajs/example-vue-3-vite
+    - theme: cta mastering-pinia
+      text: ' '
+      link: https://masteringpinia.com
     - theme: cta vueschool
       text: Watch Video Introduction
       link: https://vueschool.io/lessons/introduction-to-pinia?friend=vuerouter&utm_source=pinia&utm_medium=link&utm_campaign=homepage
@@ -31,9 +34,9 @@ features:
   - title: 🔑 Type Safe
     details: Types are inferred, which means stores provide you with autocompletion even in JavaScript!
   - title: ⚙️ Devtools support
-    details: Pinia hooks into Vue devtools to give you an enhanced development experience in both Vue 2 and Vue 3.
+    details: Pinia hooks into Vue devtools to give you an enhanced development experience.
   - title: 🔌 Extensible
-    details: React to store changes to extend Pinia with transactions, local storage synchronization, etc.
+    details: React to store changes and actions to extend Pinia with transactions, local storage synchronization, etc.
   - title: 🏗 Modular by design
     details: Build multiple stores and let your bundler code split them automatically.
   - title: 📦 Extremely light

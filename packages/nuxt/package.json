@@ -1,6 +1,6 @@
 {
   "name": "@pinia/nuxt",
-  "version": "0.4.7",
+  "version": "0.11.0",
   "description": "Nuxt Module for pinia",
   "keywords": [
     "pinia",
@@ -9,7 +9,7 @@
     "vuex",
     "store"
   ],
-  "homepage": "https://github.com/vuejs/pinia/tree/v2/packages/nuxt#readme",
+  "homepage": "https://pinia.vuejs.org/ssr/nuxt.html",
   "bugs": {
     "url": "https://github.com/vuejs/pinia/issues"
   },
@@ -26,35 +26,35 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
-    ".": {
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
-    }
+    ".": "./dist/module.mjs"
   },
-  "main": "./dist/module.cjs",
-  "types": "./dist/types.d.ts",
+  "main": "./dist/module.mjs",
+  "types": "./dist/module.d.mts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "pnpm dev:prepare && nuxt-module-build",
+    "build": "pnpm run dev:prepare && nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "dev:prepare": "nuxt-module-build build --stub . && nuxi prepare playground",
     "test:types": "pnpm dev:prepare && nuxi typecheck",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/nuxt -r 1"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.0.0",
-    "pinia": ">=2.0.31"
+    "@nuxt/kit": "^3.9.0"
+  },
+  "peerDependencies": {
+    "pinia": "workspace:^"
   },
   "devDependencies": {
-    "@nuxt/module-builder": "^0.2.1",
-    "@nuxt/schema": "^3.0.0",
-    "@nuxt/test-utils": "^3.0.0",
-    "nuxt": "^3.0.0",
-    "typescript": "^4.8.4",
-    "vue-tsc": "^1.0.24"
+    "@nuxt/module-builder": "1.0.0-alpha.1",
+    "@nuxt/schema": "^3.9.0",
+    "@nuxt/test-utils": "^3.15.4",
+    "nuxt": "^3.15.4",
+    "pinia": "workspace:^",
+    "typescript": "^5.7.3",
+    "vue-tsc": "^2.2.0"
   },
   "publishConfig": {
     "access": "public"

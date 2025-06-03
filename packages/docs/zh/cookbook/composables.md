@@ -4,6 +4,11 @@
 
 ## Option Stores %{#option-stores}%
 
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/using-composables-in-option-stores"
+  title="Using Composables in Option Stores"
+/>
+
 当定义一个 option store 时，你可以在 `state` 属性中调用组合式函数：
 
 ```ts
@@ -14,18 +19,23 @@ export const useAuthStore = defineStore('auth', {
 })
 ```
 
-请记住，**你只能返回可写的状态**(例如，一个 `ref()`)。下面是一些可用的组合式函数的示例：
+请记住，**你只能返回可写的状态** (例如，一个 `ref()`) 。下面是一些可用的组合式函数的示例：
 
 - [useLocalStorage](https://vueuse.org/core/useLocalStorage/)
 - [useAsyncState](https://vueuse.org/core/useAsyncState/)
 
-下面是一些不可在 option store 中使用的组合式函数(但可在 setup store 中使用)：
+下面是一些不可在 option store 中使用的组合式函数 (但可在 setup store 中使用) ：
 
 - [useMediaControls](https://vueuse.org/core/useMediaControls/): exposes functions
 - [useMemoryInfo](https://vueuse.org/core/useMemory/): exposes readonly data
 - [useEyeDropper](https://vueuse.org/core/useEyeDropper/): exposes readonly data and functions
 
 ## Setup Stores %{#setup-stores}%
+
+<MasteringPiniaLink
+  href="https://masteringpinia.com/lessons/using-composables-in-setup-stores"
+  title="Using Composables in Setup Stores"
+/>
 
 另外，当定义一个 setup store 时，你几乎可以使用任何组合式函数，因为每一个属性都会被辨别为 state 、action 或者 getter：
 
@@ -34,7 +44,7 @@ import { defineStore, skipHydrate } from 'pinia'
 import { useMediaControls } from '@vueuse/core'
 
 export const useVideoPlayer = defineStore('video', () => {
-  // 我们不会直接暴露这个元素
+  // 我们不会直接暴露 (返回) 这个元素
   const videoElement = ref<HTMLVideoElement>()
   const src = ref('/data/video.mp4')
   const { playing, volume, currentTime, togglePictureInPicture } =
@@ -57,11 +67,15 @@ export const useVideoPlayer = defineStore('video', () => {
 })
 ```
 
+:::warning
+和常规的状态不同，`ref<HTMLVideoElement>()` 包含了一个不可序列化的 DOM 元素引用。这就是为什么我们不直接返回它的原因。由于它是客户端专用的状态，我们知道它不会被设置在服务器上，并且在客户端上**始终**以 `undefined` 作为开始。
+:::
+
 ## 服务端渲染 %{#ssr}%
 
 当处理[服务端渲染](../ssr/index.md)时，你有一些需要额外注意的内容，以便在 store 中使用组合式函数。
 
-在 [Option Store](#option-stores) 中，你需要定义一个 `hydrate()` 函数。当 store 在客户端(浏览器)上被实例化的过程中，创建 store 时有一个可用的初始状态时，这个函数就会被调用。我们需要定义这个函数的原因是，在这种情况下，`state()` 是不会被调用的。
+在 [Option Store](#option-stores) 中，你需要定义一个 `hydrate()` 函数。当 store 在客户端 (浏览器) 上被实例化的过程中，创建 store 时有一个可用的初始状态时，这个函数就会被调用。我们需要定义这个函数的原因是，在这种情况下，`state()` 是不会被调用的。
 
 ```ts
 import { defineStore, skipHydrate } from 'pinia'
@@ -91,7 +105,7 @@ const useColorStore = defineStore('colors', () => {
   const lastColor = useLocalStorage('lastColor', sRGBHex)
   // ...
   return {
-    lastColor: skipHydrate(pickedColor), // Ref<string>
+    lastColor: skipHydrate(lastColor), // Ref<string>
     open, // Function
     isSupported, // boolean (非响应式)
   }

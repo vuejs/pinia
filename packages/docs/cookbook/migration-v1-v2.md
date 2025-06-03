@@ -144,7 +144,7 @@ Pinia v2 no longer hijacks Vue Devtools v5, it requires Vue Devtools v6. Find th
 
 ## Nuxt
 
-If you are using Nuxt, pinia has now it's dedicated Nuxt package 🎉. Install it with:
+If you are using Nuxt, pinia has now its own dedicated Nuxt package 🎉. Install it with:
 
 ```bash
 npm i @pinia/nuxt

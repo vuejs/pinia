@@ -1,7 +1,7 @@
 import { Pinia, PiniaPlugin, setActivePinia, piniaSymbol } from './rootStore'
-import { ref, App, markRaw, effectScope, isVue2, Ref } from 'vue-demi'
+import { ref, App, markRaw, effectScope, Ref } from 'vue'
 import { registerPiniaDevtools, devtoolsPlugin } from './devtools'
-import { USE_DEVTOOLS } from './env'
+import { IS_CLIENT } from './env'
 import { StateTree, StoreGeneric } from './types'
 
 /**
@@ -24,21 +24,19 @@ export function createPinia(): Pinia {
       // this allows calling useStore() outside of a component setup after
       // installing pinia's plugin
       setActivePinia(pinia)
-      if (!isVue2) {
-        pinia._a = app
-        app.provide(piniaSymbol, pinia)
-        app.config.globalProperties.$pinia = pinia
-        /* istanbul ignore else */
-        if (USE_DEVTOOLS) {
-          registerPiniaDevtools(app, pinia)
-        }
-        toBeInstalled.forEach((plugin) => _p.push(plugin))
-        toBeInstalled = []
+      pinia._a = app
+      app.provide(piniaSymbol, pinia)
+      app.config.globalProperties.$pinia = pinia
+      /* istanbul ignore else */
+      if (__USE_DEVTOOLS__ && IS_CLIENT) {
+        registerPiniaDevtools(app, pinia)
       }
+      toBeInstalled.forEach((plugin) => _p.push(plugin))
+      toBeInstalled = []
     },
 
     use(plugin) {
-      if (!this._a && !isVue2) {
+      if (!this._a) {
         toBeInstalled.push(plugin)
       } else {
         _p.push(plugin)
@@ -57,9 +55,25 @@ export function createPinia(): Pinia {
 
   // pinia devtools rely on dev only features so they cannot be forced unless
   // the dev build of Vue is used. Avoid old browsers like IE11.
-  if (USE_DEVTOOLS && typeof Proxy !== 'undefined') {
+  if (__USE_DEVTOOLS__ && IS_CLIENT && typeof Proxy !== 'undefined') {
     pinia.use(devtoolsPlugin)
   }
 
   return pinia
+}
+
+/**
+ * Dispose a Pinia instance by stopping its effectScope and removing the state, plugins and stores. This is mostly
+ * useful in tests, with both a testing pinia or a regular pinia and in applications that use multiple pinia instances.
+ * Once disposed, the pinia instance cannot be used anymore.
+ *
+ * @param pinia - pinia instance
+ */
+export function disposePinia(pinia: Pinia) {
+  pinia._e.stop()
+  pinia._s.clear()
+  pinia._p.splice(0)
+  pinia.state.value = {}
+  // @ts-expect-error: non valid
+  pinia._a = null
 }

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { getNASAPOD } from '../api/nasa'
 
-export const useNasaStore = defineStore('nasa-pod-swrv', () => {
+export const useNasaStore = defineStore('nasa-pod-swrv', ({ action }) => {
   // can't go past today
   const today = new Date().toISOString().slice(0, 10)
 
@@ -30,21 +30,21 @@ export const useNasaStore = defineStore('nasa-pod-swrv', () => {
     }
   )
 
-  function incrementDay(date: string) {
+  const incrementDay = action((date: string) => {
     const from = new Date(date).getTime()
 
     currentDate.value = new Date(from + 1000 * 60 * 60 * 24)
       .toISOString()
       .slice(0, 10)
-  }
+  })
 
-  function decrementDay(date: string) {
+  const decrementDay = action((date: string) => {
     const from = new Date(date).getTime()
 
     currentDate.value = new Date(from - 1000 * 60 * 60 * 24)
       .toISOString()
       .slice(0, 10)
-  }
+  })
 
   return { image, currentDate, incrementDay, decrementDay, error, isValidating }
 })

@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import {
   createPinia,
   defineStore,
+  disposePinia,
   getActivePinia,
   setActivePinia,
 } from '../src'
@@ -18,8 +19,7 @@ import {
 
 describe('Store Lifespan', () => {
   function defineMyStore() {
-    return defineStore({
-      id: 'main',
+    return defineStore('main', {
       state: () => ({
         a: true,
         n: 0,
@@ -67,8 +67,7 @@ describe('Store Lifespan', () => {
     expect(getActivePinia()).toBe(pinia)
   })
 
-  // FIXME: what broke?
-  it.skip('state reactivity outlives component life', async () => {
+  it('state reactivity outlives component life', () => {
     const useStore = defineMyStore()
 
     const inComponentWatch = vi.fn()
@@ -77,7 +76,9 @@ describe('Store Lifespan', () => {
       render: () => null,
       setup() {
         const store = useStore()
-        watch(() => store.n, inComponentWatch)
+        watch(() => store.n, inComponentWatch, {
+          flush: 'sync',
+        })
         onMounted(() => {
           store.n++
         })
@@ -91,28 +92,21 @@ describe('Store Lifespan', () => {
     }
 
     let wrapper = mount(Component, options)
-    await nextTick()
-
     wrapper.unmount()
-    await nextTick()
 
     expect(inComponentWatch).toHaveBeenCalledTimes(1)
 
     let store = useStore()
     store.n++
-    await nextTick()
     expect(inComponentWatch).toHaveBeenCalledTimes(1)
 
     wrapper = mount(Component, options)
-    await nextTick()
     wrapper.unmount()
-    await nextTick()
 
     expect(inComponentWatch).toHaveBeenCalledTimes(2)
 
     store = useStore()
     store.n++
-    await nextTick()
     expect(inComponentWatch).toHaveBeenCalledTimes(2)
   })
 
@@ -123,8 +117,7 @@ describe('Store Lifespan', () => {
     const globalWatch = vi.fn()
     const destroy = watch(() => pinia.state.value.a?.n, globalWatch)
 
-    const useStore = defineStore({
-      id: 'a',
+    const useStore = defineStore('a', {
       state: () => {
         n = n || ref(0)
         return { n }
@@ -168,5 +161,27 @@ describe('Store Lifespan', () => {
     expect(globalWatch).toHaveBeenCalledTimes(4)
 
     destroy()
+  })
+
+  it('dispose stops store reactivity', () => {
+    const pinia = createPinia()
+    setActivePinia(pinia)
+    const inStoreWatch = vi.fn()
+
+    const useStore = defineStore('a', () => {
+      const n = ref(0)
+      watch(n, inStoreWatch, {
+        flush: 'sync',
+      })
+      return { n }
+    })
+
+    const store = useStore()
+    store.n++
+    expect(inStoreWatch).toHaveBeenCalledTimes(1)
+
+    disposePinia(pinia)
+    store.n++
+    expect(inStoreWatch).toHaveBeenCalledTimes(1)
   })
 })

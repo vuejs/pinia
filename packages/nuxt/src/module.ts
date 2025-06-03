@@ -4,37 +4,22 @@
 import {
   defineNuxtModule,
   addPlugin,
-  isNuxt2,
   addImports,
   createResolver,
-  resolveModule,
+  addImportsDir,
 } from '@nuxt/kit'
 import type { NuxtModule } from '@nuxt/schema'
+import { fileURLToPath } from 'node:url'
 
 export interface ModuleOptions {
   /**
-   * Pinia disables Vuex by default, set this option to `false` to avoid it and
-   * use Pinia alongside Vuex (Nuxt 2 only)
+   * Automatically add stores dirs to the auto imports. This is the same as
+   * directly adding the dirs to the `imports.dirs` option. If you want to
+   * also import nested stores, you can use the glob pattern `./stores/**`
    *
-   * @default `true`
+   * @default `['stores']`
    */
-  disableVuex?: boolean
-
-  /**
-   * Array of auto imports to be added to the nuxt.config.js file.
-   *
-   * @example
-   * ```js
-   * autoImports: [
-   *  // automatically import `defineStore`
-   *  'defineStore',
-   *  // automatically import `defineStore` as `definePiniaStore`
-   *  ['defineStore', 'definePiniaStore',
-   * ]
-   * ```
-   *
-   */
-  autoImports?: Array<string | [string, string]>
+  storesDirs?: string[]
 }
 
 const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
@@ -42,38 +27,24 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     name: 'pinia',
     configKey: 'pinia',
     compatibility: {
-      nuxt: '^2.0.0 || ^3.0.0-rc.5',
-      bridge: true,
+      nuxt: '^3.15.0',
     },
   },
-  defaults: {
-    disableVuex: true,
-    autoImports: [],
-  },
+  defaults: {},
   setup(options, nuxt) {
-    const resolver = createResolver(import.meta.url)
-
-    // Disable default Vuex store (Nuxt v2.10+ only)
-    if (
-      // @ts-expect-error: no feature flag anymore or private?
-      nuxt.options.features &&
-      // ts
-      options.disableVuex &&
-      isNuxt2()
-    ) {
-      // @ts-expect-error: same
-      nuxt.options.features.store = false
-    }
+    // configure transpilation
+    const { resolve } = createResolver(import.meta.url)
+    const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
 
     // Transpile runtime
-    nuxt.options.build.transpile.push(resolver.resolve('./runtime'))
+    nuxt.options.build.transpile.push(resolve(runtimeDir))
 
-    // Make sure we use the mjs build for pinia
-    nuxt.options.alias.pinia =
-      nuxt.options.alias.pinia ||
-      resolveModule('pinia/dist/pinia.mjs', {
-        paths: [nuxt.options.rootDir, import.meta.url],
-      })
+    // avoids having multiple copies of pinia
+    nuxt.options.vite.optimizeDeps ??= {}
+    nuxt.options.vite.optimizeDeps.exclude ??= []
+    if (!nuxt.options.vite.optimizeDeps.exclude.includes('pinia')) {
+      nuxt.options.vite.optimizeDeps.exclude.push('pinia')
+    }
 
     nuxt.hook('prepare:types', ({ references }) => {
       references.push({ types: '@pinia/nuxt' })
@@ -82,23 +53,29 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     // Add runtime plugin before the router plugin
     // https://github.com/nuxt/framework/issues/9130
     nuxt.hook('modules:done', () => {
-      if (isNuxt2()) {
-        addPlugin(resolver.resolve('./runtime/plugin.vue2'))
-      } else {
-        addPlugin(resolver.resolve('./runtime/plugin.vue3'))
-      }
+      addPlugin(resolve(runtimeDir, 'plugin.vue3'))
+      addPlugin(resolve(runtimeDir, 'payload-plugin'))
     })
 
     // Add auto imports
-    const composables = resolver.resolve('./runtime/composables')
+    const composables = resolve(runtimeDir, 'composables')
     addImports([
+      { from: composables, name: 'defineStore' },
+      { from: composables, name: 'acceptHMRUpdate' },
       { from: composables, name: 'usePinia' },
-      ...options.autoImports!.map((imports) =>
-        typeof imports === 'string'
-          ? { from: composables, name: imports }
-          : { from: composables, name: imports[0], as: imports[1] }
-      ),
+      { from: composables, name: 'storeToRefs' },
     ])
+
+    if (!options.storesDirs) {
+      // resolve it against the src dir which is the root by default
+      options.storesDirs = [resolve(nuxt.options.srcDir, 'stores')]
+    }
+
+    if (options.storesDirs) {
+      for (const storeDir of options.storesDirs) {
+        addImportsDir(resolve(nuxt.options.rootDir, storeDir))
+      }
+    }
   },
 })
 

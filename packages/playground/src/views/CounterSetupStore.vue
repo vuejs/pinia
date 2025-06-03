@@ -1,3 +1,21 @@
+<script lang="ts" setup>
+import { ref, inject } from 'vue'
+import { useCounter } from '../stores/counterSetup'
+
+console.log(
+  '(1) injected (within component should be from component)',
+  inject('hello')
+)
+
+const counter = useCounter()
+
+console.log(
+  '(2) injected (within component should be from component)',
+  inject('hello')
+)
+const n = ref(0)
+</script>
+
 <template>
   <h2>Local variables</h2>
 
@@ -40,11 +58,3 @@
 
   <pre>{{ counter.$state }}</pre>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { useCounter } from '../stores/counterSetup'
-
-const counter = useCounter()
-const n = ref(0)
-</script>

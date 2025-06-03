@@ -7,6 +7,8 @@
     "../*/__tests__/**/*.ts",
     "../*/src/*.spec.ts",
     "../nuxt/playground",
+    "../playground",
+    "../online-playground",
     "../nuxt/src/runtime",
     "**/*.spec.ts"
   ],
@@ -36,7 +38,6 @@
     "isolatedModules": true,
 
     "experimentalDecorators": true,
-    "resolveJsonModule": true,
     "esModuleInterop": true,
     "removeComments": false,
     "jsx": "preserve",

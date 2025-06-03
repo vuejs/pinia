@@ -1,3 +1,70 @@
+### [1.0.1](https://github.com/vuejs/pinia/compare/@pinia/testing@1.0.0...@pinia/testing@1.0.1) (2025-04-09)
+
+### Bug Fixes
+
+- consistent computation of computed in tests with storeToRefs ([417db7a](https://github.com/vuejs/pinia/commit/417db7aacb35b98ebe4274fd43bba593eaa583df)), closes [#2913](https://github.com/vuejs/pinia/issues/2913)
+
+## [1.0.0](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.7...@pinia/testing@1.0.0) (2025-02-11)
+
+The testing package has been stable for a long time so it was time to have a v1!
+
+### Features
+
+- **testing:** warn about incorrect createSpy ([394f655](https://github.com/vuejs/pinia/commit/394f6553d13f2b46c6e52a68145c24699b98e7fa)), closes [#2896](https://github.com/vuejs/pinia/issues/2896)
+
+## [0.1.7](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.6...@pinia/testing@0.1.7) (2024-11-03)
+
+No code changes in this release.
+
+## [0.1.6](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.5...@pinia/testing@0.1.6) (2024-09-30)
+
+No code changes in this release.
+
+## [0.1.5](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.4...@pinia/testing@0.1.5) (2024-08-06)
+
+No code changes in this release.
+
+## [0.1.4](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.4-beta.0...@pinia/testing@0.1.4) (2024-07-26)
+
+No code changes in this release.
+
+## [0.1.4-beta.0](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.3...@pinia/testing@0.1.4-beta.0) (2024-04-17)
+
+### Bug Fixes
+
+- **types:** use declare module vue ([8a6ce86](https://github.com/vuejs/pinia/commit/8a6ce86db83b6315c067c8a98c898b3c74efe62e))
+
+## [0.1.3](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.3...@pinia/testing@0.1.3) (2024-04-04)
+
+### Bug Fixes
+
+- **types:** use declare module vue ([8a6ce86](https://github.com/vuejs/pinia/commit/8a6ce86db83b6315c067c8a98c898b3c74efe62e))
+
+## [0.1.3](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.2...@pinia/testing@0.1.3) (2023-07-26)
+
+No code changes in this release.
+
+## [0.1.2](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.1...@pinia/testing@0.1.2) (2023-05-18)
+
+- Force vue-demi version
+
+## [0.1.1](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.0...@pinia/testing@0.1.1) (2023-05-17)
+
+No code changes in this release.
+
+# [0.1.0](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.16...@pinia/testing@0.1.0) (2023-05-08)
+
+### Features
+
+- **testing:** allow mocking $reset ([5f526a3](https://github.com/vuejs/pinia/commit/5f526a33ab0ac441fe865344977a11e0e471ce17)), closes [#2188](https://github.com/vuejs/pinia/issues/2188)
+
+## [0.0.16](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.15...@pinia/testing@0.0.16) (2023-04-07)
+
+### Bug Fixes
+
+- support "types" condition in "exports" field ([#2078](https://github.com/vuejs/pinia/issues/2078)) ([66d3a5e](https://github.com/vuejs/pinia/commit/66d3a5edd03f28f52daf35449db8c5f660c70b01))
+- **testing:** override computed in setup stores ([f9534c9](https://github.com/vuejs/pinia/commit/f9534c926469027f8ccc75c43ce1ea329b58aa0d)), closes [#2109](https://github.com/vuejs/pinia/issues/2109)
+
 ## [0.0.15](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.14...@pinia/testing@0.0.15) (2023-02-20)
 
 No changes in this release

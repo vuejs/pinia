@@ -9,8 +9,7 @@ describe('Getters', () => {
     setActivePinia(createPinia())
   })
 
-  const useStore = defineStore({
-    id: 'main',
+  const useStore = defineStore('main', {
     state: () => ({
       name: 'Eduardo',
     }),
@@ -40,13 +39,9 @@ describe('Getters', () => {
     },
   })
 
-  const useB = defineStore({
-    id: 'B',
-    state: () => ({ b: 'b' }),
-  })
+  const useB = defineStore('B', { state: () => ({ b: 'b' }) })
 
-  const useA = defineStore({
-    id: 'A',
+  const useA = defineStore('A', {
     state: () => ({ a: 'a' }),
     getters: {
       fromB(): string {
@@ -104,6 +99,50 @@ describe('Getters', () => {
     expect(store.upperCaseName).toBe('JACK')
     store.name = 'Ed'
     expect(store.upperCaseName).toBe('ED')
+  })
+
+  it('can use getters with setters', () => {
+    const useStore = defineStore('main', () => {
+      const name = ref('Eduardo')
+      const upperCaseName = computed({
+        get() {
+          return name.value.toUpperCase()
+        },
+        set(value: string) {
+          store.name = value.toLowerCase()
+        },
+      })
+      return { name, upperCaseName }
+    })
+
+    const store = useStore()
+    expect(store.upperCaseName).toBe('EDUARDO')
+    store.upperCaseName = 'ED'
+    expect(store.name).toBe('ed')
+  })
+
+  it('can use getters with setters with different types', () => {
+    const useStore = defineStore('main', () => {
+      const n = ref(0)
+      const double = computed({
+        get() {
+          return n.value * 2
+        },
+        set(value: string | number) {
+          n.value =
+            (typeof value === 'string' ? parseInt(value) || 0 : value) / 2
+        },
+      })
+      return { n, double }
+    })
+
+    const store = useStore()
+    expect(store.$state).not.toHaveProperty('double')
+    store.double = 4
+    expect(store.n).toBe(2)
+    // @ts-expect-error: still not doable
+    store.double = '6'
+    expect(store.n).toBe(3)
   })
 
   describe('cross used stores', () => {

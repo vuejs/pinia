@@ -1,10 +1,11 @@
 <template>
   <svg
-    width="408"
-    height="520"
+    id="pinia-logo"
     viewBox="0 0 408 520"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    style="z-index: 1; width: 100%"
+    ref="svgEl"
   >
     <g class="leaves">
       <path
@@ -69,15 +70,17 @@
             d="M150.023 321.156C149.513 335.783 137.241 347.226 122.615 346.715C107.988 346.205 96.545 333.933 97.0557 319.307C97.5665 304.68 109.838 293.237 124.464 293.748C139.091 294.258 150.534 306.53 150.023 321.156Z"
             fill="white"
           />
-          <g class="eyeball">
-            <path
-              d="M141.046 320.343C140.719 329.726 132.847 337.067 123.463 336.739C114.08 336.411 106.739 328.539 107.067 319.156C107.395 309.773 115.267 302.432 124.65 302.76C134.033 303.087 141.374 310.959 141.046 320.343Z"
-              fill="black"
-            />
-            <path
-              d="M125.161 316.786C125.026 320.65 121.784 323.672 117.921 323.537C114.057 323.403 111.034 320.161 111.169 316.297C111.304 312.434 114.546 309.411 118.409 309.546C122.273 309.681 125.296 312.922 125.161 316.786Z"
-              fill="white"
-            />
+          <g clip-path="url(#eye-left-mask)">
+            <g class="eyeball">
+              <path
+                d="M141.046 320.343C140.719 329.726 132.847 337.067 123.463 336.739C114.08 336.411 106.739 328.539 107.067 319.156C107.395 309.773 115.267 302.432 124.65 302.76C134.033 303.087 141.374 310.959 141.046 320.343Z"
+                fill="black"
+              />
+              <path
+                d="M125.161 316.786C125.026 320.65 121.784 323.672 117.921 323.537C114.057 323.403 111.034 320.161 111.169 316.297C111.304 312.434 114.546 309.411 118.409 309.546C122.273 309.681 125.296 312.922 125.161 316.786Z"
+                fill="white"
+              />
+            </g>
           </g>
         </template>
         <path
@@ -100,15 +103,17 @@
             d="M279.944 325.693C279.433 340.32 267.162 351.763 252.536 351.252C237.909 350.742 226.466 338.47 226.977 323.844C227.487 309.217 239.759 297.774 254.385 298.285C269.012 298.795 280.455 311.067 279.944 325.693Z"
             fill="white"
           />
-          <g class="eyeball">
-            <path
-              d="M270.967 324.879C270.64 334.263 262.767 341.604 253.384 341.276C244.001 340.948 236.66 333.076 236.988 323.693C237.316 314.31 245.188 306.969 254.571 307.297C263.954 307.624 271.295 315.496 270.967 324.879Z"
-              fill="black"
-            />
-            <path
-              d="M255.082 321.323C254.947 325.187 251.705 328.209 247.842 328.074C243.978 327.939 240.955 324.698 241.09 320.834C241.225 316.971 244.467 313.948 248.33 314.083C252.194 314.218 255.217 317.459 255.082 321.323Z"
-              fill="white"
-            />
+          <g clip-path="url(#eye-right-mask)">
+            <g class="eyeball">
+              <path
+                d="M270.967 324.879C270.64 334.263 262.767 341.604 253.384 341.276C244.001 340.948 236.66 333.076 236.988 323.693C237.316 314.31 245.188 306.969 254.571 307.297C263.954 307.624 271.295 315.496 270.967 324.879Z"
+                fill="black"
+              />
+              <path
+                d="M255.082 321.323C254.947 325.187 251.705 328.209 247.842 328.074C243.978 327.939 240.955 324.698 241.09 320.834C241.225 316.971 244.467 313.948 248.33 314.083C252.194 314.218 255.217 317.459 255.082 321.323Z"
+                fill="white"
+              />
+            </g>
           </g>
         </template>
         <path
@@ -132,20 +137,20 @@
         d="M141.767 409.993C143.98 412.073 144.088 415.554 142.007 417.767L95.0074 467.767C92.927 469.98 89.4462 470.088 87.233 468.007C85.0197 465.927 84.9121 462.446 86.9925 460.233L133.993 410.233C136.073 408.02 139.554 407.912 141.767 409.993Z"
         fill="#ECB732"
       />
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        v-if="!talking || talking == 'closed'"
-        d="M163.323 337.658C161.949 338.584 161.586 340.448 162.512 341.822C167.176 348.743 174.321 352.632 183.51 353.682C192.767 354.74 201.051 352.375 208.164 346.594C209.45 345.549 209.645 343.66 208.6 342.374C207.555 341.088 205.666 340.893 204.38 341.938C198.552 346.675 191.887 348.6 184.191 347.721C176.425 346.834 171.003 343.686 167.488 338.469C166.562 337.095 164.697 336.732 163.323 337.658Z"
-        fill="black"
-      />
-      <path
-        v-else
-        d="M205.5 350C205.5 355.761 203.379 359.178 200.18 361.288C196.798 363.518 191.88 364.5 186 364.5C180.12 364.5 175.202 363.518 171.82 361.288C168.621 359.178 166.5 355.761 166.5 350C166.5 347.536 168.262 344.446 171.9 341.84C175.456 339.292 180.447 337.5 186 337.5C191.553 337.5 196.544 339.292 200.1 341.84C203.738 344.446 205.5 347.536 205.5 350Z"
-        fill="#E77777"
-        stroke="black"
-        stroke-width="5"
-      />
+      <g class="mouth">
+        <path
+          class="smile"
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M163.323 337.658C161.949 338.584 161.586 340.448 162.512 341.822C167.176 348.743 174.321 352.632 183.51 353.682C192.767 354.74 201.051 352.375 208.164 346.594C209.45 345.549 209.645 343.66 208.6 342.374C207.555 341.088 205.666 340.893 204.38 341.938C198.552 346.675 191.887 348.6 184.191 347.721C176.425 346.834 171.003 343.686 167.488 338.469C166.562 337.095 164.697 336.732 163.323 337.658Z"
+          fill="black"
+        />
+        <path
+          class="open"
+          d="M213.046 343.089C213.046 356.089 199.012 367.537 186.862 367.537C174.712 367.537 164.177 356.078 164.177 343.078C164.177 335.899 175.857 332.075 188.008 332.075C200.158 332.075 213.046 335.909 213.046 343.089Z"
+          fill="#E77777"
+        />
+      </g>
     </g>
 
     <defs>
@@ -193,23 +198,100 @@
         <stop stop-color="#FFE56C" />
         <stop offset="1" stop-color="#FFC63A" />
       </linearGradient>
+
+      <clipPath id="eye-right-mask">
+        <circle cy="325px" cx="254" r="27" />
+      </clipPath>
+      <clipPath id="eye-left-mask">
+        <circle cy="320" cx="124" r="27" />
+      </clipPath>
     </defs>
   </svg>
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
-import { useCounter } from '../stores/counter'
+import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from 'vue'
+import { useSpring } from 'vue-use-spring'
+import {
+  useMouse,
+  useEventListener,
+  useDebounceFn,
+  useIdle,
+  whenever,
+} from '@vueuse/core'
+
+const { x: mouseX, y: mouseY } = useMouse()
+const mousePos = useSpring(
+  reactive({
+    x: mouseX,
+    y: mouseY,
+  }),
+  {
+    mass: 1,
+    tension: 120,
+    friction: 34,
+    precision: 1,
+  }
+)
+
+const { idle } = useIdle(3000)
+
+// make it like it's looking at the user when they are idle
+whenever(idle, () => {
+  const l = leftEyeCenter.value
+  const r = rightEyeCenter.value
+  mousePos.x = l.x + (r.x - l.x) / 2
+  mousePos.y = r.y
+})
+
+const svgEl = ref<SVGElement>()
+const leftEyeCenter = ref({ x: 0, y: 0 })
+const rightEyeCenter = ref({ x: 0, y: 0 })
+
+function computedEyesCenter() {
+  const svg = svgEl.value
+  if (svg) {
+    const leftEye = svg.querySelector<SVGElement>('.eye-left .eyeball')!
+    const leftEyeRect = leftEye.getBoundingClientRect()
+    leftEyeCenter.value = {
+      x: leftEyeRect.x + leftEyeRect.width / 2,
+      y: leftEyeRect.y + leftEyeRect.height / 2,
+    }
+
+    const rightEye = svg.querySelector<SVGElement>('.eye-right .eyeball')!
+    const rightEyeRect = rightEye.getBoundingClientRect()
+    rightEyeCenter.value = {
+      x: rightEyeRect.x + rightEyeRect.width / 2,
+      y: rightEyeRect.y + rightEyeRect.height / 2,
+    }
+  }
+}
+
+useEventListener('resize', useDebounceFn(computedEyesCenter, 750))
+
+const leftEyeHorizontalDistance = computed(() => {
+  return Math.min(1, Math.max(-1, (mousePos.x - leftEyeCenter.value.x) / 150))
+})
+const rightEyeHorizontalDistance = computed(() => {
+  return Math.min(1, Math.max(-1, (mousePos.x - rightEyeCenter.value.x) / 150))
+})
+const eyeVerticalDistance = computed(() => {
+  return Math.min(1, Math.max(-1, (mousePos.y - leftEyeCenter.value.y) / 100))
+})
 
 const blinking = ref<'open' | 'closed'>('open')
-const talking = ref<'open' | 'closed'>('closed')
-
-const counter = useCounter()
 
 const blinkTimer = 100
-const talkRate = 120
+// use a randomized blink interval for a more natural look
+const minBlinkInterval = 2000
+const maxBlinkInterval = 10000
 
 onMounted(() => {
+  nextTick(() => {
+    computedEyesCenter()
+    idle.value = true
+  })
+
   let timerId = setInterval(() => {
     let blinkState = 0
     function blinkHandler() {
@@ -217,8 +299,6 @@ onMounted(() => {
 
       if (blinkState % 2) {
         blinking.value = 'closed'
-        // counter.n++
-        counter.$patch({ n: counter.n + 1 })
         setTimeout(blinkHandler, blinkTimer * 1.7)
       } else if (blinkState < 4) {
         blinking.value = 'open'
@@ -228,97 +308,36 @@ onMounted(() => {
       }
     }
     setTimeout(blinkHandler, 0)
-  }, 10000)
+  }, (maxBlinkInterval - minBlinkInterval) / 2)
 
   onUnmounted(() => {
     clearInterval(timerId)
   })
-
-  let talkingTimer = setInterval(() => {
-    let blinkState = 0
-    function blinkHandler() {
-      blinkState++
-
-      if (blinkState % 2) {
-        talking.value = 'closed'
-        setTimeout(blinkHandler, talkRate)
-      } else if (blinkState < 10) {
-        talking.value = 'open'
-        setTimeout(blinkHandler, talkRate)
-      } else {
-        talking.value = 'closed'
-      }
-    }
-    setTimeout(blinkHandler, 0)
-  }, 5000)
-  onUnmounted(() => {
-    clearInterval(talkingTimer)
-  })
 })
 </script>
 
-<style>
-@keyframes leaves-move {
-  40% {
-    transform: rotate(0deg) scale(1);
-  }
-  45% {
-    transform: rotate(-2deg) scale3d(0.9, 1.05, 1) translateY(6%);
-  }
-  47% {
-    transform: scale3d(1.05, 0.95, 1) translateY(2%);
-  }
-  50% {
-    transform: rotate(3deg) scale3d(0.9, 1.05, 1);
-  }
-  55% {
-    transform: rotate(0) scale(1);
-  }
-}
-
-@keyframes rubberBand {
-  29% {
-    transform: scale3d(1, 1, 1);
-  }
-
-  30% {
-    transform: scale3d(1.1, 0.9, 1);
-  }
-
-  40% {
-    transform: scale3d(0.9, 1.1, 1);
-  }
-
-  50% {
-    transform: scale3d(1.05, 0.95, 1);
-  }
-
-  65% {
-    transform: scale3d(0.98, 1.02, 1);
-  }
-
-  75% {
-    transform: scale3d(1.02, 0.98, 1);
-  }
-
-  76% {
-    transform: scale3d(1, 1, 1);
-  }
-}
-</style>
-
 <style scoped>
-.leaves {
-  animation: 500ms ease-in-out infinite rubberBand;
-  animation: 3s ease-in-out 0s infinite normal leaves-move;
-  transform-origin: bottom;
+.eye-left .eyeball {
+  transform: translate(
+    calc(12px * v-bind(leftEyeHorizontalDistance)),
+    calc(10px * v-bind(eyeVerticalDistance))
+  );
 }
 
-.body {
-  animation-duration: 500ms;
-  animation-delay: 0s;
-  animation-iteration-count: 0;
-  animation-name: rubberBand;
-  transform-origin: center;
+.eye-right .eyeball {
+  transform: translate(
+    calc(12px * v-bind(rightEyeHorizontalDistance)),
+    calc(10px * v-bind(eyeVerticalDistance))
+  );
+}
+
+#pinia-logo .mouth .open {
+  visibility: hidden;
+}
+#pinia-logo:hover .mouth .open {
+  visibility: unset;
+}
+#pinia-logo:hover .mouth .smile {
+  visibility: hidden;
 }
 </style>

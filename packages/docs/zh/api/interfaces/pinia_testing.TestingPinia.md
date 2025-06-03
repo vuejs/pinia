@@ -1,5 +1,5 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
@@ -27,7 +27,7 @@ sidebarDepth: 3
 
 Pinia 使用的应用
 
-___
+---
 
 ### 安装 %{#install}%
 
@@ -39,8 +39,8 @@ ___
 
 ##### 参数
 
-| 名称 | 类型 |
-| :------ | :------ |
+| 名称  | 类型          |
+| :---- | :------------ |
 | `app` | `App`<`any`\> |
 
 ##### 返回值
@@ -51,7 +51,7 @@ ___
 
 [Pinia](pinia.Pinia.md).[install](pinia.Pinia.md#install)
 
-___
+---
 
 ### state %{#state}%
 
@@ -69,12 +69,12 @@ ___
 
 ▸ **use**(`plugin`): [`Pinia`](pinia.Pinia.md)
 
-增加了一个 store 插件来扩展每个  store
+增加了一个 store 插件来扩展每个 store
 
 #### 参数
 
-| 名称 | 类型 | 描述 |
-| :------ | :------ | :------ |
+| 名称     | 类型                                  | 描述                |
+| :------- | :------------------------------------ | :------------------ |
 | `plugin` | [`PiniaPlugin`](pinia.PiniaPlugin.md) | store plugin to add |
 
 #### 返回值

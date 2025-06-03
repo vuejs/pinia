@@ -4,13 +4,14 @@ import type {
   Ref,
   UnwrapRef,
   WatchOptions,
-} from 'vue-demi'
+  WritableComputedRef,
+} from 'vue'
 import { Pinia } from './rootStore'
 
 /**
  * Generic state of a Store
  */
-export type StateTree = Record<string | number | symbol, any>
+export type StateTree = Record<PropertyKey, any>
 
 export function isPlainObject<S extends StateTree>(
   value: S | unknown
@@ -113,7 +114,7 @@ export interface SubscriptionCallbackMutationPatchObject<S>
   /**
    * Object passed to `store.$patch()`.
    */
-  payload: _DeepPartial<S>
+  payload: _DeepPartial<UnwrapRef<S>>
 }
 
 /**
@@ -157,16 +158,6 @@ export type SubscriptionCallback<S> = (
   state: UnwrapRef<S>
 ) => void
 
-// to support TS 4.4
-// TODO: remove in 2.1.0, use Awaited, and up the peer dep to TS 4.5
-export type _Awaited<T> = T extends null | undefined
-  ? T // special case for `null | undefined` when not in `--strictNullChecks` mode
-  : T extends object & { then(onfulfilled: infer F): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
-  ? F extends (value: infer V, ...args: any) => any // if the argument to `then` is callable, extracts the first argument
-    ? _Awaited<V> // recursively unwrap the value
-    : never // the argument to `then` was not callable
-  : T // non-object or non-thenable
-
 /**
  * Actual type for {@link StoreOnActionListenerContext}. Exists for refactoring
  * purposes. For internal use only.
@@ -175,7 +166,7 @@ export type _Awaited<T> = T extends null | undefined
 export interface _StoreOnActionListenerContext<
   Store,
   ActionName extends string,
-  A
+  A,
 > {
   /**
    * Name of the action
@@ -200,7 +191,7 @@ export interface _StoreOnActionListenerContext<
    */
   after: (
     callback: A extends Record<ActionName, _Method>
-      ? (resolvedReturn: _Awaited<ReturnType<A[ActionName]>>) => void
+      ? (resolvedReturn: Awaited<ReturnType<A[ActionName]>>) => void
       : () => void
   ) => void
 
@@ -219,7 +210,7 @@ export type StoreOnActionListenerContext<
   Id extends string,
   S extends StateTree,
   G /* extends GettersTree<S> */,
-  A /* extends ActionsTree */
+  A /* extends ActionsTree */,
 > = _ActionsTree extends A
   ? _StoreOnActionListenerContext<StoreGeneric, string, _ActionsTree>
   : {
@@ -235,7 +226,7 @@ export type StoreOnActionListener<
   Id extends string,
   S extends StateTree,
   G /* extends GettersTree<S> */,
-  A /* extends ActionsTree */
+  A /* extends ActionsTree */,
 > = (
   context: StoreOnActionListenerContext<
     Id,
@@ -318,10 +309,10 @@ export interface _StoreWithState<
   Id extends string,
   S extends StateTree,
   G /* extends GettersTree<StateTree> */,
-  A /* extends ActionsTree */
+  A /* extends ActionsTree */,
 > extends StoreProperties<Id> {
   /**
-   * State of the Store. Setting it will replace the whole state.
+   * State of the Store. Setting it will internally call `$patch()` to update the state.
    */
   $state: UnwrapRef<S> & PiniaCustomStateProperties<S>
 
@@ -337,7 +328,7 @@ export interface _StoreWithState<
    * Sets or arrays and applying an object patch isn't practical, e.g. appending
    * to an array. The function passed to `$patch()` **must be synchronous**.
    *
-   * @param stateMutator - function that mutates `state`, cannot be async
+   * @param stateMutator - function that mutates `state`, cannot be asynchronous
    */
   $patch<F extends (state: UnwrapRef<S>) => any>(
     // this prevents the user from using `async` which isn't allowed
@@ -346,7 +337,6 @@ export interface _StoreWithState<
 
   /**
    * Resets the store to its initial state by building a new state object.
-   * TODO: make this options only
    */
   $reset(): void
 
@@ -415,14 +405,6 @@ export interface _StoreWithState<
    * store is used again, it will reuse the previous state.
    */
   $dispose(): void
-
-  /**
-   * Vue 2 only. Is the store ready. Used for store cross usage. Getters automatically compute when they are added to
-   * the store, before the store is actually ready, this allows to avoid calling the computed function yet.
-   *
-   * @internal
-   */
-  _r?: boolean
 }
 
 /**
@@ -452,10 +434,29 @@ export type _StoreWithActions<A> = {
  * Store augmented with getters. For internal usage only.
  * For internal use **only**
  */
-export type _StoreWithGetters<G> = {
-  readonly [k in keyof G]: G[k] extends (...args: any[]) => infer R
-    ? R
-    : UnwrapRef<G[k]>
+export type _StoreWithGetters<G> = _StoreWithGetters_Readonly<G> &
+  _StoreWithGetters_Writable<G>
+
+/**
+ * Store augmented with readonly getters. For internal usage **only**.
+ */
+export type _StoreWithGetters_Readonly<G> = {
+  readonly [K in keyof G as G[K] extends (...args: any[]) => any
+    ? K
+    : ComputedRef extends G[K]
+      ? K
+      : never]: G[K] extends (...args: any[]) => infer R ? R : UnwrapRef<G[K]>
+}
+
+/**
+ * Store augmented with writable getters. For internal usage **only**.
+ */
+export type _StoreWithGetters_Writable<G> = {
+  [K in keyof G as G[K] extends WritableComputedRef<any>
+    ? K
+    : // NOTE: there is still no way to have a different type for a setter and a getter in TS with dynamic keys
+      // https://github.com/microsoft/TypeScript/issues/43826
+      never]: G[K] extends Readonly<WritableComputedRef<infer R>> ? R : never
 }
 
 /**
@@ -466,7 +467,7 @@ export type Store<
   S extends StateTree = {},
   G /* extends GettersTree<S>*/ = {},
   // has the actions without the context (this) for typings
-  A /* extends ActionsTree */ = {}
+  A /* extends ActionsTree */ = {},
 > = _StoreWithState<Id, S, G, A> &
   UnwrapRef<S> &
   _StoreWithGetters<G> &
@@ -494,7 +495,7 @@ export interface StoreDefinition<
   Id extends string = string,
   S extends StateTree = StateTree,
   G /* extends GettersTree<S>*/ = _GettersTree<S>,
-  A /* extends ActionsTree */ = _ActionsTree
+  A /* extends ActionsTree */ = _ActionsTree,
 > {
   /**
    * Returns a store, creates it if necessary.
@@ -524,7 +525,7 @@ export interface PiniaCustomProperties<
   Id extends string = string,
   S extends StateTree = StateTree,
   G /* extends GettersTree<S> */ = _GettersTree<S>,
-  A /* extends ActionsTree */ = _ActionsTree
+  A /* extends ActionsTree */ = _ActionsTree,
 > {}
 
 /**
@@ -583,27 +584,21 @@ export type _UnwrapAll<SS> = { [K in keyof SS]: UnwrapRef<SS[K]> }
  */
 export type _ExtractStateFromSetupStore<SS> = SS extends undefined | void
   ? {}
-  : _ExtractStateFromSetupStore_Keys<SS> extends keyof SS
-  ? _UnwrapAll<Pick<SS, _ExtractStateFromSetupStore_Keys<SS>>>
-  : never
+  : Pick<SS, _ExtractStateFromSetupStore_Keys<SS>>
 
 /**
  * For internal use **only**
  */
 export type _ExtractActionsFromSetupStore<SS> = SS extends undefined | void
   ? {}
-  : _ExtractActionsFromSetupStore_Keys<SS> extends keyof SS
-  ? Pick<SS, _ExtractActionsFromSetupStore_Keys<SS>>
-  : never
+  : Pick<SS, _ExtractActionsFromSetupStore_Keys<SS>>
 
 /**
  * For internal use **only**
  */
 export type _ExtractGettersFromSetupStore<SS> = SS extends undefined | void
   ? {}
-  : _ExtractGettersFromSetupStore_Keys<SS> extends keyof SS
-  ? Pick<SS, _ExtractGettersFromSetupStore_Keys<SS>>
-  : never
+  : Pick<SS, _ExtractGettersFromSetupStore_Keys<SS>>
 
 /**
  * Options passed to `defineStore()` that are common between option and setup
@@ -620,7 +615,7 @@ export interface DefineStoreOptions<
   Id extends string,
   S extends StateTree,
   G /* extends GettersTree<S> */,
-  A /* extends Record<string, StoreAction> */
+  A /* extends Record<string, StoreAction> */,
 > extends DefineStoreOptionsBase<S, Store<Id, S, G, A>> {
   /**
    * Unique string key to identify the store across the application.
@@ -688,7 +683,7 @@ export interface DefineSetupStoreOptions<
   // NOTE: Passing SS seems to make TS crash
   S extends StateTree,
   G,
-  A /* extends ActionsTree */
+  A /* extends ActionsTree */,
 > extends DefineStoreOptionsBase<S, Store<Id, S, G, A>> {
   /**
    * Extracted actions. Added by useStore(). SHOULD NOT be added by the user when
@@ -705,7 +700,7 @@ export interface DefineStoreOptionsInPlugin<
   Id extends string,
   S extends StateTree,
   G,
-  A
+  A,
 > extends Omit<DefineStoreOptions<Id, S, G, A>, 'id' | 'actions'> {
   /**
    * Extracted object of actions. Added by useStore() when the store is built
@@ -714,3 +709,16 @@ export interface DefineStoreOptionsInPlugin<
    */
   actions: A
 }
+
+/**
+ * Utility type. For internal use **only**
+ */
+export interface _Empty {}
+
+/**
+ * Merges type objects for better readability in the code.
+ * Utility type. For internal use **only**
+ */
+export type _Simplify<T> = _Empty extends T
+  ? _Empty
+  : { [key in keyof T]: T[key] } & {}

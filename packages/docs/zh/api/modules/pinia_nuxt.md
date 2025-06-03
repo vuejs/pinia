@@ -1,12 +1,12 @@
 ---
-sidebar: "auto"
+sidebar: 'auto'
 editLinks: false
 sidebarDepth: 3
 ---
 
 [API 文档](../index.md) / @pinia/nuxt
 
-# Module: @pinia/nuxt %{#module-pinia-nuxt}%
+# 模块: @pinia/nuxt %{#module-pinia-nuxt}%
 
 ## 接口 %{#interfaces}%
 
@@ -20,11 +20,11 @@ sidebarDepth: 3
 
 #### 参数
 
-| Name | Type |
-| :------ | :------ |
-| `this` | `void` |
+| Name            | Type                                                         |
+| :-------------- | :----------------------------------------------------------- |
+| `this`          | `void`                                                       |
 | `inlineOptions` | [`ModuleOptions`](../interfaces/pinia_nuxt.ModuleOptions.md) |
-| `nuxt` | `Nuxt` |
+| `nuxt`          | `Nuxt`                                                       |
 
 #### 返回值
 
