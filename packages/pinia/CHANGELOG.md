@@ -1,3 +1,7 @@
+### [3.0.3](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.3) (2025-06-04)
+
+No code changes.
+
 ### [3.0.2](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.2) (2025-04-09)
 
 ### Bug Fixes

@@ -1,3 +1,9 @@
+### [0.11.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.11.0...@pinia/nuxt@0.11.1) (2025-06-04)
+
+### Features
+
+- Support Nuxt 4 ([#2978](https://github.com/vuejs/pinia/issues/2978)) ([925e93c](https://github.com/vuejs/pinia/commit/925e93c6180b8d2d1a1ddac29914990851e2e5ef))
+
 ## [0.11.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.10.1...@pinia/nuxt@0.11.0) (2025-04-09)
 
 ### Features
