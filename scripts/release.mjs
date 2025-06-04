@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import { existsSync } from 'node:fs'
-import { dirname, join } from 'node:path'
+import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import minimist from 'minimist'
 import chalk from 'chalk'
@@ -22,6 +22,7 @@ const {
   noDepsUpdate,
   noPublish,
   noLockUpdate,
+  all: skipChangeCheck,
 } = args
 
 if (args.h || args.help) {
@@ -38,6 +39,7 @@ Flags:
   --noDepsUpdate      Skip updating dependencies in package.json files
   --noPublish         Skip publishing packages
   --noLockUpdate      Skips updating the lock with "pnpm install"
+  --all               Skip checking if the packages have changed since last release
 `.trim()
   )
   process.exit(0)
@@ -58,6 +60,7 @@ const PKG_FOLDERS = [
   join(__dirname, '../packages/testing'),
   join(__dirname, '../packages/nuxt'),
 ]
+
 // files to add and commit after building a new version
 const FILES_TO_COMMIT = [
   // comment for multiline format
@@ -167,7 +170,7 @@ async function main() {
   )
 
   const pkgWithVersions = await pSeries(
-    packagesToRelease.map(({ name, path, pkg }) => async () => {
+    packagesToRelease.map(({ name, path, pkg, relativePath }) => async () => {
       let { version } = pkg
 
       const prerelease = semver.prerelease(version)
@@ -226,7 +229,7 @@ async function main() {
         throw new Error(`invalid target version: ${version}`)
       }
 
-      return { name, path, version, pkg }
+      return { name, path, relativePath, version, pkg }
     })
   )
 
@@ -284,7 +287,11 @@ async function main() {
           '-r',
           changelogExists ? '1' : '0',
           '--commit-path',
-          '.',
+          // in the case of a mono repo with the main package at the root
+          // using `.` would add all the changes of all packages
+          ...(pkg.name === MAIN_PKG_NAME && IS_MAIN_PKG_ROOT
+            ? [join(pkg.path, 'src'), join(pkg.path, 'package.json')]
+            : ['.']),
           ...(pkg.name === MAIN_PKG_NAME && IS_MAIN_PKG_ROOT
             ? []
             : ['--lerna-package', pkg.name]),
@@ -317,9 +324,9 @@ async function main() {
   }
 
   step('\nBuilding all packages...')
-  if (!skipBuild && !isDryRun) {
-    await run('pnpm', ['run', 'build'])
-    await run('pnpm', ['run', 'build:dts'])
+  if (!skipBuild) {
+    await runIfNotDry('pnpm', ['run', 'build'])
+    await runIfNotDry('pnpm', ['run', 'build:dts'])
   } else {
     console.log(`(skipped)`)
   }
@@ -451,7 +458,6 @@ async function publishPackage(pkg) {
  * Get the last tag published for a package or null if there are no tags
  *
  * @param {string} pkgName - package name
- * @returns {string} the last tag or full commit hash
  */
 async function getLastTag(pkgName) {
   try {
@@ -494,7 +500,7 @@ async function getLastTag(pkgName) {
  * Get the packages that have changed. Based on `lerna changed` but without lerna.
  *
  * @param {string[]} folders
- * @returns {Promise<{ name: string; path: string; pkg: any; version: string; start: string }[]} a promise of changed packages
+ * @returns {Promise<{ name: string; path: string; relativePath: string; pkg: any; version: string; start: string }[]} a promise of changed packages
  */
 async function getChangedPackages(...folders) {
   const pkgs = await Promise.all(
@@ -518,6 +524,7 @@ async function getChangedPackages(...folders) {
         'git',
         [
           'diff',
+          '--name-only',
           lastTag,
           '--',
           // apparently {src,package.json} doesn't work
@@ -527,10 +534,20 @@ async function getChangedPackages(...folders) {
         ],
         { stdio: 'pipe' }
       )
+      const relativePath = relative(join(__dirname, '..'), folder)
 
-      if (hasChanges) {
+      if (hasChanges || skipChangeCheck) {
+        const changedFiles = hasChanges.split('\n').filter(Boolean)
+        console.log(
+          chalk.dim.blueBright(
+            `Found ${changedFiles.length} changed files in "${pkg.name}" since last release (${lastTag})`
+          )
+        )
+        console.log(chalk.dim(`"${changedFiles.join('", "')}"`))
+
         return {
           path: folder,
+          relativePath,
           name: pkg.name,
           version: pkg.version,
           pkg,
@@ -539,7 +556,7 @@ async function getChangedPackages(...folders) {
       } else {
         console.warn(
           chalk.dim(
-            `Skipping "${pkg.name}" as it has no changes since last release`
+            `Skipping "${pkg.name}" as it has no changes since last release (${lastTag})`
           )
         )
         return null
