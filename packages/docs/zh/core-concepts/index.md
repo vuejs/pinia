@@ -147,6 +147,9 @@ setTimeout(() => {
 const doubleValue = computed(() => store.doubleCount)
 </script>
 ```
+:::tip
+vue3.5+版本支持props响应式解构
+:::
 
 ## 从 Store 解构
 
