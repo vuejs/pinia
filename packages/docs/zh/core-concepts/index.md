@@ -135,7 +135,7 @@ import { computed } from 'vue'
 
 const store = useCounterStore()
 // ❌ 下面这部分代码不会生效，因为它的响应式被破坏了
-// 它和解构 `props` 的操作是一样的
+// 与 reactive 相同: https://vuejs.org/guide/essentials/reactivity-fundamentals.html#limitations-of-reactive
 const { name, doubleCount } = store // [!code warning]
 name // 将会一直是 "Eduardo" // [!code warning]
 doubleCount // 将会一直是 0 // [!code warning]
