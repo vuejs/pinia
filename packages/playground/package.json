@@ -9,12 +9,12 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.4",
-    "vite": "^6.3.5",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "vite": "^7.0.0",
     "vite-plugin-vue-devtools": "^7.7.7"
   },
   "dependencies": {
-    "@vueuse/core": "^12.8.2",
+    "@vueuse/core": "^13.4.0",
     "mande": "^2.0.9",
     "pinia": "workspace:*",
     "swrv": "^1.1.0",
