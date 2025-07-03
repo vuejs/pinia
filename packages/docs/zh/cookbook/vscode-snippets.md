@@ -1,5 +1,7 @@
 # VS Code 代码片段
 
+<RuleKitLink />
+
 有一些代码片段可以让你在 VS Code 中更轻松地使用 Pinia。
 
 通过 <kbd>⇧</kbd> <kbd>⌘</kbd> <kbd>P</kbd> / <kbd>⇧</kbd> <kbd>⌃</kbd> <kbd>P</kbd> 然后输入 `Snippets: Configure User Snippets` 就可以管理用户代码片段。

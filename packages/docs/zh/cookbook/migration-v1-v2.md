@@ -1,5 +1,7 @@
 # 从 0.x (v1) 迁移至 v2 %{#migrating-from-0-x-v1-to-v2}%
 
+<RuleKitLink />
+
 从 `2.0.0-rc.4` 版本开始，pinia 同时支持 Vue 2 和 Vue 3！这意味着，v2 版本的所有更新，将会让 Vue 2 和 Vue 3 的用户都受益。如果你使用的是 Vue 3，这对你来说没有任何改变，因为你已经在使用 rc 版本，你可以查看[发布日志](https://github.com/vuejs/pinia/blob/v2/packages/pinia/CHANGELOG.md)来了解所有更新的详细解释。如果你使用的不是 Vue 3，**那这个指南是为你准备的**!
 
 ## 弃用 %{#deprecations}%

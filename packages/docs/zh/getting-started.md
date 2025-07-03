@@ -1,5 +1,7 @@
 # 开始
 
+<RuleKitLink />
+
 ## 安装 %{#installation}%
 
 <VueMasteryLogoLink for="pinia-cheat-sheet">

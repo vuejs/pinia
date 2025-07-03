@@ -13,6 +13,8 @@ Stores will, by design, be used at many places and can make testing much harder 
 
 Depending on what or how you are testing, we need to take care of these three things differently.
 
+<RuleKitLink />
+
 ## Unit testing a store
 
 To unit test a store, the most important part is creating a `pinia` instance:

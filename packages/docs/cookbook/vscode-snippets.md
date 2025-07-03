@@ -1,5 +1,7 @@
 # VS Code Snippets
 
+<RuleKitLink />
+
 These are some snippets that I use in VS Code to make my life easier.
 
 Manage user snippets with <kbd>⇧ Shift</kbd>+<kbd>⌘ Command</kbd>+<kbd>P</kbd> / <kbd>⇧ Shift</kbd>+<kbd>⌃ Control</kbd>+<kbd>P</kbd> and then `Snippets: Configure User Snippets`.

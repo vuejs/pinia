@@ -11,6 +11,7 @@ import './styles/playground-links.css'
 import VueSchoolLink from './components/VueSchoolLink.vue'
 import VueMasteryLogoLink from './components/VueMasteryLogoLink.vue'
 import MasteringPiniaLink from './components/MasteringPiniaLink.vue'
+import RuleKitLink from './components/RuleKitLink.vue'
 import status from '../translation-status.json'
 
 const i18nLabels = {
@@ -33,6 +34,7 @@ const theme: Theme = {
     app.component('VueSchoolLink', VueSchoolLink)
     app.component('VueMasteryLogoLink', VueMasteryLogoLink)
     app.component('MasteringPiniaLink', MasteringPiniaLink)
+    app.component('RuleKitLink', RuleKitLink)
   },
 }
 

@@ -8,6 +8,8 @@ Pinia can be used even if you are not using the composition API (if you are usin
 - ⚠️ [mapGetters](../core-concepts/getters.md#without-setup) (just for migration convenience, use `mapState()` instead)
 - [mapActions](../core-concepts/actions.md#without-setup)
 
+<RuleKitLink />
+
 ## Giving access to the whole store
 
 If you need to access pretty much everything from the store, it might be too much to map every single property of the store... Instead you can get access to the whole store with `mapStores()`:

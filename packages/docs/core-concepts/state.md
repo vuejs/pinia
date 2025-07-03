@@ -36,6 +36,8 @@ In order for Vue to properly detect state, you must declare every state piece in
 
 :::
 
+<RuleKitLink />
+
 ## TypeScript
 
 You don't need to do much in order to make your state compatible with TS: make sure [`strict`](https://www.typescriptlang.org/tsconfig#strict), or at the very least, [`noImplicitThis`](https://www.typescriptlang.org/tsconfig#noImplicitThis), is enabled and Pinia will infer the type of your state automatically! However, there are a few cases where you should give it a hand with some casting:

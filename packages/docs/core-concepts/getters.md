@@ -23,6 +23,8 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
+<RuleKitLink />
+
 Most of the time, getters will only rely on the state. However, they might need to use other getters. Because of this, we can get access to the _whole store instance_ through `this` when defining a regular function **but it is necessary to define the type of the return type (in TypeScript)**. This is due to a known limitation in TypeScript and **doesn't affect getters defined with an arrow function nor getters not using `this`**:
 
 ```ts

@@ -1,5 +1,7 @@
 # 组合式 Store %{#composing-stores}%
 
+<RuleKitLink />
+
 组合式 store 是可以相互使用，Pinia 当然也支持它。但有一个规则需要遵循：
 
 如果**两个或更多的 store 相互使用**，它们不可以通过 _getters_ 或 _actions_ 创建一个无限循环。它们也不可以**同时**在它们的 setup 函数中直接互相读取对方的 state：

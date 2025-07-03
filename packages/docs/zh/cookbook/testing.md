@@ -1,5 +1,7 @@
 # store 测试 %{#testing-stores}%
 
+<RuleKitLink />
+
 <MasteringPiniaLink
   href="https://play.gumlet.io/embed/65f9a9c10bfab01f414c25dc"
   title="Watch a free video of Mastering Pinia about testing stores"
