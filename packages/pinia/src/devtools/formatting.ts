@@ -159,7 +159,7 @@ export function formatStoreForInspectorState(
     }))
   }
 
-  if (store._customProperties.size) {
+  if (store._customProperties && store._customProperties.size) {
     state.customProperties = Array.from(store._customProperties).map((key) => ({
       editable: true,
       key,
