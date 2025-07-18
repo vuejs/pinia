@@ -1,3 +1,9 @@
+### [0.11.2](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.11.1...@pinia/nuxt@0.11.2) (2025-07-18)
+
+### Bug Fixes
+
+- **nuxt:** mark compatibility for nuxt v4 stable ([#3009](https://github.com/vuejs/pinia/issues/3009)) ([c87a249](https://github.com/vuejs/pinia/commit/c87a249517242f547967acea1de7749b80d6fe67))
+
 ### [0.11.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.11.0...@pinia/nuxt@0.11.1) (2025-06-04)
 
 ### Features
@@ -231,7 +237,6 @@ No changes in this release
   The `$nuxt` context usage should be replaced with globals like
   `$fetch()` and `useNuxtApp()`. You can find more information about this
   in Nuxt documentation:
-
   - <https://v3.nuxtjs.org/bridge/bridge-composition-api/>
   - <https://v3.nuxtjs.org/bridge/overview>
 
