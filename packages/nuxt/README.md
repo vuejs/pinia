@@ -1,6 +1,6 @@
 # `@pinia/nuxt`
 
-✨ Nuxt module for Pinia
+> Nuxt module for Pinia
 
 ## Automatic Installation
 
