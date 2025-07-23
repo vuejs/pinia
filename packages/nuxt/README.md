@@ -1,29 +1,56 @@
 # `@pinia/nuxt`
 
-> Nuxt 2 & 3 module
+> Nuxt module for Pinia
 
-## Installation
+## Automatic Installation
+
+Use `nuxi` to automatically add this module to your Nuxt project:
+
+```shell
+npx nuxi@latest module add pinia
+```
+
+## Manual Installation
+
+Add dependencies to your Nuxt project:
 
 ```shell
 npm i pinia @pinia/nuxt
 ```
 
-## Usage
-
-Add to `modules` (Nuxt 3) or `buildModules` (Nuxt 2) in `nuxt.config.js`:
+Enable the `@pinia/nuxt` module in `nuxt.config.ts`:
 
 ```js
-// Nuxt 2
-export default {
-  buildModules: [['@pinia/nuxt', { disableVuex: true }]],
-}
-// Nuxt 3
 export default defineNuxtConfig({
     modules: ['@pinia/nuxt'],
 })
 ```
 
-Note you also need `@nuxtjs/composition-api` if you are using Nuxt 2 without Bridge. [Refer to docs for more](https://pinia.vuejs.org/ssr/nuxt.html).
+## Configuring the Module
+
+By default, this module adds `stores` folder to auto imports, in which you can organize code related to Pinia stores in one place.
+> [!TIP]
+> In the new directory structure introduced since Nuxt 4, this directory is `app/stores`.
+
+You can customize this behaviour using the `pinia` property in `nuxt.config.ts`:
+
+```js
+export default defineNuxtConfig({
+    modules: ['@pinia/nuxt'],
+    // configure the module using `pinia` property
+    pinia: {
+      /**
+       * Automatically add stores dirs to the auto imports. This is the same as
+       * directly adding the dirs to the `imports.dirs` option. If you want to
+       * also import nested stores, you can use the glob pattern `./stores/**`
+       * (on Nuxt 3) or `app/stores/**` (on Nuxt 4+)
+       *
+       * @default `['stores']`
+       */
+        storesDirs: []
+    }
+})
+```
 
 ## License
 
