@@ -20,7 +20,7 @@ hero:
       link: https://stackblitz.com/github/piniajs/example-vue-3-vite
     - theme: cta rulekit
       text: RuleKit
-      link: https://rulekit.dev?from=vuerouter
+      link: https://rulekit.dev?from=pinia
     - theme: cta mastering-pinia
       text: ' '
       link: https://masteringpinia.com
