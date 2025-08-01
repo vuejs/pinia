@@ -12,7 +12,7 @@ const translations = {
 <template>
   <div class="rulekit">
     <a
-      href="https://rulekit.dev?from=vuerouter"
+      href="https://rulekit.dev?from=pinia"
       target="_blank"
       rel="sponsored noopener"
       aria-label="Visit RuleKit - curated rules for Cursor, Claude Code, and more (opens in new tab)"
