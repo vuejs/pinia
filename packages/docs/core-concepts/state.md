@@ -87,13 +87,23 @@ interface UserInfo {
 
 By default, you can directly read from and write to the state by accessing it through the `store` instance:
 
-```js
+```ts
 const store = useStore()
 
 store.count++
 ```
 
-Note you cannot add a new state property **if you don't define it in `state()`**. It must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
+Yes, this means **no verbose wrappers** like in Vuex, you can directly bind that to `v-model`:
+
+```vue-html
+<input v-model="store.count" type="number" />
+```
+
+::: info
+
+You cannot add a new state property **if you don't define it in `state()`**. It must contain the initial state. e.g.: we can't do `store.secondCount = 2` if `secondCount` is not defined in `state()`.
+
+:::
 
 ## Resetting the state
 
