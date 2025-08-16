@@ -13,19 +13,30 @@ interface Sponsor {
 
 const asideSponsors = computed(() => {
   return [
+    ...(sponsors.platinum.length
+      ? [
+          {
+            items: sponsors.platinum.map((sponsor: Sponsor) => ({
+              name: sponsor.alt,
+              url: sponsor.href,
+              img: sponsor.imgSrcLight,
+            })),
+          },
+        ]
+      : []),
     {
       size: 'mini',
-      items: sponsors.platinum.length ? sponsors.platinum.map((sponsor: Sponsor) => ({
-        name: sponsor.alt,
-        url: sponsor.href,
-        img: sponsor.imgSrcLight,
-      })) : [
-        {
+      items: sponsors.gold
+        .map((sponsor: Sponsor) => ({
+          name: sponsor.alt,
+          url: sponsor.href,
+          img: sponsor.imgSrcLight,
+        }))
+        .concat({
           name: 'Become a sponsor',
           url: 'https://github.com/sponsors/posva',
-          img: '/your-logo-here.svg'
-        }
-      ],
+          img: '/your-logo-here.svg',
+        }),
     },
     {
       size: 'xmini',

@@ -29,6 +29,8 @@ This _name_, also referred to as _id_, is necessary and is used by Pinia to conn
 
 `defineStore()` accepts two distinct values for its second argument: a Setup function or an Options object.
 
+<RuleKitLink />
+
 ## Option Stores
 
 Similar to Vue's Options API, we can also pass an Options Object with `state`, `actions`, and `getters` properties.
@@ -136,7 +138,7 @@ import { computed } from 'vue'
 
 const store = useCounterStore()
 // ❌ This won't work because it breaks reactivity
-// it's the same as destructuring from `props`
+// same as reactive: https://vuejs.org/guide/essentials/reactivity-fundamentals.html#limitations-of-reactive
 const { name, doubleCount } = store // [!code warning]
 name // will always be "Eduardo" // [!code warning]
 doubleCount // will always be 0 // [!code warning]

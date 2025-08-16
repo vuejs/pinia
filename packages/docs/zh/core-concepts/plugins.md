@@ -1,5 +1,7 @@
 # 插件 %{#plugins}%
 
+<RuleKitLink />
+
 <MasteringPiniaLink
   href="https://masteringpinia.com/lessons/What-is-a-pinia-plugin"
   title="Learn all about Pinia plugins"

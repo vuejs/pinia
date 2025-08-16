@@ -1,5 +1,7 @@
 # Action %{#actions}%
 
+<RuleKitLink />
+
 <!-- <VueSchoolLink
   href="https://vueschool.io/lessons/synchronous-and-asynchronous-actions-in-pinia"
   title="Learn all about actions in Pinia"

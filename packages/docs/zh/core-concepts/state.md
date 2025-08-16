@@ -1,5 +1,7 @@
 # State %{#state}%
 
+<RuleKitLink />
+
 <!-- <VueSchoolLink
   href="https://vueschool.io/lessons/access-state-from-a-pinia-store"
   title="Learn all about state in Pinia"
@@ -251,6 +253,19 @@ cartStore.$subscribe((mutation, state) => {
   localStorage.setItem('cart', JSON.stringify(state))
 })
 ```
+
+### 刷新时机 %{#flush-timing}%
+
+在底层实现上，`$subscribe()` 使用了 Vue 的 `watch()` 函数。你可以传入与 `watch()` 相同的选项。当你想要在 **每次** state 变化后立即触发订阅时很有用：
+
+```ts{4}
+cartStore.$subscribe((mutation, state) => {
+  // 每当状态发生变化时，将整个 state 持久化到本地存储
+  localStorage.setItem('cart', JSON.stringify(state))
+}, { flush: 'sync' })
+```
+
+### 取消订阅 %{#detaching-subscriptions}%
 
 默认情况下，_state subscription_ 会被绑定到添加它们的组件上 (如果 store 在组件的 `setup()` 里面)。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `{ detached: true }` 作为第二个参数，以将 _state subscription_ 从当前组件中*分离*：
 

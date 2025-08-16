@@ -1,5 +1,7 @@
 # 定义 Store %{#defining-a-store}%
 
+<RuleKitLink />
+
 <!-- <VueSchoolLink
   href="https://vueschool.io/lessons/define-your-first-pinia-store"
   title="Learn how to define and use stores in Pinia"
@@ -16,7 +18,8 @@
 ```js
 import { defineStore } from 'pinia'
 
-// 你可以任意命名 `defineStore()` 的返回值，但最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾。
+//  `defineStore()` 的返回值的命名是自由的
+// 但最好含有 store 的名字，且以 `use` 开头，以 `Store` 结尾。
 // (比如 `useUserStore`，`useCartStore`，`useProductStore`)
 // 第一个参数是你的应用中 Store 的唯一 ID。
 export const useAlertsStore = defineStore('alerts', {
@@ -57,12 +60,13 @@ export const useCounterStore = defineStore('counter', {
 ```js
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
+  const name = ref('Eduardo')
   const doubleCount = computed(() => count.value * 2)
   function increment() {
     count.value++
   }
 
-  return { count, doubleCount, increment }
+  return { count, name, doubleCount, increment }
 })
 ```
 
@@ -111,7 +115,7 @@ export const useSearchFilters = defineStore('search-filters', () => {
 ```vue
 <script setup>
 import { useCounterStore } from '@/stores/counter'
-// 可以在组件中的任意位置访问 `store` 变量 ✨
+// 在组件内部的任何地方均可以访问变量 `store` ✨
 const store = useCounterStore()
 </script>
 ```
@@ -120,7 +124,7 @@ const store = useCounterStore()
 如果你还不会使用 `setup` 组件，[你也可以通过**映射辅助函数**来使用 Pinia](../cookbook/options-api.md)。
 :::
 
-你可以定义任意多的 store，但为了让使用 pinia 的益处最大化 (比如允许构建工具自动进行代码分割以及 TypeScript 推断)，**你应该在不同的文件中去定义 store**。
+你可以定义任意多的 store，但为了让使用 pinia 的益处最大化(比如允许构建工具自动进行代码分割以及 TypeScript 推断)，**你应该在不同的文件中去定义 store**。
 
 一旦 store 被实例化，你可以直接访问在 store 的 `state`、`getters` 和 `actions` 中定义的任何属性。我们将在后续章节继续了解这些细节，目前自动补全将帮助你使用相关属性。
 
@@ -132,16 +136,16 @@ import { useCounterStore } from '@/stores/counter'
 import { computed } from 'vue'
 
 const store = useCounterStore()
-// ❌ 这将不起作用，因为它破坏了响应性
-// 这就和直接解构 `props` 一样
+// ❌ 下面这部分代码不会生效，因为它的响应式被破坏了
+// 与 reactive 相同: https://vuejs.org/guide/essentials/reactivity-fundamentals.html#limitations-of-reactive
 const { name, doubleCount } = store // [!code warning]
-name // 将始终是 "Eduardo" // [!code warning]
-doubleCount // 将始终是 0 // [!code warning]
+name // 将会一直是 "Eduardo" // [!code warning]
+doubleCount // 将会一直是 0 // [!code warning]
 setTimeout(() => {
   store.increment()
 }, 1000)
-// ✅ 这样写是响应式的
-// 💡 当然你也可以直接使用 `store.doubleCount`
+// ✅ 而这一部分代码就会维持响应式
+// 💡 在这里你也可以直接使用 `store.doubleCount`
 const doubleValue = computed(() => store.doubleCount)
 </script>
 ```
@@ -154,11 +158,11 @@ const doubleValue = computed(() => store.doubleCount)
 <script setup>
 import { storeToRefs } from 'pinia'
 const store = useCounterStore()
-// `name` 和 `doubleCount` 是响应式的 ref
-// 同时通过插件添加的属性也会被提取为 ref
-// 并且会跳过所有的 action 或非响应式 (不是 ref 或 reactive) 的属性
+// `name` 和 `doubleCount` 都是响应式引用
+// 下面的代码同样会提取那些来自插件的属性的响应式引用
+// 但是会跳过所有的 action 或者非响应式（非 ref 或者 非 reactive）的属性
 const { name, doubleCount } = storeToRefs(store)
-// 作为 action 的 increment 可以直接解构
+// 名为 increment 的 action 可以被解构
 const { increment } = store
 </script>
 ```

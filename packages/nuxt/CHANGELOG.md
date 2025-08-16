@@ -1,3 +1,22 @@
+### [0.11.2](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.11.1...@pinia/nuxt@0.11.2) (2025-07-18)
+
+### Bug Fixes
+
+- **nuxt:** mark compatibility for nuxt v4 stable ([#3009](https://github.com/vuejs/pinia/issues/3009)) ([c87a249](https://github.com/vuejs/pinia/commit/c87a249517242f547967acea1de7749b80d6fe67))
+
+### [0.11.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.11.0...@pinia/nuxt@0.11.1) (2025-06-04)
+
+### Features
+
+- Support Nuxt 4 ([#2978](https://github.com/vuejs/pinia/issues/2978)) ([925e93c](https://github.com/vuejs/pinia/commit/925e93c6180b8d2d1a1ddac29914990851e2e5ef))
+
+## [0.11.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.10.1...@pinia/nuxt@0.11.0) (2025-04-09)
+
+### Features
+
+- **nuxt:** move to esm-only ([#2947](https://github.com/vuejs/pinia/issues/2947)) ([4865716](https://github.com/vuejs/pinia/commit/4865716011cde049aef05e029d2720ac93483389))
+- fix `obj.hasOwnProperty` in `shouldHydrate`
+
 ### [0.10.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.10.0...@pinia/nuxt@0.10.1) (2025-02-12)
 
 ### Bug Fixes
@@ -218,7 +237,6 @@ No changes in this release
   The `$nuxt` context usage should be replaced with globals like
   `$fetch()` and `useNuxtApp()`. You can find more information about this
   in Nuxt documentation:
-
   - <https://v3.nuxtjs.org/bridge/bridge-composition-api/>
   - <https://v3.nuxtjs.org/bridge/overview>
 

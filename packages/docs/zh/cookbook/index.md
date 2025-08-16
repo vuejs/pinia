@@ -1,5 +1,7 @@
 # 手册 %{#cookbook}%
 
+<RuleKitLink />
+
 - [从 Vuex ≤4 迁移](./migration-vuex.md)。用于转换 Vuex ≤4 项目的迁移指南。
 - [HMR](./hot-module-replacement.md)：如何激活热更新并改善开发者体验。
 - [测试 Stores (WIP)](./testing.md): 如何对 Store 进行单元测试并在组件单元测试中模拟它们。

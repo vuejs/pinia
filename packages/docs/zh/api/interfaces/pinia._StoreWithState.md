@@ -96,29 +96,13 @@ Store 的 State。给它赋值可替换整个 state。
 请注意，当在组件内调用 `store.$onAction()` 时，除非 `detached` 被设置为 true，
 否则当组件被卸载时，它将被自动清理掉。
 
-**`Example`**
-
-```js
-store.$onAction(({ after, onError }) => {
-  // 你可以在这里创建所有钩子之间的共享变量，
-  // 同时设置侦听器并清理它们。
-  after((resolvedValue) => {
-    // 可以用来清理副作用
-    // `resolvedValue` 是 action 返回的值，
-    // 如果是一个 Promise，它将是已经 resolved 的值
-  })
-  onError((error) => {
-    // 可以用于向上传递错误
-  })
-})
-```
-
 #### 参数
 
 | 名称        | 类型                                                                                       | 描述                                                         |
 | :---------- | :----------------------------------------------------------------------------------------- | :----------------------------------------------------------- |
 | `callback`  | [`StoreOnActionListener`](../modules/pinia.md#storeonactionlistener)<`Id`, `S`, `G`, `A`\> | callback called before every action                          |
 | `detached?` | `boolean`                                                                                  | detach the subscription from the context this is called from |
+
 
 #### 返回值
 
@@ -128,20 +112,9 @@ store.$onAction(({ after, onError }) => {
 
 ▸ (): `void`
 
-设置一个回调，当一个 action 即将被调用时，就会被调用。
-回调接收一个对象，
-其包含被调用 action 的所有相关信息：
+##### 返回值
 
-- `store`: 被调用的 store
-- `name`: action 的名称
-- `args`: 传递给 action 的参数
-
-除此之外，它会接收两个函数，
-允许在 action 完成或失败时执行的回调。
-
-它还会返回一个用来来删除回调的函数。
-请注意，当在组件内调用 `store.$onAction()` 时，除非 `detached` 被设置为 true，
-否则当组件被卸载时，它将被自动清理掉。
+`void`
 
 **`Example`**
 
@@ -159,12 +132,6 @@ store.$onAction(({ after, onError }) => {
   })
 })
 ```
-
-##### 返回值
-
-`void`
-
-移除侦听器的函数
 
 ---
 

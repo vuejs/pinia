@@ -99,6 +99,28 @@ a.cta.vueschool::after {
   border-left: 7px solid currentColor;
 }
 
+a.cta.rulekit {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+a.cta.rulekit::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url('/rulekit-logo.svg');
+  background-size: 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 0.5em;
+  vertical-align: middle;
+  filter: brightness(0); /* Make it black by default */
+}
+
+html.dark a.cta.rulekit::before {
+  filter: brightness(0) invert(1); /* Make it white in dark mode */
+}
+
 @media (max-width: 420px) {
   a.cta.cta.vue-mastery {
     max-width: 320px;

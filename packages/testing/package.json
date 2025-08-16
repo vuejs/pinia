@@ -1,6 +1,6 @@
 {
   "name": "@pinia/testing",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Testing module for Pinia",
   "keywords": [
     "vue",
@@ -11,7 +11,7 @@
     "mock",
     "testing"
   ],
-  "homepage": "https://github.com/vuejs/pinia/tree/v3/packages/testing#readme",
+  "homepage": "https://pinia.vuejs.org/cookbook/testing.html",
   "bugs": {
     "url": "https://github.com/vuejs/pinia/issues"
   },
@@ -45,10 +45,10 @@
   },
   "devDependencies": {
     "pinia": "workspace:*",
-    "tsup": "^8.3.6"
+    "tsup": "^8.5.0"
   },
   "peerDependencies": {
-    "pinia": ">=3.0.0"
+    "pinia": ">=3.0.3"
   },
   "publishConfig": {
     "access": "public"

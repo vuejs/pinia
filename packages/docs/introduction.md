@@ -35,6 +35,8 @@ Pinia is a store library for Vue, it allows you to share a state across componen
 
 If you still have doubts, check out [the **official** Mastering Pinia course](https://masteringpinia.com). In the beginning we cover how to build our own `defineStore()` function and then we move to the official Pinia API.
 
+<RuleKitLink />
+
 <VueMasteryLogoLink for="pinia-cheat-sheet">
 </VueMasteryLogoLink>
 

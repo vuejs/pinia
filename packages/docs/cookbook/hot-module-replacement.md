@@ -1,5 +1,7 @@
 # HMR (Hot Module Replacement)
 
+<RuleKitLink />
+
 Pinia supports Hot Module replacement so you can edit your stores and interact with them directly in your app without reloading the page, allowing you to keep the existing state, add, or even remove state, actions, and getters.
 
 At the moment, only [Vite](https://vitejs.dev/guide/api-hmr.html#hmr-api) is officially supported but any bundler implementing the `import.meta.hot` spec should work (e.g. [webpack](https://webpack.js.org/api/module-variables/#importmetawebpackhot) seems to use `import.meta.webpackHot` instead of `import.meta.hot`). 

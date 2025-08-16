@@ -7,11 +7,26 @@
 
 Install `pinia` with your favorite package manager:
 
-```bash
-yarn add pinia
-# or with npm
+
+::: code-group
+
+```bash [npm]
 npm install pinia
 ```
+
+```bash [yarn]
+yarn add pinia
+```
+
+```bash [pnpm]
+pnpm add pinia
+```
+
+```bash [bun]
+bun add pinia
+```
+
+:::
 
 :::tip
 If your app is using Vue <2.7, you also need to install the composition api: `@vue/composition-api`. If you are using Nuxt, you should follow [these instructions](/ssr/nuxt.md).
@@ -36,6 +51,8 @@ app.mount('#app')
 ## What is a Store?
 
 A Store (like Pinia) is an entity holding state and business logic that isn't bound to your Component tree. In other words, **it hosts global state**. It's a bit like a component that is always there and that everybody can read off and write to. It has **three concepts**, the [state](./core-concepts/state.md), [getters](./core-concepts/getters.md) and [actions](./core-concepts/actions.md) and it's safe to assume these concepts are the equivalent of `data`, `computed` and `methods` in components.
+
+<RuleKitLink />
 
 ## When should I use a Store
 

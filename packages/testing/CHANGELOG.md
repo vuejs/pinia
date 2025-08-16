@@ -1,3 +1,13 @@
+### [1.0.2](https://github.com/vuejs/pinia/compare/@pinia/testing@1.0.1...@pinia/testing@1.0.2) (2025-06-04)
+
+No code changes in this release.
+
+### [1.0.1](https://github.com/vuejs/pinia/compare/@pinia/testing@1.0.0...@pinia/testing@1.0.1) (2025-04-09)
+
+### Bug Fixes
+
+- consistent computation of computed in tests with storeToRefs ([417db7a](https://github.com/vuejs/pinia/commit/417db7aacb35b98ebe4274fd43bba593eaa583df)), closes [#2913](https://github.com/vuejs/pinia/issues/2913)
+
 ## [1.0.0](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.7...@pinia/testing@1.0.0) (2025-02-11)
 
 The testing package has been stable for a long time so it was time to have a v1!
