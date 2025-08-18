@@ -140,7 +140,7 @@ app.use(pinia)
 app.mount('#app')
 ```
 
-For more detailed instructions, including [Nuxt configuration](https://pinia.vuejs.org/ssr/nuxt.html#nuxt-js), check the [Documentation](https://pinia.vuejs.org).
+For more detailed instructions, including [Nuxt configuration](https://pinia.vuejs.org/ssr/nuxt.html), check the [Documentation](https://pinia.vuejs.org).
 
 ### Create a Store
 
