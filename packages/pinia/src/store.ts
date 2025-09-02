@@ -75,6 +75,10 @@ interface MarkedAction<Fn extends _Method = _Method> {
   [ACTION_NAME]: string
 }
 
+function isPromiseLike(val) {
+  return val && typeof val.then === 'function'
+}
+
 function mergeReactiveObjects<
   T extends Record<any, unknown> | Map<unknown, unknown> | Set<unknown>,
 >(target: T, patchToApply: _DeepPartial<T>): T {
@@ -397,8 +401,7 @@ function createSetupStore<
         triggerSubscriptions(onErrorCallbackSet, error)
         throw error
       }
-
-      if (ret instanceof Promise) {
+      if (isPromiseLike(ret)) {
         return ret
           .then((value) => {
             triggerSubscriptions(afterCallbackSet, value)
