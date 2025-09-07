@@ -3,8 +3,9 @@
 
 const counter = useCounter()
 
-useTestStore()
-useSomeStoreStore()
+useTestStore() // ~/domain/one/stores/testStore.ts
+useSomeStoreStore() // ~/stores/nested/some-stores.ts
+useBasicStore() // ~~/layers/layer-domain/stores/basic.ts
 
 // await useAsyncData('counter', () => counter.asyncIncrement().then(() => true))
 
