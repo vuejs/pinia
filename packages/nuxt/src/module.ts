@@ -77,8 +77,6 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
       const layers = getLayerDirectories(nuxt)
 
       for (const storeDir of options.storesDirs) {
-        addImportsDir(resolve(nuxt.options.rootDir, storeDir))
-
         for (const layer of layers) {
           addImportsDir(resolve(layer.app, storeDir))
         }
