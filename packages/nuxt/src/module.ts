@@ -7,6 +7,7 @@ import {
   addImports,
   createResolver,
   addImportsDir,
+  getLayerDirectories,
 } from '@nuxt/kit'
 import type { NuxtModule } from '@nuxt/schema'
 import { fileURLToPath } from 'node:url'
@@ -73,8 +74,14 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     }
 
     if (options.storesDirs) {
+      const layers = getLayerDirectories(nuxt)
+
       for (const storeDir of options.storesDirs) {
         addImportsDir(resolve(nuxt.options.rootDir, storeDir))
+
+        for (const layer of layers) {
+          addImportsDir(resolve(layer.app, storeDir))
+        }
       }
     }
   },
