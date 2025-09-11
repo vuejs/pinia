@@ -117,7 +117,6 @@ function mergeReactiveObjects<
 const skipHydrateSymbol = __DEV__
   ? Symbol('pinia:skipHydration')
   : /* istanbul ignore next */ Symbol()
-const skipHydrateMap = /*#__PURE__*/ new WeakMap<any, any>()
 
 /**
  * Tells Pinia to skip the hydration process of a given object. This is useful in setup stores (only) when you return a
@@ -127,10 +126,7 @@ const skipHydrateMap = /*#__PURE__*/ new WeakMap<any, any>()
  * @returns obj
  */
 export function skipHydrate<T = any>(obj: T): T {
-  return isVue2
-    ? // in @vue/composition-api, the refs are sealed so defineProperty doesn't work...
-      /* istanbul ignore next */ skipHydrateMap.set(obj, 1) && obj
-    : Object.defineProperty(obj, skipHydrateSymbol, {})
+  return Object.defineProperty(obj, skipHydrateSymbol, {})
 }
 
 /**
@@ -140,9 +136,7 @@ export function skipHydrate<T = any>(obj: T): T {
  * @returns true if `obj` should be hydrated
  */
 export function shouldHydrate(obj: any) {
-  return isVue2
-    ? /* istanbul ignore next */ !skipHydrateMap.has(obj)
-    : !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol)
+  return !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol)
 }
 
 const { assign } = Object
@@ -841,6 +835,8 @@ export function defineStore<
  * Creates a `useStore` function that retrieves the store instance
  *
  * @param options - options to define the store
+ *
+ * @deprecated use `defineStore(id, options)` instead
  */
 export function defineStore<
   Id extends string,

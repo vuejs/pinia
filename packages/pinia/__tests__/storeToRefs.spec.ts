@@ -1,4 +1,4 @@
-import { describe, beforeEach, it, expect } from 'vitest'
+import { describe, beforeEach, it, expect, vi } from 'vitest'
 import { computed, reactive, ref, ToRefs } from 'vue'
 import { createPinia, defineStore, setActivePinia, storeToRefs } from '../src'
 import { set } from 'vue-demi'
@@ -188,6 +188,19 @@ describe('storeToRefs', () => {
     )
 
     expect(double.value).toEqual(1)
+  })
+
+  it('does not trigger getters', () => {
+    const n = ref(0)
+    const spy = vi.fn(() => n.value * 2)
+    const store = defineStore('a', () => {
+      const double = computed(spy)
+      return { n, double }
+    })()
+
+    expect(spy).toHaveBeenCalledTimes(0)
+    storeToRefs(store)
+    expect(spy).toHaveBeenCalledTimes(0)
   })
 
   tds(() => {

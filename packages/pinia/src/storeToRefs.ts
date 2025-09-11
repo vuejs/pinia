@@ -1,4 +1,5 @@
 import {
+  computed,
   ComputedRef,
   isReactive,
   isRef,
@@ -99,7 +100,19 @@ export function storeToRefs<SS extends StoreGeneric>(
     const refs = {} as StoreToRefs<SS>
     for (const key in rawStore) {
       const value = rawStore[key]
-      if (isRef(value) || isReactive(value)) {
+      // There is no native method to check for a computed
+      // https://github.com/vuejs/core/pull/4165
+      if (value.effect) {
+        // @ts-expect-error: too hard to type correctly
+        refs[key] =
+          // ...
+          computed({
+            get: () => store[key],
+            set(value) {
+              store[key] = value
+            },
+          })
+      } else if (isRef(value) || isReactive(value)) {
         // @ts-expect-error: the key is state or getter
         refs[key] =
           // ---

@@ -1,3 +1,23 @@
+## [0.9.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.8.0...@pinia/nuxt@0.9.0) (2024-12-04)
+
+This version requires at least Vue 2.7. On January 2025, Pinia 3.0 and `@pinia/nuxt` 1.0 will drop support for Vue 2 (which already reached EOL last year). If you need support or help migrating, you can [book help with Eduardo (@posva)](https://cal.com/posva/consultancy).
+
+## [0.8.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.7.0...@pinia/nuxt@0.8.0) (2024-11-28)
+
+This release partially fixes a bug in production of:
+
+> vueDemi2.effectScope is not a function
+
+The remaining part in in [nypm](https://github.com/unjs/nypm/pull/165). In the meantime, you will have to manually add `pinia` with your favorite package manager:
+
+```sh
+pnpm i pinia
+```
+
+### Bug Fixes
+
+- allow module to install pinia alongside ([#2846](https://github.com/vuejs/pinia/issues/2846)) ([3e8ed69](https://github.com/vuejs/pinia/commit/3e8ed69addc30954b887241faed8778048e5d20e))
+
 # [0.7.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.6.1...@pinia/nuxt@0.7.0) (2024-11-03)
 
 ### Bug Fixes

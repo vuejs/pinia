@@ -17,3 +17,4 @@ packages/docs/api
 yalc.lock
 .idea
 .vitepress/cache
+tsconfig.vitest-temp.json

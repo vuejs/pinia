@@ -1,3 +1,9 @@
+### [0.1.8](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.7...@pinia/testing@0.1.8) (2025-02-11)
+
+### Features
+
+- **testing:** warn about incorrect createSpy ([394f655](https://github.com/vuejs/pinia/commit/394f6553d13f2b46c6e52a68145c24699b98e7fa)), closes [#2896](https://github.com/vuejs/pinia/issues/2896)
+
 ## [0.1.7](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.6...@pinia/testing@0.1.7) (2024-11-03)
 
 No code changes in this release.
