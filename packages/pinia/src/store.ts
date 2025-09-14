@@ -20,6 +20,7 @@ import {
   Ref,
   ref,
   nextTick,
+  triggerRef,
 } from 'vue'
 import {
   StateTree,
@@ -75,6 +76,22 @@ interface MarkedAction<Fn extends _Method = _Method> {
   [ACTION_NAME]: string
 }
 
+/**
+ * Recursively applies a partial patch onto a reactive container (plain object, Map, or Set) and returns the mutated target.
+ *
+ * For Map targets, entries from the patch Map are set into the target. For Set targets, entries from the patch Set are added.
+ * For plain objects, properties are merged recursively only when:
+ * - the target property exists,
+ * - both the target value and the patch value are plain objects,
+ * - and the patch value is not a Ref or a reactive object.
+ * In all other cases the patch value overwrites the target property.
+ *
+ * The function mutates and returns the provided `target`.
+ *
+ * @param target - The reactive container to be patched (plain object, Map, or Set).
+ * @param patchToApply - A deep partial patch whose entries/properties will be applied to `target`.
+ * @returns The same `target` instance after applying the patch.
+ */
 function mergeReactiveObjects<
   T extends Record<any, unknown> | Map<unknown, unknown> | Set<unknown>,
 >(target: T, patchToApply: _DeepPartial<T>): T {
@@ -91,6 +108,7 @@ function mergeReactiveObjects<
     if (!patchToApply.hasOwnProperty(key)) continue
     const subPatch = patchToApply[key]
     const targetValue = target[key]
+
     if (
       isPlainObject(targetValue) &&
       isPlainObject(subPatch) &&
@@ -142,10 +160,47 @@ export function shouldHydrate(obj: any) {
 const { assign } = Object
 
 function isComputed<T>(value: ComputedRef<T> | unknown): value is ComputedRef<T>
+/**
+ * Type guard that returns true when the provided value is a Vue ComputedRef.
+ *
+ * Determines this by checking that the value is a ref-like object and exposes the internal `effect` used by computed refs.
+ *
+ * @param o - Value to test
+ * @returns `true` if `o` is a ComputedRef, otherwise `false`
+ */
 function isComputed(o: any): o is ComputedRef {
   return !!(isRef(o) && (o as any).effect)
 }
 
+/**
+ * Type guard that returns true if the given value is a Vue shallowRef.
+ *
+ * Detects shallow refs by checking that the value is a Ref and has the internal
+ * `__v_isShallow` flag set. Useful for distinguishing shallow refs from normal
+ * refs at runtime.
+ *
+ * @param value - Value to test
+ * @returns `true` when `value` is a shallowRef
+ */
+function isShallowRef(value: any): value is Ref {
+  return isRef(value) && !!(value as any).__v_isShallow
+}
+
+/**
+ * Create an options-style store (defineStore with an options object) and register it with Pinia.
+ *
+ * Initializes the store's state in pinia.state when needed, exposes state properties as refs
+ * tied to the shared pinia state, binds actions, and wraps getters as ComputedRefs that run
+ * with the created store as their context.
+ *
+ * In development, warns when a getter name conflicts with an existing state property. When
+ * `hot` is true, the function uses a temporary local shaping of state suitable for HMR.
+ *
+ * @param id - Unique store id
+ * @param options - Store options containing `state`, `getters`, and `actions`
+ * @param hot - If true, enable hot-module-replacement specific behavior for state setup
+ * @returns The created Store instance
+ */
 function createOptionsStore<
   Id extends string,
   S extends StateTree,
@@ -213,6 +268,30 @@ function createOptionsStore<
   return store as any
 }
 
+/**
+ * Create and register a setup-style store instance for the given id.
+ *
+ * Instantiates the store by running the provided `setup` function inside a scoped
+ * reactive context, wires the resulting state/getters/actions into Pinia's
+ * global state tree, and returns a reactive store object with the standard
+ * store API (including `$patch`, `$reset` for option stores, `$subscribe`,
+ * `$onAction`, and `$dispose`). Handles hydration from existing pinia state,
+ * hot module replacement payloads, devtools integration, plugin extensions,
+ * and special handling to trigger reactivity for `shallowRef` properties when
+ * applying object patches.
+ *
+ * @param $id - Store unique id.
+ * @param setup - Setup function that receives `action` helper and returns the store's
+ *                local properties (state refs/objects, getters as computed, and actions).
+ * @param options - Optional store definition metadata (used for HMR, plugins, and for
+ *                  option-store compatibility).
+ * @param pinia - Pinia app instance (injected/omitted from param docs as a shared service).
+ * @param hot - If true, create the store in hot-reload mode (preserves hotState and
+ *              avoids overwriting existing state).
+ * @param isOptionsStore - When true, the store is treated like an options-style store
+ *                         (affects `$reset` behavior and getter handling).
+ * @returns The reactive Store instance corresponding to the created setup store.
+ */
 function createSetupStore<
   Id extends string,
   SS extends Record<any, unknown>,
@@ -284,6 +363,10 @@ function createSetupStore<
   // avoid triggering too many listeners
   // https://github.com/vuejs/pinia/issues/1129
   let activeListener: Symbol | undefined
+
+  // Store reference for shallowRef handling - will be set after setupStore creation
+  let setupStoreRef: any = null
+
   function $patch(stateMutation: (state: UnwrapRef<S>) => void): void
   function $patch(partialState: _DeepPartial<UnwrapRef<S>>): void
   function $patch(
@@ -307,6 +390,28 @@ function createSetupStore<
       }
     } else {
       mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator)
+
+      // Handle shallowRef reactivity: check if any patched properties are shallowRefs
+      // and trigger their reactivity manually
+      if (setupStoreRef) {
+        const shallowRefsToTrigger: any[] = []
+        for (const key in partialStateOrMutator) {
+          if (partialStateOrMutator.hasOwnProperty(key)) {
+            // Check if the property in the setupStore is a shallowRef
+            const setupStoreProperty = setupStoreRef[key]
+            if (
+              isShallowRef(setupStoreProperty) &&
+              isPlainObject(partialStateOrMutator[key])
+            ) {
+              shallowRefsToTrigger.push(setupStoreProperty)
+            }
+          }
+        }
+
+        // Trigger reactivity for all shallowRefs that were patched
+        shallowRefsToTrigger.forEach(triggerRef)
+      }
+
       subscriptionMutation = {
         type: MutationType.patchObject,
         payload: partialStateOrMutator,
@@ -493,6 +598,9 @@ function createSetupStore<
   const setupStore = runWithContext(() =>
     pinia._e.run(() => (scope = effectScope()).run(() => setup({ action }))!)
   )!
+
+  // Set setupStore reference for shallowRef handling in $patch
+  setupStoreRef = setupStore
 
   // overwrite existing actions to support $onAction
   for (const key in setupStore) {
