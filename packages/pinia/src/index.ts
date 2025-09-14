@@ -28,6 +28,7 @@ export type {
   StoreOnActionListener,
   _StoreOnActionListenerContext,
   StoreOnActionListenerContext,
+  StoreOptionsAccess,
   SubscriptionCallback,
   SubscriptionCallbackMutation,
   SubscriptionCallbackMutationDirect,

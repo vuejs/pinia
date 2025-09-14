@@ -275,6 +275,14 @@ export interface StoreProperties<Id extends string> {
   _customProperties: Set<string>
 
   /**
+   * Store options passed to defineStore(). Used internally by plugins to access
+   * custom options defined in DefineStoreOptionsBase.
+   *
+   * @internal
+   */
+  _options?: any
+
+  /**
    * Handles a HMR replacement of this store. Dev Only.
    *
    * @internal
@@ -527,6 +535,25 @@ export interface PiniaCustomProperties<
   G /* extends GettersTree<S> */ = _GettersTree<S>,
   A /* extends ActionsTree */ = _ActionsTree,
 > {}
+
+/**
+ * Utility type to access store options within PiniaCustomProperties.
+ * This allows plugins to access custom options defined in DefineStoreOptionsBase.
+ *
+ * @example
+ * ```ts
+ * declare module 'pinia' {
+ *   export interface DefineStoreOptionsBase<S, Store> {
+ *     stores?: Record<string, StoreDefinition>;
+ *   }
+ *
+ *   export interface PiniaCustomProperties<Id, S, G, A> {
+ *     readonly stores: any; // Use any for now, will be properly typed by plugins
+ *   }
+ * }
+ * ```
+ */
+export type StoreOptionsAccess<Store, Key extends keyof any> = any
 
 /**
  * Properties that are added to every `store.$state` by `pinia.use()`.

@@ -474,12 +474,18 @@ function createSetupStore<
           {
             _hmrPayload,
             _customProperties: markRaw(new Set<string>()), // devtools custom properties
+            _options: optionsForPlugin, // store options for plugins
           },
           partialStore
           // must be added later
           // setupStore
         )
-      : partialStore
+      : assign(
+          {
+            _options: optionsForPlugin, // store options for plugins
+          },
+          partialStore
+        )
   ) as unknown as Store<Id, S, G, A>
 
   // store the partial store now so the setup of stores can instantiate each other before they are finished without
