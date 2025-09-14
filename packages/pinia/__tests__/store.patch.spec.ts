@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { reactive, ref } from 'vue'
+import { describe, it, expect, vi } from 'vitest'
+import { reactive, ref, shallowRef, computed, nextTick, watchEffect } from 'vue'
 import { createPinia, defineStore, Pinia, setActivePinia } from '../src'
 
 describe('store.$patch', () => {
@@ -213,6 +213,190 @@ describe('store.$patch', () => {
       store.$patch({ item: store.arr[0] })
       expect(oldItem).toEqual({ a: 0, b: 0 })
       expect(store.item).toEqual({ a: 1, b: 1 })
+    })
+  })
+
+  describe('shallowRef reactivity', () => {
+    const useShallowRefStore = () => {
+      setActivePinia(createPinia())
+      return defineStore('shallowRef', () => {
+        const counter = shallowRef({ count: 0 })
+        const counter2 = shallowRef({ count: 0 })
+        const counter3 = shallowRef({ count: 0 })
+        const nestedCounter = shallowRef({
+          nested: { count: 0 },
+          simple: 1,
+        })
+
+        return { counter, counter2, counter3, nestedCounter }
+      })()
+    }
+
+    it('triggers reactivity when patching shallowRef with object syntax', async () => {
+      const store = useShallowRefStore()
+      const watcherSpy = vi.fn()
+
+      // Create a computed that depends on the shallowRef
+      const doubleCount = computed(() => store.counter.count * 2)
+
+      // Watch the computed to verify reactivity
+      const stopWatcher = watchEffect(() => {
+        watcherSpy(doubleCount.value)
+      })
+
+      expect(watcherSpy).toHaveBeenCalledWith(0)
+      watcherSpy.mockClear()
+
+      // Patch using object syntax - this should trigger reactivity
+      store.$patch({ counter: { count: 1 } })
+
+      await nextTick()
+
+      expect(store.counter.count).toBe(1)
+      expect(doubleCount.value).toBe(2)
+      expect(watcherSpy).toHaveBeenCalledWith(2)
+
+      stopWatcher()
+    })
+
+    it('triggers reactivity when patching nested properties in shallowRef', async () => {
+      const store = useShallowRefStore()
+      const watcherSpy = vi.fn()
+
+      const nestedCount = computed(() => store.nestedCounter.nested.count)
+
+      const stopWatcher = watchEffect(() => {
+        watcherSpy(nestedCount.value)
+      })
+
+      expect(watcherSpy).toHaveBeenCalledWith(0)
+      watcherSpy.mockClear()
+
+      // Patch nested properties
+      store.$patch({
+        nestedCounter: {
+          nested: { count: 5 },
+          simple: 2,
+        },
+      })
+
+      await nextTick()
+
+      expect(store.nestedCounter.nested.count).toBe(5)
+      expect(store.nestedCounter.simple).toBe(2)
+      expect(nestedCount.value).toBe(5)
+      expect(watcherSpy).toHaveBeenCalledWith(5)
+
+      stopWatcher()
+    })
+
+    it('works with function syntax (baseline test)', async () => {
+      const store = useShallowRefStore()
+      const watcherSpy = vi.fn()
+
+      const doubleCount = computed(() => store.counter2.count * 2)
+
+      const stopWatcher = watchEffect(() => {
+        watcherSpy(doubleCount.value)
+      })
+
+      expect(watcherSpy).toHaveBeenCalledWith(0)
+      watcherSpy.mockClear()
+
+      // Function syntax should work (this was already working)
+      store.$patch((state) => {
+        state.counter2 = { count: state.counter2.count + 1 }
+      })
+
+      await nextTick()
+
+      expect(store.counter2.count).toBe(1)
+      expect(doubleCount.value).toBe(2)
+      expect(watcherSpy).toHaveBeenCalledWith(2)
+
+      stopWatcher()
+    })
+
+    it('works with direct assignment (baseline test)', async () => {
+      const store = useShallowRefStore()
+      const watcherSpy = vi.fn()
+
+      const doubleCount = computed(() => store.counter3.count * 2)
+
+      const stopWatcher = watchEffect(() => {
+        watcherSpy(doubleCount.value)
+      })
+
+      expect(watcherSpy).toHaveBeenCalledWith(0)
+      watcherSpy.mockClear()
+
+      // Direct assignment should work (this was already working)
+      store.counter3 = { count: 3 }
+
+      await nextTick()
+
+      expect(store.counter3.count).toBe(3)
+      expect(doubleCount.value).toBe(6)
+      expect(watcherSpy).toHaveBeenCalledWith(6)
+
+      stopWatcher()
+    })
+
+    it('handles partial updates correctly', async () => {
+      const store = useShallowRefStore()
+
+      // Set initial state with multiple properties
+      store.nestedCounter = {
+        nested: { count: 10 },
+        simple: 20,
+      }
+
+      // Patch only one property
+      store.$patch({
+        nestedCounter: {
+          nested: { count: 15 },
+          // Note: simple is not included, should remain unchanged
+        },
+      })
+
+      expect(store.nestedCounter.nested.count).toBe(15)
+      expect(store.nestedCounter.simple).toBe(20) // Should remain unchanged
+    })
+
+    it('works with multiple shallowRefs in single patch', async () => {
+      const store = useShallowRefStore()
+      const watcherSpy1 = vi.fn()
+      const watcherSpy2 = vi.fn()
+
+      const count1 = computed(() => store.counter.count)
+      const count2 = computed(() => store.counter2.count)
+
+      const stopWatcher1 = watchEffect(() => {
+        watcherSpy1(count1.value)
+      })
+
+      const stopWatcher2 = watchEffect(() => {
+        watcherSpy2(count2.value)
+      })
+
+      watcherSpy1.mockClear()
+      watcherSpy2.mockClear()
+
+      // Patch multiple shallowRefs at once
+      store.$patch({
+        counter: { count: 10 },
+        counter2: { count: 20 },
+      })
+
+      await nextTick()
+
+      expect(store.counter.count).toBe(10)
+      expect(store.counter2.count).toBe(20)
+      expect(watcherSpy1).toHaveBeenCalledWith(10)
+      expect(watcherSpy2).toHaveBeenCalledWith(20)
+
+      stopWatcher1()
+      stopWatcher2()
     })
   })
 })

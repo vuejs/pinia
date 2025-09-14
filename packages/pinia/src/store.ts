@@ -20,6 +20,7 @@ import {
   Ref,
   ref,
   nextTick,
+  triggerRef,
 } from 'vue'
 import {
   StateTree,
@@ -91,6 +92,7 @@ function mergeReactiveObjects<
     if (!patchToApply.hasOwnProperty(key)) continue
     const subPatch = patchToApply[key]
     const targetValue = target[key]
+
     if (
       isPlainObject(targetValue) &&
       isPlainObject(subPatch) &&
@@ -144,6 +146,15 @@ const { assign } = Object
 function isComputed<T>(value: ComputedRef<T> | unknown): value is ComputedRef<T>
 function isComputed(o: any): o is ComputedRef {
   return !!(isRef(o) && (o as any).effect)
+}
+
+/**
+ * Checks if a value is a shallowRef
+ * @param value - value to check
+ * @returns true if the value is a shallowRef
+ */
+function isShallowRef(value: any): value is Ref {
+  return isRef(value) && !!(value as any).__v_isShallow
 }
 
 function createOptionsStore<
@@ -284,6 +295,10 @@ function createSetupStore<
   // avoid triggering too many listeners
   // https://github.com/vuejs/pinia/issues/1129
   let activeListener: Symbol | undefined
+
+  // Store reference for shallowRef handling - will be set after setupStore creation
+  let setupStoreRef: any = null
+
   function $patch(stateMutation: (state: UnwrapRef<S>) => void): void
   function $patch(partialState: _DeepPartial<UnwrapRef<S>>): void
   function $patch(
@@ -307,6 +322,28 @@ function createSetupStore<
       }
     } else {
       mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator)
+
+      // Handle shallowRef reactivity: check if any patched properties are shallowRefs
+      // and trigger their reactivity manually
+      if (setupStoreRef) {
+        const shallowRefsToTrigger: any[] = []
+        for (const key in partialStateOrMutator) {
+          if (partialStateOrMutator.hasOwnProperty(key)) {
+            // Check if the property in the setupStore is a shallowRef
+            const setupStoreProperty = setupStoreRef[key]
+            if (
+              isShallowRef(setupStoreProperty) &&
+              isPlainObject(partialStateOrMutator[key])
+            ) {
+              shallowRefsToTrigger.push(setupStoreProperty)
+            }
+          }
+        }
+
+        // Trigger reactivity for all shallowRefs that were patched
+        shallowRefsToTrigger.forEach(triggerRef)
+      }
+
       subscriptionMutation = {
         type: MutationType.patchObject,
         payload: partialStateOrMutator,
@@ -493,6 +530,9 @@ function createSetupStore<
   const setupStore = runWithContext(() =>
     pinia._e.run(() => (scope = effectScope()).run(() => setup({ action }))!)
   )!
+
+  // Set setupStore reference for shallowRef handling in $patch
+  setupStoreRef = setupStore
 
   // overwrite existing actions to support $onAction
   for (const key in setupStore) {
