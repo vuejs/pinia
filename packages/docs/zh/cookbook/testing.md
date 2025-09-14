@@ -173,7 +173,69 @@ store.someAction()
 expect(store.someAction).toHaveBeenCalledTimes(1)
 ```
 
-<!-- TODO: translation -->
+### 选择性 action 存根 %{#selective-action-stubbing}%
+
+有时你可能只想存根特定的 action，而让其他 action 正常执行。你可以通过向 `stubActions` 选项传递一个包含 `include` 或 `exclude` 数组的对象来实现：
+
+```js
+// 只存根 'increment' 和 'reset' action
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [
+      createTestingPinia({
+        stubActions: { include: ['increment', 'reset'] }
+      })
+    ],
+  },
+})
+
+const store = useSomeStore()
+
+// 这些 action 将被存根（不执行）
+store.increment() // 存根
+store.reset() // 存根
+
+// 其他 action 将正常执行但仍被监听
+store.fetchData() // 正常执行
+expect(store.fetchData).toHaveBeenCalledTimes(1)
+```
+
+或者，你可以排除特定的 action 不被存根：
+
+```js
+// 存根所有 action 除了 'fetchData'
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [
+      createTestingPinia({
+        stubActions: { exclude: ['fetchData'] }
+      })
+    ],
+  },
+})
+
+const store = useSomeStore()
+
+// 这个 action 将正常执行
+store.fetchData() // 正常执行
+
+// 其他 action 将被存根
+store.increment() // 存根
+store.reset() // 存根
+```
+
+::: tip
+如果同时提供了 `include` 和 `exclude`，`include` 优先。如果两者都没有提供或两个数组都为空，所有 action 都将被存根（等同于 `stubActions: true`）。
+:::
+
+你也可以在创建 store 后手动模拟特定的 action：
+
+```ts
+const store = useSomeStore()
+vi.spyOn(store, 'increment').mockImplementation(() => {})
+// 或者如果使用带有存根 action 的测试 pinia
+store.increment.mockImplementation(() => {})
+```
 
 ### Mocking the returned value of an action
 

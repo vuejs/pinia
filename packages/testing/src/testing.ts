@@ -29,11 +29,13 @@ export interface TestingOptions {
   /**
    * When set to false, actions are only spied, but they will still get executed. When
    * set to true, actions will be replaced with spies, resulting in their code
-   * not being executed. Defaults to true. NOTE: when providing `createSpy()`,
+   * not being executed. When set to an object with `include` or `exclude` arrays,
+   * only the specified actions will be stubbed or excluded from stubbing.
+   * Defaults to true. NOTE: when providing `createSpy()`,
    * it will **only** make the `fn` argument `undefined`. You still have to
    * handle this in `createSpy()`.
    */
-  stubActions?: boolean
+  stubActions?: boolean | { include?: string[]; exclude?: string[] }
 
   /**
    * When set to true, calls to `$patch()` won't change the state. Defaults to
@@ -139,7 +141,24 @@ export function createTestingPinia({
   pinia._p.push(({ store, options }) => {
     Object.keys(options.actions).forEach((action) => {
       if (action === '$reset') return
-      store[action] = stubActions ? createSpy() : createSpy(store[action])
+
+      let shouldStub: boolean
+      if (typeof stubActions === 'boolean') {
+        shouldStub = stubActions
+      } else {
+        // Handle include/exclude logic
+        const { include, exclude } = stubActions
+        if (include && include.length > 0) {
+          shouldStub = include.includes(action)
+        } else if (exclude && exclude.length > 0) {
+          shouldStub = !exclude.includes(action)
+        } else {
+          // If both include and exclude are empty or undefined, default to true
+          shouldStub = true
+        }
+      }
+
+      store[action] = shouldStub ? createSpy() : createSpy(store[action])
     })
 
     store.$patch = stubPatch ? createSpy() : createSpy(store.$patch)

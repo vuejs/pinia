@@ -166,6 +166,70 @@ store.someAction()
 expect(store.someAction).toHaveBeenCalledTimes(1)
 ```
 
+### Selective action stubbing
+
+Sometimes you may want to stub only specific actions while allowing others to execute normally. You can achieve this by passing an object with `include` or `exclude` arrays to the `stubActions` option:
+
+```js
+// Only stub the 'increment' and 'reset' actions
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [
+      createTestingPinia({
+        stubActions: { include: ['increment', 'reset'] }
+      })
+    ],
+  },
+})
+
+const store = useSomeStore()
+
+// These actions will be stubbed (not executed)
+store.increment() // stubbed
+store.reset() // stubbed
+
+// Other actions will execute normally but still be spied
+store.fetchData() // executed normally
+expect(store.fetchData).toHaveBeenCalledTimes(1)
+```
+
+Alternatively, you can exclude specific actions from stubbing:
+
+```js
+// Stub all actions except 'fetchData'
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [
+      createTestingPinia({
+        stubActions: { exclude: ['fetchData'] }
+      })
+    ],
+  },
+})
+
+const store = useSomeStore()
+
+// This action will execute normally
+store.fetchData() // executed normally
+
+// Other actions will be stubbed
+store.increment() // stubbed
+store.reset() // stubbed
+```
+
+::: tip
+If both `include` and `exclude` are provided, `include` takes precedence. If neither is provided or both arrays are empty, all actions will be stubbed (equivalent to `stubActions: true`).
+:::
+
+You can also manually mock specific actions after creating the store:
+
+```ts
+const store = useSomeStore()
+vi.spyOn(store, 'increment').mockImplementation(() => {})
+// or if using testing pinia with stubbed actions
+store.increment.mockImplementation(() => {})
+```
+
 ### Mocking the returned value of an action
 
 Actions are automatically spied but type-wise, they are still the regular actions. In order to get the correct type, we must implement a custom type-wrapper that applies the `Mock` type to each action. **This type depends on the testing framework you are using**. Here is an example with Vitest:

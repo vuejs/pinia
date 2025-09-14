@@ -24,6 +24,25 @@ describe('Testing', () => {
     },
   })
 
+  const useMultiActionStore = defineStore('multi-action', {
+    state: () => ({ count: 0, value: 0 }),
+    actions: {
+      increment() {
+        this.count++
+      },
+      decrement() {
+        this.count--
+      },
+      setValue(newValue: number) {
+        this.value = newValue
+      },
+      reset() {
+        this.count = 0
+        this.value = 0
+      },
+    },
+  })
+
   const useCounterSetup = defineStore('counter-setup', () => {
     const n = ref(0)
     const doubleComputedCallCount = ref(0)
@@ -387,6 +406,190 @@ describe('Testing', () => {
     expect(pinia.state.value).toEqual({
       a: { n: 1 },
       b: { n: 0 },
+    })
+  })
+
+  describe('selective action stubbing', () => {
+    it('stubs only included actions', () => {
+      setActivePinia(
+        createTestingPinia({
+          stubActions: { include: ['increment', 'setValue'] },
+          createSpy: vi.fn,
+        })
+      )
+
+      const store = useMultiActionStore()
+
+      // Included actions should be stubbed (not execute)
+      store.increment()
+      expect(store.count).toBe(0) // Should not change
+      expect(store.increment).toHaveBeenCalledTimes(1)
+
+      store.setValue(42)
+      expect(store.value).toBe(0) // Should not change
+      expect(store.setValue).toHaveBeenCalledTimes(1)
+      expect(store.setValue).toHaveBeenLastCalledWith(42)
+
+      // Excluded actions should execute normally but still be spied
+      store.decrement()
+      expect(store.count).toBe(-1) // Should change
+      expect(store.decrement).toHaveBeenCalledTimes(1)
+
+      store.reset()
+      expect(store.count).toBe(0) // Should change
+      expect(store.value).toBe(0) // Should change
+      expect(store.reset).toHaveBeenCalledTimes(1)
+    })
+
+    it('stubs all actions except excluded ones', () => {
+      setActivePinia(
+        createTestingPinia({
+          stubActions: { exclude: ['increment', 'setValue'] },
+          createSpy: vi.fn,
+        })
+      )
+
+      const store = useMultiActionStore()
+
+      // Excluded actions should execute normally but still be spied
+      store.increment()
+      expect(store.count).toBe(1) // Should change
+      expect(store.increment).toHaveBeenCalledTimes(1)
+
+      store.setValue(42)
+      expect(store.value).toBe(42) // Should change
+      expect(store.setValue).toHaveBeenCalledTimes(1)
+      expect(store.setValue).toHaveBeenLastCalledWith(42)
+
+      // Non-excluded actions should be stubbed (not execute)
+      store.decrement()
+      expect(store.count).toBe(1) // Should not change
+      expect(store.decrement).toHaveBeenCalledTimes(1)
+
+      store.reset()
+      expect(store.count).toBe(1) // Should not change
+      expect(store.value).toBe(42) // Should not change
+      expect(store.reset).toHaveBeenCalledTimes(1)
+    })
+
+    it('handles empty include array (stubs all actions)', () => {
+      setActivePinia(
+        createTestingPinia({
+          stubActions: { include: [] },
+          createSpy: vi.fn,
+        })
+      )
+
+      const store = useMultiActionStore()
+
+      store.increment()
+      expect(store.count).toBe(0) // Should not change
+      expect(store.increment).toHaveBeenCalledTimes(1)
+
+      store.setValue(42)
+      expect(store.value).toBe(0) // Should not change
+      expect(store.setValue).toHaveBeenCalledTimes(1)
+    })
+
+    it('handles empty exclude array (stubs all actions)', () => {
+      setActivePinia(
+        createTestingPinia({
+          stubActions: { exclude: [] },
+          createSpy: vi.fn,
+        })
+      )
+
+      const store = useMultiActionStore()
+
+      store.increment()
+      expect(store.count).toBe(0) // Should not change
+      expect(store.increment).toHaveBeenCalledTimes(1)
+
+      store.setValue(42)
+      expect(store.value).toBe(0) // Should not change
+      expect(store.setValue).toHaveBeenCalledTimes(1)
+    })
+
+    it('handles both include and exclude (include takes precedence)', () => {
+      setActivePinia(
+        createTestingPinia({
+          stubActions: {
+            include: ['increment'],
+            exclude: ['increment', 'setValue'],
+          },
+          createSpy: vi.fn,
+        })
+      )
+
+      const store = useMultiActionStore()
+
+      // Include takes precedence - increment should be stubbed
+      store.increment()
+      expect(store.count).toBe(0) // Should not change
+      expect(store.increment).toHaveBeenCalledTimes(1)
+
+      // Not in include list - should execute normally
+      store.setValue(42)
+      expect(store.value).toBe(42) // Should change
+      expect(store.setValue).toHaveBeenCalledTimes(1)
+    })
+
+    it('maintains backward compatibility with boolean true', () => {
+      setActivePinia(
+        createTestingPinia({
+          stubActions: true,
+          createSpy: vi.fn,
+        })
+      )
+
+      const store = useMultiActionStore()
+
+      store.increment()
+      expect(store.count).toBe(0) // Should not change
+      expect(store.increment).toHaveBeenCalledTimes(1)
+
+      store.setValue(42)
+      expect(store.value).toBe(0) // Should not change
+      expect(store.setValue).toHaveBeenCalledTimes(1)
+    })
+
+    it('maintains backward compatibility with boolean false', () => {
+      setActivePinia(
+        createTestingPinia({
+          stubActions: false,
+          createSpy: vi.fn,
+        })
+      )
+
+      const store = useMultiActionStore()
+
+      store.increment()
+      expect(store.count).toBe(1) // Should change
+      expect(store.increment).toHaveBeenCalledTimes(1)
+
+      store.setValue(42)
+      expect(store.value).toBe(42) // Should change
+      expect(store.setValue).toHaveBeenCalledTimes(1)
+    })
+
+    it('handles non-existent action names gracefully', () => {
+      setActivePinia(
+        createTestingPinia({
+          stubActions: { include: ['increment', 'nonExistentAction'] },
+          createSpy: vi.fn,
+        })
+      )
+
+      const store = useMultiActionStore()
+
+      // Should work normally despite non-existent action in include list
+      store.increment()
+      expect(store.count).toBe(0) // Should not change
+      expect(store.increment).toHaveBeenCalledTimes(1)
+
+      store.setValue(42)
+      expect(store.value).toBe(42) // Should change (not in include list)
+      expect(store.setValue).toHaveBeenCalledTimes(1)
     })
   })
 })
