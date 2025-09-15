@@ -90,7 +90,7 @@ By default `@pinia/nuxt` exposes a few auto imports:
 - `storeToRefs()` when you need to extract individual refs from a store
 - `acceptHMRUpdate()` for [hot module replacement](../cookbook/hot-module-replacement.md)
 
-It also automatically imports **all stores** defined within your `stores` folder. It doesn't lookup for nested stores though. You can customize this behavior by setting the `storesDirs` option:
+It also automatically imports **all stores** defined within your `stores` folder (`app/stores` in Nuxt 4). It doesn't lookup for nested stores though. You can customize this behavior by setting the `storesDirs` option:
 
 ```ts
 // nuxt.config.ts
