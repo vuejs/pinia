@@ -11,6 +11,7 @@ import {
   markRaw,
   isRef,
   isReactive,
+  isShallow,
   effectScope,
   EffectScope,
   ComputedRef,
@@ -89,14 +90,14 @@ function mergeReactiveObjects<
 
   // no need to go through symbols because they cannot be serialized anyway
   for (const key in patchToApply) {
-    if (!patchToApply.hasOwnProperty(key)) continue
+    if (!Object.prototype.hasOwnProperty.call(patchToApply, key)) continue
     const subPatch = patchToApply[key]
     const targetValue = target[key]
 
     if (
       isPlainObject(targetValue) &&
       isPlainObject(subPatch) &&
-      target.hasOwnProperty(key) &&
+      Object.prototype.hasOwnProperty.call(target, key) &&
       !isRef(subPatch) &&
       !isReactive(subPatch)
     ) {
@@ -154,7 +155,7 @@ function isComputed(o: any): o is ComputedRef {
  * @returns true if the value is a shallowRef
  */
 function isShallowRef(value: any): value is Ref {
-  return isRef(value) && !!(value as any).__v_isShallow
+  return isRef(value) && isShallow(value)
 }
 
 function createOptionsStore<
@@ -524,8 +525,6 @@ function createSetupStore<
   const setupStore = runWithContext(() =>
     pinia._e.run(() => (scope = effectScope()).run(() => setup({ action }))!)
   )!
-
-  // no-op: `$patch` inspects refs via `toRaw(store)`
 
   // overwrite existing actions to support $onAction
   for (const key in setupStore) {
