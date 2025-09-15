@@ -1,0 +1,190 @@
+
+> @pinia/eslint-plugin@1.0.0 test D:\pych_projects\pinia\packages\eslint-plugin
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mD:/pych_projects/pinia/packages/eslint-plugin[39m
+
+[90mstdout[2m | src/rules/__tests__/prefer-use-store-naming.test.ts[2m > [22m[2mprefer-use-store-naming[2m > [22m[2mvalid[2m > [22m[2m
+        export const useUserStore = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      
+[22m[39mFound store definition: useUserStore prefix: use suffix: Store
+Checking: useUserStore startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mtrue[39m
+
+[90mstdout[2m | src/rules/__tests__/prefer-use-store-naming.test.ts[2m > [22m[2mprefer-use-store-naming[2m > [22m[2mvalid[2m > [22m[2m
+        export const useShoppingCartStore = defineStore('shopping-cart', () => {
+          const items = ref([])
+          return { items }
+        })
+      
+[22m[39mFound store definition: useShoppingCartStore prefix: use suffix: Store
+Checking: useShoppingCartStore startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mtrue[39m
+
+[90mstdout[2m | src/rules/__tests__/prefer-use-store-naming.test.ts[2m > [22m[2mprefer-use-store-naming[2m > [22m[2minvalid[2m > [22m[2m
+        export const userStore = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      
+[22m[39mFound store definition: userStore prefix: use suffix: Store
+Checking: userStore startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mtrue[39m
+
+ [32mтЬУ[39m src/rules/__tests__/no-store-in-computed.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 57[2mms[22m[39m
+[90mstdout[2m | src/rules/__tests__/prefer-use-store-naming.test.ts[2m > [22m[2mprefer-use-store-naming[2m > [22m[2minvalid[2m > [22m[2m
+        export const useUser = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      
+[22m[39mFound store definition: useUser prefix: use suffix: Store
+Checking: useUser startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mfalse[39m
+Naming violation detected for: useUser
+Found store definition: useUserStore prefix: use suffix: Store
+Checking: useUserStore startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mtrue[39m
+Found store definition: useUserStore prefix: use suffix: Store
+Checking: useUserStore startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mtrue[39m
+
+ [32mтЬУ[39m src/rules/__tests__/no-circular-store-dependencies.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 58[2mms[22m[39m
+[90mstdout[2m | src/rules/__tests__/prefer-use-store-naming.test.ts[2m > [22m[2mprefer-use-store-naming[2m > [22m[2minvalid[2m > [22m[2m
+        export const myStore = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      
+[22m[39mFound store definition: myStore prefix: use suffix: Store
+Checking: myStore startsWithPrefix: [33mfalse[39m endsWithSuffix: [33mtrue[39m
+Naming violation detected for: myStore
+Found store definition: useUserStore prefix: use suffix: Store
+Checking: useUserStore startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mtrue[39m
+Found store definition: useUserStore prefix: use suffix: Store
+Checking: useUserStore startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mtrue[39m
+
+[90mstdout[2m | src/rules/__tests__/prefer-use-store-naming.test.ts[2m > [22m[2mprefer-use-store-naming[2m > [22m[2minvalid[2m > [22m[2m
+        export const myStore = defineStore('shopping-cart', () => {
+          const items = ref([])
+          return { items }
+        })
+      
+[22m[39mFound store definition: myStore prefix: use suffix: Store
+Checking: myStore startsWithPrefix: [33mfalse[39m endsWithSuffix: [33mtrue[39m
+Naming violation detected for: myStore
+Found store definition: useShoppingCartStore prefix: use suffix: Store
+Checking: useShoppingCartStore startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mtrue[39m
+Found store definition: useShoppingCartStore prefix: use suffix: Store
+Checking: useShoppingCartStore startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mtrue[39m
+
+[90mstdout[2m | src/rules/__tests__/prefer-use-store-naming.test.ts[2m > [22m[2mprefer-use-store-naming with custom options[2m > [22m[2mvalid[2m > [22m[2m
+        export const createUserRepository = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      
+[22m[39mFound store definition: createUserRepository prefix: create suffix: Repository
+Checking: createUserRepository startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mtrue[39m
+
+[90mstdout[2m | src/rules/__tests__/prefer-use-store-naming.test.ts[2m > [22m[2mprefer-use-store-naming with custom options[2m > [22m[2minvalid[2m > [22m[2m
+        export const useUserStore = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      
+[22m[39mFound store definition: useUserStore prefix: create suffix: Repository
+Checking: useUserStore startsWithPrefix: [33mfalse[39m endsWithSuffix: [33mfalse[39m
+Naming violation detected for: useUserStore
+Found store definition: createUserRepository prefix: create suffix: Repository
+Checking: createUserRepository startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mtrue[39m
+Found store definition: createUserRepository prefix: create suffix: Repository
+Checking: createUserRepository startsWithPrefix: [33mtrue[39m endsWithSuffix: [33mtrue[39m
+
+ [32mтЬУ[39m src/rules/__tests__/require-setup-store-properties-export.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 72[2mms[22m[39m
+ [31mтЭп[39m src/rules/__tests__/prefer-use-store-naming.test.ts [2m([22m[2m9 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 78[2mms[22m[39m
+   [32mтЬУ[39m prefer-use-store-naming[2m > [22mvalid[2m > [22m
+        export const useUserStore = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      [32m 33[2mms[22m[39m
+   [32mтЬУ[39m prefer-use-store-naming[2m > [22mvalid[2m > [22m
+        export const useShoppingCartStore = defineStore('shopping-cart', () => {
+          const items = ref([])
+          return { items }
+        })
+      [32m 5[2mms[22m[39m
+   [32mтЬУ[39m prefer-use-store-naming[2m > [22mvalid[2m > [22m
+        const myVariable = someFunction()
+      [32m 2[2mms[22m[39m
+[31m   [31m├Ч[31m prefer-use-store-naming[2m > [22minvalid[2m > [22m
+        export const userStore = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      [39m[32m 7[2mms[22m[39m
+[31m     тЖТ Should have 1 error but had 0: []
+
+0 !== 1
+[39m
+   [32mтЬУ[39m prefer-use-store-naming[2m > [22minvalid[2m > [22m
+        export const useUser = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      [32m 11[2mms[22m[39m
+   [32mтЬУ[39m prefer-use-store-naming[2m > [22minvalid[2m > [22m
+        export const myStore = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      [32m 8[2mms[22m[39m
+   [32mтЬУ[39m prefer-use-store-naming[2m > [22minvalid[2m > [22m
+        export const myStore = defineStore('shopping-cart', () => {
+          const items = ref([])
+          return { items }
+        })
+      [32m 4[2mms[22m[39m
+   [32mтЬУ[39m prefer-use-store-naming with custom options[2m > [22mvalid[2m > [22m
+        export const createUserRepository = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      [32m 2[2mms[22m[39m
+   [32mтЬУ[39m prefer-use-store-naming with custom options[2m > [22minvalid[2m > [22m
+        export const useUserStore = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      [32m 4[2mms[22m[39m
+
+тОптОптОптОптОптОптОп Failed Tests 1 тОптОптОптОптОптОптОп
+
+ FAIL  src/rules/__tests__/prefer-use-store-naming.test.ts > prefer-use-store-naming > invalid > 
+        export const userStore = defineStore('user', () => {
+          const name = ref('John')
+          return { name }
+        })
+      
+AssertionError: Should have 1 error but had 0: []
+
+0 !== 1
+
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ тЭп RuleTester.#testInvalidTemplate ../../node_modules/.pnpm/@typescript-eslint+rule-tes_4d91085b7cef78db45b5c8037c2a1f8c/node_modules/@typescript-eslint/rule-tester/dist/RuleTester.js:706:35
+ тЭп ../../node_modules/.pnpm/@typescript-eslint+rule-tes_4d91085b7cef78db45b5c8037c2a1f8c/node_modules/@typescript-eslint/rule-tester/dist/RuleTester.js:448:58
+
+тОптОптОптОптОптОптОптОптОптОптОптОптОптОптОптОптОптОптОптОптОптОптОптОп[1/1]тОп
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m28 passed[39m[22m[90m (29)[39m
+[2m   Start at [22m 09:21:23
+[2m   Duration [22m 1.08s[2m (transform 110ms, setup 0ms, collect 2.47s, tests 266ms, environment 1ms, prepare 607ms)[22m
+
+тАЙELIFECYCLEтАЙ Test failed. See above for more details.
