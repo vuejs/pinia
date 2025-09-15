@@ -128,7 +128,7 @@ export const useUserStore = defineStore('user', () => {
   const name = ref('John')
 
   function updateProfile() {
-    // Use stores in actions or computed properties
+    // Use stores in actions
     const cartStore = useCartStore()
     cartStore.clear()
   }

@@ -5,8 +5,11 @@ export default defineConfig({
   format: ['cjs', 'esm'],
   dts: true,
   clean: true,
-  external: ['eslint'],
-  target: 'node14',
+  external: ['eslint', '@typescript-eslint/utils'],
+  target: 'node18',
   splitting: false,
   sourcemap: true,
+  outExtension: ({ format }) => ({
+    js: format === 'esm' ? '.mjs' : '.js',
+  }),
 })

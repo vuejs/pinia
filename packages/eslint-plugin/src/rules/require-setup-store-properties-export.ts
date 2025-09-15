@@ -9,8 +9,9 @@ import {
   isSetupStore,
   getSetupFunction,
   extractDeclarations,
-  extractReturnProperties,
+  extractReturnIdentifiers,
   findReturnStatement,
+  hasSpreadInReturn,
 } from '../utils/ast-utils'
 
 const createRule = ESLintUtils.RuleCreator(
@@ -76,12 +77,17 @@ export const requireSetupStorePropertiesExport = createRule({
           return
         }
 
-        // Extract exported properties
-        const exportedProperties = extractReturnProperties(returnStatement)
+        // Extract exported identifiers
+        const exportedIdentifiers = extractReturnIdentifiers(returnStatement)
+
+        // Be lenient when spreads are present to avoid false positives
+        if (hasSpreadInReturn(returnStatement)) {
+          return
+        }
 
         // Find missing exports
         const missingExports = allDeclared.filter(
-          (name) => !exportedProperties.includes(name)
+          (name) => !exportedIdentifiers.includes(name)
         )
 
         if (missingExports.length > 0) {

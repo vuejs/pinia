@@ -49,9 +49,14 @@ ruleTester.run('prefer-use-store-naming', preferUseStoreNaming, {
       errors: [
         {
           messageId: 'invalidNaming',
+          suggestions: [
+            {
+              desc: 'Rename to "useDataStore"',
+              output: `export const useDataStore = defineStore('data', () => {})`,
+            },
+          ],
         },
       ],
-      output: `export const useDataStore = defineStore('data', () => {})`,
     },
     // Missing 'Store' suffix
     {
@@ -64,14 +69,19 @@ ruleTester.run('prefer-use-store-naming', preferUseStoreNaming, {
       errors: [
         {
           messageId: 'invalidNaming',
-        },
-      ],
-      output: `
+          suggestions: [
+            {
+              desc: 'Rename to "useUserStore"',
+              output: `
         export const useUserStore = defineStore('user', () => {
           const name = ref('John')
           return { name }
         })
       `,
+            },
+          ],
+        },
+      ],
     },
     // Completely wrong naming
     {
@@ -84,14 +94,19 @@ ruleTester.run('prefer-use-store-naming', preferUseStoreNaming, {
       errors: [
         {
           messageId: 'invalidNaming',
-        },
-      ],
-      output: `
+          suggestions: [
+            {
+              desc: 'Rename to "useUserStore"',
+              output: `
         export const useUserStore = defineStore('user', () => {
           const name = ref('John')
           return { name }
         })
       `,
+            },
+          ],
+        },
+      ],
     },
     // Kebab-case store ID
     {
@@ -104,14 +119,19 @@ ruleTester.run('prefer-use-store-naming', preferUseStoreNaming, {
       errors: [
         {
           messageId: 'invalidNaming',
-        },
-      ],
-      output: `
+          suggestions: [
+            {
+              desc: 'Rename to "useShoppingCartStore"',
+              output: `
         export const useShoppingCartStore = defineStore('shopping-cart', () => {
           const items = ref([])
           return { items }
         })
       `,
+            },
+          ],
+        },
+      ],
     },
   ],
 })
@@ -144,14 +164,19 @@ ruleTester.run(
         errors: [
           {
             messageId: 'invalidNaming',
-          },
-        ],
-        output: `
+            suggestions: [
+              {
+                desc: 'Rename to "createUserRepository"',
+                output: `
         export const createUserRepository = defineStore('user', () => {
           const name = ref('John')
           return { name }
         })
       `,
+              },
+            ],
+          },
+        ],
       },
     ],
   }

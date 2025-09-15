@@ -7,6 +7,7 @@ import { requireSetupStorePropertiesExport } from './rules/require-setup-store-p
 import { noCircularStoreDependencies } from './rules/no-circular-store-dependencies'
 import { preferUseStoreNaming } from './rules/prefer-use-store-naming'
 import { noStoreInComputed } from './rules/no-store-in-computed'
+import packageJson from '../package.json'
 
 /**
  * ESLint plugin for Pinia best practices and common patterns.
@@ -18,7 +19,7 @@ import { noStoreInComputed } from './rules/no-store-in-computed'
 const plugin = {
   meta: {
     name: '@pinia/eslint-plugin',
-    version: '1.0.0',
+    version: packageJson.version,
   },
   rules: {
     'require-setup-store-properties-export': requireSetupStorePropertiesExport,
@@ -26,9 +27,13 @@ const plugin = {
     'prefer-use-store-naming': preferUseStoreNaming,
     'no-store-in-computed': noStoreInComputed,
   },
-  configs: {
-    recommended: {
-      plugins: ['@pinia'],
+}
+
+// Flat config export
+;(plugin as any).configs = {
+  recommended: [
+    {
+      plugins: { '@pinia': plugin as any },
       rules: {
         '@pinia/require-setup-store-properties-export': 'error',
         '@pinia/no-circular-store-dependencies': 'warn',
@@ -36,7 +41,7 @@ const plugin = {
         '@pinia/no-store-in-computed': 'error',
       },
     },
-  },
+  ],
 }
 
 export default plugin

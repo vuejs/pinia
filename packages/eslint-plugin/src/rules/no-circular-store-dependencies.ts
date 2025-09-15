@@ -3,7 +3,11 @@
  * @author Eduardo San Martin Morote
  */
 
-import { ESLintUtils, type TSESTree } from '@typescript-eslint/utils'
+import {
+  ESLintUtils,
+  type TSESTree,
+  type TSESLint,
+} from '@typescript-eslint/utils'
 import {
   isDefineStoreCall,
   isSetupStore,
@@ -34,13 +38,14 @@ export const noCircularStoreDependencies = createRule({
       circularDependency:
         'Potential circular dependency detected: store "{{currentStore}}" uses "{{usedStore}}"',
       setupCircularDependency:
-        'Avoid using other stores directly in setup function body. Use them in computed properties or actions instead.',
+        'Avoid using other stores directly in setup function body. Use them in actions instead.',
     },
   },
   defaultOptions: [],
   create(context) {
     const storeUsages = new Map<string, string[]>() // currentStore -> [usedStores]
-    let currentStoreName: string | null = null
+    const usageGraph = new Map<string, Map<string, TSESTree.Node[]>>() // currentStore -> usedStore -> nodes
+    const storeStack: string[] = []
 
     return {
       CallExpression(node: TSESTree.CallExpression) {
@@ -52,28 +57,29 @@ export const noCircularStoreDependencies = createRule({
             parent?.type === 'VariableDeclarator' &&
             parent.id.type === 'Identifier'
           ) {
-            currentStoreName = parent.id.name
+            const currentStoreName = parent.id.name
+            storeStack.push(currentStoreName)
 
             // Initialize usage tracking for this store
             if (!storeUsages.has(currentStoreName)) {
               storeUsages.set(currentStoreName, [])
+            }
+            if (!usageGraph.has(currentStoreName)) {
+              usageGraph.set(currentStoreName, new Map())
             }
 
             // Check for store usage in setup function
             if (isSetupStore(node)) {
               const setupFunction = getSetupFunction(node)
               if (setupFunction) {
-                checkSetupFunctionForStoreUsage(
-                  setupFunction,
-                  currentStoreName,
-                  context
-                )
+                checkSetupFunctionForStoreUsage(setupFunction, context)
               }
             }
           }
         }
 
         // Track store usage calls
+        const currentStoreName = storeStack[storeStack.length - 1]
         if (isStoreUsage(node) && currentStoreName) {
           const usedStoreName = getStoreNameFromUsage(node)
           if (usedStoreName && usedStoreName !== currentStoreName) {
@@ -82,6 +88,11 @@ export const noCircularStoreDependencies = createRule({
               usages.push(usedStoreName)
               storeUsages.set(currentStoreName, usages)
             }
+            // record node for later reporting
+            const edges = usageGraph.get(currentStoreName)!
+            const nodes = edges.get(usedStoreName) ?? []
+            nodes.push(node)
+            edges.set(usedStoreName, nodes)
 
             // Check for immediate circular dependency
             const usedStoreUsages = storeUsages.get(usedStoreName) || []
@@ -99,9 +110,15 @@ export const noCircularStoreDependencies = createRule({
         }
       },
 
+      'CallExpression:exit'(node: TSESTree.CallExpression) {
+        if (isDefineStoreCall(node)) {
+          storeStack.pop()
+        }
+      },
+
       'Program:exit'() {
         // Check for indirect circular dependencies
-        checkIndirectCircularDependencies(storeUsages, context)
+        checkIndirectCircularDependencies(usageGraph, context)
       },
     }
   },
@@ -112,8 +129,10 @@ export const noCircularStoreDependencies = createRule({
  */
 function checkSetupFunctionForStoreUsage(
   setupFunction: TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression,
-  currentStoreName: string,
-  context: any
+  context: TSESLint.RuleContext<
+    'circularDependency' | 'setupCircularDependency',
+    []
+  >
 ) {
   if (setupFunction.body.type !== 'BlockStatement') {
     return
@@ -150,40 +169,47 @@ function checkSetupFunctionForStoreUsage(
  * Checks for indirect circular dependencies (A -> B -> C -> A)
  */
 function checkIndirectCircularDependencies(
-  storeUsages: Map<string, string[]>,
-  context: any
+  usageGraph: Map<string, Map<string, TSESTree.Node[]>>,
+  context: TSESLint.RuleContext<
+    'circularDependency' | 'setupCircularDependency',
+    []
+  >
 ) {
   const visited = new Set<string>()
-  const recursionStack = new Set<string>()
+  const inPath = new Set<string>()
+  const path: string[] = []
+  const reported = new Set<string>() // "A->B"
 
-  function hasCycle(store: string, path: string[] = []): boolean {
-    if (recursionStack.has(store)) {
-      // Found a cycle
-      return true
-    }
-
-    if (visited.has(store)) {
-      return false
-    }
-
+  const dfs = (store: string) => {
     visited.add(store)
-    recursionStack.add(store)
-
-    const dependencies = storeUsages.get(store) || []
-    for (const dependency of dependencies) {
-      if (hasCycle(dependency, [...path, store])) {
-        return true
+    inPath.add(store)
+    path.push(store)
+    const deps = usageGraph.get(store) ?? new Map()
+    for (const [dep] of deps) {
+      if (!visited.has(dep)) dfs(dep)
+      if (inPath.has(dep)) {
+        // report the edge(s) participating in the cycle at least once
+        const from = store
+        const to = dep
+        const key = `${from}->${to}`
+        if (!reported.has(key)) {
+          reported.add(key)
+          const node = usageGraph.get(from)?.get(to)?.[0]
+          if (node) {
+            context.report({
+              node,
+              messageId: 'circularDependency',
+              data: { currentStore: from, usedStore: to },
+            })
+          }
+        }
       }
     }
-
-    recursionStack.delete(store)
-    return false
+    path.pop()
+    inPath.delete(store)
   }
 
-  // Check each store for cycles
-  for (const store of storeUsages.keys()) {
-    if (!visited.has(store)) {
-      hasCycle(store)
-    }
+  for (const store of usageGraph.keys()) {
+    if (!visited.has(store)) dfs(store)
   }
 }

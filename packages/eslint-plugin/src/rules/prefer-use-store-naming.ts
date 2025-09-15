@@ -4,7 +4,7 @@
  */
 
 import { ESLintUtils, type TSESTree } from '@typescript-eslint/utils'
-import { isDefineStoreCall } from '../utils/ast-utils'
+import { isDefineStoreCall, getStoreId } from '../utils/ast-utils'
 
 const createRule = ESLintUtils.RuleCreator(
   (name) => `https://pinia.vuejs.org/cookbook/eslint-plugin.html#${name}`
@@ -24,7 +24,7 @@ export const preferUseStoreNaming = createRule({
       description: 'enforce consistent store naming conventions',
       recommended: 'warn',
     },
-    fixable: 'code',
+    hasSuggestions: true,
     schema: [
       {
         type: 'object',
@@ -43,7 +43,7 @@ export const preferUseStoreNaming = createRule({
     ],
     messages: {
       invalidNaming:
-        'Store function should follow the naming pattern "{{prefix}}{{name}}{{suffix}}"',
+        'Store function should follow the naming pattern "{{expected}}"',
     },
   },
   defaultOptions: [{ prefix: 'use', suffix: 'Store' }],
@@ -64,12 +64,8 @@ export const preferUseStoreNaming = createRule({
           if (!storeName.startsWith(prefix) || !storeName.endsWith(suffix)) {
             // Extract the core name from store ID if available
             let suggestedName = storeName
-            if (
-              node.init.arguments.length > 0 &&
-              node.init.arguments[0].type === 'Literal' &&
-              typeof node.init.arguments[0].value === 'string'
-            ) {
-              const storeId = node.init.arguments[0].value
+            const storeId = getStoreId(node.init)
+            if (storeId) {
               // Convert kebab-case or snake_case to PascalCase
               const coreName = storeId
                 .split(/[-_]/)
@@ -95,13 +91,16 @@ export const preferUseStoreNaming = createRule({
               node: node.id,
               messageId: 'invalidNaming',
               data: {
-                prefix,
-                name: '{{Name}}',
-                suffix,
+                expected: suggestedName,
               },
-              fix(fixer) {
-                return fixer.replaceText(node.id, suggestedName)
-              },
+              suggest: [
+                {
+                  desc: `Rename to "${suggestedName}"`,
+                  fix(fixer) {
+                    return fixer.replaceText(node.id, suggestedName)
+                  },
+                },
+              ],
             })
           }
         }

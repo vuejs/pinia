@@ -3,7 +3,11 @@
  * @author Eduardo San Martin Morote
  */
 
-import { ESLintUtils, type TSESTree } from '@typescript-eslint/utils'
+import {
+  ESLintUtils,
+  type TSESTree,
+  type TSESLint,
+} from '@typescript-eslint/utils'
 import { isStoreUsage } from '../utils/store-utils'
 
 const createRule = ESLintUtils.RuleCreator(
@@ -32,48 +36,63 @@ export const noStoreInComputed = createRule({
   },
   defaultOptions: [],
   create(context) {
-    let insideComputed = false
-
     return {
       CallExpression(node: TSESTree.CallExpression) {
-        // Track when we enter a computed() call
-        if (
-          node.callee.type === 'Identifier' &&
-          node.callee.name === 'computed' &&
-          node.arguments.length > 0
-        ) {
-          insideComputed = true
-
-          // Check the computed function for store usage
-          const computedFn = node.arguments[0]
-          if (
-            computedFn.type === 'FunctionExpression' ||
-            computedFn.type === 'ArrowFunctionExpression'
-          ) {
-            checkFunctionForStoreUsage(computedFn, context)
-          }
-
-          insideComputed = false
-        }
-
-        // Check for store usage inside computed
-        if (insideComputed && isStoreUsage(node)) {
-          context.report({
-            node,
-            messageId: 'noStoreInComputed',
-          })
+        if (!isComputedCall(node) || node.arguments.length === 0) return
+        const arg = node.arguments[0]
+        const getter =
+          arg.type === 'FunctionExpression' ||
+          arg.type === 'ArrowFunctionExpression'
+            ? arg
+            : extractGetterFromObjectArg(arg)
+        if (getter) {
+          checkFunctionForStoreUsage(getter, context)
         }
       },
     }
   },
 })
 
+// Support: computed(), vue.computed(), imported alias still named 'computed'
+function isComputedCall(node: TSESTree.CallExpression): boolean {
+  const callee = node.callee
+  return (
+    (callee.type === 'Identifier' && callee.name === 'computed') ||
+    (callee.type === 'MemberExpression' &&
+      !callee.computed &&
+      callee.property.type === 'Identifier' &&
+      callee.property.name === 'computed')
+  )
+}
+
+function extractGetterFromObjectArg(
+  arg: TSESTree.Node
+): TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression | null {
+  if (arg.type !== 'ObjectExpression') return null
+  for (const prop of arg.properties) {
+    if (
+      prop.type === 'Property' &&
+      !prop.computed &&
+      prop.key.type === 'Identifier' &&
+      prop.key.name === 'get'
+    ) {
+      const v = prop.value
+      if (
+        v.type === 'FunctionExpression' ||
+        v.type === 'ArrowFunctionExpression'
+      )
+        return v
+    }
+  }
+  return null
+}
+
 /**
  * Recursively checks a function for store usage
  */
 function checkFunctionForStoreUsage(
   fn: TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression,
-  context: any
+  context: TSESLint.RuleContext<'noStoreInComputed', []>
 ) {
   const visited = new Set<TSESTree.Node>()
 
