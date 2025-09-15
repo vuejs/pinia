@@ -213,6 +213,22 @@ function createOptionsStore<
   return store as any
 }
 
+/**
+ * Create and register a Pinia store implemented with the setup API (core factory).
+ *
+ * Builds the reactive store instance, wires its state into the global Pinia state tree,
+ * wraps actions for $onAction tracking, attaches $patch/$reset/$subscribe/$dispose helpers,
+ * applies plugins and devtools metadata, and registers the store on the provided Pinia
+ * instance. Also prepares Hot Module Replacement (HMR) support and optional hydration logic.
+ *
+ * @param $id - Unique store id used as the key in pinia.state and for registration.
+ * @param setup - Store setup function that receives setup helpers and returns state, getters, and actions.
+ * @param options - Optional store definition/options; used for plugins, getters (options API compatibility), and hydration.
+ * @param pinia - The Pinia root instance where the store will be registered.
+ * @param hot - When true, build the store in hot-update mode (uses a temporary hotState and enables HMR-specific wiring).
+ * @param isOptionsStore - Set to true for stores created from the Options API so certain setup-store behaviors (like state wiring) are skipped.
+ * @returns The reactive Store instance exposing state, getters, actions and Pinia helpers.
+ */
 function createSetupStore<
   Id extends string,
   SS extends Record<any, unknown>,
@@ -474,12 +490,18 @@ function createSetupStore<
           {
             _hmrPayload,
             _customProperties: markRaw(new Set<string>()), // devtools custom properties
+            _options: optionsForPlugin, // store options for plugins
           },
           partialStore
           // must be added later
           // setupStore
         )
-      : partialStore
+      : assign(
+          {
+            _options: optionsForPlugin, // store options for plugins
+          },
+          partialStore
+        )
   ) as unknown as Store<Id, S, G, A>
 
   // store the partial store now so the setup of stores can instantiate each other before they are finished without
