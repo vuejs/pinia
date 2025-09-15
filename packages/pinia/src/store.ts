@@ -296,9 +296,6 @@ function createSetupStore<
   // https://github.com/vuejs/pinia/issues/1129
   let activeListener: Symbol | undefined
 
-  // Store reference for shallowRef handling - will be set after setupStore creation
-  let setupStoreRef: any = null
-
   function $patch(stateMutation: (state: UnwrapRef<S>) => void): void
   function $patch(partialState: _DeepPartial<UnwrapRef<S>>): void
   function $patch(
@@ -323,24 +320,21 @@ function createSetupStore<
     } else {
       mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator)
 
-      // Handle shallowRef reactivity: check if any patched properties are shallowRefs
-      // and trigger their reactivity manually
-      if (setupStoreRef) {
-        const shallowRefsToTrigger: any[] = []
+      // Handle shallowRef reactivity: inspect raw store to avoid ref unwrapping
+      {
+        const rawStore = toRaw(store) as Record<string, unknown>
+        const shallowRefsToTrigger: Ref[] = []
         for (const key in partialStateOrMutator) {
-          if (partialStateOrMutator.hasOwnProperty(key)) {
-            // Check if the property in the setupStore is a shallowRef
-            const setupStoreProperty = setupStoreRef[key]
-            if (
-              isShallowRef(setupStoreProperty) &&
-              isPlainObject(partialStateOrMutator[key])
-            ) {
-              shallowRefsToTrigger.push(setupStoreProperty)
-            }
+          if (!Object.prototype.hasOwnProperty.call(partialStateOrMutator, key))
+            continue
+          const prop = (rawStore as any)[key]
+          if (
+            isShallowRef(prop) &&
+            isPlainObject((partialStateOrMutator as any)[key])
+          ) {
+            shallowRefsToTrigger.push(prop)
           }
         }
-
-        // Trigger reactivity for all shallowRefs that were patched
         shallowRefsToTrigger.forEach(triggerRef)
       }
 
@@ -531,8 +525,7 @@ function createSetupStore<
     pinia._e.run(() => (scope = effectScope()).run(() => setup({ action }))!)
   )!
 
-  // Set setupStore reference for shallowRef handling in $patch
-  setupStoreRef = setupStore
+  // no-op: `$patch` inspects refs via `toRaw(store)`
 
   // overwrite existing actions to support $onAction
   for (const key in setupStore) {
