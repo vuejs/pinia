@@ -83,7 +83,7 @@ export function getSetupFunction(
 }
 
 /**
- * Extracts variable and function declarations from a function body
+ * Extracts variable and function declarations from a function body (recursive)
  */
 export function extractDeclarations(body: TSESTree.BlockStatement): {
   variables: string[]
@@ -92,16 +92,65 @@ export function extractDeclarations(body: TSESTree.BlockStatement): {
   const variables: string[] = []
   const functions: string[] = []
 
-  for (const statement of body.body) {
-    if (statement.type === 'VariableDeclaration') {
-      for (const declarator of statement.declarations) {
-        extractIdentifiersFromPattern(declarator.id, variables)
-      }
-    } else if (statement.type === 'FunctionDeclaration' && statement.id) {
-      functions.push(statement.id.name)
+  function traverse(node: TSESTree.Node): void {
+    switch (node.type) {
+      case 'VariableDeclaration':
+        for (const declarator of node.declarations) {
+          extractIdentifiersFromPattern(declarator.id, variables)
+        }
+        break
+      case 'FunctionDeclaration':
+        if (node.id) {
+          functions.push(node.id.name)
+        }
+        break
+      case 'BlockStatement':
+        for (const statement of node.body) {
+          traverse(statement)
+        }
+        break
+      case 'IfStatement':
+        traverse(node.consequent)
+        if (node.alternate) {
+          traverse(node.alternate)
+        }
+        break
+      case 'ForStatement':
+      case 'ForInStatement':
+      case 'ForOfStatement':
+        if (node.body) {
+          traverse(node.body)
+        }
+        break
+      case 'WhileStatement':
+      case 'DoWhileStatement':
+        traverse(node.body)
+        break
+      case 'SwitchStatement':
+        for (const switchCase of node.cases) {
+          for (const statement of switchCase.consequent) {
+            traverse(statement)
+          }
+        }
+        break
+      case 'TryStatement':
+        traverse(node.block)
+        if (node.handler) {
+          traverse(node.handler.body)
+        }
+        if (node.finalizer) {
+          traverse(node.finalizer)
+        }
+        break
+      case 'WithStatement':
+        traverse(node.body)
+        break
+      // For other statement types, we don't need to traverse deeper
+      // as they don't contain variable/function declarations
     }
   }
 
+  traverse(body)
   return { variables, functions }
 }
 
@@ -219,15 +268,102 @@ export function hasSpreadInReturn(
 }
 
 /**
- * Finds the return statement in a function body
+ * Finds all return statements in a function body (recursive)
+ */
+export function findAllReturnStatements(
+  body: TSESTree.BlockStatement
+): TSESTree.ReturnStatement[] {
+  const returnStatements: TSESTree.ReturnStatement[] = []
+
+  function traverse(node: TSESTree.Node): void {
+    switch (node.type) {
+      case 'ReturnStatement':
+        returnStatements.push(node)
+        break
+      case 'BlockStatement':
+        for (const statement of node.body) {
+          traverse(statement)
+        }
+        break
+      case 'IfStatement':
+        traverse(node.consequent)
+        if (node.alternate) {
+          traverse(node.alternate)
+        }
+        break
+      case 'ForStatement':
+      case 'ForInStatement':
+      case 'ForOfStatement':
+        if (node.body) {
+          traverse(node.body)
+        }
+        break
+      case 'WhileStatement':
+      case 'DoWhileStatement':
+        traverse(node.body)
+        break
+      case 'SwitchStatement':
+        for (const switchCase of node.cases) {
+          for (const statement of switchCase.consequent) {
+            traverse(statement)
+          }
+        }
+        break
+      case 'TryStatement':
+        traverse(node.block)
+        if (node.handler) {
+          traverse(node.handler.body)
+        }
+        if (node.finalizer) {
+          traverse(node.finalizer)
+        }
+        break
+      case 'WithStatement':
+        traverse(node.body)
+        break
+      // For function declarations/expressions, we don't traverse into them
+      // as they have their own scope
+      case 'FunctionDeclaration':
+      case 'FunctionExpression':
+      case 'ArrowFunctionExpression':
+        break
+      // For other statement types that can contain nested statements
+      case 'ExpressionStatement':
+      case 'VariableDeclaration':
+      case 'ThrowStatement':
+      case 'BreakStatement':
+      case 'ContinueStatement':
+      case 'EmptyStatement':
+      case 'DebuggerStatement':
+        // These don't contain nested statements
+        break
+    }
+  }
+
+  traverse(body)
+  return returnStatements
+}
+
+/**
+ * Finds the main return statement in a function body (typically the last object return)
  */
 export function findReturnStatement(
   body: TSESTree.BlockStatement
 ): TSESTree.ReturnStatement | null {
-  for (const statement of body.body) {
-    if (statement.type === 'ReturnStatement') {
-      return statement
+  const allReturns = findAllReturnStatements(body)
+
+  if (allReturns.length === 0) {
+    return null
+  }
+
+  // Find the last return statement that returns an object expression
+  for (let i = allReturns.length - 1; i >= 0; i--) {
+    const returnStmt = allReturns[i]
+    if (returnStmt.argument?.type === 'ObjectExpression') {
+      return returnStmt
     }
   }
-  return null
+
+  // If no object return found, return the last return statement
+  return allReturns[allReturns.length - 1]
 }

@@ -186,7 +186,6 @@ function checkIndirectCircularDependencies(
     path.push(store)
     const deps = usageGraph.get(store) ?? new Map()
     for (const [dep] of deps) {
-      if (!visited.has(dep)) dfs(dep)
       if (inPath.has(dep)) {
         // report the edge(s) participating in the cycle at least once
         const from = store
@@ -203,6 +202,8 @@ function checkIndirectCircularDependencies(
             })
           }
         }
+      } else if (!visited.has(dep)) {
+        dfs(dep)
       }
     }
     path.pop()

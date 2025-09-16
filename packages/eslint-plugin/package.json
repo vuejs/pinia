@@ -37,7 +37,9 @@
   "files": [
     "dist/*.js",
     "dist/*.mjs",
-    "dist/*.d.ts"
+    "dist/*.d.ts",
+    "dist/*.d.mts",
+    "dist/*.map"
   ],
   "scripts": {
     "build": "tsup",
