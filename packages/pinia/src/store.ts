@@ -227,7 +227,7 @@ function createOptionsStore<
  * @param pinia - The Pinia root instance where the store will be registered.
  * @param hot - When true, build the store in hot-update mode (uses a temporary hotState and enables HMR-specific wiring).
  * @param isOptionsStore - Set to true for stores created from the Options API, so certain setup-store behaviors (like state wiring) are skipped.
- * @returns The reactive Store instance is exposing state, getters, actions, and Pinia helpers.
+ * @returns A reactive store instance that exposes state, getters, actions, and Pinia helpers.
  */
 function createSetupStore<
   Id extends string,
@@ -490,7 +490,7 @@ function createSetupStore<
           {
             _hmrPayload,
             _customProperties: markRaw(new Set<string>()), // devtools custom properties
-            _options: optionsForPlugin, // store options for plugins
+            _options: markRaw(optionsForPlugin), // store options for plugins
           },
           partialStore
           // must be added later
@@ -498,7 +498,7 @@ function createSetupStore<
         )
       : assign(
           {
-            _options: optionsForPlugin, // store options for plugins
+            _options: markRaw(optionsForPlugin), // store options for plugins
           },
           partialStore
         )
@@ -688,6 +688,16 @@ function createSetupStore<
         }
       })
 
+      // sync plugin options
+      if ('_options' in newStore) {
+        Object.defineProperty(store, '_options', {
+          value: newStore._options,
+          enumerable: false,
+          configurable: true,
+          writable: false,
+        })
+      }
+
       // update the values used in devtools and to allow deleting new properties later on
       store._hmrPayload = newStore._hmrPayload
       store._getters = newStore._getters
@@ -704,15 +714,21 @@ function createSetupStore<
     }
 
     // avoid listing internal properties in devtools
-    ;(['_p', '_hmrPayload', '_getters', '_customProperties'] as const).forEach(
-      (p) => {
-        Object.defineProperty(
-          store,
-          p,
-          assign({ value: store[p] }, nonEnumerable)
-        )
-      }
-    )
+    ;(
+      [
+        '_p',
+        '_hmrPayload',
+        '_getters',
+        '_customProperties',
+        '_options',
+      ] as const
+    ).forEach((p) => {
+      Object.defineProperty(
+        store,
+        p,
+        assign({ value: store[p] }, nonEnumerable)
+      )
+    })
   }
 
   // apply all plugins
