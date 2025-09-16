@@ -6,43 +6,94 @@ import type { TSESTree } from '@typescript-eslint/utils'
 
 /**
  * Checks if a node is a call expression to `defineStore`
+ * Handles optional chaining and chain expressions (e.g., pinia?.defineStore(...))
  */
 export function isDefineStoreCall(
   node: TSESTree.Node
 ): node is TSESTree.CallExpression {
-  return (
-    node.type === 'CallExpression' &&
-    ((node.callee.type === 'Identifier' &&
-      node.callee.name === 'defineStore') ||
-      (node.callee.type === 'MemberExpression' &&
-        !node.callee.computed &&
-        node.callee.property.type === 'Identifier' &&
-        node.callee.property.name === 'defineStore'))
-  )
+  if (node.type !== 'CallExpression') {
+    return false
+  }
+
+  return isDefineStoreCallee(node.callee)
+}
+
+/**
+ * Helper function to check if a callee is a defineStore call
+ * Handles various patterns including optional chaining
+ */
+function isDefineStoreCallee(
+  callee: TSESTree.CallExpression['callee']
+): boolean {
+  // Direct call: defineStore(...)
+  if (callee.type === 'Identifier' && callee.name === 'defineStore') {
+    return true
+  }
+
+  // Member expression: pinia.defineStore(...)
+  if (
+    callee.type === 'MemberExpression' &&
+    !callee.computed &&
+    callee.property.type === 'Identifier' &&
+    callee.property.name === 'defineStore'
+  ) {
+    return true
+  }
+
+  // Chain expression (optional chaining): pinia?.defineStore(...)
+  if (callee.type === 'ChainExpression') {
+    return isDefineStoreCallee(callee.expression)
+  }
+
+  return false
 }
 
 /**
  * Extracts store ID from defineStore call arguments
+ * Handles template literals without interpolations
  */
 export function getStoreId(node: TSESTree.CallExpression): string | null {
   if (!isDefineStoreCall(node)) return null
 
   const firstArg = node.arguments[0]
+
+  // Handle string literals
   if (firstArg?.type === 'Literal' && typeof firstArg.value === 'string') {
     return firstArg.value
   }
 
+  // Handle template literals without interpolations
+  if (
+    firstArg?.type === 'TemplateLiteral' &&
+    firstArg.expressions.length === 0
+  ) {
+    // Template literal with no interpolations is just a string
+    return firstArg.quasis[0]?.value.cooked || null
+  }
+
+  // Handle object expression with id property
   if (firstArg?.type === 'ObjectExpression') {
     for (const prop of firstArg.properties) {
       if (
         prop.type === 'Property' &&
         !prop.computed &&
         prop.key.type === 'Identifier' &&
-        prop.key.name === 'id' &&
-        prop.value.type === 'Literal' &&
-        typeof prop.value.value === 'string'
+        prop.key.name === 'id'
       ) {
-        return prop.value.value
+        // Handle string literal value
+        if (
+          prop.value.type === 'Literal' &&
+          typeof prop.value.value === 'string'
+        ) {
+          return prop.value.value
+        }
+        // Handle template literal value without interpolations
+        if (
+          prop.value.type === 'TemplateLiteral' &&
+          prop.value.expressions.length === 0
+        ) {
+          return prop.value.quasis[0]?.value.cooked || null
+        }
       }
     }
   }
@@ -84,24 +135,25 @@ export function getSetupFunction(
 
 /**
  * Extracts variable and function declarations from a function body (recursive)
+ * Captures loop-initializer declarations and de-duplicates outputs
  */
 export function extractDeclarations(body: TSESTree.BlockStatement): {
   variables: string[]
   functions: string[]
 } {
-  const variables: string[] = []
-  const functions: string[] = []
+  const variableSet = new Set<string>()
+  const functionSet = new Set<string>()
 
   function traverse(node: TSESTree.Node): void {
     switch (node.type) {
       case 'VariableDeclaration':
         for (const declarator of node.declarations) {
-          extractIdentifiersFromPattern(declarator.id, variables)
+          extractIdentifiersFromPattern(declarator.id, variableSet)
         }
         break
       case 'FunctionDeclaration':
         if (node.id) {
-          functions.push(node.id.name)
+          functionSet.add(node.id.name)
         }
         break
       case 'BlockStatement':
@@ -116,8 +168,24 @@ export function extractDeclarations(body: TSESTree.BlockStatement): {
         }
         break
       case 'ForStatement':
+        // Handle loop initializer declarations (e.g., for (let i = 0; ...))
+        if (node.init && node.init.type === 'VariableDeclaration') {
+          for (const declarator of node.init.declarations) {
+            extractIdentifiersFromPattern(declarator.id, variableSet)
+          }
+        }
+        if (node.body) {
+          traverse(node.body)
+        }
+        break
       case 'ForInStatement':
       case 'ForOfStatement':
+        // Handle loop variable declarations (e.g., for (const item of items))
+        if (node.left.type === 'VariableDeclaration') {
+          for (const declarator of node.left.declarations) {
+            extractIdentifiersFromPattern(declarator.id, variableSet)
+          }
+        }
         if (node.body) {
           traverse(node.body)
         }
@@ -136,6 +204,10 @@ export function extractDeclarations(body: TSESTree.BlockStatement): {
       case 'TryStatement':
         traverse(node.block)
         if (node.handler) {
+          // Handle catch clause parameter (e.g., catch (error))
+          if (node.handler.param) {
+            extractIdentifiersFromPattern(node.handler.param, variableSet)
+          }
           traverse(node.handler.body)
         }
         if (node.finalizer) {
@@ -151,7 +223,10 @@ export function extractDeclarations(body: TSESTree.BlockStatement): {
   }
 
   traverse(body)
-  return { variables, functions }
+  return {
+    variables: Array.from(variableSet),
+    functions: Array.from(functionSet),
+  }
 }
 
 /**
@@ -159,11 +234,11 @@ export function extractDeclarations(body: TSESTree.BlockStatement): {
  */
 function extractIdentifiersFromPattern(
   pattern: TSESTree.BindingName,
-  identifiers: string[]
+  identifiers: Set<string>
 ): void {
   switch (pattern.type) {
     case 'Identifier':
-      identifiers.push(pattern.name)
+      identifiers.add(pattern.name)
       break
     case 'ObjectPattern':
       for (const prop of pattern.properties) {
@@ -192,29 +267,70 @@ function extractIdentifiersFromPattern(
 
 /**
  * Extracts properties from a return statement object (keys only)
+ * Handles quoted keys, literal property keys, and MemberExpression returns
  */
 export function extractReturnProperties(
   returnStatement: TSESTree.ReturnStatement
 ): string[] {
-  if (
-    !returnStatement.argument ||
-    returnStatement.argument.type !== 'ObjectExpression'
-  ) {
+  if (!returnStatement.argument) {
     return []
   }
 
-  const properties: string[] = []
+  // Handle object expression returns
+  if (returnStatement.argument.type === 'ObjectExpression') {
+    const properties: string[] = []
 
-  for (const prop of returnStatement.argument.properties) {
-    if (prop.type === 'Property' && prop.key.type === 'Identifier') {
-      properties.push(prop.key.name)
-    } else if (prop.type === 'SpreadElement') {
-      // Handle spread elements - we can't easily determine what's being spread
-      // so we'll be more lenient in this case
+    for (const prop of returnStatement.argument.properties) {
+      if (prop.type === 'Property') {
+        // Handle identifier keys: { name: ... }
+        if (prop.key.type === 'Identifier' && !prop.computed) {
+          properties.push(prop.key.name)
+        }
+        // Handle string literal keys: { "name": ... } or { 'name': ... }
+        else if (
+          prop.key.type === 'Literal' &&
+          typeof prop.key.value === 'string'
+        ) {
+          properties.push(prop.key.value)
+        }
+        // Handle template literal keys without interpolations: { `name`: ... }
+        else if (
+          prop.key.type === 'TemplateLiteral' &&
+          prop.key.expressions.length === 0
+        ) {
+          const value = prop.key.quasis[0]?.value.cooked
+          if (value) {
+            properties.push(value)
+          }
+        }
+        // Handle computed property keys with template literals: { [`name`]: ... }
+        else if (
+          prop.computed &&
+          prop.key.type === 'TemplateLiteral' &&
+          prop.key.expressions.length === 0
+        ) {
+          const value = prop.key.quasis[0]?.value.cooked
+          if (value) {
+            properties.push(value)
+          }
+        }
+      } else if (prop.type === 'SpreadElement') {
+        // Handle spread elements - we can't easily determine what's being spread
+        // so we'll be more lenient in this case
+      }
     }
+
+    return properties
   }
 
-  return properties
+  // Handle MemberExpression returns (e.g., return someObject.property)
+  if (returnStatement.argument.type === 'MemberExpression') {
+    // For MemberExpression, we can't determine the exact properties
+    // but we can note that it's a dynamic return
+    return []
+  }
+
+  return []
 }
 
 /**

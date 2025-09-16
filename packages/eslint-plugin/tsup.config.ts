@@ -10,6 +10,6 @@ export default defineConfig({
   splitting: false,
   sourcemap: true,
   outExtension: ({ format }) => ({
-    js: format === 'esm' ? '.mjs' : '.js',
+    js: format === 'esm' ? '.mjs' : '.cjs',
   }),
 })
