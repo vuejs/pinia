@@ -114,9 +114,9 @@ describe('extractDeclarations', () => {
   it('should extract variable declarations and deduplicate', () => {
     const code = `
       function setup() {
-        const name = ref('test')
+        var name = ref('test')
         let count = 0
-        const name = ref('duplicate') // This should be deduplicated
+        var name = ref('duplicate') // This should be deduplicated
         return { name, count }
       }
     `
