@@ -293,16 +293,6 @@ export function extractReturnProperties(
         ) {
           properties.push(prop.key.value)
         }
-        // Handle template literal keys without interpolations: { `name`: ... }
-        else if (
-          prop.key.type === 'TemplateLiteral' &&
-          prop.key.expressions.length === 0
-        ) {
-          const value = prop.key.quasis[0]?.value.cooked
-          if (value) {
-            properties.push(value)
-          }
-        }
         // Handle computed property keys with template literals: { [`name`]: ... }
         else if (
           prop.computed &&
