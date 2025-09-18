@@ -31,7 +31,6 @@ export const noCircularStoreDependencies = createRule({
     type: 'problem',
     docs: {
       description: 'disallow circular dependencies between stores',
-      recommended: 'warn',
     },
     schema: [],
     messages: {

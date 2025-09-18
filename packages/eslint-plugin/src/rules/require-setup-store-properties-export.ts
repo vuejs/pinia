@@ -8,7 +8,7 @@ import {
   isDefineStoreCall,
   isSetupStore,
   getSetupFunction,
-  extractDeclarations,
+  extractTopLevelDeclarations,
   extractReturnIdentifiers,
   findReturnStatement,
   hasSpreadInReturn,
@@ -30,7 +30,6 @@ export const requireSetupStorePropertiesExport = createRule({
     type: 'problem',
     docs: {
       description: 'require all setup store properties to be exported',
-      recommended: 'error',
     },
     fixable: 'code',
     schema: [],
@@ -55,8 +54,10 @@ export const requireSetupStorePropertiesExport = createRule({
           return
         }
 
-        // Extract all declared variables and functions
-        const { variables, functions } = extractDeclarations(setupFunction.body)
+        // Extract all declared variables and functions (top-level only)
+        const { variables, functions } = extractTopLevelDeclarations(
+          setupFunction.body
+        )
         const allDeclared = [...variables, ...functions]
 
         // Find the return statement

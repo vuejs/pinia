@@ -8,8 +8,9 @@ import type { TSESTree } from '@typescript-eslint/utils'
 import {
   isDefineStoreCall,
   getStoreId,
-  extractDeclarations,
+  extractTopLevelDeclarations,
   extractReturnProperties,
+  extractReturnIdentifiers,
 } from '../ast-utils'
 
 function parseCode(code: string): TSESTree.Program {
@@ -110,8 +111,8 @@ describe('getStoreId', () => {
   })
 })
 
-describe('extractDeclarations', () => {
-  it('should extract variable declarations and deduplicate', () => {
+describe('extractTopLevelDeclarations', () => {
+  it('should extract variable declarations and deduplicate (top-level only)', () => {
     const code = `
       function setup() {
         var name = ref('test')
@@ -122,12 +123,12 @@ describe('extractDeclarations', () => {
     `
     const ast = parseCode(code)
     const func = ast.body[0] as TSESTree.FunctionDeclaration
-    const result = extractDeclarations(func.body!)
+    const result = extractTopLevelDeclarations(func.body!)
 
     expect(result.variables).toEqual(['name', 'count'])
   })
 
-  it('should extract loop initializer declarations', () => {
+  it('should not include loop initializer declarations (top-level only)', () => {
     const code = `
       function setup() {
         for (let i = 0; i < 10; i++) {
@@ -141,13 +142,14 @@ describe('extractDeclarations', () => {
     `
     const ast = parseCode(code)
     const func = ast.body[0] as TSESTree.FunctionDeclaration
-    const result = extractDeclarations(func.body!)
+    const result = extractTopLevelDeclarations(func.body!)
 
-    expect(result.variables).toContain('i')
-    expect(result.variables).toContain('item')
+    expect(result.variables).not.toContain('i')
+    expect(result.variables).not.toContain('item')
+    expect(result.variables).toEqual([])
   })
 
-  it('should extract catch clause parameters', () => {
+  it('should not include catch clause parameters (top-level only)', () => {
     const code = `
       function setup() {
         try {
@@ -160,9 +162,10 @@ describe('extractDeclarations', () => {
     `
     const ast = parseCode(code)
     const func = ast.body[0] as TSESTree.FunctionDeclaration
-    const result = extractDeclarations(func.body!)
+    const result = extractTopLevelDeclarations(func.body!)
 
-    expect(result.variables).toContain('error')
+    expect(result.variables).not.toContain('error')
+    expect(result.variables).toEqual([])
   })
 })
 
@@ -191,7 +194,19 @@ describe('extractReturnProperties', () => {
     const func = ast.body[0] as TSESTree.FunctionDeclaration
     const returnStmt = func.body!.body[0] as TSESTree.ReturnStatement
     const result = extractReturnProperties(returnStmt)
+    expect(result).toEqual(['name', 'count'])
+  })
 
+  it('should extract computed string-literal property keys', () => {
+    const code = `
+      function setup() {
+        return { ["name"]: value, ['count']: value2 }
+      }
+    `
+    const ast = parseCode(code)
+    const func = ast.body[0] as TSESTree.FunctionDeclaration
+    const returnStmt = func.body!.body[0] as TSESTree.ReturnStatement
+    const result = extractReturnProperties(returnStmt)
     expect(result).toEqual(['name', 'count'])
   })
 
@@ -221,5 +236,20 @@ describe('extractReturnProperties', () => {
     const result = extractReturnProperties(returnStmt)
 
     expect(result).toEqual([])
+  })
+
+  it('extractReturnIdentifiers should unwrap TS/JS wrappers to find identifiers', () => {
+    const code = `
+      function setup() {
+        const count = 1
+        const total = 2
+        return { a: (count as number), b: ((total)), c: (count!) }
+      }
+    `
+    const ast = parseCode(code)
+    const func = ast.body[0] as TSESTree.FunctionDeclaration
+    const returnStmt = func.body!.body[2] as TSESTree.ReturnStatement
+    const result = extractReturnIdentifiers(returnStmt)
+    expect(result).toEqual(['count', 'total', 'count'])
   })
 })

@@ -30,14 +30,40 @@ function isDefineStoreCallee(
     return true
   }
 
-  // Member expression: pinia.defineStore(...)
+  // Member expression: pinia.defineStore(...), pinia['defineStore'](...), pinia[`defineStore`](...)
+  if (callee.type === 'MemberExpression') {
+    if (
+      !callee.computed &&
+      callee.property.type === 'Identifier' &&
+      callee.property.name === 'defineStore'
+    ) {
+      return true
+    }
+    if (
+      callee.computed &&
+      callee.property.type === 'Literal' &&
+      callee.property.value === 'defineStore'
+    ) {
+      return true
+    }
+    if (
+      callee.computed &&
+      callee.property.type === 'TemplateLiteral' &&
+      callee.property.expressions.length === 0 &&
+      callee.property.quasis[0]?.value.cooked === 'defineStore'
+    ) {
+      return true
+    }
+  }
+
+  // TS wrappers: unwrap and re-check
   if (
-    callee.type === 'MemberExpression' &&
-    !callee.computed &&
-    callee.property.type === 'Identifier' &&
-    callee.property.name === 'defineStore'
+    callee.type === 'TSNonNullExpression' ||
+    callee.type === 'TSAsExpression' ||
+    callee.type === 'TSSatisfiesExpression'
   ) {
-    return true
+    // @ts-ignore - these nodes expose `.expression`
+    return isDefineStoreCallee((callee as any).expression)
   }
 
   // Chain expression (optional chaining): pinia?.defineStore(...)
@@ -76,9 +102,16 @@ export function getStoreId(node: TSESTree.CallExpression): string | null {
     for (const prop of firstArg.properties) {
       if (
         prop.type === 'Property' &&
-        !prop.computed &&
-        prop.key.type === 'Identifier' &&
-        prop.key.name === 'id'
+        ((!prop.computed &&
+          prop.key.type === 'Identifier' &&
+          prop.key.name === 'id') ||
+          (prop.computed &&
+            prop.key.type === 'Literal' &&
+            prop.key.value === 'id') ||
+          (prop.computed &&
+            prop.key.type === 'TemplateLiteral' &&
+            prop.key.expressions.length === 0 &&
+            prop.key.quasis[0]?.value.cooked === 'id'))
       ) {
         // Handle string literal value
         if (
@@ -230,6 +263,43 @@ export function extractDeclarations(body: TSESTree.BlockStatement): {
 }
 
 /**
+ * Extracts top-level variable and function declarations from a function body
+ * Only iterates over body.body and collects VariableDeclaration and FunctionDeclaration identifiers
+ */
+export function extractTopLevelDeclarations(body: TSESTree.BlockStatement): {
+  variables: string[]
+  functions: string[]
+} {
+  const variableSet = new Set<string>()
+  const functionSet = new Set<string>()
+
+  for (const statement of body.body) {
+    switch (statement.type) {
+      case 'VariableDeclaration': {
+        for (const declarator of statement.declarations) {
+          extractIdentifiersFromPattern(declarator.id, variableSet)
+        }
+        break
+      }
+      case 'FunctionDeclaration': {
+        if (statement.id) {
+          functionSet.add(statement.id.name)
+        }
+        break
+      }
+      default:
+        // ignore nested scopes/statements
+        break
+    }
+  }
+
+  return {
+    variables: Array.from(variableSet),
+    functions: Array.from(functionSet),
+  }
+}
+
+/**
  * Extracts identifier names from patterns (handles destructuring)
  */
 function extractIdentifiersFromPattern(
@@ -293,6 +363,14 @@ export function extractReturnProperties(
         ) {
           properties.push(prop.key.value)
         }
+        // Handle computed string literal keys: { ["name"]: ... } or { ['name']: ... }
+        else if (
+          prop.computed &&
+          prop.key.type === 'Literal' &&
+          typeof prop.key.value === 'string'
+        ) {
+          properties.push(prop.key.value)
+        }
         // Handle computed property keys with template literals: { [`name`]: ... }
         else if (
           prop.computed &&
@@ -339,14 +417,34 @@ export function extractReturnIdentifiers(
 
   const identifiers: string[] = []
 
+  // Helper to unwrap TS/JS wrappers and chain/paren expressions
+  function unwrap(expr: any): any {
+    let current = expr
+    // Unwrap nested wrappers
+    while (
+      current &&
+      (current.type === 'TSAsExpression' ||
+        current.type === 'TSSatisfiesExpression' ||
+        current.type === 'TSNonNullExpression' ||
+        current.type === 'ParenthesizedExpression' ||
+        current.type === 'ChainExpression')
+    ) {
+      current = current.expression
+    }
+    return current
+  }
+
   for (const prop of returnStatement.argument.properties) {
     if (prop.type === 'Property') {
       if (prop.shorthand && prop.key.type === 'Identifier') {
         // Shorthand property: { count } -> count
         identifiers.push(prop.key.name)
-      } else if (prop.value.type === 'Identifier') {
-        // Aliased property: { total: count } -> count
-        identifiers.push(prop.value.name)
+      } else if ('value' in prop) {
+        const unwrapped = unwrap((prop as any).value)
+        if (unwrapped && unwrapped.type === 'Identifier') {
+          // Aliased property possibly wrapped: { total: (count as number) } -> count
+          identifiers.push(unwrapped.name)
+        }
       }
     }
     // Skip spread elements as we can't determine what's being spread
@@ -413,6 +511,14 @@ export function findAllReturnStatements(
           for (const statement of switchCase.consequent) {
             traverse(statement)
           }
+        }
+        break
+      case 'LabeledStatement':
+        traverse(node.body)
+        break
+      case 'StaticBlock':
+        for (const statement of node.body) {
+          traverse(statement)
         }
         break
       case 'TryStatement':

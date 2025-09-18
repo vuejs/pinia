@@ -26,7 +26,6 @@ export const noStoreInComputed = createRule({
     type: 'problem',
     docs: {
       description: 'disallow store instantiation in computed properties',
-      recommended: 'error',
     },
     schema: [],
     messages: {

@@ -45,17 +45,20 @@
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
+    "test:coverage": "vitest --coverage",
     "test:watch": "vitest",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/eslint-plugin -r 1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.35.0",
     "@typescript-eslint/parser": "^8.35.1",
     "@typescript-eslint/rule-tester": "^8.35.1",
     "@typescript-eslint/utils": "^8.35.1",
-    "eslint": "^9.0.0",
+    "eslint": "^9.35.0",
     "pinia": "workspace:*",
     "tsup": "^8.5.0",
     "typescript": "~5.8.3",
+    "typescript-eslint": "^8.44.0",
     "vitest": "^3.2.4"
   },
   "engines": {

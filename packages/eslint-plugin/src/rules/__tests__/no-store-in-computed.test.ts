@@ -4,10 +4,11 @@
 
 import { RuleTester } from '@typescript-eslint/rule-tester'
 import { noStoreInComputed } from '../no-store-in-computed'
+import * as parser from '@typescript-eslint/parser'
 
 const ruleTester = new RuleTester({
   languageOptions: {
-    parser: require('@typescript-eslint/parser'),
+    parser,
     parserOptions: {
       ecmaVersion: 2020,
       sourceType: 'module',

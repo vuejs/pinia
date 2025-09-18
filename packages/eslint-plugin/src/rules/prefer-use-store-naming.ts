@@ -22,7 +22,6 @@ export const preferUseStoreNaming = createRule({
     type: 'suggestion',
     docs: {
       description: 'enforce consistent store naming conventions',
-      recommended: 'warn',
     },
     hasSuggestions: true,
     schema: [
@@ -44,6 +43,7 @@ export const preferUseStoreNaming = createRule({
     messages: {
       invalidNaming:
         'Store function should follow the naming pattern "{{expected}}"',
+      renameTo: 'Rename to "{{name}}"',
     },
   },
   defaultOptions: [{ prefix: 'use', suffix: 'Store' }],
@@ -95,7 +95,8 @@ export const preferUseStoreNaming = createRule({
               },
               suggest: [
                 {
-                  desc: `Rename to "${suggestedName}"`,
+                  messageId: 'renameTo',
+                  data: { name: suggestedName },
                   fix(fixer) {
                     return fixer.replaceText(node.id, suggestedName)
                   },

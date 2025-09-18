@@ -4,10 +4,11 @@
 
 import { RuleTester } from '@typescript-eslint/rule-tester'
 import { noCircularStoreDependencies } from '../no-circular-store-dependencies'
+import * as parser from '@typescript-eslint/parser'
 
 const ruleTester = new RuleTester({
   languageOptions: {
-    parser: require('@typescript-eslint/parser'),
+    parser,
     parserOptions: {
       ecmaVersion: 2020,
       sourceType: 'module',
