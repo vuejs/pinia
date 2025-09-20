@@ -62,12 +62,6 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
       <img src="https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg" height="42px" alt="Prefect" />
     </picture>
   </a>
-    <a href="https://www.controla.ai/?utm_source=posva" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/controla-dark.png" media="(prefers-color-scheme: dark)" height="42px" alt="Controla" />
-      <img src="https://posva-sponsors.pages.dev/logos/controla-light.png" height="42px" alt="Controla" />
-    </picture>
-  </a>
     <a href="https://route4me.com" target="_blank" rel="noopener noreferrer">
     <picture>
       <source srcset="https://posva-sponsors.pages.dev/logos/route4me.png" media="(prefers-color-scheme: dark)" height="42px" alt="Route Optimizer and Route Planner Software" />
