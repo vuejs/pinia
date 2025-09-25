@@ -75,8 +75,8 @@
     "@vue/devtools-api": "^7.7.7"
   },
   "peerDependencies": {
-    "typescript": ">=4.4.4",
-    "vue": "^2.7.0 || ^3.5.11"
+    "typescript": ">=4.5.0",
+    "vue": "^3.5.11"
   },
   "peerDependenciesMeta": {
     "typescript": {
