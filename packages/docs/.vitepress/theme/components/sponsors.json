@@ -22,6 +22,12 @@
       "imgSrcLight": "https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg"
     },
     {
+      "alt": "Controla",
+      "href": "https://www.controla.ai/?utm_source=posva",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/controla-dark.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/controla-light.png"
+    },
+    {
       "alt": "Route Optimizer and Route Planner Software",
       "href": "https://route4me.com",
       "imgSrcDark": "https://posva-sponsors.pages.dev/logos/route4me.png",
