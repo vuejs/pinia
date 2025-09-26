@@ -198,10 +198,10 @@ importers:
         specifier: ^7.7.7
         version: 7.7.7
       typescript:
-        specifier: '>=4.4.4'
+        specifier: '>=4.5.0'
         version: 5.8.3
       vue:
-        specifier: ^2.7.0 || ^3.5.11
+        specifier: ^3.5.11
         version: 3.5.17(typescript@5.8.3)
     devDependencies:
       '@microsoft/api-extractor':
