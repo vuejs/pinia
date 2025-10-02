@@ -4,7 +4,7 @@
 
 Composing stores is about having stores that use each other, and this is supported in Pinia. There is one rule to follow:
 
-If **two or more stores use each other**, they cannot create an infinite loop through _getters_ or _actions_. They cannot **both** directly read each other state in their setup function:
+If **two or more stores use each other**, they cannot create an infinite loop through _getters_ or _actions_. They cannot **both** directly read each other's state in their setup function:
 
 ```js
 const useX = defineStore('x', () => {
