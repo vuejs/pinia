@@ -65,7 +65,7 @@ export const useCartStore = defineStore('cart', () => {
     return apiPurchase(user.id, list.value)
   }
 
-  return { summary, purchase }
+  return { list, summary, purchase }
 })
 ```
 
