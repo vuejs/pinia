@@ -55,16 +55,17 @@ import { apiPurchase } from './api'
 
 export const useCartStore = defineStore('cart', () => {
   const user = useUserStore()
+  const list = ref([])
 
   const summary = computed(() => {
-    return `Hi ${user.name}, you have ${user.list.length} items in your cart. It costs ${price.value}.`
+    return `Hi ${user.name}, you have ${list.value.length} items in your cart. It costs ${price.value}.`
   })
 
   function purchase() {
-    return apiPurchase(user.id, user.list)
+    return apiPurchase(user.id, list.value)
   }
 
-  return { summary, purchase }
+  return { list, summary, purchase }
 })
 ```
 
