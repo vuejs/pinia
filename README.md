@@ -70,8 +70,8 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
   </a>
     <a href=" https://jobs.sendcloud.com" target="_blank" rel="noopener noreferrer">
     <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/sendcloud-dark.png" media="(prefers-color-scheme: dark)" height="42px" alt="SendCloud" />
-      <img src="https://posva-sponsors.pages.dev/logos/sendcloud-light.png" height="42px" alt="SendCloud" />
+      <source srcset="https://posva-sponsors.pages.dev/logos/sendcloud-dark.svg" media="(prefers-color-scheme: dark)" height="42px" alt="SendCloud" />
+      <img src="https://posva-sponsors.pages.dev/logos/sendcloud-light.svg" height="42px" alt="SendCloud" />
     </picture>
   </a>
     <a href="https://route4me.com" target="_blank" rel="noopener noreferrer">
