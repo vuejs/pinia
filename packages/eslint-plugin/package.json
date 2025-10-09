@@ -1,0 +1,73 @@
+{
+  "name": "@pinia/eslint-plugin",
+  "version": "1.0.0",
+  "description": "ESLint plugin for Pinia best practices",
+  "keywords": [
+    "vue",
+    "pinia",
+    "eslint",
+    "plugin",
+    "linting",
+    "best-practices",
+    "store"
+  ],
+  "homepage": "https://pinia.vuejs.org",
+  "bugs": {
+    "url": "https://github.com/vuejs/pinia/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuejs/pinia.git"
+  },
+  "funding": "https://github.com/sponsors/posva",
+  "license": "MIT",
+  "author": {
+    "name": "Eduardo San Martin Morote",
+    "email": "posva13@gmail.com"
+  },
+  "sideEffects": false,
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "require": "./dist/index.cjs",
+    "import": "./dist/index.mjs"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/*.js",
+    "dist/*.cjs",
+    "dist/*.mjs",
+    "dist/*.d.ts",
+    "dist/*.d.mts",
+    "dist/*.map"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:coverage": "vitest --coverage",
+    "test:watch": "vitest",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/eslint-plugin -r 1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@typescript-eslint/parser": "^8.35.1",
+    "@typescript-eslint/rule-tester": "^8.35.1",
+    "@typescript-eslint/utils": "^8.35.1",
+    "eslint": "^9.35.0",
+    "pinia": "workspace:*",
+    "tsup": "^8.5.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.44.0",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.57.0 || ^9.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
