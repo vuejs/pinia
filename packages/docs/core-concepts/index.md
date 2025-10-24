@@ -171,3 +171,35 @@ const { name, doubleCount } = storeToRefs(store)
 const { increment } = store
 </script>
 ```
+
+## Dynamic Store IDs
+
+In some cases, you may want multiple independent instances of the same store (e.g. one per document, chat room, or session). You can do this by generating a dynamic store ID:
+
+```ts
+export const useBroadcastStore = (id?: string) =>
+  defineStore(`BroadcastStore-${id}`, {
+    state: () => ({ messages: [] }),
+    actions: {
+      addMessage(msg) {
+        this.messages.push(msg)
+      },
+    },
+  })()
+```
+
+Each call creates an independent store:
+
+```ts
+const roomA = useBroadcastStore('a')
+const roomB = useBroadcastStore('b')
+
+roomA.addMessage('Hello A')
+roomB.addMessage('Hello B')
+
+console.log(roomA.messages) // ['Hello A']
+console.log(roomB.messages) // ['Hello B']
+```
+
+This pattern allows for unique, isolated stores that share the same structure.
+
