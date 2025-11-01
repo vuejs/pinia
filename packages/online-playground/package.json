@@ -18,6 +18,6 @@
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "pinia": "workspace:*",
-    "vue": "^3.5.17"
+    "vue": "^3.5.22"
   }
 }

@@ -53,8 +53,8 @@
     "@nuxt/test-utils": "^3.19.1",
     "nuxt": "^3.17.5",
     "pinia": "workspace:^",
-    "typescript": "^5.8.3",
-    "vue-tsc": "^2.2.10"
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.1.2"
   },
   "publishConfig": {
     "access": "public"
