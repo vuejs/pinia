@@ -353,7 +353,13 @@ async function main() {
         : `${pkg.name}@${pkg.version}`
 
     versionsToPush.push(`refs/tags/${tagName}`)
-    await runIfNotDry('git', ['tag', `${tagName}`])
+    await runIfNotDry('git', [
+      'tag',
+      '-a',
+      `${tagName}`,
+      '-m',
+      `Release ${tagName}`,
+    ])
   }
 
   if (!noPublish) {
