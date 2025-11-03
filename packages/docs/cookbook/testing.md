@@ -176,8 +176,8 @@ const wrapper = mount(Counter, {
   global: {
     plugins: [
       createTestingPinia({
-        stubActions: ['increment', 'reset']
-      })
+        stubActions: ['increment', 'reset'],
+      }),
     ],
   },
 })
@@ -209,8 +209,8 @@ const wrapper = mount(Counter, {
           if (store.isPremium) return false
 
           return true
-        }
-      })
+        },
+      }),
     ],
   },
 })
@@ -225,8 +225,10 @@ store.fetchData() // executed or stubbed based on initial store.isPremium
 ```
 
 ::: tip
-- An empty array `[]` means no actions will be stubbed (all actions execute normally)
+
+- An empty array `[]` means no actions will be stubbed (same as `false`)
 - The function is evaluated once at store setup time, receiving the store instance in its initial state
+
 :::
 
 You can also manually mock specific actions after creating the store:

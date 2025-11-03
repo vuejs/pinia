@@ -183,8 +183,8 @@ const wrapper = mount(Counter, {
   global: {
     plugins: [
       createTestingPinia({
-        stubActions: ['increment', 'reset']
-      })
+        stubActions: ['increment', 'reset'],
+      }),
     ],
   },
 })
@@ -216,8 +216,8 @@ const wrapper = mount(Counter, {
           if (store.isPremium) return false
 
           return true
-        }
-      })
+        },
+      }),
     ],
   },
 })
@@ -232,8 +232,10 @@ store.fetchData() // 根据初始 store.isPremium 执行或存根
 ```
 
 ::: tip
-- 空数组 `[]` 表示不存根任何 action（所有 action 正常执行）
+
+- 空数组 `[]` 表示不存根任何 action（与 `false` 相同）
 - 函数在 store 设置时被评估一次，接收处于初始状态的 store 实例
+
 :::
 
 你也可以在创建 store 后手动模拟特定的 action：
