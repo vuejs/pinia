@@ -1,6 +1,8 @@
+import type { VariableDeclarator } from 'estree'
 import type { Nuxt } from 'nuxt/schema'
+import type { Plugin } from 'vite'
 
-function getStoreDeclaration(nodes?: import('estree').VariableDeclarator[]) {
+function getStoreDeclaration(nodes?: VariableDeclarator[]) {
   return nodes?.find(
     (x) =>
       x.init?.type === 'CallExpression' &&
@@ -9,7 +11,7 @@ function getStoreDeclaration(nodes?: import('estree').VariableDeclarator[]) {
   )
 }
 
-function nameFromDeclaration(node?: import('estree').VariableDeclarator) {
+function nameFromDeclaration(node?: VariableDeclarator) {
   return node?.id.type === 'Identifier' && node.id.name
 }
 
@@ -62,5 +64,5 @@ export function autoRegisterHMRPlugin(
         }
       }
     },
-  } satisfies import('vite').Plugin
+  } satisfies Plugin
 }
