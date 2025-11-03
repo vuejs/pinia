@@ -21,24 +21,11 @@ describe('Testing', () => {
       increment(amount = 1) {
         this.n += amount
       },
-    },
-  })
-
-  const useMultiActionStore = defineStore('multi-action', {
-    state: () => ({ count: 0, value: 0 }),
-    actions: {
-      increment() {
-        this.count++
-      },
       decrement() {
-        this.count--
+        this.n--
       },
       setValue(newValue: number) {
-        this.value = newValue
-      },
-      reset() {
-        this.count = 0
-        this.value = 0
+        this.n = newValue
       },
     },
   })
@@ -54,6 +41,12 @@ describe('Testing', () => {
     function increment(amount = 1) {
       n.value += amount
     }
+    function decrement() {
+      n.value--
+    }
+    function setValue(newValue: number) {
+      n.value = newValue
+    }
     function $reset() {
       n.value = 0
     }
@@ -64,6 +57,8 @@ describe('Testing', () => {
       double,
       doublePlusOne,
       increment,
+      decrement,
+      setValue,
       $reset,
     }
   })
@@ -345,6 +340,154 @@ describe('Testing', () => {
       storeToRefs(store)
       expect(store.doubleComputedCallCount).toBe(0)
     })
+
+    describe('selective action stubbing', () => {
+      it('stubs only actions in array', () => {
+        setActivePinia(
+          createTestingPinia({
+            stubActions: ['increment', 'setValue'],
+            createSpy: vi.fn,
+          })
+        )
+
+        const store = useStore()
+
+        // Actions in array should be stubbed (not execute)
+        store.increment()
+        expect(store.n).toBe(0) // Should not change
+        expect(store.increment).toHaveBeenCalledTimes(1)
+
+        store.setValue(42)
+        expect(store.n).toBe(0) // Should not change
+        expect(store.setValue).toHaveBeenCalledTimes(1)
+        expect(store.setValue).toHaveBeenLastCalledWith(42)
+
+        // Actions not in array should execute normally but still be spied
+        store.decrement()
+        expect(store.n).toBe(-1) // Should change
+        expect(store.decrement).toHaveBeenCalledTimes(1)
+      })
+
+      it('handles empty array (same as false)', () => {
+        setActivePinia(
+          createTestingPinia({
+            stubActions: [],
+            createSpy: vi.fn,
+          })
+        )
+
+        const store = useStore()
+
+        // All actions should execute normally
+        store.increment()
+        expect(store.n).toBe(1) // Should change
+        expect(store.increment).toHaveBeenCalledTimes(1)
+
+        store.setValue(42)
+        expect(store.n).toBe(42) // Should change
+        expect(store.setValue).toHaveBeenCalledTimes(1)
+      })
+
+      it('handles non-existent action names gracefully', () => {
+        setActivePinia(
+          createTestingPinia({
+            stubActions: ['increment', 'nonExistentAction'],
+            createSpy: vi.fn,
+          })
+        )
+
+        const store = useStore()
+
+        // Should work normally despite non-existent action in array
+        store.increment()
+        expect(store.n).toBe(0) // Should not change
+        expect(store.increment).toHaveBeenCalledTimes(1)
+
+        store.setValue(42)
+        expect(store.n).toBe(42) // Should change (not in array)
+        expect(store.setValue).toHaveBeenCalledTimes(1)
+      })
+
+      it('stubs actions based on function predicate', () => {
+        setActivePinia(
+          createTestingPinia({
+            stubActions: (actionName) =>
+              actionName.startsWith('set') || actionName === 'decrement',
+            createSpy: vi.fn,
+          })
+        )
+
+        const store = useStore()
+
+        // setValue should be stubbed (starts with 'set')
+        store.setValue(42)
+        expect(store.n).toBe(0) // Should not change
+        expect(store.setValue).toHaveBeenCalledTimes(1)
+
+        // increment should execute (doesn't match predicate)
+        store.increment()
+        expect(store.n).toBe(1) // Should change
+        expect(store.increment).toHaveBeenCalledTimes(1)
+
+        // decrement should be stubbed (matches predicate)
+        store.decrement()
+        expect(store.n).toBe(1) // Should not change (stubbed)
+        expect(store.decrement).toHaveBeenCalledTimes(1)
+      })
+
+      it('function predicate receives correct store instance', () => {
+        const predicateSpy = vi.fn(() => false)
+
+        setActivePinia(
+          createTestingPinia({
+            stubActions: predicateSpy,
+            createSpy: vi.fn,
+          })
+        )
+
+        const store = useStore()
+
+        expect(predicateSpy).toHaveBeenCalledWith('increment', store)
+      })
+
+      it('can stub all actions (default)', () => {
+        setActivePinia(
+          createTestingPinia({
+            stubActions: true,
+            createSpy: vi.fn,
+          })
+        )
+
+        const store = useStore()
+
+        store.increment()
+        expect(store.n).toBe(0) // Should not change
+        expect(store.increment).toHaveBeenCalledTimes(1)
+
+        store.setValue(42)
+        expect(store.n).toBe(0) // Should not change
+        expect(store.setValue).toHaveBeenCalledTimes(1)
+      })
+
+      it('can not stub any action', () => {
+        setActivePinia(
+          createTestingPinia({
+            stubActions: false,
+            createSpy: vi.fn,
+          })
+        )
+
+        const store = useStore()
+
+        store.increment()
+        expect(store.n).toBe(1) // Should change
+        expect(store.increment).toHaveBeenCalledTimes(1)
+
+        store.setValue(42)
+        expect(store.n).toBe(42) // Should change
+        expect(store.setValue).toHaveBeenCalledTimes(1)
+      })
+    })
   }
 
   it('works with no actions', () => {
@@ -406,190 +549,6 @@ describe('Testing', () => {
     expect(pinia.state.value).toEqual({
       a: { n: 1 },
       b: { n: 0 },
-    })
-  })
-
-  describe('selective action stubbing', () => {
-    it('stubs only included actions', () => {
-      setActivePinia(
-        createTestingPinia({
-          stubActions: { include: ['increment', 'setValue'] },
-          createSpy: vi.fn,
-        })
-      )
-
-      const store = useMultiActionStore()
-
-      // Included actions should be stubbed (not execute)
-      store.increment()
-      expect(store.count).toBe(0) // Should not change
-      expect(store.increment).toHaveBeenCalledTimes(1)
-
-      store.setValue(42)
-      expect(store.value).toBe(0) // Should not change
-      expect(store.setValue).toHaveBeenCalledTimes(1)
-      expect(store.setValue).toHaveBeenLastCalledWith(42)
-
-      // Excluded actions should execute normally but still be spied
-      store.decrement()
-      expect(store.count).toBe(-1) // Should change
-      expect(store.decrement).toHaveBeenCalledTimes(1)
-
-      store.reset()
-      expect(store.count).toBe(0) // Should change
-      expect(store.value).toBe(0) // Should change
-      expect(store.reset).toHaveBeenCalledTimes(1)
-    })
-
-    it('stubs all actions except excluded ones', () => {
-      setActivePinia(
-        createTestingPinia({
-          stubActions: { exclude: ['increment', 'setValue'] },
-          createSpy: vi.fn,
-        })
-      )
-
-      const store = useMultiActionStore()
-
-      // Excluded actions should execute normally but still be spied
-      store.increment()
-      expect(store.count).toBe(1) // Should change
-      expect(store.increment).toHaveBeenCalledTimes(1)
-
-      store.setValue(42)
-      expect(store.value).toBe(42) // Should change
-      expect(store.setValue).toHaveBeenCalledTimes(1)
-      expect(store.setValue).toHaveBeenLastCalledWith(42)
-
-      // Non-excluded actions should be stubbed (not execute)
-      store.decrement()
-      expect(store.count).toBe(1) // Should not change
-      expect(store.decrement).toHaveBeenCalledTimes(1)
-
-      store.reset()
-      expect(store.count).toBe(1) // Should not change
-      expect(store.value).toBe(42) // Should not change
-      expect(store.reset).toHaveBeenCalledTimes(1)
-    })
-
-    it('handles empty include array (stubs all actions)', () => {
-      setActivePinia(
-        createTestingPinia({
-          stubActions: { include: [] },
-          createSpy: vi.fn,
-        })
-      )
-
-      const store = useMultiActionStore()
-
-      store.increment()
-      expect(store.count).toBe(0) // Should not change
-      expect(store.increment).toHaveBeenCalledTimes(1)
-
-      store.setValue(42)
-      expect(store.value).toBe(0) // Should not change
-      expect(store.setValue).toHaveBeenCalledTimes(1)
-    })
-
-    it('handles empty exclude array (stubs all actions)', () => {
-      setActivePinia(
-        createTestingPinia({
-          stubActions: { exclude: [] },
-          createSpy: vi.fn,
-        })
-      )
-
-      const store = useMultiActionStore()
-
-      store.increment()
-      expect(store.count).toBe(0) // Should not change
-      expect(store.increment).toHaveBeenCalledTimes(1)
-
-      store.setValue(42)
-      expect(store.value).toBe(0) // Should not change
-      expect(store.setValue).toHaveBeenCalledTimes(1)
-    })
-
-    it('handles both include and exclude (include takes precedence)', () => {
-      setActivePinia(
-        createTestingPinia({
-          stubActions: {
-            include: ['increment'],
-            exclude: ['increment', 'setValue'],
-          },
-          createSpy: vi.fn,
-        })
-      )
-
-      const store = useMultiActionStore()
-
-      // Include takes precedence - increment should be stubbed
-      store.increment()
-      expect(store.count).toBe(0) // Should not change
-      expect(store.increment).toHaveBeenCalledTimes(1)
-
-      // Not in include list - should execute normally
-      store.setValue(42)
-      expect(store.value).toBe(42) // Should change
-      expect(store.setValue).toHaveBeenCalledTimes(1)
-    })
-
-    it('maintains backward compatibility with boolean true', () => {
-      setActivePinia(
-        createTestingPinia({
-          stubActions: true,
-          createSpy: vi.fn,
-        })
-      )
-
-      const store = useMultiActionStore()
-
-      store.increment()
-      expect(store.count).toBe(0) // Should not change
-      expect(store.increment).toHaveBeenCalledTimes(1)
-
-      store.setValue(42)
-      expect(store.value).toBe(0) // Should not change
-      expect(store.setValue).toHaveBeenCalledTimes(1)
-    })
-
-    it('maintains backward compatibility with boolean false', () => {
-      setActivePinia(
-        createTestingPinia({
-          stubActions: false,
-          createSpy: vi.fn,
-        })
-      )
-
-      const store = useMultiActionStore()
-
-      store.increment()
-      expect(store.count).toBe(1) // Should change
-      expect(store.increment).toHaveBeenCalledTimes(1)
-
-      store.setValue(42)
-      expect(store.value).toBe(42) // Should change
-      expect(store.setValue).toHaveBeenCalledTimes(1)
-    })
-
-    it('handles non-existent action names gracefully', () => {
-      setActivePinia(
-        createTestingPinia({
-          stubActions: { include: ['increment', 'nonExistentAction'] },
-          createSpy: vi.fn,
-        })
-      )
-
-      const store = useMultiActionStore()
-
-      // Should work normally despite non-existent action in include list
-      store.increment()
-      expect(store.count).toBe(0) // Should not change
-      expect(store.increment).toHaveBeenCalledTimes(1)
-
-      store.setValue(42)
-      expect(store.value).toBe(42) // Should change (not in include list)
-      expect(store.setValue).toHaveBeenCalledTimes(1)
     })
   })
 })
