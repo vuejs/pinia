@@ -1,7 +1,6 @@
 import { createPinia, setActivePinia } from 'pinia'
 import type { Pinia } from 'pinia'
-import { defineNuxtPlugin, type Plugin } from '#app'
-import { toRaw } from 'vue'
+import { defineNuxtPlugin, useNuxtApp, type Plugin } from '#app'
 
 const plugin: Plugin<{ pinia: Pinia }> = defineNuxtPlugin({
   name: 'pinia',
@@ -10,9 +9,7 @@ const plugin: Plugin<{ pinia: Pinia }> = defineNuxtPlugin({
     nuxtApp.vueApp.use(pinia)
     setActivePinia(pinia)
 
-    if (import.meta.server) {
-      nuxtApp.payload.pinia = toRaw(pinia.state.value)
-    } else if (nuxtApp.payload && nuxtApp.payload.pinia) {
+    if (nuxtApp.payload && nuxtApp.payload.pinia) {
       pinia.state.value = nuxtApp.payload.pinia as any
     }
 
@@ -22,6 +19,13 @@ const plugin: Plugin<{ pinia: Pinia }> = defineNuxtPlugin({
         pinia,
       },
     }
+  },
+  hooks: {
+    'app:rendered'() {
+      const nuxtApp = useNuxtApp()
+      nuxtApp.payload.pinia = (nuxtApp.$pinia as Pinia).state.value
+      setActivePinia(undefined)
+    },
   },
 })
 
