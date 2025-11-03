@@ -43,7 +43,7 @@ export interface TestingOptions {
   stubActions?:
     | boolean
     | string[]
-    | ((actionName: string, store: any) => boolean)
+    | ((actionName: string, store: StoreGeneric) => boolean)
 
   /**
    * When set to true, calls to `$patch()` won't change the state. Defaults to
