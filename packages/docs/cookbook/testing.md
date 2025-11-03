@@ -168,7 +168,7 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 
 ### Selective action stubbing
 
-Sometimes you may want to stub only specific actions while allowing others to execute normally. You can achieve this by passing an object with `include` or `exclude` arrays to the `stubActions` option:
+Sometimes you may want to stub only specific actions while allowing others to execute normally. You can achieve this by passing an array of action names to the `stubActions` option:
 
 ```js
 // Only stub the 'increment' and 'reset' actions
@@ -176,7 +176,7 @@ const wrapper = mount(Counter, {
   global: {
     plugins: [
       createTestingPinia({
-        stubActions: { include: ['increment', 'reset'] }
+        stubActions: ['increment', 'reset']
       })
     ],
   },
@@ -193,15 +193,23 @@ store.fetchData() // executed normally
 expect(store.fetchData).toHaveBeenCalledTimes(1)
 ```
 
-Alternatively, you can exclude specific actions from stubbing:
+For more complex scenarios, you can pass a function that receives the action name and store instance, and returns whether the action should be stubbed:
 
 ```js
-// Stub all actions except 'fetchData'
+// Stub actions based on custom logic
 const wrapper = mount(Counter, {
   global: {
     plugins: [
       createTestingPinia({
-        stubActions: { exclude: ['fetchData'] }
+        stubActions: (actionName, store) => {
+          // Stub all actions that start with 'set'
+          if (actionName.startsWith('set')) return true
+
+          // Stub actions based on initial store state
+          if (store.isPremium) return false
+
+          return true
+        }
       })
     ],
   },
@@ -209,16 +217,16 @@ const wrapper = mount(Counter, {
 
 const store = useSomeStore()
 
-// This action will execute normally
-store.fetchData() // executed normally
+// Actions starting with 'set' are stubbed
+store.setValue(42) // stubbed
 
-// Other actions will be stubbed
-store.increment() // stubbed
-store.reset() // stubbed
+// Other actions may execute based on the initial store state
+store.fetchData() // executed or stubbed based on initial store.isPremium
 ```
 
 ::: tip
-If both `include` and `exclude` are provided, `include` takes precedence. If neither is provided or both arrays are empty, all actions will be stubbed (equivalent to `stubActions: true`).
+- An empty array `[]` means no actions will be stubbed (all actions execute normally)
+- The function is evaluated once at store setup time, receiving the store instance in its initial state
 :::
 
 You can also manually mock specific actions after creating the store:
