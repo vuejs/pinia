@@ -1,13 +1,14 @@
 import { computed, createApp, isReactive, isRef, toRaw, triggerRef } from 'vue'
 import type { App, ComputedRef, WritableComputedRef } from 'vue'
 import {
-  Pinia,
-  PiniaPlugin,
+  type Pinia,
+  type PiniaPlugin,
   setActivePinia,
   createPinia,
-  StateTree,
-  _DeepPartial,
-  PiniaPluginContext,
+  type StateTree,
+  type _DeepPartial,
+  type PiniaPluginContext,
+  type StoreGeneric,
 } from 'pinia'
 // NOTE: the implementation type is correct and contains up to date types
 // while the other types hide internal properties
@@ -28,12 +29,21 @@ export interface TestingOptions {
 
   /**
    * When set to false, actions are only spied, but they will still get executed. When
-   * set to true, actions will be replaced with spies, resulting in their code
-   * not being executed. Defaults to true. NOTE: when providing `createSpy()`,
+   * set to true, **all** actions will be replaced with spies, resulting in their code
+   * not being executed. When set to an array of action names, only those actions
+   * will be stubbed. When set to a function, it will be called for each action with
+   * the action name and store instance, and should return true to stub the action.
+   *
+   * NOTE: when providing `createSpy()`,
    * it will **only** make the `fn` argument `undefined`. You still have to
    * handle this in `createSpy()`.
+   *
+   * @default `true`
    */
-  stubActions?: boolean
+  stubActions?:
+    | boolean
+    | string[]
+    | ((actionName: string, store: any) => boolean)
 
   /**
    * When set to true, calls to `$patch()` won't change the state. Defaults to
@@ -139,7 +149,10 @@ export function createTestingPinia({
   pinia._p.push(({ store, options }) => {
     Object.keys(options.actions).forEach((action) => {
       if (action === '$reset') return
-      store[action] = stubActions ? createSpy() : createSpy(store[action])
+
+      store[action] = shouldStubAction(stubActions, action, store)
+        ? createSpy()
+        : createSpy(store[action])
     })
 
     store.$patch = stubPatch ? createSpy() : createSpy(store.$patch)
@@ -248,4 +261,26 @@ function WritableComputed({ store }: PiniaPluginContext) {
       })
     }
   }
+}
+
+/**
+ * Should the given action be stubbed?
+ *
+ * @param stubActions - config option
+ * @param action - action name
+ * @param store - Store instance
+ */
+function shouldStubAction(
+  stubActions: TestingOptions['stubActions'],
+  action: string,
+  store: StoreGeneric
+): boolean {
+  if (typeof stubActions === 'boolean') {
+    return stubActions
+  } else if (Array.isArray(stubActions)) {
+    return stubActions.includes(action)
+  } else if (typeof stubActions === 'function') {
+    return stubActions(action, store)
+  }
+  return false
 }

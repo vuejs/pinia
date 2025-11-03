@@ -166,6 +166,80 @@ store.someAction()
 expect(store.someAction).toHaveBeenCalledTimes(1)
 ```
 
+### Selective action stubbing
+
+Sometimes you may want to stub only specific actions while allowing others to execute normally. You can achieve this by passing an array of action names to the `stubActions` option:
+
+```js
+// Only stub the 'increment' and 'reset' actions
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [
+      createTestingPinia({
+        stubActions: ['increment', 'reset'],
+      }),
+    ],
+  },
+})
+
+const store = useSomeStore()
+
+// These actions will be stubbed (not executed)
+store.increment() // stubbed
+store.reset() // stubbed
+
+// Other actions will execute normally but still be spied
+store.fetchData() // executed normally
+expect(store.fetchData).toHaveBeenCalledTimes(1)
+```
+
+For more complex scenarios, you can pass a function that receives the action name and store instance, and returns whether the action should be stubbed:
+
+```js
+// Stub actions based on custom logic
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [
+      createTestingPinia({
+        stubActions: (actionName, store) => {
+          // Stub all actions that start with 'set'
+          if (actionName.startsWith('set')) return true
+
+          // Stub actions based on initial store state
+          if (store.isPremium) return false
+
+          return true
+        },
+      }),
+    ],
+  },
+})
+
+const store = useSomeStore()
+
+// Actions starting with 'set' are stubbed
+store.setValue(42) // stubbed
+
+// Other actions may execute based on the initial store state
+store.fetchData() // executed or stubbed based on initial store.isPremium
+```
+
+::: tip
+
+- An empty array `[]` means no actions will be stubbed (same as `false`)
+- The function is evaluated once at store setup time, receiving the store instance in its initial state
+
+:::
+
+You can also manually mock specific actions after creating the store:
+
+```ts
+const store = useSomeStore()
+vi.spyOn(store, 'increment').mockImplementation(() => {})
+// or if using testing pinia with stubbed actions
+store.increment.mockImplementation(() => {})
+```
+
 ### Mocking the returned value of an action
 
 Actions are automatically spied but type-wise, they are still the regular actions. In order to get the correct type, we must implement a custom type-wrapper that applies the `Mock` type to each action. **This type depends on the testing framework you are using**. Here is an example with Vitest:

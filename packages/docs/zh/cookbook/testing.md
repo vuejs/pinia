@@ -173,7 +173,79 @@ store.someAction()
 expect(store.someAction).toHaveBeenCalledTimes(1)
 ```
 
-<!-- TODO: translation -->
+### 选择性 action 存根 %{#selective-action-stubbing}%
+
+有时你可能只想存根特定的 action，而让其他 action 正常执行。你可以通过向 `stubActions` 选项传递一个 action 名称数组来实现：
+
+```js
+// 只存根 'increment' 和 'reset' action
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [
+      createTestingPinia({
+        stubActions: ['increment', 'reset'],
+      }),
+    ],
+  },
+})
+
+const store = useSomeStore()
+
+// 这些 action 将被存根（不执行）
+store.increment() // 存根
+store.reset() // 存根
+
+// 其他 action 将正常执行但仍被监听
+store.fetchData() // 正常执行
+expect(store.fetchData).toHaveBeenCalledTimes(1)
+```
+
+对于更复杂的场景，你可以传递一个函数，该函数接收 action 名称和 store 实例，并返回是否应该存根该 action：
+
+```js
+// 基于自定义逻辑存根 action
+const wrapper = mount(Counter, {
+  global: {
+    plugins: [
+      createTestingPinia({
+        stubActions: (actionName, store) => {
+          // 存根所有以 'set' 开头的 action
+          if (actionName.startsWith('set')) return true
+
+          // 根据初始 store 状态存根 action
+          if (store.isPremium) return false
+
+          return true
+        },
+      }),
+    ],
+  },
+})
+
+const store = useSomeStore()
+
+// 以 'set' 开头的 action 被存根
+store.setValue(42) // 存根
+
+// 其他 action 可能根据初始 store 状态执行
+store.fetchData() // 根据初始 store.isPremium 执行或存根
+```
+
+::: tip
+
+- 空数组 `[]` 表示不存根任何 action（与 `false` 相同）
+- 函数在 store 设置时被评估一次，接收处于初始状态的 store 实例
+
+:::
+
+你也可以在创建 store 后手动模拟特定的 action：
+
+```ts
+const store = useSomeStore()
+vi.spyOn(store, 'increment').mockImplementation(() => {})
+// 或者如果使用带有存根 action 的测试 pinia
+store.increment.mockImplementation(() => {})
+```
 
 ### Mocking the returned value of an action
 
