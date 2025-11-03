@@ -249,7 +249,7 @@ function createSetupStore<
       if (isListening) {
         debuggerEvents = event
         // avoid triggering this while the store is being built and the state is being set in pinia
-      } else if (isListening === false && !store._hotUpdating) {
+      } else if (!isListening && !store._hotUpdating) {
         // let patch send all the events together later
         /* istanbul ignore else */
         if (Array.isArray(debuggerEvents)) {
@@ -264,8 +264,8 @@ function createSetupStore<
   }
 
   // internal state
-  let isListening = false // set to true at the end
-  let shouldTrigger = false // The initial value does not matter, and no need to set to true at the end
+  let isListening: boolean | undefined // set to true at the end
+  let shouldTrigger: boolean | undefined // The initial value does not matter, and no need to set to true at the end
   let subscriptions: Set<SubscriptionCallback<S>> = new Set()
   let actionSubscriptions: Set<StoreOnActionListener<Id, S, G, A>> = new Set()
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
@@ -460,12 +460,10 @@ function createSetupStore<
           assign({}, $subscribeOptions, options)
         )
 
-        const stop = () => {
+        return () => {
           stop1()
           stop2()
         }
-
-        return stop
       })!
 
       return removeSubscription
