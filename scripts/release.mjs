@@ -8,6 +8,7 @@ import semver from 'semver'
 import prompts from '@posva/prompts'
 import { execa } from 'execa'
 import pSeries from 'p-series'
+import { globby } from 'globby'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -15,7 +16,7 @@ const __dirname = dirname(__filename)
 const args = minimist(process.argv.slice(2))
 const {
   skipBuild,
-  tag: optionTag = 'legacy',
+  tag: optionTag,
   dry: isDryRun,
   skipCleanCheck: skipCleanGitCheck,
   noDepsUpdate,
