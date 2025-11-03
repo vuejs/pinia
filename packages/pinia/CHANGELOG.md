@@ -18,12 +18,10 @@ No code changes.
 
 ### ⚠ BREAKING CHANGES
 
-- We now use the native `Awaited` introduced in TS 4.5.
-  This shouldn't affect you.
-- `PiniaStorePlugin` is now removed. Use `PiniaPlugin`
-  instead.
-- `defineStore({ id: 'id' })` is now removed. Use
-  `defineStore('id')` instead
+- We now use the native `Awaited` introduced in TS 4.5. This shouldn't affect you.
+- `PiniaStorePlugin` is now removed. Use `PiniaPlugin` instead.
+- `defineStore({ id: 'id' })` is now removed. Use `defineStore('id')` instead
+- The new version of Vue Devtools is too large to be included in the iife version and has been removed. It must now be included manually (depending on your workflow)
 
 ### Code Refactoring
 
