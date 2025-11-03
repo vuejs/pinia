@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const useFancyCounter = async () => {
+async function useFancyCounter() {
   await new Promise((resolve) => setTimeout(resolve, 0))
 
   // ❌ bad usage: the use of a store after an await could lead to using the wrong pinia instance.
