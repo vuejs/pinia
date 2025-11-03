@@ -353,5 +353,27 @@ describe('Subscriptions', () => {
       expect(spy1).toHaveBeenCalledTimes(1)
       expect(spy2).toHaveBeenCalledTimes(2)
     })
+
+    // https://github.com/vuejs/pinia/issues/992
+    it('triggers sync subscription when state is synchronously mutated after patch', async () => {
+      const store = useStore()
+      const syncSpy = vi.fn()
+      const preSpy = vi.fn()
+      const postSpy = vi.fn()
+      store.$subscribe(syncSpy, { flush: 'sync' })
+      store.$subscribe(preSpy, { flush: 'pre' })
+      store.$subscribe(postSpy, { flush: 'post' })
+
+      store.$patch({ user: 'Edu' })
+      store.user = 'a'
+      expect(syncSpy).toHaveBeenCalledTimes(2)
+
+      // FIXME: ideally, these should be 2 but we cannot use
+      // a sync flush within the store's $subscribe method
+      // https://github.com/vuejs/pinia/issues/610
+      await nextTick()
+      expect(preSpy).toHaveBeenCalledTimes(1)
+      expect(postSpy).toHaveBeenCalledTimes(1)
+    })
   })
 })
