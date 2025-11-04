@@ -33,4 +33,8 @@ describe('Nuxt', async () => {
     expect(html).not.toContain('I should not be serialized or hydrated')
     expect(html).toContain('skipHydrate-wrapped state is correct')
   })
+
+  it('can auto import from layers', async () => {
+    expect(await $fetch('/')).toContain('Layer store: 0')
+  })
 })
