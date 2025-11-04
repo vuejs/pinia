@@ -14,11 +14,11 @@
     "vite-plugin-vue-devtools": "^7.7.7"
   },
   "dependencies": {
-    "@vueuse/core": "^13.4.0",
+    "@vueuse/core": "^14.0.0",
     "mande": "^2.0.9",
     "pinia": "workspace:*",
     "swrv": "^1.1.0",
     "vue-promised": "^2.2.0",
-    "vue-router": "^4.5.1"
+    "vue-router": "^4.6.3"
   }
 }
