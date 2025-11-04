@@ -44,7 +44,6 @@ export default defineConfig({
       enabled: true,
       provider: 'v8',
       reporter: ['text', 'lcovonly', 'html'],
-      all: true,
       include: [
         'packages/pinia/src',
         'packages/nuxt/src',
@@ -57,5 +56,31 @@ export default defineConfig({
         'packages/pinia/src/hmr.ts',
       ],
     },
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'pinia',
+          root: './packages/pinia',
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: '@pinia/nuxt',
+          root: './packages/nuxt',
+          environment: 'node',
+          include: ['test/**/*.{spec,test}.ts'],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: '@pinia/testing',
+          root: './packages/testing',
+          globals: true,
+        },
+      },
+    ],
   },
 })
