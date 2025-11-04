@@ -87,7 +87,7 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
 
     // Register automatic hmr code plugin - dev mode only
     if (nuxt.options.dev) {
-      addVitePlugin(autoRegisterHMRPlugin(nuxt, { resolve }))
+      addVitePlugin(autoRegisterHMRPlugin(resolve(nuxt.options.rootDir)))
     }
   },
 })

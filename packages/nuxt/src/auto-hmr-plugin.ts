@@ -15,18 +15,13 @@ function nameFromDeclaration(node?: VariableDeclarator) {
   return node?.id.type === 'Identifier' && node.id.name
 }
 
-export function autoRegisterHMRPlugin(
-  nuxt: Nuxt,
-  { resolve }: { resolve: (...path: string[]) => string }
-) {
-  const projectBasePath = resolve(nuxt.options.rootDir)
-
+export function autoRegisterHMRPlugin(rootDir: string) {
   return {
     name: 'pinia:auto-hmr-registration',
 
     transform(code, id) {
       if (id.startsWith('\x00')) return
-      if (!id.startsWith(projectBasePath)) return
+      if (!id.startsWith(rootDir)) return
       if (!code.includes('defineStore') || code.includes('acceptHMRUpdate')) {
         return
       }
