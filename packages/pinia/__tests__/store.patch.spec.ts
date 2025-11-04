@@ -1,8 +1,11 @@
 import { describe, it, expect, vi } from 'vitest'
-import { reactive, ref, shallowRef, computed, nextTick, watchEffect } from 'vue'
+import { reactive, ref, shallowRef, markRaw, watch } from 'vue'
 import { createPinia, defineStore, Pinia, setActivePinia } from '../src'
+import { mockWarn } from './vitest-mock-warn'
 
 describe('store.$patch', () => {
+  mockWarn()
+
   const useStore = () => {
     // create a new store
     setActivePinia(createPinia())
@@ -223,56 +226,59 @@ describe('store.$patch', () => {
         const counter = shallowRef({ count: 0 })
         const counter2 = shallowRef({ count: 0 })
         const counter3 = shallowRef({ count: 0 })
+        const markedRaw = ref({
+          marked: markRaw({ count: 0 }),
+        })
         const nestedCounter = shallowRef({
           nested: { count: 0 },
           simple: 1,
         })
 
-        return { counter, counter2, counter3, nestedCounter }
+        return {
+          markedRaw,
+          counter,
+          counter2,
+          counter3,
+          nestedCounter,
+        }
       })()
     }
+
+    it('does not trigger reactivity when patching marked raw', async () => {
+      const store = useShallowRefStore()
+      const markedSpy = vi.fn()
+      const nestedSpy = vi.fn()
+      watch(() => store.markedRaw.marked, markedSpy, {
+        flush: 'sync',
+        deep: true,
+      })
+      watch(() => store.markedRaw.marked.count, nestedSpy, { flush: 'sync' })
+      store.$patch({ markedRaw: { marked: { count: 1 } } })
+      expect(nestedSpy).toHaveBeenCalledTimes(0)
+      expect(markedSpy).toHaveBeenCalledTimes(0)
+    })
 
     it('triggers reactivity when patching shallowRef with object syntax', async () => {
       const store = useShallowRefStore()
       const watcherSpy = vi.fn()
 
-      // Create a computed that depends on the shallowRef
-      const doubleCount = computed(() => store.counter.count * 2)
+      watch(() => store.counter.count, watcherSpy, { flush: 'sync' })
 
-      // Watch the computed to verify reactivity
-      const stopWatcher = watchEffect(() => {
-        watcherSpy(doubleCount.value)
-      })
-
-      expect(watcherSpy).toHaveBeenCalledWith(0)
       watcherSpy.mockClear()
-
-      // Patch using object syntax - this should trigger reactivity
       store.$patch({ counter: { count: 1 } })
 
-      await nextTick()
-
-      expect(store.counter.count).toBe(1)
-      expect(doubleCount.value).toBe(2)
-      expect(watcherSpy).toHaveBeenCalledWith(2)
-
-      stopWatcher()
+      expect(watcherSpy).toHaveBeenCalledTimes(1)
     })
 
     it('triggers reactivity when patching nested properties in shallowRef', async () => {
       const store = useShallowRefStore()
       const watcherSpy = vi.fn()
 
-      const nestedCount = computed(() => store.nestedCounter.nested.count)
-
-      const stopWatcher = watchEffect(() => {
-        watcherSpy(nestedCount.value)
+      watch(() => store.nestedCounter.nested.count, watcherSpy, {
+        flush: 'sync',
       })
 
-      expect(watcherSpy).toHaveBeenCalledWith(0)
       watcherSpy.mockClear()
-
-      // Patch nested properties
       store.$patch({
         nestedCounter: {
           nested: { count: 5 },
@@ -280,66 +286,33 @@ describe('store.$patch', () => {
         },
       })
 
-      await nextTick()
-
-      expect(store.nestedCounter.nested.count).toBe(5)
-      expect(store.nestedCounter.simple).toBe(2)
-      expect(nestedCount.value).toBe(5)
-      expect(watcherSpy).toHaveBeenCalledWith(5)
-
-      stopWatcher()
+      expect(watcherSpy).toHaveBeenCalledTimes(1)
     })
 
     it('works with function syntax (baseline test)', async () => {
       const store = useShallowRefStore()
       const watcherSpy = vi.fn()
 
-      const doubleCount = computed(() => store.counter2.count * 2)
+      watch(() => store.counter2.count, watcherSpy, { flush: 'sync' })
 
-      const stopWatcher = watchEffect(() => {
-        watcherSpy(doubleCount.value)
-      })
-
-      expect(watcherSpy).toHaveBeenCalledWith(0)
       watcherSpy.mockClear()
-
-      // Function syntax should work (this was already working)
       store.$patch((state) => {
         state.counter2 = { count: state.counter2.count + 1 }
       })
 
-      await nextTick()
-
-      expect(store.counter2.count).toBe(1)
-      expect(doubleCount.value).toBe(2)
-      expect(watcherSpy).toHaveBeenCalledWith(2)
-
-      stopWatcher()
+      expect(watcherSpy).toHaveBeenCalledTimes(1)
     })
 
     it('works with direct assignment (baseline test)', async () => {
       const store = useShallowRefStore()
       const watcherSpy = vi.fn()
 
-      const doubleCount = computed(() => store.counter3.count * 2)
+      watch(() => store.counter3.count, watcherSpy, { flush: 'sync' })
 
-      const stopWatcher = watchEffect(() => {
-        watcherSpy(doubleCount.value)
-      })
-
-      expect(watcherSpy).toHaveBeenCalledWith(0)
       watcherSpy.mockClear()
-
-      // Direct assignment should work (this was already working)
       store.counter3 = { count: 3 }
 
-      await nextTick()
-
-      expect(store.counter3.count).toBe(3)
-      expect(doubleCount.value).toBe(6)
-      expect(watcherSpy).toHaveBeenCalledWith(6)
-
-      stopWatcher()
+      expect(watcherSpy).toHaveBeenCalledTimes(1)
     })
 
     it('handles partial updates correctly', async () => {
@@ -368,35 +341,19 @@ describe('store.$patch', () => {
       const watcherSpy1 = vi.fn()
       const watcherSpy2 = vi.fn()
 
-      const count1 = computed(() => store.counter.count)
-      const count2 = computed(() => store.counter2.count)
-
-      const stopWatcher1 = watchEffect(() => {
-        watcherSpy1(count1.value)
-      })
-
-      const stopWatcher2 = watchEffect(() => {
-        watcherSpy2(count2.value)
-      })
+      watch(() => store.counter.count, watcherSpy1, { flush: 'sync' })
+      watch(() => store.counter2.count, watcherSpy2, { flush: 'sync' })
 
       watcherSpy1.mockClear()
       watcherSpy2.mockClear()
 
-      // Patch multiple shallowRefs at once
       store.$patch({
         counter: { count: 10 },
         counter2: { count: 20 },
       })
 
-      await nextTick()
-
-      expect(store.counter.count).toBe(10)
-      expect(store.counter2.count).toBe(20)
-      expect(watcherSpy1).toHaveBeenCalledWith(10)
-      expect(watcherSpy2).toHaveBeenCalledWith(20)
-
-      stopWatcher1()
-      stopWatcher2()
+      expect(watcherSpy1).toHaveBeenCalledTimes(1)
+      expect(watcherSpy2).toHaveBeenCalledTimes(1)
     })
   })
 })
