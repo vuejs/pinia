@@ -54,6 +54,7 @@ export function autoRegisterHMRPlugin(
             // append HMR code
             return {
               code: [
+                `import { acceptHMRUpdate } from 'pinia'`,
                 code,
                 'if (import.meta.hot) {',
                 `  import.meta.hot.accept(acceptHMRUpdate(${storeName}, import.meta.hot))`,
