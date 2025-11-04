@@ -2,13 +2,23 @@
  * @vitest-environment node
  */
 import { describe, it, expect } from 'vitest'
-import { createPinia, defineStore, shouldHydrate } from '../src'
+import {
+  createPinia,
+  defineStore,
+  getActivePinia,
+  setActivePinia,
+  shouldHydrate,
+} from '../src'
 import { Component, createSSRApp, inject, ref, computed, customRef } from 'vue'
 import { renderToString, ssrInterpolate } from '@vue/server-renderer'
 import { useUserStore } from './pinia/stores/user'
 import { useCartStore } from './pinia/stores/cart'
+import { mockConsoleError, mockWarn } from './vitest-mock-warn'
 
 describe('SSR', () => {
+  mockWarn()
+  mockConsoleError()
+
   const App = {
     ssrRender(ctx: any, push: any, _parent: any) {
       push(
@@ -160,6 +170,13 @@ describe('SSR', () => {
     expect(() => {
       shouldHydrate(obj)
     }).not.toThrow()
+  })
+
+  it('errors if getActivePinia called outside of context', async () => {
+    const pinia = createPinia()
+    setActivePinia(pinia)
+    expect(getActivePinia()).toBe(pinia)
+    expect('Pinia instance not found in context').toHaveBeenErrored()
   })
 
   describe('Setup Store', () => {
