@@ -172,7 +172,7 @@ describe('SSR', () => {
     }).not.toThrow()
   })
 
-  it('warns if getActivePinia called outside of context', async () => {
+  it('errors if getActivePinia called outside of context', async () => {
     const pinia = createPinia()
     setActivePinia(pinia)
     expect(getActivePinia()).toBe(pinia)
