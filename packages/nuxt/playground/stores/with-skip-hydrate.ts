@@ -8,9 +8,3 @@ export const useWithSkipHydrateStore = defineStore('with-skip-hydrate', () => {
   )
   return { skipped }
 })
-
-if (import.meta.hot) {
-  import.meta.hot.accept(
-    acceptHMRUpdate(useWithSkipHydrateStore, import.meta.hot)
-  )
-}

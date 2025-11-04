@@ -8,9 +8,11 @@ import {
   createResolver,
   addImportsDir,
   getLayerDirectories,
+  addVitePlugin,
 } from '@nuxt/kit'
 import type { NuxtModule } from '@nuxt/schema'
 import { fileURLToPath } from 'node:url'
+import { autoRegisterHMRPlugin } from './auto-hmr-plugin'
 
 export interface ModuleOptions {
   /**
@@ -81,6 +83,11 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
           addImportsDir(resolve(layer.app, storeDir))
         }
       }
+    }
+
+    // Register automatic hmr code plugin - dev mode only
+    if (nuxt.options.dev) {
+      addVitePlugin(autoRegisterHMRPlugin(resolve(nuxt.options.rootDir)))
     }
   },
 })
