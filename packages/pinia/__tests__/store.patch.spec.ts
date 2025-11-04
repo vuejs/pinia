@@ -224,8 +224,6 @@ describe('store.$patch', () => {
       setActivePinia(createPinia())
       return defineStore('shallowRef', () => {
         const counter = shallowRef({ count: 0 })
-        const counter2 = shallowRef({ count: 0 })
-        const counter3 = shallowRef({ count: 0 })
         const markedRaw = ref({
           marked: markRaw({ count: 0 }),
         })
@@ -237,8 +235,6 @@ describe('store.$patch', () => {
         return {
           markedRaw,
           counter,
-          counter2,
-          counter3,
           nestedCounter,
         }
       })()
@@ -293,11 +289,11 @@ describe('store.$patch', () => {
       const store = useShallowRefStore()
       const watcherSpy = vi.fn()
 
-      watch(() => store.counter2.count, watcherSpy, { flush: 'sync' })
+      watch(() => store.counter.count, watcherSpy, { flush: 'sync' })
 
       watcherSpy.mockClear()
       store.$patch((state) => {
-        state.counter2 = { count: state.counter2.count + 1 }
+        state.counter = { count: state.counter.count + 1 }
       })
 
       expect(watcherSpy).toHaveBeenCalledTimes(1)
@@ -307,10 +303,10 @@ describe('store.$patch', () => {
       const store = useShallowRefStore()
       const watcherSpy = vi.fn()
 
-      watch(() => store.counter3.count, watcherSpy, { flush: 'sync' })
+      watch(() => store.counter.count, watcherSpy, { flush: 'sync' })
 
       watcherSpy.mockClear()
-      store.counter3 = { count: 3 }
+      store.counter = { count: 3 }
 
       expect(watcherSpy).toHaveBeenCalledTimes(1)
     })
@@ -342,14 +338,14 @@ describe('store.$patch', () => {
       const watcherSpy2 = vi.fn()
 
       watch(() => store.counter.count, watcherSpy1, { flush: 'sync' })
-      watch(() => store.counter2.count, watcherSpy2, { flush: 'sync' })
+      watch(() => store.nestedCounter.simple, watcherSpy2, { flush: 'sync' })
 
       watcherSpy1.mockClear()
       watcherSpy2.mockClear()
 
       store.$patch({
         counter: { count: 10 },
-        counter2: { count: 20 },
+        nestedCounter: { nested: { count: 0 }, simple: 20 },
       })
 
       expect(watcherSpy1).toHaveBeenCalledTimes(1)
