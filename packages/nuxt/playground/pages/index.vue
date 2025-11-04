@@ -16,8 +16,11 @@ if (import.meta.server) {
 
 <template>
   <div>
-    <p>Count: {{ counter.$state.count }}</p>
+    <p>Count: {{ counter.count }} x 2 = {{ counter.double }}</p>
     <button @click="counter.increment()">+</button>
+    <pre>{{ counter.$state }}</pre>
+
+    <hr />
 
     <p>Layer store: {{ layerStore.count }}</p>
   </div>
