@@ -54,7 +54,7 @@ export const getActivePinia = __DEV__
 
       if (!pinia && !IS_CLIENT) {
         console.error(
-          `[🍍]: Pinia instance not found in context. This fallsback to the global activePinia which exposes you to cross-request pollution on the server. Most of the time, it means you are calling "useStore()" in the wrong place.\n` +
+          `[🍍]: Pinia instance not found in context. This falls back to the global activePinia which exposes you to cross-request pollution on the server. Most of the time, it means you are calling "useStore()" in the wrong place.\n` +
             `Read https://vuejs.org/guide/reusability/composables.html to learn more`
         )
       }
