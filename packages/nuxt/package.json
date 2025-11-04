@@ -42,16 +42,16 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/nuxt -r 1"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.20.0"
+    "@nuxt/kit": "^4.2.0"
   },
   "peerDependencies": {
     "pinia": "workspace:^"
   },
   "devDependencies": {
     "@nuxt/module-builder": "1.0.2",
-    "@nuxt/schema": "^3.20.0",
+    "@nuxt/schema": "^4.2.0",
     "@nuxt/test-utils": "^3.20.1",
-    "nuxt": "^3.20.0",
+    "nuxt": "^4.2.0",
     "pinia": "workspace:^",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.1.3"

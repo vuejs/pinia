@@ -75,9 +75,6 @@
       "prettier --parser=typescript --write"
     ]
   },
-  "resolutions": {
-    "@nuxt/schema": "^3.9.0"
-  },
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
