@@ -5,35 +5,34 @@ import {
   hasInjectionContext,
   getCurrentInstance,
   reactive,
-  DebuggerEvent,
-  WatchOptions,
-  UnwrapRef,
   markRaw,
   isRef,
   isReactive,
   isShallow,
   effectScope,
-  EffectScope,
-  ComputedRef,
   toRaw,
   toRef,
   toRefs,
-  Ref,
   ref,
   nextTick,
   triggerRef,
+  type DebuggerEvent,
+  type WatchOptions,
+  type UnwrapRef,
+  type EffectScope,
+  type ComputedRef,
+  type ShallowRef,
+  type Ref,
 } from 'vue'
-import {
+import type {
+  _DeepPartial,
   StateTree,
   SubscriptionCallback,
-  _DeepPartial,
-  isPlainObject,
   Store,
   _Method,
   DefineStoreOptions,
   StoreDefinition,
   _GettersTree,
-  MutationType,
   StoreOnActionListener,
   _ActionsTree,
   SubscriptionCallbackMutation,
@@ -48,7 +47,13 @@ import {
   _ExtractStateFromSetupStore,
   _StoreWithState,
 } from './types'
-import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
+import { isPlainObject, MutationType } from './types'
+import {
+  setActivePinia,
+  piniaSymbol,
+  type Pinia,
+  activePinia,
+} from './rootStore'
 import { IS_CLIENT } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
@@ -88,11 +93,14 @@ function mergeReactiveObjects<
     patchToApply.forEach(target.add, target)
   }
 
+  // the raw version lets us see shallow refs
+  const rawTarget = toRaw(target)
+
   // no need to go through symbols because they cannot be serialized anyway
   for (const key in patchToApply) {
     if (!patchToApply.hasOwnProperty(key)) continue
-    const subPatch = patchToApply[key]
-    const targetValue = target[key]
+    var subPatch = patchToApply[key]
+    var targetValue = target[key]
 
     if (
       isPlainObject(targetValue) &&
@@ -108,6 +116,11 @@ function mergeReactiveObjects<
     } else {
       // @ts-expect-error: subPatch is a valid value
       target[key] = subPatch
+    }
+
+    // enables $patching shallow refs
+    if (isShallow(rawTarget[key])) {
+      triggerRef(rawTarget[key] as ShallowRef)
     }
   }
 
@@ -147,15 +160,6 @@ const { assign } = Object
 function isComputed<T>(value: ComputedRef<T> | unknown): value is ComputedRef<T>
 function isComputed(o: any): o is ComputedRef {
   return !!(isRef(o) && (o as any).effect)
-}
-
-/**
- * Checks if a value is a shallowRef
- * @param value - value to check
- * @returns true if the value is a shallowRef
- */
-function isShallowRef(value: any): value is Ref {
-  return isRef(value) && isShallow(value)
 }
 
 function createOptionsStore<
@@ -320,24 +324,6 @@ function createSetupStore<
       }
     } else {
       mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator)
-
-      // Handle shallowRef reactivity: inspect raw store to avoid ref unwrapping
-      {
-        const rawStore = toRaw(store) as Record<string, unknown>
-        const shallowRefsToTrigger: Ref[] = []
-        for (const key in partialStateOrMutator) {
-          if (!Object.prototype.hasOwnProperty.call(partialStateOrMutator, key))
-            continue
-          const prop = (rawStore as any)[key]
-          if (
-            isShallowRef(prop) &&
-            isPlainObject((partialStateOrMutator as any)[key])
-          ) {
-            shallowRefsToTrigger.push(prop)
-          }
-        }
-        shallowRefsToTrigger.forEach(triggerRef)
-      }
 
       subscriptionMutation = {
         type: MutationType.patchObject,
