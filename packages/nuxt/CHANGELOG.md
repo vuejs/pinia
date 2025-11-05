@@ -1,3 +1,14 @@
+### [0.11.3](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.11.2...@pinia/nuxt@0.11.3) (2025-11-05)
+
+### Features
+
+- **nuxt:** automatic HMR code (vite only) ([#2954](https://github.com/vuejs/pinia/issues/2954)) ([0e9e7e7](https://github.com/vuejs/pinia/commit/0e9e7e7c9b658c31aa4da7d85311bc932d0b23dd))
+
+### Bug Fixes
+
+- **nuxt:** resolve auto-imports in layers ([#3035](https://github.com/vuejs/pinia/issues/3035)) ([e25e525](https://github.com/vuejs/pinia/commit/e25e525ad84adb47db0cedc736292140886a376f))
+- **nuxt:** unset global pinia after render ([#2915](https://github.com/vuejs/pinia/issues/2915)) ([ad2fa45](https://github.com/vuejs/pinia/commit/ad2fa452ec8efeb82b8b6b2c4b984669d9cf3245))
+
 ### [0.11.2](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.11.1...@pinia/nuxt@0.11.2) (2025-07-18)
 
 ### Bug Fixes

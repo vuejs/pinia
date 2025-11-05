@@ -1,3 +1,13 @@
+### [3.0.4](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.4) (2025-11-05)
+
+### Features
+
+- **warn:** detect global context on the server side ([#2983](https://github.com/vuejs/pinia/issues/2983)) ([be9e356](https://github.com/vuejs/pinia/commit/be9e356117b249a940647dad170669b49489ecff))
+
+### Bug Fixes
+
+- incorrect supported values in package.json ([5cc55c2](https://github.com/vuejs/pinia/commit/5cc55c2e0bb42ef4c0db1c5201184a495db7d2f8))
+
 ### [3.0.3](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.3) (2025-06-04)
 
 No code changes.
