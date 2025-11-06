@@ -11,14 +11,13 @@ import { Pinia } from './rootStore'
 /**
  * Generic state of a Store
  */
-export type StateTree = Record<PropertyKey, any>
+export type StateTree = Record<PropertyKey, unknown>
 
 export function isPlainObject<S extends StateTree>(
   value: S | unknown
 ): value is S
 export function isPlainObject(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  o: any
+  o: unknown
 ): o is StateTree {
   return (
     o &&
