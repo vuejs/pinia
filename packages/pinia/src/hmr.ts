@@ -16,7 +16,7 @@ import {
  * @param fn - object to test
  * @returns true if `fn` is a StoreDefinition
  */
-export const isUseStore = (fn: any): fn is StoreDefinition => {
+export const isUseStore = (fn: unknown): fn is StoreDefinition 
   return typeof fn === 'function' && typeof fn.$id === 'string'
 }
 
@@ -30,9 +30,9 @@ export const isUseStore = (fn: any): fn is StoreDefinition => {
  * @returns - newState
  */
 export function patchObject(
-  newState: Record<string, any>,
-  oldState: Record<string, any>
-): Record<string, any> {
+  newState: Record<string, unknown>,
+  oldState: Record<string, unknown>
+): Record<string, unknown> {
   // no need to go through symbols because they cannot be serialized anyway
   for (const key in oldState) {
     const subPatch = oldState[key]
@@ -79,12 +79,12 @@ export function acceptHMRUpdate<
   S extends StateTree = StateTree,
   G extends _GettersTree<S> = _GettersTree<S>,
   A = _ActionsTree,
->(initialUseStore: StoreDefinition<Id, S, G, A>, hot: any) {
+>(initialUseStore: StoreDefinition<Id, S, G, A>, hot: unknown) {
   // strip as much as possible from iife.prod
   if (!__DEV__) {
     return () => {}
   }
-  return (newModule: any) => {
+  return (newModule: unknown) => {
     const pinia: Pinia | undefined = hot.data.pinia || initialUseStore._pinia
 
     if (!pinia) {
