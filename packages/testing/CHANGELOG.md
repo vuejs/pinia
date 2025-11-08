@@ -1,3 +1,13 @@
+### [1.0.3](https://github.com/vuejs/pinia/compare/@pinia/testing@1.0.2...@pinia/testing@1.0.3) (2025-11-05)
+
+### Features
+
+- add selective action stubbing support ([#3040](https://github.com/vuejs/pinia/issues/3040)) ([cff409e](https://github.com/vuejs/pinia/commit/cff409edf1862d54ad89528c0770c9c219453eed))
+
+### Bug Fixes
+
+- store type ([9b92217](https://github.com/vuejs/pinia/commit/9b92217788886fe757d7afd3aee11dff2ddf349c))
+
 ### [1.0.2](https://github.com/vuejs/pinia/compare/@pinia/testing@1.0.1...@pinia/testing@1.0.2) (2025-06-04)
 
 No code changes in this release.

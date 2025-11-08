@@ -10,22 +10,16 @@
   ],
   "silver": [
     {
-      "alt": "VueMastery",
-      "href": "https://www.vuemastery.com/",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuemastery-dark.png",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuemastery-light.svg"
-    },
-    {
-      "alt": "Prefect",
-      "href": "https://www.prefect.io/",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/prefectlogo-dark.svg",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/prefectlogo-light.svg"
-    },
-    {
       "alt": "Controla",
       "href": "https://www.controla.ai/?utm_source=posva",
       "imgSrcDark": "https://posva-sponsors.pages.dev/logos/controla-dark.png",
       "imgSrcLight": "https://posva-sponsors.pages.dev/logos/controla-light.png"
+    },
+    {
+      "alt": "VueMastery",
+      "href": "https://www.vuemastery.com/",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuemastery-dark.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuemastery-light.svg"
     },
     {
       "alt": "SendCloud",
@@ -46,12 +40,6 @@
       "href": "https://storyblok.com",
       "imgSrcDark": "https://posva-sponsors.pages.dev/logos/storyblok.png",
       "imgSrcLight": "https://posva-sponsors.pages.dev/logos/storyblok.png"
-    },
-    {
-      "alt": "NuxtLabs",
-      "href": "https://nuxtlabs.com",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/nuxt-dark.svg",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/nuxt-light.svg"
     },
     {
       "alt": "Stanislas Ormières",
