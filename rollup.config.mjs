@@ -25,15 +25,31 @@ const pkg = JSON.parse(
 )
 const name = pkg.name
 
-function getAuthors(pkg) {
-  const { contributors, author } = pkg
+/**
+ * Get a comma-separated list of author names from package.json fields.
+ * @param {{contributors?: Array<any>, author?: any}} packageInfo
+ */
+function getAuthors(packageInfo) {
+  const { contributors, author } = packageInfo
 
   const authors = new Set()
-  if (contributors && contributors)
+  if (contributors && Array.isArray(contributors)) {
     contributors.forEach((contributor) => {
-      authors.add(contributor.name)
+      if (typeof contributor === 'string') {
+        authors.add(contributor)
+      } else if (contributor && contributor.name) {
+        authors.add(contributor.name)
+      }
     })
-  if (author) authors.add(author.name)
+  }
+
+  if (author) {
+    if (typeof author === 'string') {
+      authors.add(author)
+    } else if (author && author.name) {
+      authors.add(author.name)
+    }
+  }
 
   return Array.from(authors).join(', ')
 }
@@ -47,19 +63,30 @@ const banner = `/*!
 // ensure TS checks only once for each build
 let hasTSChecked = false
 
+// Provide safe fallbacks when package.json fields are missing
+const moduleFile = pkg.module || `dist/${name}.mjs`
+const cjsFile =
+  pkg.module && pkg.module.replace
+    ? pkg.module.replace('mjs', 'cjs')
+    : `dist/${name}.cjs`
+const unpkgFile = pkg.unpkg || `dist/${name}.iife.js`
+
+/** @typedef {'mjs'|'cjs'|'global'|'browser'} BuildName */
+
+/** @type {Record<BuildName, RollupOutput>} */
 const outputConfigs = {
   // each file name has the format: `dist/${name}.${format}.js`
   // format being a key of this object
   mjs: {
-    file: pkg.module,
+    file: moduleFile,
     format: `es`,
   },
   cjs: {
-    file: pkg.module.replace('mjs', 'cjs'),
+    file: cjsFile,
     format: `cjs`,
   },
   global: {
-    file: pkg.unpkg,
+    file: unpkgFile,
     format: `iife`,
   },
   browser: {
@@ -68,7 +95,13 @@ const outputConfigs = {
   },
 }
 
-const packageBuilds = Object.keys(outputConfigs)
+/**
+ * Explicitly type the build keys for TypeScript checking under // @ts-check.
+ * This cast is safe because outputConfigs keys are known.
+ */
+const packageBuilds = /** @type {Array<'mjs'|'cjs'|'global'|'browser'>} */ (
+  Object.keys(outputConfigs)
+)
 const packageConfigs = packageBuilds.map((format) =>
   createConfig(format, outputConfigs[format])
 )
@@ -84,6 +117,23 @@ packageBuilds.forEach((buildName) => {
 
 export default packageConfigs
 
+/**
+ * @typedef {Object} RollupOutput
+ * @property {string} file
+ * @property {string} format
+ * @property {boolean} [sourcemap]
+ * @property {string} [banner]
+ * @property {boolean} [externalLiveBindings]
+ * @property {Record<string,string>} [globals]
+ * @property {string} [name]
+ */
+
+/**
+ * Create a rollup config for a given build format.
+ * @param {string} buildName
+ * @param {RollupOutput} output
+ * @param {Array<any>} [plugins]
+ */
 function createConfig(buildName, output, plugins = []) {
   if (!output) {
     console.log(chalk.yellow(`invalid format: "${buildName}"`))
@@ -102,6 +152,14 @@ function createConfig(buildName, output, plugins = []) {
   const isRawESMBuild = buildName === 'browser'
   const isNodeBuild = buildName === 'cjs'
   const isBundlerESMBuild = buildName === 'browser' || buildName === 'mjs'
+
+  // --- CHANGE 1: Conditionally add devtoolsApi to globals ---
+  // Conditionally add devtoolsApi as a global *only* for the
+  // production IIFE build.
+  if (isGlobalBuild && isProductionBuild) {
+    output.globals['@vue/devtools-api'] = 'devtoolsApi'
+  }
+  // --- END OF CHANGE 1 ---
 
   if (isGlobalBuild) output.name = pascalcase(pkg.name)
 
@@ -125,7 +183,17 @@ function createConfig(buildName, output, plugins = []) {
   // during a single build.
   hasTSChecked = true
 
-  const external = ['vue', '@vue/devtools-api']
+  // --- CHANGE 2: Conditionally make devtools-api external ---
+  // Base external deps
+  const external = ['vue']
+
+  // Conditionally add devtools-api as external *only* if it's
+  // NOT the dev global build.
+  // For the dev global build (non-prod), we want to bundle it.
+  if (!isGlobalBuild || isProductionBuild) {
+    external.push('@vue/devtools-api')
+  }
+  // --- END OF CHANGE 2 ---
 
   const nodePlugins = [nodeResolve(), commonjs()]
 
@@ -156,6 +224,14 @@ function createConfig(buildName, output, plugins = []) {
   }
 }
 
+/**
+ * Create the replace plugin with build-time replacements.
+ * @param {boolean} isProduction
+ * @param {boolean} isBundlerESMBuild
+ * @param {boolean} isRawESMBuild
+ * @param {boolean} isGlobalBuild
+ * @param {boolean} isNodeBuild
+ */
 function createReplacePlugin(
   isProduction,
   isBundlerESMBuild,
@@ -196,9 +272,11 @@ function createReplacePlugin(
   }
   // allow inline overrides like
   //__RUNTIME_COMPILE__=true yarn build
-  Object.keys(replacements).forEach((key) => {
+  // Cast replacements to a generic record to allow assignment from process.env
+  const repls = /** @type {Record<string, any>} */ (replacements)
+  Object.keys(repls).forEach((key) => {
     if (key in process.env) {
-      replacements[key] = process.env[key]
+      repls[key] = process.env[key]
     }
   })
 
@@ -208,6 +286,9 @@ function createReplacePlugin(
   })
 }
 
+/**
+ * @param {BuildName} format
+ */
 function createProductionConfig(format) {
   const extension = format === 'cjs' ? 'cjs' : 'js'
   const descriptor = format === 'cjs' ? '' : `.${format}`
@@ -217,6 +298,9 @@ function createProductionConfig(format) {
   })
 }
 
+/**
+ * @param {BuildName} format
+ */
 function createMinifiedConfig(format) {
   return createConfig(
     format,
