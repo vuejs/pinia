@@ -78,7 +78,7 @@ In _Setup Stores_:
 
 Note that you **must** return **all state properties** in setup stores for Pinia to pick them up as state. In other words, you cannot have [_private_ state properties in stores](https://masteringpinia.com/blog/how-to-create-private-state-in-stores). Not returning all state properties or **making them readonly** will break [SSR](../cookbook/composables.md), devtools, and other plugins.
 
-Setup stores bring a lot more flexibility than [Option Stores](#option-stores) as you can create watchers within a store and freely use any [composable](https://vuejs.org/guide/reusability/composables.html#composables). However, keep in mind that using composables will get more complex when using SSR.
+Setup stores bring a lot more flexibility than [Option Stores](#Option-Stores) as you can create watchers within a store and freely use any [composable](https://vuejs.org/guide/reusability/composables.html#composables). However, keep in mind that using composables will get more complex when using SSR.
 
 Setup stores are also able to rely on globally _provided_ properties like the Router or the Route. Any property [provided at the App level](https://vuejs.org/api/application.html#app-provide) can be accessed from the store using `inject()`, just like in components:
 
