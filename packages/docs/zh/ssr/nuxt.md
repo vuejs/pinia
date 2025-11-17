@@ -67,27 +67,24 @@ const { data } = await useAsyncData('user', () => store.fetchUser())
 ```
 
 ## 自动引入 %{#auto-imports}%
+默认情况下，`@pinia/nuxt` 会提供一些自动导入的函数：
+- `usePinia()` 类似于 `getActivePinia()`，但在 Nuxt 中表现更好
+- `defineStore()` 用于定义 Store。
+- `storeToRefs()` 在你需要从 store 中提取单独的 ref 时使用。
+- `acceptHMRUpdate()` 用于热模块替换（HMR）。
 
-默认情况下，`@pinia/nuxt` 会暴露一个自动引入的方法：`usePinia()`，它类似于 `getActivePinia()`，但在 Nuxt 中效果更好。你可以添加自动引入来减轻你的开发工作：
+还会自动导入你 `stores` 文件夹（在 Nuxt 4 中为 `app/stores`）内定义的<b>所有 stores</b>。
+但它 不会查找嵌套的子目录 中的 stores。
+你可以通过配置 `storesDirs` 选项来自定义这一行为。
 
 ```js
-// nuxt.config.js
+// nuxt.config.ts
 export default defineNuxtConfig({
-  // ... 其他配置
-  modules: [
-    // ...
-    [
-      '@pinia/nuxt',
-      {
-        autoImports: [
-          // 自动引入 `defineStore()`
-          'defineStore',
-          // 自动引入 `defineStore()` 并重命名为 `definePiniaStore()`
-          ['defineStore', 'definePiniaStore'],
-        ],
-      },
-    ],
-  ],
+  // ... 其他选项
+  modules: ['@pinia/nuxt'],
+  pinia: {
+    storesDirs: ['./stores/**', './custom-folder/stores/**'],
+  },
 })
 ```
 
