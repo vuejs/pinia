@@ -5,8 +5,8 @@
   "type": "module",
   "main": "index.cjs",
   "module": "dist/pinia.mjs",
-  "unpkg": "dist/pinia.iife.js",
-  "jsdelivr": "dist/pinia.iife.js",
+  "unpkg": "dist/pinia.esm-browser.js",
+  "jsdelivr": "dist/pinia.esm-browser.js",
   "types": "dist/pinia.d.ts",
   "exports": {
     ".": {
