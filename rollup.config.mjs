@@ -58,10 +58,6 @@ const outputConfigs = {
     file: pkg.module.replace('mjs', 'cjs'),
     format: `cjs`,
   },
-  global: {
-    file: pkg.unpkg,
-    format: `iife`,
-  },
   browser: {
     file: 'dist/pinia.esm-browser.js',
     format: `es`,
@@ -77,8 +73,6 @@ const packageConfigs = packageBuilds.map((format) =>
 packageBuilds.forEach((buildName) => {
   if (buildName === 'cjs') {
     packageConfigs.push(createProductionConfig(buildName))
-  } else if (buildName === 'global') {
-    packageConfigs.push(createMinifiedConfig(buildName))
   }
 })
 
@@ -93,17 +87,11 @@ function createConfig(buildName, output, plugins = []) {
   output.sourcemap = !!process.env.SOURCE_MAP
   output.banner = banner
   output.externalLiveBindings = false
-  output.globals = {
-    vue: 'Vue',
-  }
 
   const isProductionBuild = /\.prod\.[cm]?js$/.test(output.file)
-  const isGlobalBuild = buildName === 'global'
   const isRawESMBuild = buildName === 'browser'
   const isNodeBuild = buildName === 'cjs'
   const isBundlerESMBuild = buildName === 'browser' || buildName === 'mjs'
-
-  if (isGlobalBuild) output.name = pascalcase(pkg.name)
 
   const shouldEmitDeclarations = !hasTSChecked
 
@@ -131,7 +119,7 @@ function createConfig(buildName, output, plugins = []) {
 
   return {
     input: `src/index.ts`,
-    // Global and Browser ESM builds inlines everything so that they can be
+    // Browser ESM build inlines everything so that it can be
     // used alone.
     external,
     plugins: [
@@ -139,20 +127,13 @@ function createConfig(buildName, output, plugins = []) {
       createReplacePlugin(
         isProductionBuild,
         isBundlerESMBuild,
-        // isBrowserBuild?
         isRawESMBuild,
-        isGlobalBuild,
         isNodeBuild
       ),
       ...nodePlugins,
       ...plugins,
     ],
     output,
-    // onwarn: (msg, warn) => {
-    //   if (!/Circular/.test(msg)) {
-    //     warn(msg)
-    //   }
-    // },
   }
 }
 
@@ -160,7 +141,6 @@ function createReplacePlugin(
   isProduction,
   isBundlerESMBuild,
   isRawESMBuild,
-  isGlobalBuild,
   isNodeBuild
 ) {
   const __DEV__ =
@@ -186,11 +166,11 @@ function createReplacePlugin(
     // this is only used during tests
     __TEST__,
     __FEATURE_PROD_DEVTOOLS__,
-    // If the build is expected to run directly in the browser (global / esm builds)
+    // If the build is expected to run directly in the browser (esm build)
     __BROWSER__: JSON.stringify(isRawESMBuild),
     // is targeting bundlers?
     __BUNDLER__: JSON.stringify(isBundlerESMBuild),
-    __GLOBAL__: JSON.stringify(isGlobalBuild),
+    __GLOBAL__: 'false',
     // is targeting Node (SSR)?
     __NODE_JS__: JSON.stringify(isNodeBuild),
   }
@@ -221,7 +201,7 @@ function createMinifiedConfig(format) {
   return createConfig(
     format,
     {
-      file: `dist/${name}.${format === 'global' ? 'iife' : format}.prod.js`,
+      file: `dist/${name}.${format}.prod.js`,
       format: outputConfigs[format].format,
     },
     [
