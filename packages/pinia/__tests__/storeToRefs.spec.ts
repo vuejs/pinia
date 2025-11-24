@@ -200,6 +200,16 @@ describe('storeToRefs', () => {
     expect(spy).toHaveBeenCalledTimes(0)
   })
 
+  it('warns if a plain object is passed', () => {
+    const spy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    storeToRefs({} as any)
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith(
+      expect.stringContaining('storeToRefs() expects a Pinia store')
+    )
+    spy.mockRestore()
+  })
+
   tds(() => {
     const store1 = defineStore('a', () => {
       const n = ref(0)

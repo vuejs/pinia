@@ -87,6 +87,12 @@ export type StoreToRefs<SS extends StoreGeneric> =
 export function storeToRefs<SS extends StoreGeneric>(
   store: SS
 ): StoreToRefs<SS> {
+  if (__DEV__ && !isRef(store) && !isReactive(store) && !('$id' in store)) {
+    console.warn(
+      `[🍍]: storeToRefs() expects a Pinia store but got a plain object.`
+    )
+  }
+
   const rawStore = toRaw(store)
 
   const refs = {} as StoreToRefs<SS>
