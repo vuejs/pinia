@@ -192,7 +192,7 @@ const unsubscribe = someStore.$onAction(
     console.log(`Start "${name}" with params [${args.join(', ')}].`)
 
     // this will trigger if the action succeeds and after it has fully run.
-    // it waits for any returned promised
+    // it waits for any returned promise
     after((result) => {
       console.log(
         `Finished "${name}" after ${

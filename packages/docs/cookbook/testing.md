@@ -286,7 +286,7 @@ const store = mockedStore(useSomeStore)
 store.someAction.mockResolvedValue('some value')
 ```
 
-If you are interesting in learning more tricks like this, you should check out the Testing lessons on [Mastering Pinia](https://masteringpinia.com/lessons/exercise-mocking-stores-introduction).
+If you are interested in learning more tricks like this, you should check out the Testing lessons on [Mastering Pinia](https://masteringpinia.com/lessons/exercise-mocking-stores-introduction).
 
 ### Specifying the createSpy function
 

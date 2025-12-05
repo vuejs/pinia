@@ -366,7 +366,7 @@ export interface _StoreWithState<
    * On top of these, it receives two functions that allow setting up a callback
    * once the action finishes or when it fails.
    *
-   * It also returns a function to remove the callback. Note than when calling
+   * It also returns a function to remove the callback. Note that when calling
    * `store.$onAction()` inside of a component, it will be automatically cleaned
    * up when the component gets unmounted unless `detached` is set to true.
    *
