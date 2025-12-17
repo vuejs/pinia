@@ -1,5 +1,23 @@
 ### [0.11.3](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.11.2...@pinia/nuxt@0.11.3) (2025-11-05)
 
+This version fixes auto imports from layers which means that if you were writing something like this in options:
+
+```ts
+pinia: {
+  storesDirs: ['./app/stores/**'],
+}
+```
+
+You now need to write
+
+```ts
+pinia: {
+  storesDirs: ['./stores/**'],
+}
+```
+
+This is because _app_ is itself a layer and now auto imports work across layers.
+
 ### Features
 
 - **nuxt:** automatic HMR code (vite only) ([#2954](https://github.com/vuejs/pinia/issues/2954)) ([0e9e7e7](https://github.com/vuejs/pinia/commit/0e9e7e7c9b658c31aa4da7d85311bc932d0b23dd))
