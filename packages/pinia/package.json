@@ -35,8 +35,8 @@
   },
   "funding": "https://github.com/sponsors/posva",
   "scripts": {
-    "build": "rimraf dist && rollup -c ../../rollup.config.mjs --environment TARGET:pinia",
-    "build:dts": "api-extractor run --local --verbose && tail -n +3 ./src/globalExtensions.ts >> dist/pinia.d.ts",
+    "build": "tsdown",
+    "build:dts": "tail -n +3 ./src/globalExtensions.ts >> dist/pinia.d.ts",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l pinia -r 1",
     "test:dts": "tsc -p ./test-dts/tsconfig.json",
     "test": "pnpm run build && pnpm run build:dts && pnpm test:dts"
@@ -69,7 +69,8 @@
   "license": "MIT",
   "devDependencies": {
     "@microsoft/api-extractor": "7.53.3",
-    "@vue/test-utils": "^2.4.6"
+    "@vue/test-utils": "^2.4.6",
+    "tsdown": "^0.19.0"
   },
   "dependencies": {
     "@vue/devtools-api": "^7.7.7"
