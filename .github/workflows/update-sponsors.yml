@@ -2,7 +2,7 @@ name: Update sponsors
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: '0 0 * * *'
   workflow_dispatch: {}
 
 permissions:
@@ -13,9 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: pnpm
 
       - name: Fetch sponsor data
         run: |
@@ -39,17 +48,32 @@ jobs:
           if start_index == -1 or end_index == -1 or end_index < start_index:
               raise SystemExit("Could not find sponsors markers in README.md")
 
-          before = content[: start_index + len(start_marker)]
-          after = content[end_index:]
+          before = content[:start_index]
+          after = content[end_index + len(end_marker):]
           html = html_path.read_text().strip()
 
-          new_content = f"{before}\n{html}\n{after}"
+          new_content = f"{before}{html}{after}"
           if new_content != content:
               readme_path.write_text(new_content)
           PY
 
+      # allows oxfmt to run on commit
+      - name: Install deps
+        run: |
+          pnpm install --frozen-lockfile
+
+      - name: Check for changes
+        id: sponsors-after
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Commit
+        if: steps.sponsors-after.outputs.changed == 'true'
         uses: EndBug/add-and-commit@v9
         with:
-          message: "chore: update sponsors"
-          add: "packages/docs/.vitepress/theme/components/sponsors.json README.md"
+          message: 'chore: update sponsors'
+          add: 'packages/docs/.vitepress/theme/components/sponsors.json README.md'

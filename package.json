@@ -1,11 +1,10 @@
 {
   "name": "@pinia/root",
-  "packageManager": "pnpm@10.28.0",
-  "type": "module",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
+  "type": "module",
   "scripts": {
     "dev": "vitest --coverage --ui",
     "release": "node scripts/release.mjs",
@@ -49,6 +48,7 @@
     "lint-staged": "^16.2.6",
     "lodash.kebabcase": "^4.1.1",
     "minimist": "^1.2.8",
+    "oxfmt": "^0.24.0",
     "p-series": "^3.0.0",
     "pascalcase": "^2.0.0",
     "prettier": "^3.6.2",
@@ -68,13 +68,9 @@
     "commit-msg": "node scripts/verifyCommit.mjs"
   },
   "lint-staged": {
-    "*.{js,mjs,json,cjs}": [
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
-    ]
+    "*": "oxfmt --no-error-on-unmatched-pattern"
   },
+  "packageManager": "pnpm@10.28.0",
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild",
