@@ -1,1 +1,57 @@
-{"platinum":[],"gold":[{"alt":"CodeRabbit","href":"https://www.coderabbit.ai/?utm_source=vuerouter&utm_medium=sponsor","imgSrcDark":"https://posva-sponsors.pages.dev/logos/coderabbitai-dark.svg","imgSrcLight":"https://posva-sponsors.pages.dev/logos/coderabbitai-light.svg"}],"silver":[{"alt":"VueMastery","href":"https://www.vuemastery.com/","imgSrcDark":"https://posva-sponsors.pages.dev/logos/vuemastery-dark.png","imgSrcLight":"https://posva-sponsors.pages.dev/logos/vuemastery-light.svg"},{"alt":"Controla","href":"https://www.controla.ai/?utm_source=posva","imgSrcDark":"https://posva-sponsors.pages.dev/logos/controla-dark.png","imgSrcLight":"https://posva-sponsors.pages.dev/logos/controla-light.png"},{"alt":"Route Optimizer and Route Planner Software","href":"https://route4me.com","imgSrcDark":"https://posva-sponsors.pages.dev/logos/route4me.png","imgSrcLight":"https://posva-sponsors.pages.dev/logos/route4me.png"},{"alt":"SendCloud","href":" https://jobs.sendcloud.com","imgSrcDark":"https://posva-sponsors.pages.dev/logos/sendcloud-dark.svg","imgSrcLight":"https://posva-sponsors.pages.dev/logos/sendcloud-light.svg"}],"bronze":[{"alt":"Stanislas Ormières","href":"https://stormier.ninja","imgSrcDark":"https://avatars.githubusercontent.com/u/2486424","imgSrcLight":"https://avatars.githubusercontent.com/u/2486424"},{"alt":"RTVision","href":"https://www.rtvision.com/","imgSrcDark":"https://avatars.githubusercontent.com/u/8292810","imgSrcLight":"https://avatars.githubusercontent.com/u/8292810"},{"alt":"Storyblok","href":"https://storyblok.com","imgSrcDark":"https://posva-sponsors.pages.dev/logos/storyblok.png","imgSrcLight":"https://posva-sponsors.pages.dev/logos/storyblok.png"}]}
+{
+  "platinum": [],
+  "gold": [
+    {
+      "alt": "CodeRabbit",
+      "href": "https://www.coderabbit.ai/?utm_source=vuerouter&utm_medium=sponsor",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/coderabbitai-dark.svg",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/coderabbitai-light.svg"
+    }
+  ],
+  "silver": [
+    {
+      "alt": "VueMastery",
+      "href": "https://www.vuemastery.com/",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/vuemastery-dark.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/vuemastery-light.svg"
+    },
+    {
+      "alt": "Controla",
+      "href": "https://www.controla.ai/?utm_source=posva",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/controla-dark.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/controla-light.png"
+    },
+    {
+      "alt": "Route Optimizer and Route Planner Software",
+      "href": "https://route4me.com",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/route4me.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/route4me.png"
+    },
+    {
+      "alt": "SendCloud",
+      "href": " https://jobs.sendcloud.com",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/sendcloud-dark.svg",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/sendcloud-light.svg"
+    }
+  ],
+  "bronze": [
+    {
+      "alt": "Stanislas Ormières",
+      "href": "https://stormier.ninja",
+      "imgSrcDark": "https://avatars.githubusercontent.com/u/2486424",
+      "imgSrcLight": "https://avatars.githubusercontent.com/u/2486424"
+    },
+    {
+      "alt": "RTVision",
+      "href": "https://www.rtvision.com/",
+      "imgSrcDark": "https://avatars.githubusercontent.com/u/8292810",
+      "imgSrcLight": "https://avatars.githubusercontent.com/u/8292810"
+    },
+    {
+      "alt": "Storyblok",
+      "href": "https://storyblok.com",
+      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/storyblok.png",
+      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/storyblok.png"
+    }
+  ]
+}
