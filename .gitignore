@@ -18,3 +18,4 @@ yalc.lock
 .idea
 .vitepress/cache
 tsconfig.vitest-temp.json
+.osgrep
