@@ -1,0 +1,55 @@
+name: Update sponsors
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch sponsor data
+        run: |
+          set -euo pipefail
+          curl -fsSL https://sponsors.esm.is/sponsors-docs.json \
+            -o packages/docs/.vitepress/theme/components/sponsors.json
+          curl -fsSL https://sponsors.esm.is/sponsors-docs-html \
+            -o /tmp/sponsors-docs.html
+          python - <<'PY'
+          from pathlib import Path
+
+          readme_path = Path("README.md")
+          html_path = Path("/tmp/sponsors-docs.html")
+
+          start_marker = "<!--sponsors start-->"
+          end_marker = "<!--sponsors end-->"
+
+          content = readme_path.read_text()
+          start_index = content.find(start_marker)
+          end_index = content.find(end_marker)
+          if start_index == -1 or end_index == -1 or end_index < start_index:
+              raise SystemExit("Could not find sponsors markers in README.md")
+
+          before = content[: start_index + len(start_marker)]
+          after = content[end_index:]
+          html = html_path.read_text().strip()
+
+          new_content = f"{before}\n{html}\n{after}"
+          if new_content != content:
+              readme_path.write_text(new_content)
+          PY
+
+      - name: Commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "chore: update sponsors"
+          add: "packages/docs/.vitepress/theme/components/sponsors.json README.md"
