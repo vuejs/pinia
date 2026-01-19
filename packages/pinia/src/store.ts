@@ -279,7 +279,7 @@ function createSetupStore<
     pinia.state.value[$id] = {}
   }
 
-  const hotState = ref({} as S)
+  const hotState = /*#__PURE__*/ ref({} as S)
 
   // avoid triggering too many listeners
   // https://github.com/vuejs/pinia/issues/1129
