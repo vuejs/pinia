@@ -18,6 +18,7 @@ on:
 
 jobs:
   build:
+    if: github.repository == 'vuejs/pinia'
     runs-on: ubuntu-latest
 
     steps:
