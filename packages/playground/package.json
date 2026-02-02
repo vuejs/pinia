@@ -1,17 +1,12 @@
 {
   "name": "@pinia/private-playground",
   "version": "0.0.0",
-  "type": "module",
   "private": true,
+  "type": "module",
   "scripts": {
     "play": "vite",
     "play:build": "vite build",
     "serve": "vite preview"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.1",
-    "vite": "^7.1.12",
-    "vite-plugin-vue-devtools": "^7.7.7"
   },
   "dependencies": {
     "@vueuse/core": "^14.0.0",
@@ -20,5 +15,10 @@
     "swrv": "^1.1.0",
     "vue-promised": "^2.2.0",
     "vue-router": "^4.6.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.4",
+    "vite": "^7.3.1",
+    "vite-plugin-vue-devtools": "^8.0.5"
   }
 }

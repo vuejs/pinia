@@ -3,36 +3,39 @@
   "version": "0.11.3",
   "description": "Nuxt Module for pinia",
   "keywords": [
-    "pinia",
     "nuxt",
+    "pinia",
+    "store",
     "vue",
-    "vuex",
-    "store"
+    "vuex"
   ],
   "homepage": "https://pinia.vuejs.org/ssr/nuxt.html",
   "bugs": {
     "url": "https://github.com/vuejs/pinia/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Eduardo San Martin Morote",
+    "email": "posva13@gmail.com"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vuejs/pinia.git"
   },
   "funding": "https://github.com/sponsors/posva",
-  "license": "MIT",
-  "author": {
-    "name": "Eduardo San Martin Morote",
-    "email": "posva13@gmail.com"
-  },
-  "sideEffects": false,
-  "type": "module",
-  "exports": {
-    ".": "./dist/module.mjs"
-  },
-  "main": "./dist/module.mjs",
-  "types": "./dist/module.d.mts",
   "files": [
     "dist"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/module.mjs",
+  "types": "./dist/module.d.mts",
+  "exports": {
+    ".": "./dist/module.mjs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "pnpm run dev:prepare && nuxt-module-build build",
     "dev": "nuxi dev playground",
@@ -42,21 +45,18 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/nuxt -r 1"
   },
   "dependencies": {
-    "@nuxt/kit": "^4.2.0"
-  },
-  "peerDependencies": {
-    "pinia": "workspace:^"
+    "@nuxt/kit": "^4.3.0"
   },
   "devDependencies": {
     "@nuxt/module-builder": "1.0.2",
-    "@nuxt/schema": "^4.2.0",
-    "@nuxt/test-utils": "^3.20.1",
-    "nuxt": "^4.2.0",
+    "@nuxt/schema": "^4.3.0",
+    "@nuxt/test-utils": "^3.23.0",
+    "nuxt": "^4.3.0",
     "pinia": "workspace:^",
     "typescript": "^5.9.3",
-    "vue-tsc": "^3.1.3"
+    "vue-tsc": "^3.2.4"
   },
-  "publishConfig": {
-    "access": "public"
+  "peerDependencies": {
+    "pinia": "workspace:^"
   }
 }

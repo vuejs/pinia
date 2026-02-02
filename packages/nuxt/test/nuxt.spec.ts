@@ -14,10 +14,10 @@ describe('Nuxt', async () => {
       },
       vite: {
         define: {
-          __DEV__: false,
-          __TEST__: true,
-          __FEATURE_PROD_DEVTOOLS__: false,
-          __USE_DEVTOOLS__: false,
+          __DEV__: 'false',
+          __TEST__: 'true',
+          __FEATURE_PROD_DEVTOOLS__: 'false',
+          __USE_DEVTOOLS__: 'false',
         },
       },
     },

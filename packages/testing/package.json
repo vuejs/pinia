@@ -3,54 +3,54 @@
   "version": "1.0.3",
   "description": "Testing module for Pinia",
   "keywords": [
-    "vue",
-    "vuex",
-    "store",
-    "pinia",
-    "tests",
     "mock",
-    "testing"
+    "pinia",
+    "store",
+    "testing",
+    "tests",
+    "vue",
+    "vuex"
   ],
   "homepage": "https://pinia.vuejs.org/cookbook/testing.html",
   "bugs": {
     "url": "https://github.com/vuejs/pinia/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Eduardo San Martin Morote",
+    "email": "posva13@gmail.com"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vuejs/pinia.git"
   },
   "funding": "https://github.com/sponsors/posva",
-  "license": "MIT",
-  "author": {
-    "name": "Eduardo San Martin Morote",
-    "email": "posva13@gmail.com"
-  },
+  "files": [
+    "dist/*.d.ts",
+    "dist/*.js",
+    "dist/*.mjs"
+  ],
   "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     "types": "./dist/index.d.ts",
     "require": "./dist/index.js",
     "import": "./dist/index.mjs"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist/*.js",
-    "dist/*.mjs",
-    "dist/*.d.ts"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/testing -r 1"
   },
   "devDependencies": {
     "pinia": "workspace:*",
-    "tsup": "^8.5.0"
+    "tsup": "^8.5.1"
   },
   "peerDependencies": {
     "pinia": ">=3.0.4"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
