@@ -5,10 +5,12 @@
 This is the list of versions of Pinia which are
 currently being supported with security updates.
 
-| Version   | Supported          |
-| --------- | ------------------ |
-| 2.2.x     | :white_check_mark: |
-| &lt;2.2.0 | :x:                |
+| Version   | Supported                                             |
+| --------- | ----------------------------------------------------- |
+| 4.0.x     | :white_check_mark:                                    |
+| 3.0.x     | :white_check_mark:                                    |
+| 2.2.x     | :x: [LTS](https://github.com/vuejs/pinia/issues/3099) |
+| &lt;2.2.0 | :x:                                                   |
 
 ## Reporting a Vulnerability
 
