@@ -292,7 +292,7 @@ async function main() {
           ...(pkg.name === MAIN_PKG_NAME && IS_MAIN_PKG_ROOT
             ? [join(pkg.path, 'src'), join(pkg.path, 'package.json')]
             : ['.']),
-          ...(pkg.name === MAIN_PKG_NAME && IS_MAIN_PKG_ROOT
+          ...(pkg.name === MAIN_PKG_NAME
             ? []
             : ['--lerna-package', pkg.name]),
           ...(pkg.name === MAIN_PKG_NAME

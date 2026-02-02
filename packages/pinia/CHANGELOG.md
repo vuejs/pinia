@@ -1,4 +1,4 @@
-### [3.0.4](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.4) (2025-11-05)
+## [3.0.4](https://github.com/vuejs/pinia/compare/v3.0.3...v3.0.4) (2025-11-05)
 
 ### Features
 
@@ -8,23 +8,27 @@
 
 - incorrect supported values in package.json ([5cc55c2](https://github.com/vuejs/pinia/commit/5cc55c2e0bb42ef4c0db1c5201184a495db7d2f8))
 
-### [3.0.3](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.3) (2025-06-04)
+## [3.0.3](https://github.com/vuejs/pinia/compare/v3.0.2...v3.0.3) (2025-06-04)
 
 No code changes.
 
-### [3.0.2](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.2) (2025-04-09)
+## [3.0.2](https://github.com/vuejs/pinia/compare/v3.0.1...v3.0.2) (2025-04-09)
 
 ### Bug Fixes
 
 - fix `obj.hasOwnProperty` in `shouldHydrate`
 
-### 3.0.1 (2025-02-12)
+## [3.0.1](https://github.com/vuejs/pinia/compare/v3.0.0...v3.0.1) (2025-02-12)
 
 ### Bug Fixes
 
 - avoid including devtools code in builds ([d3b24a3](https://github.com/vuejs/pinia/commit/d3b24a3d6a4b5af82c8ef7e66e4cecd890c30fdd)), closes [#2910](https://github.com/vuejs/pinia/issues/2910)
 
-## 3.0.0 (2025-02-11)
+# [3.0.0](https://github.com/vuejs/pinia/compare/v2.3.1...v3.0.0) (2025-02-11)
+
+This version of Pinia has no new features, it drops support for Vue 2 and other deprecated APIs. It should be a straightforward upgrade for most users! 🎉
+
+See the [migration guide](https://pinia.vuejs.org/cookbook/migration-v2-v3.html) for help.
 
 ### ⚠ BREAKING CHANGES
 
@@ -37,73 +41,15 @@ No code changes.
 
 - remove deprecated alias ([87c6182](https://github.com/vuejs/pinia/commit/87c6182c4bf61e1f96a4877eb884fd59cf824e1f))
 - remove internal type `_Awaited` ([ce48ec4](https://github.com/vuejs/pinia/commit/ce48ec46e0d7626eeefa0ee9c4e8c6b65fce31e1))
-- remove support for `id` as a property ([24b2b89](https://github.com/vuejs/pinia/commit/24b2b89c7be4ffda8b6fbc35155757f5780971d8))
-
-### 2.3.1 (2025-01-20)
-
-### Bug Fixes
-
-- **types:** support for Vue 2.7 ([d14e1a7](https://github.com/vuejs/pinia/commit/d14e1a723e5f19cfa89f439d2f0444cc4f5f6dfc))
-
-## 2.3.0 (2024-12-04)
-
-### Features
-
-- writable `computed`s to be picked up by `mapWritableState` ([#2847](https://github.com/vuejs/pinia/issues/2847)) ([0fa633e](https://github.com/vuejs/pinia/commit/0fa633e81864b09d300859a0ed1c10d2a89affa8))
-
-### Bug Fixes
-
-- avoid npm bug when resolving optional deps ([#2841](https://github.com/vuejs/pinia/issues/2841)) ([1e45f33](https://github.com/vuejs/pinia/commit/1e45f332efe8c0f543cfd186cd26b768abdf2b62))
-
-### 2.2.8 (2024-11-28)
-
-### Features
-
-- deprecate old defineStore ([d1858e8](https://github.com/vuejs/pinia/commit/d1858e8c932d89cd2bf9121fe62179795ebb5c5f))
-
-### Bug Fixes
-
-- avoid immediate computing with `storeToRefs` ([67d3109](https://github.com/vuejs/pinia/commit/67d31094784cc3bd256b0636b79dc8e421f6c3fb)), closes [#2812](https://github.com/vuejs/pinia/issues/2812)
-- **types:** unwrap refs in `mapWritableState` for setup stores ([#2805](https://github.com/vuejs/pinia/issues/2805)) ([ea14e53](https://github.com/vuejs/pinia/commit/ea14e53fdfc0d0f4cd80d5242572f87714a77e3b)), closes [#2804](https://github.com/vuejs/pinia/issues/2804)
-
-### 2.2.7 (2024-11-27)
-
-### Bug Fixes
-
-- **devtools:** avoid running outside of browsers ([eb5e6fd](https://github.com/vuejs/pinia/commit/eb5e6fd6073da8e828a9087c876d0e8fde3cdb3d)), closes [#2843](https://github.com/vuejs/pinia/issues/2843)
-
-### [3.0.1](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.1) (2025-02-12)
-
-### Bug Fixes
-
-- avoid including devtools code in builds ([d3b24a3](https://github.com/vuejs/pinia/commit/d3b24a3d6a4b5af82c8ef7e66e4cecd890c30fdd)), closes [#2910](https://github.com/vuejs/pinia/issues/2910)
-
-## [3.0.0](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.0) (2025-02-11)
-
-This version of Pinia has no new features, it drops support for Vue 2 and other deprecated APIs. It should be an straightforward upgrade for most users! 🎉
-
-See the [migration guide](https://pinia.vuejs.org/cookbook/migration-v2-v3.html) for help.
-
-### ⚠ BREAKING CHANGES
-
-- We now use the native `Awaited` introduced in TS 4.5, so you need at least TS 4.5 to use Pinia 3.0. That being said, it's always better to have an up to date version of TS.
-- `PiniaStorePlugin` is now removed. Use `PiniaPlugin` instead.
-- `defineStore({ id: 'id' })` is now removed. Use `defineStore('id')` instead
-- Pinia is now published as a `type: module` package but it still provides CJS versions dist files
-
-### Code Refactoring
-
-- remove deprecated aliases ([87c6182](https://github.com/vuejs/pinia/commit/87c6182c4bf61e1f96a4877eb884fd59cf824e1f))
-- remove internal type `_Awaited` ([ce48ec4](https://github.com/vuejs/pinia/commit/ce48ec46e0d7626eeefa0ee9c4e8c6b65fce31e1))
 - remove support for `id` as a property in `defineStore` ([24b2b89](https://github.com/vuejs/pinia/commit/24b2b89c7be4ffda8b6fbc35155757f5780971d8))
 
-### [2.3.1](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.3.1) (2025-01-20)
+## [2.3.1](https://github.com/vuejs/pinia/compare/v2.3.0...v2.3.1) (2025-01-20)
 
 ### Bug Fixes
 
 - **types:** support for Vue 2.7 ([d14e1a7](https://github.com/vuejs/pinia/commit/d14e1a723e5f19cfa89f439d2f0444cc4f5f6dfc))
 
-## [2.3.0](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.3.0) (2024-12-04)
+# [2.3.0](https://github.com/vuejs/pinia/compare/v2.2.8...v2.3.0) (2024-12-04)
 
 This version requires at least Vue 2.7. On January 2025, Pinia 3.0 will drop support for Vue 2 (which already reached EOL last year). If you need support or help migrating, you can [book help with Eduardo (@posva)](https://cal.com/posva/consultancy).
 
@@ -115,7 +61,7 @@ This version requires at least Vue 2.7. On January 2025, Pinia 3.0 will drop sup
 
 - avoid npm bug when resolving optional deps ([#2841](https://github.com/vuejs/pinia/issues/2841)) ([1e45f33](https://github.com/vuejs/pinia/commit/1e45f332efe8c0f543cfd186cd26b768abdf2b62))
 
-## [2.2.8](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.2.8) (2024-11-28)
+## [2.2.8](https://github.com/vuejs/pinia/compare/v2.2.7...v2.2.8) (2024-11-28)
 
 ### Features
 
@@ -126,7 +72,7 @@ This version requires at least Vue 2.7. On January 2025, Pinia 3.0 will drop sup
 - avoid immediate computing with `storeToRefs` ([67d3109](https://github.com/vuejs/pinia/commit/67d31094784cc3bd256b0636b79dc8e421f6c3fb)), closes [#2812](https://github.com/vuejs/pinia/issues/2812)
 - **types:** unwrap refs in `mapWritableState` for setup stores ([#2805](https://github.com/vuejs/pinia/issues/2805)) ([ea14e53](https://github.com/vuejs/pinia/commit/ea14e53fdfc0d0f4cd80d5242572f87714a77e3b)), closes [#2804](https://github.com/vuejs/pinia/issues/2804)
 
-## [2.2.7](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.2.7) (2024-11-27)
+## [2.2.7](https://github.com/vuejs/pinia/compare/pinia@2.2.6...v2.2.7) (2024-11-27)
 
 ### Bug Fixes
 
