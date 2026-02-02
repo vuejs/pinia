@@ -26,30 +26,26 @@
   },
   "funding": "https://github.com/sponsors/posva",
   "files": [
-    "dist/*.d.ts",
-    "dist/*.js",
+    "dist/*.d.mts",
     "dist/*.mjs"
   ],
   "type": "module",
   "sideEffects": false,
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "exports": {
-    "types": "./dist/index.d.ts",
-    "require": "./dist/index.js",
-    "import": "./dist/index.mjs"
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsdown",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/testing -r 1"
   },
   "devDependencies": {
     "pinia": "workspace:*",
-    "tsup": "^8.5.1"
+    "tsdown": "^0.20.1"
   },
   "peerDependencies": {
     "pinia": ">=3.0.4"
