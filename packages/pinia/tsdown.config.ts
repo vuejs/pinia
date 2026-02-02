@@ -15,6 +15,7 @@ const __TEST__ = `(process.env.NODE_ENV === 'test')`
 const commonOptions = defineConfig({
   banner,
   format: ['esm'],
+  skipNodeModulesBundle: true,
   entry: {
     pinia: './src/index.ts',
   },
@@ -30,6 +31,7 @@ const commonOptions = defineConfig({
 const esm = defineConfig({
   ...commonOptions,
   platform: 'neutral',
+  exports: true,
   dts: true,
   outputOptions: {
     entryFileNames: ({ name }) => `${name}.mjs`.replace('.d.mjs', '.d.ts'),
@@ -63,30 +65,6 @@ const esmBrowserProd = defineConfig({
   },
 })
 
-const cjs = defineConfig({
-  ...commonOptions,
-  format: 'cjs',
-  outputOptions: {
-    entryFileNames: '[name].cjs',
-  },
-  define: {
-    ...commonOptions.define,
-    __USE_DEVTOOLS__: 'false',
-  },
-})
-
-const cjsProd = defineConfig({
-  ...cjs,
-  outputOptions: {
-    entryFileNames: '[name].prod.cjs',
-  },
-  define: {
-    ...cjs.define,
-    __DEV__: 'false',
-    __TEST__: 'false',
-  },
-})
-
 const iife = defineConfig({
   ...commonOptions,
   format: 'iife',
@@ -101,7 +79,7 @@ const iife = defineConfig({
     ...commonOptions.define,
     __DEV__: 'true',
     __TEST__: 'false',
-    __USE_DEVTOOLS__: 'true',
+    __USE_DEVTOOLS__: 'false',
   },
 })
 
@@ -120,4 +98,11 @@ const iifeProd = defineConfig({
   },
 })
 
-export default [esm, esmBrowser, esmBrowserProd, cjs, cjsProd, iife, iifeProd]
+export default [
+  //
+  esm,
+  esmBrowser,
+  esmBrowserProd,
+  iife,
+  iifeProd,
+]
