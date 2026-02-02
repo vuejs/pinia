@@ -29,7 +29,6 @@ jobs:
       - run: pnpm run -r dev:prepare
       - run: pnpm run test:vitest
       - run: pnpm run build
-      - run: pnpm run build:dts
       - run: pnpm run test:dts
       - run: pnpm run size
 

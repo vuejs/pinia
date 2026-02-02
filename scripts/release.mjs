@@ -292,9 +292,7 @@ async function main() {
           ...(pkg.name === MAIN_PKG_NAME && IS_MAIN_PKG_ROOT
             ? [join(pkg.path, 'src'), join(pkg.path, 'package.json')]
             : ['.']),
-          ...(pkg.name === MAIN_PKG_NAME
-            ? []
-            : ['--lerna-package', pkg.name]),
+          ...(pkg.name === MAIN_PKG_NAME ? [] : ['--lerna-package', pkg.name]),
           ...(pkg.name === MAIN_PKG_NAME
             ? []
             : ['--tag-prefix', `${pkg.name}@`]),
@@ -326,7 +324,6 @@ async function main() {
   step('\nBuilding all packages...')
   if (!skipBuild) {
     await runIfNotDry('pnpm', ['run', 'build'])
-    await runIfNotDry('pnpm', ['run', 'build:dts'])
   } else {
     console.log(`(skipped)`)
   }
