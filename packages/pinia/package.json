@@ -75,7 +75,7 @@
     "test": "pnpm run build && pnpm test:dts"
   },
   "dependencies": {
-    "@vue/devtools-api": "^7.7.7"
+    "@vue/devtools-api": "^8.0.5"
   },
   "devDependencies": {
     "@vue/test-utils": "^2.4.6",
