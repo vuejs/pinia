@@ -1,5 +1,4 @@
 import type { VariableDeclarator } from 'estree'
-import type { Nuxt } from 'nuxt/schema'
 import type { Plugin } from 'vite'
 
 function getStoreDeclaration(nodes?: VariableDeclarator[]) {

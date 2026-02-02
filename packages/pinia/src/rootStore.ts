@@ -40,11 +40,6 @@ interface _SetActivePinia {
   (pinia: Pinia | undefined): Pinia | undefined
 }
 
-declare global {
-  interface ImportMeta {
-    server?: boolean
-  }
-}
 /**
  * Get the currently active pinia if there is any.
  */
