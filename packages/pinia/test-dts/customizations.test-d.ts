@@ -3,7 +3,8 @@ import {
   createPinia,
   defineStore,
   mapStores,
-  _ActionsTree,
+  type _ActionsTree,
+  type StoreActions,
   storeToRefs,
 } from './'
 import { App, computed, ComputedRef, ref, Ref } from 'vue'
