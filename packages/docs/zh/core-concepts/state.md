@@ -151,7 +151,7 @@ export default {
   computed: {
     // 可以访问组件中的 this.count
     // 与从 store.count 中读取的数据相同
-    ...mapState(useCounterStore, ['count'])
+    ...mapState(useCounterStore, ['count']),
     // 与上述相同，但将其注册为 this.myOwnName
     ...mapState(useCounterStore, {
       myOwnName: 'count',
@@ -159,7 +159,7 @@ export default {
       double: store => store.count * 2,
       // 它可以访问 `this`，但它没有标注类型...
       magicValue(store) {
-        return store.someGetter + this.count + this.double
+        return store.someGetter + store.count + this.double
       },
     }),
   },
