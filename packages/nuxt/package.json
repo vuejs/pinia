@@ -50,8 +50,8 @@
   "devDependencies": {
     "@nuxt/module-builder": "1.0.2",
     "@nuxt/schema": "^4.3.0",
-    "@nuxt/test-utils": "^3.23.0",
-    "nuxt": "^4.3.0",
+    "@nuxt/test-utils": "^4.0.0",
+    "nuxt": "^4.3.1",
     "pinia": "workspace:^",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.4"
