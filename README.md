@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://npmjs.com/package/pinia"><img src="https://badgen.net/npm/v/pinia" alt="npm package"></a>
   <a href="https://github.com/vuejs/pinia/actions/workflows/ci.yml"><img src="https://github.com/vuejs/pinia/actions/workflows/ci.yml/badge.svg" alt="build status"></a>
-  <a href="https://codecov.io/gh/vuejs/pinia"><img src="https://codecov.io/gh/vuejs/pinia/graph/badge.svg?token=rU2xxQ6BGH"/></a>
+  <a href="https://codecov.io/gh/vuejs/pinia"><img src="https://codecov.io/gh/vuejs/pinia/branch/v3/graph/badge.svg?token=rU2xxQ6BGH"/></a>
 </p>
 <br/>
 
