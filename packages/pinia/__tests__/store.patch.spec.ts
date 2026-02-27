@@ -1,8 +1,11 @@
-import { describe, it, expect } from 'vitest'
-import { reactive, ref } from 'vue'
+import { describe, it, expect, vi } from 'vitest'
+import { reactive, ref, shallowRef, markRaw, watch } from 'vue'
 import { createPinia, defineStore, Pinia, setActivePinia } from '../src'
+import { mockWarn } from './vitest-mock-warn'
 
 describe('store.$patch', () => {
+  mockWarn()
+
   const useStore = () => {
     // create a new store
     setActivePinia(createPinia())
@@ -213,6 +216,140 @@ describe('store.$patch', () => {
       store.$patch({ item: store.arr[0] })
       expect(oldItem).toEqual({ a: 0, b: 0 })
       expect(store.item).toEqual({ a: 1, b: 1 })
+    })
+  })
+
+  describe('shallowRef reactivity', () => {
+    const useShallowRefStore = () => {
+      setActivePinia(createPinia())
+      return defineStore('shallowRef', () => {
+        const counter = shallowRef({ count: 0 })
+        const markedRaw = ref({
+          marked: markRaw({ count: 0 }),
+        })
+        const nestedCounter = shallowRef({
+          nested: { count: 0 },
+          simple: 1,
+        })
+
+        return {
+          markedRaw,
+          counter,
+          nestedCounter,
+        }
+      })()
+    }
+
+    it('does not trigger reactivity when patching marked raw', async () => {
+      const store = useShallowRefStore()
+      const markedSpy = vi.fn()
+      const nestedSpy = vi.fn()
+      watch(() => store.markedRaw.marked, markedSpy, {
+        flush: 'sync',
+        deep: true,
+      })
+      watch(() => store.markedRaw.marked.count, nestedSpy, { flush: 'sync' })
+      store.$patch({ markedRaw: { marked: { count: 1 } } })
+      expect(nestedSpy).toHaveBeenCalledTimes(0)
+      expect(markedSpy).toHaveBeenCalledTimes(0)
+    })
+
+    it('triggers reactivity when patching shallowRef with object syntax', async () => {
+      const store = useShallowRefStore()
+      const watcherSpy = vi.fn()
+
+      watch(() => store.counter.count, watcherSpy, { flush: 'sync' })
+
+      watcherSpy.mockClear()
+      store.$patch({ counter: { count: 1 } })
+
+      expect(watcherSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it('triggers reactivity when patching nested properties in shallowRef', async () => {
+      const store = useShallowRefStore()
+      const watcherSpy = vi.fn()
+
+      watch(() => store.nestedCounter.nested.count, watcherSpy, {
+        flush: 'sync',
+      })
+
+      watcherSpy.mockClear()
+      store.$patch({
+        nestedCounter: {
+          nested: { count: 5 },
+          simple: 2,
+        },
+      })
+
+      expect(watcherSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it('works with function syntax (baseline test)', async () => {
+      const store = useShallowRefStore()
+      const watcherSpy = vi.fn()
+
+      watch(() => store.counter.count, watcherSpy, { flush: 'sync' })
+
+      watcherSpy.mockClear()
+      store.$patch((state) => {
+        state.counter = { count: state.counter.count + 1 }
+      })
+
+      expect(watcherSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it('works with direct assignment (baseline test)', async () => {
+      const store = useShallowRefStore()
+      const watcherSpy = vi.fn()
+
+      watch(() => store.counter.count, watcherSpy, { flush: 'sync' })
+
+      watcherSpy.mockClear()
+      store.counter = { count: 3 }
+
+      expect(watcherSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it('handles partial updates correctly', async () => {
+      const store = useShallowRefStore()
+
+      // Set initial state with multiple properties
+      store.nestedCounter = {
+        nested: { count: 10 },
+        simple: 20,
+      }
+
+      // Patch only one property
+      store.$patch({
+        nestedCounter: {
+          nested: { count: 15 },
+          // Note: simple is not included, should remain unchanged
+        },
+      })
+
+      expect(store.nestedCounter.nested.count).toBe(15)
+      expect(store.nestedCounter.simple).toBe(20) // Should remain unchanged
+    })
+
+    it('works with multiple shallowRefs in single patch', async () => {
+      const store = useShallowRefStore()
+      const watcherSpy1 = vi.fn()
+      const watcherSpy2 = vi.fn()
+
+      watch(() => store.counter.count, watcherSpy1, { flush: 'sync' })
+      watch(() => store.nestedCounter.simple, watcherSpy2, { flush: 'sync' })
+
+      watcherSpy1.mockClear()
+      watcherSpy2.mockClear()
+
+      store.$patch({
+        counter: { count: 10 },
+        nestedCounter: { nested: { count: 0 }, simple: 20 },
+      })
+
+      expect(watcherSpy1).toHaveBeenCalledTimes(1)
+      expect(watcherSpy2).toHaveBeenCalledTimes(1)
     })
   })
 })
