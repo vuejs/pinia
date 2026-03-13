@@ -88,13 +88,13 @@ function mergeReactiveObjects<
 
   // no need to go through symbols because they cannot be serialized anyway
   for (const key in patchToApply) {
-    if (!patchToApply.hasOwnProperty(key)) continue
+    if (!Object.hasOwn(patchToApply, key)) continue
     const subPatch = patchToApply[key]
     const targetValue = target[key]
     if (
       isPlainObject(targetValue) &&
       isPlainObject(subPatch) &&
-      target.hasOwnProperty(key) &&
+      Object.hasOwn(target, key) &&
       !isRef(subPatch) &&
       !isReactive(subPatch)
     ) {
@@ -133,10 +133,7 @@ export function skipHydrate<T = any>(obj: T): T {
  * @returns true if `obj` should be hydrated
  */
 export function shouldHydrate(obj: any) {
-  return (
-    !isPlainObject(obj) ||
-    !Object.prototype.hasOwnProperty.call(obj, skipHydrateSymbol)
-  )
+  return !isPlainObject(obj) || !Object.hasOwn(obj, skipHydrateSymbol)
 }
 
 const { assign } = Object
@@ -283,7 +280,7 @@ function createSetupStore<
 
   // avoid triggering too many listeners
   // https://github.com/vuejs/pinia/issues/1129
-  let activeListener: Symbol | undefined
+  let activeListener: symbol | undefined
   function $patch(stateMutation: (state: UnwrapRef<S>) => void): void
   function $patch(partialState: _DeepPartial<UnwrapRef<S>>): void
   function $patch(
@@ -938,10 +935,12 @@ export function defineStore(
  * - `SS` is the return type of the setup function
  * @see {@link StoreDefinition}
  */
-export interface SetupStoreDefinition<Id extends string, SS>
-  extends StoreDefinition<
-    Id,
-    _ExtractStateFromSetupStore<SS>,
-    _ExtractGettersFromSetupStore<SS>,
-    _ExtractActionsFromSetupStore<SS>
-  > {}
+export interface SetupStoreDefinition<
+  Id extends string,
+  SS,
+> extends StoreDefinition<
+  Id,
+  _ExtractStateFromSetupStore<SS>,
+  _ExtractGettersFromSetupStore<SS>,
+  _ExtractActionsFromSetupStore<SS>
+> {}

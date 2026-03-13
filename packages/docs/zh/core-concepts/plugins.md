@@ -124,7 +124,7 @@ import { toRef, ref } from 'vue'
 pinia.use(({ store }) => {
   // 为了正确地处理 SSR，我们需要确保我们没有重写任何一个
   // 现有的值
-  if (!store.$state.hasOwnProperty('hasError')) {
+  if (!Object.hasOwn(store.$state, 'hasError')) {
     // 在插件中定义 hasError，因此每个 store 都有各自的
     // hasError 状态
     const hasError = ref(false)
@@ -151,7 +151,7 @@ pinia.use(({ store }) => {
 ```js
 import { set, toRef } from '@vue/composition-api'
 pinia.use(({ store }) => {
-  if (!store.$state.hasOwnProperty('secret')) {
+  if (!Object.hasOwn(store.$state, 'secret')) {
     const secretRef = ref('secret')
     // 如果这些数据是要在 SSR 过程中使用的
     // 你应该将其设置在 `$state' 属性上
@@ -176,7 +176,7 @@ import { toRef, ref } from 'vue'
 
 pinia.use(({ store }) => {
   // 和上面的代码一样，只是为了参考
-  if (!store.$state.hasOwnProperty('hasError')) {
+  if (!Object.hasOwn(store.$state, 'hasError')) {
     const hasError = ref(false)
     store.$state.hasError = hasError
   }

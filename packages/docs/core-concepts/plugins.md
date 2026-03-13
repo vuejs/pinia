@@ -124,7 +124,7 @@ import { toRef, ref } from 'vue'
 pinia.use(({ store }) => {
   // to correctly handle SSR, we need to make sure we are not overriding an
   // existing value
-  if (!store.$state.hasOwnProperty('hasError')) {
+  if (!Object.hasOwn(store.$state, 'hasError')) {
     // hasError is defined within the plugin, so each store has their individual
     // state property
     const hasError = ref(false)
@@ -154,7 +154,7 @@ import { toRef, ref } from 'vue'
 
 pinia.use(({ store }) => {
   // this is the same code as above for reference
-  if (!store.$state.hasOwnProperty('hasError')) {
+  if (!Object.hasOwn(store.$state, 'hasError')) {
     const hasError = ref(false)
     store.$state.hasError = hasError
   }
