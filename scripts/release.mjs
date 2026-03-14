@@ -8,7 +8,6 @@ import semver from 'semver'
 import prompts from '@posva/prompts'
 import { execa } from 'execa'
 import pSeries from 'p-series'
-import { globby } from 'globby'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -299,13 +298,9 @@ async function main() {
         ],
         { cwd: pkg.path }
       )
-      await runIfNotDry(
-        `pnpm`,
-        ['exec', 'prettier', '--write', 'CHANGELOG.md'],
-        {
-          cwd: pkg.path,
-        }
-      )
+      await runIfNotDry(`pnpm`, ['exec', 'oxfmt', 'CHANGELOG.md'], {
+        cwd: pkg.path,
+      })
       // NOTE: pnpm publish automatically copies the LICENSE file
     })
   )

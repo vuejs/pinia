@@ -1,5 +1,0 @@
-__build__
-dist
-coverage
-packages/docs/.vitepress/cache
-temp
