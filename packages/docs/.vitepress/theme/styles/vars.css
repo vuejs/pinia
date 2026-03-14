@@ -43,8 +43,8 @@
   --c-bg-accent: var(--c-white-dark);
   --code-bg-color: var(--c-white-dark);
   --code-inline-bg-color: var(--c-white-dark);
-  --code-font-family: 'dm', source-code-pro, Menlo, Monaco, Consolas,
-    'Courier New', monospace;
+  --code-font-family:
+    'dm', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   --code-font-size: 16px;
 
   --vp-code-block-bg: var(--vp-c-bg-alt);

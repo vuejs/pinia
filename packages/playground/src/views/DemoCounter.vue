@@ -7,9 +7,7 @@
 
   <hr />
 
-  <p>
-    <code>counter.$state</code>:
-  </p>
+  <p><code>counter.$state</code>:</p>
 
   <pre>{{ counter.$state }}</pre>
 </template>

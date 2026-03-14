@@ -96,7 +96,7 @@ The same applies to _actions_:
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { apiOrderCart } from './api'
- 
+
 export const useCartStore = defineStore('cart', {
   actions: {
     async orderCart() {
@@ -120,7 +120,7 @@ Since actions can be asynchronous, make sure **all of your `useStore()` calls ap
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
 import { apiOrderCart } from './api'
-  
+
 export const useCartStore = defineStore('cart', {
   actions: {
     async orderCart() {

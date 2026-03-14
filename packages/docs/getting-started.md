@@ -7,7 +7,6 @@
 
 Install `pinia` with your favorite package manager:
 
-
 ::: code-group
 
 ```bash [npm]

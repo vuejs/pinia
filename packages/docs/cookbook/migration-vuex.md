@@ -65,7 +65,7 @@ const storeModule: Module<State, RootState> = {
   state: {
     firstName: '',
     lastName: '',
-    userId: null
+    userId: null,
   },
   getters: {
     firstName: (state) => state.firstName,
@@ -79,29 +79,29 @@ const storeModule: Module<State, RootState> = {
         // read the state from another module named `auth`
         ...rootState.auth.preferences,
         // read a getter from a namespaced module called `email` nested under `auth`
-        ...rootGetters['auth/email'].details
+        ...rootGetters['auth/email'].details,
       }
-    }
+    },
   },
   actions: {
-    async loadUser ({ state, commit }, id: number) {
+    async loadUser({ state, commit }, id: number) {
       if (state.userId !== null) throw new Error('Already logged in')
       const res = await api.user.load(id)
       commit('updateUser', res)
-    }
+    },
   },
   mutations: {
-    updateUser (state, payload) {
+    updateUser(state, payload) {
       state.firstName = payload.firstName
       state.lastName = payload.lastName
       state.userId = payload.userId
     },
-    clearUser (state) {
+    clearUser(state) {
       state.firstName = ''
       state.lastName = ''
       state.userId = null
-    }
-  }
+    },
+  },
 }
 
 export default storeModule
@@ -125,14 +125,14 @@ export const useAuthUserStore = defineStore('authUser', {
   state: (): State => ({
     firstName: '',
     lastName: '',
-    userId: null
+    userId: null,
   }),
   getters: {
     // firstName getter removed, no longer needed
     fullName: (state) => `${state.firstName} ${state.lastName}`,
     loggedIn: (state) => state.userId !== null,
     // must define return type because of using `this`
-    fullUserDetails (state): FullUserDetails {
+    fullUserDetails(state): FullUserDetails {
       // import from other stores
       const authPreferencesStore = useAuthPreferencesStore()
       const authEmailStore = useAuthEmailStore()
@@ -141,7 +141,7 @@ export const useAuthUserStore = defineStore('authUser', {
         // other getters now on `this`
         fullName: this.fullName,
         ...authPreferencesStore.$state,
-        ...authEmailStore.details
+        ...authEmailStore.details,
       }
 
       // alternative if other modules are still in Vuex
@@ -151,26 +151,26 @@ export const useAuthUserStore = defineStore('authUser', {
       //   ...vuexStore.state.auth.preferences,
       //   ...vuexStore.getters['auth/email'].details
       // }
-    }
+    },
   },
   actions: {
     // no context as first argument, use `this` instead
-    async loadUser (id: number) {
+    async loadUser(id: number) {
       if (this.userId !== null) throw new Error('Already logged in')
       const res = await api.user.load(id)
       this.updateUser(res)
     },
     // mutations can now become actions, instead of `state` as first argument use `this`
-    updateUser (payload) {
+    updateUser(payload) {
       this.firstName = payload.firstName
       this.lastName = payload.lastName
       this.userId = payload.userId
     },
     // easily reset state using `$reset`
-    clearUser () {
+    clearUser() {
       this.$reset()
-    }
-  }
+    },
+  },
 })
 ```
 
@@ -179,16 +179,16 @@ Let's break the above down into steps:
 1. Add a required `id` for the store, you may wish to keep this the same as the namespace before. It is also recommended to make sure the `id` is in _camelCase_ as it makes it easier to use with `mapStores()`.
 2. Convert `state` to a function if it was not one already
 3. Convert `getters`
-    1. Remove any getters that return state under the same name (eg. `firstName: (state) => state.firstName`), these are not necessary as you can access any state directly from the store instance
-    2. If you need to access other getters, they are on `this` instead of using the second argument. Remember that if you are using `this` then you will have to use a regular function instead of an arrow function. Also note that you will need to specify a return type because of TS limitations, see [here](../core-concepts/getters.md#accessing-other-getters) for more details
-    3. If using `rootState` or `rootGetters` arguments, replace them by importing the other store directly, or if they still exist in Vuex then access them directly from Vuex
+   1. Remove any getters that return state under the same name (eg. `firstName: (state) => state.firstName`), these are not necessary as you can access any state directly from the store instance
+   2. If you need to access other getters, they are on `this` instead of using the second argument. Remember that if you are using `this` then you will have to use a regular function instead of an arrow function. Also note that you will need to specify a return type because of TS limitations, see [here](../core-concepts/getters.md#accessing-other-getters) for more details
+   3. If using `rootState` or `rootGetters` arguments, replace them by importing the other store directly, or if they still exist in Vuex then access them directly from Vuex
 4. Convert `actions`
-    1. Remove the first `context` argument from each action. Everything should be accessible from `this` instead
-    2. If using other stores either import them directly or access them on Vuex, the same as for getters
+   1. Remove the first `context` argument from each action. Everything should be accessible from `this` instead
+   2. If using other stores either import them directly or access them on Vuex, the same as for getters
 5. Convert `mutations`
-    1. Mutations do not exist any more. These can be converted to `actions` instead, or you can just assign directly to the store within your components (eg. `userStore.firstName = 'First'`)
-    2. If converting to actions, remove the first `state` argument and replace any assignments with `this` instead
-    3. A common mutation is to reset the state back to its initial state. This is built in functionality with the store's `$reset` method. Note that this functionality only exists for option stores.
+   1. Mutations do not exist any more. These can be converted to `actions` instead, or you can just assign directly to the store within your components (eg. `userStore.firstName = 'First'`)
+   2. If converting to actions, remove the first `state` argument and replace any assignments with `this` instead
+   3. A common mutation is to reset the state back to its initial state. This is built in functionality with the store's `$reset` method. Note that this functionality only exists for option stores.
 
 As you can see most of your code can be reused. Type safety should also help you identify what needs to be changed if anything is missed.
 
@@ -206,7 +206,7 @@ import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default defineComponent({
-  setup () {
+  setup() {
     const store = useStore()
 
     const firstName = computed(() => store.state.auth.user.firstName)
@@ -214,9 +214,9 @@ export default defineComponent({
 
     return {
       firstName,
-      fullName
+      fullName,
     }
-  }
+  },
 })
 ```
 
@@ -226,7 +226,7 @@ import { defineComponent, computed } from 'vue'
 import { useAuthUserStore } from '@/stores/auth-user'
 
 export default defineComponent({
-  setup () {
+  setup() {
     const authUserStore = useAuthUserStore()
 
     const firstName = computed(() => authUserStore.firstName)
@@ -236,9 +236,9 @@ export default defineComponent({
       // you can also access the whole store in your component by returning it
       authUserStore,
       firstName,
-      fullName
+      fullName,
     }
-  }
+  },
 })
 ```
 

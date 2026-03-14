@@ -103,7 +103,6 @@ Store 的 State。给它赋值可替换整个 state。
 | `callback`  | [`StoreOnActionListener`](../modules/pinia.md#storeonactionlistener)<`Id`, `S`, `G`, `A`\> | callback called before every action                          |
 | `detached?` | `boolean`                                                                                  | detach the subscription from the context this is called from |
 
-
 #### 返回值
 
 `fn`

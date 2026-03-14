@@ -94,8 +94,7 @@ export interface _SubscriptionCallbackMutationBase {
  * a store with `store.someState = newValue` or `store.$state.someState =
  * newValue`.
  */
-export interface SubscriptionCallbackMutationDirect
-  extends _SubscriptionCallbackMutationBase {
+export interface SubscriptionCallbackMutationDirect extends _SubscriptionCallbackMutationBase {
   type: MutationType.direct
 
   events: DebuggerEvent
@@ -105,8 +104,9 @@ export interface SubscriptionCallbackMutationDirect
  * Context passed to a subscription callback when `store.$patch()` is called
  * with an object.
  */
-export interface SubscriptionCallbackMutationPatchObject<S>
-  extends _SubscriptionCallbackMutationBase {
+export interface SubscriptionCallbackMutationPatchObject<
+  S,
+> extends _SubscriptionCallbackMutationBase {
   type: MutationType.patchObject
 
   events: DebuggerEvent[]
@@ -121,8 +121,7 @@ export interface SubscriptionCallbackMutationPatchObject<S>
  * Context passed to a subscription callback when `store.$patch()` is called
  * with a function.
  */
-export interface SubscriptionCallbackMutationPatchFunction
-  extends _SubscriptionCallbackMutationBase {
+export interface SubscriptionCallbackMutationPatchFunction extends _SubscriptionCallbackMutationBase {
   type: MutationType.patchFunction
 
   events: DebuggerEvent[]

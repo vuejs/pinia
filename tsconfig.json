@@ -19,12 +19,8 @@
     "sourceMap": false,
     "noEmit": true,
     "paths": {
-      "@pinia/*": [
-        "packages/*/src"
-      ],
-      "pinia": [
-        "packages/pinia/src"
-      ]
+      "@pinia/*": ["packages/*/src"],
+      "pinia": ["packages/pinia/src"]
     },
     "target": "esnext",
     "module": "esnext",
@@ -43,14 +39,7 @@
     "esModuleInterop": true,
     "removeComments": false,
     "jsx": "preserve",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
-    "types": [
-      "vitest",
-      "node",
-      "vite/client"
-    ]
+    "lib": ["esnext", "dom"],
+    "types": ["vitest", "node", "vite/client"]
   }
 }

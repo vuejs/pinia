@@ -1,4 +1,4 @@
-.vp-doc a[href^="https://play.pinia.vuejs.org"]:before {
+.vp-doc a[href^='https://play.pinia.vuejs.org']:before {
   content: '▶';
   width: 20px;
   height: 20px;

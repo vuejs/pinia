@@ -1,19 +1,19 @@
 {
   "name": "@pinia/size-check",
-  "private": true,
-  "type": "module",
-  "description": "size checks",
   "version": "0.0.0",
+  "private": true,
+  "description": "size checks",
+  "type": "module",
   "scripts": {
     "build:size": "rollup -c rollup.config.mjs",
     "size": "pnpm run build:size && pnpm run size:check",
     "size:check": "node scripts/check-size.mjs"
   },
+  "dependencies": {
+    "pinia": "workspace:*"
+  },
   "devDependencies": {
     "brotli-wasm": "~1.2.0",
     "zlib": "^1.0.5"
-  },
-  "dependencies": {
-    "pinia": "workspace:*"
   }
 }

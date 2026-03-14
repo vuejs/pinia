@@ -292,23 +292,26 @@ onMounted(() => {
     idle.value = true
   })
 
-  let timerId = setInterval(() => {
-    let blinkState = 0
-    function blinkHandler() {
-      blinkState++
+  let timerId = setInterval(
+    () => {
+      let blinkState = 0
+      function blinkHandler() {
+        blinkState++
 
-      if (blinkState % 2) {
-        blinking.value = 'closed'
-        setTimeout(blinkHandler, blinkTimer * 1.7)
-      } else if (blinkState < 4) {
-        blinking.value = 'open'
-        setTimeout(blinkHandler, blinkTimer)
-      } else {
-        blinking.value = 'open'
+        if (blinkState % 2) {
+          blinking.value = 'closed'
+          setTimeout(blinkHandler, blinkTimer * 1.7)
+        } else if (blinkState < 4) {
+          blinking.value = 'open'
+          setTimeout(blinkHandler, blinkTimer)
+        } else {
+          blinking.value = 'open'
+        }
       }
-    }
-    setTimeout(blinkHandler, 0)
-  }, (maxBlinkInterval - minBlinkInterval) / 2)
+      setTimeout(blinkHandler, 0)
+    },
+    (maxBlinkInterval - minBlinkInterval) / 2
+  )
 
   onUnmounted(() => {
     clearInterval(timerId)

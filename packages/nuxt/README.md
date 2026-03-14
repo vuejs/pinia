@@ -22,13 +22,14 @@ Enable the `@pinia/nuxt` module in `nuxt.config.ts`:
 
 ```js
 export default defineNuxtConfig({
-    modules: ['@pinia/nuxt'],
+  modules: ['@pinia/nuxt'],
 })
 ```
 
 ## Configuring the Module
 
 By default, this module adds `stores` folder to auto imports, in which you can organize code related to Pinia stores in one place.
+
 > [!TIP]
 > In the new directory structure introduced since Nuxt 4, this directory is `app/stores`.
 
@@ -36,19 +37,19 @@ You can customize this behaviour using the `pinia` property in `nuxt.config.ts`:
 
 ```js
 export default defineNuxtConfig({
-    modules: ['@pinia/nuxt'],
-    // configure the module using `pinia` property
-    pinia: {
-      /**
-       * Automatically add stores dirs to the auto imports. This is the same as
-       * directly adding the dirs to the `imports.dirs` option. If you want to
-       * also import nested stores, you can use the glob pattern `./stores/**`
-       * (on Nuxt 3) or `app/stores/**` (on Nuxt 4+)
-       *
-       * @default `['stores']`
-       */
-        storesDirs: []
-    }
+  modules: ['@pinia/nuxt'],
+  // configure the module using `pinia` property
+  pinia: {
+    /**
+     * Automatically add stores dirs to the auto imports. This is the same as
+     * directly adding the dirs to the `imports.dirs` option. If you want to
+     * also import nested stores, you can use the glob pattern `./stores/**`
+     * (on Nuxt 3) or `app/stores/**` (on Nuxt 4+)
+     *
+     * @default `['stores']`
+     */
+    storesDirs: [],
+  },
 })
 ```
 

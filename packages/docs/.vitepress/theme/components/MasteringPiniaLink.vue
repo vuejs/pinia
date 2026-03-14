@@ -24,7 +24,7 @@ const translations = {
     'zh-CN': ' 上观看更多内容',
   },
 }
-const props = defineProps<{ href: string; title: string, mpLink?: string }>()
+const props = defineProps<{ href: string; title: string; mpLink?: string }>()
 const isVideo = computed(() => props.href.startsWith('https://play.gumlet.io/'))
 const isVideoOpen = ref(false)
 </script>
@@ -38,7 +38,10 @@ const isVideoOpen = ref(false)
             loading="lazy"
             title="Gumlet video player"
             false
-            :src="href + '?preload=false&autoplay=true&loop=false&disable_player_controls=false'"
+            :src="
+              href +
+              '?preload=false&autoplay=true&loop=false&disable_player_controls=false'
+            "
             style="
               border: none;
               position: absolute;
@@ -47,7 +50,14 @@ const isVideoOpen = ref(false)
               height: 100%;
               width: 100%;
             "
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen;"
+            allow="
+              accelerometer;
+              gyroscope;
+              autoplay;
+              encrypted-media;
+              picture-in-picture;
+              fullscreen;
+            "
             frameborder="0"
             allowfullscreen
           >
@@ -56,7 +66,11 @@ const isVideoOpen = ref(false)
 
         <div class="watch-more">
           {{ translations.watchMoreA[site.lang] }}
-          <a :href="mpLink || 'https://masteringpinia.com'" target="_blank" rel="noopener">
+          <a
+            :href="mpLink || 'https://masteringpinia.com'"
+            target="_blank"
+            rel="noopener"
+          >
             Mastering Pinia
             <img src="/mp-pinia-logo.svg" alt="mastering pinia logo" />
           </a>
