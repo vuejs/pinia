@@ -111,7 +111,7 @@ export function acceptHMRUpdate<
           return hot.invalidate()
         }
 
-        const existingStore: StoreGeneric = pinia._s.get(id)!
+        const existingStore = pinia._s.get(id)
         if (!existingStore) {
           console.log(`[Pinia]: skipping hmr because store doesn't exist yet`)
           return

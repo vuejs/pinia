@@ -49,7 +49,12 @@ import {
 import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
 import { IS_CLIENT } from './env'
 import { patchObject } from './hmr'
-import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
+import {
+  addSubscription,
+  triggerSubscriptions,
+  triggerSubscriptionsSafe,
+  noop,
+} from './subscriptions'
 
 const fallbackRunWithContext = (fn: () => unknown) => fn()
 
@@ -391,24 +396,24 @@ function createSetupStore<
         ret = fn.apply(this && this.$id === $id ? this : store, args)
         // handle sync errors
       } catch (error) {
-        triggerSubscriptions(onErrorCallbackSet, error)
+        triggerSubscriptionsSafe(onErrorCallbackSet, error)
         throw error
       }
 
       if (ret instanceof Promise) {
         return ret
           .then((value) => {
-            triggerSubscriptions(afterCallbackSet, value)
+            triggerSubscriptionsSafe(afterCallbackSet, value)
             return value
           })
           .catch((error) => {
-            triggerSubscriptions(onErrorCallbackSet, error)
+            triggerSubscriptionsSafe(onErrorCallbackSet, error)
             return Promise.reject(error)
           })
       }
 
       // trigger after callbacks
-      triggerSubscriptions(afterCallbackSet, ret)
+      triggerSubscriptionsSafe(afterCallbackSet, ret)
       return ret
     } as MarkedAction<Fn>
 
@@ -439,7 +444,7 @@ function createSetupStore<
         subscriptions,
         callback,
         options.detached,
-        () => stopWatcher()
+        () => stopWatcher && stopWatcher()
       )
       const stopWatcher = scope.run(() =>
         watch(
@@ -458,7 +463,7 @@ function createSetupStore<
           },
           assign({}, $subscribeOptions, options)
         )
-      )!
+      )
 
       return removeSubscription
     },

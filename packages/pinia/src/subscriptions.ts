@@ -31,3 +31,25 @@ export function triggerSubscriptions<T extends _Method>(
     callback(...args)
   })
 }
+
+/**
+ * Same as {@link triggerSubscriptions} but catches errors in callbacks to ensure all subscribers
+ * are notified even if one throws.
+ *
+ * @internal
+ */
+export function triggerSubscriptionsSafe<T extends _Method>(
+  subscriptions: Set<T>,
+  ...args: Parameters<T>
+) {
+  subscriptions.forEach((callback) => {
+    try {
+      callback(...args)
+    } catch (e) {
+      // Ensure all subscribers are notified even if one throws
+      if (__DEV__) {
+        console.error('[🍍]: Error in subscription callback', e)
+      }
+    }
+  })
+}
