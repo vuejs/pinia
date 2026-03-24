@@ -260,6 +260,14 @@ export interface StoreProperties<Id extends string> {
   _getters?: string[]
 
   /**
+   * Used by devtools plugin to track writable computed refs. Removed in
+   * production.
+   *
+   * @internal
+   */
+  _editableComputed?: Set<string>
+
+  /**
    * Used (and added) by devtools plugin to detect Setup vs Options API usage.
    *
    * @internal

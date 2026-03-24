@@ -11,6 +11,7 @@ import {
   markRaw,
   isRef,
   isReactive,
+  isReadonly,
   effectScope,
   EffectScope,
   ComputedRef,
@@ -471,6 +472,7 @@ function createSetupStore<
           {
             _hmrPayload,
             _customProperties: markRaw(new Set<string>()), // devtools custom properties
+            _editableComputed: markRaw(new Set<string>()), // devtools writable computed refs
           },
           partialStore
           // must be added later
@@ -549,6 +551,9 @@ function createSetupStore<
             // @ts-expect-error: same
             ((setupStore._getters = markRaw([])) as string[])
           getters.push(key)
+          if (!isReadonly(prop)) {
+            store._editableComputed?.add(key)
+          }
         }
       }
     }
@@ -666,6 +671,7 @@ function createSetupStore<
       // update the values used in devtools and to allow deleting new properties later on
       store._hmrPayload = newStore._hmrPayload
       store._getters = newStore._getters
+      store._editableComputed = newStore._editableComputed
       store._hotUpdating = false
     })
   }
@@ -679,15 +685,21 @@ function createSetupStore<
     }
 
     // avoid listing internal properties in devtools
-    ;(['_p', '_hmrPayload', '_getters', '_customProperties'] as const).forEach(
-      (p) => {
-        Object.defineProperty(
-          store,
-          p,
-          assign({ value: store[p] }, nonEnumerable)
-        )
-      }
-    )
+    const internalProperties = [
+      '_p',
+      '_hmrPayload',
+      '_getters',
+      '_editableComputed',
+      '_customProperties',
+    ] as const
+
+    internalProperties.forEach((p) => {
+      Object.defineProperty(
+        store,
+        p,
+        assign({ value: store[p] }, nonEnumerable)
+      )
+    })
   }
 
   // apply all plugins

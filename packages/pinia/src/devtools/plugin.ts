@@ -261,18 +261,34 @@ export function registerPiniaDevtools(app: App, pinia: Pinia) {
 
           const { path } = payload
 
-          if (!isPinia(inspectedStore)) {
+          if (isPinia(inspectedStore)) {
+            const [storeId, computedKey] = path
+            const targetStore =
+              typeof storeId === 'string'
+                ? inspectedStore._s.get(storeId)
+                : undefined
+            const isEditableComputed =
+              path.length === 2 &&
+              !!targetStore &&
+              typeof computedKey === 'string' &&
+              targetStore._editableComputed?.has(computedKey)
+            if (!isEditableComputed) {
+              // Root access, we can omit the `.value` because the devtools API does it for us
+              path.unshift('state')
+            }
+          } else {
             // access only the state
+            const isEditableComputed =
+              path.length === 1 &&
+              inspectedStore._editableComputed?.has(path[0])
             if (
-              path.length !== 1 ||
-              !inspectedStore._customProperties.has(path[0]) ||
-              path[0] in inspectedStore.$state
+              !isEditableComputed &&
+              (path.length !== 1 ||
+                !inspectedStore._customProperties.has(path[0]) ||
+                path[0] in inspectedStore.$state)
             ) {
               path.unshift('$state')
             }
-          } else {
-            // Root access, we can omit the `.value` because the devtools API does it for us
-            path.unshift('state')
           }
           isTimelineActive = false
           payload.set(inspectedStore, path, payload.state.value)
@@ -290,6 +306,21 @@ export function registerPiniaDevtools(app: App, pinia: Pinia) {
           }
 
           const { path } = payload
+          if (path[0] === 'getters') {
+            const computedKey = path[1]
+            if (!computedKey || !store._editableComputed?.has(computedKey)) {
+              return toastMessage(
+                `Invalid path for store "${storeId}":\n${path}\nOnly writable computed properties can be modified.`
+              )
+            }
+
+            path.shift()
+            isTimelineActive = false
+            payload.set(store, path, payload.state.value)
+            isTimelineActive = true
+            return
+          }
+
           if (path[0] !== 'state') {
             return toastMessage(
               `Invalid path for store "${storeId}":\n${path}\nOnly state can be modified.`
