@@ -498,7 +498,7 @@ All deprecated API have been removed.
 ### BREAKING CHANGES
 
 - **ssr:** the `hydrate()` option for stores defined with the
-  options api no longers passes the whole store instance. Instead, it
+  options api no longer passes the whole store instance. Instead, it
   passes the `storeState` so it can be directly modified. This is because
   it was currently necessary to hydrate the store by setting properties
   onto `store.$state`. This change makes it impossible to make the mistake
@@ -683,7 +683,7 @@ It contains major improvements:
 
 - **devtools:** avoid infinite loop when cross using stores ([55c651d](https://github.com/vuejs/pinia/commit/55c651d714a7d4083e4ef6369e3b5ab5dbf02182)), closes [#541](https://github.com/vuejs/pinia/issues/541)
 - **devtools:** avoid warning ([399a930](https://github.com/vuejs/pinia/commit/399a93002b9b3627e636af191e64a7b56f82d2db))
-- **types:** forbid non existant access in getters and actions ([2ee058e](https://github.com/vuejs/pinia/commit/2ee058ef0264dddb367c53ce534f832bdb7b5fb0))
+- **types:** forbid non existent access in getters and actions ([2ee058e](https://github.com/vuejs/pinia/commit/2ee058ef0264dddb367c53ce534f832bdb7b5fb0))
 
 ### Features
 

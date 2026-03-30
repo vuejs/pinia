@@ -148,13 +148,13 @@ expectType<'on' | 'off'>(store.a)
 expectType<'ON' | 'OFF'>(store.upper)
 
 // @ts-expect-error
-store.nonExistant
+store.nonexistent
 
 // @ts-expect-error
 store.upper = 'thing'
 
 // @ts-expect-error
-store.nonExistant.stuff
+store.nonexistent.stuff
 
 // @ts-expect-error cannot return a value
 store.$patch(async () => {})

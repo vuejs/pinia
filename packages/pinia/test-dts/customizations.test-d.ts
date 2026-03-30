@@ -196,7 +196,7 @@ expectType<{
 
 expectType<{
   n: Ref<number>
-  customN: Ref<number> & { plusOne: () => void }
+  custom: Ref<number> & { plusOne: () => void }
   double: ComputedRef<number>
   myState: Ref<number>
   stateOnly: Ref<number>
@@ -204,11 +204,11 @@ expectType<{
   storeToRefs(
     defineStore('a', () => {
       const n = ref(1)
-      const customN = ref(1) as Ref<number> & { plusOne: () => void }
+      const custom = ref(1) as Ref<number> & { plusOne: () => void }
       const double = computed(() => n.value * 2)
       return {
         n,
-        customN,
+        custom,
         double,
       }
     })()
@@ -217,7 +217,7 @@ expectType<{
 
 expectType<{
   n: Ref<number>
-  customN: Ref<number> & { plusOne: () => void }
+  custom: Ref<number> & { plusOne: () => void }
   double: ComputedRef<number>
   myState: Ref<number>
   stateOnly: Ref<number>
@@ -225,16 +225,16 @@ expectType<{
   storeToRefs(
     defineStore('a', () => {
       const n = ref(1)
-      const customN = ref(1) as Ref<number> & { plusOne: () => void }
+      const custom = ref(1) as Ref<number> & { plusOne: () => void }
       const double = computed(() => n.value * 2)
 
       function plusOne() {
-        customN.value++
+        custom.value++
       }
 
       return {
         n,
-        customN,
+        custom,
         double,
         plusOne,
       }
@@ -244,7 +244,7 @@ expectType<{
 
 expectType<{
   n: Ref<number>
-  customN: Ref<number> & { plusOne: () => void }
+  custom: Ref<number> & { plusOne: () => void }
   double: ComputedRef<number>
   myState: Ref<number>
   stateOnly: Ref<number>
@@ -253,7 +253,7 @@ expectType<{
     defineStore('a', {
       state: () => ({
         n: 1,
-        customN: ref(1) as Ref<number> & { plusOne: () => void },
+        custom: ref(1) as Ref<number> & { plusOne: () => void },
       }),
       getters: {
         double: (state) => state.n * 2,

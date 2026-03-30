@@ -54,7 +54,7 @@ Every application must own its own pinia to be able to create stores
 
 添加 store 插件来扩展每一个 store
 
-#### 参数 %{#paramters}%
+#### 参数 %{#parameters}%
 
 | Name     | Type                                  | Description         |
 | :------- | :------------------------------------ | :------------------ |
