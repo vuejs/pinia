@@ -39,7 +39,7 @@ describe('Subscriptions', () => {
       )
     })
 
-    it('fires callback when changed througg store', async () => {
+    it('fires callback when changed through store', async () => {
       const store = useStore()
       const spy = vi.fn()
       store.$subscribe(spy)
