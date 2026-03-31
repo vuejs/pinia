@@ -46,7 +46,14 @@ import {
   _ExtractStateFromSetupStore,
   _StoreWithState,
 } from './types'
-import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
+import {
+  setActivePinia,
+  piniaSymbol,
+  Pinia,
+  activePinia,
+  PiniaSetupContext,
+  Provide,
+} from './rootStore'
 import { IS_CLIENT } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
@@ -163,14 +170,14 @@ function createOptionsStore<
   function setup() {
     if (!initialState && (!__DEV__ || !hot)) {
       /* istanbul ignore if */
-      pinia.state.value[id] = state ? state() : {}
+      pinia.state.value[id] = state ? state(pinia._i) : {}
     }
 
     // avoid creating a state in pinia.state.value
     const localState =
       __DEV__ && hot
         ? // use ref() to unwrap refs inside state TODO: check if this is still necessary
-          toRefs(ref(state ? state() : {}).value)
+          toRefs(ref(state ? state(pinia._i) : {}).value)
         : toRefs(pinia.state.value[id])
 
     return assign(
@@ -329,7 +336,9 @@ function createSetupStore<
   const $reset = isOptionsStore
     ? function $reset(this: _StoreWithState<Id, S, G, A>) {
         const { state } = options as DefineStoreOptions<Id, S, G, A>
-        const newState: _DeepPartial<UnwrapRef<S>> = state ? state() : {}
+        const newState: _DeepPartial<UnwrapRef<S>> = state
+          ? state(pinia._i)
+          : {}
         // we use a patch to group all changes into one single subscription
         this.$patch(($state) => {
           // @ts-expect-error: FIXME: shouldn't error?
@@ -488,7 +497,10 @@ function createSetupStore<
 
   // TODO: idea create skipSerialize that marks properties as non serializable and they are skipped
   const setupStore = runWithContext(() =>
-    pinia._e.run(() => (scope = effectScope()).run(() => setup({ action }))!)
+    pinia._e.run(
+      () =>
+        (scope = effectScope()).run(() => setup({ action, context: pinia._i }))!
+    )
   )!
 
   // overwrite existing actions to support $onAction
@@ -690,6 +702,8 @@ function createSetupStore<
     )
   }
 
+  const provide: Provide = (key: string | symbol, value: unknown) =>
+    (pinia._i[key] = value)
   // apply all plugins
   pinia._p.forEach((extender) => {
     /* istanbul ignore else */
@@ -700,6 +714,7 @@ function createSetupStore<
           app: pinia._a,
           pinia,
           options: optionsForPlugin,
+          provide,
         })
       )!
       Object.keys(extensions || {}).forEach((key) =>
@@ -715,6 +730,7 @@ function createSetupStore<
             app: pinia._a,
             pinia,
             options: optionsForPlugin,
+            provide,
           })
         )!
       )
@@ -789,6 +805,12 @@ export interface SetupStoreHelpers {
    * @param name - name of the action. Will be picked up by the store at creation
    */
   action: <Fn extends _Method>(fn: Fn, name?: string) => Fn
+  /**
+   * Make context available to store.
+   *
+   * Define properties in the context with `pinia.provide()`.
+   */
+  context: Readonly<PiniaSetupContext>
 }
 
 /**

@@ -59,6 +59,10 @@ export const getActivePinia = __DEV__
   : (): Pinia | undefined =>
       (hasInjectionContext() && inject(piniaSymbol)) || activePinia
 
+export interface PiniaSetupContext {
+  // context provided to stores by plugins will be available here
+  [unknownInjection: string | symbol]: unknown
+}
 /**
  * Every application must own its own pinia to be able to create stores
  */
@@ -76,6 +80,12 @@ export interface Pinia {
    * @param plugin - store plugin to add
    */
   use(plugin: PiniaPlugin): Pinia
+
+  provide(key: string | symbol, value: unknown): Pinia
+  provide<K extends keyof PiniaSetupContext>(
+    key: K,
+    value: PiniaSetupContext[K]
+  ): Pinia
 
   /**
    * Installed store plugins
@@ -111,6 +121,13 @@ export interface Pinia {
    * @internal
    */
   _testing?: boolean
+
+  /**
+   * Setup context passed to the setup function of setup store or the state function of option stores.
+   *
+   * @internal
+   */
+  _i: PiniaSetupContext
 }
 
 export const piniaSymbol = (
@@ -145,8 +162,51 @@ export interface PiniaPluginContext<
    * Initial options defining the store when calling `defineStore()`.
    */
   options: DefineStoreOptionsInPlugin<Id, S, G, A>
+
+  /**
+   * Make something available in the store setup function.
+   *
+   * @param key the name of the property used to access the provided value
+   * @param value the value to provide
+   */
+  provide: Provide
 }
 
+export interface Provide {
+  /**
+   * Make something available in the setup of stores.
+   *
+   * Augment PiniaSetupContext like so to enable strong typing.
+   * ```ts
+   * declare module 'pinia' {
+   * 	export interface PiniaSetupContext {
+   * 		myContextInjection: MyAwesomeType;
+   * 	}
+   * }
+   * ```
+   *
+   * @param key the key used to access the injected value. Can be a `string` or a `symbol`
+   * @param value the value to make available, can be anything but isn't reactive by default
+   */
+  <K extends keyof PiniaSetupContext>(key: K, value: PiniaSetupContext[K]): void
+
+  /**
+   * Make something available in the setup of stores.
+   *
+   * Augment PiniaSetupContext like so to enable strong typing.
+   * ```ts
+   * declare module 'pinia' {
+   * 	export interface PiniaSetupContext {
+   * 		myContextInjection: MyAwesomeType;
+   * 	}
+   * }
+   * ```
+   *
+   * @param key the key used to access the injected value. Can be a `string` or a `symbol`
+   * @param value the value to make available, can be anything but isn't reactive by default
+   */
+  (key: string | symbol, value: unknown): void
+}
 /**
  * Plugin to extend every store.
  */

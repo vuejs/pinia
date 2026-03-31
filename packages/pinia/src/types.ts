@@ -6,7 +6,7 @@ import type {
   WatchOptions,
   WritableComputedRef,
 } from 'vue'
-import { Pinia } from './rootStore'
+import { Pinia, PiniaSetupContext } from './rootStore'
 
 /**
  * Generic state of a Store
@@ -625,7 +625,7 @@ export interface DefineStoreOptions<
    * Function to create a fresh state. **Must be an arrow function** to ensure
    * correct typings!
    */
-  state?: () => S
+  state?: (context: Readonly<PiniaSetupContext>) => S
 
   /**
    * Optional object of getters.

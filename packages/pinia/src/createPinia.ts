@@ -19,6 +19,9 @@ export function createPinia(): Pinia {
   // plugins added before calling app.use(pinia)
   let toBeInstalled: PiniaPlugin[] = []
 
+  // store context is empty by default
+  let _i: Pinia['_i'] = {} as Pinia['_i']
+
   const pinia: Pinia = markRaw({
     install(app: App) {
       // this allows calling useStore() outside of a component setup after
@@ -43,6 +46,22 @@ export function createPinia(): Pinia {
       }
       return this
     },
+    provide(key: string | symbol, value: unknown): Pinia {
+      if (key in _i) {
+        if (__DEV__) {
+          console.warn(
+            `[🍍]: Can't redefine injected property. Received ${String(key)} but it has already been registered, this is probably an error.`
+          )
+        }
+        return this
+      }
+      Object.defineProperty(_i, key, {
+        get() {
+          return value
+        },
+      })
+      return this
+    },
 
     _p,
     // it's actually undefined here
@@ -51,6 +70,7 @@ export function createPinia(): Pinia {
     _e: scope,
     _s: new Map<string, StoreGeneric>(),
     state,
+    _i,
   })
 
   // pinia devtools rely on dev only features so they cannot be forced unless
