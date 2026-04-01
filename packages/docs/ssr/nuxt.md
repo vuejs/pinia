@@ -13,6 +13,7 @@ Using Pinia with [Nuxt](https://nuxt.com/) is easier since Nuxt takes care of a 
 
 ```bash
 npx nuxi@latest module add pinia
+npm install pinia
 ```
 
 This will add both `@pinia/nuxt` and `pinia` to your project. **If you notice that `pinia` is not installed, please install it manually** with your package manager: `npm i pinia`.
