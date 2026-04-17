@@ -166,6 +166,65 @@ store.someAction()
 expect(store.someAction).toHaveBeenCalledTimes(1)
 ```
 
+### Stubbing limitations in Setup stores
+
+When using Setup stores (Composition API), internal calls between actions use closed-over function references rather than the store proxy. This means `stubActions` cannot intercept them, only external calls through the store instance are affected:
+
+```js
+// Setup store
+export const useCounterStore = defineStore('counter', () => {
+  function increment() {
+    /*...*/
+  }
+
+  function incrementTwice() {
+    increment() // ❌ internal call — NOT intercepted by stubActions
+    increment()
+  }
+
+  return { increment, incrementTwice }
+})
+
+const store = useCounterStore()
+store.increment() // ✅ stubbed — called through the store proxy
+store.incrementTwice() // ✅ stubbed — but its internal call to increment() will still run
+```
+
+Options API stores do not have this limitation because they use `this` for internal calls, which always goes through the store proxy:
+
+```js
+// Options store
+export const useCounterStore = defineStore('counter', {
+  actions: {
+    increment() {
+      /*...*/
+    },
+    incrementTwice() {
+      this.increment() // ✅ internal call — intercepted by stubActions
+      this.increment()
+    },
+  },
+})
+```
+
+If you need to test internal calls in a Setup store, the workaround is to call actions via the store proxy (e.g. `useStore().increment()`) instead of directly calling the function. This way, they will be affected by `stubActions` as expected.
+
+```js
+// Setup store with workaround
+export const useCounterStore = defineStore('counter', () => {
+  function increment() {
+    /*...*/
+  }
+
+  function incrementTwice() {
+    useCounterStore().increment() // ✅ call through the store proxy — will be stubbed
+    useCounterStore().increment()
+  }
+
+  return { increment, incrementTwice }
+})
+```
+
 ### Selective action stubbing
 
 Sometimes you may want to stub only specific actions while allowing others to execute normally. You can achieve this by passing an array of action names to the `stubActions` option:
