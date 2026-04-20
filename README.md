@@ -62,12 +62,6 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
       <img src="https://posva-sponsors.pages.dev/logos/controla-light.png" height="42px" alt="Controla" />
     </picture>
   </a>
-    <a href="https://route4me.com" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/route4me.png" media="(prefers-color-scheme: dark)" height="42px" alt="Route Optimizer and Route Planner Software" />
-      <img src="https://posva-sponsors.pages.dev/logos/route4me.png" height="42px" alt="Route Optimizer and Route Planner Software" />
-    </picture>
-  </a>
     <a href="https://jobs.sendcloud.com" target="_blank" rel="noopener noreferrer">
     <picture>
       <source srcset="https://posva-sponsors.pages.dev/logos/sendcloud-dark.svg" media="(prefers-color-scheme: dark)" height="42px" alt="SendCloud" />
@@ -78,12 +72,6 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
 
 <h4 align="center">Bronze Sponsors</h4>
 <p align="center">
-    <a href="https://stormier.ninja" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://avatars.githubusercontent.com/u/2486424" media="(prefers-color-scheme: dark)" height="26px" alt="Stanislas Ormières" />
-      <img src="https://avatars.githubusercontent.com/u/2486424" height="26px" alt="Stanislas Ormières" />
-    </picture>
-  </a>
     <a href="https://www.rtvision.com/" target="_blank" rel="noopener noreferrer">
     <picture>
       <source srcset="https://avatars.githubusercontent.com/u/8292810" media="(prefers-color-scheme: dark)" height="26px" alt="RTVision" />

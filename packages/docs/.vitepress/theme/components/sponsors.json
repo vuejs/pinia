@@ -22,12 +22,6 @@
       "imgSrcLight": "https://posva-sponsors.pages.dev/logos/controla-light.png"
     },
     {
-      "alt": "Route Optimizer and Route Planner Software",
-      "href": "https://route4me.com",
-      "imgSrcDark": "https://posva-sponsors.pages.dev/logos/route4me.png",
-      "imgSrcLight": "https://posva-sponsors.pages.dev/logos/route4me.png"
-    },
-    {
       "alt": "SendCloud",
       "href": "https://jobs.sendcloud.com",
       "imgSrcDark": "https://posva-sponsors.pages.dev/logos/sendcloud-dark.svg",
@@ -35,12 +29,6 @@
     }
   ],
   "bronze": [
-    {
-      "alt": "Stanislas Ormières",
-      "href": "https://stormier.ninja",
-      "imgSrcDark": "https://avatars.githubusercontent.com/u/2486424",
-      "imgSrcLight": "https://avatars.githubusercontent.com/u/2486424"
-    },
     {
       "alt": "RTVision",
       "href": "https://www.rtvision.com/",
