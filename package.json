@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "vitest --coverage --ui",
-    "release": "node scripts/release.mjs",
+    "release": "node scripts/release.ts",
     "size": "pnpm run -r size",
     "build": "pnpm run -C packages/pinia build && pnpm run -C packages/nuxt build && pnpm run -C packages/testing build",
     "docs": "pnpm run --filter ./packages/docs -r docs",
@@ -47,9 +47,7 @@
     "happy-dom": "^20.4.0",
     "lint-staged": "^16.2.7",
     "lodash.kebabcase": "^4.1.1",
-    "minimist": "^1.2.8",
     "oxfmt": "^0.40.0",
-    "p-series": "^3.0.0",
     "pascalcase": "^2.0.0",
     "rimraf": "^6.1.0",
     "rollup": "^4.52.5",
