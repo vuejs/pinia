@@ -52,7 +52,7 @@ Flags:
   --noPublish         Skip publishing packages
   --noLockUpdate      Skips updating the lock with "pnpm install"
   --all               Skip checking if the packages have changed since last release
-`.trim(),
+`.trim()
   )
   process.exit(0)
 }
@@ -120,18 +120,24 @@ interface PackageInfo {
 
 async function main() {
   if (!skipCleanGitCheck) {
-    const isDirtyGit = !!(await run('git', ['status', '--porcelain'], { stdio: 'pipe' })).stdout
+    const isDirtyGit = !!(
+      await run('git', ['status', '--porcelain'], { stdio: 'pipe' })
+    ).stdout
 
     if (isDirtyGit) {
       console.log(chalk.red(`Git repo isn't clean.`))
       return
     }
 
-    const currentBranch = (await run('git', ['branch', '--show-current'], { stdio: 'pipe' })).stdout
+    const currentBranch = (
+      await run('git', ['branch', '--show-current'], { stdio: 'pipe' })
+    ).stdout
 
     if (currentBranch !== EXPECTED_BRANCH) {
       console.log(
-        chalk.red(`You should be on branch "${EXPECTED_BRANCH}" but are on "${currentBranch}"`),
+        chalk.red(
+          `You should be on branch "${EXPECTED_BRANCH}" but are on "${currentBranch}"`
+        )
       )
       return
     }
@@ -142,11 +148,12 @@ async function main() {
   if (!skipCleanGitCheck) {
     const isOutdatedRE = new RegExp(
       `\\W${EXPECTED_BRANCH}\\W.*(?:fast-forwardable|local out of date)`,
-      'i',
+      'i'
     )
 
     const isOutdatedGit = isOutdatedRE.test(
-      (await run('git', ['remote', 'show', 'origin'], { stdio: 'pipe' })).stdout as string,
+      (await run('git', ['remote', 'show', 'origin'], { stdio: 'pipe' }))
+        .stdout as string
     )
 
     if (isOutdatedGit) {
@@ -190,13 +197,24 @@ async function main() {
       }),
     })
 
-    packagesToRelease = changedPackages.filter((pkg) => pickedPackages.includes(pkg.name))
+    packagesToRelease = changedPackages.filter((pkg) =>
+      pickedPackages.includes(pkg.name)
+    )
   }
 
-  step(`Ready to release ${packagesToRelease.map(({ name }) => chalk.bold.white(name)).join(', ')}`)
+  step(
+    `Ready to release ${packagesToRelease.map(({ name }) => chalk.bold.white(name)).join(', ')}`
+  )
 
   const pkgWithVersions: PackageInfo[] = []
-  for (const { name, path, pkg, relativePath, lastTag, lastTagDate } of packagesToRelease) {
+  for (const {
+    name,
+    path,
+    pkg,
+    relativePath,
+    lastTag,
+    lastTagDate,
+  } of packagesToRelease) {
     let { version } = pkg
 
     const prerelease = semver.prerelease(version)
@@ -206,7 +224,9 @@ async function main() {
       'patch',
       'minor',
       'major',
-      ...(preId ? (['prepatch', 'preminor', 'premajor', 'prerelease'] as const) : []),
+      ...(preId
+        ? (['prepatch', 'preminor', 'premajor', 'prerelease'] as const)
+        : []),
     ]
 
     const betaVersion = semver.inc(version, 'prerelease', 'beta')
@@ -231,7 +251,7 @@ async function main() {
                   value: betaVersion,
                 },
               ]
-            : [],
+            : []
         )
         .concat([{ value: 'custom', title: 'custom' }]),
     })
@@ -267,7 +287,9 @@ async function main() {
   }
 
   // put the main package first as others might depend on it
-  const mainPkgIndex = packagesToRelease.findIndex(({ name }) => name === MAIN_PKG_NAME)
+  const mainPkgIndex = packagesToRelease.findIndex(
+    ({ name }) => name === MAIN_PKG_NAME
+  )
   if (mainPkgIndex > 0) {
     packagesToRelease.unshift(packagesToRelease.splice(mainPkgIndex, 1)[0]!)
   }
@@ -276,7 +298,10 @@ async function main() {
     type: 'confirm',
     name: 'yes',
     message: `Releasing \n${pkgWithVersions
-      .map(({ name, version }) => `  · ${chalk.white(name)}: ${chalk.yellow.bold(`v${version}`)}`)
+      .map(
+        ({ name, version }) =>
+          `  · ${chalk.white(name)}: ${chalk.yellow.bold(`v${version}`)}`
+      )
       .join('\n')}\nConfirm?`,
   })
 
@@ -321,13 +346,17 @@ async function main() {
             ? [join(pkg.path, 'src'), join(pkg.path, 'package.json')]
             : ['.']),
           ...(pkg.name === MAIN_PKG_NAME ? [] : ['--lerna-package', pkg.name]),
-          ...(pkg.name === MAIN_PKG_NAME ? [] : ['--tag-prefix', `${pkg.name}@`]),
+          ...(pkg.name === MAIN_PKG_NAME
+            ? []
+            : ['--tag-prefix', `${pkg.name}@`]),
         ],
-        { cwd: pkg.path },
+        { cwd: pkg.path }
       )
-      await runIfNotDry(`pnpm`, ['exec', 'oxfmt', 'CHANGELOG.md'], { cwd: pkg.path })
+      await runIfNotDry(`pnpm`, ['exec', 'oxfmt', 'CHANGELOG.md'], {
+        cwd: pkg.path,
+      })
       // NOTE: pnpm publish automatically copies the LICENSE file
-    }),
+    })
   )
 
   const { yes: isChangelogCorrect } = await prompts({
@@ -364,10 +393,19 @@ async function main() {
   step('\nCreating tags...')
   const versionsToPush: string[] = []
   for (const pkg of pkgWithVersions) {
-    const tagName = pkg.name === MAIN_PKG_NAME ? `v${pkg.version}` : `${pkg.name}@${pkg.version}`
+    const tagName =
+      pkg.name === MAIN_PKG_NAME
+        ? `v${pkg.version}`
+        : `${pkg.name}@${pkg.version}`
 
     versionsToPush.push(`refs/tags/${tagName}`)
-    await runIfNotDry('git', ['tag', '-a', `${tagName}`, '-m', `Release ${tagName}`])
+    await runIfNotDry('git', [
+      'tag',
+      '-a',
+      `${tagName}`,
+      '-m',
+      `Release ${tagName}`,
+    ])
   }
 
   if (!noPublish) {
@@ -404,14 +442,14 @@ async function updateVersions(packageList: PackageInfo[]) {
             peerDependencies: pkg.peerDependencies,
           })
         : fs.writeFile(join(path, 'package.json'), content)
-    }),
+    })
   )
 }
 
 function updateDeps(
   pkg: PackageJson,
   depType: 'dependencies' | 'peerDependencies',
-  updatedPackages: PackageInfo[],
+  updatedPackages: PackageInfo[]
 ) {
   const deps = pkg[depType]
   if (!deps) return
@@ -422,9 +460,17 @@ function updateDeps(
     if (dep && updatedDep && deps[dep]) {
       // skip any workspace reference, pnpm will handle it
       if (deps[dep].startsWith('workspace:')) {
-        console.log(chalk.yellow.dim(`${pkg.name} -> ${depType} -> ${dep}@${deps[dep]} (skipped)`))
+        console.log(
+          chalk.yellow.dim(
+            `${pkg.name} -> ${depType} -> ${dep}@${deps[dep]} (skipped)`
+          )
+        )
       } else {
-        console.log(chalk.yellow(`${pkg.name} -> ${depType} -> ${dep}@>=${updatedDep.version}`))
+        console.log(
+          chalk.yellow(
+            `${pkg.name} -> ${depType} -> ${dep}@>=${updatedDep.version}`
+          )
+        )
         deps[dep] = `>=${updatedDep.version}`
       }
     }
@@ -450,9 +496,11 @@ async function publishPackage(pkg: PackageInfo) {
       {
         cwd: pkg.path,
         stdio: 'pipe',
-      },
+      }
     )
-    console.log(chalk.green(`Successfully published ${pkg.name}@${pkg.version}`))
+    console.log(
+      chalk.green(`Successfully published ${pkg.name}@${pkg.version}`)
+    )
   } catch (e: any) {
     if (e.stderr?.match?.(/previously published/)) {
       console.log(chalk.red(`Skipping already published: ${pkg.name}`))
@@ -466,7 +514,9 @@ async function publishPackage(pkg: PackageInfo) {
  * Get the last tag published for a package, along with its author date, or
  * null if there are no tags for this package.
  */
-async function getLastTag(pkgName: string): Promise<{ tag: string; date: string | null } | null> {
+async function getLastTag(
+  pkgName: string
+): Promise<{ tag: string; date: string | null } | null> {
   try {
     const { stdout: tag } = await run(
       'git',
@@ -477,14 +527,18 @@ async function getLastTag(pkgName: string): Promise<{ tag: string; date: string 
         '--match',
         pkgName === MAIN_PKG_NAME ? 'v*' : `${pkgName}@*`,
       ],
-      { stdio: 'pipe' },
+      { stdio: 'pipe' }
     )
 
     let date: string | null = null
     try {
-      const { stdout } = await run('git', ['log', '-1', '--format=%as', tag as string], {
-        stdio: 'pipe',
-      })
+      const { stdout } = await run(
+        'git',
+        ['log', '-1', '--format=%as', tag as string],
+        {
+          stdio: 'pipe',
+        }
+      )
       date = (stdout as string) || null
     } catch {
       // leave date null
@@ -505,14 +559,18 @@ async function getLastTag(pkgName: string): Promise<{ tag: string; date: string 
  * no previous release tag.
  */
 async function getFirstCommit(): Promise<string> {
-  const { stdout } = await run('git', ['rev-list', '--max-parents=0', 'HEAD'], { stdio: 'pipe' })
+  const { stdout } = await run('git', ['rev-list', '--max-parents=0', 'HEAD'], {
+    stdio: 'pipe',
+  })
   return stdout as string
 }
 
 /**
  * Get the packages that have changed. Based on `lerna changed` but without lerna.
  */
-async function getChangedPackages(...folders: string[]): Promise<PackageInfo[]> {
+async function getChangedPackages(
+  ...folders: string[]
+): Promise<PackageInfo[]> {
   const pkgs = await Promise.all(
     folders.map(async (folder) => {
       if (!(await fs.lstat(folder)).isDirectory()) {
@@ -520,7 +578,9 @@ async function getChangedPackages(...folders: string[]): Promise<PackageInfo[]> 
         return null
       }
 
-      const pkg: PackageJson = JSON.parse(await fs.readFile(join(folder, 'package.json'), 'utf-8'))
+      const pkg: PackageJson = JSON.parse(
+        await fs.readFile(join(folder, 'package.json'), 'utf-8')
+      )
       if (pkg.private) {
         console.info(chalk.dim(`Skipping "${pkg.name}" it's private`))
         return null
@@ -530,7 +590,9 @@ async function getChangedPackages(...folders: string[]): Promise<PackageInfo[]> 
       const diffStart = lastTagInfo?.tag ?? (await getFirstCommit())
       if (!lastTagInfo) {
         console.log(
-          chalk.dim(`No previous tag for "${chalk.bold(pkg.name)}", diffing from first commit...`),
+          chalk.dim(
+            `No previous tag for "${chalk.bold(pkg.name)}", diffing from first commit...`
+          )
         )
       }
 
@@ -546,7 +608,7 @@ async function getChangedPackages(...folders: string[]): Promise<PackageInfo[]> 
           // TODO: should not check dev deps and should compare to last tag changes
           join(folder, 'package.json'),
         ],
-        { stdio: 'pipe' },
+        { stdio: 'pipe' }
       )
       const relativePath = relative(join(__dirname, '..'), folder)
 
@@ -559,8 +621,8 @@ async function getChangedPackages(...folders: string[]): Promise<PackageInfo[]> 
         const changedFiles = (hasChanges as string).split('\n').filter(Boolean)
         console.log(
           chalk.dim.blueBright(
-            `Found ${changedFiles.length} changed files in "${pkg.name}" since ${releaseDescription}`,
-          ),
+            `Found ${changedFiles.length} changed files in "${pkg.name}" since ${releaseDescription}`
+          )
         )
         console.log(chalk.dim(`"${changedFiles.join('", "')}"`))
 
@@ -576,11 +638,13 @@ async function getChangedPackages(...folders: string[]): Promise<PackageInfo[]> 
         }
       } else {
         console.warn(
-          chalk.dim(`Skipping "${pkg.name}" as it has no changes since ${releaseDescription}`),
+          chalk.dim(
+            `Skipping "${pkg.name}" as it has no changes since ${releaseDescription}`
+          )
         )
         return null
       }
-    }),
+    })
   )
 
   return pkgs.filter((p): p is PackageInfo => !!p)
