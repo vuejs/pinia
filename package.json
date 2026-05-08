@@ -28,7 +28,7 @@
     "postinstall": "simple-git-hooks"
   },
   "devDependencies": {
-    "@posva/prompts": "^2.4.4",
+    "@clack/prompts": "npm:@posva/clack-prompts@^1.2.1",
     "@rollup/plugin-alias": "^6.0.0",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
@@ -40,9 +40,7 @@
     "@vitest/ui": "^4.0.18",
     "@vue/compiler-sfc": "~3.5.22",
     "@vue/server-renderer": "~3.5.22",
-    "chalk": "^5.6.2",
     "conventional-changelog-cli": "^2.2.2",
-    "execa": "^9.6.0",
     "globby": "^15.0.0",
     "happy-dom": "^20.4.0",
     "lint-staged": "^16.2.7",

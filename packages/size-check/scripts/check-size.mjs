@@ -2,7 +2,6 @@
 import fs from 'node:fs'
 import { globby } from 'globby'
 import path from 'node:path'
-import chalk from 'chalk'
 import { gzipSync } from 'node:zlib'
 import { fileURLToPath } from 'node:url'
 import { compress } from 'brotli-wasm'
@@ -21,9 +20,7 @@ async function checkFileSize(filePath) {
   const compressed = await compress(file)
   const compressedSize = (compressed.length / 1024).toFixed(2) + 'kb'
   console.log(
-    `${chalk.gray(
-      chalk.bold(path.basename(filePath))
-    )} min:${minSize} / gzip:${gzippedSize} / brotli:${compressedSize}`
+    `\x1b[1;90m${path.basename(filePath)}\x1b[0m min:${minSize} / gzip:${gzippedSize} / brotli:${compressedSize}`
   )
 }
 

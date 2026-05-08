@@ -8,9 +8,9 @@ importers:
 
   .:
     devDependencies:
-      '@posva/prompts':
-        specifier: ^2.4.4
-        version: 2.4.4
+      '@clack/prompts':
+        specifier: npm:@posva/clack-prompts@^1.2.1
+        version: '@posva/clack-prompts@1.2.2'
       '@rollup/plugin-alias':
         specifier: ^6.0.0
         version: 6.0.0(rollup@4.57.1)
@@ -44,15 +44,9 @@ importers:
       '@vue/server-renderer':
         specifier: ~3.5.22
         version: 3.5.27(vue@3.5.27(typescript@5.9.3))
-      chalk:
-        specifier: ^5.6.2
-        version: 5.6.2
       conventional-changelog-cli:
         specifier: ^2.2.2
         version: 2.2.2
-      execa:
-        specifier: ^9.6.0
-        version: 9.6.0
       globby:
         specifier: ^15.0.0
         version: 15.0.0
@@ -1835,9 +1829,11 @@ packages:
   '@poppinss/exception@1.2.3':
     resolution: {integrity: sha512-dCED+QRChTVatE9ibtoaxc+WkdzOSjYTKi/+uacHWIsfodVfpsueo3+DKpgU5Px8qXjgmXkSvhXvSCz3fnP9lw==}
 
-  '@posva/prompts@2.4.4':
-    resolution: {integrity: sha512-8aPwklhbSV2VN/NQMBNFkuo8+hlJVdcFRXp4NCIfdcahh3qNEcaSoD8qXjru0OlN1sONJ7le7p6+YUbALaG6Mg==}
-    engines: {node: '>= 14'}
+  '@posva/clack-core@1.2.1':
+    resolution: {integrity: sha512-+qV0OTeTsiuns+7J0IUW5wdt26ahdUaiNphvndQGGK7XoWkAlAexHamZNj0ZyMKbkAQfWSwon9phbSuHNmhoWg==}
+
+  '@posva/clack-prompts@1.2.2':
+    resolution: {integrity: sha512-szxQoBTuDvhQxT6QIdnng3OHcUeAL+IVmKlttOkZR2gykokSaaEgvP97l2An+er+646F9Irv/bHbO3xHcLin0Q==}
 
   '@quansync/fs@1.0.0':
     resolution: {integrity: sha512-4TJ3DFtlf1L5LDMaM6CanJ/0lckGNtJcMjQ1NAV6zDmA0tEHKZtxNKin8EgPaVX1YzljbxckyT2tJrpQKAtngQ==}
@@ -2828,10 +2824,6 @@ packages:
     resolution: {integrity: sha512-NUPRluOfOiTKBKvWPtSD4PhFvWCqOi0BGStNWs57X9js7XGTprSmFoz5F0tWhR4WPjNeR9jXqdC7/UpSJTnlRg==}
     engines: {node: '>=18'}
 
-  chalk@5.6.2:
-    resolution: {integrity: sha512-7NzBL0rN6fMUW+f7A6Io4h40qQlG+xGmtMxfbnH/K7TAtt8JQWVQK+6g0UXKMeVJoyV5EkkNsErQ8pVD3bLHbA==}
-    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
-
   change-case@5.4.4:
     resolution: {integrity: sha512-HRQyTk2/YPEkt9TnUPbOpr64Uw3KOicFWPVBb+xiHvd6eBx/qPr9xqfBFDT8P2vWsvvz4jbEkfDe71W3VyNu2w==}
 
@@ -3417,6 +3409,15 @@ packages:
 
   fast-npm-meta@0.4.8:
     resolution: {integrity: sha512-ybZVlDZ2PkO79dosM+6CLZfKWRH8MF0PiWlw8M4mVWJl8IEJrPfxYc7Tsu830Dwj/R96LKXfePGTSzKWbPJ08w==}
+
+  fast-string-truncated-width@1.2.1:
+    resolution: {integrity: sha512-Q9acT/+Uu3GwGj+5w/zsGuQjh9O1TyywhIwAxHudtWrgF09nHOPrvTLhQevPbttcxjr/SNN7mJmfOw/B1bXgow==}
+
+  fast-string-width@1.1.0:
+    resolution: {integrity: sha512-O3fwIVIH5gKB38QNbdg+3760ZmGz0SZMgvwJbA1b2TGXceKE6A2cOlfogh1iw8lr049zPyd7YADHy+B7U4W9bQ==}
+
+  fast-wrap-ansi@0.1.6:
+    resolution: {integrity: sha512-HlUwET7a5gqjURj70D5jl7aC3Zmy4weA1SHUfM0JFI0Ptq987NH2TwbBFLoERhfwk+E+eaq4EK3jXoT+R3yp3w==}
 
   fastq@1.17.1:
     resolution: {integrity: sha512-sRVD3lWVIXWg6By68ZN7vho9a1pQcN/WBFaAAsDDFzlJjvoGx0P8z7V1t72grFJfJhu3YPZBuu25f7Kaw2jN1w==}
@@ -5218,6 +5219,9 @@ packages:
 
   std-env@3.10.0:
     resolution: {integrity: sha512-5GS12FdOZNliM5mAOxFRg7Ir0pWz8MdpYm6AY6VPkGpbA7ZzmbzNcBJQ0GPvvyWgcY7QAhCgf9Uy89I03faLkg==}
+
+  std-env@4.1.0:
+    resolution: {integrity: sha512-Rq7ybcX2RuC55r9oaPVEW7/xu3tj8u4GeBYHBWCychFtzMIr86A7e3PPEBPT37sHStKX3+TiX/Fr/ACmJLVlLQ==}
 
   streamx@2.23.0:
     resolution: {integrity: sha512-kn+e44esVfn2Fa/O0CPFcex27fjIL6MkVae0Mm6q+E6f0hWv578YCERbv+4m02cjxvDsPKLnmxral/rR6lBMAg==}
@@ -7607,9 +7611,17 @@ snapshots:
 
   '@poppinss/exception@1.2.3': {}
 
-  '@posva/prompts@2.4.4':
+  '@posva/clack-core@1.2.1':
     dependencies:
-      kleur: 4.1.5
+      fast-wrap-ansi: 0.1.6
+      sisteransi: 1.0.5
+      std-env: 4.1.0
+
+  '@posva/clack-prompts@1.2.2':
+    dependencies:
+      '@posva/clack-core': 1.2.1
+      fast-string-width: 1.1.0
+      fast-wrap-ansi: 0.1.6
       sisteransi: 1.0.5
 
   '@quansync/fs@1.0.0':
@@ -8654,8 +8666,6 @@ snapshots:
 
   chai@6.2.2: {}
 
-  chalk@5.6.2: {}
-
   change-case@5.4.4:
     optional: true
 
@@ -9300,6 +9310,16 @@ snapshots:
       micromatch: 4.0.8
 
   fast-npm-meta@0.4.8: {}
+
+  fast-string-truncated-width@1.2.1: {}
+
+  fast-string-width@1.1.0:
+    dependencies:
+      fast-string-truncated-width: 1.2.1
+
+  fast-wrap-ansi@0.1.6:
+    dependencies:
+      fast-string-width: 1.1.0
 
   fastq@1.17.1:
     dependencies:
@@ -11419,6 +11439,8 @@ snapshots:
   statuses@2.0.2: {}
 
   std-env@3.10.0: {}
+
+  std-env@4.1.0: {}
 
   streamx@2.23.0:
     dependencies:
