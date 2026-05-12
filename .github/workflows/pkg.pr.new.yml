@@ -16,6 +16,9 @@ on:
       - 'packages/docs/**'
       - 'packages/playground/**'
 
+permissions:
+  contents: read
+
 jobs:
   build:
     if: github.repository == 'vuejs/pinia'
