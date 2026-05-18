@@ -133,7 +133,9 @@ export function skipHydrate<T = any>(obj: T): T {
  * @returns true if `obj` should be hydrated
  */
 export function shouldHydrate(obj: any) {
-  return !isPlainObject(obj) || !Object.hasOwn(obj, skipHydrateSymbol)
+  return (
+    !obj || typeof obj !== 'object' || !Object.hasOwn(obj, skipHydrateSymbol)
+  )
 }
 
 const { assign } = Object

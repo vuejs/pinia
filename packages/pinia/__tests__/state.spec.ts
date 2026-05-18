@@ -482,4 +482,70 @@ describe('State', () => {
       expect(spy).toHaveBeenCalledTimes(4)
     })
   })
+
+  describe('skipHydrate', () => {
+    it('skips hydration on a plain ref()', () => {
+      const pinia = createPinia()
+      pinia.state.value.main = { count: 24 }
+
+      setActivePinia(pinia)
+
+      const useMain = defineStore('main', () => ({
+        count: skipHydrate(ref(0)),
+      }))
+
+      const main = useMain()
+
+      // 0 because hydration was skipped
+      expect(main.count).toBe(0)
+      main.count++
+      expect(main.count).toBe(1)
+      main.$state.count++
+      expect(main.count).toBe(2)
+      main.$patch({ count: 0 })
+      expect(main.count).toBe(0)
+      main.$patch((state) => {
+        state.count++
+      })
+      expect(main.count).toBe(1)
+    })
+
+    it('skips hydration on a reactive object', () => {
+      const pinia = createPinia()
+      pinia.state.value.main = { obj: { value: 24 } }
+
+      setActivePinia(pinia)
+
+      const useMain = defineStore('main', () => ({
+        obj: skipHydrate(reactive({ value: 0 })),
+      }))
+
+      const main = useMain()
+
+      // 0 because hydration was skipped
+      expect(main.obj.value).toBe(0)
+      main.obj.value++
+      expect(main.obj.value).toBe(1)
+      main.$patch({ obj: { value: 5 } })
+      expect(main.obj.value).toBe(5)
+    })
+
+    it('skips hydration on a reactive Map', () => {
+      const pinia = createPinia()
+      pinia.state.value.main = { items: new Map([['a', 1]]) }
+
+      setActivePinia(pinia)
+
+      const useMain = defineStore('main', () => ({
+        items: skipHydrate(reactive(new Map<string, number>())),
+      }))
+
+      const main = useMain()
+
+      // empty because hydration was skipped on a non-plain reactive container
+      expect(main.items.size).toBe(0)
+      main.items.set('b', 2)
+      expect(main.items.get('b')).toBe(2)
+    })
+  })
 })
