@@ -8,6 +8,7 @@ import {
   getActivePinia,
   setActivePinia,
   shouldHydrate,
+  skipHydrate,
 } from '../src'
 import { Component, createSSRApp, inject, ref, computed, customRef } from 'vue'
 import { renderToString, ssrInterpolate } from '@vue/server-renderer'
@@ -170,6 +171,30 @@ describe('SSR', () => {
     expect(() => {
       shouldHydrate(obj)
     }).not.toThrow()
+  })
+
+  describe('shouldHydrate', () => {
+    it('returns true for unmarked plain objects', () => {
+      expect(shouldHydrate({})).toBe(true)
+      expect(shouldHydrate({ a: 1 })).toBe(true)
+    })
+
+    it('returns false for marked plain objects', () => {
+      expect(shouldHydrate(skipHydrate({}))).toBe(false)
+      expect(shouldHydrate(skipHydrate({ a: 1 }))).toBe(false)
+    })
+
+    it('returns false for marked non-plain objects', () => {
+      expect(shouldHydrate(skipHydrate(new Map()))).toBe(false)
+      expect(shouldHydrate(skipHydrate(new Set()))).toBe(false)
+      expect(shouldHydrate(skipHydrate([1, 2, 3]))).toBe(false)
+    })
+
+    it('returns true for nullish and primitive values', () => {
+      for (const value of [null, undefined, 0, 1, '', 'hello', false, true]) {
+        expect(shouldHydrate(value)).toBe(true)
+      }
+    })
   })
 
   it('errors if getActivePinia called outside of context', async () => {
