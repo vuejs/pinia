@@ -163,7 +163,7 @@ export default {
   computed: {
     // gives access to this.count inside the component
     // same as reading from store.count
-    ...mapState(useCounterStore, ['count'])
+    ...mapState(useCounterStore, ['count']),
     // same as above but registers it as this.myOwnName
     ...mapState(useCounterStore, {
       myOwnName: 'count',
