@@ -590,6 +590,13 @@ function createSetupStore<
           const newStateTarget = newStore.$state[stateKey]
           const oldStateSource = store.$state[stateKey as keyof UnwrapRef<S>]
           if (
+            // option stores declare their whole state shape upfront, so a
+            // missing key means it was intentionally removed and `patchObject`
+            // reconciles the old state against the new shape. Setup stores
+            // create their state imperatively (e.g. `ref({})`) and properties
+            // can be added at runtime, so the old value must be transferred as
+            // a whole to avoid dropping them (#2611).
+            isOptionsStore &&
             typeof newStateTarget === 'object' &&
             isPlainObject(newStateTarget) &&
             isPlainObject(oldStateSource)

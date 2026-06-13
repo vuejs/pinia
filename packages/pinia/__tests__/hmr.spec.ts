@@ -172,7 +172,52 @@ describe('HMR', () => {
         expect($stateSpy).toHaveBeenCalledTimes(4)
       })
 
-      it.todo('handles nested objects updates')
+      it('keeps runtime-added properties of a ref object (#2611)', () => {
+        const setup = () => {
+          const counter = ref<{ nr: number; sign?: 'positive' | 'negative' }>({
+            nr: 0,
+          })
+          function increment() {
+            counter.value.nr++
+            counter.value.sign = counter.value.nr > 0 ? 'positive' : 'negative'
+          }
+          return { counter, increment }
+        }
+
+        const useStore = defineStore('id', setup)
+        const store: any = useStore()
+        store.increment()
+        expect(store.$state).toEqual({ counter: { nr: 1, sign: 'positive' } })
+
+        // simulate a hmr with the same definition: the new module reinitializes
+        // `counter` to `{ nr: 0 }`, without the optional `sign` property
+        defineStore('id', setup)(null, store)
+
+        // both the explicitly defined `nr` and the runtime-added `sign` must be
+        // preserved
+        expect(store.$state).toEqual({ counter: { nr: 1, sign: 'positive' } })
+        expect(store.counter).toEqual({ nr: 1, sign: 'positive' })
+      })
+
+      it('handles nested objects updates', () => {
+        const setup = () => {
+          const nested = ref({ a: 'a', b: 'b' })
+          return { nested }
+        }
+
+        const useStore = defineStore('id', setup)
+        const store: any = useStore()
+        store.nested.a = 'changed'
+
+        // simulate a hmr that removes the `a` key from the definition
+        defineStore('id', () => {
+          const nested = ref<{ a?: string; b: string }>({ b: 'b' })
+          return { nested }
+        })(null, store)
+
+        // the runtime value of the ref is preserved as a whole
+        expect(store.$state).toEqual({ nested: { a: 'changed', b: 'b' } })
+      })
     })
 
     describe('actions', () => {
