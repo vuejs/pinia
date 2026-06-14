@@ -1,5 +1,6 @@
 import { defineConfig, HeadConfig } from 'vitepress'
 import { zhSearch } from './zh'
+import llmstxt from 'vitepress-plugin-llms'
 
 export const META_IMAGE = 'https://pinia.vuejs.org/social.png'
 export const isProduction =
@@ -147,5 +148,19 @@ export const sharedConfig = defineConfig({
       // custom: 'CEBICK3M',
       placement: 'routervuejsorg',
     },
+  },
+  vite: {
+    plugins: [
+      llmstxt({
+        description: 'The intuitive store for Vue.js',
+        details: `
+- Type Safe, autocompletion even in JavaScript
+- Powerful plugin system
+- Modular stores by design
+- Devtools support
+`.trim(),
+        ignoreFiles: ['index.md', 'api/**/*', 'zh/**/*'],
+      }),
+    ],
   },
 })

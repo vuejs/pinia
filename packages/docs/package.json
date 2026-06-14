@@ -19,6 +19,7 @@
     "pinia": "workspace:*",
     "typedoc-vitepress-theme": "^1.1.2",
     "vitepress": "1.6.4",
+    "vitepress-plugin-llms": "^1.12.2",
     "vitepress-translation-helper": "^0.2.2",
     "vue-use-spring": "^0.3.3"
   }
