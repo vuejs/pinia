@@ -50,6 +50,7 @@ import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
 import { IS_CLIENT } from './env'
 import { patchObject } from './hmr'
 import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
+import { diagnostics } from './diagnostics'
 
 const fallbackRunWithContext = (fn: () => unknown) => fn()
 
@@ -181,9 +182,7 @@ function createOptionsStore<
       Object.keys(getters || {}).reduce(
         (computedGetters, name) => {
           if (__DEV__ && name in localState) {
-            console.warn(
-              `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "${name}" in store "${id}".`
-            )
+            diagnostics.PINIA_R1002({ name, id })
           }
 
           computedGetters[name] = markRaw(
@@ -730,11 +729,7 @@ function createSetupStore<
     typeof store.$state.constructor === 'function' &&
     !store.$state.constructor.toString().includes('[native code]')
   ) {
-    console.warn(
-      `[🍍]: The "state" must be a plain object. It cannot be\n` +
-        `\tstate: () => new MyClass()\n` +
-        `Found in store "${store.$id}".`
-    )
+    diagnostics.PINIA_R1003({ id: store.$id })
   }
 
   // only apply hydrate to option stores with an initial state in pinia

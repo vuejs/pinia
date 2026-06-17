@@ -18,6 +18,7 @@ import {
   StoreGeneric,
 } from './types'
 import { IS_CLIENT } from './env'
+import { diagnostics } from './diagnostics'
 
 /**
  * setActivePinia must be called to handle SSR at the top of functions like
@@ -48,10 +49,7 @@ export const getActivePinia = __DEV__
       const pinia = hasInjectionContext() && inject(piniaSymbol)
 
       if (!pinia && !IS_CLIENT) {
-        console.error(
-          `[🍍]: Pinia instance not found in context. This falls back to the global activePinia which exposes you to cross-request pollution on the server. Most of the time, it means you are calling "useStore()" in the wrong place.\n` +
-            `Read https://vuejs.org/guide/reusability/composables.html to learn more`
-        )
+        diagnostics.PINIA_R1004({}, { method: 'error' })
       }
 
       return pinia || activePinia

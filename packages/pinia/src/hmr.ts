@@ -9,6 +9,7 @@ import {
   _Method,
   _ActionsTree,
 } from './types'
+import { diagnostics } from './diagnostics'
 
 /**
  * Checks if a function is a `StoreDefinition`.
@@ -104,9 +105,7 @@ export function acceptHMRUpdate<
         const id = useStore.$id
 
         if (id !== initialUseStore.$id) {
-          console.warn(
-            `The id of the store changed from "${initialUseStore.$id}" to "${id}". Reloading.`
-          )
+          diagnostics.PINIA_R1005({ from: initialUseStore.$id, to: id })
           // return import.meta.hot.invalidate()
           return hot.invalidate()
         }

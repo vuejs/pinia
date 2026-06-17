@@ -13,6 +13,7 @@ import {
 // NOTE: the implementation type is correct and contains up to date types
 // while the other types hide internal properties
 import type { ComputedRefImpl } from '@vue/reactivity'
+import { diagnostics } from './diagnostics'
 
 export interface TestingOptions {
   /**
@@ -131,18 +132,14 @@ export function createTestingPinia({
     (typeof vi !== 'undefined' && vi.fn)
   /* istanbul ignore if */
   if (!createSpy) {
-    throw new Error(
-      '[@pinia/testing]: You must configure the `createSpy` option. See https://pinia.vuejs.org/cookbook/testing.html#Specifying-the-createSpy-function'
-    )
+    throw diagnostics.PINIA_TESTING_C0001()
   } else if (
     typeof createSpy !== 'function' ||
     // When users pass vi.fn() instead of vi.fn
     // https://github.com/vuejs/pinia/issues/2896
     'mockReturnValue' in createSpy
   ) {
-    throw new Error(
-      '[@pinia/testing]: Invalid `createSpy` option. See https://pinia.vuejs.org/cookbook/testing.html#Specifying-the-createSpy-function'
-    )
+    throw diagnostics.PINIA_TESTING_C0002()
   }
 
   // stub actions

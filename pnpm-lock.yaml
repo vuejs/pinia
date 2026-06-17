@@ -184,6 +184,9 @@ importers:
       '@vue/devtools-api':
         specifier: ^8.0.5
         version: 8.0.5
+      nostics:
+        specifier: ^1.0.0
+        version: 1.0.0
       typescript:
         specifier: '>=5.6.0'
         version: 5.9.3
@@ -243,6 +246,10 @@ importers:
         version: 1.0.5
 
   packages/testing:
+    dependencies:
+      nostics:
+        specifier: ^1.0.0
+        version: 1.0.0
     devDependencies:
       pinia:
         specifier: workspace:*
@@ -4501,6 +4508,9 @@ packages:
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
+
+  nostics@1.0.0:
+    resolution: {integrity: sha512-6fxJiZwndMOLX0FaeZNiM1D5PmyWjkqfyZBD32jnYgFBwU+UpJSauRhDaQmz5zykoNEbktAwQJOdmNGhxsMY8w==}
 
   npm-run-path@5.3.0:
     resolution: {integrity: sha512-ppwTtiJZq0O/ai0z7yfudtBpWIoxM8yE6nHi1X47eFR2EWORqfbu6CnPlNsjeN683eT0qG6H/Pyf9fCcvjnnnQ==}
@@ -10806,6 +10816,8 @@ snapshots:
       validate-npm-package-license: 3.0.4
 
   normalize-path@3.0.0: {}
+
+  nostics@1.0.0: {}
 
   npm-run-path@5.3.0:
     dependencies:

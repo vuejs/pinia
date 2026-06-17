@@ -329,7 +329,7 @@ describe('Store', () => {
   })
 
   const warnTextCheckPlainObject = (storeId: string) =>
-    `The "state" must be a plain object. It cannot be\n\tstate: () => new MyClass()\nFound in store "${storeId}".`
+    `The "state" must be a plain object. Found in store "${storeId}".`
 
   it('warns when state is created with a class constructor', () => {
     class MyState {}
@@ -362,7 +362,7 @@ describe('Store', () => {
     useStore()
 
     expect(
-      `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "anyName" in store "main".`
+      `A getter cannot have the same name as another state property. Found "anyName" in store "main".`
     ).toHaveBeenWarnedTimes(1)
   })
 })

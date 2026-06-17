@@ -6,6 +6,7 @@ import type {
   Store,
   StoreDefinition,
 } from './types'
+import { diagnostics } from './diagnostics'
 
 /**
  * Interface to allow customizing map helpers. Extend this interface with the
@@ -101,14 +102,7 @@ export function mapStores<Stores extends any[]>(
   ...stores: [...Stores]
 ): _Spread<Stores> {
   if (__DEV__ && Array.isArray(stores[0])) {
-    console.warn(
-      `[🍍]: Directly pass all stores to "mapStores()" without putting them in an array:\n` +
-        `Replace\n` +
-        `\tmapStores([useAuthStore, useCartStore])\n` +
-        `with\n` +
-        `\tmapStores(useAuthStore, useCartStore)\n` +
-        `This will fail in production if not fixed.`
-    )
+    diagnostics.PINIA_R1001()
     stores = stores[0]
   }
 
