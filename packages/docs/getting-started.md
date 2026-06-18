@@ -25,6 +25,10 @@ pnpm add pinia
 bun add pinia
 ```
 
+```bash [deno]
+deno add pinia
+```
+
 :::
 
 :::tip
