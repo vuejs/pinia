@@ -200,6 +200,23 @@ describe('storeToRefs', () => {
     expect(spy).toHaveBeenCalledTimes(0)
   })
 
+  it('does not crash when setup store returns null non-ref value', () => {
+    // A setup store may return a plain (non-ref) null value for optional state.
+    // storeToRefs must skip those gracefully instead of throwing
+    // TypeError: Cannot read properties of null (reading 'effect').
+    const useStore = defineStore('null-val', () => {
+      return {
+        nullableItem: null as null | { id: number },
+        text: ref('hello'),
+      }
+    })
+
+    const store = useStore()
+    expect(() => storeToRefs(store)).not.toThrow()
+    const { text } = storeToRefs(store)
+    expect(text.value).toBe('hello')
+  })
+
   tds(() => {
     const store1 = defineStore('a', () => {
       const n = ref(0)
