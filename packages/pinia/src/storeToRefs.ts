@@ -94,7 +94,7 @@ export function storeToRefs<SS extends StoreGeneric>(
     const value = rawStore[key]
     // There is no native method to check for a computed
     // https://github.com/vuejs/core/pull/4165
-    if (value && value.effect) {
+    if (value?.effect) {
       // @ts-expect-error: too hard to type correctly
       refs[key] =
         // ...
