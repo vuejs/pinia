@@ -35,5 +35,11 @@ export const diagnostics = /*#__PURE__*/ defineDiagnostics({
         `The store id changed from "${p.from}" to "${p.to}", forcing a reload.`,
       docs: 'https://pinia.vuejs.org/cookbook/hot-module-replacement.html#HMR-Hot-Module-Replacement-',
     },
+    PINIA_R1006: {
+      why: (p: { key: string; id: string }) =>
+        `Property "${p.key}" of store "${p.id}" is not reactive (not a ref, reactive object, or shallowRef), so storeToRefs() ignores it.`,
+      fix: 'If it should be reactive state, wrap it with ref(), reactive(), or shallowRef(). If it is an intentional non-reactive property, wrap it with markRaw() so storeToRefs() skips it explicitly.',
+      docs: 'https://pinia.vuejs.org/core-concepts/plugins.html#Adding-new-external-properties',
+    },
   },
 })

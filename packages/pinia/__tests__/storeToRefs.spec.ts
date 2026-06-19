@@ -1,8 +1,11 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest'
-import { computed, reactive, ref, ToRefs } from 'vue'
+import { computed, markRaw, reactive, ref, ToRefs } from 'vue'
 import { createPinia, defineStore, setActivePinia, storeToRefs } from '../src'
+import { mockWarn } from './vitest-mock-warn'
 
 describe('storeToRefs', () => {
+  mockWarn()
+
   beforeEach(() => {
     setActivePinia(createPinia())
   })
@@ -200,10 +203,7 @@ describe('storeToRefs', () => {
     expect(spy).toHaveBeenCalledTimes(0)
   })
 
-  it('does not crash when setup store returns null non-ref value', () => {
-    // A setup store may return a plain (non-ref) null value for optional state.
-    // storeToRefs must skip those gracefully instead of throwing
-    // TypeError: Cannot read properties of null (reading 'effect').
+  it('does not crash and warns on a non-reactive null value', () => {
     const useStore = defineStore('null-val', () => {
       return {
         nullableItem: null as null | { id: number },
@@ -212,9 +212,57 @@ describe('storeToRefs', () => {
     })
 
     const store = useStore()
-    expect(() => storeToRefs(store)).not.toThrow()
-    const { text } = storeToRefs(store)
-    expect(text.value).toBe('hello')
+    const refs = storeToRefs(store)
+    // the non-reactive value is skipped, the reactive one is kept
+    expect(refs).toHaveProperty('text')
+    expect(refs).not.toHaveProperty('nullableItem')
+    expect(refs.text.value).toBe('hello')
+    expect('"nullableItem"').toHaveBeenWarned()
+    expect('is not reactive').toHaveBeenWarned()
+  })
+
+  it('warns on a non-reactive plain object value', () => {
+    const useStore = defineStore('plain-obj', () => {
+      return { config: { dark: true }, textRef: ref('hi') }
+    })
+
+    storeToRefs(useStore())
+    expect('"config"').toHaveBeenWarned()
+    expect('"textRef"').not.toHaveBeenWarned()
+  })
+
+  it('does not warn on markRaw non-reactive properties', () => {
+    const useStore = defineStore('raw-prop', () => {
+      return { external: markRaw({ dark: true }), text: ref('hi') }
+    })
+
+    const refs = storeToRefs(useStore())
+    expect(refs).not.toHaveProperty('external')
+    expect(refs).toHaveProperty('text')
+  })
+
+  it('warns on a non-reactive property added by a plugin', () => {
+    const pinia = createPinia()
+    // directly push because no app
+    pinia._p.push(() => // @ts-expect-error: invalid state
+    ({ external: { dark: true } }))
+    setActivePinia(pinia)
+
+    const refs = storeToRefs(defineStore('a', () => ({ n: ref(0) }))())
+    expect(refs).not.toHaveProperty('external')
+    expect('"external"').toHaveBeenWarned()
+  })
+
+  it('does not warn on a markRaw property added by a plugin', () => {
+    const pinia = createPinia()
+    pinia._p.push(() => ({ external: markRaw({ dark: true }), shared: 10 }))
+    setActivePinia(pinia)
+
+    const refs = storeToRefs(defineStore('a', () => ({ n: ref(0) }))())
+    expect(refs).not.toHaveProperty('external')
+    // primitives are skipped silently too
+    expect(refs).not.toHaveProperty('shared')
+    expect(refs).toHaveProperty('n')
   })
 
   tds(() => {
