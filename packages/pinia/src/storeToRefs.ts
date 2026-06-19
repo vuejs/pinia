@@ -9,7 +9,6 @@ import {
   ToRefs,
   WritableComputedRef,
 } from 'vue'
-import { diagnostics } from './diagnostics'
 import { StoreGetters, StoreState } from './store'
 import type {
   _ActionsTree,
@@ -110,17 +109,6 @@ export function storeToRefs<SS extends StoreGeneric>(
       refs[key] =
         // ---
         toRef(store, key)
-    } else if (
-      __DEV__ &&
-      // an object that isn't a ref/reactive and that the user didn't markRaw()
-      // is silently dropped: warn so they wrap it as state or markRaw it.
-      // `null` is included (typeof null === 'object') as it is the most common
-      // way to hit this. Primitives, functions (actions) and store API like
-      // `$id` are skipped on purpose.
-      typeof value === 'object' &&
-      !(value as any)?.__v_skip
-    ) {
-      diagnostics.PINIA_R1006({ key, id: store.$id })
     }
   }
 

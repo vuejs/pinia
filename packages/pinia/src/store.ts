@@ -693,33 +693,42 @@ function createSetupStore<
 
   // apply all plugins
   pinia._p.forEach((extender) => {
+    const extensions = scope.run(() =>
+      extender({
+        store: store as Store,
+        app: pinia._a,
+        pinia,
+        options: optionsForPlugin,
+      })
+    )!
+
     /* istanbul ignore else */
     if (__USE_DEVTOOLS__ && IS_CLIENT) {
-      const extensions = scope.run(() =>
-        extender({
-          store: store as Store,
-          app: pinia._a,
-          pinia,
-          options: optionsForPlugin,
-        })
-      )!
       Object.keys(extensions || {}).forEach((key) =>
         store._customProperties.add(key)
       )
-      assign(store, extensions)
-    } else {
-      assign(
-        store,
-        scope.run(() =>
-          extender({
-            store: store as Store,
-            app: pinia._a,
-            pinia,
-            options: optionsForPlugin,
-          })
-        )!
-      )
     }
+
+    // Check properties that are not properly configured. We check the values
+    // as the plugin returned them: once assigned to the store, a `reactive()`
+    // value is unwrapped and indistinguishable from a plain object.
+    if (__DEV__) {
+      for (const key in extensions) {
+        const value = (extensions as any)[key]
+        // `null` is included (typeof null === 'object'). refs, reactive objects,
+        // primitives, functions and markRaw() values are skipped.
+        if (
+          typeof value === 'object' &&
+          !isRef(value) &&
+          !isReactive(value) &&
+          !value?.__v_skip
+        ) {
+          diagnostics.PINIA_R1006({ key, id: $id })
+        }
+      }
+    }
+
+    assign(store, extensions)
   })
 
   if (

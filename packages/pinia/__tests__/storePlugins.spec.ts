@@ -1,7 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore } from '../src'
 import { mount } from '@vue/test-utils'
-import { App, computed, ref, toRef, watch } from 'vue'
+import { App, computed, markRaw, reactive, ref, toRef, watch } from 'vue'
+import { mockWarn } from './vitest-mock-warn'
 
 declare module '../src' {
   export interface PiniaCustomProperties<Id> {
@@ -13,6 +14,9 @@ declare module '../src' {
     globalB: string
     shared: number
     double: number
+    external: { dark: boolean } | null
+    reactiveProp: { n: number }
+    refProp: number
   }
 
   export interface PiniaCustomStateProperties<S> {
@@ -298,5 +302,45 @@ describe('store plugins', () => {
     useStore(pinia)
 
     expect(spy).toHaveBeenCalledTimes(1)
+  })
+
+  describe('non-reactive properties', () => {
+    mockWarn()
+
+    it('warns when a plugin adds a non-reactive object property', () => {
+      const pinia = createPinia()
+      pinia.use(() => ({ external: { dark: true } }))
+      mount({ template: 'none' }, { global: { plugins: [pinia] } })
+
+      useStore(pinia)
+      expect('"external"').toHaveBeenWarned()
+      expect('is not reactive').toHaveBeenWarned()
+    })
+
+    it('warns when a plugin adds a null property', () => {
+      const pinia = createPinia()
+      pinia.use(() => ({ external: null }))
+      mount({ template: 'none' }, { global: { plugins: [pinia] } })
+
+      useStore(pinia)
+      expect('"external"').toHaveBeenWarned()
+    })
+
+    it('does not warn on markRaw, reactive, ref or primitive plugin properties', () => {
+      const pinia = createPinia()
+      pinia.use(() => ({
+        external: markRaw({ dark: true }),
+        reactiveProp: reactive({ n: 1 }),
+        // @ts-expect-error: cannot be a ref yet
+        refProp: ref(2),
+        shared: 10,
+      }))
+      mount({ template: 'none' }, { global: { plugins: [pinia] } })
+
+      const store = useStore(pinia)
+      // mockWarn() guarantees the diagnostic was not emitted for these
+      expect(store.external).toEqual({ dark: true })
+      expect(store.shared).toBe(10)
+    })
   })
 })
