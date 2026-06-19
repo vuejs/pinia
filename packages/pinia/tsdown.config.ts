@@ -40,10 +40,6 @@ const esm = defineConfig({
 
 const esmBrowser = defineConfig({
   ...commonOptions,
-  // bundle nostics into the self-contained browser/iife builds; the .prod
-  // variants set __DEV__ to false so all diagnostics (and this import) are
-  // stripped away. The main .mjs keeps nostics external as a runtime dep.
-  noExternal: ['nostics'],
   outputOptions: {
     entryFileNames: '[name].esm-browser.js',
   },
@@ -73,6 +69,7 @@ const iife = defineConfig({
   ...commonOptions,
   format: 'iife',
   noExternal: ['nostics'],
+  inlineOnly: ['nostics'],
   outputOptions: {
     name: 'Pinia',
     globals: {
