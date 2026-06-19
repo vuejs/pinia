@@ -168,56 +168,53 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 
 ### Stubbing limitations in Setup stores
 
-When using Setup stores (Composition API), internal calls between actions use closed-over function references rather than the store proxy. This means `stubActions` cannot intercept them, only external calls through the store instance are affected:
+`stubActions` replaces actions on the store instance only. In a Setup store, an action that calls another action uses the closed-over function reference, not the store, so the stub is never used for that internal call:
 
 ```js
 // Setup store
 export const useCounterStore = defineStore('counter', () => {
   function increment() {
-    /*...*/
+    /* ... */
   }
 
   function incrementTwice() {
-    increment() // ❌ internal call — NOT intercepted by stubActions
+    increment() // ❌ closed-over reference, the stub is never used
     increment()
   }
 
   return { increment, incrementTwice }
 })
-
-const store = useCounterStore()
-store.increment() // ✅ stubbed — called through the store proxy
-store.incrementTwice() // ✅ stubbed — but its internal call to increment() will still run
 ```
 
-Options API stores do not have this limitation because they use `this` for internal calls, which always goes through the store proxy:
+Stubbing affects `store.increment()` but not the `increment()` calls inside `incrementTwice()`. Running the real `incrementTwice()` always runs the real `increment()`.
+
+Options stores don't have this limitation. Internal calls go through `this`, which is the store instance, so they hit the stub:
 
 ```js
 // Options store
 export const useCounterStore = defineStore('counter', {
   actions: {
     increment() {
-      /*...*/
+      /* ... */
     },
     incrementTwice() {
-      this.increment() // ✅ internal call — intercepted by stubActions
+      this.increment() // ✅ goes through the store, uses the stub
       this.increment()
     },
   },
 })
 ```
 
-If you need to test internal calls in a Setup store, the workaround is to call actions via the store proxy (e.g. `useStore().increment()`) instead of directly calling the function. This way, they will be affected by `stubActions` as expected.
+To make an internal call stubbable in a Setup store, route it through the store instead of the closed-over function:
 
 ```js
-// Setup store with workaround
 export const useCounterStore = defineStore('counter', () => {
   function increment() {
-    /*...*/
+    /* ... */
   }
 
   function incrementTwice() {
-    useCounterStore().increment() // ✅ call through the store proxy — will be stubbed
+    useCounterStore().increment() // ✅ goes through the store, uses the stub
     useCounterStore().increment()
   }
 
