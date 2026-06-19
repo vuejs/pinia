@@ -263,6 +263,12 @@ cartStore.$subscribe((state) => {
 }, { flush: 'sync' })
 ```
 
+:::tip
+Note `flush: 'sync'` runs the callback after **every** state change rather than batching them, so it can have a performance impact if your subscription does heavy work or the state changes often.
+
+In a niche case, this also matters for correctness: a **direct** mutation (e.g. `store.count++`) happening synchronously right after a `$patch()` in the same tick won't trigger a non-sync subscription on its own. If you must be notified of every such mutation, use `flush: 'sync'`.
+:::
+
 ### Detaching subscriptions
 
 By default, _state subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you also want to keep them after the component is unmounted, pass `{ detached: true }` as the second argument to _detach_ the _state subscription_ from the current component:
