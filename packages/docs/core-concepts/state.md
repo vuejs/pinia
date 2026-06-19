@@ -168,7 +168,7 @@ export default {
     ...mapState(useCounterStore, {
       myOwnName: 'count',
       // you can also write a function that gets access to the store
-      double: store => store.count * 2,
+      double: (store) => store.count * 2,
       // it can have access to `this` but it won't be typed correctly...
       magicValue(store) {
         return store.someGetter + this.count + this.double
