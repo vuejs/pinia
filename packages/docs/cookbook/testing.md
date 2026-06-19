@@ -205,6 +205,8 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
+::: warning
+
 To make an internal call stubbable in a Setup store, route it through the store instead of the closed-over function:
 
 ```js
@@ -214,13 +216,18 @@ export const useCounterStore = defineStore('counter', () => {
   }
 
   function incrementTwice() {
-    useCounterStore().increment() // ✅ goes through the store, uses the stub
-    useCounterStore().increment()
+    const store = useCounterStore()
+    store.increment() // ✅ goes through the store, uses the stub
+    store.increment()
   }
 
   return { increment, incrementTwice }
 })
 ```
+
+This works but is _overkill_ just to satisfy a test, so reconsider if you really need to stub that action or if you can just test the real implementation instead first.
+
+:::
 
 ### Selective action stubbing
 
