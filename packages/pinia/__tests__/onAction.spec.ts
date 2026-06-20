@@ -2,6 +2,7 @@ import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
+import { createContext, runInContext } from 'node:vm'
 
 describe('Subscriptions', () => {
   const useStore = () => {
@@ -26,6 +27,20 @@ describe('Subscriptions', () => {
         async asyncUpperName() {
           return this.user.toUpperCase()
         },
+        thenableUpperName() {
+          const result = this.user.toUpperCase()
+          return {
+            then(resolve: (value: string) => void) {
+              resolve(result)
+            },
+          }
+        },
+        crossRealmUpperName() {
+          return runInContext(
+            'Promise.resolve(value)',
+            createContext({ value: this.user.toUpperCase() })
+          ) as Promise<string>
+        },
         upperName() {
           return this.user.toUpperCase()
         },
@@ -34,6 +49,16 @@ describe('Subscriptions', () => {
         },
         async rejects(e: any) {
           throw e
+        },
+        rejectsWithThenable(e: any) {
+          return {
+            then(
+              _resolve: (value: unknown) => void,
+              reject: (reason: unknown) => void
+            ) {
+              reject(e)
+            },
+          }
         },
       },
     })()
@@ -100,12 +125,32 @@ describe('Subscriptions', () => {
     expect(spy).toHaveBeenCalledWith('EDUARDO')
   })
 
-  it('calls after with the resolved value', async () => {
+  it('calls after with the resolved value from a native Promise', async () => {
     const spy = vi.fn()
     store.$onAction(({ after }) => {
       after(spy)
     })
     await expect(store.asyncUpperName()).resolves.toBe('EDUARDO')
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith('EDUARDO')
+  })
+
+  it('calls after with the resolved value from a custom thenable', async () => {
+    const spy = vi.fn()
+    store.$onAction(({ after }) => {
+      after(spy)
+    })
+    await expect(store.thenableUpperName()).resolves.toBe('EDUARDO')
+    expect(spy).toHaveBeenCalledTimes(1)
+    expect(spy).toHaveBeenCalledWith('EDUARDO')
+  })
+
+  it('calls after with the resolved value from a cross-realm Promise', async () => {
+    const spy = vi.fn()
+    store.$onAction(({ after }) => {
+      after(spy)
+    })
+    await expect(store.crossRealmUpperName()).resolves.toBe('EDUARDO')
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('EDUARDO')
   })
@@ -129,6 +174,20 @@ describe('Subscriptions', () => {
     await expect(store.rejects('fail')).rejects.toBe('fail')
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('fail')
+  })
+
+  it('calls onError when a custom thenable rejects', async () => {
+    const afterSpy = vi.fn()
+    const onErrorSpy = vi.fn()
+    expect.assertions(4)
+    store.$onAction(({ after, onError }) => {
+      after(afterSpy)
+      onError(onErrorSpy)
+    })
+    await expect(store.rejectsWithThenable('fail')).rejects.toBe('fail')
+    expect(afterSpy).not.toHaveBeenCalled()
+    expect(onErrorSpy).toHaveBeenCalledTimes(1)
+    expect(onErrorSpy).toHaveBeenCalledWith('fail')
   })
 
   it('listeners are not affected when unsubscribe is called multiple times', () => {

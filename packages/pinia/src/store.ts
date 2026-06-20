@@ -56,6 +56,12 @@ const fallbackRunWithContext = (fn: () => unknown) => fn()
 
 type _SetType<AT> = AT extends Set<infer T> ? T : never
 
+function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
+  return (
+    value != null && typeof (value as PromiseLike<unknown>).then === 'function'
+  )
+}
+
 /**
  * Marks a function as an action for `$onAction`
  * @internal
@@ -396,8 +402,8 @@ function createSetupStore<
         throw error
       }
 
-      if (ret instanceof Promise) {
-        return ret
+      if (isPromiseLike(ret)) {
+        return Promise.resolve(ret)
           .then((value) => {
             triggerSubscriptions(afterCallbackSet, value)
             return value
