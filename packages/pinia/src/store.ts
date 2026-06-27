@@ -20,6 +20,8 @@ import {
   Ref,
   ref,
   nextTick,
+  isShallow,
+  triggerRef,
 } from 'vue'
 import {
   StateTree,
@@ -103,6 +105,14 @@ function mergeReactiveObjects<
       // start the value of a property as a certain type e.g. a Map, and then for some reason, during SSR, change that
       // to `undefined`. When trying to hydrate, we want to override the Map with `undefined`.
       target[key] = mergeReactiveObjects(targetValue, subPatch)
+      // If the underlying reactive property is a shallow ref, mutating its inner
+      // object in-place won't trigger reactivity automatically (shallowRef only
+      // tracks reference identity, not deep properties). Call triggerRef to
+      // force dependent effects to re-run. See: https://github.com/vuejs/pinia/issues/2861
+      const rawRef = toRaw(target as Record<string | symbol, unknown>)[key]
+      if (isRef(rawRef) && isShallow(rawRef)) {
+        triggerRef(rawRef)
+      }
     } else {
       // @ts-expect-error: subPatch is a valid value
       target[key] = subPatch
