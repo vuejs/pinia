@@ -333,6 +333,11 @@ function createSetupStore<
         const newState: _DeepPartial<UnwrapRef<S>> = state ? state() : {}
         // we use a patch to group all changes into one single subscription
         this.$patch(($state) => {
+          for (const key in $state) {
+            if (!Object.hasOwn(newState, key)) {
+              delete $state[key]
+            }
+          }
           // @ts-expect-error: FIXME: shouldn't error?
           assign($state, newState)
         })

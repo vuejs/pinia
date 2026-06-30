@@ -195,6 +195,21 @@ describe('State', () => {
       },
     })
   })
+  it('removes added state keys when resetting the state', () => {
+    const store = useStore()
+    store.$patch({ added: 'value' } as any)
+
+    store.$reset()
+
+    expect(store.$state).toEqual({
+      counter: 0,
+      name: 'Eduardo',
+      nested: {
+        n: 0,
+      },
+    })
+    expect('added' in store.$state).toBe(false)
+  })
 
   it('can reset the state of an empty store', () => {
     const store = defineStore('a', {})(createPinia())
