@@ -2,8 +2,11 @@ import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, MutationType, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
 import { nextTick, ref } from 'vue'
+import { mockWarn } from './vitest-mock-warn'
 
 describe('Subscriptions', () => {
+  mockWarn()
+
   const useOptionsStore = defineStore('main', {
     state: () => ({
       user: 'Eduardo',
@@ -376,30 +379,29 @@ describe('Subscriptions', () => {
       expect(postSpy).toHaveBeenCalledTimes(1)
     })
 
-    it('subscribing the same callback twice fires it only once per change', () => {
+    it('ignores a callback subscribed twice and warns', () => {
       const spy = vi.fn()
       const store = useStore()
       const unsub1 = store.$subscribe(spy, { flush: 'sync' })
       const unsub2 = store.$subscribe(spy, { flush: 'sync' })
 
-      // Direct state mutation: only one Set entry → one call expected
+      expect('passed to "$subscribe()"').toHaveBeenWarnedTimes(1)
+
       store.$state.user = 'once'
       expect(spy).toHaveBeenCalledTimes(1)
 
-      // $patch: triggerSubscriptions iterates the Set (one entry) → one call
       store.$patch({ user: 'twice' })
       expect(spy).toHaveBeenCalledTimes(2)
 
-      // Unsubscribing one of the duplicates removes the only Set entry,
-      // so the watcher should no longer fire the callback.
-      unsub1()
-      store.$state.user = 'after-unsub1'
-      expect(spy).toHaveBeenCalledTimes(2)
-
-      // Calling the second unsubscribe is a no-op (Set entry already gone).
+      // the second call returned a noop, so it does not unsubscribe anything
       unsub2()
       store.$state.user = 'after-unsub2'
-      expect(spy).toHaveBeenCalledTimes(2)
+      expect(spy).toHaveBeenCalledTimes(3)
+
+      // unsubscribing the original removes the single subscription
+      unsub1()
+      store.$state.user = 'after-unsub1'
+      expect(spy).toHaveBeenCalledTimes(3)
     })
   })
 })
