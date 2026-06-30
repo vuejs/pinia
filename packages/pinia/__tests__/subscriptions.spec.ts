@@ -2,8 +2,11 @@ import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, MutationType, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
 import { nextTick, ref } from 'vue'
+import { mockWarn } from './vitest-mock-warn'
 
 describe('Subscriptions', () => {
+  mockWarn()
+
   const useOptionsStore = defineStore('main', {
     state: () => ({
       user: 'Eduardo',
@@ -374,6 +377,31 @@ describe('Subscriptions', () => {
       await nextTick()
       expect(preSpy).toHaveBeenCalledTimes(1)
       expect(postSpy).toHaveBeenCalledTimes(1)
+    })
+
+    it('ignores a callback subscribed twice and warns', () => {
+      const spy = vi.fn()
+      const store = useStore()
+      const unsub1 = store.$subscribe(spy, { flush: 'sync' })
+      const unsub2 = store.$subscribe(spy, { flush: 'sync' })
+
+      expect('passed to "$subscribe()"').toHaveBeenWarnedTimes(1)
+
+      store.$state.user = 'once'
+      expect(spy).toHaveBeenCalledTimes(1)
+
+      store.$patch({ user: 'twice' })
+      expect(spy).toHaveBeenCalledTimes(2)
+
+      // the second call returned a noop, so it does not unsubscribe anything
+      unsub2()
+      store.$state.user = 'after-unsub2'
+      expect(spy).toHaveBeenCalledTimes(3)
+
+      // unsubscribing the original removes the single subscription
+      unsub1()
+      store.$state.user = 'after-unsub1'
+      expect(spy).toHaveBeenCalledTimes(3)
     })
   })
 })

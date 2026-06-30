@@ -41,5 +41,11 @@ export const diagnostics = /*#__PURE__*/ defineDiagnostics({
       fix: 'If it should be reactive state, wrap it with ref(), reactive(), or shallowRef(). If it is an intentional non-reactive property, wrap it with markRaw() so storeToRefs() skips it explicitly.',
       docs: 'https://pinia.vuejs.org/core-concepts/plugins.html#Adding-new-external-properties',
     },
+    PINIA_R1007: {
+      why: (p: { id: string }) =>
+        `The same callback was passed to "$subscribe()" of store "${p.id}" more than once. Subscriptions are deduplicated, so the duplicate is ignored.`,
+      fix: 'Subscribe each callback only once. If you need to resubscribe, call the returned function to remove the previous subscription first, or create a new function.',
+      docs: 'https://pinia.vuejs.org/core-concepts/state.html#Subscribing-to-the-state',
+    },
   },
 })

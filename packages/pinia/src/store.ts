@@ -436,6 +436,15 @@ function createSetupStore<
     $patch,
     $reset,
     $subscribe(callback, options = {}) {
+      // avoid setting up multiple watchers for the same callback
+      // https://github.com/vuejs/pinia/issues/3143
+      if (subscriptions.has(callback)) {
+        if (__DEV__) {
+          diagnostics.PINIA_R1007({ id: $id })
+        }
+        return noop
+      }
+
       const removeSubscription = addSubscription(
         subscriptions,
         callback,
