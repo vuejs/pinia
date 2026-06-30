@@ -436,30 +436,46 @@ function createSetupStore<
     $patch,
     $reset,
     $subscribe(callback, options = {}) {
+      // The subscriptions Set deduplicates callbacks, so if the same
+      // function reference is already subscribed we must not create a
+      // second watcher.  Two watchers for a single Set-entry would
+      // invoke the callback twice on every direct state mutation while
+      // $patch (which uses triggerSubscriptions) correctly calls it
+      // only once — an inconsistency introduced when subscriptions were
+      // changed from an Array to a Set (PR #2887).
+      const alreadySubscribed = subscriptions.has(callback)
+
+      // Initialise to noop so the onCleanup closure is safe to call
+      // even in the duplicate case where no real watcher is created.
+      let stopWatcher: () => void = noop
+
       const removeSubscription = addSubscription(
         subscriptions,
         callback,
         options.detached,
         () => stopWatcher()
       )
-      const stopWatcher = scope.run(() =>
-        watch(
-          () => pinia.state.value[$id] as UnwrapRef<S>,
-          (state) => {
-            if (options.flush === 'sync' ? isSyncListening : isListening) {
-              callback(
-                {
-                  storeId: $id,
-                  type: MutationType.direct,
-                  events: debuggerEvents as DebuggerEvent,
-                },
-                state
-              )
-            }
-          },
-          assign({}, $subscribeOptions, options)
-        )
-      )!
+
+      if (!alreadySubscribed) {
+        stopWatcher = scope.run(() =>
+          watch(
+            () => pinia.state.value[$id] as UnwrapRef<S>,
+            (state) => {
+              if (options.flush === 'sync' ? isSyncListening : isListening) {
+                callback(
+                  {
+                    storeId: $id,
+                    type: MutationType.direct,
+                    events: debuggerEvents as DebuggerEvent,
+                  },
+                  state
+                )
+              }
+            },
+            assign({}, $subscribeOptions, options)
+          )
+        )!
+      }
 
       return removeSubscription
     },
