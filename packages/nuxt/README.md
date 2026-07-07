@@ -46,7 +46,7 @@ export default defineNuxtConfig({
      * also import nested stores, you can use the glob pattern `./stores/**`
      * (on Nuxt 3) or `app/stores/**` (on Nuxt 4+)
      *
-     * @default `['stores']`
+     * @default ['stores']
      */
     storesDirs: [],
   },
