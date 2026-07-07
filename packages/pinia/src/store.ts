@@ -846,12 +846,8 @@ export function defineStore<Id extends string, SS>(
     _ExtractGettersFromSetupStore<SS>,
     _ExtractActionsFromSetupStore<SS>
   >
-): StoreDefinition<
-  Id,
-  _ExtractStateFromSetupStore<SS>,
-  _ExtractGettersFromSetupStore<SS>,
-  _ExtractActionsFromSetupStore<SS>
->
+): SetupStoreDefinition<Id, SS>
+
 // allows unused stores to be tree shaken
 /*! #__NO_SIDE_EFFECTS__ */
 export function defineStore(
