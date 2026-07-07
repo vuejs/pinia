@@ -39,7 +39,7 @@ export interface TestingOptions {
    * it will **only** make the `fn` argument `undefined`. You still have to
    * handle this in `createSpy()`.
    *
-   * @default `true`
+   * @default true
    */
   stubActions?:
     | boolean
