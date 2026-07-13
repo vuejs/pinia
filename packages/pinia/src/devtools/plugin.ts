@@ -23,7 +23,7 @@ import {
   PINIA_ROOT_ID,
   PINIA_ROOT_LABEL,
 } from './formatting'
-import { isPinia, toastMessage } from './utils'
+import { isPinia, isWritableComputed, toastMessage } from './utils'
 
 // timeline can be paused when directly changing the state
 let isTimelineActive = true
@@ -262,10 +262,12 @@ export function registerPiniaDevtools(app: App, pinia: Pinia) {
           const { path } = payload
 
           if (!isPinia(inspectedStore)) {
-            // access only the state
+            // access only the state unless it's a custom property or a
+            // writable computed, which are set directly on the store
             if (
               path.length !== 1 ||
-              !inspectedStore._customProperties.has(path[0]) ||
+              (!inspectedStore._customProperties.has(path[0]) &&
+                !isWritableComputed(inspectedStore, path[0])) ||
               path[0] in inspectedStore.$state
             ) {
               path.unshift('$state')

@@ -1,4 +1,6 @@
+import { isReadonly, isRef, toRaw } from 'vue'
 import { Pinia } from '../rootStore'
+import { StoreGeneric } from '../types'
 
 /**
  * Shows a toast or console.log
@@ -23,4 +25,13 @@ export function toastMessage(
 
 export function isPinia(o: any): o is Pinia {
   return '_a' in o && 'install' in o
+}
+
+/**
+ * Detects if a store getter is a writable computed (has a setter) so it can be
+ * edited from devtools.
+ */
+export function isWritableComputed(store: StoreGeneric, key: string): boolean {
+  const rawProp = toRaw(store)[key]
+  return isRef(rawProp) && !isReadonly(rawProp)
 }
