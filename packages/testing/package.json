@@ -44,11 +44,11 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/testing -r 1"
   },
   "dependencies": {
-    "nostics": "^1.0.0"
+    "nostics": "^1.1.4"
   },
   "devDependencies": {
     "pinia": "workspace:*",
-    "tsdown": "^0.20.1"
+    "tsdown": "^0.20.3"
   },
   "peerDependencies": {
     "pinia": ">=3.0.4"

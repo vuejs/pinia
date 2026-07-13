@@ -68,6 +68,7 @@ const esmBrowserProd = defineConfig({
 const iife = defineConfig({
   ...commonOptions,
   format: 'iife',
+  skipNodeModulesBundle: false,
   noExternal: ['nostics'],
   inlineOnly: ['nostics'],
   outputOptions: {
@@ -87,6 +88,9 @@ const iife = defineConfig({
 
 const iifeProd = defineConfig({
   ...iife,
+  // nostics should be stripped in prod
+  noExternal: ['nostics'],
+  inlineOnly: [],
   target: 'es2015',
   minify: true,
   outputOptions: {
