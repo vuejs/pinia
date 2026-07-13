@@ -5,28 +5,28 @@
 <VueMasteryLogoLink for="pinia-cheat-sheet">
 </VueMasteryLogoLink>
 
-Install `pinia` with your favorite package manager:
+Install `pinia` with your favorite package manager. Since v4, you must also install `@vue/devtools-api`, which is a required peer dependency used by the devtools integration:
 
 ::: code-group
 
 ```bash [npm]
-npm install pinia
+npm install pinia @vue/devtools-api
 ```
 
 ```bash [yarn]
-yarn add pinia
+yarn add pinia @vue/devtools-api
 ```
 
 ```bash [pnpm]
-pnpm add pinia
+pnpm add pinia @vue/devtools-api
 ```
 
 ```bash [bun]
-bun add pinia
+bun add pinia @vue/devtools-api
 ```
 
 ```bash [deno]
-deno add pinia
+deno add pinia @vue/devtools-api
 ```
 
 :::

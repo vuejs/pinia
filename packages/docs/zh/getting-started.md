@@ -7,12 +7,12 @@
 <VueMasteryLogoLink for="pinia-cheat-sheet">
 </VueMasteryLogoLink>
 
-用你喜欢的包管理器安装 `pinia`：
+用你喜欢的包管理器安装 `pinia`。从 v4 起，你还需要安装 `@vue/devtools-api`，它是 devtools 集成所需的对等依赖 (peer dependency)：
 
 ```bash
-yarn add pinia
+yarn add pinia @vue/devtools-api
 # 或者使用 npm
-npm install pinia
+npm install pinia @vue/devtools-api
 ```
 
 :::tip

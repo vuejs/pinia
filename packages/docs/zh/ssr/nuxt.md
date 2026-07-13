@@ -12,9 +12,9 @@
 ## 安装 %{#installation}%
 
 ```bash
-yarn add pinia @pinia/nuxt
+yarn add pinia @pinia/nuxt @vue/devtools-api
 # 或者使用 npm
-npm install pinia @pinia/nuxt
+npm install pinia @pinia/nuxt @vue/devtools-api
 ```
 
 :::tip

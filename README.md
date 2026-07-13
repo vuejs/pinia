@@ -107,7 +107,7 @@ A few notes about the project and possible questions:
 
 ```bash
 # or pnpm or yarn
-npm install pinia
+npm install pinia @vue/devtools-api
 ```
 
 ## Usage
