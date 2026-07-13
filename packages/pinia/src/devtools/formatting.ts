@@ -1,7 +1,7 @@
 import { MutationType, StoreGeneric } from '../types'
 import { DebuggerEvent } from 'vue'
 import { Pinia } from '../rootStore'
-import { isPinia } from './utils'
+import { isPinia, isWritableComputed } from './utils'
 
 // types from devtools-api
 interface StateBase {
@@ -153,7 +153,7 @@ export function formatStoreForInspectorState(
   // avoid adding empty getters
   if (store._getters && store._getters.length) {
     state.getters = store._getters.map((getterName) => ({
-      editable: !!store._editableComputed?.has(getterName),
+      editable: isWritableComputed(store, getterName),
       key: getterName,
       value: store[getterName],
     }))
