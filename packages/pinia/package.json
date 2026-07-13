@@ -55,18 +55,22 @@
     "test": "pnpm run build && pnpm test:dts"
   },
   "dependencies": {
-    "@vue/devtools-api": "^8.1.5",
     "nostics": "^1.1.4"
   },
   "devDependencies": {
+    "@vue/devtools-api": "^8.1.5",
     "@vue/test-utils": "^2.4.11",
     "tsdown": "^0.20.3"
   },
   "peerDependencies": {
+    "@vue/devtools-api": "^8.1.5",
     "typescript": ">=5.6.0",
     "vue": "^3.5.11"
   },
   "peerDependenciesMeta": {
+    "@vue/devtools-api": {
+      "optional": false
+    },
     "typescript": {
       "optional": true
     }

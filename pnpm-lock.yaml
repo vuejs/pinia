@@ -181,9 +181,6 @@ importers:
 
   packages/pinia:
     dependencies:
-      '@vue/devtools-api':
-        specifier: ^8.1.5
-        version: 8.1.5
       nostics:
         specifier: ^1.1.4
         version: 1.1.4
@@ -194,6 +191,9 @@ importers:
         specifier: ^3.5.11
         version: 3.5.39(typescript@5.9.3)
     devDependencies:
+      '@vue/devtools-api':
+        specifier: ^8.1.5
+        version: 8.1.5
       '@vue/test-utils':
         specifier: ^2.4.11
         version: 2.4.11(@vue/compiler-dom@3.5.39)(@vue/server-renderer@3.5.39(vue@3.5.39(typescript@5.9.3)))(vue@3.5.39(typescript@5.9.3))
