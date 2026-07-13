@@ -14,7 +14,12 @@ export const useCounter = defineStore('counter-setup', () => {
   const injected = inject('injected', 'fallback value')
   console.log('injected (should be global)', injected)
 
-  const double = computed(() => state.n * 2)
+  const double = computed<number>({
+    get: () => state.n * 2,
+    set: (v) => {
+      state.n = v / 2
+    },
+  })
 
   function increment(amount = 1) {
     if (typeof amount !== 'number') {
