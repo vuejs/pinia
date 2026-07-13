@@ -111,6 +111,17 @@ export interface Pinia {
   _testing?: boolean
 }
 
+/**
+ * Symbol used to provide/inject the pinia instance in the app. Used internally
+ * and exposed for testing purposes and edge cases like storybook. Could break
+ * in a minor, **USE AT YOUR OWN RISK**.
+ *
+ * For context, see:
+ * - https://github.com/vuejs/pinia/issues/870
+ * - https://github.com/vuejs/pinia/pull/2973
+ *
+ * @internal
+ */
 export const piniaSymbol = (
   __DEV__ ? Symbol('pinia') : /* istanbul ignore next */ Symbol()
 ) as InjectionKey<Pinia>
