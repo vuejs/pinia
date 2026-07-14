@@ -1,3 +1,9 @@
+## [4.0.1](https://github.com/vuejs/pinia/compare/v4.0.0...v4.0.1) (2026-07-14)
+
+### Bug Fixes
+
+- Re-add missing types exports field ([#3154](https://github.com/vuejs/pinia/issues/3154)) ([fb21766](https://github.com/vuejs/pinia/commit/fb21766683fadd2adc8ac16a87daaa390282089f))
+
 ## [4.0.0](https://github.com/vuejs/pinia/compare/v3.0.4...v4.0.0) (2026-07-14)
 
 Pinia 4 contains only technically breaking changes: ESM only and upgrading `@vue/devtools-api` which now must be installed alongside pinia. It contains a major refactor of errors and dev warnings with [Nostics](https://nostics.dev). They will ensure detected problems are easier to fix, both by humans and by agents.
