@@ -45,7 +45,10 @@
   "unpkg": "dist/pinia.iife.js",
   "jsdelivr": "dist/pinia.iife.js",
   "exports": {
-    ".": "./dist/pinia.mjs",
+    ".": {
+      "types": "./dist/pinia.d.ts",
+      "import": "./dist/pinia.mjs"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
