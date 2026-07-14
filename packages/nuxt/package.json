@@ -31,7 +31,10 @@
   "main": "./dist/module.mjs",
   "types": "./dist/module.d.mts",
   "exports": {
-    ".": "./dist/module.mjs"
+    ".": {
+      "types": "./dist/module.d.mts",
+      "default": "./dist/module.mjs"
+    }
   },
   "publishConfig": {
     "access": "public"
