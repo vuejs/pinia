@@ -1,3 +1,7 @@
+## [1.0.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.11.3...@pinia/nuxt@1.0.0) (2026-07-14)
+
+This version contain no major changes
+
 ### [0.11.3](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.11.2...@pinia/nuxt@0.11.3) (2025-11-05)
 
 This version fixes auto imports from layers which means that if you were writing something like this in options:

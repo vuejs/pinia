@@ -1,3 +1,22 @@
+## [2.0.0](https://github.com/vuejs/pinia/compare/@pinia/testing@1.0.3...@pinia/testing@2.0.0) (2026-07-14)
+
+### ⚠ BREAKING CHANGES
+
+- this package is now ESM only. Extended CJS support for companies:
+  https://github.com/vuejs/pinia/issues/3099
+
+### Features
+
+- use nostics for better errors ([f352243](https://github.com/vuejs/pinia/commit/f352243438bcfd2cb162803cc9f2f2eaa794020b))
+
+### Bug Fixes
+
+- use modern Object.hasOwn ([57eccd6](https://github.com/vuejs/pinia/commit/57eccd664dd2443603e7c8503d693044afb4def4))
+
+### Build System
+
+- esm only ([1c86bdb](https://github.com/vuejs/pinia/commit/1c86bdb17fb63a63063015d557b91857b9f3f2ae))
+
 ### [1.0.3](https://github.com/vuejs/pinia/compare/@pinia/testing@1.0.2...@pinia/testing@1.0.3) (2025-11-05)
 
 ### Features

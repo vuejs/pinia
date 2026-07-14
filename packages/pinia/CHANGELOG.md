@@ -1,3 +1,40 @@
+## [4.0.0](https://github.com/vuejs/pinia/compare/v3.0.4...v4.0.0) (2026-07-14)
+
+Pinia 4 contains only technically breaking changes: ESM only and upgrading `@vue/devtools-api` which now must be installed alongside pinia. It contains a major refactor of errors and dev warnings with [Nostics](https://nostics.dev). They will ensure detected problems are easier to fix, both by humans and by agents.
+
+### ⚠ BREAKING CHANGES
+
+- You must now manually install `@vue/devtools-api`. This
+  is done to keep installation size of pinia small and to mitigate
+  eventual supply-chain-attacks
+- Pinia is now ESM only. Extended CJS support for companies:
+  https://github.com/vuejs/pinia/issues/3099
+
+### Features
+
+- diagnostic on invalid properties when doing storeToRefs ([e731359](https://github.com/vuejs/pinia/commit/e7313597106c1f94064eefd6594e91440a74c7b6))
+- diagnostic wrong values in plugins ([29835d1](https://github.com/vuejs/pinia/commit/29835d1f6cc96e3045b73b3eaa5a5919fe2cf3ae))
+- export piniaSymbol ([#2973](https://github.com/vuejs/pinia/issues/2973)) ([d715bda](https://github.com/vuejs/pinia/commit/d715bda41d9a9b7c030400587e9a28f2437fff0b))
+- gracefully skip nullish values in storeToRefs ([#3134](https://github.com/vuejs/pinia/issues/3134)) ([cac8263](https://github.com/vuejs/pinia/commit/cac82630a49bc1d04553738749180e38ef6fc14c))
+- upgrade devtools-api to v8 ([255723d](https://github.com/vuejs/pinia/commit/255723d7994f1c6a9377ae96021aec5f64bf98b4))
+- use nostics for better errors ([f352243](https://github.com/vuejs/pinia/commit/f352243438bcfd2cb162803cc9f2f2eaa794020b))
+
+### Bug Fixes
+
+- **devtools:** make settable getters (computed) editable ([#3151](https://github.com/vuejs/pinia/issues/3151)) ([640b16b](https://github.com/vuejs/pinia/commit/640b16b9eb546ee4838160b21e1e4c486799ebdb))
+- **hmr:** preserve runtime-added properties of setup store refs ([#3132](https://github.com/vuejs/pinia/issues/3132)) ([aec2ac2](https://github.com/vuejs/pinia/commit/aec2ac246ab209ebb243178f4de30a9cc6ccaafa))
+- prevent duplicate watcher when same callback subscribed twice ([#3144](https://github.com/vuejs/pinia/issues/3144)) ([99dcae6](https://github.com/vuejs/pinia/commit/99dcae6f66a739a67d43e6c41261cabde95797ff)), closes [#3143](https://github.com/vuejs/pinia/issues/3143)
+- respect skipHydrate marker on non-plain objects in shouldHydrate ([#3126](https://github.com/vuejs/pinia/issues/3126)) ([2dcb37f](https://github.com/vuejs/pinia/commit/2dcb37f6b46c36b9e499b577b679133c60c162a2))
+- use modern Object.hasOwn ([57eccd6](https://github.com/vuejs/pinia/commit/57eccd664dd2443603e7c8503d693044afb4def4))
+
+### Build System
+
+- drop CJS support, up minimal TS version ([2ccb184](https://github.com/vuejs/pinia/commit/2ccb1843d6e07fd36d8186ad39093e54a437104f))
+
+### Code Refactoring
+
+- move @vue/devtools-api to peerDependencies ([3cd16de](https://github.com/vuejs/pinia/commit/3cd16de69be3771a7d817abe513e978eff8e2248))
+
 ## [3.0.4](https://github.com/vuejs/pinia/compare/v3.0.3...v3.0.4) (2025-11-05)
 
 ### Features
