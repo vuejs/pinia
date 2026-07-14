@@ -1,10 +1,10 @@
 import fs from 'node:fs'
-import { dirname, join, relative } from 'node:path'
+import { dirname, join, relative, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 import { fileURLToPath } from 'node:url'
-import { spawn } from 'node:child_process'
 import semver, { type ReleaseType } from 'semver'
 import * as p from '@clack/prompts'
+import { spawn } from 'node:child_process'
 
 /**
  * Simple console colors
@@ -34,8 +34,6 @@ const {
     skipCleanCheck: skipCleanGitCheck,
     noDepsUpdate,
     noLockUpdate,
-    skipBuild,
-    noPublish,
     all: skipChangeCheck,
     help: showHelp,
   },
@@ -46,8 +44,6 @@ const {
     skipCleanCheck: { type: 'boolean', default: false },
     noDepsUpdate: { type: 'boolean', default: false },
     noLockUpdate: { type: 'boolean', default: false },
-    skipBuild: { type: 'boolean', default: false },
-    noPublish: { type: 'boolean', default: false },
     all: { type: 'boolean', default: false },
     help: { type: 'boolean', short: 'h', default: false },
   },
@@ -60,12 +56,10 @@ Usage: node release.ts [flags]
        node release.ts [ -h | --help ]
 
 Flags:
-  --skipBuild         Skip building packages
   --tag               Publish under a given npm dist tag
   --dry               Dry run
   --skipCleanCheck    Skip checking if the git repo is clean
   --noDepsUpdate      Skip updating dependencies in package.json files
-  --noPublish         Skip publishing packages
   --noLockUpdate      Skips updating the lock with "pnpm install"
   --all               Skip checking if the packages have changed since last release
 `.trim()
@@ -73,6 +67,9 @@ Flags:
   process.exit(0)
 }
 
+// const preId =
+//   args.preId ||
+//   (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0])
 const EXPECTED_BRANCH = 'v4'
 // this package will use tags like v1.0.0 while the rest will use the full package name like @pinia/testing@1.0.0
 const MAIN_PKG_NAME = 'pinia'
@@ -100,7 +97,6 @@ interface RunOptions {
 
 interface RunResult {
   stdout: string
-  stderr: string
 }
 
 function run(
@@ -131,18 +127,14 @@ function run(
     child.on('error', reject)
 
     child.on('close', (code) => {
-      const result = { stdout: stdout.trimEnd(), stderr: stderr.trimEnd() }
+      const result = { stdout: stdout.trimEnd() }
       if (code !== 0) {
         const error = new Error(
           `Command failed: ${bin} ${args.join(' ')}`
         ) as Error & {
           exitCode: number | null
-          stdout: string
-          stderr: string
         }
         error.exitCode = code
-        error.stdout = result.stdout
-        error.stderr = result.stderr
         reject(error)
       } else {
         resolve(result)
@@ -423,7 +415,7 @@ async function main() {
     ({ name }) => name === MAIN_PKG_NAME
   )
   if (mainPkgIndex > 0) {
-    packagesToRelease.unshift(packagesToRelease.splice(mainPkgIndex, 1)[0]!)
+    packagesToRelease.unshift(packagesToRelease.splice(mainPkgIndex, 1)[0])
   }
 
   // Skip confirms in agent mode: they add no value, and a post-changelog confirm
@@ -449,6 +441,22 @@ async function main() {
   step('\nUpdating versions in package.json files...')
   updateVersions(pkgWithVersions)
 
+  if (!IS_MAIN_PKG_AT_ROOT) {
+    step('\nCopying README from root to main package...')
+    const originalReadme = resolve(__dirname, '../README.md')
+    const targetReadme = resolve(
+      __dirname,
+      '../',
+      pkgWithVersions.find((p) => p.name === MAIN_PKG_NAME)!.relativePath,
+      'README.md'
+    )
+    if (!isDryRun) {
+      fs.copyFileSync(originalReadme, targetReadme)
+    } else {
+      console.log(`(skipped) cp "${originalReadme}" "${targetReadme}"`)
+    }
+  }
+
   if (!noLockUpdate) {
     step('\nUpdating lock...')
     await runIfNotDry(`pnpm`, ['install'])
@@ -473,7 +481,7 @@ async function main() {
           'CHANGELOG.md',
           '--same-file',
           '-p',
-          'conventionalcommits',
+          'angular',
           '-r',
           changelogExists ? '1' : '0',
           '--commit-path',
@@ -482,16 +490,13 @@ async function main() {
           ...(pkg.name === MAIN_PKG_NAME && IS_MAIN_PKG_AT_ROOT
             ? [join(pkg.path, 'src'), join(pkg.path, 'package.json')]
             : ['.']),
-          ...(pkg.name === MAIN_PKG_NAME ? [] : ['--lerna-package', pkg.name]),
           ...(pkg.name === MAIN_PKG_NAME
             ? []
             : ['--tag-prefix', `${pkg.name}@`]),
         ],
         { cwd: pkg.path }
       )
-      await runIfNotDry(`pnpm`, ['exec', 'oxfmt', 'CHANGELOG.md'], {
-        cwd: pkg.path,
-      })
+      // NOTE: lint-staged is set up to format the markdown
       // NOTE: pnpm publish automatically copies the LICENSE file
     })
   )
@@ -509,14 +514,6 @@ async function main() {
     }
   }
 
-  step('\nBuilding all packages...')
-  if (!skipBuild) {
-    await runIfNotDry('pnpm', ['run', 'build'])
-  } else {
-    console.log(`(skipped)`)
-  }
-
-  // check for staged and unstaged changes
   const { stdout } = await run('git', ['diff', 'HEAD'], { stdio: 'pipe' })
   if (stdout) {
     step('\nCommitting changes...')
@@ -548,22 +545,13 @@ async function main() {
     ])
   }
 
-  if (!noPublish) {
-    step('\nPublishing packages...')
-    for (const pkg of pkgWithVersions) {
-      await publishPackage(pkg)
-    }
-
-    step('\nPushing to Github...')
-    // NOTE: push tags one by one, GitHub silently skips push events when >3
-    // tags are pushed in a single command, so CI workflows would never trigger.
-    for (const tag of versionsToPush) {
-      await runIfNotDry('git', ['push', 'origin', tag])
-    }
-    await runIfNotDry('git', ['push'])
-  } else {
-    console.log(c.boldWhite(`Skipping publishing...`))
+  step('\nPushing to Github...')
+  // NOTE: push tags one by one, GitHub silently skips push events when >3
+  // tags are pushed in a single command, so CI workflows would never trigger.
+  for (const tag of versionsToPush) {
+    await runIfNotDry('git', ['push', 'origin', tag])
   }
+  await runIfNotDry('git', ['push'])
 }
 
 function updateVersions(packageList: PackageInfo[]) {
@@ -617,37 +605,6 @@ function updateDeps(
   })
 }
 
-async function publishPackage(pkg: PackageInfo) {
-  step(`Publishing ${pkg.name}...`)
-
-  try {
-    await runIfNotDry(
-      'pnpm',
-      [
-        'publish',
-        ...(optionTag ? ['--tag', optionTag] : []),
-        ...(skipCleanGitCheck ? ['--no-git-checks'] : []),
-        '--access',
-        'public',
-        // only needed for branches other than main
-        '--publish-branch',
-        EXPECTED_BRANCH,
-      ],
-      {
-        cwd: pkg.path,
-        stdio: 'pipe',
-      }
-    )
-    console.log(c.cyan(`Successfully published ${pkg.name}@${pkg.version}`))
-  } catch (e: any) {
-    if (e.stderr?.match?.(/previously published/)) {
-      console.log(c.red(`Skipping already published: ${pkg.name}`))
-    } else {
-      throw e
-    }
-  }
-}
-
 /**
  * Get the last tag published for a package, along with its author date, or
  * null if there are no tags for this package.
@@ -668,7 +625,6 @@ async function getLastTag(
       return null
     }
 
-    // Parse and sort tags by semver (highest first)
     const sortedTags = tags
       .map((tag) => ({ tag, version: semver.parse(tag.replace(prefix, '')) }))
       .filter(
@@ -686,7 +642,9 @@ async function getLastTag(
       const { stdout: dateStdout } = await run(
         'git',
         ['log', '-1', '--format=%as', tag],
-        { stdio: 'pipe' }
+        {
+          stdio: 'pipe',
+        }
       )
       date = dateStdout || null
     } catch {
@@ -742,20 +700,24 @@ async function getChangedPackages(
         )
       }
 
-      const { stdout: hasChanges } = await run(
-        'git',
-        [
-          'diff',
-          '--name-only',
-          diffStart,
-          '--',
-          // apparently {src,package.json} doesn't work
-          join(folder, 'src'),
-          // TODO: should not check dev deps and should compare to last tag changes
-          join(folder, 'package.json'),
-        ],
-        { stdio: 'pipe' }
-      )
+      const hasChanges = (
+        await run(
+          'git',
+          [
+            'diff',
+            '--name-only',
+            diffStart,
+            '--',
+            // TODO: should allow build files tsdown.config.ts
+            // apparently {src,package.json} doesn't work
+            join(folder, 'src'),
+            join(folder, 'index.js'),
+            // TODO: should not check dev deps and should compare to last tag changes
+            join(folder, 'package.json'),
+          ],
+          { stdio: 'pipe' }
+        )
+      ).stdout
       const relativePath = relative(join(__dirname, '..'), folder)
 
       const rel = daysAgo(lastTagInfo?.date ?? null)
