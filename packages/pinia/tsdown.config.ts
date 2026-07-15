@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsdown'
+import { defineConfig, mergeConfig } from 'tsdown'
 import pkg from './package.json' with { type: 'json' }
 
 const banner = `
@@ -13,12 +13,10 @@ const __DEV__ = `(process.env.NODE_ENV !== 'production')`
 const __TEST__ = `(process.env.NODE_ENV === 'test')`
 
 const commonOptions = defineConfig({
-  banner,
-  format: ['esm'],
-  skipNodeModulesBundle: true,
   entry: {
     pinia: './src/index.ts',
   },
+  banner,
   define: {
     __DEV__,
     __TEST__,
@@ -26,51 +24,49 @@ const commonOptions = defineConfig({
     __USE_DEVTOOLS__: `((${__DEV__} || __VUE_PROD_DEVTOOLS__) && !${__TEST__})`,
   },
   dts: false,
+  fixedExtension: false,
 })
 
-const esm = defineConfig({
-  ...commonOptions,
+const esm = mergeConfig(commonOptions, {
   platform: 'neutral',
   exports: true,
   dts: true,
-  outputOptions: {
-    entryFileNames: ({ name }) => `${name}.mjs`.replace('.d.mjs', '.d.ts'),
-  },
 })
 
-const esmBrowser = defineConfig({
-  ...commonOptions,
+const esmBrowser = mergeConfig(commonOptions, {
   outputOptions: {
     entryFileNames: '[name].esm-browser.js',
   },
   define: {
-    ...commonOptions.define,
     __DEV__: 'true',
     __TEST__: 'false',
     __USE_DEVTOOLS__: 'true',
   },
 })
 
-const esmBrowserProd = defineConfig({
-  ...esmBrowser,
+const esmBrowserProd = mergeConfig(esmBrowser, {
   target: 'es2015',
   minify: true,
+  deps: {
+    // nostics should be stripped in prod
+    onlyBundle: [],
+    onlyImport: ['vue'],
+  },
   outputOptions: {
     entryFileNames: '[name].esm-browser.prod.js',
   },
   define: {
-    ...esmBrowser.define,
     __DEV__: 'false',
     __USE_DEVTOOLS__: 'false',
   },
 })
 
-const iife = defineConfig({
-  ...commonOptions,
+const iife = mergeConfig(commonOptions, {
   format: 'iife',
-  skipNodeModulesBundle: false,
-  noExternal: ['nostics'],
-  inlineOnly: ['nostics'],
+  deps: {
+    alwaysBundle: ['nostics'],
+    onlyBundle: ['nostics'],
+  },
   outputOptions: {
     name: 'Pinia',
     globals: {
@@ -79,36 +75,33 @@ const iife = defineConfig({
     },
   },
   define: {
-    ...commonOptions.define,
     __DEV__: 'true',
     __TEST__: 'false',
     __USE_DEVTOOLS__: 'false',
   },
 })
 
-const iifeProd = defineConfig({
-  ...iife,
-  // nostics should be stripped in prod
-  noExternal: ['nostics'],
-  inlineOnly: [],
+const iifeProd = mergeConfig(iife, {
+  deps: {
+    // nostics should be stripped in prod
+    onlyBundle: [],
+  },
   target: 'es2015',
   minify: true,
   outputOptions: {
-    ...iife.outputOptions,
     entryFileNames: '[name].iife.prod.js',
   },
   define: {
-    ...iife.define,
     __DEV__: 'false',
     __USE_DEVTOOLS__: 'false',
   },
 })
 
-export default [
+export default defineConfig([
   //
   esm,
   esmBrowser,
   esmBrowserProd,
   iife,
   iifeProd,
-]
+])
