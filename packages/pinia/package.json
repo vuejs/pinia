@@ -45,10 +45,7 @@
   "unpkg": "dist/pinia.iife.js",
   "jsdelivr": "dist/pinia.iife.js",
   "exports": {
-    ".": {
-      "types": "./dist/pinia.d.ts",
-      "import": "./dist/pinia.mjs"
-    },
+    ".": "./dist/pinia.js",
     "./package.json": "./package.json"
   },
   "scripts": {
@@ -63,7 +60,7 @@
   "devDependencies": {
     "@vue/devtools-api": "^8.1.5",
     "@vue/test-utils": "^2.4.11",
-    "tsdown": "^0.20.3"
+    "tsdown": "^0.22.7"
   },
   "peerDependencies": {
     "@vue/devtools-api": "^8.1.5",
@@ -77,5 +74,8 @@
     "typescript": {
       "optional": true
     }
+  },
+  "inlinedDependencies": {
+    "nostics": "1.1.4"
   }
 }
