@@ -8,9 +8,6 @@ allowBuilds:
   vue-demi: true
   '@parcel/watcher': false
 # TEMPORARY: freshly bumped deps published <24h ago, below pnpm 11's minimumReleaseAge.
-# Remove this block on/after 2026-07-14 once they age out.
+# Remove this block on/after 2026-07-15 once they age out.
 minimumReleaseAgeExclude:
-  - '@vue-macros/common'
-  - postcss
-  - vitepress-plugin-llms
-  - tsdown@0.22.8
+  - tsdown
