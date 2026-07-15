@@ -60,7 +60,7 @@
   "devDependencies": {
     "@vue/devtools-api": "^8.1.5",
     "@vue/test-utils": "^2.4.11",
-    "tsdown": "^0.22.7"
+    "tsdown": "^0.22.8"
   },
   "peerDependencies": {
     "@vue/devtools-api": "^8.1.5",

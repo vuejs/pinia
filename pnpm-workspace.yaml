@@ -13,3 +13,4 @@ minimumReleaseAgeExclude:
   - '@vue-macros/common'
   - postcss
   - vitepress-plugin-llms
+  - tsdown@0.22.8

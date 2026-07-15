@@ -47,6 +47,11 @@ const esmBrowser = mergeConfig(commonOptions, {
 const esmBrowserProd = mergeConfig(esmBrowser, {
   target: 'es2015',
   minify: true,
+  deps: {
+    // nostics should be stripped in prod
+    onlyBundle: [],
+    onlyImport: ['vue'],
+  },
   outputOptions: {
     entryFileNames: '[name].esm-browser.prod.js',
   },
