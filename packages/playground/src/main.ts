@@ -22,7 +22,10 @@ declare module 'pinia' {
 }
 
 pinia.use(() => ({
-  route: computed(() => markRaw(router.currentRoute.value)),
+  // @ts-expect-error: gets unwrapped
+  route: computed<RouteLocationNormalized>(() =>
+    markRaw(router.currentRoute.value)
+  ),
 }))
 
 if (import.meta.hot) {

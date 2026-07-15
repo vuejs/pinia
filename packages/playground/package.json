@@ -6,6 +6,7 @@
   "scripts": {
     "play": "vite",
     "play:build": "vite build",
+    "typecheck": "vue-tsc --noEmit",
     "serve": "vite preview"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.7",
     "vite": "^7.3.6",
-    "vite-plugin-vue-devtools": "^8.1.5"
+    "vite-plugin-vue-devtools": "^8.1.5",
+    "vue-tsc": "^3.3.7"
   }
 }
