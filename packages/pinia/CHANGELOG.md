@@ -1,3 +1,7 @@
+## [4.0.2](https://github.com/vuejs/pinia/compare/v4.0.1...v4.0.2) (2026-07-15)
+
+- Fix types field generation in package.json
+
 ## [4.0.1](https://github.com/vuejs/pinia/compare/v4.0.0...v4.0.1) (2026-07-14)
 
 ### Bug Fixes

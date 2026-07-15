@@ -1,6 +1,6 @@
 {
   "name": "@pinia/testing",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Testing module for Pinia",
   "keywords": [
     "mock",
@@ -51,6 +51,6 @@
     "tsdown": "^0.22.8"
   },
   "peerDependencies": {
-    "pinia": ">=4.0.0"
+    "pinia": ">=4.0.2"
   }
 }

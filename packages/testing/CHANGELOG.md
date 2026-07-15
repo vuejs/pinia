@@ -1,3 +1,7 @@
+## [2.0.1](https://github.com/vuejs/pinia/compare/@pinia/testing@2.0.0...@pinia/testing@2.0.1) (2026-07-15)
+
+- Upgrade tsdown
+
 ## [2.0.0](https://github.com/vuejs/pinia/compare/@pinia/testing@1.0.3...@pinia/testing@2.0.0) (2026-07-14)
 
 ### ⚠ BREAKING CHANGES
