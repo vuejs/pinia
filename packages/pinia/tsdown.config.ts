@@ -31,7 +31,7 @@ const commonOptions = defineConfig({
 const esm = defineConfig({
   ...commonOptions,
   platform: 'neutral',
-  exports: true,
+  exports: false,
   dts: true,
   outputOptions: {
     entryFileNames: ({ name }) => `${name}.mjs`.replace('.d.mjs', '.d.ts'),
