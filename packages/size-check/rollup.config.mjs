@@ -35,7 +35,7 @@ function createConfig(file) {
     plugins: [
       alias({
         entries: {
-          pinia: resolve(__dirname, '../pinia/dist/pinia.mjs'),
+          pinia: resolve(__dirname, '../pinia/dist/pinia.js'),
         },
       }),
       replace({

@@ -28,7 +28,7 @@ function copyPiniaPlugin(): Plugin {
     name: 'copy-pinia',
     async generateBundle() {
       const filePath = fileURLToPath(
-        new URL('../pinia/dist/pinia.mjs', import.meta.url)
+        new URL('../pinia/dist/pinia.js', import.meta.url)
       )
 
       // throws if file doesn't exist
@@ -36,7 +36,7 @@ function copyPiniaPlugin(): Plugin {
 
       this.emitFile({
         type: 'asset',
-        fileName: 'pinia.mjs',
+        fileName: 'pinia.js',
         source: await fs.readFile(filePath, 'utf-8'),
       })
     },
