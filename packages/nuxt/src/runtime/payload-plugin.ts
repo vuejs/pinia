@@ -3,6 +3,7 @@ import {
   definePayloadReducer,
   definePayloadReviver,
 } from '#imports'
+// ensure payload plugin declaration is generated
 import {} from 'nuxt/app'
 import { shouldHydrate } from 'pinia'
 
