@@ -57,7 +57,7 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     // Add runtime plugin before the router plugin
     // https://github.com/nuxt/framework/issues/9130
     nuxt.hook('modules:done', () => {
-      addPlugin(resolve(runtimeDir, 'plugin.vue'))
+      addPlugin(resolve(runtimeDir, 'plugin'))
       addPlugin(resolve(runtimeDir, 'payload-plugin'))
     })
 
