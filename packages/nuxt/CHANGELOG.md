@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@1.0.0...@pinia/nuxt@1.0.1) (2026-07-16)
+
+### Bug Fixes
+
+- **types:** avoid reserved .vue at the end of name ([b0249de](https://github.com/vuejs/pinia/commit/b0249de0bde14cef7d7b5727e10ee44674ad4b2a)), closes [#3160](https://github.com/vuejs/pinia/issues/3160)
+
 ## [1.0.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.11.3...@pinia/nuxt@1.0.0) (2026-07-14)
 
 This version contain no major changes
