@@ -441,7 +441,7 @@ async function main() {
   step('\nUpdating versions in package.json files...')
   updateVersions(pkgWithVersions)
 
-  if (!IS_MAIN_PKG_AT_ROOT) {
+  if (!IS_MAIN_PKG_AT_ROOT && mainPkgIndex > -1) {
     step('\nCopying README from root to main package...')
     const originalReadme = resolve(__dirname, '../README.md')
     const targetReadme = resolve(
