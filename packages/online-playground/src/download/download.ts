@@ -19,7 +19,16 @@ export async function downloadProject(store: ReplStore) {
   zip.file('index.html', index)
   zip.file(
     'package.json',
-    pkg.replace(`"vue": "latest"`, `"vue": "${store.vueVersion || 'latest'}"`)
+    pkg
+      .replace(`"vue": "latest"`, `"vue": "${store.vueVersion || 'latest'}"`)
+      .replace(
+        `"pinia": "latest"`,
+        `"pinia": "${
+          store.dependencyVersion.pinia
+            ? `^${store.dependencyVersion.pinia}`
+            : 'latest'
+        }"`
+      )
   )
   zip.file('vite.config.js', config)
   zip.file('README.md', readme)
