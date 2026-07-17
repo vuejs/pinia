@@ -1,37 +1,58 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import type { ReplStore } from '@vue/repl'
 import { downloadProject } from './download/download'
-import { inject, ref } from 'vue'
 import Sun from './icons/Sun.vue'
 import Moon from './icons/Moon.vue'
 import Share from './icons/Share.vue'
 import Download from './icons/Download.vue'
 import GitHub from './icons/GitHub.vue'
-import type { ReplStore } from '@vue/repl'
+import Reload from './icons/Reload.vue'
 import VersionSelect from './VersionSelect.vue'
-import { PiniaVersionKey } from './defaults'
+import { version as localPiniaVersion } from 'pinia/package.json'
 
 const props = defineProps<{
   store: ReplStore
-  dev: boolean
+  prod: boolean
+  autoSave: boolean
+  theme: 'dark' | 'light'
 }>()
-const emit = defineEmits(['toggle-theme', 'toggle-dev'])
+const emit = defineEmits([
+  'toggle-theme',
+  'toggle-prod',
+  'toggle-autosave',
+  'reload-page',
+])
+
+// null = local copy built from this repo
+const piniaVersion = defineModel<string | null>('piniaVersion', {
+  required: true,
+})
 
 const { store } = props
 
-const currentCommit = __COMMIT__
-// parse version from the runtimeURL
-const vueVersion = ref('latest')
-const piniaVersion = inject(PiniaVersionKey)!
+const piniaVersionLabel = computed(
+  () => piniaVersion.value ?? `${localPiniaVersion} (local)`
+)
 
-async function setVueVersion(v: string) {
-  vueVersion.value = `loading...`
-  await store.setVueVersion(v)
-  vueVersion.value = `v${v}`
+const vueVersion = computed(() => {
+  if (store.loading) {
+    return 'loading...'
+  }
+  return store.vueVersion || 'latest'
+})
+
+function setVueVersion(v: string) {
+  store.vueVersion = v
+}
+
+function resetPiniaVersion() {
+  piniaVersion.value = null
 }
 
 async function copyLink(e: MouseEvent) {
   if (e.metaKey) {
-    // hidden logic for going to local debug from play.vuejs.org
+    // hidden logic for going to local debug from play.pinia.vuejs.org
     window.location.href = 'http://localhost:5173/' + window.location.hash
     return
   }
@@ -59,32 +80,33 @@ function toggleDark() {
       </a>
     </h1>
     <div class="links">
-      <VersionSelect v-model="store.state.typescriptVersion" pkg="typescript">
+      <VersionSelect
+        :model-value="piniaVersionLabel"
+        @update:model-value="piniaVersion = $event"
+        pkg="pinia"
+        label="Pinia Version"
+      >
+        <template #label>
+          <img src="/logo.svg" alt="Pinia" class="version-logo" />
+        </template>
+        <li :class="{ active: !piniaVersion }">
+          <a @click="resetPiniaVersion">This repo (v{{ localPiniaVersion }})</a>
+        </li>
+      </VersionSelect>
+      <VersionSelect
+        v-model="store.typescriptVersion"
+        pkg="typescript"
+        label="TypeScript Version"
+      >
         <template #label>
           <img src="/logo-ts.svg" alt="TypeScript" class="version-logo" />
         </template>
       </VersionSelect>
-      <!-- <VersionSelect
+      <VersionSelect
         :model-value="vueVersion"
         @update:model-value="setVueVersion"
         pkg="vue"
         label="Vue Version"
-      >
-        <li>
-          <a @click="resetVueVersion">This Commit ({{ currentCommit }})</a>
-        </li>
-        <li>
-          <a
-            href="https://app.netlify.com/sites/vue-sfc-playground/deploys"
-            target="_blank"
-            >Commits History</a
-          >
-        </li>
-      </VersionSelect> -->
-      <VersionSelect
-        :model-value="store.vueVersion || 'latest'"
-        @update:model-value="setVueVersion"
-        pkg="vue"
       >
         <template #label>
           <img src="/logo-vue.svg" alt="Vue" class="version-logo" />
@@ -93,18 +115,33 @@ function toggleDark() {
 
       <button
         title="Toggle development production mode"
-        class="toggle-dev"
-        :class="{ dev }"
-        @click="$emit('toggle-dev')"
+        class="toggle-prod"
+        :class="{ prod }"
+        @click="$emit('toggle-prod')"
       >
-        <span>{{ dev ? 'DEV' : 'PROD' }}</span>
+        <span>{{ prod ? 'PROD' : 'DEV' }}</span>
       </button>
-      <button title="Toggle dark mode" class="toggle-dark" @click="toggleDark">
+      <button
+        title="Toggle editor auto save mode"
+        class="toggle-autosave"
+        :class="{ enabled: autoSave }"
+        @click="$emit('toggle-autosave')"
+      >
+        <span>{{ autoSave ? 'AutoSave ON' : 'AutoSave OFF' }}</span>
+      </button>
+      <button
+        :title="`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`"
+        class="toggle-dark"
+        @click="toggleDark"
+      >
         <Sun class="light" />
         <Moon class="dark" />
       </button>
       <button title="Copy sharable URL" class="share" @click="copyLink">
         <Share />
+      </button>
+      <button title="Reload page" class="reload" @click="$emit('reload-page')">
+        <Reload />
       </button>
       <button
         title="Download project files"
@@ -114,7 +151,7 @@ function toggleDark() {
         <Download />
       </button>
       <a
-        href="https://github.com/vuejs/pinia/tree/v3/packages/online-playground"
+        href="https://github.com/vuejs/pinia/tree/v4/packages/online-playground"
         target="_blank"
         title="View on GitHub"
         class="github"
@@ -176,7 +213,6 @@ h1 img {
   margin-right: 10px;
 
   animation: hithere 4s ease 5;
-  /* animation-delay: 5s; */
 }
 @keyframes hithere {
   78% {
@@ -207,7 +243,8 @@ h1 img {
 }
 
 @media (max-width: 770px) {
-  btn.download {
+  .toggle-autosave,
+  button.download {
     display: none;
   }
 }
@@ -216,19 +253,29 @@ h1 img {
   display: flex;
 }
 
-.toggle-dev span {
+.toggle-prod span,
+.toggle-autosave span {
   font-size: 12px;
   border-radius: 4px;
   padding: 4px 6px;
 }
 
-.toggle-dev span {
-  background: var(--purple);
+.toggle-prod span {
+  background: var(--green);
   color: #fff;
 }
 
-.toggle-dev.dev span {
-  background: var(--green);
+.toggle-prod.prod span {
+  background: var(--purple);
+}
+
+.toggle-autosave span {
+  background-color: var(--btn-bg);
+}
+
+.toggle-autosave.enabled span {
+  color: #fff;
+  background-color: var(--green);
 }
 
 .toggle-dark svg {
@@ -289,6 +336,10 @@ h1 img {
 }
 
 .versions a:hover {
+  color: var(--color-branding);
+}
+
+.versions .active a {
   color: var(--color-branding);
 }
 

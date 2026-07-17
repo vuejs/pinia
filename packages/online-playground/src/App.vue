@@ -1,9 +1,25 @@
 <script setup lang="ts">
 import Header from './Header.vue'
-import { Repl, ReplStore, SFCOptions, ReplProps } from '@vue/repl'
+import {
+  Repl,
+  File,
+  type SFCOptions,
+  type ReplProps,
+  useStore,
+  useVueImportMap,
+} from '@vue/repl'
 import Monaco from '@vue/repl/monaco-editor'
-import { ref, watchEffect, onMounted, provide } from 'vue'
-import { AppVue, PiniaVersionKey, counterTs } from './defaults'
+import { ref, watchEffect, onMounted, computed } from 'vue'
+import { AppVue, counterTs } from './defaults'
+import piniaPkg from 'pinia/package.json'
+
+const LOCAL_PINIA_VERSION = piniaPkg.version
+const NOSTICS_VERSION = piniaPkg.dependencies.nostics.replace(/^\D*/, '')
+const DEVTOOLS_API_VERSION = piniaPkg.peerDependencies[
+  '@vue/devtools-api'
+].replace(/^\D*/, '')
+
+const replRef = ref<InstanceType<typeof Repl>>()
 
 const setVH = () => {
   document.documentElement.style.setProperty('--vh', window.innerHeight + `px`)
@@ -11,22 +27,119 @@ const setVH = () => {
 window.addEventListener('resize', setVH)
 setVH()
 
-const useDevMode = ref(false)
+const AUTO_SAVE_STORAGE_KEY = 'pinia-playground-auto-save'
+const initAutoSave: boolean = JSON.parse(
+  localStorage.getItem(AUTO_SAVE_STORAGE_KEY) ?? 'true'
+)
+const autoSave = ref(initAutoSave)
+
+const {
+  productionMode,
+  vueVersion,
+  importMap: vueImportMap,
+} = useVueImportMap(
+  // in dev, serve vue from the vite dev server so the pinia dev proxy and the
+  // user code share the same copy of vue
+  import.meta.env.PROD
+    ? {}
+    : {
+        runtimeDev: `${location.origin}/src/vue-dev-proxy`,
+        runtimeProd: `${location.origin}/src/vue-dev-proxy`,
+        serverRenderer: `${location.origin}/src/vue-server-renderer-dev-proxy`,
+      }
+)
+
+// null = the local copy of pinia built from this repo
+const piniaVersion = ref<string | null>(null)
+
+const builtinImportMap = computed(() => ({
+  ...vueImportMap.value,
+  imports: {
+    ...vueImportMap.value.imports,
+    pinia: piniaVersion.value
+      ? `https://cdn.jsdelivr.net/npm/pinia@${piniaVersion.value}/dist/pinia.esm-browser${productionMode.value ? '.prod' : ''}.js`
+      : import.meta.env.PROD
+        ? `${location.origin}/pinia.esm-browser${productionMode.value ? '.prod' : ''}.js`
+        : `${location.origin}/src/pinia-dev-proxy`,
+    // externals of the pinia dev esm-browser build
+    nostics: `https://esm.sh/nostics@${NOSTICS_VERSION}`,
+    '@vue/devtools-api': `https://esm.sh/@vue/devtools-api@${DEVTOOLS_API_VERSION}`,
+  },
+}))
+
+// used by the language tools to fetch the types of pinia
+const dependencyVersion = ref<Record<string, string>>({})
+watchEffect(() => {
+  dependencyVersion.value = {
+    pinia: piniaVersion.value ?? LOCAL_PINIA_VERSION,
+  }
+})
 
 let hash = location.hash.slice(1)
 if (hash.startsWith('__DEV__')) {
   hash = hash.slice(7)
-  useDevMode.value = true
+  productionMode.value = false
+}
+if (hash.startsWith('__PROD__')) {
+  hash = hash.slice(8)
+  productionMode.value = true
 }
 
-// TODO: we should fetch the latest version and set it by default here
-const store = new ReplStore({
-  serializedState: hash,
-  defaultVueRuntimeURL:
-    'https://cdn.jsdelivr.net/npm/@vue/runtime-dom@3.4.21/dist/runtime-dom.esm-browser.js',
-  defaultVueServerRendererURL:
-    'https://cdn.jsdelivr.net/npm/@vue/server-renderer@3.4.21/dist/server-renderer.esm-browser.js',
-})
+// enable experimental features
+const sfcOptions = computed(
+  (): SFCOptions => ({
+    script: {
+      inlineTemplate: productionMode.value,
+      isProd: productionMode.value,
+      propsDestructure: true,
+    },
+    style: {
+      isProd: productionMode.value,
+    },
+    template: {
+      isProd: productionMode.value,
+    },
+  })
+)
+
+const store = useStore(
+  {
+    vueVersion,
+    template: ref({ welcomeSFC: AppVue }),
+    builtinImportMap,
+    sfcOptions,
+    dependencyVersion,
+  },
+  hash
+)
+// @ts-expect-error only for debugging
+globalThis.store = store
+
+if (!hash) {
+  store.addFile(new File('src/counter.ts', counterTs))
+  store.setActive(store.mainFile)
+} else {
+  // links created by older versions of the playground pin pinia and its
+  // former dependencies in their import map, shadowing the builtin one and
+  // breaking in dev where only the dev proxy is served
+  const importMap = store.getImportMap()
+  const imports = importMap.imports ?? {}
+  if (
+    /\/(pinia\.esm-browser(\.prod)?\.js|src\/pinia-dev-proxy)$/.test(
+      imports.pinia ?? ''
+    )
+  ) {
+    delete imports.pinia
+  }
+  if (/@vue\/devtools-api@[67]/.test(imports['@vue/devtools-api'] ?? '')) {
+    delete imports['@vue/devtools-api']
+  }
+  delete imports['vue-demi']
+  store.setImportMap({
+    ...importMap,
+    imports: { ...builtinImportMap.value.imports, ...imports },
+  })
+}
 
 const previewOptions: ReplProps['previewOptions'] = {
   customCode: {
@@ -35,76 +148,25 @@ const previewOptions: ReplProps['previewOptions'] = {
   },
 }
 
-// enable experimental features
-const sfcOptions: SFCOptions = {
-  script: {
-    inlineTemplate: !useDevMode.value,
-    isProd: !useDevMode.value,
-  },
-  style: {
-    isProd: !useDevMode.value,
-  },
-  template: {
-    isProd: !useDevMode.value,
-  },
-}
-
-const piniaVersion = ref(`latest`)
-provide(PiniaVersionKey, piniaVersion)
-
-// FIXME: cannot get autocompletion and auto import to work like it does for Vue
-// watchEffect(() => {
-//   store.state.dependencyVersion ??= {}
-//   store.state.dependencyVersion.pinia ??=
-//     piniaVersion.value === 'latest' ? '^2.1.0' : piniaVersion.value
-// })
-
-// FIXME: use a CDN that can fix the sub deps: https://play.pinia.vuejs.org/#eNp9VMFy2jAQ/RWNL8AEJJikOTCQuu3kkB7aTtOjL8ZeQMReaaQ1YYbxv3ctg0MI5GR79+3bt09a76Nv1sptBdE0mvnMaUvCA1VWFCmu5klEPokeEtSlNY7EXlQensk4ELVYOlOKnlSZqZDASfK9BBPMDHomCaB5h+8PEpyptgPz8QdBaYuUgL+EmC0qIoMizgqdvXDfUC/x5obbP2HmoATk/vuWWKKo65lqi5hgpjq2aBi1YkdlauXGG+TR9k2P5JDgiaYiRJqY1ajTJpJEKrxL8OVo4cyr55k2DB4eoTH7pHLYkjGFH6VWt2VrIuunSnGd9Gv1ARXfyy9yogq9aCBKYw67j8RsFDvp4CrnERBPxsw3/pqD9XOOj3IodTyWkzt5f8J5zFzkOyvruOJbeSvv3rNcI7iEVezZFtzIAQ/pwF036Ax4JGu46gRrPkXyfJOWenV2hpkprS7A/bak+aa9O8u0KMzrzxAjV0GnLFtD9nIhvvG7VuEfB0HQyTSUuhVQm358/gU7fu+Spcmr4uDMleRf8KaoGo0t7HuFOcs+wQW1T+FKalz98487AvTHoRqhwY2AD+7++GT0N7ns5ImLb8vJFnZbnMNS49kih8vPG9yBHCy7JHcPyw27kGx3vPsXzE8J+72wor1hK84Tb+VU9Adi/iD6B704FeMwVz3gRz2I6v/N038l
-
-if (!hash) {
-  store.setImportMap({
-    imports: {
-      ...store.getImportMap().imports,
-      ...(import.meta.env.PROD
-        ? {
-            pinia: '/pinia.esm-browser.js',
-            '@vue/devtools-api':
-              'https://cdn.jsdelivr.net/npm/@vue/devtools-api@6.6.1/lib/esm/index.js',
-            'vue-demi':
-              'https://cdn.jsdelivr.net/npm/vue-demi@0.14.7/lib/v3/index.mjs',
-          }
-        : {
-            pinia: '/src/pinia-dev-proxy',
-            vue: '/src/vue-dev-proxy',
-            'vue/server-renderer': '/src/vue-server-renderer-dev-proxy',
-          }),
-    },
-  })
-
-  store.setFiles({
-    // gets the tsconfig and import map
-    ...store.getFiles(),
-    'App.vue': AppVue,
-    'counter.ts': counterTs,
-  })
-}
-
 // persist state
 watchEffect(() => {
   const newHash = store
     .serialize()
-    .replace(/^#/, useDevMode.value ? `#__DEV__` : `#`)
+    .replace(/^#/, productionMode.value ? `#__PROD__` : `#`)
   history.replaceState({}, '', newHash)
 })
 
-function toggleDevMode() {
-  const dev = (useDevMode.value = !useDevMode.value)
-  sfcOptions.script!.inlineTemplate =
-    sfcOptions.script!.isProd =
-    sfcOptions.template!.isProd =
-    sfcOptions.style!.isProd =
-      !dev
-  store.setFiles(store.getFiles())
+function toggleProdMode() {
+  productionMode.value = !productionMode.value
+}
+
+function toggleAutoSave() {
+  autoSave.value = !autoSave.value
+  localStorage.setItem(AUTO_SAVE_STORAGE_KEY, String(autoSave.value))
+}
+
+function reloadPage() {
+  replRef.value?.reload()
 }
 
 const theme = ref<'dark' | 'light'>('dark')
@@ -121,19 +183,27 @@ onMounted(() => {
 <template>
   <Header
     :store="store"
-    :dev="useDevMode"
+    :prod="productionMode"
+    :autoSave="autoSave"
+    :theme="theme"
+    v-model:pinia-version="piniaVersion"
     @toggle-theme="toggleTheme"
-    @toggle-dev="toggleDevMode"
+    @toggle-prod="toggleProdMode"
+    @toggle-autosave="toggleAutoSave"
+    @reload-page="reloadPage"
   />
   <Repl
+    ref="replRef"
     :theme="theme"
     :editor="Monaco"
     @keydown.ctrl.s.prevent
     @keydown.meta.s.prevent
+    :model-value="autoSave"
+    :editorOptions="{ autoSaveText: false }"
     :store="store"
     :showCompileOutput="true"
+    :showOpenSourceMap="true"
     :autoResize="true"
-    :sfcOptions="sfcOptions"
     :clearConsole="false"
     :previewOptions="previewOptions"
   />

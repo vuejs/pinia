@@ -1,19 +1,15 @@
-# SFC Playground
+# Pinia Playground
 
-This is continuously deployed at [https://play.vuejs.org](https://play.vuejs.org).
+This is continuously deployed at [https://play.pinia.vuejs.org](https://play.pinia.vuejs.org).
 
 ## Run Locally in Dev
 
-In repo root:
-
 ```sh
-pnpm dev-sfc
+pnpm -C packages/online-playground dev
 ```
 
 ## Build for Prod
 
-In repo root
-
 ```sh
-pnpm build-sfc-playground
+pnpm -C packages/online-playground build
 ```
