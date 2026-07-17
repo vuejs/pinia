@@ -335,6 +335,29 @@ describe('State', () => {
     expect([...store.mapReactive.entries()]).toEqual([['y', 2]])
   })
 
+  it('replaces (does not union) a Set/Map nested in a reactive object on hydration', async () => {
+    const useStore = defineStore('main', () => {
+      const nested = reactive({
+        set: new Set(['default']),
+        map: new Map([['x', 1]]),
+      })
+      return { nested }
+    })
+
+    const pinia = createPinia()
+    pinia.state.value.main = {
+      nested: {
+        set: new Set(['a']),
+        map: new Map([['y', 2]]),
+      },
+    }
+    setActivePinia(pinia)
+
+    const store = useStore()
+    expect([...store.nested.set.values()]).toEqual(['a'])
+    expect([...store.nested.map.entries()]).toEqual([['y', 2]])
+  })
+
   it('hydrates Map in option stores', async () => {
     const useStore = defineStore('main', {
       state: () => ({ map: new Map() }),
