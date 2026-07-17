@@ -9,15 +9,14 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@vue/repl": "^3.0.0",
+    "@vue/repl": "^4.7.2",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "pinia": "workspace:*",
-    "vue": "^3.5.39"
+    "vue": "^3.5.40"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.7",
-    "execa": "^9.6.1",
     "vite": "^7.3.6"
   }
 }

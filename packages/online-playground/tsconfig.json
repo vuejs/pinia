@@ -5,6 +5,7 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,

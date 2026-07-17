@@ -1,16 +1,17 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { spawnSync } from 'node:child_process'
 import { defineConfig, Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { execaSync } from 'execa'
 
-const commit = execaSync('git', ['rev-parse', '--short', 'HEAD'])
+const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD'])
+  .stdout.toString()
+  .trim()
 
 export default defineConfig({
   plugins: [
     vue({
       script: {
-        defineModel: true,
         fs: {
           fileExists: fs.existsSync,
           readFile: (file) => fs.readFileSync(file, 'utf-8'),
@@ -36,7 +37,9 @@ function copyPiniaPlugin(): Plugin {
         const filePath = path.resolve(__dirname, file)
         const basename = path.basename(file)
         if (!fs.existsSync(filePath)) {
-          throw new Error(`${basename} not built. ` + `Run "nr build`)
+          throw new Error(
+            `${basename} not built. Run "pnpm -C ../pinia run build" first.`
+          )
         }
         this.emitFile({
           type: 'asset',
@@ -46,6 +49,7 @@ function copyPiniaPlugin(): Plugin {
       }
 
       copyFile(`../pinia/dist/pinia.esm-browser.js`)
+      copyFile(`../pinia/dist/pinia.esm-browser.prod.js`)
     },
   }
 }

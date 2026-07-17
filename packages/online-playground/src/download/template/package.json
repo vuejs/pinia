@@ -1,17 +1,18 @@
 {
-  "name": "vite-vue-starter",
+  "name": "vite-pinia-starter",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview"
   },
   "dependencies": {
-    "pinia": "workspace:*",
-    "vue": "^3.3.0"
+    "pinia": "latest",
+    "vue": "latest"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.3.4",
-    "vite": "^4.4.9"
+    "@vitejs/plugin-vue": "^6.0.7",
+    "vite": "^7.3.6"
   }
 }
