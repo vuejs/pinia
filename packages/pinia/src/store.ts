@@ -517,14 +517,13 @@ function createSetupStore<
           if (isRef(prop)) {
             prop.value = initialState[key as keyof UnwrapRef<S>]
           } else {
-            // probably a reactive object, lets recursively assign. For a
-            // reactive Set/Map the hydrated server state is authoritative, so
-            // clear any default entries first: mergeReactiveObjects otherwise
-            // unions them and leaves stale defaults behind (the isRef branch
-            // above and HMR both replace). $patch keeps its own merge semantics.
+            // clear keyed collections to avoid merging during hydration any
+            // default values done here rather than mergeReactiveObjects to
+            // keep `$patch` merging behavior
             if (prop instanceof Set || prop instanceof Map) {
               prop.clear()
             }
+            // probably a reactive object, lets recursively assign.
             // @ts-expect-error: prop is unknown
             mergeReactiveObjects(prop, initialState[key])
           }
