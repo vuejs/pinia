@@ -35,6 +35,10 @@ export const sharedConfig = defineConfig({
   title: 'Pinia',
   appearance: 'dark',
 
+  sitemap: {
+    hostname: 'https://pinia.vuejs.org',
+  },
+
   markdown: {
     theme: {
       dark: 'dracula-soft',
