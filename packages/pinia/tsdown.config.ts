@@ -20,8 +20,10 @@ const commonOptions = defineConfig({
   define: {
     __DEV__,
     __TEST__,
-    // __VUE_PROD_DEVTOOLS__ is replaced by the vite vue plugin
-    __USE_DEVTOOLS__: `((${__DEV__} || __VUE_PROD_DEVTOOLS__) && !${__TEST__})`,
+    // __VUE_PROD_DEVTOOLS__ is replaced by the vite vue plugin but must be
+    // guarded so the dist files also work without a bundler define, e.g. when
+    // imported directly in Node (#3167)
+    __USE_DEVTOOLS__: `((${__DEV__} || (typeof __VUE_PROD_DEVTOOLS__ !== 'undefined' && __VUE_PROD_DEVTOOLS__)) && !${__TEST__})`,
   },
   dts: false,
   fixedExtension: false,

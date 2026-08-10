@@ -51,8 +51,9 @@
   "scripts": {
     "build": "tsdown",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l pinia -r 1",
+    "test:dist": "node ./__tests__/dist-import.mjs",
     "test:dts": "tsc -p ./test-dts/tsconfig.json",
-    "test": "pnpm run build && pnpm test:dts"
+    "test": "pnpm run build && pnpm test:dts && pnpm test:dist"
   },
   "dependencies": {
     "nostics": "^1.1.4"
