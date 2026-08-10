@@ -1,18 +1,20 @@
 // @ts-check
-// Ensures the built `dist/pinia.js` works when imported directly in Node
-// without a bundler injecting compile-time defines (#3167): if
-// `__VUE_PROD_DEVTOOLS__` is left unguarded in the dist output, evaluating
-// `__USE_DEVTOOLS__` throws a ReferenceError. Requires `dist/` to be built,
-// so it runs after the build, as part of `test:dts`.
-import { spawnSync } from 'node:child_process'
-import { fileURLToPath } from 'node:url'
+// `dist/pinia.js` must run in plain Node, where no bundler defines
+// `__VUE_PROD_DEVTOOLS__`: unguarded, `__USE_DEVTOOLS__` throws a
+// ReferenceError inside `createPinia()` (#3167). Needs a built `dist/`, so it
+// runs after the build, as part of `test:dts`.
 
-const script = `
-import { createApp } from 'vue'
-import { createPinia, defineStore } from './dist/pinia.js'
+// set before importing: with NODE_ENV=production `__DEV__` is false, so the
+// `__VUE_PROD_DEVTOOLS__` side of `__USE_DEVTOOLS__` is actually evaluated.
+// static imports are hoisted, hence the dynamic ones below
+process.env.NODE_ENV = 'production'
+
+const { createApp } = await import('vue')
+const { createPinia, defineStore } = await import('../dist/pinia.js')
 
 const pinia = createPinia()
 createApp({}).use(pinia)
+
 const useCounterStore = defineStore('counter', {
   state: () => ({ n: 0 }),
   actions: {
@@ -21,33 +23,9 @@ const useCounterStore = defineStore('counter', {
     },
   },
 })
+
 const counter = useCounterStore(pinia)
 counter.increment()
 if (counter.n !== 1) {
-  throw new Error(\`expected counter.n to be 1, got \${counter.n}\`)
-}
-`
-
-// with NODE_ENV=production, __DEV__ is false at runtime, so the
-// __VUE_PROD_DEVTOOLS__ side of the __USE_DEVTOOLS__ define is evaluated
-for (const NODE_ENV of ['production', undefined]) {
-  const env = { ...process.env }
-  delete env.NODE_ENV
-  if (NODE_ENV) env.NODE_ENV = NODE_ENV
-  const { status, stderr } = spawnSync(
-    process.execPath,
-    ['--input-type=module', '-e', script],
-    {
-      cwd: fileURLToPath(new URL('..', import.meta.url)),
-      env,
-      encoding: 'utf-8',
-    }
-  )
-  if (status !== 0) {
-    console.error(stderr)
-    console.error(
-      `Importing dist/pinia.js in Node (NODE_ENV=${NODE_ENV}) failed`
-    )
-    process.exit(1)
-  }
+  throw new Error(`expected counter.n to be 1, got ${counter.n}`)
 }
