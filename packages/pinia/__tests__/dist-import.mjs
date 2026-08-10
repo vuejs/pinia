@@ -1,8 +1,8 @@
 // @ts-check
 // `dist/pinia.js` must run in plain Node, where no bundler defines
 // `__VUE_PROD_DEVTOOLS__`: unguarded, `__USE_DEVTOOLS__` throws a
-// ReferenceError inside `createPinia()` (#3167). Needs a built `dist/`, so it
-// runs after the build, as part of `test:dts`.
+// ReferenceError inside `createPinia()` (#3167). Needs a built `dist/`, so
+// `test:dist` only runs after `build`.
 
 // set before importing: with NODE_ENV=production `__DEV__` is false, so the
 // `__VUE_PROD_DEVTOOLS__` side of `__USE_DEVTOOLS__` is actually evaluated.

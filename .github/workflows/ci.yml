@@ -33,6 +33,7 @@ jobs:
       - run: pnpm run test:vitest
       - run: pnpm run build
       - run: pnpm run test:dts
+      - run: pnpm run test:dist
       - run: pnpm run size
 
       - uses: codecov/codecov-action@v5
