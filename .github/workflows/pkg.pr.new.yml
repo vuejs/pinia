@@ -2,7 +2,7 @@ name: Publish Any Commit
 
 on:
   pull_request:
-    branches: [v2, v3, v4]
+    branches: [v3, v4]
     paths-ignore:
       - 'packages/docs/**'
       - 'packages/playground/**'
