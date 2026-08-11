@@ -67,5 +67,5 @@
   "lint-staged": {
     "*": "oxfmt --no-error-on-unmatched-pattern"
   },
-  "packageManager": "pnpm@11.7.0"
+  "packageManager": "pnpm@11.21.0"
 }
