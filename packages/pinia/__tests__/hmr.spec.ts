@@ -1,5 +1,5 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
-import { computed, reactive, ref, toRefs, watch } from 'vue'
+import { computed, createApp, reactive, ref, toRefs, watch } from 'vue'
 import {
   createPinia,
   defineStore,
@@ -537,7 +537,105 @@ describe('HMR', () => {
   })
 
   describe('both', () => {
-    it.todo('keeps $subscribe subscriptions')
-    it.todo('$onAction subscriptions')
+    const setup = () => {
+      const n = ref(0)
+      function increment(amount = 1) {
+        n.value += amount
+      }
+      return { n, increment }
+    }
+
+    it('keeps $subscribe subscriptions after HMR', () => {
+      const pinia = createPinia()
+      const app = createApp({})
+      app.use(pinia)
+      setActivePinia(pinia)
+
+      const useStore = defineStore('id', setup)
+      const store = useStore()
+      const spy = vi.fn()
+      store.$subscribe(spy, { detached: true })
+
+      defineStore('id', setup)(null, store)
+
+      store.$patch({ n: 1 })
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
+
+    it('keeps $onAction subscriptions after HMR', () => {
+      const pinia = createPinia()
+      const app = createApp({})
+      app.use(pinia)
+      setActivePinia(pinia)
+
+      const useStore = defineStore('id', setup)
+      const store = useStore()
+      const spy = vi.fn()
+      store.$onAction(spy, true)
+
+      defineStore('id', setup)(null, store)
+
+      store.increment()
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
+
+    // _hotUpdate re-runs plugins on the existing store so subscriptions capture fresh closures from the new module.
+    it('plugin $subscribe uses fresh closures after HMR', () => {
+      const pinia = createPinia()
+      const app = createApp({})
+      app.use(pinia)
+
+      let closureValue = 'original'
+      let capturedValue = ''
+      pinia.use(({ store }) => {
+        const current = closureValue // captured at plugin-run time
+        store.$subscribe(() => {
+          capturedValue = current
+        })
+      })
+
+      setActivePinia(pinia)
+      const useStore = defineStore('id', setup)
+      const store = useStore()
+
+      store.$patch({ n: 1 })
+      expect(capturedValue).toBe('original')
+
+      // simulate the module updating (new version of the store file loaded by HMR)
+      closureValue = 'updated'
+      defineStore('id', setup)(null, store)
+
+      store.$patch({ n: 2 })
+      // _hotUpdate re-runs plugins on the existing store with the new closure → capturedValue becomes 'updated'
+      expect(capturedValue).toBe('updated')
+    })
+
+    it('plugin $onAction uses fresh closures after HMR', () => {
+      const pinia = createPinia()
+      const app = createApp({})
+      app.use(pinia)
+
+      let closureValue = 'original'
+      let capturedValue = ''
+      pinia.use(({ store }) => {
+        const current = closureValue
+        store.$onAction(() => {
+          capturedValue = current
+        })
+      })
+
+      setActivePinia(pinia)
+      const useStore = defineStore('id', setup)
+      const store = useStore()
+
+      store.increment()
+      expect(capturedValue).toBe('original')
+
+      closureValue = 'updated'
+      defineStore('id', setup)(null, store)
+
+      store.increment()
+      expect(capturedValue).toBe('updated')
+    })
   })
 })

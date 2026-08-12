@@ -268,6 +268,7 @@ function createSetupStore<
   let subscriptions: Set<SubscriptionCallback<S>> = new Set()
   let actionSubscriptions: Set<StoreOnActionListener<Id, S, G, A>> = new Set()
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
+  let pluginScope: EffectScope | undefined
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
 
   // avoid setting the state for option stores if it is set
@@ -451,24 +452,28 @@ function createSetupStore<
         options.detached,
         () => stopWatcher()
       )
-      const stopWatcher = scope.run(() =>
-        watch(
-          () => pinia.state.value[$id] as UnwrapRef<S>,
-          (state) => {
-            if (options.flush === 'sync' ? isSyncListening : isListening) {
-              callback(
-                {
-                  storeId: $id,
-                  type: MutationType.direct,
-                  events: debuggerEvents as DebuggerEvent,
-                },
-                state
-              )
-            }
-          },
-          assign({}, $subscribeOptions, options)
-        )
-      )!
+      // hot stores are temporary; skip the watcher to avoid spurious callbacks
+      // when the hot store's state entry is deleted after HMR completes
+      const stopWatcher = hot
+        ? noop
+        : scope.run(() =>
+            watch(
+              () => pinia.state.value[$id] as UnwrapRef<S>,
+              (state) => {
+                if (options.flush === 'sync' ? isSyncListening : isListening) {
+                  callback(
+                    {
+                      storeId: $id,
+                      type: MutationType.direct,
+                      events: debuggerEvents as DebuggerEvent,
+                    },
+                    state
+                  )
+                }
+              },
+              assign({}, $subscribeOptions, options)
+            )
+          )!
 
       return removeSubscription
     },
@@ -689,6 +694,8 @@ function createSetupStore<
       // update the values used in devtools and to allow deleting new properties later on
       store._hmrPayload = newStore._hmrPayload
       store._getters = newStore._getters
+      // re-run plugins so their subscriptions use fresh closures from updated modules
+      runPlugins()
       store._hotUpdating = false
     })
   }
@@ -713,45 +720,53 @@ function createSetupStore<
     )
   }
 
-  // apply all plugins
-  pinia._p.forEach((extender) => {
-    const extensions = scope.run(() =>
-      extender({
-        store: store as Store,
-        app: pinia._a,
-        pinia,
-        options: optionsForPlugin,
-      })
-    )!
+  // apply all plugins; extracted so _hotUpdate can re-run them with fresh closures
+  function runPlugins() {
+    if (pluginScope) pluginScope.stop()
+    pluginScope = scope.run(() => effectScope())!
+    pinia._p.forEach((extender) => {
+      const extensions = pluginScope!.run(() =>
+        extender({
+          store: store as Store,
+          app: pinia._a,
+          pinia,
+          options: optionsForPlugin,
+        })
+      )!
 
-    /* istanbul ignore else */
-    if (__USE_DEVTOOLS__ && IS_CLIENT) {
-      Object.keys(extensions || {}).forEach((key) =>
-        store._customProperties.add(key)
-      )
-    }
+      /* istanbul ignore else */
+      if (__USE_DEVTOOLS__ && IS_CLIENT) {
+        Object.keys(extensions || {}).forEach((key) =>
+          store._customProperties.add(key)
+        )
+      }
 
-    // Check properties that are not properly configured. We check the values
-    // as the plugin returned them: once assigned to the store, a `reactive()`
-    // value is unwrapped and indistinguishable from a plain object.
-    if (__DEV__) {
-      for (const key in extensions) {
-        const value = (extensions as any)[key]
-        // `null` is included (typeof null === 'object'). refs, reactive objects,
-        // primitives, functions and markRaw() values are skipped.
-        if (
-          typeof value === 'object' &&
-          !isRef(value) &&
-          !isReactive(value) &&
-          !value?.__v_skip
-        ) {
-          diagnostics.PINIA_R1006({ key, id: $id })
+      // Check properties that are not properly configured. We check the values
+      // as the plugin returned them: once assigned to the store, a `reactive()`
+      // value is unwrapped and indistinguishable from a plain object.
+      if (__DEV__) {
+        for (const key in extensions) {
+          const value = (extensions as any)[key]
+          // `null` is included (typeof null === 'object'). refs, reactive objects,
+          // primitives, functions and markRaw() values are skipped.
+          if (
+            typeof value === 'object' &&
+            !isRef(value) &&
+            !isReactive(value) &&
+            !value?.__v_skip
+          ) {
+            diagnostics.PINIA_R1006({ key, id: $id })
+          }
         }
       }
-    }
 
-    assign(store, extensions)
-  })
+      assign(store, extensions)
+    })
+  }
+  // skip plugins for hot stores; _hotUpdate re-runs them on the existing store
+  if (!hot) {
+    runPlugins()
+  }
 
   if (
     __DEV__ &&
