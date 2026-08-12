@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/vuejs/pinia/compare/@pinia/nuxt@1.0.1...@pinia/nuxt@1.0.2) (2026-08-12)
+
+### Features
+
+- **nuxt:** declare Nuxt 5 compatibility ([#3166](https://github.com/vuejs/pinia/issues/3166)) ([a94de27](https://github.com/vuejs/pinia/commit/a94de27577dd43082fd1d0b60a9d35c360bba427))
+
 ## [1.0.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@1.0.0...@pinia/nuxt@1.0.1) (2026-07-16)
 
 ### Bug Fixes

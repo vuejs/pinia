@@ -1,3 +1,10 @@
+## [4.0.3](https://github.com/vuejs/pinia/compare/v4.0.2...v4.0.3) (2026-08-12)
+
+### Bug Fixes
+
+- guard **VUE_PROD_DEVTOOLS** in dist output ([#3168](https://github.com/vuejs/pinia/issues/3168)) ([3714487](https://github.com/vuejs/pinia/commit/3714487166bf5f7fddac9029b1fcf10a268694e6)), closes [#3092](https://github.com/vuejs/pinia/issues/3092) [#3167](https://github.com/vuejs/pinia/issues/3167)
+- **ssr:** replace reactive Set/Map state on hydration instead of unioning it ([#3162](https://github.com/vuejs/pinia/issues/3162)) ([5bdf26c](https://github.com/vuejs/pinia/commit/5bdf26c702999921a08ce8361f865fdc78c6dfb7))
+
 ## [4.0.2](https://github.com/vuejs/pinia/compare/v4.0.1...v4.0.2) (2026-07-15)
 
 - Fix types field generation in package.json
