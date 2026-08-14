@@ -45,6 +45,7 @@ import {
   _ExtractGettersFromSetupStore,
   _ExtractStateFromSetupStore,
   _StoreWithState,
+  _Empty,
 } from './types'
 import { setActivePinia, piniaSymbol, Pinia, activePinia } from './rootStore'
 import { IS_CLIENT } from './env'
@@ -834,7 +835,7 @@ export function defineStore<
 >(
   id: Id,
   options: Omit<DefineStoreOptions<Id, S, G, A>, 'id'>
-): StoreDefinition<Id, S, G, A>
+): StoreDefinition<Id, S, G, A, DefineStoreOptions<Id, S, G, A>>
 
 /**
  * Creates a `useStore` function that retrieves the store instance
@@ -852,7 +853,16 @@ export function defineStore<Id extends string, SS>(
     _ExtractGettersFromSetupStore<SS>,
     _ExtractActionsFromSetupStore<SS>
   >
-): SetupStoreDefinition<Id, SS>
+): SetupStoreDefinition<
+  Id,
+  SS,
+  DefineSetupStoreOptions<
+    Id,
+    _ExtractStateFromSetupStore<SS>,
+    _ExtractGettersFromSetupStore<SS>,
+    _ExtractActionsFromSetupStore<SS>
+  >
+>
 
 // allows unused stores to be tree shaken
 /*! #__NO_SIDE_EFFECTS__ */
@@ -962,9 +972,11 @@ export function defineStore(
 export interface SetupStoreDefinition<
   Id extends string,
   SS,
+  O = _Empty,
 > extends StoreDefinition<
   Id,
   _ExtractStateFromSetupStore<SS>,
   _ExtractGettersFromSetupStore<SS>,
-  _ExtractActionsFromSetupStore<SS>
+  _ExtractActionsFromSetupStore<SS>,
+  O
 > {}
