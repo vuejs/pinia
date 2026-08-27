@@ -5,6 +5,6 @@ export default defineConfig({
   dts: true,
   exports: true,
   deps: {
-    skipNodeModulesBundle: true,
+    neverBundle: true,
   },
 })
