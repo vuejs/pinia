@@ -494,7 +494,7 @@ describe('HMR', () => {
         expect(store.group.members).toEqual({ alice: 'admin' })
       })
 
-      it('keeps previous values in an emptied definition until reload', () => {
+      it('removes declared properties when the object definition is emptied', () => {
         const useStore = defineStore('id', {
           ...baseOptions,
           state: () => ({
@@ -504,8 +504,7 @@ describe('HMR', () => {
         const store: any = useStore()
         store.nested.a = 'changed'
 
-        // simulate a hmr that empties the object definition: like setup
-        // stores (#2611), values are preserved until a full page reload
+        // simulate a hmr that empties the object definition
         defineStore('id', {
           ...baseOptions,
           state: () => ({
@@ -513,7 +512,51 @@ describe('HMR', () => {
           }),
         })(null, store)
 
-        expect(store.nested).toEqual({ a: 'changed', b: 'b' })
+        expect(store.nested).toEqual({})
+      })
+
+      it('keeps an empty object definition unchanged', () => {
+        const useStore = defineStore('id', {
+          ...baseOptions,
+          state: () => ({
+            profile: {} as Record<string, any>,
+          }),
+        })
+        const store: any = useStore()
+
+        defineStore('id', {
+          ...baseOptions,
+          state: () => ({
+            profile: {} as Record<string, any>,
+          }),
+        })(null, store)
+
+        expect(store.profile).toEqual({})
+      })
+
+      it('removes deleted declared properties and keeps runtime-added ones', () => {
+        const useStore = defineStore('id', {
+          ...baseOptions,
+          state: () => ({
+            nested: { a: 'a', b: 'b' } as Record<string, any>,
+          }),
+        })
+        const store: any = useStore()
+        store.nested.a = 'changed'
+        store.nested.runtime = 'added'
+
+        defineStore('id', {
+          ...baseOptions,
+          state: () => ({
+            nested: { b: 'new', c: 'c' } as Record<string, any>,
+          }),
+        })(null, store)
+
+        expect(store.nested).toEqual({
+          b: 'b',
+          c: 'c',
+          runtime: 'added',
+        })
       })
     })
 

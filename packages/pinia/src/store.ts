@@ -425,6 +425,7 @@ function createSetupStore<
     actions: {} as Record<string, any>,
     getters: {} as Record<string, Ref>,
     state: [] as string[],
+    stateKeys: {} as Record<string, string[]>,
     hotState,
   })
 
@@ -535,6 +536,12 @@ function createSetupStore<
       /* istanbul ignore else */
       if (__DEV__) {
         _hmrPayload.state.push(key)
+        if (isOptionsStore) {
+          const stateValue = isRef(prop) ? prop.value : prop
+          if (isPlainObject(stateValue)) {
+            _hmrPayload.stateKeys[key] = Object.keys(stateValue)
+          }
+        }
       }
       // action
     } else if (typeof prop === 'function') {
@@ -615,15 +622,18 @@ function createSetupStore<
             isPlainObject(newStateTarget) &&
             isPlainObject(oldStateSource)
           ) {
-            if (
-              // an empty object literal is a placeholder, not a shape: any
-              // property could have been added at runtime, so reconcile the
-              // old value as a whole instead of dropping it (#2931)
-              Object.keys(newStateTarget).length === 0
-            ) {
-              newStore.$state[stateKey] = oldStateSource
-            } else {
-              patchObject(newStateTarget, oldStateSource)
+            patchObject(newStateTarget, oldStateSource)
+
+            const oldStateKeys = store._hmrPayload.stateKeys[stateKey]
+            if (oldStateKeys) {
+              for (const key in oldStateSource) {
+                if (
+                  Object.hasOwn(oldStateSource, key) &&
+                  !oldStateKeys.includes(key)
+                ) {
+                  newStateTarget[key] = oldStateSource[key]
+                }
+              }
             }
           } else {
             // transfer the ref
