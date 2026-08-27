@@ -39,8 +39,8 @@
     "@types/node": "^24.13.3",
     "@vitest/coverage-v8": "^4.1.10",
     "@vitest/ui": "^4.1.10",
-    "@vue/compiler-sfc": "~3.5.39",
-    "@vue/server-renderer": "~3.5.39",
+    "@vue/compiler-sfc": "~3.5.41",
+    "@vue/server-renderer": "~3.5.41",
     "conventional-changelog": "^7.2.1",
     "conventional-changelog-angular": "^8.3.1",
     "globby": "^15.0.0",
@@ -58,7 +58,7 @@
     "typedoc-plugin-markdown": "~4.9.0",
     "typescript": "~5.9.3",
     "vitest": "^4.1.10",
-    "vue": "~3.5.39"
+    "vue": "~3.5.41"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged",
