@@ -66,16 +66,15 @@ export default defineConfig({
           root: './packages/pinia',
         },
       },
-      // FIXME: doesn't work since last nuxt test-utils update
-      // {
-      //   extends: true,
-      //   test: {
-      //     name: '@pinia/nuxt',
-      //     root: './packages/nuxt',
-      //     environment: 'node',
-      //     include: ['test/**/*.{spec,test}.ts'],
-      //   },
-      // },
+      {
+        extends: true,
+        test: {
+          name: '@pinia/nuxt',
+          root: './packages/nuxt',
+          environment: 'node',
+          include: ['test/**/*.{spec,test}.ts'],
+        },
+      },
       {
         extends: true,
         test: {
