@@ -551,8 +551,6 @@ describe('HMR', () => {
         expect($stateSpy).toHaveBeenCalledTimes(4)
       })
 
-      it.todo('handles nested objects updates')
-
       it('keeps runtime-added properties of an empty placeholder object (#2931)', () => {
         const useStore = defineStore('id', {
           ...baseOptions,
