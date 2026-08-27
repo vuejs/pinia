@@ -54,7 +54,7 @@
     "nuxt": "^4.5.2",
     "pinia": "workspace:^",
     "typescript": "^5.9.3",
-    "vue-tsc": "^3.3.7"
+    "vue-tsc": "^3.3.11"
   },
   "peerDependencies": {
     "pinia": "workspace:^"
