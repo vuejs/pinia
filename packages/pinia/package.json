@@ -56,7 +56,7 @@
     "test": "pnpm run build && pnpm test:dts && pnpm test:dist"
   },
   "dependencies": {
-    "nostics": "^1.1.4"
+    "nostics": "^1.2.0"
   },
   "devDependencies": {
     "@vue/devtools-api": "^8.2.1",
@@ -77,6 +77,6 @@
     }
   },
   "inlinedDependencies": {
-    "nostics": "1.1.4"
+    "nostics": "1.2.0"
   }
 }
