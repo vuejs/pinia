@@ -10,7 +10,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@vueuse/core": "^14.3.0",
+    "@vueuse/core": "^14.4.0",
     "mande": "^2.0.10",
     "pinia": "workspace:*",
     "swrv": "^1.2.0",

@@ -55,7 +55,7 @@
     "semver": "^7.8.5",
     "simple-git-hooks": "^2.13.1",
     "typedoc": "^0.28.20",
-    "typedoc-plugin-markdown": "~4.9.0",
+    "typedoc-plugin-markdown": "~4.13.0",
     "typescript": "~5.9.3",
     "vitest": "^4.1.11",
     "vue": "~3.5.41"
