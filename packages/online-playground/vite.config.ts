@@ -34,7 +34,7 @@ function copyPiniaPlugin(): Plugin {
     name: 'copy-pinia',
     generateBundle() {
       const copyFile = (file: string) => {
-        const filePath = path.resolve(__dirname, file)
+        const filePath = path.resolve(import.meta.dirname, file)
         const basename = path.basename(file)
         if (!fs.existsSync(filePath)) {
           throw new Error(
