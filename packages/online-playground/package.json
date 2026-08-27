@@ -13,7 +13,7 @@
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "pinia": "workspace:*",
-    "vue": "^3.5.40"
+    "vue": "^3.5.41"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.7",
