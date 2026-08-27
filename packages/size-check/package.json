@@ -11,8 +11,5 @@
   },
   "dependencies": {
     "pinia": "workspace:*"
-  },
-  "devDependencies": {
-    "zlib": "^1.0.5"
   }
 }
