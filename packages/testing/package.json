@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "pinia": "workspace:*",
-    "tsdown": "^0.22.8"
+    "tsdown": "^0.22.14"
   },
   "peerDependencies": {
     "pinia": ">=4.0.2"
