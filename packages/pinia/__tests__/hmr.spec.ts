@@ -440,6 +440,81 @@ describe('HMR', () => {
       })
 
       it.todo('handles nested objects updates')
+
+      it('keeps runtime-added properties of an empty placeholder object (#2931)', () => {
+        const useStore = defineStore('id', {
+          ...baseOptions,
+          state: () => ({
+            n: 0,
+            profile: {} as Record<string, any>,
+          }),
+        })
+        const store: any = useStore()
+
+        // mutate through the component like a user interaction would
+        store.n++
+        store.profile.name = 'becca'
+
+        // simulate a hmr with an equivalent definition: the module is
+        // re-evaluated and `profile` starts as an empty placeholder again
+        defineStore('id', {
+          ...baseOptions,
+          state: () => ({
+            n: 0,
+            profile: {} as Record<string, any>,
+          }),
+        })(null, store)
+
+        expect(store.n).toBe(1)
+        expect(store.profile).toEqual({ name: 'becca' })
+      })
+
+      it('keeps runtime-added properties of nested placeholders', () => {
+        const useStore = defineStore('id', {
+          ...baseOptions,
+          state: () => ({
+            group: {
+              members: {} as Record<string, string>,
+            },
+          }),
+        })
+        const store: any = useStore()
+        store.group.members.alice = 'admin'
+
+        // simulate a hmr with an equivalent definition
+        defineStore('id', {
+          ...baseOptions,
+          state: () => ({
+            group: {
+              members: {} as Record<string, string>,
+            },
+          }),
+        })(null, store)
+
+        expect(store.group.members).toEqual({ alice: 'admin' })
+      })
+
+      it('keeps previous values in an emptied definition until reload', () => {
+        const useStore = defineStore('id', {
+          ...baseOptions,
+          state: () => ({
+            nested: { a: 'a', b: 'b' } as Record<string, any>,
+          }),
+        })
+        const store: any = useStore()
+        store.nested.a = 'changed'
+
+        // simulate a hmr that empties the object definition: like setup
+        // stores (#2611), values are preserved until a full page reload
+        defineStore('id', {
+          ...baseOptions,
+          state: () => ({
+            nested: {} as Record<string, any>,
+          }),
+        })(null, store)
+
+        expect(store.nested).toEqual({ a: 'changed', b: 'b' })
+      })
     })
 
     describe('actions', () => {

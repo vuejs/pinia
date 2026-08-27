@@ -615,7 +615,16 @@ function createSetupStore<
             isPlainObject(newStateTarget) &&
             isPlainObject(oldStateSource)
           ) {
-            patchObject(newStateTarget, oldStateSource)
+            if (
+              // an empty object literal is a placeholder, not a shape: any
+              // property could have been added at runtime, so reconcile the
+              // old value as a whole instead of dropping it (#2931)
+              Object.keys(newStateTarget).length === 0
+            ) {
+              newStore.$state[stateKey] = oldStateSource
+            } else {
+              patchObject(newStateTarget, oldStateSource)
+            }
           } else {
             // transfer the ref
             newStore.$state[stateKey] = oldStateSource
