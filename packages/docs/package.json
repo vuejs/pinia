@@ -15,11 +15,11 @@
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^2.1.3",
-    "@vueuse/core": "^14.3.0",
+    "@vueuse/core": "^14.4.0",
     "pinia": "workspace:*",
     "typedoc-vitepress-theme": "^1.1.3",
     "vitepress": "1.6.4",
-    "vitepress-plugin-llms": "^1.13.3",
+    "vitepress-plugin-llms": "^1.13.5",
     "vitepress-translation-helper": "^0.2.2",
     "vue-use-spring": "^0.3.3"
   }
