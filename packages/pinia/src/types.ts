@@ -295,6 +295,7 @@ export interface StoreProperties<Id extends string> {
    */
   _hmrPayload: {
     state: string[]
+    stateKeys: Record<string, string[]>
     hotState: Ref<StateTree>
     actions: _ActionsTree
     getters: _ActionsTree

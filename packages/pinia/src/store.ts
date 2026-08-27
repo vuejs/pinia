@@ -10,6 +10,7 @@ import {
   UnwrapRef,
   markRaw,
   isRef,
+  isShallow,
   isReactive,
   effectScope,
   EffectScope,
@@ -20,6 +21,7 @@ import {
   Ref,
   ref,
   nextTick,
+  triggerRef,
 } from 'vue'
 import {
   StateTree,
@@ -425,6 +427,7 @@ function createSetupStore<
     actions: {} as Record<string, any>,
     getters: {} as Record<string, Ref>,
     state: [] as string[],
+    stateKeys: {} as Record<string, string[]>,
     hotState,
   })
 
@@ -535,6 +538,11 @@ function createSetupStore<
       /* istanbul ignore else */
       if (__DEV__) {
         _hmrPayload.state.push(key)
+        const stateValue = isRef(prop) ? prop.value : prop
+        // track plain object keys unless a shallow ref keeps its value as-is
+        if (isPlainObject(stateValue) && !(isRef(prop) && isShallow(prop))) {
+          _hmrPayload.stateKeys[key] = Object.keys(stateValue)
+        }
       }
       // action
     } else if (typeof prop === 'function') {
@@ -603,22 +611,49 @@ function createSetupStore<
         if (stateKey in store.$state) {
           const newStateTarget = newStore.$state[stateKey]
           const oldStateSource = store.$state[stateKey as keyof UnwrapRef<S>]
-          if (
-            // option stores declare their whole state shape upfront, so a
-            // missing key means it was intentionally removed and `patchObject`
-            // reconciles the old state against the new shape. Setup stores
-            // create their state imperatively (e.g. `ref({})`) and properties
-            // can be added at runtime, so the old value must be transferred as
-            // a whole to avoid dropping them (#2611).
-            isOptionsStore &&
-            typeof newStateTarget === 'object' &&
-            isPlainObject(newStateTarget) &&
-            isPlainObject(oldStateSource)
-          ) {
-            patchObject(newStateTarget, oldStateSource)
-          } else {
-            // transfer the ref
-            newStore.$state[stateKey] = oldStateSource
+          const newStoreProperty = toRaw(newStore)[stateKey]
+          // shallow refs use the new definition as-is
+          if (!(isRef(newStoreProperty) && isShallow(newStoreProperty))) {
+            if (
+              Object.hasOwn(newStore._hmrPayload.stateKeys, stateKey) &&
+              typeof newStateTarget === 'object' &&
+              isPlainObject(newStateTarget) &&
+              isPlainObject(oldStateSource)
+            ) {
+              if (isShallow(newStoreProperty)) {
+                // keep values that were updated
+                for (const key in oldStateSource) {
+                  if (
+                    Object.hasOwn(oldStateSource, key) &&
+                    key in newStateTarget
+                  ) {
+                    newStateTarget[key] = oldStateSource[key]
+                  }
+                }
+                triggerRef(newStoreProperty)
+              } else {
+                patchObject(newStateTarget, oldStateSource)
+              }
+
+              const oldStateKeys = store._hmrPayload.stateKeys[stateKey]
+              if (oldStateKeys) {
+                for (const key in oldStateSource) {
+                  if (
+                    Object.hasOwn(oldStateSource, key) &&
+                    !oldStateKeys.includes(key)
+                  ) {
+                    newStateTarget[key] = oldStateSource[key]
+                  }
+                }
+              }
+              // ensure reactivity
+              if (isShallow(newStoreProperty)) {
+                triggerRef(newStoreProperty)
+              }
+            } else {
+              // transfer the ref
+              newStore.$state[stateKey] = oldStateSource
+            }
           }
         }
         // patch direct access properties to allow store.stateProperty to work as
