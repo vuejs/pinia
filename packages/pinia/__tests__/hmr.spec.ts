@@ -1,5 +1,13 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
-import { computed, reactive, ref, toRefs, watch } from 'vue'
+import {
+  computed,
+  reactive,
+  ref,
+  shallowReactive,
+  shallowRef,
+  toRefs,
+  watch,
+} from 'vue'
 import {
   createPinia,
   defineStore,
@@ -199,24 +207,128 @@ describe('HMR', () => {
         expect(store.counter).toEqual({ nr: 1, sign: 'positive' })
       })
 
-      it('handles nested objects updates', () => {
+      it('removes declared properties when a ref object is emptied', () => {
         const setup = () => {
           const nested = ref({ a: 'a', b: 'b' })
           return { nested }
         }
 
         const useStore = defineStore('id', setup)
-        const store: any = useStore()
+        const store = useStore()
         store.nested.a = 'changed'
 
-        // simulate a hmr that removes the `a` key from the definition
+        // simulate a hmr that empties the object definition
         defineStore('id', () => {
-          const nested = ref<{ a?: string; b: string }>({ b: 'b' })
+          const nested = ref<Record<string, string>>({})
           return { nested }
         })(null, store)
 
-        // the runtime value of the ref is preserved as a whole
-        expect(store.$state).toEqual({ nested: { a: 'changed', b: 'b' } })
+        expect(store.$state).toEqual({ nested: {} })
+      })
+
+      it('keeps an empty ref object definition unchanged', () => {
+        const setup = () => {
+          const profile = ref<Record<string, string>>({})
+          return { profile }
+        }
+        const useStore = defineStore('id', setup)
+        const store = useStore()
+
+        defineStore('id', setup)(null, store)
+
+        expect(store.profile).toEqual({})
+      })
+
+      it('removes deleted declared properties and keeps runtime-added ones', () => {
+        const useStore = defineStore('id', () => {
+          const nested = ref<Record<string, string>>({ a: 'a', b: 'b' })
+          return { nested }
+        })
+        const store = useStore()
+        store.nested.a = 'a changed'
+        store.nested.b = 'b changed'
+        store.nested.runtime = 'added'
+
+        defineStore('id', () => {
+          const nested = ref<Record<string, string>>({ b: 'new', c: 'c' })
+          return { nested }
+        })(null, store)
+
+        expect(store.nested).toEqual({
+          b: 'b changed',
+          c: 'c',
+          runtime: 'added',
+        })
+      })
+
+      it('replaces an updated shallowRef', () => {
+        const useStore = defineStore('id', () => {
+          const nested = shallowRef<Record<string, string>>({ a: 'a' })
+          return { nested }
+        })
+        const store = useStore()
+        store.nested.a = 'changed'
+        store.nested.runtime = 'added'
+
+        defineStore('id', () => {
+          const nested = shallowRef<Record<string, string>>({ b: 'b' })
+          return { nested }
+        })(null, store)
+
+        expect(store.nested).toEqual({ b: 'b' })
+      })
+
+      it('keeps changed properties of a shallowRef', () => {
+        const useStore = defineStore('id', () => {
+          const nested = shallowRef<Record<string, string>>({
+            a: 'a',
+            c: 'deleted',
+          })
+          return { nested }
+        })
+        const store = useStore()
+        store.nested.a = 'changed'
+
+        defineStore('id', () => {
+          const nested = shallowRef<Record<string, string>>({
+            a: 'changed',
+            b: 'b',
+          })
+          return { nested }
+        })(null, store)
+
+        expect(store.nested).toEqual({ a: 'changed', b: 'b' })
+      })
+
+      it('merges a shallow reactive value without merging nested objects', () => {
+        const useStore = defineStore('id', () => {
+          const nested = shallowReactive<{
+            child: { old: string }
+            [x: string]: unknown
+          }>({
+            a: 'a',
+            child: { old: 'old' },
+          })
+          return { nested }
+        })
+        const store = useStore()
+        store.nested.a = 'changed'
+        store.nested.child.old = 'changed'
+        store.nested.runtime = 'added'
+
+        defineStore('id', () => {
+          const nested = shallowReactive({
+            b: 'b',
+            child: { new: 'new' },
+          })
+          return { nested }
+        })(null, store)
+
+        expect(store.nested).toEqual({
+          b: 'b',
+          child: { old: 'changed' },
+          runtime: 'added',
+        })
       })
     })
 
