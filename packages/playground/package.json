@@ -15,7 +15,7 @@
     "pinia": "workspace:*",
     "swrv": "^1.2.0",
     "vue-promised": "^2.2.0",
-    "vue-router": "^4.6.3"
+    "vue-router": "^5.2.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.8",
