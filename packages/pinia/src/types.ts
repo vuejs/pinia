@@ -441,22 +441,26 @@ export type _StoreWithGetters<G> = _StoreWithGetters_Readonly<G> &
  * Store augmented with readonly getters. For internal usage **only**.
  */
 export type _StoreWithGetters_Readonly<G> = {
-  readonly [K in keyof G as G[K] extends (...args: any[]) => any
-    ? K
-    : ComputedRef extends G[K]
+  readonly [
+    K in keyof G as G[K] extends (...args: any[]) => any
       ? K
-      : never]: G[K] extends (...args: any[]) => infer R ? R : UnwrapRef<G[K]>
+      : ComputedRef extends G[K]
+        ? K
+        : never
+  ]: G[K] extends (...args: any[]) => infer R ? R : UnwrapRef<G[K]>
 }
 
 /**
  * Store augmented with writable getters. For internal usage **only**.
  */
 export type _StoreWithGetters_Writable<G> = {
-  [K in keyof G as G[K] extends WritableComputedRef<any>
-    ? K
-    : // NOTE: there is still no way to have a different type for a setter and a getter in TS with dynamic keys
-      // https://github.com/microsoft/TypeScript/issues/43826
-      never]: G[K] extends Readonly<WritableComputedRef<infer R>> ? R : never
+  [
+    K in keyof G as G[K] extends WritableComputedRef<any>
+      ? K
+      : // NOTE: there is still no way to have a different type for a setter and a getter in TS with dynamic keys
+        // https://github.com/microsoft/TypeScript/issues/43826
+        never
+  ]: G[K] extends Readonly<WritableComputedRef<infer R>> ? R : never
 }
 
 /**

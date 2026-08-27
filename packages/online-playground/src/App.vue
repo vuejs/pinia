@@ -86,21 +86,19 @@ if (hash.startsWith('__PROD__')) {
 }
 
 // enable experimental features
-const sfcOptions = computed(
-  (): SFCOptions => ({
-    script: {
-      inlineTemplate: productionMode.value,
-      isProd: productionMode.value,
-      propsDestructure: true,
-    },
-    style: {
-      isProd: productionMode.value,
-    },
-    template: {
-      isProd: productionMode.value,
-    },
-  })
-)
+const sfcOptions = computed((): SFCOptions => ({
+  script: {
+    inlineTemplate: productionMode.value,
+    isProd: productionMode.value,
+    propsDestructure: true,
+  },
+  style: {
+    isProd: productionMode.value,
+  },
+  template: {
+    isProd: productionMode.value,
+  },
+}))
 
 const store = useStore(
   {

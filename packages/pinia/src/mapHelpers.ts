@@ -31,12 +31,14 @@ export type _StoreObject<S> =
     infer Actions
   >
     ? {
-        [Id in `${Ids}${MapStoresCustomization extends Record<
-          'suffix',
-          infer Suffix
-        >
-          ? Suffix
-          : 'Store'}`]: () => Store<
+        [
+          Id in `${Ids}${MapStoresCustomization extends Record<
+            'suffix',
+            infer Suffix
+          >
+            ? Suffix
+            : 'Store'}`
+        ]: () => Store<
           Id extends `${infer RealId}${MapStoresCustomization extends Record<
             'suffix',
             infer Suffix
