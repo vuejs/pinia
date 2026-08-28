@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { reactive, ref } from 'vue'
+import { effect, reactive, ref, shallowRef } from 'vue'
 import { createPinia, defineStore, Pinia, setActivePinia } from '../src'
 
 describe('store.$patch', () => {
@@ -213,6 +213,57 @@ describe('store.$patch', () => {
       store.$patch({ item: store.arr[0] })
       expect(oldItem).toEqual({ a: 0, b: 0 })
       expect(store.item).toEqual({ a: 1, b: 1 })
+    })
+  })
+
+  describe('shallowRef state reactivity (#2861)', () => {
+    const useShallowStore = () => {
+      setActivePinia(createPinia())
+      return defineStore('shallow-main', () => {
+        const counter = shallowRef({ count: 0 })
+        return { counter }
+      })()
+    }
+
+    it('triggers effects when a nested key is patched with the object syntax', () => {
+      const store = useShallowStore()
+      let runs = 0
+      effect(() => {
+        // reads the shallow ref through the store proxy: tracks the ref itself
+        void store.counter
+        runs++
+      })
+      expect(runs).toBe(1)
+      expect(store.counter.count).toBe(0)
+
+      store.$patch({ counter: { count: 1 } })
+
+      expect(store.counter.count).toBe(1)
+      // the merge mutates the raw value in place, so the ref must be triggered
+      expect(runs).toBe(2)
+    })
+
+    it('triggers every patched shallow key in one $patch call', () => {
+      setActivePinia(createPinia())
+      const store = defineStore('shallow-multi', () => {
+        const a = shallowRef({ n: 0 })
+        const b = shallowRef({ n: 0 })
+        return { a, b }
+      })()
+      let runs = 0
+      effect(() => {
+        void store.a
+        void store.b
+        runs++
+      })
+      expect(runs).toBe(1)
+
+      store.$patch({ a: { n: 1 }, b: { n: 2 } })
+
+      expect(store.a.n).toBe(1)
+      expect(store.b.n).toBe(2)
+      // one synchronous re-run per triggered shallow ref
+      expect(runs).toBe(3)
     })
   })
 })

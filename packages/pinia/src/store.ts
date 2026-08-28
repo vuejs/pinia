@@ -306,7 +306,26 @@ function createSetupStore<
         events: debuggerEvents as DebuggerEvent[],
       }
     } else {
-      mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator)
+      const stateObject = pinia.state.value[$id]
+      mergeReactiveObjects(stateObject, partialStateOrMutator)
+      // shallow refs only track the ref itself: the merge above mutates their
+      // raw value in place without touching `.value`, so no effect re-runs
+      // (#2861). Trigger every patched shallow key whose plain-object value
+      // was merged — replaced values already trigger through the ref set.
+      const patches = partialStateOrMutator as Record<string, any>
+      const rawState = toRaw(stateObject) as Record<string, unknown>
+      for (const key in patches) {
+        if (!Object.hasOwn(patches, key)) continue
+        const stateRef = rawState[key]
+        if (
+          isRef(stateRef) &&
+          isShallow(stateRef) &&
+          isPlainObject(stateRef.value) &&
+          isPlainObject(patches[key])
+        ) {
+          triggerRef(stateRef)
+        }
+      }
       subscriptionMutation = {
         type: MutationType.patchObject,
         payload: partialStateOrMutator,
