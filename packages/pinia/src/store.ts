@@ -314,8 +314,7 @@ function createSetupStore<
       // was merged — replaced values already trigger through the ref set.
       const patches = partialStateOrMutator as Record<string, any>
       const rawState = toRaw(stateObject) as Record<string, unknown>
-      for (const key in patches) {
-        if (!Object.hasOwn(patches, key)) continue
+      for (const key of Object.keys(patches)) {
         const stateRef = rawState[key]
         if (
           isRef(stateRef) &&

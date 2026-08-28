@@ -265,5 +265,49 @@ describe('store.$patch', () => {
       // one synchronous re-run per triggered shallow ref
       expect(runs).toBe(3)
     })
+
+    it('leaves deep refs to their own reactivity', () => {
+      setActivePinia(createPinia())
+      const store = defineStore('deep-ref', () => {
+        const counter = ref({ count: 0 })
+        return { counter }
+      })()
+      let runs = 0
+      effect(() => {
+        // tracks both the ref and its inner reactive property
+        void store.counter.count
+        runs++
+      })
+      expect(runs).toBe(1)
+
+      store.$patch({ counter: { count: 1 } })
+
+      expect(store.counter.count).toBe(1)
+      // the inner mutation triggers on its own — an extra triggerRef would
+      // re-run this effect a second time
+      expect(runs).toBe(2)
+    })
+
+    it('replaces non-plain shallow values through the ref set', () => {
+      setActivePinia(createPinia())
+      const store = defineStore('shallow-map', () => {
+        const entries = shallowRef(new Map([['a', 1]]))
+        return { entries }
+      })()
+      let runs = 0
+      effect(() => {
+        void store.entries
+        runs++
+      })
+      expect(runs).toBe(1)
+
+      const next = new Map([['b', 2]])
+      store.$patch({ entries: next })
+
+      // a Map patch cannot merge into a Map value: it unwraps to a ref set,
+      // which triggers on its own — no manual triggerRef expected
+      expect(store.entries).toBe(next)
+      expect(runs).toBe(2)
+    })
   })
 })
