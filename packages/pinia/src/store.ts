@@ -315,12 +315,17 @@ function createSetupStore<
       const patches = partialStateOrMutator as Record<string, any>
       const rawState = toRaw(stateObject) as Record<string, unknown>
       for (const key of Object.keys(patches)) {
+        const patch = patches[key]
         const stateRef = rawState[key]
         if (
+          // only in-place merges miss the trigger: ref/reactive patch values
+          // unwrap to a ref set, which triggers on its own
           isRef(stateRef) &&
           isShallow(stateRef) &&
+          !isRef(patch) &&
+          !isReactive(patch) &&
           isPlainObject(stateRef.value) &&
-          isPlainObject(patches[key])
+          isPlainObject(patch)
         ) {
           triggerRef(stateRef)
         }

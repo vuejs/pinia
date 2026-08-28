@@ -309,5 +309,29 @@ describe('store.$patch', () => {
       expect(store.entries).toBe(next)
       expect(runs).toBe(2)
     })
+
+    it('does not double-trigger when the patch value is reactive', () => {
+      setActivePinia(createPinia())
+      const store = defineStore('shallow-reactive', () => {
+        const counter = shallowRef({ count: 0 })
+        return { counter }
+      })()
+      let runs = 0
+      effect(() => {
+        void store.counter
+        runs++
+      })
+      expect(runs).toBe(1)
+
+      const patchValue = reactive({ count: 5 })
+      store.$patch({ counter: patchValue })
+
+      // deep reactive containers normalize assigned values via toRaw, so the
+      // ref holds the raw target, not the proxy
+      expect(store.counter).toEqual({ count: 5 })
+      // the unwrap-set already triggers; an extra triggerRef would re-run
+      // this synchronous effect a second time
+      expect(runs).toBe(2)
+    })
   })
 })
