@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { reactive, ref } from 'vue'
+import { describe, it, expect, vi } from 'vitest'
+import { effect, reactive, ref, shallowRef } from 'vue'
 import { createPinia, defineStore, Pinia, setActivePinia } from '../src'
 
 describe('store.$patch', () => {
@@ -214,5 +214,17 @@ describe('store.$patch', () => {
       expect(oldItem).toEqual({ a: 0, b: 0 })
       expect(store.item).toEqual({ a: 1, b: 1 })
     })
+  })
+
+  it('triggers shallow refs patched with an object', () => {
+    const counter = shallowRef({ count: 0 })
+    const store = defineStore('shallow-ref', () => ({ counter }))(createPinia())
+    const spy = vi.fn(() => store.counter)
+    effect(spy)
+
+    store.$patch({ counter: { count: 1 } })
+
+    expect(store.counter.count).toBe(1)
+    expect(spy).toHaveBeenCalledTimes(2)
   })
 })

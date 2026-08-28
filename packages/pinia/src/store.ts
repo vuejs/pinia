@@ -105,6 +105,8 @@ function mergeReactiveObjects<
       // start the value of a property as a certain type e.g. a Map, and then for some reason, during SSR, change that
       // to `undefined`. When trying to hydrate, we want to override the Map with `undefined`.
       target[key] = mergeReactiveObjects(targetValue, subPatch)
+      const targetRef = toRaw(target)[key]
+      if (isRef(targetRef) && isShallow(targetRef)) triggerRef(targetRef)
     } else {
       // @ts-expect-error: subPatch is a valid value
       target[key] = subPatch
