@@ -105,6 +105,8 @@ function mergeReactiveObjects<
       // start the value of a property as a certain type e.g. a Map, and then for some reason, during SSR, change that
       // to `undefined`. When trying to hydrate, we want to override the Map with `undefined`.
       target[key] = mergeReactiveObjects(targetValue, subPatch)
+      const targetRef = toRaw(target)[key]
+      if (isRef(targetRef) && isShallow(targetRef)) triggerRef(targetRef)
     } else {
       // @ts-expect-error: subPatch is a valid value
       target[key] = subPatch
@@ -306,30 +308,7 @@ function createSetupStore<
         events: debuggerEvents as DebuggerEvent[],
       }
     } else {
-      const stateObject = pinia.state.value[$id]
-      mergeReactiveObjects(stateObject, partialStateOrMutator)
-      // shallow refs only track the ref itself: the merge above mutates their
-      // raw value in place without touching `.value`, so no effect re-runs
-      // (#2861). Trigger every patched shallow key whose plain-object value
-      // was merged — replaced values already trigger through the ref set.
-      const patches = partialStateOrMutator as Record<string, any>
-      const rawState = toRaw(stateObject) as Record<string, unknown>
-      for (const key of Object.keys(patches)) {
-        const patch = patches[key]
-        const stateRef = rawState[key]
-        if (
-          // only in-place merges miss the trigger: ref/reactive patch values
-          // unwrap to a ref set, which triggers on its own
-          isRef(stateRef) &&
-          isShallow(stateRef) &&
-          !isRef(patch) &&
-          !isReactive(patch) &&
-          isPlainObject(stateRef.value) &&
-          isPlainObject(patch)
-        ) {
-          triggerRef(stateRef)
-        }
-      }
+      mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator)
       subscriptionMutation = {
         type: MutationType.patchObject,
         payload: partialStateOrMutator,

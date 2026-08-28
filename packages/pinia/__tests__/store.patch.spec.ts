@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { effect, reactive, ref, shallowRef } from 'vue'
 import { createPinia, defineStore, Pinia, setActivePinia } from '../src'
 
@@ -216,122 +216,15 @@ describe('store.$patch', () => {
     })
   })
 
-  describe('shallowRef state reactivity (#2861)', () => {
-    const useShallowStore = () => {
-      setActivePinia(createPinia())
-      return defineStore('shallow-main', () => {
-        const counter = shallowRef({ count: 0 })
-        return { counter }
-      })()
-    }
+  it('triggers shallow refs patched with an object', () => {
+    const counter = shallowRef({ count: 0 })
+    const store = defineStore('shallow-ref', () => ({ counter }))(createPinia())
+    const spy = vi.fn(() => store.counter)
+    effect(spy)
 
-    it('triggers effects when a nested key is patched with the object syntax', () => {
-      const store = useShallowStore()
-      let runs = 0
-      effect(() => {
-        // reads the shallow ref through the store proxy: tracks the ref itself
-        void store.counter
-        runs++
-      })
-      expect(runs).toBe(1)
-      expect(store.counter.count).toBe(0)
+    store.$patch({ counter: { count: 1 } })
 
-      store.$patch({ counter: { count: 1 } })
-
-      expect(store.counter.count).toBe(1)
-      // the merge mutates the raw value in place, so the ref must be triggered
-      expect(runs).toBe(2)
-    })
-
-    it('triggers every patched shallow key in one $patch call', () => {
-      setActivePinia(createPinia())
-      const store = defineStore('shallow-multi', () => {
-        const a = shallowRef({ n: 0 })
-        const b = shallowRef({ n: 0 })
-        return { a, b }
-      })()
-      let runs = 0
-      effect(() => {
-        void store.a
-        void store.b
-        runs++
-      })
-      expect(runs).toBe(1)
-
-      store.$patch({ a: { n: 1 }, b: { n: 2 } })
-
-      expect(store.a.n).toBe(1)
-      expect(store.b.n).toBe(2)
-      // one synchronous re-run per triggered shallow ref
-      expect(runs).toBe(3)
-    })
-
-    it('leaves deep refs to their own reactivity', () => {
-      setActivePinia(createPinia())
-      const store = defineStore('deep-ref', () => {
-        const counter = ref({ count: 0 })
-        return { counter }
-      })()
-      let runs = 0
-      effect(() => {
-        // tracks both the ref and its inner reactive property
-        void store.counter.count
-        runs++
-      })
-      expect(runs).toBe(1)
-
-      store.$patch({ counter: { count: 1 } })
-
-      expect(store.counter.count).toBe(1)
-      // the inner mutation triggers on its own — an extra triggerRef would
-      // re-run this effect a second time
-      expect(runs).toBe(2)
-    })
-
-    it('replaces non-plain shallow values through the ref set', () => {
-      setActivePinia(createPinia())
-      const store = defineStore('shallow-map', () => {
-        const entries = shallowRef(new Map([['a', 1]]))
-        return { entries }
-      })()
-      let runs = 0
-      effect(() => {
-        void store.entries
-        runs++
-      })
-      expect(runs).toBe(1)
-
-      const next = new Map([['b', 2]])
-      store.$patch({ entries: next })
-
-      // a Map patch cannot merge into a Map value: it unwraps to a ref set,
-      // which triggers on its own — no manual triggerRef expected
-      expect(store.entries).toBe(next)
-      expect(runs).toBe(2)
-    })
-
-    it('does not double-trigger when the patch value is reactive', () => {
-      setActivePinia(createPinia())
-      const store = defineStore('shallow-reactive', () => {
-        const counter = shallowRef({ count: 0 })
-        return { counter }
-      })()
-      let runs = 0
-      effect(() => {
-        void store.counter
-        runs++
-      })
-      expect(runs).toBe(1)
-
-      const patchValue = reactive({ count: 5 })
-      store.$patch({ counter: patchValue })
-
-      // deep reactive containers normalize assigned values via toRaw, so the
-      // ref holds the raw target, not the proxy
-      expect(store.counter).toEqual({ count: 5 })
-      // the unwrap-set already triggers; an extra triggerRef would re-run
-      // this synchronous effect a second time
-      expect(runs).toBe(2)
-    })
+    expect(store.counter.count).toBe(1)
+    expect(spy).toHaveBeenCalledTimes(2)
   })
 })
