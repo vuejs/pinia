@@ -181,6 +181,27 @@ describe('Subscriptions', () => {
       expect(spySync).toHaveBeenCalledTimes(2)
     })
 
+    it('keeps notifying subscribers if $patch throws', async () => {
+      const store = useStore()
+      const spySync = vi.fn()
+      const spy = vi.fn()
+      store.$subscribe(spySync, { flush: 'sync' })
+      store.$subscribe(spy)
+
+      expect(() =>
+        store.$patch((state): void => {
+          state.user = 'Ana'
+          throw new Error('failed patch')
+        })
+      ).toThrow('failed patch')
+
+      await nextTick()
+      store.user = 'Cleiton'
+      expect(spySync).toHaveBeenCalledTimes(1)
+      await nextTick()
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
+
     it('unsubscribes callback when unsubscribe is called', () => {
       const spy = vi.fn()
       const store = useStore()

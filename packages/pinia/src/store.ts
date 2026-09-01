@@ -300,29 +300,34 @@ function createSetupStore<
     if (__DEV__) {
       debuggerEvents = []
     }
-    if (typeof partialStateOrMutator === 'function') {
-      partialStateOrMutator(pinia.state.value[$id] as UnwrapRef<S>)
-      subscriptionMutation = {
-        type: MutationType.patchFunction,
-        storeId: $id,
-        events: debuggerEvents as DebuggerEvent[],
+    try {
+      if (typeof partialStateOrMutator === 'function') {
+        partialStateOrMutator(pinia.state.value[$id] as UnwrapRef<S>)
+        subscriptionMutation = {
+          type: MutationType.patchFunction,
+          storeId: $id,
+          events: debuggerEvents as DebuggerEvent[],
+        }
+      } else {
+        mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator)
+        subscriptionMutation = {
+          type: MutationType.patchObject,
+          payload: partialStateOrMutator,
+          storeId: $id,
+          events: debuggerEvents as DebuggerEvent[],
+        }
       }
-    } else {
-      mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator)
-      subscriptionMutation = {
-        type: MutationType.patchObject,
-        payload: partialStateOrMutator,
-        storeId: $id,
-        events: debuggerEvents as DebuggerEvent[],
-      }
+    } finally {
+      // resume even if the mutation threw, otherwise the store stops notifying
+      // its subscriptions for good
+      const myListenerId = (activeListener = Symbol())
+      nextTick().then(() => {
+        if (activeListener === myListenerId) {
+          isListening = true
+        }
+      })
+      isSyncListening = true
     }
-    const myListenerId = (activeListener = Symbol())
-    nextTick().then(() => {
-      if (activeListener === myListenerId) {
-        isListening = true
-      }
-    })
-    isSyncListening = true
     // because we paused the watcher, we need to manually call the subscriptions
     triggerSubscriptions(
       subscriptions,
