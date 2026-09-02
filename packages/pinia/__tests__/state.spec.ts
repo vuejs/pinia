@@ -335,6 +335,26 @@ describe('State', () => {
     expect([...store.mapReactive.entries()]).toEqual([['y', 2]])
   })
 
+  it('truncates a reactive Array on hydration', async () => {
+    const useStore = defineStore('main', () => {
+      const listReactive = reactive(['a', 'b', 'c'])
+      const listRef = ref(['a', 'b', 'c'])
+      return { listReactive, listRef }
+    })
+
+    const pinia = createPinia()
+    pinia.state.value.main = {
+      listReactive: ['x'],
+      listRef: ['x'],
+    }
+    setActivePinia(pinia)
+
+    const store = useStore()
+    // The server state is authoritative, so the default entries are gone.
+    expect([...store.listReactive]).toEqual(['x'])
+    expect([...store.listRef]).toEqual(['x'])
+  })
+
   it('replaces (does not union) a Set/Map nested in a reactive object on hydration', async () => {
     const useStore = defineStore('main', () => {
       const nested = reactive({
