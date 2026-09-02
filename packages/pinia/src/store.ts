@@ -788,6 +788,9 @@ function createSetupStore<
     }
 
     assign(store, extensions)
+    // allows retrieving reactive objects with `storeToRefs()`. Must be called
+    // after assigning to the reactive object.
+    assign(toRaw(store), extensions)
   })
 
   if (
