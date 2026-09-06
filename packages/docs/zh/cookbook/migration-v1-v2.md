@@ -140,7 +140,7 @@ Can't import the named export 'computed' from non EcmaScript module (only defaul
 
 ## Devtools %{#devtools}%
 
-Pinia v2 不再劫持 Vue Devtools v5，它需要的是 Vue Devtools v6。可以在 [Vue Devtools 文档](https://devtools.vuejs.org/guide/installation.html#chrome)中找到该扩展 **beta 版本**的下载链接。
+Pinia v2 不再劫持 Vue Devtools v5，它需要的是 Vue Devtools v6。可以在 [Vue Devtools 文档](https://devtools.vuejs.org/getting-started/installation)中找到该扩展 **beta 版本**的下载链接。
 
 ## Nuxt %{#nuxt}%
 
