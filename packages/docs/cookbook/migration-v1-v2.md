@@ -142,7 +142,7 @@ This is due to the modernization of dist files to support native ESM modules in 
 
 ## Devtools
 
-Pinia v2 no longer hijacks Vue Devtools v5, it requires Vue Devtools v6. Find the download link on the [Vue Devtools documentation](https://devtools.vuejs.org/guide/installation.html#chrome) for the **beta channel** of the extension.
+Pinia v2 no longer hijacks Vue Devtools v5, it requires Vue Devtools v6. Find the download link on the [Vue Devtools documentation](https://devtools.vuejs.org/getting-started/installation) for the **beta channel** of the extension.
 
 ## Nuxt
 
