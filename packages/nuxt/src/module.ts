@@ -71,8 +71,8 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     ])
 
     if (!options.storesDirs) {
-      // resolve it against the src dir which is the root by default
-      options.storesDirs = [resolve(nuxt.options.srcDir, 'stores')]
+      // keep it relative so it gets resolved against each layer's app dir below
+      options.storesDirs = ['stores']
     }
 
     if (options.storesDirs) {
