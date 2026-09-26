@@ -451,7 +451,7 @@ export type _StoreWithGetters_Readonly<G> = {
 }
 
 /**
- * Store augmented with writable getters. For internal usage **only**.
+ * Store augmented with writable getters. For internal usage only.
  */
 export type _StoreWithGetters_Writable<G> = {
   [
@@ -472,13 +472,17 @@ export type Store<
   G /* extends GettersTree<S>*/ = {},
   // has the actions without the context (this) for typings
   A /* extends ActionsTree */ = {},
+  // Options passed to `defineStore()`, exposed through
+  // `PiniaCustomOptionsProperties` so plugins can access custom options.
+  O = _Empty,
 > = _StoreWithState<Id, S, G, A> &
   UnwrapRef<S> &
   _StoreWithGetters<G> &
   // StoreWithActions<A> &
   (_ActionsTree extends A ? {} : A) &
   PiniaCustomProperties<Id, S, G, A> &
-  PiniaCustomStateProperties<S>
+  PiniaCustomStateProperties<S> &
+  PiniaCustomOptionsProperties<O>
 
 /**
  * Generic and type-unsafe version of Store. Doesn't fail on access with
@@ -500,6 +504,7 @@ export interface StoreDefinition<
   S extends StateTree = StateTree,
   G /* extends GettersTree<S>*/ = _GettersTree<S>,
   A /* extends ActionsTree */ = _ActionsTree,
+  O = _Empty,
 > {
   /**
    * Returns a store, creates it if necessary.
@@ -507,7 +512,7 @@ export interface StoreDefinition<
    * @param pinia - Pinia instance to retrieve the store
    * @param hot - dev only hot module replacement
    */
-  (pinia?: Pinia | null | undefined, hot?: StoreGeneric): Store<Id, S, G, A>
+  (pinia?: Pinia | null | undefined, hot?: StoreGeneric): Store<Id, S, G, A, O>
 
   /**
    * Id of the store. Used by map helpers.
@@ -536,6 +541,34 @@ export interface PiniaCustomProperties<
  * Properties that are added to every `store.$state` by `pinia.use()`.
  */
 export interface PiniaCustomStateProperties<S extends StateTree = StateTree> {}
+
+/**
+ * Interface to be extended by the user when they add properties through
+ * plugins that need to access the options passed to `defineStore()`.
+ *
+ * The `O` parameter carries the resolved store options (including custom
+ * options added to {@link DefineStoreOptionsBase} through module
+ * augmentation), so plugin properties can be typed from them:
+ *
+ * @example
+ * ```ts
+ * declare module 'pinia' {
+ *   export interface DefineStoreOptionsBase<S, Store> {
+ *     stores?: Record<string, StoreDefinition>
+ *   }
+ *
+ *   export interface PiniaCustomOptionsProperties<O> {
+ *     readonly stores: O extends { stores?: infer Stores }
+ *       ? { [K in keyof Stores]: Stores[K] extends StoreDefinition
+ *           ? ReturnType<Stores[K]>
+ *           : never
+ *         }
+ *       : Record<string, Store>
+ *   }
+ * }
+ * ```
+ */
+export interface PiniaCustomOptionsProperties<O = _Empty> {}
 
 /**
  * Type of an object of Getters that infers the argument. For internal usage only.
