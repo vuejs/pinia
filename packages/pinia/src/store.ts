@@ -527,6 +527,8 @@ function createSetupStore<
             // keep `$patch` merging behavior
             if (prop instanceof Set || prop instanceof Map) {
               prop.clear()
+            } else if (Array.isArray(prop)) {
+              prop.length = 0
             }
             // probably a reactive object, lets recursively assign.
             // @ts-expect-error: prop is unknown
