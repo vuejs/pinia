@@ -9,7 +9,7 @@ import {
   ToRefs,
   WritableComputedRef,
 } from 'vue'
-import { StoreGetters, StoreState } from './store'
+import { isComputed, StoreGetters, StoreState } from './store'
 import type {
   _ActionsTree,
   _GettersTree,
@@ -92,9 +92,7 @@ export function storeToRefs<SS extends StoreGeneric>(
   const refs = {} as StoreToRefs<SS>
   for (const key in rawStore) {
     const value = rawStore[key]
-    // There is no native method to check for a computed
-    // https://github.com/vuejs/core/pull/4165
-    if (value?.effect) {
+    if (isComputed(value)) {
       // @ts-expect-error: too hard to type correctly
       refs[key] =
         // ...

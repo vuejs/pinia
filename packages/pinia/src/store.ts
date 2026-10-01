@@ -145,8 +145,12 @@ export function shouldHydrate(obj: any) {
 
 const { assign } = Object
 
-function isComputed<T>(value: ComputedRef<T> | unknown): value is ComputedRef<T>
-function isComputed(o: any): o is ComputedRef {
+// There is no native method to check for a computed
+// https://github.com/vuejs/core/pull/4165
+export function isComputed<T>(
+  value: ComputedRef<T> | unknown
+): value is ComputedRef<T>
+export function isComputed(o: any): o is ComputedRef {
   // toRaw() skips readonly() proxies, which unwrap `effect` (the computed
   // itself) to its value
   return !!(isRef(o) && (toRaw(o) as any).effect)
