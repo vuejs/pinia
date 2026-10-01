@@ -147,7 +147,9 @@ const { assign } = Object
 
 function isComputed<T>(value: ComputedRef<T> | unknown): value is ComputedRef<T>
 function isComputed(o: any): o is ComputedRef {
-  return !!(isRef(o) && (o as any).effect)
+  // toRaw() skips readonly() proxies, which unwrap `effect` (the computed
+  // itself) to its value
+  return !!(isRef(o) && (toRaw(o) as any).effect)
 }
 
 function createOptionsStore<
