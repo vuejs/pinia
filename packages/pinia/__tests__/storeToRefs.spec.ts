@@ -1,5 +1,5 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest'
-import { computed, reactive, ref, ToRefs } from 'vue'
+import { computed, reactive, readonly, ref, ToRefs } from 'vue'
 import { createPinia, defineStore, setActivePinia, storeToRefs } from '../src'
 import { mockWarn } from './vitest-mock-warn'
 
@@ -201,6 +201,22 @@ describe('storeToRefs', () => {
     expect(spy).toHaveBeenCalledTimes(0)
     storeToRefs(store)
     expect(spy).toHaveBeenCalledTimes(0)
+  })
+
+  it('does not trigger readonly getters', () => {
+    const n = ref(0)
+    const spy = vi.fn(() => n.value * 2)
+    const store = defineStore('a', () => {
+      const double = readonly(computed(spy))
+      return { n, double }
+    })()
+
+    expect(spy).toHaveBeenCalledTimes(0)
+    const { double } = storeToRefs(store)
+    expect(spy).toHaveBeenCalledTimes(0)
+    expect(double.value).toBe(0)
+    n.value++
+    expect(double.value).toBe(2)
   })
 
   it('does not crash on a non-reactive null value', () => {
