@@ -1,6 +1,14 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia } from '../src'
-import { computed, createApp, inject, nextTick, ref, watch } from 'vue'
+import {
+  computed,
+  createApp,
+  inject,
+  nextTick,
+  readonly,
+  ref,
+  watch,
+} from 'vue'
 import { mount } from '@vue/test-utils'
 
 function expectType<T>(_value: T): void {}
@@ -131,6 +139,21 @@ describe('store with setup syntax', () => {
     store.$patch({ counter: 2 })
     expect(store.counter).toBe(2)
     expect(counter.value).toBe(2)
+  })
+
+  it('treats readonly computed as getters regardless of their value', () => {
+    const useStore = defineStore('readonly-computed', () => {
+      const counter = ref(0)
+      // a falsy value used to be misclassified as state
+      const double = readonly(computed(() => counter.value * 2))
+      return { counter, double }
+    })
+
+    const store = useStore()
+    expect(store.$state).toEqual({ counter: 0 })
+    expect(store.double).toBe(0)
+    store.counter++
+    expect(store.double).toBe(2)
   })
 
   it('can use app level injections', async () => {
