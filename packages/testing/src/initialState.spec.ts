@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { createTestingPinia, TestingOptions } from './testing'
 import { defineStore } from 'pinia'
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { computed, defineComponent, effect, ref, shallowRef } from 'vue'
 
 describe('Testing: initial state', () => {
   const useCounter = defineStore('counter', {
@@ -57,6 +57,58 @@ describe('Testing: initial state', () => {
     expect(counter.nested.n).toBe(10)
     counter.nested.n++
     expect(counter.nested.n).toBe(11)
+  })
+
+  for (const makeRef of [shallowRef, ref]) {
+    it(`updates cached setup computations when initializing ${makeRef.name} state`, () => {
+      const observed: number[] = []
+      const useStore = defineStore('cached', () => {
+        const nested = makeRef({ n: 0, other: false })
+        const double = computed(() => nested.value.n * 2)
+        // Setup logic can read a computed or start effects before plugins run.
+        expect(double.value).toBe(0)
+        effect(() => observed.push(nested.value.n))
+        return { nested, double }
+      })
+      const initialState = { cached: { nested: { n: 10 } } }
+      const store = useStore(createTestingPinia({ initialState }))
+
+      expect(store.nested).toEqual({ n: 10, other: false })
+      expect(store.double).toBe(20)
+      expect(observed).toEqual([0, 10])
+      expect(initialState).toEqual({ cached: { nested: { n: 10 } } })
+    })
+  }
+
+  it('initializes nested shallow refs and preserves replacement and unpatched state', () => {
+    const observed: number[] = []
+    const useStore = defineStore('nested-refs', () => {
+      const nested = ref({ counter: shallowRef({ n: 0, other: true }) })
+      const replaced = shallowRef(0)
+      const untouched = shallowRef({ n: 3 })
+      effect(() =>
+        observed.push(
+          nested.value.counter.n + replaced.value + untouched.value.n
+        )
+      )
+      return { nested, replaced, untouched }
+    })
+    const replacement = 5
+    const store = useStore(
+      createTestingPinia({
+        initialState: {
+          'nested-refs': {
+            nested: { counter: { n: 2 } },
+            replaced: replacement,
+          },
+        },
+      })
+    )
+
+    expect(store.nested.counter).toEqual({ n: 2, other: true })
+    expect(store.replaced).toBe(replacement)
+    expect(store.untouched.n).toBe(3)
+    expect(observed).toEqual([3, 5, 10])
   })
 
   it('can set an initial state with no app', () => {

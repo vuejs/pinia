@@ -1,4 +1,12 @@
-import { computed, createApp, isReactive, isRef, toRaw, triggerRef } from 'vue'
+import {
+  computed,
+  createApp,
+  isReactive,
+  isRef,
+  isShallow,
+  toRaw,
+  triggerRef,
+} from 'vue'
 import type { App, ComputedRef, WritableComputedRef } from 'vue'
 import {
   type Pinia,
@@ -193,6 +201,8 @@ function mergeReactiveObjects<T extends StateTree>(
       !isReactive(subPatch)
     ) {
       target[key] = mergeReactiveObjects(targetValue, subPatch)
+      const targetRef = toRaw(target)[key]
+      if (isRef(targetRef) && isShallow(targetRef)) triggerRef(targetRef)
     } else {
       // @ts-expect-error: subPatch is a valid value
       target[key] =
