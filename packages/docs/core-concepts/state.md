@@ -107,7 +107,7 @@ You cannot add a new state property **if you don't define it in `state()`**. It 
 
 ## Resetting the state
 
-In [Option Stores](/core-concepts/index.md#option-stores), you can _reset_ the state to its initial value by calling the `$reset()` method on the store:
+In [Option Stores](/core-concepts/index.md#Option-Stores), you can _reset_ the state to its initial value by calling the `$reset()` method on the store:
 
 ```js
 const store = useStore()
@@ -117,7 +117,7 @@ store.$reset()
 
 Internally, this calls the `state()` function to create a new state object and replaces the current state with it.
 
-In [Setup Stores](/core-concepts/index.md#setup-stores), you need to create your own `$reset()` method:
+In [Setup Stores](/core-concepts/index.md#Setup-Stores), you need to create your own `$reset()` method:
 
 ```ts
 export const useCounterStore = defineStore('counter', () => {
@@ -242,7 +242,7 @@ store.$state = { count: 24 }
 store.$patch({ count: 24 })
 ```
 
-You can also **set the initial state** of your whole application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#state-hydration).
+You can also **set the initial state** of your whole application by changing the `state` of the `pinia` instance. This is used during [SSR for hydration](../ssr/#State-hydration).
 
 ```js
 pinia.state.value = {}

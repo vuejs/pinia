@@ -23,7 +23,7 @@ const main = useMainStore()
 
 ## Using the store outside of `setup()`
 
-If you need to use the store somewhere else, you need to pass the `pinia` instance [that was passed to the app](../getting-started.md#installation) to the `useStore()` function call:
+If you need to use the store somewhere else, you need to pass the `pinia` instance [that was passed to the app](../getting-started.md#Installation) to the `useStore()` function call:
 
 ```js
 const pinia = createPinia()

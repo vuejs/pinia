@@ -237,7 +237,7 @@ export default defineComponent({
 
 ### 不使用 `setup()` %{#without-setup}%
 
-你可以使用[前一节的 state](./state.md#options-api) 中的 `mapState()` 函数来将其映射为 getters：
+你可以使用[前一节的 state](./state.md#usage-with-the-options-api) 中的 `mapState()` 函数来将其映射为 getters：
 
 ```js
 import { mapState } from 'pinia'
