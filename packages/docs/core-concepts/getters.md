@@ -241,7 +241,7 @@ This is useful while migrating a component from the Options API to the Compositi
 
 ### Without `setup()`
 
-You can use the same `mapState()` function used in the [previous section of state](./state.md#options-api) to map to getters:
+You can use the same `mapState()` function used in the [previous section of state](./state.md#Usage-with-the-Options-API) to map to getters:
 
 ```js
 import { mapState } from 'pinia'
