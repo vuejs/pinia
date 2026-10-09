@@ -1,18 +1,4 @@
-import type { VariableDeclarator } from 'estree'
-import type { Plugin } from 'vite'
-
-function getStoreDeclaration(nodes?: VariableDeclarator[]) {
-  return nodes?.find(
-    (x) =>
-      x.init?.type === 'CallExpression' &&
-      x.init.callee.type === 'Identifier' &&
-      x.init.callee.name === 'defineStore'
-  )
-}
-
-function nameFromDeclaration(node?: VariableDeclarator) {
-  return node?.id.type === 'Identifier' && node.id.name
-}
+import type { VitePlugin } from '@nuxt/schema'
 
 export function autoRegisterHMRPlugin(rootDir: string) {
   return {
@@ -34,16 +20,24 @@ export function autoRegisterHMRPlugin(rootDir: string) {
           n.type === 'ExportNamedDeclaration'
         ) {
           // find export or variable declaration that uses `defineStore`
-          const storeDeclaration = getStoreDeclaration(
+          const declarations =
             n.type === 'VariableDeclaration'
               ? n.declarations
               : n.declaration?.type === 'VariableDeclaration'
                 ? n.declaration?.declarations
                 : undefined
+
+          const storeDeclaration = declarations?.find(
+            (x) =>
+              x.init?.type === 'CallExpression' &&
+              x.init.callee.type === 'Identifier' &&
+              x.init.callee.name === 'defineStore'
           )
 
           // retrieve the variable name
-          const storeName = nameFromDeclaration(storeDeclaration)
+          const storeName =
+            storeDeclaration?.id.type === 'Identifier' &&
+            storeDeclaration.id.name
           if (storeName) {
             // append HMR code
             return {
@@ -59,5 +53,5 @@ export function autoRegisterHMRPlugin(rootDir: string) {
         }
       }
     },
-  } satisfies Plugin
+  } satisfies VitePlugin
 }
