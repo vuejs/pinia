@@ -80,10 +80,12 @@ export function disposePinia(pinia: Pinia) {
 
 /**
  * Dispose all the stores of a Pinia instance and delete their state, so each
- * store starts fresh the next time it's used. Unlike {@link disposePinia}, the
- * pinia instance stays usable: its plugins are kept and stores can be used
- * again. This is mostly useful in tests that share a pinia instance. Note that
- * existing references to a store still point to the disposed store.
+ * store starts fresh the next time it's used. Stores that are not in use keep
+ * their state in `pinia.state`, e.g. state hydrated during SSR. Unlike
+ * {@link disposePinia}, the pinia instance stays usable: its plugins are kept
+ * and stores can be used again. This is mostly useful in tests that share a
+ * pinia instance. Note that existing references to a store still point to the
+ * disposed store.
  *
  * @param pinia - pinia instance
  */
