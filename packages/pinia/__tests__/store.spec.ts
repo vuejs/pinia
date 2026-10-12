@@ -338,6 +338,18 @@ describe('Store', () => {
     store.$dispose()
 
     expect(useStore(pinia)).toBe(newStore)
+    expect('replaced by a new one').toHaveBeenWarnedTimes(1)
+  })
+
+  it('does not warn when disposed twice without a newer store', () => {
+    const pinia = createPinia()
+    const useStore = defineStore('main', { state: () => ({ n: 0 }) })
+
+    const store = useStore(pinia)
+    store.$dispose()
+    store.$dispose()
+
+    expect('replaced by a new one').not.toHaveBeenWarned()
   })
 
   const warnTextCheckPlainObject = (storeId: string) =>
