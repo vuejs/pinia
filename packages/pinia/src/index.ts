@@ -1,7 +1,12 @@
 /**
  * @module pinia
  */
-export { setActivePinia, getActivePinia, piniaSymbol } from './rootStore'
+export {
+  setActivePinia,
+  getActivePinia,
+  getStores,
+  piniaSymbol,
+} from './rootStore'
 export { createPinia, disposePinia } from './createPinia'
 export type { Pinia, PiniaPlugin, PiniaPluginContext } from './rootStore'
 

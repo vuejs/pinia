@@ -58,6 +58,17 @@ export const getActivePinia = __DEV__
       (hasInjectionContext() && inject(piniaSymbol)) || activePinia
 
 /**
+ * Get the stores that are currently in use by a pinia instance. Prefer this
+ * over the internal `pinia._s`: it returns a new array, so it's safe to
+ * dispose or create stores while iterating over it.
+ *
+ * @param pinia - pinia instance
+ */
+export function getStores(pinia: Pinia): StoreGeneric[] {
+  return Array.from(pinia._s.values())
+}
+
+/**
  * Every application must own its own pinia to be able to create stores
  */
 export interface Pinia {
@@ -97,7 +108,8 @@ export interface Pinia {
   _e: EffectScope
 
   /**
-   * Registry of stores used by this pinia.
+   * Registry of stores used by this pinia. Use `getStores()` to iterate over
+   * the stores.
    *
    * @internal
    */
