@@ -390,6 +390,32 @@ describe('Store', () => {
     expect(spy).not.toHaveBeenCalled()
   })
 
+  it.each([
+    {
+      name: 'Options Stores',
+      useStore: defineStore('main', { state: () => ({ n: 0 }) }),
+    },
+    {
+      name: 'Setup Stores',
+      useStore: defineStore('main', () => ({ n: ref(0) })),
+    },
+  ])(
+    'does not delete the state of a newer store with: $name',
+    ({ useStore }) => {
+      const pinia = createPinia()
+
+      const store = useStore(pinia)
+      store.$dispose({ deleteState: true })
+      const newStore = useStore(pinia)
+      store.$dispose({ deleteState: true })
+
+      expect(pinia.state.value).toHaveProperty('main')
+      newStore.$patch({ n: 1 })
+      expect(newStore.n).toBe(1)
+      expect(useStore(pinia)).toBe(newStore)
+    }
+  )
+
   const warnTextCheckPlainObject = (storeId: string) =>
     `The "state" must be a plain object. Found in store "${storeId}".`
 
