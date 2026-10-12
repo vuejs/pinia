@@ -328,6 +328,18 @@ describe('Store', () => {
     expect(useStore()).not.toBe(store)
   })
 
+  it('does not unregister a newer store when disposed again', () => {
+    const pinia = createPinia()
+    const useStore = defineStore('main', { state: () => ({ n: 0 }) })
+
+    const store = useStore(pinia)
+    store.$dispose()
+    const newStore = useStore(pinia)
+    store.$dispose()
+
+    expect(useStore(pinia)).toBe(newStore)
+  })
+
   const warnTextCheckPlainObject = (storeId: string) =>
     `The "state" must be a plain object. Found in store "${storeId}".`
 

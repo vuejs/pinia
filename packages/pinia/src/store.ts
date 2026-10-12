@@ -354,7 +354,10 @@ function createSetupStore<
     scope.stop()
     subscriptions.clear()
     actionSubscriptions.clear()
-    pinia._s.delete($id)
+    // the store may have been replaced by a new one with the same id
+    if (pinia._s.get($id) === store) {
+      pinia._s.delete($id)
+    }
   }
 
   /**
