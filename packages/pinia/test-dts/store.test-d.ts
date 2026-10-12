@@ -1,8 +1,10 @@
 import {
+  Pinia,
   StoreGeneric,
   acceptHMRUpdate,
   defineStore,
   expectType,
+  getStores,
   storeToRefs,
 } from './'
 import { computed, Ref, ref, UnwrapRef, watch, WritableComputedRef } from 'vue'
@@ -304,3 +306,6 @@ declare const conditionalStore: typeof refStore | typeof writableComputedStore
 expectType<Ref<string[]> | WritableComputedRef<'banana'[]>>(
   storeToRefs(conditionalStore).bananas
 )
+
+declare const pinia: Pinia
+expectType<StoreGeneric[]>(getStores(pinia))
