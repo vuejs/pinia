@@ -77,3 +77,19 @@ export function disposePinia(pinia: Pinia) {
   // @ts-expect-error: non valid
   pinia._a = null
 }
+
+/**
+ * Dispose all the stores of a Pinia instance and delete their state, so each
+ * store starts fresh the next time it's used. Unlike {@link disposePinia}, the
+ * pinia instance stays usable: its plugins are kept and stores can be used
+ * again. This is mostly useful in tests that share a pinia instance. Note that
+ * existing references to a store still point to the disposed store.
+ *
+ * @param pinia - pinia instance
+ */
+export function disposeStores(pinia: Pinia) {
+  // copy the stores first as `$dispose()` removes them from `pinia._s`
+  Array.from(pinia._s.values()).forEach((store) =>
+    store.$dispose({ deleteState: true })
+  )
+}

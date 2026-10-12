@@ -3,6 +3,7 @@ import {
   createPinia,
   defineStore,
   disposePinia,
+  disposeStores,
   getActivePinia,
   setActivePinia,
 } from '../src'
@@ -183,5 +184,56 @@ describe('Store Lifespan', () => {
     disposePinia(pinia)
     store.n++
     expect(inStoreWatch).toHaveBeenCalledTimes(1)
+  })
+
+  describe('disposeStores', () => {
+    it('disposes all stores and deletes their state', () => {
+      const pinia = createPinia()
+      const inStoreWatch = vi.fn()
+      const useOptionStore = defineStore('options', {
+        state: () => ({ n: 0 }),
+      })
+      const useSetupStore = defineStore('setup', () => {
+        const n = ref(0)
+        watch(n, inStoreWatch, { flush: 'sync' })
+        return { n }
+      })
+
+      const optionStore = useOptionStore(pinia)
+      const setupStore = useSetupStore(pinia)
+      optionStore.n = 5
+      setupStore.n = 5
+      expect(inStoreWatch).toHaveBeenCalledTimes(1)
+
+      disposeStores(pinia)
+
+      expect(pinia._s.size).toBe(0)
+      expect(pinia.state.value).toEqual({})
+      setupStore.n++
+      expect(inStoreWatch).toHaveBeenCalledTimes(1)
+
+      expect(useOptionStore(pinia)).not.toBe(optionStore)
+      expect(useOptionStore(pinia).n).toBe(0)
+      expect(useSetupStore(pinia)).not.toBe(setupStore)
+      expect(useSetupStore(pinia).n).toBe(0)
+    })
+
+    it('keeps the pinia instance usable', () => {
+      const pinia = createPinia()
+      mount({ template: 'none' }, { global: { plugins: [pinia] } })
+      const plugin = vi.fn()
+      pinia.use(plugin)
+      const useStore = defineStore('main', { state: () => ({ n: 0 }) })
+
+      useStore(pinia).n++
+      expect(plugin).toHaveBeenCalledTimes(1)
+      disposeStores(pinia)
+
+      const store = useStore()
+      expect(plugin).toHaveBeenCalledTimes(2)
+      expect(store.n).toBe(0)
+      store.n++
+      expect(pinia.state.value.main.n).toBe(1)
+    })
   })
 })
