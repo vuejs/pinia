@@ -492,8 +492,8 @@ function addStoreToDevtools(app: App, store: StoreGeneric) {
       })
 
       const { $dispose } = store
-      store.$dispose = () => {
-        $dispose()
+      store.$dispose = (options) => {
+        $dispose(options)
         api.notifyComponentUpdate()
         api.sendInspectorTree(INSPECTOR_ID)
         api.sendInspectorState(INSPECTOR_ID)

@@ -1,7 +1,7 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
-import { defineComponent, getCurrentInstance, nextTick, watch } from 'vue'
+import { defineComponent, getCurrentInstance, nextTick, ref, watch } from 'vue'
 import { mockWarn } from './vitest-mock-warn'
 
 describe('Store', () => {
@@ -338,6 +338,56 @@ describe('Store', () => {
     store.$dispose()
 
     expect(useStore(pinia)).toBe(newStore)
+  })
+
+  it('keeps the state when disposed', () => {
+    const pinia = createPinia()
+    const useStore = defineStore('main', { state: () => ({ n: 0 }) })
+
+    useStore(pinia).n = 5
+    useStore(pinia).$dispose()
+
+    expect(pinia.state.value.main).toEqual({ n: 5 })
+    expect(useStore(pinia).n).toBe(5)
+  })
+
+  it('can delete the state when disposed', () => {
+    const pinia = createPinia()
+    const useStore = defineStore('main', { state: () => ({ n: 0 }) })
+
+    const store = useStore(pinia)
+    store.n = 5
+    store.$dispose({ deleteState: true })
+
+    expect(pinia.state.value).not.toHaveProperty('main')
+    expect(useStore(pinia)).not.toBe(store)
+    expect(useStore(pinia).n).toBe(0)
+  })
+
+  it('can delete the state of a setup store when disposed', () => {
+    const pinia = createPinia()
+    const useStore = defineStore('main', () => ({ n: ref(0) }))
+
+    useStore(pinia).n = 5
+    useStore(pinia).$dispose()
+    expect(useStore(pinia).n).toBe(5)
+
+    useStore(pinia).$dispose({ deleteState: true })
+
+    expect(pinia.state.value).not.toHaveProperty('main')
+    expect(useStore(pinia).n).toBe(0)
+  })
+
+  it('stops subscriptions before deleting the state', () => {
+    const pinia = createPinia()
+    const useStore = defineStore('main', { state: () => ({ n: 0 }) })
+
+    const store = useStore(pinia)
+    const spy = vi.fn()
+    store.$subscribe(spy, { flush: 'sync' })
+    store.$dispose({ deleteState: true })
+
+    expect(spy).not.toHaveBeenCalled()
   })
 
   const warnTextCheckPlainObject = (storeId: string) =>

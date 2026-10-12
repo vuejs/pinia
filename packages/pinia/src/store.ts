@@ -350,13 +350,16 @@ function createSetupStore<
         }
       : noop
 
-  function $dispose() {
+  function $dispose(options?: { deleteState?: boolean }) {
     scope.stop()
     subscriptions.clear()
     actionSubscriptions.clear()
     // the store may have been replaced by a new one with the same id
     if (pinia._s.get($id) === store) {
       pinia._s.delete($id)
+      if (options?.deleteState) {
+        delete pinia.state.value[$id]
+      }
     }
   }
 
