@@ -32,11 +32,21 @@ const useStore = defineStore('name', {
         return 'B'
       }
     },
+    generic<T>(value: T): T {
+      return value
+    },
+    overload,
   },
 })
 
 function outer(store: ReturnType<typeof useStore>): number {
   return store.count * 2
+}
+
+function overload(value: string): number
+function overload(value: number): string
+function overload(value: string | number): number | string {
+  return typeof value === 'string' ? value.length : String(value)
 }
 
 const store = useStore()
@@ -47,4 +57,7 @@ expectType<number>(store.factorial())
 expectType<number>(store.returnStuff())
 expectType<number>(store.useExternalFunction())
 expectType<number>(store.useOtherAction())
+expectType<string>(store.generic('hello'))
+expectType<string>(store.overload(1))
+expectType<number>(store.overload('1'))
 expectType<number>(outer(store))
