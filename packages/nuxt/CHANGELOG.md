@@ -1,3 +1,9 @@
+## [1.0.3](https://github.com/vuejs/pinia/compare/%40pinia%2Fnuxt%401.0.2...%40pinia%2Fnuxt%401.0.3) (2026-10-14)
+
+### Bug Fixes
+
+- **nuxt:** resolve default storesDirs against each layer ([#3185](https://github.com/vuejs/pinia/issues/3185)) ([98587ca](https://github.com/vuejs/pinia/commit/98587ca465b2c45e4053548261e769cad380ba5a))
+
 ## [1.0.2](https://github.com/vuejs/pinia/compare/@pinia/nuxt@1.0.1...@pinia/nuxt@1.0.2) (2026-08-12)
 
 ### Features

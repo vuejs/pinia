@@ -1,3 +1,9 @@
+## [2.0.2](https://github.com/vuejs/pinia/compare/%40pinia%2Ftesting%402.0.1...%40pinia%2Ftesting%402.0.2) (2026-10-14)
+
+### Bug Fixes
+
+- **testing:** notify shallow refs on initial state ([#3187](https://github.com/vuejs/pinia/issues/3187)) ([a158186](https://github.com/vuejs/pinia/commit/a1581860ec76a924875f65efefa5f63006b67be9))
+
 ## [2.0.1](https://github.com/vuejs/pinia/compare/@pinia/testing@2.0.0...@pinia/testing@2.0.1) (2026-07-15)
 
 - Upgrade tsdown

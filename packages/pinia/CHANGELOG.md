@@ -1,3 +1,15 @@
+# [4.1.0](https://github.com/vuejs/pinia/compare/v4.0.3...v4.1.0) (2026-10-14)
+
+### Bug Fixes
+
+- **hmr:** preserve runtime state of empty placeholder objects (fix [#2931](https://github.com/vuejs/pinia/issues/2931)) ([#3175](https://github.com/vuejs/pinia/issues/3175)) ([6a359e9](https://github.com/vuejs/pinia/commit/6a359e935ba5b124ad5ced12c0ddc306849ab40b))
+- trigger shallow refs patched via object syntax (fix [#2861](https://github.com/vuejs/pinia/issues/2861)) ([#3177](https://github.com/vuejs/pinia/issues/3177)) ([a4eb2c5](https://github.com/vuejs/pinia/commit/a4eb2c581aab47916fa9531aee38a0e01af61617)), closes [#3139](https://github.com/vuejs/pinia/issues/3139)
+
+### Features
+
+- add `getStores()` ([#3194](https://github.com/vuejs/pinia/issues/3194)) ([52fc965](https://github.com/vuejs/pinia/commit/52fc965fec49a4769e673c8b48669fbb46526803))
+- warn when disposing a replaced store ([#3193](https://github.com/vuejs/pinia/issues/3193)) ([bf7ea46](https://github.com/vuejs/pinia/commit/bf7ea46846ac6e6159e896f8c7bead6907c41e38))
+
 ## [4.0.3](https://github.com/vuejs/pinia/compare/v4.0.2...v4.0.3) (2026-08-12)
 
 ### Bug Fixes
