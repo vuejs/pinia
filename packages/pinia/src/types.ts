@@ -419,16 +419,12 @@ export type _Method = (...args: any[]) => any
 //   (...args: P[]): R
 // }
 
-// in this type we forget about this because otherwise the type is recursive
 /**
- * Store augmented for actions. For internal usage only.
- * For internal use **only**
+ * Store augmented for actions. For internal use **only**
  */
-export type _StoreWithActions<A> = {
-  [k in keyof A]: A[k] extends (...args: infer P) => infer R
-    ? (...args: P) => R
-    : never
-}
+export type _StoreWithActions<A> = _ActionsTree extends A
+  ? {}
+  : { [K in keyof A]: A[K] }
 
 /**
  * Store augmented with getters. For internal usage only.
@@ -475,8 +471,7 @@ export type Store<
 > = _StoreWithState<Id, S, G, A> &
   UnwrapRef<S> &
   _StoreWithGetters<G> &
-  // StoreWithActions<A> &
-  (_ActionsTree extends A ? {} : A) &
+  _StoreWithActions<A> &
   PiniaCustomProperties<Id, S, G, A> &
   PiniaCustomStateProperties<S>
 
