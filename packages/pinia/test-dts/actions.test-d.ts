@@ -1,6 +1,7 @@
 import { defineStore, expectType } from './'
+import { ref } from 'vue'
 
-const useStore = defineStore('name', {
+const useOptionsStore = defineStore('name', {
   state: () => ({ count: 0 }),
   actions: {
     useOtherAction() {
@@ -39,7 +40,59 @@ const useStore = defineStore('name', {
   },
 })
 
-function outer(store: ReturnType<typeof useStore>): number {
+const useSetupStore = defineStore('setup', () => {
+  const count = ref(0)
+
+  function useOtherAction() {
+    return returnStuff()
+  }
+  function useExternalFunction(): number {
+    return outerSetup(useSetupStore())
+  }
+  function returnStuff() {
+    useOtherAction()
+    return count.value * 2
+  }
+  function factorial(n?: number): number {
+    n ??= count.value
+    return n > 1 ? factorial(n - 1) * n : 1
+  }
+  function crossA(): 'A' | 'B' {
+    if (count.value < 3) {
+      return 'A'
+    } else {
+      return crossB()
+    }
+  }
+  function crossB() {
+    if (count.value > 2) {
+      return crossA()
+    } else {
+      return 'B'
+    }
+  }
+  function generic<T>(value: T): T {
+    return value
+  }
+
+  return {
+    count,
+    useOtherAction,
+    useExternalFunction,
+    returnStuff,
+    factorial,
+    crossA,
+    crossB,
+    generic,
+    overload,
+  }
+})
+
+function outer(store: ReturnType<typeof useOptionsStore>): number {
+  return store.count * 2
+}
+
+function outerSetup(store: ReturnType<typeof useSetupStore>): number {
   return store.count * 2
 }
 
@@ -49,7 +102,7 @@ function overload(value: string | number): number | string {
   return typeof value === 'string' ? value.length : String(value)
 }
 
-const store = useStore()
+const store = useOptionsStore()
 
 expectType<'A' | 'B'>(store.crossA())
 expectType<'A' | 'B'>(store.crossB())
@@ -61,3 +114,16 @@ expectType<string>(store.generic('hello'))
 expectType<string>(store.overload(1))
 expectType<number>(store.overload('1'))
 expectType<number>(outer(store))
+
+const setupStore = useSetupStore()
+
+expectType<'A' | 'B'>(setupStore.crossA())
+expectType<'A' | 'B'>(setupStore.crossB())
+expectType<number>(setupStore.factorial())
+expectType<number>(setupStore.returnStuff())
+expectType<number>(setupStore.useExternalFunction())
+expectType<number>(setupStore.useOtherAction())
+expectType<string>(setupStore.generic('hello'))
+expectType<string>(setupStore.overload(1))
+expectType<number>(setupStore.overload('1'))
+expectType<number>(outerSetup(setupStore))

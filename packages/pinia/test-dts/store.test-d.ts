@@ -180,6 +180,14 @@ const noS = useNoS()
 const noA = useNoA()
 const noG = useNoG()
 
+expectType<'noSAG'>(noSAG.$id)
+expectType<'noAG'>(noSA.$id)
+expectType<'noAG'>(noAG.$id)
+expectType<'noAG'>(noSG.$id)
+expectType<'noAG'>(noS.$id)
+expectType<'noAG'>(noA.$id)
+expectType<'noAG'>(noG.$id)
+
 // @ts-expect-error
 store.notExisting
 
@@ -187,21 +195,79 @@ store.notExisting
 noSAG.notExisting
 // @ts-expect-error
 noSAG.$state.hey
+// @ts-expect-error
+noSAG.notExisting()
 
 // @ts-expect-error
 noSA.notExisting
 // @ts-expect-error
-noSA.notExisting
+noSA.notExisting()
 // @ts-expect-error
 noAG.notExisting
 // @ts-expect-error
+noAG.notExisting()
+// @ts-expect-error
 noSG.notExisting
+// @ts-expect-error
+noSG.notExisting()
 // @ts-expect-error
 noS.notExisting
 // @ts-expect-error
+noS.notExisting()
+// @ts-expect-error
 noA.notExisting
 // @ts-expect-error
+noA.notExisting()
+// @ts-expect-error
 noG.notExisting
+// @ts-expect-error
+noG.notExisting()
+
+const stateOnly = defineStore('state-only', {
+  state: () => ({ count: 0, nested: { name: 'pinia' } }),
+})()
+const emptyActions = defineStore('empty-actions', {
+  state: () => ({ count: 0, nested: { name: 'pinia' } }),
+  actions: {},
+})()
+const stateWithGetters = defineStore('state-with-getters', {
+  state: () => ({ count: 0, nested: { name: 'pinia' } }),
+  getters: {
+    double: (state) => state.count * 2,
+  },
+})()
+
+for (const noActions of [stateOnly, emptyActions, stateWithGetters]) {
+  expectType<number>(noActions.count)
+  expectType<string>(noActions.nested.name)
+  expectType<number>(noActions.$state.count)
+  noActions.count = 1
+  noActions.nested.name = 'updated'
+  noActions.$patch({ count: 2, nested: { name: 'patched' } })
+
+  // @ts-expect-error
+  noActions.notExisting()
+  // @ts-expect-error
+  noActions.count()
+  // @ts-expect-error
+  noActions.count = 'wrong'
+  // @ts-expect-error
+  noActions.nested.name = 1
+  // @ts-expect-error
+  noActions.$state.count = 'wrong'
+  // @ts-expect-error
+  noActions.$state.notExisting
+  // @ts-expect-error
+  noActions.$patch({ count: 'wrong' })
+  // @ts-expect-error
+  noActions.$patch({ notExisting: 1 })
+}
+
+expectType<number>(stateWithGetters.double)
+// @ts-expect-error
+stateWithGetters.double()
+// @ts-expect-error
+stateWithGetters.double = 2
 
 function takeStore<TStore extends StoreGeneric>(store: TStore): TStore['$id'] {
   return store.$id

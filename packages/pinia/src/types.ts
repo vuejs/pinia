@@ -422,9 +422,9 @@ export type _Method = (...args: any[]) => any
 /**
  * Store augmented for actions. For internal use **only**
  */
-export type _StoreWithActions<A> = {
-  [K in keyof A]: A[K]
-}
+export type _StoreWithActions<A> = _ActionsTree extends A
+  ? {}
+  : { [K in keyof A]: A[K] }
 
 /**
  * Store augmented with getters. For internal usage only.
@@ -471,7 +471,7 @@ export type Store<
 > = _StoreWithState<Id, S, G, A> &
   UnwrapRef<S> &
   _StoreWithGetters<G> &
-  (_ActionsTree extends A ? {} : _StoreWithActions<A>) &
+  _StoreWithActions<A> &
   PiniaCustomProperties<Id, S, G, A> &
   PiniaCustomStateProperties<S>
 
