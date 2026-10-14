@@ -337,7 +337,7 @@ describe('Store', () => {
     useStore(pinia)
     store.$dispose()
 
-    expect('replaced by a new one').toHaveBeenWarnedTimes(1)
+    expect('PINIA_R1008').toHaveBeenWarnedTimes(1)
   })
 
   it('does not warn when disposed twice without a newer store', () => {
@@ -348,7 +348,7 @@ describe('Store', () => {
     store.$dispose()
     store.$dispose()
 
-    expect('replaced by a new one').not.toHaveBeenWarned()
+    expect('PINIA_R1008').not.toHaveBeenWarned()
   })
 
   const warnTextCheckPlainObject = (storeId: string) =>
