@@ -36,7 +36,7 @@ In order for Vue to properly detect state, you must declare every state piece in
 
 :::
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 ## TypeScript
 

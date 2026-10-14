@@ -1,6 +1,6 @@
 # store 测试 %{#testing-stores}%
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 <MasteringPiniaLink
   href="https://play.gumlet.io/embed/65f9a9c10bfab01f414c25dc"

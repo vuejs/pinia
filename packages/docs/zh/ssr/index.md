@@ -1,6 +1,6 @@
 # 服务端渲染 (SSR) %{#server-side-rendering-ssr}%
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 <MasteringPiniaLink
   href="https://masteringpinia.com/lessons/ssr-friendly-state"

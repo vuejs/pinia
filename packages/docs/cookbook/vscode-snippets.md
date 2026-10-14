@@ -1,6 +1,6 @@
 # VS Code Snippets
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 These are some snippets that I use in VS Code to make my life easier.
 

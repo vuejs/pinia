@@ -19,7 +19,7 @@ const main = useMainStore()
 </script>
 ```
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 ## Using the store outside of `setup()`
 

@@ -1,6 +1,6 @@
 # Action %{#actions}%
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 <!-- <VueSchoolLink
   href="https://vueschool.io/lessons/synchronous-and-asynchronous-actions-in-pinia"

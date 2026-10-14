@@ -1,6 +1,6 @@
 # VS Code 代码片段
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 有一些代码片段可以让你在 VS Code 中更轻松地使用 Pinia。
 

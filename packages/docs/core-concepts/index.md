@@ -29,7 +29,7 @@ This _name_, also referred to as _id_, is necessary and is used by Pinia to conn
 
 `defineStore()` accepts two distinct values for its second argument: a Setup function or an Options object.
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 ## Option Stores
 

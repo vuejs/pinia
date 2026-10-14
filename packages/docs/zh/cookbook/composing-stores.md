@@ -1,6 +1,6 @@
 # 组合式 Store %{#composing-stores}%
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 组合式 store 是可以相互使用，Pinia 当然也支持它。但有一个规则需要遵循：
 

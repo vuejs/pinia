@@ -7,7 +7,7 @@
 
 Using Pinia with [Nuxt](https://nuxt.com/) is easier since Nuxt takes care of a lot of things when it comes to _server side rendering_. For instance, **you don't need to care about serialization nor XSS attacks**. Pinia supports Nuxt 3 and 4.
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 ## Installation
 

@@ -1,6 +1,6 @@
 # Getter %{#getters}%
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 <!-- <VueSchoolLink
   href="https://vueschool.io/lessons/getters-in-pinia"

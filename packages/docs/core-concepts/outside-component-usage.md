@@ -10,7 +10,7 @@ Pinia stores rely on the `pinia` instance to share the same store instance acros
 Behind the scenes, `useStore()` _injects_ the `pinia` instance you gave to your `app`. This means that if the `pinia` instance cannot be automatically injected, you have to manually provide it to the `useStore()` function.
 You can solve this differently depending on the kind of application you are writing.
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 ## Single Page Applications
 

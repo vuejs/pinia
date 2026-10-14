@@ -21,7 +21,7 @@ export const useAuthStore = defineStore('auth', {
 
 Keep in mind that **you can only return writable state** (e.g. a `ref()`). Here are some examples of composables that you can use:
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 - [useLocalStorage](https://vueuse.org/core/useLocalStorage/)
 - [useAsyncState](https://vueuse.org/core/useAsyncState/)

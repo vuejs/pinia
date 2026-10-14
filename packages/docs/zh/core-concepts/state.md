@@ -1,6 +1,6 @@
 # State %{#state}%
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 <!-- <VueSchoolLink
   href="https://vueschool.io/lessons/access-state-from-a-pinia-store"

@@ -1,6 +1,6 @@
 # 开始
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 ## 安装 %{#installation}%
 

@@ -1,6 +1,6 @@
 # Composing Stores
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 Composing stores is about having stores that use each other, and this is supported in Pinia. There is one rule to follow:
 

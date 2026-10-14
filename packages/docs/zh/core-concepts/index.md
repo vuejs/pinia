@@ -1,6 +1,6 @@
 # 定义 Store %{#defining-a-store}%
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 <!-- <VueSchoolLink
   href="https://vueschool.io/lessons/define-your-first-pinia-store"

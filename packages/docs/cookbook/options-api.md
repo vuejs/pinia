@@ -8,7 +8,7 @@ Pinia can be used even if you are not using the composition API (if you are usin
 - ⚠️ [mapGetters](../core-concepts/getters.md#Without-setup-) (just for migration convenience, use `mapState()` instead)
 - [mapActions](../core-concepts/actions.md#Without-setup-)
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 ## Giving access to the whole store
 

@@ -14,7 +14,7 @@ The easiest way to transition that concept to be used with Pinia is that each mo
 
 How you choose to restructure your Vuex modules into Pinia stores is entirely up to you, but here is one suggestion:
 
-<RuleKitLink />
+<!-- <RuleKitLink /> -->
 
 ```bash
 # Vuex example (assuming namespaced modules)
