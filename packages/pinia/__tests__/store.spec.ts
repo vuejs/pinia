@@ -328,6 +328,29 @@ describe('Store', () => {
     expect(useStore()).not.toBe(store)
   })
 
+  it('warns when disposing a store that was replaced by a newer one', () => {
+    const pinia = createPinia()
+    const useStore = defineStore('main', { state: () => ({ n: 0 }) })
+
+    const store = useStore(pinia)
+    store.$dispose()
+    useStore(pinia)
+    store.$dispose()
+
+    expect('PINIA_R1008').toHaveBeenWarnedTimes(1)
+  })
+
+  it('does not warn when disposed twice without a newer store', () => {
+    const pinia = createPinia()
+    const useStore = defineStore('main', { state: () => ({ n: 0 }) })
+
+    const store = useStore(pinia)
+    store.$dispose()
+    store.$dispose()
+
+    expect('PINIA_R1008').not.toHaveBeenWarned()
+  })
+
   const warnTextCheckPlainObject = (storeId: string) =>
     `The "state" must be a plain object. Found in store "${storeId}".`
 
