@@ -49,7 +49,7 @@ export const diagnostics = /*#__PURE__*/ defineDiagnostics({
     },
     PINIA_R1008: {
       why: (p: { id: string }) =>
-        `"$dispose()" was called on an old instance of store "${p.id}" that has already been replaced by a new one. The new store is kept.`,
+        `"$dispose()" was called on an old instance of store "${p.id}" that has already been replaced by a new one. This also removes the new store.`,
       fix: 'Avoid keeping references to disposed stores. Call the useStore() function again to get the current store.',
       docs: 'https://pinia.vuejs.org/api/pinia/interfaces/StoreWithState.html#-dispose-',
     },

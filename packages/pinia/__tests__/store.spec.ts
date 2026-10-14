@@ -328,16 +328,15 @@ describe('Store', () => {
     expect(useStore()).not.toBe(store)
   })
 
-  it('does not unregister a newer store when disposed again', () => {
+  it('warns when disposing a store that was replaced by a newer one', () => {
     const pinia = createPinia()
     const useStore = defineStore('main', { state: () => ({ n: 0 }) })
 
     const store = useStore(pinia)
     store.$dispose()
-    const newStore = useStore(pinia)
+    useStore(pinia)
     store.$dispose()
 
-    expect(useStore(pinia)).toBe(newStore)
     expect('replaced by a new one').toHaveBeenWarnedTimes(1)
   })
 
