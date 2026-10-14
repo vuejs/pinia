@@ -104,3 +104,34 @@ export default defineNuxtConfig({
 ```
 
 Note the folders are relative to the root of your project. If you change the `srcDir` option, you need to adapt the paths accordingly.
+
+## Testing
+
+How Pinia fits in your tests depends on the kind of test (see [Nuxt's testing docs](https://nuxt.com/docs/getting-started/testing#organizing-your-tests)):
+
+- **Unit tests** run without a Nuxt app, e.g. to test a store itself or a composable that uses one. Use a fresh pinia per test or `createTestingPinia()`, see [Testing stores](../cookbook/testing.md).
+- **Nuxt tests** run inside a Nuxt app that is created once and shared by all tests in a file (or by all files with Vitest's `isolate: false`). The app's pinia instance is shared too, and with it the state of all stores, so state changed in one test leaks into the next one. See [Resetting stores in Nuxt tests](#Resetting-stores-in-Nuxt-tests).
+- **End-to-end tests** don't need anything specific to Pinia.
+
+### Resetting stores in Nuxt tests
+
+Prefer tests that don't depend on the state left by previous tests: set the state each test needs at its start (e.g. with `store.$patch()`).
+
+If you really need fresh stores in every test, you can dispose all of them and delete their state before each test:
+
+```ts
+// vitest.setup.ts
+import { beforeEach } from 'vitest'
+import { getStores } from 'pinia'
+import { usePinia } from '#imports'
+
+beforeEach(() => {
+  const pinia = usePinia()
+  for (const store of getStores(pinia)) {
+    store.$dispose()
+    delete pinia.state.value[store.$id]
+  }
+})
+```
+
+Note this only resets stores: code that kept a reference to a disposed store won't pick up the new one, and other global state of the Nuxt app is left untouched.
