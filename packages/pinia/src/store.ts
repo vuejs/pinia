@@ -546,12 +546,19 @@ function createSetupStore<
               }
             }
             // replace the contents of a reactive array in place to preserve
-            // its identity while dropping stale client indices; appended one
-            // by one so a large server array cannot overflow the argument limit
+            // its identity while dropping stale client indices
             if (Array.isArray(prop) && Array.isArray(stateToHydrate)) {
-              prop.splice(0, prop.length)
-              for (const value of stateToHydrate) {
-                prop.push(value)
+              const target = toRaw(prop)
+              const source = toRaw(stateToHydrate)
+              // a store may share its array with the state it hydrates from:
+              // clearing that first would erase the values still to be read
+              if (target !== source) {
+                prop.splice(0, prop.length)
+                // in batches: one reactive mutation per batch instead of one
+                // per item, and far fewer arguments than the engine's limit
+                for (let i = 0; i < source.length; i += 1024) {
+                  prop.push(...source.slice(i, i + 1024))
+                }
               }
             }
             // probably a reactive object, lets recursively assign.

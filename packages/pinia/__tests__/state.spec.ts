@@ -389,6 +389,22 @@ describe('State', () => {
     expect(store.arrReactive.length).toBe(1)
   })
 
+  it('keeps the array when the client default is also the hydration source', async () => {
+    const shared = [1, 2]
+    const useStore = defineStore('main', () => {
+      const arrReactive = reactive(shared)
+      return { arrReactive }
+    })
+
+    const pinia = createPinia()
+    pinia.state.value.main = { arrReactive: shared }
+    setActivePinia(pinia)
+
+    const store = useStore()
+    // Clearing the array before reading it back would leave it empty.
+    expect(store.arrReactive).toEqual([1, 2])
+  })
+
   it('hydrates Map in option stores', async () => {
     const useStore = defineStore('main', {
       state: () => ({ map: new Map() }),
