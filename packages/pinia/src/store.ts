@@ -535,6 +535,16 @@ function createSetupStore<
             if (prop instanceof Set || prop instanceof Map) {
               prop.clear()
             }
+            // the state from the server is authoritative: remove keys that
+            // only exist in the client defaults before merging
+            const stateToHydrate = initialState[key as keyof UnwrapRef<S>]
+            if (isPlainObject(prop) && isPlainObject(stateToHydrate)) {
+              for (const stateKey of Object.keys(prop)) {
+                if (!Object.hasOwn(stateToHydrate, stateKey)) {
+                  delete (prop as Record<string, unknown>)[stateKey]
+                }
+              }
+            }
             // probably a reactive object, lets recursively assign.
             // @ts-expect-error: prop is unknown
             mergeReactiveObjects(prop, initialState[key])

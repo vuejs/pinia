@@ -358,6 +358,21 @@ describe('State', () => {
     expect([...store.nested.map.entries()]).toEqual([['y', 2]])
   })
 
+  it('replaces (does not merge) a reactive object on hydration', async () => {
+    const useStore = defineStore('main', () => {
+      const objReactive = reactive<Record<string, number>>({ a: 1, b: 2 })
+      return { objReactive }
+    })
+
+    const pinia = createPinia()
+    pinia.state.value.main = { objReactive: { a: 10 } }
+    setActivePinia(pinia)
+
+    const store = useStore()
+    // The server state is authoritative, so keys removed on the server are gone.
+    expect(store.objReactive).toEqual({ a: 10 })
+  })
+
   it('hydrates Map in option stores', async () => {
     const useStore = defineStore('main', {
       state: () => ({ map: new Map() }),
