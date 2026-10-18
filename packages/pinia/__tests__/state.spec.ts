@@ -373,6 +373,22 @@ describe('State', () => {
     expect(store.objReactive).toEqual({ a: 10 })
   })
 
+  it('replaces (does not merge) a reactive array on hydration', async () => {
+    const useStore = defineStore('main', () => {
+      const arrReactive = reactive([1, 2])
+      return { arrReactive }
+    })
+
+    const pinia = createPinia()
+    pinia.state.value.main = { arrReactive: [10] }
+    setActivePinia(pinia)
+
+    const store = useStore()
+    // The server state is authoritative, so stale indices are dropped.
+    expect(store.arrReactive).toEqual([10])
+    expect(store.arrReactive.length).toBe(1)
+  })
+
   it('hydrates Map in option stores', async () => {
     const useStore = defineStore('main', {
       state: () => ({ map: new Map() }),
