@@ -546,9 +546,13 @@ function createSetupStore<
               }
             }
             // replace the contents of a reactive array in place to preserve
-            // its identity while dropping stale client indices
+            // its identity while dropping stale client indices; appended one
+            // by one so a large server array cannot overflow the argument limit
             if (Array.isArray(prop) && Array.isArray(stateToHydrate)) {
-              prop.splice(0, prop.length, ...stateToHydrate)
+              prop.splice(0, prop.length)
+              for (const value of stateToHydrate) {
+                prop.push(value)
+              }
             }
             // probably a reactive object, lets recursively assign.
             // @ts-expect-error: prop is unknown
