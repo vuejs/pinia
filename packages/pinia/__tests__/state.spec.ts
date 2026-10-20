@@ -355,6 +355,20 @@ describe('State', () => {
     expect([...store.listRef]).toEqual(['x'])
   })
 
+  it('keeps reactive collections shared with the existing state when recreating a store', () => {
+    const list = reactive(['a'])
+    const set = reactive(new Set(['a']))
+    const map = reactive(new Map([['a', 1]]))
+    const useStore = defineStore('main', () => ({ list, set, map }))
+
+    useStore().$dispose()
+    const store = useStore()
+
+    expect([...store.list]).toEqual(['a'])
+    expect([...store.set.values()]).toEqual(['a'])
+    expect([...store.map.entries()]).toEqual([['a', 1]])
+  })
+
   it('replaces (does not union) a Set/Map nested in a reactive object on hydration', async () => {
     const useStore = defineStore('main', () => {
       const nested = reactive({
