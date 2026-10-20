@@ -2,3 +2,6 @@
 command = "pnpm run docs:build"
 ignore = "./scripts/docs-check.sh"
 publish = "packages/docs/.vitepress/dist"
+
+[build.environment]
+NODE_VERSION = "24"
