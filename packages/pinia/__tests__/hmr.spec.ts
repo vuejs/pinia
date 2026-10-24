@@ -422,6 +422,34 @@ describe('HMR', () => {
         // expect(store.double).toBe(8)
         expect(spy).toHaveBeenCalledTimes(2)
       })
+
+      it('handles a getter that becomes an action or state', () => {
+        const useStore = defineStore('id', baseSetup)
+        const store: any = useStore()
+
+        // simulate a hmr that turns the getter into an action
+        defineStore('id', () => {
+          const data = baseSetup()
+          return { ...data, double: () => data.n.value * 2 }
+        })(null, store)
+
+        store.n = 2
+        expect(store.double()).toBe(4)
+
+        // back to a getter
+        defineStore('id', baseSetup)(null, store)
+
+        expect(store.double).toBe(4)
+
+        // then into state
+        defineStore('id', () => ({ ...baseSetup(), double: ref(5) }))(
+          null,
+          store
+        )
+
+        expect(store.double).toBe(5)
+        expect(store.$state.double).toBe(5)
+      })
     })
   })
 
@@ -760,6 +788,41 @@ describe('HMR', () => {
         store.n++
         // expect(store.double).toBe(8)
         expect(spy).toHaveBeenCalledTimes(2)
+      })
+
+      it('handles a getter that becomes an action or state', () => {
+        const useStore = defineStore('id', baseOptions)
+        const store: any = useStore()
+
+        // simulate a hmr that turns the getter into an action
+        defineStore('id', {
+          ...baseOptions,
+          getters: {},
+          actions: {
+            ...baseOptions.actions,
+            double() {
+              return this.n * 2
+            },
+          },
+        })(null, store)
+
+        store.n = 2
+        expect(store.double()).toBe(4)
+
+        // back to a getter
+        defineStore('id', baseOptions)(null, store)
+
+        expect(store.double).toBe(4)
+
+        // then into state
+        defineStore('id', {
+          ...baseOptions,
+          state: () => ({ ...baseOptions.state(), double: 5 }),
+          getters: {},
+        })(null, store)
+
+        expect(store.double).toBe(5)
+        expect(store.$state.double).toBe(5)
       })
     })
   })
