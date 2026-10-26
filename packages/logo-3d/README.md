@@ -1,18 +1,20 @@
 # Pinia logo in 3D
 
-A procedural, rigged 3D model of [`logo.svg`](../docs/public/logo.svg), built with three.js. There are no hand-made meshes: the code computes every shape from the SVG paths.
+A procedural, rigged 3D model of [`logo.svg`](../docs/public/logo.svg), built with three.js. There are no hand-made meshes or images: the code computes every shape and texture from the SVG paths.
 
-- **Body**: a surface of revolution of the exact Bézier outline of the logo, slightly flattened front to back. It has vertex-color gradients from the SVG and embossed X marks. The three front marks are the logo strokes, projected onto the body.
-- **Leaves**: 7 skinned meshes, one 5-bone chain each, driven by a VRM-style spring bone solver. The solver has sphere colliders for the body. The three front leaves use the base, tip, and width of the logo leaves.
-- **Face**: sockets for both eyes and the mouth, oriented on the skin. Every expression is a child group of the sockets. Features are drawn flat and wrapped onto the curved body with `conform()`.
+- **Body**: a surface of revolution of the exact Bézier outline of the logo, slightly flattened front to back. Its color texture holds the gradient of the logo and the X marks; a normal map gives the marks their relief. The three front marks are the logo strokes, projected onto the body.
+- **Leaves**: 7 skinned meshes with a round, adjustable thickness, one 5-bone chain each. A VRM-style spring bone solver with sphere colliders for the body drives them. The three front leaves use the base, tip and width of the logo leaves.
+- **Face**: sockets for both eyes and the mouth, oriented on the skin. Every expression is a decal (a small patch that follows the skin) with a painted texture. Only the eyes are glossy, through a mask.
+
+Textures are painted with a small signed distance painter (`src/paint.ts`). The same code bakes them in Node for the GLB and redraws the eyes live when the pupils move.
 
 ```sh
-pnpm -C packages/logo-3d dev      # viewer, loads public/pinia.glb
+pnpm -C packages/logo-3d dev      # viewer, exports public/pinia.glb first
 pnpm -C packages/logo-3d export   # writes public/pinia.glb
 pnpm -C packages/logo-3d test
 ```
 
-Add `?procedural` to the viewer URL to build the model in the browser instead of loading the GLB.
+Add `?procedural` to the viewer URL to build the model in the browser instead of loading the GLB. In the viewer, the keys 1–8 change the expression, space makes the pineapple hop, `r` resets the camera and `w` toggles the wireframe.
 
 ## Using the model
 
@@ -27,8 +29,13 @@ const pineapple = bindPineapple(gltf.scene.getObjectByName('Pineapple')!)
 scene.add(pineapple.root)
 pineapple.setExpression('laugh') // happy, wink, laugh, surprised, sad, angry, love, sleepy
 pineapple.setSquash(0.85) // squash and stretch, the crown stays on top
-pineapple.look(0.5, 0) // pupils, for round eyes
+pineapple.lookAt(camera.position) // each eye looks at a point
+pineapple.setPupilSize(1.2)
 pineapple.setBlink(1)
+pineapple.setBlush(1.5)
+pineapple.setRelief(2) // X marks relief
+pineapple.setLeafThickness(0.08)
+pineapple.springs.settings.stiffness = 0.5 // also drag, gravity, collisions
 pineapple.springs.wind.set(1.5, 0, -0.5)
 
 // every frame, after you move pineapple.root
@@ -40,37 +47,45 @@ pineapple.update(dt)
 ```
 Pineapple                 userData: expressions, colliders, crownHeight
 ├─ Body                   squash here, pivot on the ground
-│  ├─ Body_Mesh, Body_Pattern
+│  ├─ Body_Mesh           color + normal map
 │  └─ Face
 │     ├─ Socket_Eye_L     +x, the character's left
 │     ├─ Socket_Eye_R
-│     ├─ Socket_Mouth     children: Eye_L_happy, …  userData.expression
+│     ├─ Socket_Mouth     children: Eye_L_happy, …  userData.expression, userData.rect
 │     └─ Socket_Cheek_L / Socket_Cheek_R
 └─ Crown
    ├─ Leaf_*_0 … Leaf_*_4 bone chains, userData.spring on joints 0–3
-   └─ Leaf_*_Mesh          skinned meshes
+   └─ Leaf_*_Mesh          skinned meshes, `_thickness` vertex attribute
 ```
 
-In the GLB, node `extras` hold the spring parameters (`stiffness`, `drag`, `gravity`, `hitRadius`) and the colliders. Other engines can rebuild the same physics from them.
+In the GLB, node `extras` hold the spring parameters (`stiffness`, `drag`, `gravity`, `hitRadius`) and the colliders. Other engines can rebuild the same physics from them. The `_thickness` attribute is the offset of each leaf vertex for a thickness of 1.
 
 ## Custom expressions
 
-Socket space is x right, y up, and z out of the skin, in body units (1 = 100 px of the SVG). To add a feature, give it `userData.expression` and add it to a socket. Use `conform()` to wrap a flat geometry onto the body:
+Add an entry to `EXPRESSIONS` in `src/expressions.ts`. An expression is a list of 2D layers for each eye and for the mouth, in socket space: x right, y up, in body units (1 = 100 px of the SVG). Shapes come from `src/paint.ts` (`circle`, `ellipse`, `line`, `polygon`, `intersect`, …). Set `gloss: true` on the layers that must shine.
+
+To add a decal to a loaded model, give it `userData.expression` and add it to a socket. `decal()` wraps a patch on the skin, so it works on a loaded GLB too:
 
 ```ts
-import { conform, disc, materials } from './src/index.ts'
-import { Mesh } from 'three'
+import {
+  bounds,
+  createRaster,
+  decal,
+  ellipse,
+  paint,
+  PIXELS_PER_UNIT,
+  toTexture,
+} from './src/index.ts'
 
-const socket = pineapple.sockets.eyeL
-const monocle = new Mesh(
-  conform(
-    disc(0.3, 0.3, () => 0.05),
-    socket
-  ),
-  materials.ink
+const layers = [{ shape: ellipse(0, 0, 0.3, 0.3), color: '#222' }]
+const rect = bounds(layers, [-1, -1, 1, 1])
+const map = toTexture(
+  paint(createRaster(rect, PIXELS_PER_UNIT), layers),
+  'Monocle'
 )
-monocle.userData.expression = 'fancy'
-socket.add(monocle)
+const monocle = decal('Monocle', pineapple.sockets.eyeL, rect, map, 'eye')
+monocle.userData.expression = 'happy'
+pineapple.sockets.eyeL.add(monocle)
 ```
 
-`setExpression(name)` shows the children of the sockets that match `name`. A new expression name must also be in `root.userData.expressions`. The easiest way is to add it to `EXPRESSIONS` in `src/expressions.ts`.
+`setExpression(name)` shows the children of the sockets that match `name`, so the monocle shows with the happy face.
