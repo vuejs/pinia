@@ -179,9 +179,24 @@ export interface Pineapple {
   setRelief(scale: number): void
   /** Half thickness of the leaves at their widest, in body units. */
   setLeafThickness(thickness: number): void
+  /** Shows the first `count` leaves of `LEAF_ORDER`: 3 is the logo, 7 the full crown. */
+  setLeafCount(count: number): void
+  /** Scales every leaf from its base. */
+  setLeafScale(scale: number): void
   readonly leafThickness: number
   update(dt: number): void
 }
+
+/** Leaves in the order they appear: the 3 of the logo first, then sides and back. */
+export const LEAF_ORDER = [
+  'Leaf_Center',
+  'Leaf_Left',
+  'Leaf_Right',
+  'Leaf_Side_Left',
+  'Leaf_Side_Right',
+  'Leaf_Back_Left',
+  'Leaf_Back_Right',
+]
 
 function byName(root: Object3D, name: string): Object3D {
   const o = root.getObjectByName(name)
@@ -411,6 +426,15 @@ export function bindPineapple(root: Object3D): Pineapple {
     setLeafThickness(thickness) {
       leafThickness = thickness
       for (const leaf of leaves) setLeafThickness(leaf, thickness)
+    },
+    setLeafCount(count) {
+      LEAF_ORDER.forEach((name, i) => {
+        const mesh = root.getObjectByName(`${name}_Mesh`)
+        if (mesh) mesh.visible = i < count
+      })
+    },
+    setLeafScale(scale) {
+      for (const chain of chains) chain[0]!.scale.setScalar(scale)
     },
     update(dt) {
       root.updateMatrixWorld(true)

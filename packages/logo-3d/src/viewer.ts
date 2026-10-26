@@ -219,19 +219,22 @@ const settings = {
   bones: false,
   colliders: false,
   autoRotate: false,
+  leaves: 7,
+  leafSize: 1,
   thickness: DEFAULT_LEAF_THICKNESS,
+  follow: 0.9,
   stiffness: 1,
   damping: 1,
   gravity: 1,
   wind: 0,
   collisions: true,
-  follow: true,
+  eyesFollow: true,
   blink: true,
   pupil: 1,
   blush: 1,
   hop: 1,
   breathing: !matchMedia('(prefers-reduced-motion: reduce)').matches,
-  relief: 1,
+  relief: 0,
   exposure: 1.05,
   reflections: 0.5,
   sun: 30,
@@ -257,8 +260,11 @@ function apply() {
     drag: s.damping,
     gravity: s.gravity,
     collisions: s.collisions,
+    follow: s.follow,
   })
-  if (!s.follow) pineapple.look(0, 0)
+  pineapple.setLeafCount(s.leaves)
+  pineapple.setLeafScale(s.leafSize)
+  if (!s.eyesFollow) pineapple.look(0, 0)
   pineapple.setPupilSize(s.pupil)
   pineapple.setBlush(s.blush)
   pineapple.setRelief(s.relief)
@@ -294,10 +300,26 @@ const CONTROLS: Control[] = [
   { key: 'autoRotate', label: 'Auto-rotate', toggle: true },
   { section: 'Leaves' },
   {
+    key: 'leaves',
+    label: 'Leaves',
+    min: 0,
+    max: 7,
+    step: 1,
+    format: (v) => (v === 3 ? '3, like the logo' : String(v)),
+  },
+  {
+    key: 'leafSize',
+    label: 'Leaf size',
+    min: 0.4,
+    max: 1.6,
+    step: 0.02,
+    format: times,
+  },
+  {
     key: 'thickness',
     label: 'Thickness',
     min: 0.005,
-    max: 0.16,
+    max: 0.3,
     step: 0.005,
     format: (v) => v.toFixed(3),
   },
@@ -308,6 +330,14 @@ const CONTROLS: Control[] = [
     max: 3,
     step: 0.05,
     format: times,
+  },
+  {
+    key: 'follow',
+    label: 'Follow the body',
+    min: 0,
+    max: 1,
+    step: 0.01,
+    format: (v) => `${Math.round(v * 100)}%`,
   },
   {
     key: 'damping',
@@ -335,7 +365,7 @@ const CONTROLS: Control[] = [
   },
   { key: 'collisions', label: 'Collide with body', toggle: true },
   { section: 'Face' },
-  { key: 'follow', label: 'Eyes follow pointer', toggle: true },
+  { key: 'eyesFollow', label: 'Eyes follow pointer', toggle: true },
   { key: 'blink', label: 'Blink', toggle: true },
   {
     key: 'pupil',
@@ -643,7 +673,7 @@ renderer.setAnimationLoop((now) => {
     .multiplyScalar(settings.wind)
 
   // both eyes look at the pointer, or at the camera when it rests
-  if (settings.follow) {
+  if (settings.eyesFollow) {
     if (now - pointerSeen < 2500) {
       raycaster.setFromCamera(pointer, camera)
       raycaster.ray.at(

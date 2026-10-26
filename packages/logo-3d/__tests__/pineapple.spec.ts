@@ -223,4 +223,20 @@ describe('Pinia 3D logo', () => {
     // and settle right after the body stops
     expect(lastMoving - bodyStops).toBeLessThan(0.4)
   })
+
+  it('shows the logo leaves first', () => {
+    const p = createPineapple()
+    const visible = () => p.leaves.filter((l) => l.visible).map((l) => l.name)
+    p.setLeafCount(3)
+    expect(visible()).toEqual(
+      expect.arrayContaining([
+        'Leaf_Center_Mesh',
+        'Leaf_Left_Mesh',
+        'Leaf_Right_Mesh',
+      ])
+    )
+    expect(visible()).toHaveLength(3)
+    p.setLeafCount(0)
+    expect(visible()).toHaveLength(0)
+  })
 })
