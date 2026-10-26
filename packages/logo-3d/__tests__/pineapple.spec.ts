@@ -184,4 +184,43 @@ describe('Pinia 3D logo', () => {
     p.setLeafThickness(0.1)
     expect(volume() / thin).toBeCloseTo(2, 1)
   })
+
+  it('only lets the leaves move a bit when spinning', () => {
+    const p = createPineapple()
+    p.root.updateMatrixWorld(true)
+    const rest = leafTips(p)
+    const up = new Vector3(0, 1, 0)
+    let angle = 0
+    let vel = 15
+    let maxSwing = 0
+    let lastMoving = 0
+    let bodyStops = 0
+    for (let f = 0; f < 60 * 3; f++) {
+      // the spin of the viewer: friction, then back to the front
+      const dt = 1 / 60
+      vel *= Math.exp(-1.6 * dt)
+      if (Math.abs(vel) < 2) {
+        const front = Math.round(angle / (Math.PI * 2)) * Math.PI * 2
+        vel += ((front - angle) * 40 - vel * 6) * dt
+      }
+      angle += vel * dt
+      if (Math.abs(vel) > 0.05) bodyStops = f / 60
+      p.root.rotation.y = angle
+      p.update(dt)
+      p.root.updateMatrixWorld(true)
+      // distance to where a rigid leaf tip would be
+      const swing = Math.max(
+        ...leafTips(p).map((tip, i) =>
+          tip.distanceTo(rest[i]!.clone().applyAxisAngle(up, angle))
+        )
+      )
+      maxSwing = Math.max(maxSwing, swing)
+      if (swing > 0.05) lastMoving = f / 60
+    }
+    // leaves are about 2 units long
+    expect(maxSwing).toBeLessThan(0.8)
+    expect(maxSwing).toBeGreaterThan(0.1)
+    // and settle right after the body stops
+    expect(lastMoving - bodyStops).toBeLessThan(0.4)
+  })
 })

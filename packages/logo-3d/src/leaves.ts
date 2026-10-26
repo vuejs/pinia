@@ -167,10 +167,10 @@ const LEAVES: LeafSpec[] = [
 
 /** Spring parameters per joint, from the base (embedded in the body) to the tip. */
 const JOINT_SPRINGS: SpringParams[] = [
-  { stiffness: 4.5, drag: 0.55, gravity: 0, hitRadius: 0.06 },
-  { stiffness: 1.6, drag: 0.32, gravity: 0.08, hitRadius: 0.07 },
-  { stiffness: 1.1, drag: 0.26, gravity: 0.1, hitRadius: 0.07 },
-  { stiffness: 0.8, drag: 0.22, gravity: 0.12, hitRadius: 0.06 },
+  { stiffness: 10.0, drag: 0.7, gravity: 0, hitRadius: 0.06 },
+  { stiffness: 6.0, drag: 0.6, gravity: 0.04, hitRadius: 0.07 },
+  { stiffness: 5.0, drag: 0.55, gravity: 0.05, hitRadius: 0.07 },
+  { stiffness: 4.0, drag: 0.5, gravity: 0.06, hitRadius: 0.06 },
 ]
 const BONE_T = [0, 0.32, 0.56, 0.78, 1]
 

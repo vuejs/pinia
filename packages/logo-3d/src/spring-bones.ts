@@ -1,4 +1,4 @@
-import { Bone, Object3D, Quaternion, Vector3 } from 'three'
+import { Bone, Matrix4, Object3D, Quaternion, Vector3 } from 'three'
 import type { SpringParams } from './leaves.ts'
 
 export interface SphereCollider {
@@ -28,6 +28,8 @@ const _v = new Vector3()
 const _next = new Vector3()
 const _c = new Vector3()
 const _s = new Vector3()
+const _delta = new Matrix4()
+const _inv = new Matrix4()
 
 /**
  * Verlet spring bones, same model as VRM spring bones: each joint keeps the
@@ -40,13 +42,27 @@ export class SpringBoneSystem {
   gravity = new Vector3(0, -1, 0)
   /** extra force, in units per second */
   wind = new Vector3()
-  /** multipliers applied on top of the parameters of every joint */
-  settings = { stiffness: 1, drag: 1, gravity: 1, collisions: true }
+  /**
+   * Multipliers applied on top of the parameters of every joint. `follow` is
+   * how much of the motion of the crown the tails inherit: 0 is the plain VRM
+   * model where tails keep their world inertia, 1 removes all lag.
+   */
+  settings = {
+    stiffness: 1,
+    drag: 1,
+    gravity: 1,
+    collisions: true,
+    follow: 0.9,
+  }
   step = 1 / 120
   private acc = 0
+  /** common parent of the chains */
+  private frame: Object3D | null
+  private prevFrame = new Matrix4()
 
   constructor(chains: Bone[][], colliders: SphereCollider[] = []) {
     this.colliders = colliders
+    this.frame = chains[0]?.[0]?.parent ?? null
     for (const chain of chains) {
       for (const bone of chain) {
         const child = bone.children.find((c): c is Bone => (c as Bone).isBone)
@@ -69,6 +85,10 @@ export class SpringBoneSystem {
 
   /** Puts every joint back to its rest pose, without velocity. */
   reset() {
+    if (this.frame) {
+      this.frame.updateWorldMatrix(true, false)
+      this.prevFrame.copy(this.frame.matrixWorld)
+    }
     for (const j of this.joints) j.bone.quaternion.copy(j.rest)
     for (const j of this.joints) {
       j.bone.updateWorldMatrix(true, false)
@@ -115,7 +135,25 @@ export class SpringBoneSystem {
     return r - p.distanceTo(_c)
   }
 
+  private carry() {
+    if (!this.frame) return
+    this.frame.updateWorldMatrix(true, false)
+    const follow = this.settings.follow
+    if (follow > 0) {
+      _delta.multiplyMatrices(
+        this.frame.matrixWorld,
+        _inv.copy(this.prevFrame).invert()
+      )
+      for (const j of this.joints) {
+        j.tail.lerp(_s.copy(j.tail).applyMatrix4(_delta), follow)
+        j.prevTail.lerp(_s.copy(j.prevTail).applyMatrix4(_delta), follow)
+      }
+    }
+    this.prevFrame.copy(this.frame.matrixWorld)
+  }
+
   private solve(dt: number) {
+    this.carry()
     for (const j of this.joints) {
       const { bone, params } = j
       const parent = bone.parent!
