@@ -10,7 +10,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { describe, expect, it } from 'vitest'
 import '../scripts/node-polyfills.ts'
 import { PIXELS_PER_UNIT } from '../src/face.ts'
-import { createRaster } from '../src/paint.ts'
+import { EXPRESSIONS } from '../src/expressions.ts'
+import { bounds, createRaster, paint } from '../src/paint.ts'
 import {
   bindPineapple,
   createPineapple,
@@ -130,5 +131,57 @@ describe('Pinia 3D logo', () => {
     simulate(p, 0.01)
     const moved = leafTips(p).map((tip, i) => tip.distanceTo(rest[i]!))
     expect(Math.max(...moved)).toBeGreaterThan(0.05)
+  })
+
+  it('keeps the pupils inside the eye white', () => {
+    for (const look of [
+      [1, 1],
+      [-1, 0],
+      [0, -1],
+    ] as [number, number][]) {
+      const layers = EXPRESSIONS.happy.eye(1, { look, pupil: 1.4 })
+      const raster = paint(
+        createRaster(bounds(layers, [-1, -1, 1, 1]), 400),
+        layers
+      )
+      const { width, height, rect, data } = raster
+      let ink = 0
+      for (let j = 0; j < height; j++) {
+        for (let i = 0; i < width; i++) {
+          const k = (j * width + i) * 4
+          if (data[k + 3]! < 250 || data[k]! > 60) continue
+          ink++
+          const x = rect[0] + ((i + 0.5) / width) * (rect[2] - rect[0])
+          const y = rect[1] + ((j + 0.5) / height) * (rect[3] - rect[1])
+          // the white is 0.26 wide and keeps a rim around the pupil
+          expect(Math.hypot(x, y)).toBeLessThan(0.25)
+        }
+      }
+      expect(ink).toBeGreaterThan(1000)
+    }
+  })
+
+  it('changes the leaf volume with the thickness', () => {
+    const p = createPineapple()
+    const volume = () =>
+      p.leaves.reduce((sum, leaf) => {
+        const pos = leaf.geometry.getAttribute('position')
+        const index = leaf.geometry.index!
+        const a = new Vector3()
+        const b = new Vector3()
+        const c = new Vector3()
+        let v = 0
+        for (let i = 0; i < index.count; i += 3) {
+          a.fromBufferAttribute(pos, index.getX(i))
+          b.fromBufferAttribute(pos, index.getX(i + 1))
+          c.fromBufferAttribute(pos, index.getX(i + 2))
+          v += a.dot(b.cross(c)) / 6
+        }
+        return sum + Math.abs(v)
+      }, 0)
+    p.setLeafThickness(0.05)
+    const thin = volume()
+    p.setLeafThickness(0.1)
+    expect(volume() / thin).toBeCloseTo(2, 1)
   })
 })
