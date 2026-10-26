@@ -1,0 +1,22 @@
+{
+  "name": "@pinia/private-logo-3d",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Procedural, rigged 3D model of the Pinia logo",
+  "type": "module",
+  "scripts": {
+    "predev": "node scripts/export-glb.ts",
+    "dev": "vite",
+    "prebuild": "node scripts/export-glb.ts",
+    "build": "vite build",
+    "export": "node scripts/export-glb.ts",
+    "typecheck": "tsc --noEmit -p .",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/three": "^0.186.0",
+    "three": "^0.186.1",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  }
+}

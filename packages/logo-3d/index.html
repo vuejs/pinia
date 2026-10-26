@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Pinia Pineapple 3D</title>
+    <meta name="claude:viewport-fit-sides" content="cover" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap"
+    />
+    <style>
+      /* one stage: the mascot fills the screen, controls float on the edges like a toy box */
+      :root {
+        --bg: #eef5ea;
+        --glow: #fff3c4;
+        --ink: #1f2b22;
+        --muted: #5b6d5f;
+        --leaf: #2f8a43;
+        --sun: #ffc63a;
+        --on-sun: #2b2208;
+        --chip: rgb(255 255 255 / 0.78);
+        --panel: rgb(255 255 255 / 0.86);
+        --line: rgb(31 43 34 / 0.12);
+        --track: rgb(31 43 34 / 0.14);
+        --display:
+          'Fredoka', ui-rounded, 'SF Pro Rounded', system-ui, sans-serif;
+        --text: system-ui, -apple-system, 'Segoe UI', sans-serif;
+        --mono: ui-monospace, 'SF Mono', Menlo, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme='light']) {
+          --bg: #101a14;
+          --glow: #2b2a12;
+          --ink: #ecf4ea;
+          --muted: #9db5a2;
+          --leaf: #6fd884;
+          --chip: rgb(22 34 26 / 0.78);
+          --panel: rgb(18 28 21 / 0.88);
+          --line: rgb(236 244 234 / 0.14);
+          --track: rgb(236 244 234 / 0.18);
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme='dark'] {
+        --bg: #101a14;
+        --glow: #2b2a12;
+        --ink: #ecf4ea;
+        --muted: #9db5a2;
+        --leaf: #6fd884;
+        --chip: rgb(22 34 26 / 0.78);
+        --panel: rgb(18 28 21 / 0.88);
+        --line: rgb(236 244 234 / 0.14);
+        --track: rgb(236 244 234 / 0.18);
+        color-scheme: dark;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        background: radial-gradient(
+          120% 80% at 50% 30%,
+          var(--glow),
+          var(--bg) 70%
+        );
+        background-color: var(--bg);
+        color: var(--ink);
+        font: 14px/1.45 var(--text);
+        overflow: hidden;
+      }
+      .stage {
+        position: relative;
+        height: 100%;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+        cursor: grab;
+      }
+      canvas:active {
+        cursor: grabbing;
+      }
+      /* the overlay never takes pointer events, only its controls do */
+      .hud {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-block: 20px;
+        padding-left: max(16px, env(safe-area-inset-left, 0px));
+        padding-right: max(16px, env(safe-area-inset-right, 0px));
+        gap: 12px;
+      }
+      .hit {
+        pointer-events: auto;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      h1 {
+        font: 600 28px/1 var(--display);
+        margin: 0;
+        letter-spacing: -0.01em;
+      }
+      h1 span {
+        color: var(--leaf);
+      }
+      .sub {
+        margin: 6px 0 0;
+        color: var(--muted);
+        max-width: 34ch;
+      }
+      .toys {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+      button {
+        font: 500 15px/1 var(--display);
+        color: var(--ink);
+        background: var(--chip);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 10px 14px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition:
+          transform 0.12s ease,
+          background-color 0.2s ease;
+      }
+      button:hover {
+        transform: translateY(-1px);
+      }
+      button:active {
+        transform: translateY(1px) scale(0.97);
+      }
+      button:focus-visible,
+      input:focus-visible {
+        outline: 2px solid var(--leaf);
+        outline-offset: 2px;
+      }
+      button[aria-pressed='true'] {
+        background: var(--sun);
+        color: var(--on-sun);
+        border-color: transparent;
+      }
+      footer {
+        display: grid;
+        gap: 10px;
+        justify-items: center;
+      }
+      .faces {
+        display: flex;
+        gap: 6px;
+        max-width: 100%;
+        overflow-x: auto;
+        padding: 6px;
+        border-radius: 999px;
+        background: var(--chip);
+        border: 1px solid var(--line);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        scrollbar-width: none;
+      }
+      .faces button {
+        background: transparent;
+        border-color: transparent;
+        backdrop-filter: none;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .faces button[aria-pressed='true'] {
+        background: var(--sun);
+      }
+      kbd {
+        font: 11px/1 var(--mono);
+        opacity: 0.55;
+      }
+      .hint {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+      }
+
+      /* settings drawer */
+      .panel {
+        position: absolute;
+        top: 84px;
+        right: max(16px, env(safe-area-inset-right, 0px));
+        bottom: 120px;
+        width: 284px;
+        overflow-y: auto;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        padding: 6px 16px 16px;
+        display: grid;
+        align-content: start;
+        gap: 4px;
+        scrollbar-width: thin;
+      }
+      .panel h2 {
+        font: 600 12px/1 var(--display);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 14px 0 4px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 2px 10px;
+        min-height: 30px;
+      }
+      .row label {
+        font-size: 13px;
+      }
+      .row output {
+        font: 12px/1 var(--mono);
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+      .row input[type='range'] {
+        grid-column: 1 / -1;
+        width: 100%;
+        margin: 0 0 6px;
+        accent-color: var(--leaf);
+      }
+      .switch {
+        appearance: none;
+        width: 34px;
+        height: 20px;
+        margin: 0;
+        border-radius: 999px;
+        background: var(--track);
+        position: relative;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+      .switch::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--chip);
+        box-shadow: 0 1px 2px rgb(0 0 0 / 0.25);
+        transition: transform 0.2s ease;
+      }
+      .switch:checked {
+        background: var(--leaf);
+      }
+      .switch:checked::after {
+        transform: translateX(14px);
+      }
+      .panel .reset {
+        margin-top: 14px;
+        font-size: 14px;
+      }
+      .loading {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font: 500 16px var(--display);
+        color: var(--muted);
+        pointer-events: none;
+      }
+      @media (max-width: 640px) {
+        h1 {
+          font-size: 22px;
+        }
+        .sub,
+        kbd {
+          display: none;
+        }
+        .panel {
+          top: auto;
+          left: max(16px, env(safe-area-inset-left, 0px));
+          width: auto;
+          bottom: 110px;
+          max-height: 48%;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        button,
+        .switch,
+        .switch::after {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stage">
+      <canvas
+        id="scene"
+        aria-label="Interactive 3D model of the Pinia logo"
+      ></canvas>
+      <p class="loading" id="loading">Growing a pineapple…</p>
+      <div class="hud">
+        <header>
+          <div>
+            <h1>Pinia <span>in 3D</span></h1>
+            <p class="sub">
+              The logo, rebuilt from its SVG curves. The leaves run on spring
+              bones and the face is painted on swappable sockets.
+            </p>
+          </div>
+          <div class="toys hit">
+            <button id="hop" type="button">Hop</button>
+            <button id="spin" type="button">Spin</button>
+            <button id="reset-view" type="button">Reset view</button>
+            <button
+              id="settings"
+              type="button"
+              aria-pressed="false"
+              aria-controls="panel"
+            >
+              Settings
+            </button>
+          </div>
+        </header>
+        <footer>
+          <nav class="faces hit" id="faces" aria-label="Expression"></nav>
+          <p class="hint">
+            Drag to orbit · scroll or pinch to zoom · tap the pineapple to make
+            it hop
+          </p>
+        </footer>
+      </div>
+      <aside class="panel" id="panel" aria-label="Settings" hidden></aside>
+    </main>
+    <script type="module" src="./src/viewer.ts"></script>
+  </body>
+</html>

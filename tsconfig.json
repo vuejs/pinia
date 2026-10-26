@@ -10,6 +10,7 @@
     "packages/pinia/test-dts",
     "packages/playground",
     "packages/online-playground",
+    "packages/logo-3d",
     "packages/nuxt"
   ],
   "compilerOptions": {
