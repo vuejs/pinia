@@ -468,6 +468,7 @@ const settingsButton = document.querySelector<HTMLButtonElement>('#settings')!
 function setPanel(open: boolean) {
   panel.hidden = !open
   settingsButton.setAttribute('aria-pressed', String(open))
+  resize()
 }
 settingsButton.addEventListener('click', () => setPanel(panel.hidden))
 setPanel(innerWidth > 900)
@@ -579,6 +580,9 @@ function resize() {
     halfWidth / camera.aspect
   )
   camera.fov = (2 * Math.atan(fit) * 180) / Math.PI
+  // on phones the settings sheet covers the bottom, frame the model above it
+  if (!panel.hidden && w <= 640) camera.setViewOffset(w, h, 0, h * 0.24, w, h)
+  else camera.clearViewOffset()
   camera.updateProjectionMatrix()
 }
 addEventListener('resize', resize)
