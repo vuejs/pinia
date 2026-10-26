@@ -35,7 +35,10 @@ pineapple.setBlink(1)
 pineapple.setBlush(1.5)
 pineapple.setRelief(2) // X marks relief
 pineapple.setLeafThickness(0.08)
+pineapple.setLeafCount(3) // the 3 leaves of the logo, up to 7 (LEAF_ORDER)
+pineapple.setLeafScale(1.2)
 pineapple.springs.settings.stiffness = 0.5 // also drag, gravity, collisions
+pineapple.springs.settings.follow = 0.5 // how much of the body motion the leaves inherit
 pineapple.springs.wind.set(1.5, 0, -0.5)
 
 // every frame, after you move pineapple.root
