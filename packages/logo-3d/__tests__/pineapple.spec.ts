@@ -9,7 +9,7 @@ import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { describe, expect, it } from 'vitest'
 import '../scripts/node-polyfills.ts'
-import { MOUTH_RECT, PIXELS_PER_UNIT } from '../src/face.ts'
+import { PIXELS_PER_UNIT } from '../src/face.ts'
 import { createRaster } from '../src/paint.ts'
 import {
   bindPineapple,
@@ -121,7 +121,7 @@ describe('Pinia 3D logo', () => {
       width: number
       height: number
     }
-    const raster = createRaster(MOUTH_RECT, PIXELS_PER_UNIT)
+    const raster = createRaster(mouth.userData.rect, PIXELS_PER_UNIT)
     expect([image.width, image.height]).toEqual([raster.width, raster.height])
 
     const rest = leafTips(p)

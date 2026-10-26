@@ -35,6 +35,7 @@ import {
 } from './leaves.ts'
 import {
   type Box,
+  bounds,
   createRaster,
   glossLayers,
   type Layer,
@@ -99,7 +100,8 @@ export function createPineappleScene(): Group {
       [eyeR, EYE_RECT, def.eye(-1, DEFAULT_FACE_PARAMS)],
       [mouth, MOUTH_RECT, def.mouth()],
     ]
-    for (const [socket, rect, layers] of variants) {
+    for (const [socket, limit, layers] of variants) {
+      const rect = bounds(layers, limit)
       const id = `${socket.name.replace('Socket_', '')}_${name}`
       const kind = socket === mouth ? 'feature' : 'eye'
       const gloss =
@@ -112,14 +114,15 @@ export function createPineappleScene(): Group {
     }
   }
 
-  const blush = bake(CHEEK_RECT, BLUSH, 'Blush')
+  const blushRect = bounds(BLUSH, CHEEK_RECT)
+  const blush = bake(blushRect, BLUSH, 'Blush')
   for (const spec of [SOCKETS.cheekL, SOCKETS.cheekR]) {
     const socket = createSocket(spec)
     socket.add(
       decal(
         `${spec.name.replace('Socket_', '')}_Blush`,
         socket,
-        CHEEK_RECT,
+        blushRect,
         blush,
         'cheek'
       )
@@ -255,6 +258,7 @@ export function bindPineapple(root: Object3D): Pineapple {
       raster,
       texture: toTexture(raster, `${e.socket.name}_Live`),
       drawn: '',
+      rect: '',
     }
   })
 
@@ -285,6 +289,15 @@ export function bindPineapple(root: Object3D): Pineapple {
       if (material.userData.baked === undefined)
         material.userData.baked = material.map
       const key = `${expression}:${eye.look[0].toFixed(2)}:${eye.look[1].toFixed(2)}:${pupil}`
+      // each decal fits its drawing, the live texture follows its size
+      const rect = (mesh.userData.rect as Box | undefined) ?? EYE_RECT
+      if (rect.join() !== eye.rect) {
+        eye.raster = createRaster(rect, PIXELS_PER_UNIT)
+        eye.texture.dispose()
+        eye.texture = toTexture(eye.raster, `${eye.socket.name}_Live`)
+        eye.rect = rect.join()
+        eye.drawn = ''
+      }
       if (key !== eye.drawn) {
         paint(eye.raster, d.eye(eye.side, { look: eye.look, pupil }))
         eye.texture.needsUpdate = true

@@ -216,6 +216,24 @@ export function paint(raster: Raster, layers: Layer[]): Raster {
   return raster
 }
 
+/** Smallest box holding every layer, plus a margin, inside `limit`. */
+export function bounds(layers: Layer[], limit: Box, pad = 0.02): Box {
+  const box: Box = [Infinity, Infinity, -Infinity, -Infinity]
+  for (const { shape, feather = 0 } of layers) {
+    const e = feather + pad
+    box[0] = Math.min(box[0], shape.box[0] - e)
+    box[1] = Math.min(box[1], shape.box[1] - e)
+    box[2] = Math.max(box[2], shape.box[2] + e)
+    box[3] = Math.max(box[3], shape.box[3] + e)
+  }
+  return [
+    Math.max(limit[0], box[0]),
+    Math.max(limit[1], box[1]),
+    Math.min(limit[2], box[2]),
+    Math.min(limit[3], box[3]),
+  ]
+}
+
 const EVERYWHERE: Sdf = {
   d: () => -1,
   box: [-Infinity, -Infinity, Infinity, Infinity],

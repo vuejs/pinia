@@ -33,8 +33,8 @@ const CROSS_HIGH = new Color('#ffc73b')
 const GRADIENT_START_H = 2.75
 
 // the mesh stays light, details are in the textures and the analytic normals
-const AROUND = 72
-const MESH_ROWS = 40
+const AROUND = 64
+const MESH_ROWS = 32
 // fine sampling, only for lookups
 const PROFILE_SEGMENTS = 400
 const profile = sampleProfile(PROFILE_SEGMENTS)

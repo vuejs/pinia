@@ -38,7 +38,7 @@ export const SOCKETS = {
   cheekR: { name: 'Socket_Cheek_R', x: -CHEEK_X, h: CHEEK_H },
 } satisfies Record<string, SocketSpec>
 
-/** Area covered by each decal, in socket space. */
+/** Largest area each decal can cover, in socket space. Decals fit their drawing. */
 export const EYE_RECT: Box = [-0.36, -0.46, 0.36, 0.58]
 export const MOUTH_RECT: Box = [-0.27, -0.2, 0.27, 0.14]
 export const CHEEK_RECT: Box = [-0.3, -0.16, 0.3, 0.16]
@@ -91,11 +91,20 @@ export function conform(
   return geometry
 }
 
-/** Flat grid over a rect, uv 0..1, lifted by z. */
-export function patch(rect: Box, z: number, cell = 0.09): BufferGeometry {
+/**
+ * Flat grid over a rect, uv 0..1, lifted by z. Cells stay small enough that,
+ * once wrapped, the flat triangles never sink under the curved skin: the
+ * sagitta of a cell (size² / 8R) must stay below z.
+ */
+export function patch(
+  rect: Box,
+  z: number,
+  curvatureRadius = 1.3
+): BufferGeometry {
+  const cell = Math.sqrt(8 * curvatureRadius * z * 0.8)
   const [x0, y0, x1, y1] = rect
-  const nx = Math.max(2, Math.ceil((x1 - x0) / cell))
-  const ny = Math.max(2, Math.ceil((y1 - y0) / cell))
+  const nx = Math.max(1, Math.ceil((x1 - x0) / cell))
+  const ny = Math.max(1, Math.ceil((y1 - y0) / cell))
   const positions: number[] = []
   const normals: number[] = []
   const uvs: number[] = []
@@ -152,11 +161,12 @@ export function decal(
   material.transparent = true
   material.depthWrite = false
   const mesh = new Mesh(
-    conform(patch(rect, kind === 'cheek' ? 0.004 : 0.007), socket),
+    conform(patch(rect, kind === 'cheek' ? 0.006 : 0.01), socket),
     material
   )
   mesh.name = name
   mesh.renderOrder = DECAL_ORDER[kind]
   mesh.userData.decal = kind
+  mesh.userData.rect = rect
   return mesh
 }
