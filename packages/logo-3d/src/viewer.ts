@@ -26,6 +26,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import { DEFAULT_LEAF_THICKNESS } from './leaves.ts'
+import { DEFAULT_WOBBLE } from './spring-bones.ts'
 import { bindPineapple, createPineapple, type Pineapple } from './pineapple.ts'
 
 const canvas = document.querySelector<HTMLCanvasElement>('#scene')!
@@ -220,6 +221,7 @@ const settings = {
   colliders: false,
   autoRotate: false,
   leaves: 7,
+  wobble: DEFAULT_WOBBLE,
   leafSize: 1,
   thickness: DEFAULT_LEAF_THICKNESS,
   follow: 0.9,
@@ -288,6 +290,8 @@ type Control =
       max: number
       step: number
       format?: (v: number) => string
+      /** runs before `apply()` */
+      onInput?: (v: number) => void
     }
   | { key: keyof Settings; label: string; toggle: true }
 
@@ -299,6 +303,22 @@ const CONTROLS: Control[] = [
   { key: 'colliders', label: 'Show colliders', toggle: true },
   { key: 'autoRotate', label: 'Auto-rotate', toggle: true },
   { section: 'Leaves' },
+  {
+    key: 'wobble',
+    label: 'Wobble',
+    min: 0,
+    max: 1,
+    step: 0.01,
+    format: (v) =>
+      v < 0.1 ? 'stiff' : v < 0.35 ? 'a bit' : v < 0.7 ? 'bouncy' : 'jelly',
+    // one knob for the fine physics settings below
+    onInput: (v) => {
+      pineapple.springs.setWobble(v)
+      const { stiffness, drag, follow } = pineapple.springs.settings
+      Object.assign(settings, { stiffness, damping: drag, follow })
+      syncInputs()
+    },
+  },
   {
     key: 'leaves',
     label: 'Leaves',
@@ -465,6 +485,7 @@ for (const c of CONTROLS) {
     input.addEventListener('input', () => {
       ;(settings[c.key] as number) = Number(input.value)
       output.textContent = format(Number(input.value))
+      c.onInput?.(Number(input.value))
       apply()
     })
     row.append(output, input)

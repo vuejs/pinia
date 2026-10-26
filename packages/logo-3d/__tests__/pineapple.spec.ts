@@ -43,6 +43,28 @@ function leafTips(p: Pineapple): Vector3[] {
   return tips
 }
 
+/** Largest distance of a leaf tip to its rigid position during a spin. */
+function spinSwing(p: Pineapple): number {
+  p.root.updateMatrixWorld(true)
+  const rest = leafTips(p)
+  const up = new Vector3(0, 1, 0)
+  let max = 0
+  for (let f = 0; f < 60; f++) {
+    const angle = Math.min(1, f / 30) * Math.PI
+    p.root.rotation.y = angle
+    p.update(1 / 60)
+    p.root.updateMatrixWorld(true)
+    const tips = leafTips(p)
+    max = Math.max(
+      max,
+      ...tips.map((t, i) =>
+        t.distanceTo(rest[i]!.clone().applyAxisAngle(up, angle))
+      )
+    )
+  }
+  return max
+}
+
 function simulate(p: Pineapple, seconds: number, each?: (t: number) => void) {
   for (let t = 0; t < seconds; t += 1 / 60) {
     each?.(t)
@@ -238,5 +260,17 @@ describe('Pinia 3D logo', () => {
     expect(visible()).toHaveLength(3)
     p.setLeafCount(0)
     expect(visible()).toHaveLength(0)
+  })
+
+  it('makes the leaves move more with more wobble', () => {
+    const swings = [0, 0.2, 0.6, 1].map((wobble) => {
+      const p = createPineapple()
+      p.springs.setWobble(wobble)
+      return spinSwing(p)
+    })
+    for (let i = 1; i < swings.length; i++)
+      expect(swings[i]).toBeGreaterThan(swings[i - 1]!)
+    expect(swings[0]).toBeLessThan(0.1)
+    expect(swings[3]).toBeGreaterThan(1)
   })
 })

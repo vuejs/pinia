@@ -36,6 +36,8 @@ const _inv = new Matrix4()
  * world position of its tail, pulled back to its rest direction and pushed out
  * of sphere colliders. Joints are simulated root first.
  */
+export const DEFAULT_WOBBLE = 0.2
+
 export class SpringBoneSystem {
   joints: Joint[] = []
   colliders: SphereCollider[]
@@ -81,6 +83,18 @@ export class SpringBoneSystem {
       }
     }
     this.reset()
+  }
+
+  /**
+   * One knob for how much the leaves move, from 0 (barely) to 1 (jelly).
+   * Sets stiffness, drag and follow together, `DEFAULT_WOBBLE` gives the
+   * defaults back.
+   */
+  setWobble(wobble: number) {
+    const w = Math.max(0, Math.min(1, wobble)) - DEFAULT_WOBBLE
+    this.settings.stiffness = 2 ** (-w * 4)
+    this.settings.drag = 2 ** (-w * 2)
+    this.settings.follow = Math.max(0.3, Math.min(0.97, 0.9 - w * 0.75))
   }
 
   /** Puts every joint back to its rest pose, without velocity. */
