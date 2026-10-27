@@ -43,7 +43,21 @@ import {
   type Raster,
   toTexture,
 } from './paint.ts'
-import { type SphereCollider, SpringBoneSystem } from './spring-bones.ts'
+import {
+  DEFAULT_WOBBLE,
+  type SphereCollider,
+  SpringBoneSystem,
+  wobbleSettings,
+} from './spring-bones.ts'
+
+/** Defaults of the viewer settings that change the model, baked in the GLB. */
+export const MODEL_DEFAULTS = {
+  leaves: 7,
+  leafSize: 1,
+  thickness: DEFAULT_LEAF_THICKNESS,
+  wobble: DEFAULT_WOBBLE,
+  relief: 0,
+}
 
 /** Body approximated with spheres, in Body space, for the leaves. */
 const COLLIDERS = [
@@ -81,7 +95,11 @@ export function createPineappleScene(): Group {
 
   const body = new Group()
   body.name = 'Body'
-  body.add(createBodyMesh())
+  const bodyMesh = createBodyMesh()
+  ;(bodyMesh.material as MeshStandardMaterial).normalScale.setScalar(
+    MODEL_DEFAULTS.relief
+  )
+  body.add(bodyMesh)
 
   const face = new Group()
   face.name = 'Face'
@@ -130,7 +148,18 @@ export function createPineappleScene(): Group {
     face.add(socket)
   }
 
-  root.add(body, createCrown())
+  const crown = createCrown()
+  for (const child of crown.children) {
+    if ((child as Bone).isBone) child.scale.setScalar(MODEL_DEFAULTS.leafSize)
+    if (child.name.endsWith('_Mesh')) {
+      if (MODEL_DEFAULTS.thickness !== DEFAULT_LEAF_THICKNESS)
+        setLeafThickness(child as Mesh, MODEL_DEFAULTS.thickness)
+      child.visible =
+        LEAF_ORDER.indexOf(child.name.replace('_Mesh', '')) <
+        MODEL_DEFAULTS.leaves
+    }
+  }
+  root.add(body, crown)
   root.userData = {
     pinia: 2,
     defaultExpression: DEFAULT_EXPRESSION,
@@ -142,6 +171,7 @@ export function createPineappleScene(): Group {
     })),
     colliders: COLLIDERS,
     crownHeight: CROWN_HEIGHT,
+    springs: wobbleSettings(MODEL_DEFAULTS.wobble),
   }
   return root
 }
@@ -215,6 +245,7 @@ export function bindPineapple(root: Object3D): Pineapple {
     expressions: ExpressionInfo[]
     colliders: readonly { center: readonly number[]; radius: number }[]
     crownHeight: number
+    springs?: Partial<SpringBoneSystem['settings']>
   }
   const body = byName(root, 'Body')
   const crown = byName(root, 'Crown')
@@ -253,6 +284,7 @@ export function bindPineapple(root: Object3D): Pineapple {
   }))
   root.updateMatrixWorld(true)
   const springs = new SpringBoneSystem(chains, colliders)
+  Object.assign(springs.settings, data.springs)
 
   // eyes that move are redrawn into live textures
   const eyes = [
@@ -336,11 +368,11 @@ export function bindPineapple(root: Object3D): Pineapple {
     }
   }
 
-  // GLTFLoader flips normalScale.y on meshes without tangents, keep that sign
+  // GLTFLoader flips normalScale.y on meshes without tangents, keep that sign (-0 too)
   const baseScale = (bodyMesh.material as MeshStandardMaterial).normalScale
   const reliefSign = {
-    x: Math.sign(baseScale.x) || 1,
-    y: Math.sign(baseScale.y) || 1,
+    x: 1 / baseScale.x < 0 ? -1 : 1,
+    y: 1 / baseScale.y < 0 ? -1 : 1,
   }
 
   const _p = new Vector3()

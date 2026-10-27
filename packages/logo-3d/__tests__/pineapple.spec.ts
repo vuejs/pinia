@@ -16,8 +16,10 @@ import {
   bindPineapple,
   createPineapple,
   createPineappleScene,
+  MODEL_DEFAULTS,
   type Pineapple,
 } from '../src/pineapple.ts'
+import { SpringBoneSystem } from '../src/spring-bones.ts'
 
 // GLTFLoader decodes embedded images with createImageBitmap, keep only their size
 Object.assign(globalThis, {
@@ -272,5 +274,32 @@ describe('Pinia 3D logo', () => {
       expect(swings[i]).toBeGreaterThan(swings[i - 1]!)
     expect(swings[0]).toBeLessThan(0.1)
     expect(swings[3]).toBeGreaterThan(1)
+  })
+
+  it('exports the GLB with the default settings', async () => {
+    const glb = (await new GLTFExporter().parseAsync(createPineappleScene(), {
+      binary: true,
+      onlyVisible: false,
+    })) as ArrayBuffer
+    const gltf = await new GLTFLoader().parseAsync(glb, '')
+    const p = bindPineapple(gltf.scene.getObjectByName('Pineapple')!)
+    const skin = (p.body.getObjectByName('Body_Mesh') as Mesh)
+      .material as MeshStandardMaterial
+
+    expect(Math.abs(skin.normalScale.x)).toBe(MODEL_DEFAULTS.relief)
+    expect(p.leaves.filter((l) => l.visible)).toHaveLength(
+      MODEL_DEFAULTS.leaves
+    )
+    expect(p.leafThickness).toBeCloseTo(MODEL_DEFAULTS.thickness)
+    const springs = new SpringBoneSystem([])
+    springs.setWobble(MODEL_DEFAULTS.wobble)
+    expect(p.springs.settings).toEqual(springs.settings)
+    expect(gltf.scene.getObjectByName('Pineapple')!.userData.springs).toEqual(
+      expect.objectContaining({ follow: springs.settings.follow })
+    )
+
+    // GLTFLoader flips the normal map without tangents, even from a relief of 0
+    p.setRelief(1)
+    expect(skin.normalScale.y).toBe(-1)
   })
 })

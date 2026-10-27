@@ -25,9 +25,13 @@ import {
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-import { DEFAULT_LEAF_THICKNESS } from './leaves.ts'
-import { DEFAULT_WOBBLE } from './spring-bones.ts'
-import { bindPineapple, createPineapple, type Pineapple } from './pineapple.ts'
+import {
+  bindPineapple,
+  createPineapple,
+  MODEL_DEFAULTS,
+  type Pineapple,
+} from './pineapple.ts'
+import { wobbleSettings } from './spring-bones.ts'
 
 const canvas = document.querySelector<HTMLCanvasElement>('#scene')!
 const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true })
@@ -220,13 +224,10 @@ const settings = {
   bones: false,
   colliders: false,
   autoRotate: false,
-  leaves: 7,
-  wobble: DEFAULT_WOBBLE,
-  leafSize: 1,
-  thickness: DEFAULT_LEAF_THICKNESS,
-  follow: 0.9,
-  stiffness: 1,
-  damping: 1,
+  ...MODEL_DEFAULTS,
+  ...(({ stiffness, drag, follow }) => ({ stiffness, damping: drag, follow }))(
+    wobbleSettings(MODEL_DEFAULTS.wobble)
+  ),
   gravity: 1,
   wind: 0,
   collisions: true,
@@ -236,7 +237,6 @@ const settings = {
   blush: 1,
   hop: 1,
   breathing: !matchMedia('(prefers-reduced-motion: reduce)').matches,
-  relief: 0,
   exposure: 1.05,
   reflections: 0.5,
   sun: 30,

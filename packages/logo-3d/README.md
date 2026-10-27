@@ -61,7 +61,7 @@ Pineapple                 userData: expressions, colliders, crownHeight
    └─ Leaf_*_Mesh          skinned meshes, `_thickness` vertex attribute
 ```
 
-In the GLB, node `extras` hold the spring parameters (`stiffness`, `drag`, `gravity`, `hitRadius`) and the colliders. Other engines can rebuild the same physics from them. The `_thickness` attribute is the offset of each leaf vertex for a thickness of 1.
+In the GLB, node `extras` hold the spring parameters (`stiffness`, `drag`, `gravity`, `hitRadius`) the colliders and the spring multipliers of the defaults (`springs`: `stiffness`, `drag`, `follow`). Other engines can rebuild the same physics from them. The `_thickness` attribute is the offset of each leaf vertex for a thickness of 1.
 
 ## Custom expressions
 

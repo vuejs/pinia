@@ -38,6 +38,16 @@ const _inv = new Matrix4()
  */
 export const DEFAULT_WOBBLE = 0.2
 
+/** Stiffness, drag and follow multipliers for a wobble in [0, 1]. */
+export function wobbleSettings(wobble: number) {
+  const w = Math.max(0, Math.min(1, wobble)) - DEFAULT_WOBBLE
+  return {
+    stiffness: 2 ** (-w * 4),
+    drag: 2 ** (-w * 2),
+    follow: Math.max(0.3, Math.min(0.97, 0.9 - w * 0.75)),
+  }
+}
+
 export class SpringBoneSystem {
   joints: Joint[] = []
   colliders: SphereCollider[]
@@ -91,10 +101,7 @@ export class SpringBoneSystem {
    * defaults back.
    */
   setWobble(wobble: number) {
-    const w = Math.max(0, Math.min(1, wobble)) - DEFAULT_WOBBLE
-    this.settings.stiffness = 2 ** (-w * 4)
-    this.settings.drag = 2 ** (-w * 2)
-    this.settings.follow = Math.max(0.3, Math.min(0.97, 0.9 - w * 0.75))
+    Object.assign(this.settings, wobbleSettings(wobble))
   }
 
   /** Puts every joint back to its rest pose, without velocity. */
