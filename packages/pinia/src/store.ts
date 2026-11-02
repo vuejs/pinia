@@ -270,6 +270,10 @@ function createSetupStore<
   let isListening: boolean // set to true at the end
   let isSyncListening: boolean // set to true at the end
   let subscriptions: Set<SubscriptionCallback<S>> = new Set()
+  const onceSubscriptions = new WeakMap<
+    SubscriptionCallback<S>,
+    SubscriptionCallback<S>
+  >()
   let actionSubscriptions: Set<StoreOnActionListener<Id, S, G, A>> = new Set()
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
@@ -450,25 +454,45 @@ function createSetupStore<
     $subscribe(callback, options = {}) {
       // avoid setting up multiple watchers for the same callback
       // https://github.com/vuejs/pinia/issues/3143
-      if (subscriptions.has(callback)) {
+      if (subscriptions.has(onceSubscriptions.get(callback) || callback)) {
         if (__DEV__) {
           diagnostics.PINIA_R1007({ id: $id })
         }
         return noop
       }
 
+      let stopWatcher = noop
+      let isActive = true
+      const subscription: SubscriptionCallback<S> = options.once
+        ? (mutation, state) => {
+            if (isActive) {
+              // Stop both notification paths before user code can mutate again.
+              removeSubscription()
+              callback(mutation, state)
+            }
+          }
+        : callback
+
+      if (options.once) {
+        onceSubscriptions.set(callback, subscription)
+      }
+
       const removeSubscription = addSubscription(
         subscriptions,
-        callback,
+        subscription,
         options.detached,
-        () => stopWatcher()
+        () => {
+          isActive = false
+          onceSubscriptions.delete(callback)
+          stopWatcher()
+        }
       )
-      const stopWatcher = scope.run(() =>
+      stopWatcher = scope.run(() =>
         watch(
           () => pinia.state.value[$id] as UnwrapRef<S>,
           (state) => {
             if (options.flush === 'sync' ? isSyncListening : isListening) {
-              callback(
+              subscription(
                 {
                   storeId: $id,
                   type: MutationType.direct,
@@ -478,9 +502,13 @@ function createSetupStore<
               )
             }
           },
-          assign({}, $subscribeOptions, options)
+          // Only a delivered notification consumes once, including $patch().
+          assign({}, $subscribeOptions, options, { once: false })
         )
       )!
+
+      // An immediate notification can unsubscribe before watch() returns.
+      if (!isActive) stopWatcher()
 
       return removeSubscription
     },

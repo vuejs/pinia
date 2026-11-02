@@ -1,7 +1,7 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, MutationType, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
-import { nextTick, ref } from 'vue'
+import { effectScope, nextTick, ref } from 'vue'
 import { mockWarn } from './vitest-mock-warn'
 
 describe('Subscriptions', () => {
@@ -326,6 +326,207 @@ describe('Subscriptions', () => {
         }),
         store.$state
       )
+    })
+
+    describe('once', () => {
+      const mutations = [
+        {
+          type: MutationType.direct,
+          apply: (store: ReturnType<typeof useStore>) => {
+            store.user += '!'
+          },
+        },
+        {
+          type: MutationType.patchObject,
+          apply: (store: ReturnType<typeof useStore>) =>
+            store.$patch({ user: store.user + '!' }),
+        },
+        {
+          type: MutationType.patchFunction,
+          apply: (store: ReturnType<typeof useStore>) =>
+            store.$patch((state) => {
+              state.user += '!'
+            }),
+        },
+      ]
+
+      describe.each(['sync', 'pre', 'post'] as const)('flush: %s', (flush) => {
+        it.each(
+          mutations.flatMap((first) =>
+            mutations.map((second) => ({ first, second }))
+          )
+        )(
+          'stops after $first.type before $second.type',
+          async ({ first, second }) => {
+            const store = useStore()
+            const spy = vi.fn()
+            const persistent = vi.fn()
+            store.$subscribe(spy, { once: true, flush })
+            store.$subscribe(persistent, { flush })
+
+            first.apply(store)
+            await nextTick()
+            expect(spy).toHaveBeenCalledTimes(1)
+            expect(spy).toHaveBeenCalledWith(
+              expect.objectContaining({ type: first.type }),
+              store.$state
+            )
+
+            second.apply(store)
+            await nextTick()
+            expect(spy).toHaveBeenCalledTimes(1)
+            expect(persistent).toHaveBeenCalledTimes(2)
+          }
+        )
+
+        it('deduplicates once callbacks and returns a noop for the duplicate', async () => {
+          const store = useStore()
+          const spy = vi.fn()
+          const unsubscribe = store.$subscribe(spy, { once: true, flush })
+          const duplicate = store.$subscribe(spy, { once: true, flush })
+          expect('passed to "$subscribe()"').toHaveBeenWarnedTimes(1)
+          duplicate()
+          store.$patch({ user: 'first' })
+          await nextTick()
+          expect(spy).toHaveBeenCalledTimes(1)
+
+          // The consumed callback can be registered again. Its old cleanup must
+          // not remove this new subscription.
+          store.$subscribe(spy, { once: true, flush })
+          unsubscribe()
+          store.user = 'second'
+          await nextTick()
+          store.$patch({ user: 'third' })
+          await nextTick()
+          expect(spy).toHaveBeenCalledTimes(2)
+        })
+
+        it('supports manual unsubscribe before the first notification', async () => {
+          const store = useStore()
+          const spy = vi.fn()
+          const unsubscribe = store.$subscribe(spy, { once: true, flush })
+          unsubscribe()
+          unsubscribe()
+          store.$patch({ user: 'patch' })
+          store.user = 'direct'
+          await nextTick()
+          expect(spy).not.toHaveBeenCalled()
+        })
+
+        it.each([false, true])(
+          'cleans up an effect scope (detached: %s)',
+          async (detached) => {
+            const store = useStore()
+            const spy = vi.fn()
+            const scope = effectScope()
+            scope.run(() =>
+              store.$subscribe(spy, { once: true, flush, detached })
+            )
+            scope.stop()
+            store.$patch({ user: 'patch' })
+            await nextTick()
+            store.user = 'direct'
+            await nextTick()
+            expect(spy).toHaveBeenCalledTimes(detached ? 1 : 0)
+          }
+        )
+
+        it('cleans up on component unmount', async () => {
+          const pinia = createPinia()
+          const spy = vi.fn()
+          const wrapper = mount(
+            {
+              setup() {
+                useStore().$subscribe(spy, { once: true, flush })
+              },
+              render: () => null,
+            },
+            { global: { plugins: [pinia] } }
+          )
+          const store = useStore(pinia)
+          wrapper.unmount()
+          store.$patch({ user: 'patch' })
+          await nextTick()
+          store.user = 'direct'
+          await nextTick()
+          expect(spy).not.toHaveBeenCalled()
+        })
+
+        it('cleans up on store disposal', async () => {
+          const store = useStore()
+          const spy = vi.fn()
+          store.$subscribe(spy, { once: true, flush, detached: true })
+          store.$dispose()
+          store.$patch({ user: 'patch' })
+          store.user = 'direct'
+          await nextTick()
+          expect(spy).not.toHaveBeenCalled()
+        })
+
+        it('consumes an immediate notification', async () => {
+          const store = useStore()
+          const spy = vi.fn()
+          store.$subscribe(spy, { once: true, immediate: true, flush })
+          expect(spy).toHaveBeenCalledTimes(1)
+          store.$patch({ user: 'patch' })
+          await nextTick()
+          store.user = 'direct'
+          await nextTick()
+          expect(spy).toHaveBeenCalledTimes(1)
+        })
+
+        it('does not consume immediate notifications suppressed during a patch', async () => {
+          const store = useStore()
+          const spy = vi.fn()
+          store.$patch((state) => {
+            store.$subscribe(spy, { once: true, immediate: true, flush })
+            state.user = 'patch'
+            expect(spy).not.toHaveBeenCalled()
+          })
+          expect(spy).toHaveBeenCalledTimes(1)
+          expect(spy).toHaveBeenCalledWith(
+            expect.objectContaining({ type: MutationType.patchFunction }),
+            store.$state
+          )
+          await nextTick()
+          store.user = 'direct'
+          await nextTick()
+          store.$patch({ user: 'another patch' })
+          expect(spy).toHaveBeenCalledTimes(1)
+        })
+
+        it.each([false, true])(
+          'prevents reentrant mutations (immediate: %s)',
+          async (immediate) => {
+            const store = useStore()
+            const spy = vi.fn(() => {
+              if (spy.mock.calls.length === 1) {
+                store.user = 'nested direct'
+                store.$patch({ user: 'nested patch' })
+              }
+            })
+            store.$subscribe(spy, { once: true, flush, immediate })
+            store.$patch({ user: 'outer patch' })
+            await nextTick()
+            expect(spy).toHaveBeenCalledTimes(1)
+          }
+        )
+      })
+
+      it('consumes a patch notification even if the callback throws', async () => {
+        const store = useStore()
+        const error = new Error('subscription failure')
+        const spy = vi.fn(() => {
+          throw error
+        })
+        store.$subscribe(spy, { once: true, flush: 'sync' })
+        expect(() => store.$patch({ user: 'first' })).toThrow(error)
+        await nextTick()
+        store.user = 'direct'
+        await nextTick()
+        expect(() => store.$patch({ user: 'second' })).not.toThrow()
+        expect(spy).toHaveBeenCalledTimes(1)
+      })
     })
 
     it('subscribe once with patch', () => {
