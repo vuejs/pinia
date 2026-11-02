@@ -1,7 +1,15 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, MutationType, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
-import { createApp, effectScope, nextTick, ref } from 'vue'
+import {
+  createApp,
+  effectScope,
+  getCurrentScope,
+  nextTick,
+  onScopeDispose,
+  ref,
+  watch,
+} from 'vue'
 import { mockWarn } from './vitest-mock-warn'
 
 describe('Subscriptions', () => {
@@ -544,6 +552,96 @@ describe('Subscriptions', () => {
           await nextTick()
           expect(spy).toHaveBeenCalledTimes(1)
           expect(onTrack.mock.calls.length).toBe(0)
+        })
+
+        it.each([false, true])(
+          'preserves resources created by an immediate callback (throws: %s)',
+          async (throws) => {
+            const store = useStore()
+            let storeScope: ReturnType<typeof getCurrentScope>
+            store.$subscribe(() => (storeScope = getCurrentScope()), {
+              immediate: true,
+              flush,
+            })()
+            const signal = ref(0)
+            const watchSpy = vi.fn()
+            const childSpy = vi.fn()
+            const cleanup = vi.fn()
+            const onTrack = vi.fn()
+            const error = new Error('subscription failure')
+            const callerScope = effectScope()
+            const callback = vi.fn(() => {
+              expect(getCurrentScope()).toBe(storeScope)
+              expect(getCurrentScope()?.active).toBe(true)
+              watch(signal, watchSpy, { flush: 'sync' })
+              onScopeDispose(cleanup)
+              const childScope = effectScope()
+              expect(childScope.active).toBe(true)
+              childScope.run(() => watch(signal, childSpy, { flush: 'sync' }))
+              if (throws) throw error
+            })
+
+            callerScope.run(() => {
+              const subscribe = () =>
+                store.$subscribe(callback, {
+                  once: true,
+                  immediate: true,
+                  flush,
+                  onTrack,
+                })
+              if (throws) {
+                expect(subscribe).toThrow(error)
+                expect(
+                  'Unhandled error during execution of watcher callback'
+                ).toHaveBeenWarned()
+              } else {
+                subscribe()()
+              }
+              expect(getCurrentScope()).toBe(callerScope)
+            })
+            callerScope.stop()
+
+            expect(onTrack).toHaveBeenCalled()
+            onTrack.mockClear()
+            store.$patch({ user: 'patch' })
+            await nextTick()
+            store.user = 'direct'
+            signal.value++
+            await nextTick()
+            expect(callback).toHaveBeenCalledTimes(1)
+            expect(onTrack).not.toHaveBeenCalled()
+            expect(watchSpy).toHaveBeenCalledTimes(1)
+            expect(childSpy).toHaveBeenCalledTimes(1)
+            expect(cleanup).not.toHaveBeenCalled()
+
+            store.$dispose()
+            signal.value++
+            await nextTick()
+            expect(watchSpy).toHaveBeenCalledTimes(1)
+            expect(childSpy).toHaveBeenCalledTimes(1)
+            expect(cleanup).toHaveBeenCalledTimes(1)
+          }
+        )
+
+        it('keeps the caller scope for an immediate notification deferred to a patch', () => {
+          const store = useStore()
+          const callerScope = effectScope()
+          const cleanup = vi.fn()
+          const callback = vi.fn(() => {
+            expect(getCurrentScope()).toBe(callerScope)
+            onScopeDispose(cleanup)
+          })
+          callerScope.run(() => {
+            store.$patch(() => {
+              store.$subscribe(callback, { once: true, immediate: true, flush })
+              expect(callback).not.toHaveBeenCalled()
+            })
+          })
+          expect(callback).toHaveBeenCalledTimes(1)
+          store.$dispose()
+          expect(cleanup).not.toHaveBeenCalled()
+          callerScope.stop()
+          expect(cleanup).toHaveBeenCalledTimes(1)
         })
 
         it('cleans up a throwing immediate notification', async () => {

@@ -4,6 +4,7 @@ import {
   inject,
   hasInjectionContext,
   getCurrentInstance,
+  getCurrentScope,
   reactive,
   DebuggerEvent,
   WatchOptions,
@@ -480,7 +481,16 @@ function createSetupStore<
             if (isActive) {
               // Stop both notification paths before user code can mutate again.
               removeSubscription()
-              callback(mutation, state)
+              if (
+                watcherScope !== scope &&
+                getCurrentScope() === watcherScope
+              ) {
+                // watch() is still running in the stopped immediate scope.
+                // Keep resources created by user code in the active store scope.
+                scope.run(() => callback(mutation, state))
+              } else {
+                callback(mutation, state)
+              }
             }
           }
         : callback
