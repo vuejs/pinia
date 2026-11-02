@@ -474,7 +474,14 @@ function createSetupStore<
           ? scope.run(() => effectScope())!
           : scope
       let stopWatcher =
-        watcherScope === scope ? noop : () => watcherScope.stop()
+        watcherScope === scope
+          ? noop
+          : () => {
+              // Cleanup can create new resources too. Keep them in the live
+              // store scope rather than the private scope being stopped.
+              if (scope.active) scope.run(() => watcherScope.stop())
+              else watcherScope.stop()
+            }
       let isActive = true
       let isCalling = false
       const subscription: SubscriptionCallback<S> = options.once
