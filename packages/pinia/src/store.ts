@@ -476,20 +476,28 @@ function createSetupStore<
       let stopWatcher =
         watcherScope === scope ? noop : () => watcherScope.stop()
       let isActive = true
+      let isCalling = false
       const subscription: SubscriptionCallback<S> = options.once
         ? (mutation, state) => {
             if (isActive) {
-              // Stop both notification paths before user code can mutate again.
+              // Consume both notification paths before user code can reenter or
+              // rearm, but keep the watcher alive for onWatcherCleanup().
+              isCalling = true
               removeSubscription()
-              if (
-                watcherScope !== scope &&
-                getCurrentScope() === watcherScope
-              ) {
-                // watch() is still running in the stopped immediate scope.
-                // Keep resources created by user code in the active store scope.
-                scope.run(() => callback(mutation, state))
-              } else {
-                callback(mutation, state)
+              try {
+                if (
+                  watcherScope !== scope &&
+                  getCurrentScope() === watcherScope
+                ) {
+                  // Keep resources created by user code in the store scope,
+                  // which outlives the immediate watcher's private scope.
+                  scope.run(() => callback(mutation, state))
+                } else {
+                  callback(mutation, state)
+                }
+              } finally {
+                isCalling = false
+                stopWatcher()
               }
             }
           }
@@ -506,7 +514,7 @@ function createSetupStore<
         () => {
           isActive = false
           onceSubscriptions.delete(callback)
-          stopWatcher()
+          if (!isCalling) stopWatcher()
         }
       )
       const stop = watcherScope.run(() =>
