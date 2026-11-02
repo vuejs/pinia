@@ -328,11 +328,16 @@ function createSetupStore<
     })
     isSyncListening = true
     // because we paused the watcher, we need to manually call the subscriptions
-    triggerSubscriptions(
-      subscriptions,
-      subscriptionMutation,
-      pinia.state.value[$id] as UnwrapRef<S>
-    )
+    // Subscriptions added by a callback belong to the next mutation. Check
+    // membership as well so callbacks removed during this patch stay stopped.
+    for (const subscription of Array.from(subscriptions)) {
+      if (subscriptions.has(subscription)) {
+        subscription(
+          subscriptionMutation,
+          pinia.state.value[$id] as UnwrapRef<S>
+        )
+      }
+    }
   }
 
   const $reset = isOptionsStore

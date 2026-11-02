@@ -379,6 +379,73 @@ describe('Subscriptions', () => {
           }
         )
 
+        it.each(mutations)(
+          'defers self-resubscription until the next mutation after $type',
+          async ({ apply }) => {
+            const store = useStore()
+            let calls = 0
+            const callback = () => {
+              // A finite guard makes the old live-Set regression safe to run.
+              if (++calls < 10)
+                store.$subscribe(callback, { once: true, flush })
+            }
+            const oldUnsubscribe = store.$subscribe(callback, {
+              once: true,
+              flush,
+            })
+            apply(store)
+            await nextTick()
+            expect(calls).toBe(1)
+            oldUnsubscribe()
+            apply(store)
+            await nextTick()
+            expect(calls).toBe(2)
+          }
+        )
+
+        it('allows a rearmed callback to observe a genuinely nested patch', async () => {
+          const store = useStore()
+          const values: string[] = []
+          const callback = () => {
+            values.push(store.user)
+            if (values.length === 1) {
+              store.$subscribe(callback, { once: true, flush })
+              store.$patch({ user: 'nested' })
+            }
+          }
+          store.$subscribe(callback, { once: true, flush })
+          store.$patch({ user: 'outer' })
+          await nextTick()
+          expect(values).toEqual(['outer', 'nested'])
+          store.$patch({ user: 'later' })
+          expect(values).toEqual(['outer', 'nested'])
+        })
+
+        it.each([false, true])(
+          'skips subscriptions removed by an earlier callback (once: %s)',
+          async (once) => {
+            const store = useStore()
+            const removed = vi.fn()
+            const added = vi.fn()
+            store.$subscribe(
+              () => {
+                unsubscribe()
+                store.$subscribe(added, { once: true, flush })
+              },
+              { once: true, flush }
+            )
+            const unsubscribe = store.$subscribe(removed, { once, flush })
+            store.$patch({ user: 'first' })
+            await nextTick()
+            expect(removed).not.toHaveBeenCalled()
+            expect(added).not.toHaveBeenCalled()
+            store.$patch({ user: 'second' })
+            await nextTick()
+            expect(removed).not.toHaveBeenCalled()
+            expect(added).toHaveBeenCalledTimes(1)
+          }
+        )
+
         it('deduplicates once callbacks and returns a noop for the duplicate', async () => {
           const store = useStore()
           const spy = vi.fn()
