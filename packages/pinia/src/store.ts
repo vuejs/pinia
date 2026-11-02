@@ -466,7 +466,14 @@ function createSetupStore<
         return noop
       }
 
-      let stopWatcher = noop
+      // An immediate callback can consume the subscription before watch() returns,
+      // including when it throws. Give it a scope we can stop from the start.
+      const watcherScope =
+        options.once && options.immediate
+          ? scope.run(() => effectScope())!
+          : scope
+      let stopWatcher =
+        watcherScope === scope ? noop : () => watcherScope.stop()
       let isActive = true
       const subscription: SubscriptionCallback<S> = options.once
         ? (mutation, state) => {
@@ -492,7 +499,7 @@ function createSetupStore<
           stopWatcher()
         }
       )
-      stopWatcher = scope.run(() =>
+      const stop = watcherScope.run(() =>
         watch(
           () => pinia.state.value[$id] as UnwrapRef<S>,
           (state) => {
@@ -511,6 +518,8 @@ function createSetupStore<
           assign({}, $subscribeOptions, options, { once: false })
         )
       )!
+
+      if (watcherScope === scope) stopWatcher = stop
 
       // An immediate notification can unsubscribe before watch() returns.
       if (!isActive) stopWatcher()

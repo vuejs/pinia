@@ -1,7 +1,7 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, MutationType, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
-import { effectScope, nextTick, ref } from 'vue'
+import { createApp, effectScope, nextTick, ref } from 'vue'
 import { mockWarn } from './vitest-mock-warn'
 
 describe('Subscriptions', () => {
@@ -533,14 +533,98 @@ describe('Subscriptions', () => {
         it('consumes an immediate notification', async () => {
           const store = useStore()
           const spy = vi.fn()
-          store.$subscribe(spy, { once: true, immediate: true, flush })
+          const onTrack = vi.fn()
+          store.$subscribe(spy, { once: true, immediate: true, flush, onTrack })
           expect(spy).toHaveBeenCalledTimes(1)
+          expect(onTrack).toHaveBeenCalled()
+          onTrack.mockClear()
           store.$patch({ user: 'patch' })
           await nextTick()
           store.user = 'direct'
           await nextTick()
           expect(spy).toHaveBeenCalledTimes(1)
+          expect(onTrack.mock.calls.length).toBe(0)
         })
+
+        it('cleans up a throwing immediate notification', async () => {
+          const store = useStore()
+          const otherSubscription = vi.fn()
+          store.$subscribe(otherSubscription, { flush })
+          const error = new Error('subscription failure')
+          const onTrack = vi.fn()
+          const spy = vi.fn(() => {
+            throw error
+          })
+          expect(() =>
+            store.$subscribe(spy, {
+              once: true,
+              immediate: true,
+              flush,
+              onTrack,
+            })
+          ).toThrow(error)
+          expect(spy).toHaveBeenCalledTimes(1)
+          expect(
+            'Unhandled error during execution of watcher callback'
+          ).toHaveBeenWarned()
+          expect(onTrack).toHaveBeenCalled()
+          onTrack.mockClear()
+
+          store.$patch({ user: 'patch' })
+          await nextTick()
+          store.user = 'direct'
+          await nextTick()
+          expect(spy).toHaveBeenCalledTimes(1)
+          // A consumed callback alone does not prove the watcher was stopped.
+          expect(onTrack.mock.calls.length).toBe(0)
+          expect(otherSubscription).toHaveBeenCalledTimes(2)
+        })
+
+        it.each([false, true])(
+          'handles an immediate notification caught by the app error handler (once: %s)',
+          async (once) => {
+            const store = useStore()
+            const otherSubscription = vi.fn()
+            store.$subscribe(otherSubscription, { flush })
+            const error = new Error('subscription failure')
+            const errorHandler = vi.fn()
+            const onTrack = vi.fn()
+            const spy = vi.fn(() => {
+              if (spy.mock.calls.length === 1) throw error
+            })
+            const app = createApp({
+              setup() {
+                store.$subscribe(spy, {
+                  once,
+                  immediate: true,
+                  flush,
+                  onTrack,
+                })
+                return () => null
+              },
+            })
+            app.config.errorHandler = errorHandler
+            app.mount(document.createElement('div'))
+            expect(errorHandler).toHaveBeenCalledExactlyOnceWith(
+              error,
+              expect.anything(),
+              'watcher callback'
+            )
+            expect(spy).toHaveBeenCalledTimes(1)
+            expect(onTrack).toHaveBeenCalled()
+            onTrack.mockClear()
+
+            store.$patch({ user: 'patch' })
+            await nextTick()
+            store.user = 'direct'
+            await nextTick()
+            expect(spy).toHaveBeenCalledTimes(once ? 1 : 3)
+            expect(errorHandler).toHaveBeenCalledTimes(1)
+            expect(onTrack.mock.calls.length === 0).toBe(once)
+            expect(otherSubscription).toHaveBeenCalledTimes(2)
+            app.unmount()
+          }
+        )
 
         it('does not consume immediate notifications suppressed during a patch', async () => {
           const store = useStore()
