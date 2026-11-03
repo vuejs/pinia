@@ -346,13 +346,14 @@ export interface _StoreWithState<
    * component gets unmounted unless `detached` is set to true.
    *
    * @param callback - callback passed to the watcher
-   * @param options - `watch` options + `detached` to detach the subscription from the context (usually a component)
+   * @param options - `watch` options (except `once`) + `detached` to detach the subscription from the context (usually a component)
    * this is called from. Note that the `flush` option does not affect calls to `store.$patch()`.
+   * Use Vue `watch()` directly for a one-time watcher.
    * @returns function that removes the watcher
    */
   $subscribe(
     callback: SubscriptionCallback<S>,
-    options?: { detached?: boolean } & WatchOptions
+    options?: { detached?: boolean } & Omit<WatchOptions, 'once'>
   ): () => void
 
   /**

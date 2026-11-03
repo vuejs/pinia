@@ -4,7 +4,6 @@ import {
   inject,
   hasInjectionContext,
   getCurrentInstance,
-  getCurrentScope,
   reactive,
   DebuggerEvent,
   WatchOptions,
@@ -271,10 +270,6 @@ function createSetupStore<
   let isListening: boolean // set to true at the end
   let isSyncListening: boolean // set to true at the end
   let subscriptions: Set<SubscriptionCallback<S>> = new Set()
-  const onceSubscriptions = new WeakMap<
-    SubscriptionCallback<S>,
-    SubscriptionCallback<S>
-  >()
   let actionSubscriptions: Set<StoreOnActionListener<Id, S, G, A>> = new Set()
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
@@ -329,16 +324,11 @@ function createSetupStore<
     })
     isSyncListening = true
     // because we paused the watcher, we need to manually call the subscriptions
-    // Subscriptions added by a callback belong to the next mutation. Check
-    // membership as well so callbacks removed during this patch stay stopped.
-    for (const subscription of Array.from(subscriptions)) {
-      if (subscriptions.has(subscription)) {
-        subscription(
-          subscriptionMutation,
-          pinia.state.value[$id] as UnwrapRef<S>
-        )
-      }
-    }
+    triggerSubscriptions(
+      subscriptions,
+      subscriptionMutation,
+      pinia.state.value[$id] as UnwrapRef<S>
+    )
   }
 
   const $reset = isOptionsStore
@@ -460,76 +450,25 @@ function createSetupStore<
     $subscribe(callback, options = {}) {
       // avoid setting up multiple watchers for the same callback
       // https://github.com/vuejs/pinia/issues/3143
-      if (subscriptions.has(onceSubscriptions.get(callback) || callback)) {
+      if (subscriptions.has(callback)) {
         if (__DEV__) {
           diagnostics.PINIA_R1007({ id: $id })
         }
         return noop
       }
 
-      // An immediate callback can consume the subscription before watch() returns,
-      // including when it throws. Give it a scope we can stop from the start.
-      const watcherScope =
-        options.once && options.immediate
-          ? scope.run(() => effectScope())!
-          : scope
-      let stopWatcher =
-        watcherScope === scope
-          ? noop
-          : () => {
-              // Cleanup can create new resources too. Keep them in the live
-              // store scope rather than the private scope being stopped.
-              if (scope.active) scope.run(() => watcherScope.stop())
-              else watcherScope.stop()
-            }
-      let isActive = true
-      let isCalling = false
-      const subscription: SubscriptionCallback<S> = options.once
-        ? (mutation, state) => {
-            if (isActive) {
-              // Consume both notification paths before user code can reenter or
-              // rearm, but keep the watcher alive for onWatcherCleanup().
-              isCalling = true
-              removeSubscription()
-              try {
-                if (
-                  watcherScope !== scope &&
-                  getCurrentScope() === watcherScope
-                ) {
-                  // Keep resources created by user code in the store scope,
-                  // which outlives the immediate watcher's private scope.
-                  scope.run(() => callback(mutation, state))
-                } else {
-                  callback(mutation, state)
-                }
-              } finally {
-                isCalling = false
-                stopWatcher()
-              }
-            }
-          }
-        : callback
-
-      if (options.once) {
-        onceSubscriptions.set(callback, subscription)
-      }
-
       const removeSubscription = addSubscription(
         subscriptions,
-        subscription,
+        callback,
         options.detached,
-        () => {
-          isActive = false
-          onceSubscriptions.delete(callback)
-          if (!isCalling) stopWatcher()
-        }
+        () => stopWatcher()
       )
-      const stop = watcherScope.run(() =>
+      const stopWatcher = scope.run(() =>
         watch(
           () => pinia.state.value[$id] as UnwrapRef<S>,
           (state) => {
             if (options.flush === 'sync' ? isSyncListening : isListening) {
-              subscription(
+              callback(
                 {
                   storeId: $id,
                   type: MutationType.direct,
@@ -539,15 +478,9 @@ function createSetupStore<
               )
             }
           },
-          // Only a delivered notification consumes once, including $patch().
-          assign({}, $subscribeOptions, options, { once: false })
+          assign({}, $subscribeOptions, options)
         )
       )!
-
-      if (watcherScope === scope) stopWatcher = stop
-
-      // An immediate notification can unsubscribe before watch() returns.
-      if (!isActive) stopWatcher()
 
       return removeSubscription
     },
