@@ -606,10 +606,10 @@ function createSetupStore<
       if (__DEV__ && hot) {
         throw new Error('cannot set hotState')
       }
-      $patch(($state) => {
-        // @ts-expect-error: FIXME: shouldn't error?
-        assign($state, state)
-      })
+      // Act like `$patch(state)`, which `$state = state` is documented to be
+      // equivalent to. `assign` would replace nested objects wholesale instead
+      // of merging them, dropping the keys the assignment doesn't mention.
+      $patch(state as _DeepPartial<UnwrapRef<S>>)
     },
   })
 

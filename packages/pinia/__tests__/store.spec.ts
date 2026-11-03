@@ -164,6 +164,30 @@ describe('Store', () => {
     })
   })
 
+  it('merges nested state when assigning $state, like $patch does', () => {
+    // `$state = state` is documented to be equivalent to `$patch(state)`, so a
+    // nested object that the assignment doesn't mention in full must keep the
+    // keys it doesn't set.
+    const useNestedStore = defineStore('mergeNested', {
+      state: () => ({
+        filters: { status: 'all', sort: 'date', page: 1 },
+      }),
+    })
+
+    const assigned = useNestedStore()
+    assigned.$state = { filters: { status: 'open' } } as any
+
+    const patched = useNestedStore()
+    patched.$patch({ filters: { status: 'open' } } as any)
+
+    expect(assigned.$state.filters).toEqual({
+      status: 'open',
+      sort: 'date',
+      page: 1,
+    })
+    expect(assigned.$state).toEqual(patched.$state)
+  })
+
   it('do not share the state between same id store', () => {
     const store = useStore()
     const store2 = useStore(createPinia())
