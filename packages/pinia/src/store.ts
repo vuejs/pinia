@@ -618,6 +618,23 @@ function createSetupStore<
   if (__DEV__) {
     store._hotUpdate = markRaw((newStore) => {
       store._hotUpdating = true
+
+      // remove deleted getters and actions first so a key that becomes
+      // another kind of property isn't deleted after being set below
+      Object.keys(store._hmrPayload.getters).forEach((key) => {
+        if (!(key in newStore._hmrPayload.getters)) {
+          // @ts-expect-error: noop if doesn't exist
+          delete store[key]
+        }
+      })
+
+      Object.keys(store._hmrPayload.actions).forEach((key) => {
+        if (!(key in newStore._hmrPayload.actions)) {
+          // @ts-expect-error: noop if doesn't exist
+          delete store[key]
+        }
+      })
+
       newStore._hmrPayload.state.forEach((stateKey) => {
         if (stateKey in store.$state) {
           const newStateTarget = newStore.$state[stateKey]
@@ -715,22 +732,6 @@ function createSetupStore<
           //
           getterValue
       }
-
-      // remove deleted getters
-      Object.keys(store._hmrPayload.getters).forEach((key) => {
-        if (!(key in newStore._hmrPayload.getters)) {
-          // @ts-expect-error: noop if doesn't exist
-          delete store[key]
-        }
-      })
-
-      // remove old actions
-      Object.keys(store._hmrPayload.actions).forEach((key) => {
-        if (!(key in newStore._hmrPayload.actions)) {
-          // @ts-expect-error: noop if doesn't exist
-          delete store[key]
-        }
-      })
 
       // update the values used in devtools and to allow deleting new properties later on
       store._hmrPayload = newStore._hmrPayload
