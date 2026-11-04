@@ -268,13 +268,26 @@ cartStore.$subscribe((mutation, state) => {
 
 ### Flush timing
 
-Under the hood, `$subscribe()` uses Vue's `watch()` function. You can pass the same options as you would with `watch()`, except `once`. For a one-time watcher, use Vue's `watch()` directly. This is useful when you want to immediately trigger subscriptions after **each** state change:
+Under the hood, `$subscribe()` uses Vue's `watch()` function. This is useful when you want to immediately trigger subscriptions after **each** state change:
 
 ```ts{4}
 cartStore.$subscribe((mutation, state) => {
   // persist the whole state to the local storage whenever it changes
   localStorage.setItem('cart', JSON.stringify(state))
 }, { flush: 'sync' })
+```
+
+Some `watch` options are not available in `$subscribe()`. In that case, directly use `watch()` on the store's state instead:
+
+```ts
+import { watch } from 'vue'
+watch(
+  () => cartStore.itemList,
+  (state) => {
+    // ....
+  },
+  { once: true, deep: false }
+)
 ```
 
 :::tip
