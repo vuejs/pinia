@@ -21,6 +21,7 @@ describe.each(['clipboard', 'file'] as const)(
       vi.restoreAllMocks()
     })
 
+    /** Import JSON through the selected DevTools action without opening UI. */
     async function importState(text: string) {
       if (source === 'clipboard') {
         vi.spyOn(navigator.clipboard, 'readText').mockResolvedValue(text)
@@ -40,6 +41,54 @@ describe.each(['clipboard', 'file'] as const)(
         await actionGlobalOpenStateFile(pinia)
       }
     }
+
+    it.each([null, true, 42, 'abc', [], ['abc']])(
+      'rejects an invalid root state: %j',
+      async (state) => {
+        const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+        const store = defineStore('counter', { state: () => ({ n: 0 }) })(pinia)
+        const originalState = store.$state
+
+        await importState(JSON.stringify(state))
+
+        expect(store.$state).toBe(originalState)
+        expect(pinia.state.value).toEqual({ counter: { n: 0 } })
+        expect(error).toHaveBeenCalledWith(expect.stringContaining('Failed to'))
+        expect(error).toHaveBeenCalledWith(expect.any(Error))
+        expect(console.debug).not.toHaveBeenCalled()
+      }
+    )
+
+    describe.each([false, true])('with an existing store: %s', (existing) => {
+      it.each([null, true, 42, 'abc', [], ['abc']])(
+        'rejects an invalid store state before changing any stores: %j',
+        async (state) => {
+          const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+          const first = defineStore('first', { state: () => ({ n: 0 }) })(pinia)
+          const firstState = first.$state
+          const counter = existing
+            ? defineStore('counter', { state: () => ({ n: 0 }) })(pinia)
+            : undefined
+          const counterState = counter?.$state
+
+          await importState(JSON.stringify({ first: { n: 2 }, counter: state }))
+
+          expect(first.$state).toBe(firstState)
+          expect(first.n).toBe(0)
+          if (counter) {
+            expect(counter.$state).toBe(counterState)
+            expect(counter.$state).toEqual({ n: 0 })
+          } else {
+            expect(Object.hasOwn(pinia.state.value, 'counter')).toBe(false)
+          }
+          expect(error).toHaveBeenCalledWith(
+            expect.stringContaining('Failed to')
+          )
+          expect(error).toHaveBeenCalledWith(expect.any(Error))
+          expect(console.debug).not.toHaveBeenCalled()
+        }
+      )
+    })
 
     it('does not modify Object.prototype through an inherited store ID', async () => {
       const prototype = Object.getPrototypeOf(toRaw(pinia.state.value))
