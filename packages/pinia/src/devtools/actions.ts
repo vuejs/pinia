@@ -120,11 +120,20 @@ export async function actionGlobalOpenStateFile(pinia: Pinia) {
 }
 
 function loadStoresState(pinia: Pinia, state: Record<string, unknown>) {
-  for (const key in state) {
+  for (const key of Object.keys(state)) {
+    const hasState = Object.hasOwn(pinia.state.value, key)
+    // Do not read or invoke Object.prototype's __proto__ accessor.
+    if (key === '__proto__' && !hasState) continue
+
     const storeState = pinia.state.value[key]
     // store is already instantiated, patch it
-    if (storeState) {
-      Object.assign(storeState, state[key])
+    if (hasState && storeState) {
+      for (const [stateKey, value] of Object.entries(state[key] ?? {})) {
+        if (stateKey === '__proto__' && !Object.hasOwn(storeState, stateKey)) {
+          continue
+        }
+        storeState[stateKey] = value
+      }
     } else {
       // store is not instantiated, set the initial state
       pinia.state.value[key] = state[key] as any
