@@ -73,6 +73,58 @@ describe('Subscriptions', () => {
     const flushOptions = ['post', 'pre', 'sync'] as const
 
     flushOptions.forEach((flush) => {
+      it.each(['function', 'object'] as const)(
+        `restores ${flush} subscriptions after a throwing %s patch`,
+        async (kind) => {
+          const store = useStore()
+          const spy = vi.fn()
+          const error = new Error('patch failed')
+          store.$subscribe(spy, { flush })
+
+          let caughtError: unknown
+          try {
+            if (kind === 'function') {
+              store.$patch((state): void => {
+                state.user = 'partially patched'
+                throw error
+              })
+            } else {
+              store.$patch({
+                get user(): string {
+                  throw error
+                },
+              })
+            }
+          } catch (caught) {
+            caughtError = caught
+          }
+
+          expect(caughtError).toBe(error)
+          expect(spy).not.toHaveBeenCalled()
+          expect(store.user).toBe(
+            kind === 'function' ? 'partially patched' : 'Eduardo'
+          )
+
+          if (flush === 'sync') {
+            store.user = 'after the error'
+            expect(spy).toHaveBeenCalledTimes(1)
+          }
+
+          await nextTick()
+          if (flush !== 'sync') {
+            expect(spy).not.toHaveBeenCalled()
+            store.user = 'after the error'
+            await nextTick()
+          }
+
+          expect(spy).toHaveBeenCalledTimes(1)
+          expect(spy).toHaveBeenCalledWith(
+            expect.objectContaining({ type: MutationType.direct }),
+            store.$state
+          )
+        }
+      )
+
       it('calls once inside components with flush ' + flush, async () => {
         const pinia = createPinia()
         setActivePinia(pinia)
