@@ -231,7 +231,7 @@ store.$patch((state) => {
 
 The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note that **both direct changes to `state` and `$patch()` are tracked in devtools** and can be time traveled.
 
-If applying a patch throws, the error propagates and any changes already made remain in the state. The failed patch does not emit a subscription notification. Synchronous subscriptions resume immediately; other subscriptions resume after the next tick, matching successful patches.
+If applying a patch throws, the error propagates and any changes already made remain in the state. The failed patch does not emit a subscription notification. Once the outermost patch finishes or throws, synchronous subscriptions resume immediately; other subscriptions resume after the next tick, matching successful patches.
 
 ## Replacing the `state`
 

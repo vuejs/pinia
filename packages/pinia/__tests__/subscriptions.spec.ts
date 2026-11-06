@@ -24,9 +24,22 @@ describe('Subscriptions', () => {
   })
 
   describe.each([
-    { useStore: useOptionsStore, name: 'Options Stores' },
-    { useStore: useSetupStore, name: 'Setup Stores' },
-  ])('with: $name', ({ useStore }) => {
+    {
+      useStore: useOptionsStore,
+      usePatchErrorStore: defineStore('patch-errors', {
+        state: () => ({ user: 'Eduardo', other: 'initial' }),
+      }),
+      name: 'Options Stores',
+    },
+    {
+      useStore: useSetupStore,
+      usePatchErrorStore: defineStore('patch-errors', () => ({
+        user: ref('Eduardo'),
+        other: ref('initial'),
+      })),
+      name: 'Setup Stores',
+    },
+  ])('with: $name', ({ useStore, usePatchErrorStore }) => {
     it('fires callback changed through $state', () => {
       const store = useStore()
       const spy = vi.fn()
@@ -76,7 +89,7 @@ describe('Subscriptions', () => {
       it.each(['function', 'object'] as const)(
         `restores ${flush} subscriptions after a throwing %s patch`,
         async (kind) => {
-          const store = useStore()
+          const store = usePatchErrorStore()
           const spy = vi.fn()
           const error = new Error('patch failed')
           store.$subscribe(spy, { flush })
@@ -90,7 +103,8 @@ describe('Subscriptions', () => {
               })
             } else {
               store.$patch({
-                get user(): string {
+                user: 'partially patched',
+                get other(): string {
                   throw error
                 },
               })
@@ -101,9 +115,8 @@ describe('Subscriptions', () => {
 
           expect(caughtError).toBe(error)
           expect(spy).not.toHaveBeenCalled()
-          expect(store.user).toBe(
-            kind === 'function' ? 'partially patched' : 'Eduardo'
-          )
+          expect(store.user).toBe('partially patched')
+          expect(store.other).toBe('initial')
 
           if (flush === 'sync') {
             store.user = 'after the error'
@@ -162,6 +175,96 @@ describe('Subscriptions', () => {
         await nextTick()
         expect(spy1).toHaveBeenCalledTimes(3)
       })
+    })
+
+    it('keeps subscriptions paused when an outer patch catches a failed inner patch', async () => {
+      const store = useStore()
+      const spy = vi.fn()
+      const error = new Error('inner patch failed')
+      store.$subscribe(spy, { flush: 'sync' })
+
+      store.$patch((state) => {
+        state.user = 'outer before'
+        let caughtError: unknown
+        try {
+          store.$patch((innerState): void => {
+            innerState.user = 'inner'
+            throw error
+          })
+        } catch (caught) {
+          caughtError = caught
+        }
+        expect(caughtError).toBe(error)
+        state.user = 'outer after'
+        expect(spy).not.toHaveBeenCalled()
+      })
+
+      expect(spy).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({ type: MutationType.patchFunction }),
+        store.$state
+      )
+      expect(store.user).toBe('outer after')
+      await nextTick()
+      expect(spy).toHaveBeenCalledTimes(1)
+
+      store.user = 'after patch'
+      expect(spy).toHaveBeenCalledTimes(2)
+      expect(spy).toHaveBeenLastCalledWith(
+        expect.objectContaining({ type: MutationType.direct }),
+        store.$state
+      )
+    })
+
+    it('restores subscriptions when a nested patch error escapes the outer patch', async () => {
+      const store = useStore()
+      const spy = vi.fn()
+      const error = new Error('inner patch failed')
+      store.$subscribe(spy, { flush: 'sync' })
+
+      let caughtError: unknown
+      try {
+        store.$patch(() => {
+          store.$patch((state): void => {
+            state.user = 'partially patched'
+            throw error
+          })
+        })
+      } catch (caught) {
+        caughtError = caught
+      }
+      expect(caughtError).toBe(error)
+      expect(store.user).toBe('partially patched')
+      expect(spy).not.toHaveBeenCalled()
+
+      store.user = 'after the error'
+      expect(spy).toHaveBeenCalledTimes(1)
+      await nextTick()
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
+
+    it('observes synchronous mutations made by patch subscriptions', () => {
+      const store = useStore()
+      const mutations: MutationType[] = []
+      store.$subscribe(
+        ({ type }) => {
+          mutations.push(type)
+          if (type === MutationType.patchFunction) {
+            store.user = 'from subscription'
+          }
+        },
+        { flush: 'sync' }
+      )
+
+      store.$patch((state) => {
+        state.user = 'patched'
+      })
+
+      expect(mutations).toEqual([
+        MutationType.patchFunction,
+        MutationType.direct,
+      ])
+      expect(store.user).toBe('from subscription')
     })
 
     it('works with multiple different flush', async () => {

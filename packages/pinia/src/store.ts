@@ -286,6 +286,11 @@ function createSetupStore<
   // avoid triggering too many listeners
   // https://github.com/vuejs/pinia/issues/1129
   let activeListener: symbol | undefined
+  let patchDepth = 0
+  /**
+   * Applies a synchronous patch, keeping direct subscriptions paused until the
+   * outermost patch finishes or throws.
+   */
   function $patch(stateMutation: (state: UnwrapRef<S>) => void): void
   function $patch(partialState: _DeepPartial<UnwrapRef<S>>): void
   function $patch(
@@ -294,6 +299,7 @@ function createSetupStore<
       | ((state: UnwrapRef<S>) => void)
   ): void {
     let subscriptionMutation: SubscriptionCallbackMutation<S>
+    patchDepth++
     isListening = isSyncListening = false
     // reset the debugger events since patches are sync
     /* istanbul ignore else */
@@ -318,14 +324,16 @@ function createSetupStore<
         }
       }
     } finally {
-      // Resume subscriptions even if applying the patch throws.
-      const myListenerId = (activeListener = Symbol())
-      nextTick().then(() => {
-        if (activeListener === myListenerId) {
-          isListening = true
-        }
-      })
-      isSyncListening = true
+      // An inner patch must not resume direct subscriptions for its parent.
+      if (--patchDepth === 0) {
+        const myListenerId = (activeListener = Symbol())
+        nextTick().then(() => {
+          if (activeListener === myListenerId) {
+            isListening = true
+          }
+        })
+        isSyncListening = true
+      }
     }
     // because we paused the watcher, we need to manually call the subscriptions
     triggerSubscriptions(
