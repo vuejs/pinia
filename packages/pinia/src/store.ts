@@ -78,6 +78,15 @@ interface MarkedAction<Fn extends _Method = _Method> {
   [ACTION_NAME]: string
 }
 
+/**
+ * Own property check that works in browsers without `Object.hasOwn`
+ * (e.g. Chrome <= 92), which would otherwise throw at store creation
+ * @internal
+ */
+function hasOwn(obj: object, key: PropertyKey): boolean {
+  return Object.prototype.hasOwnProperty.call(obj, key)
+}
+
 function mergeReactiveObjects<
   T extends Record<any, unknown> | Map<unknown, unknown> | Set<unknown>,
 >(target: T, patchToApply: _DeepPartial<T>): T {
@@ -91,13 +100,13 @@ function mergeReactiveObjects<
 
   // no need to go through symbols because they cannot be serialized anyway
   for (const key in patchToApply) {
-    if (!Object.hasOwn(patchToApply, key)) continue
+    if (!hasOwn(patchToApply, key)) continue
     const subPatch = patchToApply[key]
     const targetValue = target[key]
     if (
       isPlainObject(targetValue) &&
       isPlainObject(subPatch) &&
-      Object.hasOwn(target, key) &&
+      hasOwn(target, key) &&
       !isRef(subPatch) &&
       !isReactive(subPatch)
     ) {
@@ -138,9 +147,7 @@ export function skipHydrate<T = any>(obj: T): T {
  * @returns true if `obj` should be hydrated
  */
 export function shouldHydrate(obj: any) {
-  return (
-    !obj || typeof obj !== 'object' || !Object.hasOwn(obj, skipHydrateSymbol)
-  )
+  return !obj || typeof obj !== 'object' || !hasOwn(obj, skipHydrateSymbol)
 }
 
 const { assign } = Object
@@ -643,7 +650,7 @@ function createSetupStore<
           // shallow refs use the new definition as-is
           if (!(isRef(newStoreProperty) && isShallow(newStoreProperty))) {
             if (
-              Object.hasOwn(newStore._hmrPayload.stateKeys, stateKey) &&
+              hasOwn(newStore._hmrPayload.stateKeys, stateKey) &&
               typeof newStateTarget === 'object' &&
               isPlainObject(newStateTarget) &&
               isPlainObject(oldStateSource)
@@ -651,10 +658,7 @@ function createSetupStore<
               if (isShallow(newStoreProperty)) {
                 // keep values that were updated
                 for (const key in oldStateSource) {
-                  if (
-                    Object.hasOwn(oldStateSource, key) &&
-                    key in newStateTarget
-                  ) {
+                  if (hasOwn(oldStateSource, key) && key in newStateTarget) {
                     newStateTarget[key] = oldStateSource[key]
                   }
                 }
@@ -667,7 +671,7 @@ function createSetupStore<
               if (oldStateKeys) {
                 for (const key in oldStateSource) {
                   if (
-                    Object.hasOwn(oldStateSource, key) &&
+                    hasOwn(oldStateSource, key) &&
                     !oldStateKeys.includes(key)
                   ) {
                     newStateTarget[key] = oldStateSource[key]

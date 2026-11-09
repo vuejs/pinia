@@ -1,7 +1,14 @@
 import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
-import { defineComponent, getCurrentInstance, nextTick, watch } from 'vue'
+import {
+  defineComponent,
+  getCurrentInstance,
+  nextTick,
+  reactive,
+  shallowReactive,
+  watch,
+} from 'vue'
 import { mockWarn } from './vitest-mock-warn'
 
 describe('Store', () => {
@@ -387,5 +394,49 @@ describe('Store', () => {
     expect(
       `A getter cannot have the same name as another state property. Found "anyName" in store "main".`
     ).toHaveBeenWarnedTimes(1)
+  })
+
+  // https://github.com/vuejs/pinia/issues/3210
+  it('works in browsers without Object.hasOwn', () => {
+    const hasOwn = Object.hasOwn
+    const pinia = createPinia()
+    // seed the state so hydration runs during store creation
+    pinia.state.value.hydrated = { nested: { a: 1 } }
+    const useHydratedStore = defineStore('hydrated', () => {
+      const nested = reactive({ a: 0 })
+      return { nested }
+    })
+    const useStore = defineStore('no-has-own', {
+      state: () => ({ nested: { a: 1 } }),
+    })
+    const useShallowStore = defineStore('shallow', () => {
+      const nested = shallowReactive({ a: 1 })
+      return { nested }
+    })
+
+    try {
+      expect(Reflect.deleteProperty(Object, 'hasOwn')).toBe(true)
+      const hydratedStore = useHydratedStore(pinia)
+      const store = useStore(pinia)
+      const shallowStore = useShallowStore(pinia)
+      store.$patch({ nested: { a: 2 } })
+      // simulate the dev-only HMR update path
+      defineStore('no-has-own', {
+        state: () => ({ nested: { a: 2 } }),
+      })(null, store)
+      defineStore('shallow', () => {
+        const nested = shallowReactive({ a: 1 })
+        return { nested }
+      })(null, shallowStore)
+      expect(hydratedStore.nested.a).toBe(1)
+      expect(store.nested.a).toBe(2)
+      expect(shallowStore.nested.a).toBe(1)
+    } finally {
+      Reflect.defineProperty(Object, 'hasOwn', {
+        value: hasOwn,
+        configurable: true,
+        writable: true,
+      })
+    }
   })
 })

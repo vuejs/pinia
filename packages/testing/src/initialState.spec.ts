@@ -48,10 +48,22 @@ describe('Testing: initial state', () => {
     expect(counter.n).toBe(11)
   })
 
-  it('can provide objects', () => {
-    const { counter } = factory({
-      initialState: { counter: { nested: { n: 10 } } },
-    })
+  it('can provide objects in browsers without Object.hasOwn', () => {
+    const hasOwn = Object.hasOwn
+    let counter!: ReturnType<typeof useCounter>
+
+    try {
+      expect(Reflect.deleteProperty(Object, 'hasOwn')).toBe(true)
+      counter = factory({
+        initialState: { counter: { nested: { n: 10 } } },
+      }).counter
+    } finally {
+      Reflect.defineProperty(Object, 'hasOwn', {
+        value: hasOwn,
+        configurable: true,
+        writable: true,
+      })
+    }
     expect(counter.n).toBe(0)
     expect(counter.nested.other).toBe(false)
     expect(counter.nested.n).toBe(10)

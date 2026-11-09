@@ -184,19 +184,28 @@ export function createTestingPinia({
   return pinia as TestingPinia
 }
 
+/**
+ * Own property check that works in browsers without `Object.hasOwn`
+ * (e.g. Chrome <= 92), which would otherwise throw at store creation
+ * @internal
+ */
+function hasOwn(obj: object, key: PropertyKey): boolean {
+  return Object.prototype.hasOwnProperty.call(obj, key)
+}
+
 function mergeReactiveObjects<T extends StateTree>(
   target: T,
   patchToApply: _DeepPartial<T>
 ): T {
   // no need to go through symbols because they cannot be serialized anyway
   for (const key in patchToApply) {
-    if (!Object.hasOwn(patchToApply, key)) continue
+    if (!hasOwn(patchToApply, key)) continue
     const subPatch = patchToApply[key]
     const targetValue = target[key]
     if (
       isPlainObject(targetValue) &&
       isPlainObject(subPatch) &&
-      Object.hasOwn(target, key) &&
+      hasOwn(target, key) &&
       !isRef(subPatch) &&
       !isReactive(subPatch)
     ) {
