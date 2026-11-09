@@ -14,11 +14,6 @@ export default defineConfig({
       lang: 'es-ES',
       link: 'https://es-pinia.vercel.app/',
     },
-    ko: {
-      label: '한국어',
-      lang: 'ko-KR',
-      link: 'https://pinia.vuejs.kr/',
-    },
     pt: {
       label: 'Português',
       lang: 'pt-PT',
