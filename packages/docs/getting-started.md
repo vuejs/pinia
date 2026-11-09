@@ -35,6 +35,8 @@ deno add pinia @vue/devtools-api
 If your app is using Vue <2.7, you also need to install the composition api: `@vue/composition-api`. If you are using Nuxt, you should follow [these instructions](/ssr/nuxt.md).
 :::
 
+Pinia targets modern browsers and uses [`Object.hasOwn()`](https://caniuse.com/mdn-javascript_builtins_object_hasown). If you need to support older browsers, add a polyfill such as [core-js](https://github.com/zloirock/core-js#ecmascript-object).
+
 If you are using the Vue CLI, you can instead give this [**unofficial plugin**](https://github.com/wobsoriano/vue-cli-plugin-pinia) a try.
 
 Create a pinia instance (the root store) and pass it to the app as a plugin:
