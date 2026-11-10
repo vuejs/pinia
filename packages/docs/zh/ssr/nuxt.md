@@ -45,7 +45,7 @@ export default defineNuxtConfig({
 
 ## 在 `setup()` 外部使用 store %{#using-the-store-outside-of-setup}%
 
-如果你想在 `setup()` 外部使用一个 store，记得把 `pinia` 对象传给 `useStore()`。我们会把它添加到[上下文](https://nuxtjs.org/docs/2.x/internals-glossary/context)中，然后你就可以在 `asyncData()` 和 `fetch()` 中访问它了：
+如果你想在 `setup()` 外部使用一个 store，记得把 `pinia` 对象传给 `useStore()`。我们会把它添加到[上下文](https://nuxt.com/docs/2.x/api/internals/context)中，然后你就可以在 `asyncData()` 和 `fetch()` 中访问它了：
 
 ```js
 import { useStore } from '~/stores/myStore'
@@ -109,7 +109,7 @@ export default {
   // ... 其他配置
   buildModules: [
     // 仅支持 Nuxt 2:
-    // https://composition-api.nuxtjs.org/getting-started/setup#quick-start
+    // https://composition-api.nuxtjs.org/getting-started/setup/#quick-start
     '@nuxtjs/composition-api/module',
     '@pinia/nuxt',
   ],
