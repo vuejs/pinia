@@ -23,6 +23,18 @@ export default defineConfig({
           new URL('./packages/pinia/src', import.meta.url)
         ),
       },
+      {
+        // controllable stub for the devtools integration, see
+        // packages/pinia/__tests__/devtools-api-stub.ts. No test exercises
+        // the real module (`__USE_DEVTOOLS__` is `false` in tests).
+        find: /^@vue\/devtools-api$/,
+        replacement: fileURLToPath(
+          new URL(
+            './packages/pinia/__tests__/devtools-api-stub.ts',
+            import.meta.url
+          )
+        ),
+      },
     ],
   },
 
