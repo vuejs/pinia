@@ -65,7 +65,7 @@ onServerPrefetch(async () => {
 
 ## State hydration
 
-To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on. Depending on what you are using for SSR, **you should escape the state for security reasons**. We recommend using [devalue](https://github.com/Rich-Harris/devalue) which is the one used by Nuxt:
+To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on. Depending on what you are using for SSR, **you should escape the state for security reasons**. We recommend using [devalue](https://github.com/sveltejs/devalue) which is the one used by Nuxt:
 
 ```js
 import devalue from 'devalue'
@@ -85,11 +85,11 @@ app.use(pinia)
 devalue(pinia.state.value)
 ```
 
-Depending on what you are using for SSR, you will set an _initial state_ variable that will be serialized in the HTML. You should also protect yourself from XSS attacks. You can use [other alternatives](https://github.com/Rich-Harris/devalue#see-also) to `devalue` depending on what you need, e.g. if you can serialize and parse your state with `JSON.stringify()`/`JSON.parse()`, **you could improve your performance by a lot**.
+Depending on what you are using for SSR, you will set an _initial state_ variable that will be serialized in the HTML. You should also protect yourself from XSS attacks. You can use [other alternatives](https://github.com/sveltejs/devalue#see-also) to `devalue` depending on what you need, e.g. if you can serialize and parse your state with `JSON.stringify()`/`JSON.parse()`, **you could improve your performance by a lot**.
 
 If you are not using Nuxt you will need to handle the serialization and hydration of the state yourself. Here are some examples:
 
-- [Vitesse template](https://github.com/antfu/vitesse/blob/main/src/modules/pinia.ts)
+- [Vitesse template](https://github.com/antfu-collective/vitesse/blob/main/src/modules/pinia.ts)
 - [vite-plugin-ssr](https://vite-plugin-ssr.com/pinia)
 
 Adapt this strategy to your environment. **Make sure to hydrate pinia's state before calling any `useStore()` function** on client side. For example, if we serialize the state into a `<script>` tag to make it accessible globally on client side through `window.__pinia`, we can write this:
