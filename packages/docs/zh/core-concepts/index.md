@@ -1,7 +1,5 @@
 # 定义 Store %{#defining-a-store}%
 
-<!-- <RuleKitLink /> -->
-
 <!-- <VueSchoolLink
   href="https://vueschool.io/lessons/define-your-first-pinia-store"
   title="Learn how to define and use stores in Pinia"
@@ -31,9 +29,11 @@ export const useAlertsStore = defineStore('alerts', {
 
 `defineStore()` 的第二个参数可接受两类值：Setup 函数或 Option 对象。
 
+<!-- <RuleKitLink /> -->
+
 ## Option Store %{#option-stores}%
 
-与 Vue 的选项式 API 类似，我们也可以传入一个带有 `state`、`actions` 与 `getters` 属性的 Option 对象
+与 Vue 的选项式 API 类似，我们也可以传入一个带有 `state`、`actions` 与 `getters` 属性的 Option 对象。
 
 ```js {2-10}
 export const useCounterStore = defineStore('counter', {
@@ -76,11 +76,11 @@ export const useCounterStore = defineStore('counter', () => {
 - `computed()` 就是 `getters`
 - `function()` 就是 `actions`
 
-注意，要让 pinia 正确识别 `state`，你**必须**在 setup store 中返回 **`state` 的所有属性**。这意味着，你不能在 store 中使用**私有**属性。不完整返回会影响 [SSR](../cookbook/composables.md) ，开发工具和其他插件的正常运行。
+注意，要让 pinia 正确识别 `state`，你**必须**在 setup store 中返回 **`state` 的所有属性**。这意味着，你不能在 store 中使用[**私有** state 属性](https://masteringpinia.com/blog/how-to-create-private-state-in-stores)。不完整返回 state 属性或**将它们设为只读**会影响 [SSR](../cookbook/composables.md)、开发工具和其他插件的正常运行。
 
 Setup store 比 [Option Store](#option-stores) 带来了更多的灵活性，因为你可以在一个 store 内创建侦听器，并自由地使用任何[组合式函数](https://cn.vuejs.org/guide/reusability/composables.html#composables)。不过，请记住，使用组合式函数会让 SSR 变得更加复杂。
 
-Setup store 也可以依赖于全局**提供**的属性，比如路由。任何[应用层面提供](https://vuejs.org/api/application.html#app-provide)的属性都可以在 store 中使用 `inject()` 访问，就像在组件中一样：
+Setup store 也可以依赖于全局**提供**的属性，比如路由器 (Router) 或路由 (Route)。任何[应用层面提供](https://cn.vuejs.org/api/application.html#app-provide)的属性都可以在 store 中使用 `inject()` 访问，就像在组件中一样：
 
 ```ts
 import { inject } from 'vue'
@@ -110,11 +110,12 @@ export const useSearchFilters = defineStore('search-filters', () => {
 
 ## 使用 Store %{#using-the-store}%
 
-虽然我们前面定义了一个 store，但在我们使用 `<script setup>` 调用 `useStore()`(或者使用 `setup()` 函数，**像所有的组件那样**) 之前，store 实例是不会被创建的：
+我们之所以说是在**定义**一个 store，是因为在组件的 `<script setup>` 中调用 `use...Store()` (或者在 `setup()` 中调用，**像所有的组合式函数那样**) 之前，store 实例是不会被创建的：
 
 ```vue
 <script setup>
 import { useCounterStore } from '@/stores/counter'
+
 // 在组件内部的任何地方均可以访问变量 `store` ✨
 const store = useCounterStore()
 </script>
@@ -137,26 +138,30 @@ import { computed } from 'vue'
 
 const store = useCounterStore()
 // ❌ 下面这部分代码不会生效，因为它的响应式被破坏了
-// 与 reactive 相同: https://vuejs.org/guide/essentials/reactivity-fundamentals.html#limitations-of-reactive
+// 与 reactive 相同: https://cn.vuejs.org/guide/essentials/reactivity-fundamentals.html#limitations-of-reactive
 const { name, doubleCount } = store // [!code warning]
 name // 将会一直是 "Eduardo" // [!code warning]
 doubleCount // 将会一直是 0 // [!code warning]
+
 setTimeout(() => {
   store.increment()
 }, 1000)
+
 // ✅ 而这一部分代码就会维持响应式
 // 💡 在这里你也可以直接使用 `store.doubleCount`
 const doubleValue = computed(() => store.doubleCount)
 </script>
 ```
 
-## 从 Store 解构
+## 从 Store 解构 %{#destructuring-from-a-store}%
 
 为了从 store 中提取属性时保持其响应性，你需要使用 `storeToRefs()`。它将为每一个响应式属性创建引用。当你只使用 store 的状态而不调用任何 action 时，它会非常有用。请注意，你可以直接从 store 中解构 action，因为它们也被绑定到 store 上：
 
 ```vue
 <script setup>
+import { useCounterStore } from '@/stores/counter'
 import { storeToRefs } from 'pinia'
+
 const store = useCounterStore()
 // `name` 和 `doubleCount` 都是响应式引用
 // 下面的代码同样会提取那些来自插件的属性的响应式引用

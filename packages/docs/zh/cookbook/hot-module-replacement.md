@@ -11,7 +11,7 @@ Pinia 支持热更新，所以你可以编辑你的 store，并直接在你的�
 // auth.js
 import { defineStore, acceptHMRUpdate } from 'pinia'
 
-const useAuth = defineStore('auth', {
+export const useAuth = defineStore('auth', {
   // 配置...
 })
 

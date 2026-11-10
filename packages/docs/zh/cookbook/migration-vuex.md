@@ -1,7 +1,5 @@
 # 从 Vuex ≤4 迁移 %{#migrating-from-vuex-≤4}%
 
-<!-- <RuleKitLink /> -->
-
 虽然 Vuex 和 Pinia store 的结构不同，但很多逻辑都可以复用。本指南的作用是帮助你完成迁移，并指出一些可能出现的常见问题。
 
 ## 准备 %{#preparation}%
@@ -15,6 +13,8 @@ Vuex 有一个概念，带有多个模块的单一 store。这些模块可以被
 将这个概念过渡到 Pinia 最简单的方法是，你以前使用的每个模块现在都是一个 _store_。每个 store 都需要一个 `id`，类似于 Vuex 中的命名空间。这意味着每个 store 都有命名空间的设计。嵌套模块也可以成为自己的 store。互相依赖的 store 可以直接导入其他 store。
 
 你的 Vuex 模块如何重构为 Pinia store，完全取决于你，不过这里有一个示例：
+
+<!-- <RuleKitLink /> -->
 
 ```bash
 # Vuex 示例(假设是命名模块)。
@@ -33,8 +33,8 @@ src
 └── stores
     ├── index.js          # (可选) 初始化 Pinia，不必导入 store
     ├── module1.js        # 'module1' id
-    ├── nested-module2.js # 'nested/module2' id
-    ├── nested-module3.js # 'nested/module3' id
+    ├── nested-module2.js # 'nestedModule2' id
+    ├── nested-module3.js # 'nestedModule3' id
     └── nested.js         # 'nested' id
 ```
 
@@ -120,7 +120,7 @@ interface State {
   userId: number | null
 }
 
-export const useAuthUserStore = defineStore('auth/user', {
+export const useAuthUserStore = defineStore('authUser', {
   // 转换为函数
   state: (): State => ({
     firstName: '',
@@ -128,7 +128,7 @@ export const useAuthUserStore = defineStore('auth/user', {
     userId: null,
   }),
   getters: {
-    // 不在需要 firstName getter，移除
+    // 不再需要 firstName getter，移除
     fullName: (state) => `${state.firstName} ${state.lastName}`,
     loggedIn: (state) => state.userId !== null,
     // 由于使用了 `this`，必须定义一个返回类型
@@ -154,7 +154,7 @@ export const useAuthUserStore = defineStore('auth/user', {
     },
   },
   actions: {
-    //没有作为第一个参数的上下文，用 `this` 代替
+    // 没有作为第一个参数的上下文，用 `this` 代替
     async loadUser(id: number) {
       if (this.userId !== null) throw new Error('Already logged in')
       const res = await api.user.load(id)
@@ -176,17 +176,17 @@ export const useAuthUserStore = defineStore('auth/user', {
 
 让我们把上述内容分解成几个步骤：
 
-1. 为 store 添加一个必要的 `id`，你可以让它与之前的命名保持相同。
+1. 为 store 添加一个必要的 `id`，你可以让它与之前的命名空间保持相同。同时也建议确保 `id` 使用 _camelCase_ (小驼峰) 格式，这样与 `mapStores()` 一起使用时会更方便。
 2. 如果 `state` 不是一个函数的话 将它转换为一个函数。
 3. 转换 `getters`
    1. 删除任何返回同名 state 的 getters (例如： `firstName: (state) => state.firstName`)，这些都不是必需的，因为你可以直接从 store 实例中访问任何状态。
-   2. 如果你需要访问其他的 getter，可通过 `this` 访问它们，而不是第二个参数。记住，如果你使用 `this`，而且你不得不使用一个普通函数，而不是一个箭头函数，那么由于 TS 的限制，你需要指定一个返回类型，更多细节请阅读[这篇文档](../core-concepts/getters.md#accessing-other-getters)
+   2. 如果你需要访问其他的 getter，可通过 `this` 访问它们，而不是第二个参数。记住，如果你使用 `this`，你就必须使用普通函数，而不是箭头函数。还要注意，由于 TS 的限制，你需要指定一个返回类型，更多细节请阅读[这篇文档](../core-concepts/getters.md#accessing-other-getters)
    3. 如果使用 `rootState` 或 `rootGetters` 参数，可以直接导入其他 store 来替代它们，或者如果它们仍然存在于 Vuex ，则直接从 Vuex 中访问它们。
 4. 转换 `actions`
    1. 从每个 action 中删除第一个 `context` 参数。所有的东西都应该直接从 `this` 中访问。
    2. 如果使用其他 store，要么直接导入，要么与 getters 一样，在 Vuex 上访问。
 5. 转换 `mutations`
-   1. Mutation 已经被弃用了。它们可以被转换为 `action`，或者你可以在你的组件中直接赋值给 store (例如：`userStore.firstName = 'First'`)
+   1. Mutation 已经不存在了。它们可以被转换为 `action`，或者你可以在你的组件中直接赋值给 store (例如：`userStore.firstName = 'First'`)
    2. 如果你想将它转换为 action，删除第一个 `state` 参数，用 `this` 代替任何赋值操作中的 `state`。
    3. 一个常见的 mutation 是将 state 重置为初始 state。而这就是 store 的 `$reset` 方法的内置功能。注意，这个功能只存在于 option stores。
 

@@ -1,7 +1,5 @@
 # Getter %{#getters}%
 
-<!-- <RuleKitLink /> -->
-
 <!-- <VueSchoolLink
   href="https://vueschool.io/lessons/getters-in-pinia"
   title="Learn all about getters in Pinia"
@@ -12,7 +10,7 @@
   title="Learn all about getters in Pinia"
 />
 
-Getter 完全等同于 store 的 state 的[计算值](https://cn.vuejs.org/guide/essentials/computed.html)。可以通过 `defineStore()` 中的 `getters` 属性来定义它们。**推荐**使用箭头函数，并且它将接收 `state` 作为第一个参数：
+Getter 完全等同于 store 的 state 的[计算值](https://cn.vuejs.org/guide/essentials/computed.html)。可以通过 `defineStore()` 中的 `getters` 属性来定义它们。它们接收 `state` 作为第一个参数，**以鼓励**使用箭头函数：
 
 ```js
 export const useCounterStore = defineStore('counter', {
@@ -25,7 +23,9 @@ export const useCounterStore = defineStore('counter', {
 })
 ```
 
-大多数时候，getter 仅依赖 state。不过，有时它们也可能会使用其他 getter。因此，即使在使用常规函数定义 getter 时，我们也可以通过 `this` 访问到**整个 store 实例**，**但(在 TypeScript 中)必须定义返回类型**。这是为了避免 TypeScript 的已知缺陷，**不过这不影响用箭头函数定义的 getter，也不会影响不使用 `this` 的 getter**。
+<!-- <RuleKitLink /> -->
+
+大多数时候，getter 仅依赖 state。不过，有时它们也可能会使用其他 getter。因此，即使在使用常规函数定义 getter 时，我们也可以通过 `this` 访问到**整个 store 实例**，**但(在 TypeScript 中)必须定义返回类型**。这是为了避免 TypeScript 的已知缺陷，**不过这不影响用箭头函数定义的 getter，也不会影响不使用 `this` 的 getter**：
 
 ```ts
 export const useCounterStore = defineStore('counter', {
@@ -92,7 +92,7 @@ export const useCounterStore = defineStore('counter', {
     // 类型是自动推断出来的，因为我们没有使用 `this`
     doubleCount: (state) => state.count * 2,
     // 这里我们需要自己添加类型(在 JS 中使用 JSDoc)
-    // 可以用 this 来引用 getter
+    // 也可以借此为 getter 编写文档
     /**
      * 返回 count 的值乘以 2 加 1
      *
@@ -113,7 +113,7 @@ export const useCounterStore = defineStore('counter', {
 _Getter_ 只是幕后的**计算**属性，所以不可以向它们传递任何参数。不过，你可以从 _getter_ 返回一个函数，该函数可以接受任意参数：
 
 ```js
-export const useUserListStore = defineStore('userList', {
+export const useStore = defineStore('main', {
   getters: {
     getUserById: (state) => {
       return (userId) => state.users.find((user) => user.id === userId)
@@ -126,7 +126,9 @@ export const useUserListStore = defineStore('userList', {
 
 ```vue
 <script setup>
+import { storeToRefs } from 'pinia'
 import { useUserListStore } from './store'
+
 const userList = useUserListStore()
 const { getUserById } = storeToRefs(userList)
 // 请注意，你需要使用 `getUserById.value` 来访问
@@ -141,7 +143,7 @@ const { getUserById } = storeToRefs(userList)
 请注意，当你这样做时，**getter 将不再被缓存**。它们只是一个被你调用的函数。不过，你可以在 getter 本身中缓存一些结果，虽然这种做法并不常见，但有证明表明它的性能会更好：
 
 ```js
-export const useUserListStore = defineStore('userList', {
+export const useStore = defineStore('main', {
   getters: {
     getActiveUserById(state) {
       const activeUsers = state.users.filter((user) => user.active)
@@ -178,6 +180,7 @@ export const useStore = defineStore('main', {
 ```vue
 <script setup>
 const store = useCounterStore()
+
 store.count = 3
 store.doubleCount // 6
 </script>
@@ -222,6 +225,7 @@ export default defineComponent({
   setup() {
     const counterStore = useCounterStore()
 
+    // **只返回整个 store**，而不是解构它
     return { counterStore }
   },
   computed: {

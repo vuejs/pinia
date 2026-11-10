@@ -46,10 +46,12 @@ const useY = defineStore('y', () => {
 
 注意，如果一个 store 使用另一个 store，你可以直接导入并在 _actions_ 和 _getters_ 中调用 `useStore()` 函数。然后你就可以像在 Vue 组件中那样使用 store。参考[共享 Getter](#shared-getters) 和[共享 Action](#shared-actions)。
 
-对于 _setup store_ ，你直接使用 store 函数**顶部**的一个 store：
+对于 _setup store_，你可以直接使用 store 函数**顶部**的一个 store：
 
 ```ts
+import { defineStore } from 'pinia'
 import { useUserStore } from './user'
+import { apiPurchase } from './api'
 
 export const useCartStore = defineStore('cart', () => {
   const user = useUserStore()
@@ -60,10 +62,10 @@ export const useCartStore = defineStore('cart', () => {
   })
 
   function purchase() {
-    return apiPurchase(user.id, this.list)
+    return apiPurchase(user.id, list.value)
   }
 
-  return { summary, purchase }
+  return { list, summary, purchase }
 })
 ```
 
@@ -86,13 +88,14 @@ export const useCartStore = defineStore('cart', {
 })
 ```
 
-## 共享 Actions %{#shared-actions}%
+## 共享 Action %{#shared-actions}%
 
 _actions_ 也一样：
 
 ```js
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
+import { apiOrderCart } from './api'
 
 export const useCartStore = defineStore('cart', {
   actions: {
@@ -101,6 +104,33 @@ export const useCartStore = defineStore('cart', {
 
       try {
         await apiOrderCart(user.token, this.items)
+        // 其他 action
+        this.emptyCart()
+      } catch (err) {
+        displayError(err)
+      }
+    },
+  },
+})
+```
+
+由于 action 可以是异步的，请确保**所有的 `useStore()` 调用都出现在任何 `await` 之前**。否则，_在 SSR 应用中_ 可能会使用错误的 pinia 实例：
+
+```js{7-8,11-13}
+import { defineStore } from 'pinia'
+import { useUserStore } from './user'
+import { apiOrderCart } from './api'
+
+export const useCartStore = defineStore('cart', {
+  actions: {
+    async orderCart() {
+      // ✅ 在 action 顶部、任何 `await` 之前调用
+      const user = useUserStore()
+
+      try {
+        await apiOrderCart(user.token, this.items)
+        // ❌ 在 `await` 语句之后调用
+        const otherStore = useOtherStore()
         // 其他 action
         this.emptyCart()
       } catch (err) {

@@ -1,7 +1,5 @@
 # State %{#state}%
 
-<!-- <RuleKitLink /> -->
-
 <!-- <VueSchoolLink
   href="https://vueschool.io/lessons/access-state-from-a-pinia-store"
   title="Learn all about state in Pinia"
@@ -17,7 +15,7 @@
 ```js
 import { defineStore } from 'pinia'
 
-const useStore = defineStore('storeId', {
+export const useStore = defineStore('storeId', {
   // 为了完整类型推理，推荐使用箭头函数
   state: () => {
     return {
@@ -33,15 +31,19 @@ const useStore = defineStore('storeId', {
 ```
 
 :::tip
-如果你使用的是 Vue 2，你在 `state` 中创建的数据与 Vue 实例中的 `data` 遵循同样的规则，即 state 对象必须是清晰的，当你想向其**添加新属性**时，你需要调用 `Vue.set()` 。**参考：[Vue#data](https://v2.cn.vuejs.org/v2/api/#data)**。
+
+为了让 Vue 正确地检测到 state，你必须在 `state` 中声明每一个 state 属性，即使它的初始值是 `undefined`。
+
 :::
+
+<!-- <RuleKitLink /> -->
 
 ## TypeScript %{#typescript}%
 
-你并不需要做太多努力就能使你的 state 兼容 TS。确保启用了 strict，或者至少启用了 noImplicitThis，Pinia 将自动推断您的状态类型！ 但是，在某些情况下，您应该帮助它进行一些转换：
+你并不需要做太多努力就能使你的 state 兼容 TS。确保启用了 [`strict`](https://www.typescriptlang.org/tsconfig#strict)，或者至少启用了 [`noImplicitThis`](https://www.typescriptlang.org/tsconfig#noImplicitThis)，Pinia 将自动推断你的 state 类型！但是，在某些情况下，你应该帮助它进行一些类型转换：
 
 ```ts
-const useStore = defineStore('storeId', {
+export const useUserStore = defineStore('user', {
   state: () => {
     return {
       // 用于初始化空列表
@@ -58,7 +60,7 @@ interface UserInfo {
 }
 ```
 
-如果你愿意，你可以用一个接口定义 state，并添加 `state()` 的返回值的类型。
+如果你愿意，你可以用一个接口定义 state，并添加 `state()` 的返回值的类型：
 
 ```ts
 interface State {
@@ -66,7 +68,7 @@ interface State {
   user: UserInfo | null
 }
 
-const useStore = defineStore('storeId', {
+export const useUserStore = defineStore('user', {
   state: (): State => {
     return {
       userList: [],
@@ -83,19 +85,29 @@ interface UserInfo {
 
 ## 访问 `state` %{#accessing-the-state}%
 
-默认情况下，你可以通过 `store` 实例访问 state，直接对其进行读写。
+默认情况下，你可以通过 `store` 实例访问 state，直接对其进行读写：
 
-```js
+```ts
 const store = useStore()
 
 store.count++
 ```
 
-注意，新的属性**如果没有在 `state()` 中被定义**，则不能被添加。它必须包含初始状态。例如：如果 `secondCount` 没有在 `state()` 中定义，我们无法执行 `store.secondCount = 2`。
+没错，这意味着**不需要**像 Vuex 那样写**冗长的包装器**，你可以直接将它绑定到 `v-model` 上：
+
+```vue-html
+<input v-model="store.count" type="number" />
+```
+
+::: info
+
+新的属性**如果没有在 `state()` 中被定义**，则不能被添加。它必须包含初始状态。例如：如果 `secondCount` 没有在 `state()` 中定义，我们无法执行 `store.secondCount = 2`。
+
+:::
 
 ## 重置 state %{#resetting-the-state}%
 
-使用[选项式 API](/zh/core-concepts/index.md#option-stores) 时，你可以通过调用 store 的 `$reset()` 方法将 state 重置为初始值。
+在 [Option Store](/zh/core-concepts/index.md#option-stores) 中，你可以通过调用 store 的 `$reset()` 方法将 state _重置_为初始值：
 
 ```js
 const store = useStore()
@@ -105,7 +117,7 @@ store.$reset()
 
 在 `$reset()` 内部，会调用 `state()` 函数来创建一个新的状态对象，并用它替换当前状态。
 
-在 [Setup Stores](/core-concepts/index.md#setup-stores) 中，您需要创建自己的 `$reset()` 方法：
+在 [Setup Store](/zh/core-concepts/index.md#setup-stores) 中，你需要创建自己的 `$reset()` 方法：
 
 ```ts
 export const useCounterStore = defineStore('counter', () => {
@@ -134,14 +146,14 @@ export const useCounterStore = defineStore('counter', () => {
 
 import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counter', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
   }),
 })
 ```
 
-如果你不能使用组合式 API，但你可以使用 `computed`，`methods`，...，那你可以使用 `mapState()` 辅助函数将 state 属性映射为只读的计算属性：
+如果你没有使用组合式 API，而是在使用 `computed`、`methods` 等，你可以使用 `mapState()` 辅助函数将 state 属性映射为只读的计算属性：
 
 ```js
 import { mapState } from 'pinia'
@@ -151,13 +163,13 @@ export default {
   computed: {
     // 可以访问组件中的 this.count
     // 与从 store.count 中读取的数据相同
-    ...mapState(useCounterStore, ['count'])
+    ...mapState(useCounterStore, ['count']),
     // 与上述相同，但将其注册为 this.myOwnName
     ...mapState(useCounterStore, {
       myOwnName: 'count',
       // 你也可以写一个函数来获得对 store 的访问权
-      double: store => store.count * 2,
-      // 它可以访问 `this`，但它没有标注类型...
+      double: (store) => store.count * 2,
+      // 它可以访问 `this`，但它的类型不会被正确推断...
       magicValue(store) {
         return store.someGetter + this.count + this.double
       },
@@ -179,7 +191,7 @@ export default {
     // 可以访问组件中的 this.count，并允许设置它。
     // this.count++
     // 与从 store.count 中读取的数据相同
-    ...mapWritableState(useCounterStore, ['count'])
+    ...mapWritableState(useCounterStore, ['count']),
     // 与上述相同，但将其注册为 this.myOwnName
     ...mapWritableState(useCounterStore, {
       myOwnName: 'count',
@@ -206,7 +218,7 @@ store.$patch({
 })
 ```
 
-不过，用这种语法的话，有些变更真的很难实现或者很耗时：任何集合的修改（例如，向数组中添加、移除一个元素或是做 `splice` 操作）都需要你创建一个新的集合。因此，`$patch` 方法也接受一个函数来组合这种难以用补丁对象实现的变更。
+不过，用这种语法的话，有些变更真的很难实现或者很耗时：任何集合的修改（例如，向数组中添加、移除一个元素或是做 `splice` 操作）都需要你创建一个新的集合。因此，`$patch` 方法也接受一个函数来组合这种难以用补丁对象实现的变更：
 
 ```js
 store.$patch((state) => {
@@ -217,14 +229,14 @@ store.$patch((state) => {
 
 <!-- TODO: disable this with `strictMode`, `{ noDirectPatch: true }` -->
 
-两种变更 store 方法的主要区别是，`$patch()` 允许你将多个变更归入 devtools 的同一个条目中。同时请注意，**直接修改 `state`，`$patch()` 也会出现在 devtools 中**，而且可以进行 time travel (在 Vue 3 中还没有)。
+两种变更 store 方法的主要区别是，`$patch()` 允许你将多个变更归入 devtools 的同一个条目中。同时请注意，**直接修改 `state`，`$patch()` 也会出现在 devtools 中**，而且可以进行 time travel。
 
 ## 替换 `state` %{#replacing-the-state}%
 
-你**不能完全替换掉** store 的 state，因为那样会破坏其响应性。但是，你可以 _patch_ 它。
+你**不能完全替换掉** store 的 state，因为那样会破坏其响应性。但是，你可以 _patch_ 它：
 
 ```js
-// 这实际上并没有替换`$state`
+// 这实际上并没有替换 `$state`
 store.$state = { count: 24 }
 // 在它内部调用 `$patch()`：
 store.$patch({ count: 24 })
@@ -256,7 +268,7 @@ cartStore.$subscribe((mutation, state) => {
 
 ### 刷新时机 %{#flush-timing}%
 
-在底层实现上，`$subscribe()` 使用了 Vue 的 `watch()` 函数。你可以传入与 `watch()` 相同的选项。当你想要在 **每次** state 变化后立即触发订阅时很有用：
+在底层实现上，`$subscribe()` 使用了 Vue 的 `watch()` 函数。当你想要在**每次** state 变化后立即触发订阅时，这会很有用：
 
 ```ts{4}
 cartStore.$subscribe((mutation, state) => {
@@ -265,6 +277,25 @@ cartStore.$subscribe((mutation, state) => {
 }, { flush: 'sync' })
 ```
 
+有些 `watch` 选项在 `$subscribe()` 中不可用。这种情况下，请直接对 store 的 state 使用 `watch()`：
+
+```ts
+import { watch } from 'vue'
+watch(
+  () => cartStore.itemList,
+  (state) => {
+    // ....
+  },
+  { once: true, deep: false }
+)
+```
+
+:::tip
+注意，`flush: 'sync'` 会在**每次** state 变化后执行回调，而不是将它们批量处理。所以如果你的订阅执行了繁重的工作，或者 state 变化很频繁，它可能会影响性能。
+
+在一个小众场景中，这也会影响正确性：在同一个 tick 中，紧跟在 `$patch()` 之后同步发生的**直接**变更 (例如 `store.count++`) 本身不会触发非 sync 的订阅。如果你必须收到每一次这类变更的通知，请使用 `flush: 'sync'`。
+:::
+
 ### 取消订阅 %{#detaching-subscriptions}%
 
 默认情况下，_state subscription_ 会被绑定到添加它们的组件上 (如果 store 在组件的 `setup()` 里面)。这意味着，当该组件被卸载时，它们将被自动删除。如果你想在组件卸载后依旧保留它们，请将 `{ detached: true }` 作为第二个参数，以将 _state subscription_ 从当前组件中*分离*：
@@ -272,13 +303,14 @@ cartStore.$subscribe((mutation, state) => {
 ```vue
 <script setup>
 const someStore = useSomeStore()
+
 // 此订阅器即便在组件卸载之后仍会被保留
 someStore.$subscribe(callback, { detached: true })
 </script>
 ```
 
 :::tip
-你可以在 `pinia` 实例上使用 `watch()` 函数侦听整个 state。
+你可以在 `pinia` 实例上使用单个 `watch()` 函数_侦听_整个 state：
 
 ```js
 watch(

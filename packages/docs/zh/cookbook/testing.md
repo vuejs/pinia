@@ -1,7 +1,5 @@
 # store 测试 %{#testing-stores}%
 
-<!-- <RuleKitLink /> -->
-
 <MasteringPiniaLink
   href="https://play.gumlet.io/embed/65f9a9c10bfab01f414c25dc"
   title="Watch a free video of Mastering Pinia about testing stores"
@@ -13,18 +11,9 @@
 - `actions`：大多数时候，它们包含了 store 最复杂的逻辑。如果它们默认就可以被 mocked，那不是很好吗？
 - 插件：如果你依赖插件，你也必须为测试安装它们
 
-根据测试的内容和方式，我们需要以不同的方式来处理这三个问题：
+根据测试的内容和方式，我们需要以不同的方式来处理这三个问题。
 
-- [store 测试](#testing-stores)
-  - [对 store 单元测试](#unit-testing-a-store)
-  - [对组件单元测试](#unit-testing-components)
-    - [初始 state](#initial-state)
-    - [自定义 action 的行为](#customizing-behavior-of-actions)
-    - [指定 createSpy 函数](#specifying-the-createspy-function)
-    - [Mocking getters](#mocking-getters)
-    - [Pinia 插件](#pinia-plugins)
-  - [端到端测试](#e2e-tests)
-  - [对组件单元测试(Vue 2)](#unit-test-components-vue-2)
+<!-- <RuleKitLink /> -->
 
 ## 对 store 进行单元测试 %{#unit-testing-a-store}%
 
@@ -33,7 +22,7 @@
 ```js
 // stores/counter.spec.ts
 import { setActivePinia, createPinia } from 'pinia'
-import { useCounter } from '../src/stores/counter'
+import { useCounterStore } from '../src/stores/counter'
 
 describe('Counter Store', () => {
   beforeEach(() => {
@@ -44,14 +33,14 @@ describe('Counter Store', () => {
   })
 
   it('increments', () => {
-    const counter = useCounter()
+    const counter = useCounterStore()
     expect(counter.n).toBe(0)
     counter.increment()
     expect(counter.n).toBe(1)
   })
 
   it('increments by amount', () => {
-    const counter = useCounter()
+    const counter = useCounterStore()
     counter.increment(10)
     expect(counter.n).toBe(10)
   })
@@ -67,7 +56,7 @@ import { somePlugin } from '../src/stores/plugin'
 
 // 和前面一样的代码...
 
-// 测试前你不需要创建应用
+// 你不需要为每个测试创建一个应用
 const app = createApp({})
 beforeEach(() => {
   const pinia = createPinia().use(somePlugin)
@@ -77,6 +66,12 @@ beforeEach(() => {
 ```
 
 ## 对组件单元测试 %{#unit-testing-components}%
+
+<!-- NOTE: too long maybe but good value -->
+<!-- <MasteringPiniaLink
+  href="https://play.gumlet.io/embed/6630f540c418f8419b73b2b2?t1=1715867840&t2=1715867570609?preload=false&autoplay=false&loop=false&disable_player_controls=false"
+  title="Watch a free video of Mastering Pinia about testing stores"
+/> -->
 
 这可以通过 `createTestingPinia()` 实现，它会返回一个仅用于帮助对组件单元测试的 pinia 实例。
 
@@ -100,7 +95,7 @@ const wrapper = mount(Counter, {
   },
 })
 
-const store = useSomeStore() // // 使用 pinia 的测试实例!
+const store = useSomeStore() // 使用 pinia 的测试实例!
 
 // 可直接操作 state
 store.name = 'my new name'
@@ -115,8 +110,6 @@ store.someAction()
 expect(store.someAction).toHaveBeenCalledTimes(1)
 expect(store.someAction).toHaveBeenLastCalledWith()
 ```
-
-请注意，如果你使用的是 Vue 2，`@vue/test-utils` 需要一个[轻微不同的配置](#unit-test-components-vue-2)。
 
 ### 初始 State %{#initial-state}%
 
@@ -140,7 +133,7 @@ const wrapper = mount(Counter, {
     plugins: [
       createTestingPinia({
         initialState: {
-          counter: { n: 20 }, //从 20 开始计数，而不是 0
+          counter: { n: 20 }, // 从 20 开始计数，而不是 0
         },
       }),
     ],
@@ -172,6 +165,69 @@ store.someAction()
 // ...但它仍然被一个 spy 包装着，所以你可以检查调用
 expect(store.someAction).toHaveBeenCalledTimes(1)
 ```
+
+### Setup store 中的存根限制 %{#stubbing-limitations-in-setup-stores}%
+
+`stubActions` 只会替换 store 实例上的 action。在 Setup store 中，一个 action 调用另一个 action 时，使用的是闭包中的函数引用，而不是 store，所以这个内部调用永远不会用到存根：
+
+```js
+// Setup store
+export const useCounterStore = defineStore('counter', () => {
+  function increment() {
+    /* ... */
+  }
+
+  function incrementTwice() {
+    increment() // ❌ 闭包中的引用，永远不会用到存根
+    increment()
+  }
+
+  return { increment, incrementTwice }
+})
+```
+
+存根会影响 `store.increment()`，但不会影响 `incrementTwice()` 内部的 `increment()` 调用。执行真正的 `incrementTwice()` 时，总是会执行真正的 `increment()`。
+
+Option store 没有这个限制。内部调用会经过 `this`，也就是 store 实例，所以它们会调用存根：
+
+```js
+// Option store
+export const useCounterStore = defineStore('counter', {
+  actions: {
+    increment() {
+      /* ... */
+    },
+    incrementTwice() {
+      this.increment() // ✅ 经过 store，使用存根
+      this.increment()
+    },
+  },
+})
+```
+
+::: warning
+
+要让 Setup store 中的内部调用可以被存根，请通过 store 来调用，而不是使用闭包中的函数：
+
+```js
+export const useCounterStore = defineStore('counter', () => {
+  function increment() {
+    /* ... */
+  }
+
+  function incrementTwice() {
+    const store = useCounterStore()
+    store.increment() // ✅ 经过 store，使用存根
+    store.increment()
+  }
+
+  return { increment, incrementTwice }
+})
+```
+
+这样做是可行的，但仅仅为了满足测试而这样做有些 _小题大做_。所以请先重新考虑一下，你是否真的需要存根这个 action，或者能否直接测试它真正的实现。
+
+:::
 
 ### 选择性 action 存根 %{#selective-action-stubbing}%
 
@@ -247,12 +303,13 @@ vi.spyOn(store, 'increment').mockImplementation(() => {})
 store.increment.mockImplementation(() => {})
 ```
 
-### Mocking the returned value of an action
+### Mock action 的返回值 %{#mocking-the-returned-value-of-an-action}%
 
-Actions are automatically spied but type-wise, they are still the regular actions. In order to get the correct type, we must implement a custom type-wrapper that applies the `Mock` type to each action. **This type depends on the testing framework you are using**. Here is an example with Vitest:
+action 会被自动监听 (spy)，但在类型上，它们仍然是常规的 action。为了获得正确的类型，我们必须实现一个自定义的类型包装器，将 `Mock` 类型应用到每个 action 上。**这个类型取决于你所使用的测试框架**。下面是一个使用 Vitest 的例子：
 
 ```ts
 import type { Mock } from 'vitest'
+import type { UnwrapRef } from 'vue'
 import type { Store, StoreDefinition } from 'pinia'
 
 function mockedStore<TStoreDef extends () => unknown>(
@@ -266,43 +323,58 @@ function mockedStore<TStoreDef extends () => unknown>(
   ? Store<
       Id,
       State,
-      Getters,
+      Record<string, never>,
       {
-        [K in keyof Actions]: Actions[K] extends (
-          ...args: infer Args
-        ) => infer ReturnT
-          ? // 👇 depends on your testing framework
-            Mock<Args, ReturnT>
+        [K in keyof Actions]: Actions[K] extends (...args: any[]) => any
+          ? // 👇 取决于你的测试框架
+            Mock<Actions[K]>
           : Actions[K]
       }
-    >
+    > & {
+      [K in keyof Getters]: UnwrapRef<Getters[K]>
+    }
   : ReturnType<TStoreDef> {
   return useStore() as any
 }
 ```
 
-This can be used in tests to get a correctly typed store:
+它可以在测试中用来获得一个类型正确的 store：
 
 ```ts
 import { mockedStore } from './mockedStore'
 import { useSomeStore } from '@/stores/myStore'
 
 const store = mockedStore(useSomeStore)
-// typed!
+// 有类型了！
 store.someAction.mockResolvedValue('some value')
 ```
 
+如果你有兴趣学习更多类似的技巧，可以看看 [Mastering Pinia](https://masteringpinia.com/lessons/exercise-mocking-stores-introduction) 中的测试课程。
+
 ### 指定 createSpy 函数 %{#specifying-the-createspy-function}%
 
-当使用 Jest，或 vitest 且设置 `globals: true` 时，`createTestingPinia` 会自动使用现有测试框架 (`jest.fn` 或 `vitest.fn`) 的 spy 函数存根 (stub) action。如果你使用的是不同的框架，你需要提供一个 [createSpy](/zh/api/interfaces/pinia_testing.TestingOptions.html#createspy) 选项：
+当使用 Jest，或 vitest 且设置 `globals: true` 时，`createTestingPinia` 会自动使用现有测试框架 (`jest.fn` 或 `vitest.fn`) 的 spy 函数存根 (stub) action。如果你没有设置 `globals: true`，或者使用的是不同的框架，你需要提供一个 [createSpy](/zh/api/interfaces/pinia_testing.TestingOptions.html#createspy) 选项：
 
-```js
+::: code-group
+
+```ts [vitest]
+// 注意：设置了 `globals: true` 时不需要这样做
+import { vi } from 'vitest'
+
+createTestingPinia({
+  createSpy: vi.fn,
+})
+```
+
+```ts [sinon]
 import sinon from 'sinon'
 
 createTestingPinia({
-  createSpy: sinon.spy, // 使用 sinon's spy 包装 action
+  createSpy: sinon.spy,
 })
 ```
+
+:::
 
 你可以在[测试包的测试源码](https://github.com/vuejs/pinia/blob/v3/packages/testing/src/testing.spec.ts)中找到更多的例子。
 
@@ -314,7 +386,7 @@ createTestingPinia({
 import { defineStore } from 'pinia'
 import { createTestingPinia } from '@pinia/testing'
 
-const useCounter = defineStore('counter', {
+const useCounterStore = defineStore('counter', {
   state: () => ({ n: 1 }),
   getters: {
     double: (state) => state.n * 2,
@@ -322,7 +394,7 @@ const useCounter = defineStore('counter', {
 })
 
 const pinia = createTestingPinia()
-const counter = useCounter(pinia)
+const counter = useCounterStore(pinia)
 
 counter.double = 3 // 🪄 getter 仅在测试中可被重写
 
@@ -340,7 +412,7 @@ counter.double // 2 (=1 x 2)
 import { createTestingPinia } from '@pinia/testing'
 import { somePlugin } from '../src/stores/plugin'
 
-// 某些测试
+// 在某个测试中
 const wrapper = mount(Counter, {
   global: {
     plugins: [
@@ -353,26 +425,10 @@ const wrapper = mount(Counter, {
 })
 ```
 
+## Nuxt %{#nuxt}%
+
+如果你在测试一个 Nuxt 应用，请参考 [在 Nuxt 中测试](../ssr/nuxt.md#testing)。
+
 ## 端到端测试 %{#e2e-tests}%
 
 对于 pinia，你不需要为端到端测试修改任何代码，这就是端到端测试的含义！也许你想测试 HTTP 请求，但这已经超出了本指南的范围😄。
-
-## 对组件单元测试(Vue 2) %{#unit-test-components-vue-2}%
-
-当你使用的是 [Vue Test Utils 1](https://v1.test-utils.vuejs.org/zh/) 时，请将 Pinia 安装在 `localVue` 上：
-
-```js
-import { PiniaVuePlugin } from 'pinia'
-import { createLocalVue, mount } from '@vue/test-utils'
-import { createTestingPinia } from '@pinia/testing'
-
-const localVue = createLocalVue()
-localVue.use(PiniaVuePlugin)
-
-const wrapper = mount(Counter, {
-  localVue,
-  pinia: createTestingPinia(),
-})
-
-const store = useSomeStore() // 使用 pinia 的测试实例！
-```
