@@ -1,7 +1,5 @@
 # Action %{#actions}%
 
-<!-- <RuleKitLink /> -->
-
 <!-- <VueSchoolLink
   href="https://vueschool.io/lessons/synchronous-and-asynchronous-actions-in-pinia"
   title="Learn all about actions in Pinia"
@@ -12,14 +10,15 @@
   title="Learn all about actions in Pinia"
 />
 
-Action 相当于组件中的 [method](https://cn.vuejs.org/api/options-state.html#methods)。它们可以通过 `defineStore()` 中的 `actions` 属性来定义，**并且它们也是定义业务逻辑的完美选择。**
+Action 相当于组件中的 [method](https://cn.vuejs.org/api/options-state.html#methods)。它们可以通过 `defineStore()` 中的 `actions` 属性来定义，**并且它们也是定义业务逻辑的完美选择**：
 
 ```js
-export const useCounterStore = defineStore('main', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
   }),
   actions: {
+    // 因为我们依赖 `this`，所以不能使用箭头函数
     increment() {
       this.count++
     },
@@ -30,7 +29,9 @@ export const useCounterStore = defineStore('main', {
 })
 ```
 
-类似 [getter](./getters.md)，action 也可通过 `this` 访问**整个 store 实例**，并支持**完整的类型标注(以及自动补全✨)**。**不同的是，`action` 可以是异步的**，你可以在它们里面 `await` 调用任何 API，以及其他 action！下面是一个使用 [Mande](https://github.com/posva/mande) 的例子。请注意，你使用什么库并不重要，只要你得到的是一个`Promise`。你甚至可以 (在浏览器中) 使用原生 `fetch` 函数：
+<!-- <RuleKitLink /> -->
+
+类似 [getter](./getters.md)，action 也可通过 `this` 访问**整个 store 实例**，并支持**完整的类型标注(以及自动补全✨)**。**不同的是，`action` 可以是异步的**，你可以在它们里面 `await` 调用任何 API，以及其他 action！下面是一个使用 [Mande](https://github.com/posva/mande) 的例子。请注意，你使用什么库并不重要，只要你得到的是一个 `Promise`。你甚至可以 (在浏览器中) 使用原生 `fetch` 函数：
 
 ```js
 import { mande } from 'mande'
@@ -68,6 +69,7 @@ const store = useCounterStore()
 // 将 action 作为 store 的方法进行调用
 store.randomizeCounter()
 </script>
+
 <template>
   <!-- 即使在模板中也可以 -->
   <button @click="store.randomizeCounter()">Randomize</button>
@@ -114,7 +116,7 @@ export const useSettingsStore = defineStore('settings', {
 
 import { defineStore } from 'pinia'
 
-const useCounterStore = defineStore('counter', {
+export const useCounterStore = defineStore('counter', {
   state: () => ({
     count: 0,
   }),
@@ -128,14 +130,16 @@ const useCounterStore = defineStore('counter', {
 
 ### 使用 `setup()` %{#with-setup}%
 
-虽然并不是每个开发者都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易用。并且不需要额外的映射辅助函数!
+虽然并不是每个开发者都会使用组合式 API，但 `setup()` 钩子依旧可以使 Pinia 在选项式 API 中更易用。并且不需要额外的映射辅助函数！
 
 ```vue
 <script>
 import { useCounterStore } from '../stores/counter'
+
 export default defineComponent({
   setup() {
     const counterStore = useCounterStore()
+
     return { counterStore }
   },
   methods: {
@@ -150,7 +154,7 @@ export default defineComponent({
 
 ### 不使用 `setup()` %{#without-setup}%
 
-如果你不喜欢使用组合式 API，你也可以使用 `mapActions()` 辅助函数将 action 属性映射为你组件中的方法。
+如果你不喜欢使用组合式 API，你也可以使用 `mapActions()` 辅助函数将 action 属性映射为你组件中的方法：
 
 ```js
 import { mapActions } from 'pinia'
@@ -160,8 +164,8 @@ export default {
   methods: {
     // 访问组件内的 this.increment()
     // 与从 store.increment() 调用相同
-    ...mapActions(useCounterStore, ['increment'])
-    // 与上述相同，但将其注册为this.myOwnName()
+    ...mapActions(useCounterStore, ['increment']),
+    // 与上述相同，但将其注册为 this.myOwnName()
     ...mapActions(useCounterStore, { myOwnName: 'increment' }),
   },
 }
@@ -169,7 +173,7 @@ export default {
 
 ## 订阅 action %{#subscribing-to-actions}%
 
-你可以通过 `store.$onAction()` 来监听 action 和它们的结果。传递给它的回调函数会在 action 本身之前执行。`after` 表示在 promise 解决之后，允许你在 action 解决后执行一个回调函数。同样地，`onError` 允许你在 action 抛出错误或 reject 时执行一个回调函数。这些函数对于追踪运行时错误非常有用，类似于[Vue docs 中的这个提示](https://cn.vuejs.org/guide/best-practices/production-deployment#tracking-runtime-errors)。
+你可以通过 `store.$onAction()` 来监听 action 和它们的结果。传递给它的回调函数会在 action 本身之前执行。`after` 表示在 promise 解决之后，允许你在 action 解决后执行一个回调函数。同样地，`onError` 允许你在 action 抛出错误或 reject 时执行一个回调函数。这些函数对于追踪运行时错误非常有用，类似于 [Vue 文档中的这个提示](https://cn.vuejs.org/guide/best-practices/production-deployment#tracking-runtime-errors)。
 
 这里有一个例子，在运行 action 之前以及 action resolve/reject 之后打印日志记录。
 
@@ -184,7 +188,7 @@ const unsubscribe = someStore.$onAction(
   }) => {
     // 为这个特定的 action 调用提供一个共享变量
     const startTime = Date.now()
-    // 这将在执行 "store "的 action 之前触发。
+    // 这将在执行 `store` 上的 action 之前触发
     console.log(`Start "${name}" with params [${args.join(', ')}].`)
 
     // 这将在 action 成功并完全运行后触发。
@@ -215,6 +219,7 @@ unsubscribe()
 ```vue
 <script setup>
 const someStore = useSomeStore()
+
 // 此订阅器即便在组件卸载之后仍会被保留
 someStore.$onAction(callback, true)
 </script>

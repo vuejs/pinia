@@ -11,9 +11,13 @@
   title="Create your own Pinia from scratch"
 />
 
-Pinia [起始](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e)于 2019 年 11 月左右的一次实验，其目的是设计一个拥有[组合式 API](https://github.com/vuejs/composition-api) 的 Vue 状态管理库。从那时起，我们就倾向于同时支持 Vue 2 和 Vue 3，并且不强制要求开发者使用组合式 API，我们的初心至今没有改变。除了**安装**和 **SSR** 两章之外，其余章节中提到的 API 均支持 Vue 2 和 Vue 3。虽然本文档主要是面向 Vue 3 的用户，但在必要时会标注出 Vue 2 的内容，因此 Vue 2 和 Vue 3 的用户都可以阅读本文档。
+Pinia [起始](https://github.com/vuejs/pinia/commit/06aeef54e2cad66696063c62829dac74e15fd19e)于 2019 年 11 月左右的一次实验，其目的是设计一个拥有[组合式 API](https://github.com/vuejs/composition-api) 的 Vue 状态管理库。从那时起，我们的初心至今没有改变，并且在 2025 年停止了对 Vue 2 的支持，但 Pinia **并不强制要求你使用组合式 API**。
 
 ## 为什么你应该使用 Pinia？%{#why-should-i-use-pinia}%
+
+<!--
+https://masteringpinia.com/lessons/why-use-pinia
+ -->
 
 Pinia 是 Vue 的专属状态管理库，它允许你跨组件或页面共享状态。如果你熟悉组合式 API 的话，你可能会认为可以通过一行简单的 `export const state = reactive({})` 来共享一个全局状态。对于单页应用来说确实可以，但如果应用在服务器端渲染，这可能会使你的应用暴露出一些[安全漏洞](https://cn.vuejs.org/guide/scaling-up/ssr#cross-request-state-pollution)。 而如果使用 Pinia，即使在小型单页应用中，你也可以获得如下功能：
 
@@ -120,12 +124,12 @@ export default defineComponent({
     // 其他计算属性
     // ...
     // 允许访问 this.counterStore 和 this.userStore
-    ...mapStores(useCounterStore, useUserStore)
+    ...mapStores(useCounterStore, useUserStore),
     // 允许读取 this.count 和 this.double
     ...mapState(useCounterStore, ['count', 'double']),
   },
   methods: {
-    // 允许读取 this.increment()
+    // 允许访问 this.increment()
     ...mapActions(useCounterStore, ['increment']),
   },
 })
@@ -135,7 +139,7 @@ export default defineComponent({
 
 你将会在核心概念部分了解到更多关于每个**映射辅助函数**的信息。
 
-## 官方课程
+## 官方课程 %{#official-course}%
 
 Pinia 的官方课程是 [Mastering Pinia](https://masteringpinia.com)。由 Pinia 的作者编写，它涵盖了从基础知识到诸如插件、测试和服务器端渲染之类的高级主题。这是学习 Pinia 和掌握它的最佳方式。
 

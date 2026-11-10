@@ -2,9 +2,7 @@ import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 
 export const META_URL = 'https://pinia.vuejs.org'
 export const META_TITLE = 'Pinia 🍍'
-export const META_DESCRIPTION = '值得你喜欢的 Vue Store'
-// TODO: translation of this
-// 'Intuitive, type safe, light and flexible Store for Vue'
+export const META_DESCRIPTION = '符合直觉、类型安全、轻量且灵活的 Vue Store'
 
 export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
   description: META_DESCRIPTION,
@@ -149,6 +147,10 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             {
               text: 'VSCode 代码片段',
               link: '/zh/cookbook/vscode-snippets.html',
+            },
+            {
+              text: '从 v2 迁移至 v3',
+              link: '/zh/cookbook/migration-v2-v3.html',
             },
             {
               text: '从 v0/v1 迁移至 v2',

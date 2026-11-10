@@ -5,17 +5,17 @@
   title="Learn about SSR best practices"
 />
 
-搭配 [Nuxt](https://nuxt.com/) 的 Pinia 更易用，因为 Nuxt 处理了很多与**服务器端渲染**有关的事情。例如，**你不需要关心序列化或 XSS 攻击**。Pinia 既支持 Nuxt Bridge 和 Nuxt 3，也支持纯 Nuxt 2，[见下文](#nuxt-2-without-bridge)。
+搭配 [Nuxt](https://nuxt.com/) 的 Pinia 更易用，因为 Nuxt 处理了很多与*服务端渲染*有关的事情。例如，**你不需要关心序列化或 XSS 攻击**。Pinia 支持 Nuxt 3 和 4。
 
 <!-- <RuleKitLink /> -->
 
 ## 安装 %{#installation}%
 
 ```bash
-yarn add pinia @pinia/nuxt @vue/devtools-api
-# 或者使用 npm
-npm install pinia @pinia/nuxt @vue/devtools-api
+npx nuxi@latest module add pinia
 ```
+
+这会将 `@pinia/nuxt` 和 `pinia` 都添加到你的项目中。**如果你发现 `pinia` 没有被安装，请使用你的包管理器手动安装它**：`npm i pinia @vue/devtools-api`。从 v4 开始，`@vue/devtools-api` 是 `pinia` 必需的 peer 依赖。
 
 :::tip
 如果你正在使用 npm，你可能会遇到 _ERESOLVE unable to resolve dependency tree_ 错误。如果那样的话，将以下内容添加到 `package.json` 中：
@@ -28,7 +28,7 @@ npm install pinia @pinia/nuxt @vue/devtools-api
 
 :::
 
-我们提供了一个 _module_ 来为你处理一切，你只需要在 `nuxt.config.js` 文件的 `modules` 中添加它。
+我们提供了一个 _module_ 来为你处理一切，你只需要在 `nuxt.config.js` 文件的 `modules` 中添加它：
 
 ```js
 // nuxt.config.js
@@ -43,105 +43,94 @@ export default defineNuxtConfig({
 
 这样配置就完成了，正常使用 store 就好啦!
 
-## 在 `setup()` 外部使用 store %{#using-the-store-outside-of-setup}%
+## 在页面中等待 action %{#awaiting-for-actions-in-pages}%
 
-如果你想在 `setup()` 外部使用一个 store，记得把 `pinia` 对象传给 `useStore()`。我们会把它添加到[上下文](https://nuxtjs.org/docs/2.x/internals-glossary/context)中，然后你就可以在 `asyncData()` 和 `fetch()` 中访问它了：
+与 `onServerPrefetch()` 一样，你可以在 `callOnce()` 组合式函数中调用 store 的 action。
+这样 Nuxt 只会运行该 action 一次，并避免重新获取已经存在的数据。
 
-```js
-import { useStore } from '~/stores/myStore'
-
-export default {
-  asyncData({ $pinia }) {
-    const store = useStore($pinia)
-  },
-}
-```
-
-与 `onServerPrefetch()` 一样，如果你想在 `asyncData()` 中调用一个存储动作，你不需要做任何特别的事情。
-
-```vue
+```vue{3-4}
 <script setup>
 const store = useStore()
-const { data } = await useAsyncData('user', () => store.fetchUser())
+// 我们也可以提取数据，但它已经存在于 store 中了
+await callOnce('user', () => store.fetchUser())
 </script>
 ```
 
+根据你的需求，你可以选择只在客户端运行一次 action，或者在每次导航时都运行它（这更接近 `useFetch()`/`useAsyncData()` 获取数据的行为）
+
+```vue{3}
+<script setup>
+const store = useStore()
+await callOnce('user', () => store.fetchUser(), { mode: 'navigation' })
+</script>
+```
+
+::: tip
+
+如果你想在 `setup()` 或*可感知注入 (injection aware)* 的上下文（例如导航守卫、其他 store、Nuxt 中间件等）之外使用一个 store，记得把 `pinia` 实例传给 `useStore()`，原因见[这里](../core-concepts/outside-component-usage.md#ssr-apps)。获取 `pinia` 实例的方式可能有所不同。
+
+```ts
+import { useStore } from '~/stores/myStore'
+
+// 这一行通常位于一个能够获取 pinia 实例的函数中
+const store = useStore(pinia)
+```
+
+幸运的是，大多数时候你**不需要这么麻烦**。
+
+:::
+
 ## 自动引入 %{#auto-imports}%
 
-默认情况下，`@pinia/nuxt` 会暴露一个自动引入的方法：`usePinia()`，它类似于 `getActivePinia()`，但在 Nuxt 中效果更好。你可以添加自动引入来减轻你的开发工作：
+默认情况下，`@pinia/nuxt` 会暴露几个自动引入的方法：
 
-```js
-// nuxt.config.js
+- `usePinia()`，它类似于 `getActivePinia()`，但在 Nuxt 中效果更好。
+- `defineStore()` 用于定义 store
+- `storeToRefs()` 用于从 store 中提取单个 ref
+- `acceptHMRUpdate()` 用于[热更新](../cookbook/hot-module-replacement.md)
+
+它还会自动引入你的 `stores` 文件夹（Nuxt 4 中为 `app/stores`）中定义的**所有 store**。但它不会查找嵌套的 store。你可以通过设置 `storesDirs` 选项来自定义这一行为：
+
+```ts
+// nuxt.config.ts
 export default defineNuxtConfig({
   // ... 其他配置
-  modules: [
-    // ...
-    [
-      '@pinia/nuxt',
-      {
-        autoImports: [
-          // 自动引入 `defineStore()`
-          'defineStore',
-          // 自动引入 `defineStore()` 并重命名为 `definePiniaStore()`
-          ['defineStore', 'definePiniaStore'],
-        ],
-      },
-    ],
-  ],
+  modules: ['@pinia/nuxt'],
+  pinia: {
+    storesDirs: ['./stores/**', './custom-folder/stores/**'],
+  },
 })
 ```
 
-## 纯 Nuxt 2 %{#nuxt-2-without-bridge}%
+注意，这些文件夹是相对于项目根目录的。如果你修改了 `srcDir` 选项，你需要相应地调整这些路径。
 
-`@pinia/nuxt` v0.2.1 之前的版本中，Pinia 都支持 Nuxt 2。请确保在安装 `pinia` 的同时也安装 [`@nuxtjs/composition-api`](https://composition-api.nuxtjs.org/)：
+## 测试 %{#testing}%
 
-```bash
-yarn add pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
-# 使用 npm
-npm install pinia @pinia/nuxt@0.2.1 @nuxtjs/composition-api
+Pinia 如何融入你的测试取决于测试的类型（见 [Nuxt 的测试文档](https://nuxt.com/docs/getting-started/testing#organizing-your-tests)）：
+
+- **单元测试**在没有 Nuxt 应用的情况下运行，例如测试 store 本身或使用 store 的组合式函数。在每个测试中使用一个新的 pinia 或者 `createTestingPinia()`，见 [store 测试](../cookbook/testing.md)。
+- **Nuxt 测试**在一个 Nuxt 应用中运行，该应用只创建一次，并被一个文件中的所有测试共享（如果使用 Vitest 的 `isolate: false`，则被所有文件共享）。应用的 pinia 实例也是共享的，所有 store 的 state 也随之共享，因此在一个测试中修改的 state 会泄漏到下一个测试中。见[在 Nuxt 测试中重置 store](#resetting-stores-in-nuxt-tests)。
+- **端到端测试**不需要任何 Pinia 特有的处理。
+
+### 在 Nuxt 测试中重置 store %{#resetting-stores-in-nuxt-tests}%
+
+优先编写不依赖之前测试遗留 state 的测试：在每个测试开始时设置它所需要的 state（例如使用 `store.$patch()`）。
+
+如果你确实需要在每个测试中使用全新的 store，你可以在每个测试之前销毁所有 store 并删除它们的 state：
+
+```ts
+// vitest.setup.ts
+import { beforeEach } from 'vitest'
+import { getStores } from 'pinia'
+import { usePinia } from '#imports'
+
+beforeEach(() => {
+  const pinia = usePinia()
+  for (const store of getStores(pinia)) {
+    store.$dispose()
+    delete pinia.state.value[store.$id]
+  }
+})
 ```
 
-我们提供了一个 _module_ 来为你处理一切工作，你只需要在 `nuxt.config.js` 文件的 `buildModules` 中添加它。
-
-```js
-// nuxt.config.js
-export default {
-  // ... 其他配置
-  buildModules: [
-    // 仅支持 Nuxt 2:
-    // https://composition-api.nuxtjs.org/getting-started/setup#quick-start
-    '@nuxtjs/composition-api/module',
-    '@pinia/nuxt',
-  ],
-}
-```
-
-### TypeScript %{#typescript}%
-
-如果你使用的是 Nuxt 2 (`@pinia/nuxt` < 0.3.0) 搭配 TypeScript，并且有 `jsconfig.json`，你应该为 `context.pinia` 引入类型：
-
-```json
-{
-  "types": [
-    // ...
-    "@pinia/nuxt"
-  ]
-}
-```
-
-这也将确保你可以使用自动补全😉。
-
-## Pinia 搭配 Vuex 使用 %{#using-pinia-alongside-vuex}%
-
-建议**避免同时使用 Pinia 和 Vuex**，但如果你确实需要同时使用，你需要告诉 Pinia 不要禁用它：
-
-```js
-// nuxt.config.js
-export default {
-  buildModules: [
-    '@nuxtjs/composition-api/module',
-    ['@pinia/nuxt', { disableVuex: false }],
-  ],
-  // ... 其他配置
-}
-```
+注意，这只会重置 store：保留了已销毁 store 引用的代码不会获取到新的 store，并且 Nuxt 应用的其他全局 state 也不会受影响。

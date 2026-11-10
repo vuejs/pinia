@@ -1,7 +1,5 @@
 # 插件 %{#plugins}%
 
-<!-- <RuleKitLink /> -->
-
 <MasteringPiniaLink
   href="https://masteringpinia.com/lessons/What-is-a-pinia-plugin"
   title="Learn all about Pinia plugins"
@@ -13,11 +11,13 @@
 - 定义 store 时增加新的选项
 - 为 store 增加新的方法
 - 包装现有的方法
-- 改变甚至取消 action
+- 拦截 action 及其结果
 - 实现副作用，如[本地存储](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 - **仅**应用插件于特定 store
 
-插件是通过 `pinia.use()` 添加到 pinia 实例的。最简单的例子是通过返回一个对象将一个静态属性添加到所有 store。
+<!-- <RuleKitLink /> -->
+
+插件是通过 `pinia.use()` 添加到 pinia 实例的。最简单的例子是通过返回一个对象将一个静态属性添加到所有 store：
 
 ```js
 import { createPinia } from 'pinia'
@@ -46,7 +46,7 @@ Pinia 插件是一个函数，可以选择性地返回要添加到 store 的属�
 ```js
 export function myPiniaPlugin(context) {
   context.pinia // 用 `createPinia()` 创建的 pinia。
-  context.app // 用 `createApp()` 创建的当前应用(仅 Vue 3)。
+  context.app // 用 `createApp()` 创建的当前应用。
   context.store // 该插件想扩展的 store
   context.options // 定义传给 `defineStore()` 的 store 的可选对象。
   // ...
@@ -59,7 +59,7 @@ export function myPiniaPlugin(context) {
 pinia.use(myPiniaPlugin)
 ```
 
-插件只会应用于**在 `pinia` 传递给应用后**创建的 store，否则它们不会生效。
+插件只会应用于**在插件本身之后、并且在 `pinia` 传递给应用后**创建的 store，否则它们不会生效。
 
 ## 扩展 Store %{#augmenting-a-store}%
 
@@ -111,10 +111,10 @@ pinia.use(({ store }) => {
 
 ### 添加新的 state %{#adding-new-state}%
 
-如果你想给 store 添加新的 state 属性或者在服务端渲染的激活过程中使用的属性，**你必须同时在两个地方添加它**。。
+如果你想给 store 添加新的 state 属性或者在服务端渲染的激活过程中使用的属性，**你必须同时在两个地方添加它**：
 
 - 在 `store` 上，然后你才可以用 `store.myState` 访问它。
-- 在 `store.$state` 上，然后你才可以在 devtools 中使用它，并且，**在 SSR 时被正确序列化(serialized)**。
+- 在 `store.$state` 上，然后你才可以在 devtools 中使用它，并且**在 SSR 时被正确序列化(serialized)**。
 
 除此之外，你肯定也会使用 `ref()`(或其他响应式 API)，以便在不同的读取中共享相同的值：
 
@@ -144,28 +144,6 @@ pinia.use(({ store }) => {
 ```
 
 需要注意的是，在一个插件中， state 变更或添加(包括调用 `store.$patch()`)都是发生在 store 被激活之前，**因此不会触发任何订阅函数**。
-
-:::warning
-如果你使用的是 **Vue 2**，Pinia 与 Vue 一样，受限于[相同的响应式限制](https://v2.cn.vuejs.org/v2/guide/reactivity.html#检测变化的注意事项)。在创建新的 state 属性时,如 `secret` 和 `hasError`，你需要使用 `Vue.set()` (Vue 2.7) 或者 `@vue/composition-api` 的 `set()` (Vue < 2.7)。
-
-```js
-import { set, toRef } from '@vue/composition-api'
-pinia.use(({ store }) => {
-  if (!Object.hasOwn(store.$state, 'secret')) {
-    const secretRef = ref('secret')
-    // 如果这些数据是要在 SSR 过程中使用的
-    // 你应该将其设置在 `$state' 属性上
-    // 这样它就会被序列化并在激活过程中被接收
-    set(store.$state, 'secret', secretRef)
-    // 直接在 store 里设置，这样你就可以访问它了。
-    // 两种方式都可以：`store.$state.secret` / `store.secret`。
-    set(store, 'secret', secretRef)
-    store.secret // 'secret'
-  }
-})
-```
-
-:::
 
 #### 重置插件中添加的 state
 
@@ -304,6 +282,7 @@ export function myPiniaPlugin(context: PiniaPluginContext) {
 
 ```ts
 import 'pinia'
+import type { Router } from 'vue-router'
 
 declare module 'pinia' {
   export interface PiniaCustomProperties {
@@ -314,7 +293,7 @@ declare module 'pinia' {
     // 你也可以定义更简单的值
     simpleNumber: number
 
-    // 添加路由(#adding-new-external-properties)
+    // 为上面插件添加的路由器标注类型 (#adding-new-external-properties)
     router: Router
   }
 }
@@ -396,7 +375,9 @@ declare module 'pinia' {
 ```
 
 :::tip
+
 还有一个可以从一个 store 类型中提取 _getter_ 的 `StoreGetters` 类型。你也可以且**只可以**通过扩展 `DefineStoreOptions` 或 `DefineSetupStoreOptions` 类型来扩展 _setup store_ 或 _option store_ 的选项。
+
 :::
 
 ## Nuxt %{#nuxt}%
@@ -404,9 +385,8 @@ declare module 'pinia' {
 当[在 Nuxt 中使用 pinia](../ssr/nuxt.md) 时，你必须先创建一个 [Nuxt 插件](https://nuxt.com/docs/guide/directory-structure/plugins)。这样你才能访问到 `pinia` 实例：
 
 ```ts{14-16}
-// plugins/myPiniaPlugin.js
+// plugins/myPiniaPlugin.ts
 import { PiniaPluginContext } from 'pinia'
-import { Plugin } from '@nuxt/types'
 
 function MyPiniaPlugin({ store }: PiniaPluginContext) {
   store.$subscribe((mutation) => {
@@ -418,11 +398,9 @@ function MyPiniaPlugin({ store }: PiniaPluginContext) {
   return { creationTime: new Date() }
 }
 
-const myPlugin: Plugin = ({ $pinia }) => {
+export default defineNuxtPlugin(({ $pinia }) => {
   $pinia.use(MyPiniaPlugin)
-}
-
-export default myPlugin
+})
 ```
 
 ::: info
@@ -431,28 +409,6 @@ export default myPlugin
 
 :::
 
-### Nuxt 2
+## 现有插件 %{#existing-plugins}%
 
-如果你使用的是 Nuxt 2，其类型会稍有不同：
-
-```ts{3,15-17}
-// plugins/myPiniaPlugin.ts
-import { PiniaPluginContext } from 'pinia'
-import { Plugin } from '@nuxt/types'
-
-function MyPiniaPlugin({ store }: PiniaPluginContext) {
-  store.$subscribe((mutation) => {
-    // 响应 store 变更
-    console.log(`[🍍 ${mutation.storeId}]: ${mutation.type}.`)
-  })
-
-  // 请注意，如果你使用的是 TS，则必须添加类型。
-  return { creationTime: new Date() }
-}
-
-const myPlugin: Plugin = ({ $pinia }) => {
-  $pinia.use(MyPiniaPlugin)
-}
-
-export default myPlugin
-```
+你可以在 GitHub 上查看带有 _pinia-plugin_ 主题的[现有 Pinia 插件](https://github.com/topics/pinia-plugin)。
