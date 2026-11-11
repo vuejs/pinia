@@ -528,10 +528,15 @@ function createSetupStore<
         if (initialState && shouldHydrate(prop)) {
           if (isRef(prop)) {
             prop.value = initialState[key as keyof UnwrapRef<S>]
-          } else {
+          } else if (
+            toRaw(prop) !==
+            toRaw(initialState[key as keyof UnwrapRef<S>] as unknown)
+          ) {
             // clear keyed collections to avoid merging during hydration any
             // default values done here rather than mergeReactiveObjects to
-            // keep `$patch` merging behavior
+            // keep `$patch` merging behavior. Skipped when the initial state
+            // is the same object (e.g. recreating a disposed store) because
+            // clearing it would also clear the source.
             if (prop instanceof Set || prop instanceof Map) {
               prop.clear()
             } else if (Array.isArray(prop)) {
