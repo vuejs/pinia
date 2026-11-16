@@ -374,10 +374,11 @@ export function mapActions<
   S extends StateTree,
   G extends _GettersTree<S>,
   A,
+  Keys extends keyof A = keyof A,
 >(
   useStore: StoreDefinition<Id, S, G, A>,
-  keys: Array<keyof A>
-): _MapActionsReturn<A>
+  keys: Keys[]
+): Pick<_MapActionsReturn<A>, Keys>
 /**
  * Allows directly using actions from your store without using the composition
  * API (`setup()`) by generating an object to be spread in the `methods` field
