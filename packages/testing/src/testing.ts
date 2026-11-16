@@ -257,6 +257,9 @@ function WritableComputed({ store }: PiniaPluginContext) {
             delete originalComputed._value
             // @ts-expect-error: private api to force the recomputation
             originalComputed._dirty = true
+            // a computed with subscribers only recomputes if flagged as dirty
+            // @ts-expect-error: private api
+            originalComputed.flags |= 16 /* EffectFlags.DIRTY */
           } else {
             originalComputed.fn = overriddenFn
             // @ts-expect-error: private api
