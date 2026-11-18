@@ -18,7 +18,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 
   themeConfig: {
     editLink: {
-      pattern: 'https://github.com/vuejs/pinia/edit/v3/packages/docs/:path',
+      pattern: 'https://github.com/vuejs/pinia/edit/v4/packages/docs/:path',
       text: 'Suggest changes to this page',
     },
 
@@ -41,7 +41,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
           {
             text: 'Changelog',
-            link: 'https://github.com/vuejs/pinia/blob/v3/packages/pinia/CHANGELOG.md',
+            link: 'https://github.com/vuejs/pinia/blob/v4/packages/pinia/CHANGELOG.md',
           },
           {
             text: 'Vue.js Certification',
@@ -50,8 +50,11 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
         ],
       },
       {
-        text: 'v3.x',
-        items: [{ text: 'v2.x', link: 'https://v2.pinia.vuejs.org' }],
+        text: 'v4.x',
+        items: [
+          { text: 'v3.x', link: 'https://v3--pinia-official.netlify.app' },
+          { text: 'v2.x', link: 'https://v2--pinia-official.netlify.app' },
+        ],
       },
     ],
 
