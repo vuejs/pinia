@@ -153,6 +153,28 @@ describe('storeToRefs', () => {
     ).toEqual(objectOfRefs({ n: 0, pluginN: 20 }))
   })
 
+  it('contain plugin reactive() states', () => {
+    const pinia = createPinia()
+    // directly push because no app
+    pinia._p.push(() => ({
+      // @ts-expect-error: cannot set a ref yet
+      pluginN: ref(20),
+      reactiveN: reactive({ x: 1 }),
+    }))
+    setActivePinia(pinia)
+
+    const store = defineStore('a', {
+      state: () => ({ n: 0 }),
+    })()
+
+    const refs = storeToRefs(store)
+    expect(refs).toHaveProperty('reactiveN')
+    // mutating the store flows through the extracted ref
+    // @ts-expect-error: added by plugin
+    store.reactiveN.x = 2
+    expect(refs.reactiveN.value).toEqual({ x: 2 })
+  })
+
   it('preserve setters in getters', () => {
     const useStore = defineStore('main', () => {
       const n = ref(0)
