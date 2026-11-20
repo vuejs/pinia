@@ -27,7 +27,11 @@ export function triggerSubscriptions<T extends _Method>(
   subscriptions: Set<T>,
   ...args: Parameters<T>
 ) {
-  subscriptions.forEach((callback) => {
-    callback(...args)
+  // Do not visit subscriptions added while dispatching, including a callback
+  // that removes and registers itself again. Keep removals effective, though.
+  Array.from(subscriptions).forEach((callback) => {
+    if (subscriptions.has(callback)) {
+      callback(...args)
+    }
   })
 }
