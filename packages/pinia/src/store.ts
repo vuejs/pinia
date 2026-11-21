@@ -74,8 +74,8 @@ const ACTION_NAME = Symbol()
  */
 interface MarkedAction<Fn extends _Method = _Method> {
   (...args: Parameters<Fn>): ReturnType<Fn>
-  [ACTION_MARKER]: boolean
-  [ACTION_NAME]: string
+  [ACTION_MARKER]: { owner: object; original: Fn }
+  [ACTION_NAME]: string | undefined
 }
 
 function mergeReactiveObjects<
@@ -369,12 +369,30 @@ function createSetupStore<
    * @param fn - action to wrap
    * @param name - name of the action
    */
-  const action = <Fn extends _Method>(fn: Fn, name: string = ''): Fn => {
+  const action = <Fn extends _Method>(fn: Fn, name?: string): Fn => {
     if (ACTION_MARKER in fn) {
-      // we ensure the name is set from the returned function
-      ;(fn as unknown as MarkedAction<Fn>)[ACTION_NAME] = name
-      return fn
+      const marked = fn as unknown as MarkedAction<Fn>
+      if (marked[ACTION_MARKER].owner === store) {
+        // An explicit action() helper is named when it is first returned.
+        if (
+          name === undefined ||
+          marked[ACTION_NAME] === undefined ||
+          marked[ACTION_NAME] === name
+        ) {
+          if (name !== undefined) marked[ACTION_NAME] = name
+          return fn
+        }
+        // Another public alias needs its own name, without notifying twice.
+        fn = marked[ACTION_MARKER].original
+      }
     }
+
+    // A re-export delegates to the source store, even across Pinia instances
+    // containing stores with the same id.
+    const actionOwner =
+      ACTION_MARKER in fn
+        ? (fn as unknown as MarkedAction<Fn>)[ACTION_MARKER].owner
+        : undefined
 
     const wrappedAction = function (this: any) {
       setActivePinia(pinia)
@@ -392,7 +410,7 @@ function createSetupStore<
       // @ts-expect-error
       triggerSubscriptions(actionSubscriptions, {
         args,
-        name: wrappedAction[ACTION_NAME],
+        name: wrappedAction[ACTION_NAME] ?? '',
         store,
         after,
         onError,
@@ -400,7 +418,10 @@ function createSetupStore<
 
       let ret: unknown
       try {
-        ret = fn.apply(this && this.$id === $id ? this : store, args)
+        ret = fn.apply(
+          actionOwner || (this && this.$id === $id ? this : store),
+          args
+        )
         // handle sync errors
       } catch (error) {
         triggerSubscriptions(onErrorCallbackSet, error)
@@ -424,7 +445,7 @@ function createSetupStore<
       return ret
     } as MarkedAction<Fn>
 
-    wrappedAction[ACTION_MARKER] = true
+    wrappedAction[ACTION_MARKER] = { owner: store, original: fn }
     wrappedAction[ACTION_NAME] = name // will be set later
 
     // @ts-expect-error: we are intentionally limiting the returned type to just Fn

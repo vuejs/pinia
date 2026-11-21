@@ -175,6 +175,8 @@ export default {
 
 It is possible to observe actions and their outcome with `store.$onAction()`. The callback passed to it is executed before the action itself. `after` handles promises and allows you to execute a function after the action resolves. In a similar way, `onError` allows you to execute a function if the action throws or rejects. These are useful for tracking errors at runtime, similar to [this tip in the Vue docs](https://vuejs.org/guide/best-practices/production-deployment#tracking-runtime-errors).
 
+When a setup store returns another store's action, such as `return { advance: original.increment }`, calling `advance()` notifies both stores' action subscribers. Each subscription receives its own store and action name: `advance` for the re-exporting store and `increment` for the original store. The original action keeps its name and store context.
+
 Here is an example that logs before running actions and after they resolve/reject.
 
 ```js
