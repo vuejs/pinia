@@ -1,7 +1,8 @@
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { createTypeDocApp } from './typedoc-markdown.mjs'
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 createTypeDocApp({
   textContentMappings: {
@@ -18,8 +19,8 @@ createTypeDocApp({
   plugin: ['typedoc-plugin-markdown', 'typedoc-vitepress-theme'],
   useCodeBlocks: true,
   entryPoints: [
-    path.resolve(__dirname, '../pinia/src/index.ts'),
-    path.resolve(__dirname, '../testing/src/index.ts'),
-    path.resolve(__dirname, '../nuxt/src/module.ts'),
+    path.resolve(__dirname, '../pinia/src/index.ts').replaceAll('\\', '/'),
+    path.resolve(__dirname, '../testing/src/index.ts').replaceAll('\\', '/'),
+    path.resolve(__dirname, '../nuxt/src/module.ts').replaceAll('\\', '/'),
   ],
 }).then((app) => app.build())

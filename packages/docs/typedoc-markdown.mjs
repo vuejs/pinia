@@ -1,9 +1,10 @@
 // @ts-check
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { Application, TSConfigReader, PageEvent } from 'typedoc'
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /** @satisfies {Partial<import('typedoc').TypeDocOptions & import('typedoc-plugin-markdown').PluginOptions>} */
 const DEFAULT_OPTIONS = {
