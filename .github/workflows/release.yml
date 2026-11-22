@@ -23,7 +23,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    # prevent runing on forks and with other tags
+    # prevent running on forks and with other tags
     if: |
       (startsWith(github.ref_name, 'v') ||
       contains(github.ref_name, '@')) &&
