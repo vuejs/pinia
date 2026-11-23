@@ -150,6 +150,26 @@ describe('Testing: initial state', () => {
     expect(store.set).toBe(store.$state.set)
   })
 
+  it('preserves sparse array holes in initial state', () => {
+    const useStore = defineStore('sparse-array', () => ({
+      list: reactive([1, 2]),
+    }))
+
+    const sparse = [, 9]
+    const store = useStore(
+      createTestingPinia({
+        initialState: { 'sparse-array': { list: sparse } },
+      })
+    )
+
+    expect(store.list).toHaveLength(2)
+    expect(store.list[1]).toBe(9)
+    expect(0 in store.list).toBe(false)
+    expect(store.$state.list).toHaveLength(2)
+    expect(store.$state.list[1]).toBe(9)
+    expect(0 in store.$state.list).toBe(false)
+  })
+
   it('keeps a collection shared with initialState when it is the same raw object', () => {
     const rawMap = new Map([['a', 1]])
     const rawSet = new Set(['a'])

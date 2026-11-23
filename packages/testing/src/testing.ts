@@ -213,9 +213,12 @@ function mergeReactiveObjects<T extends StateTree>(
         continue
       } else if (Array.isArray(current) && Array.isArray(patch)) {
         // Avoid spreading the patch into splice(): large fixtures exceed the
-        // engine's argument limit.
+        // engine's argument limit. Push would also compact sparse holes.
         current.length = 0
-        patch.forEach((value) => current.push(value))
+        current.length = patch.length
+        patch.forEach((value, index) => {
+          current[index] = value
+        })
         continue
       }
     }
