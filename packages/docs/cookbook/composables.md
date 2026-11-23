@@ -52,9 +52,9 @@ export const useVideoPlayer = defineStore('video', () => {
   const { playing, volume, currentTime, togglePictureInPicture } =
     useMediaControls(videoElement, { src })
 
-  function loadVideo(element: HTMLVideoElement, src: string) {
+  function loadVideo(element: HTMLVideoElement, newSrc: string) {
     videoElement.value = element
-    src.value = src
+    src.value = newSrc
   }
 
   return {
