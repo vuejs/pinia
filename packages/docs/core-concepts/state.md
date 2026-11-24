@@ -180,7 +180,7 @@ export default {
 
 #### Modifiable state
 
-If you want to be able to write to these state properties (e.g. if you have a form), you can use `mapWritableState()` instead. Note you cannot pass a function like with `mapState()`:
+If you want to be able to write to these state properties (e.g. if you have a form), you can use `mapWritableState()` instead. The two-argument form maps top-level state properties; unlike `mapState()`, it does not accept custom getter functions:
 
 ```js
 import { mapWritableState } from 'pinia'
@@ -199,6 +199,40 @@ export default {
   },
 }
 ```
+
+##### Mapping properties of a nested object
+
+Pass a selector as the second argument and an array of keys or an alias object as the third argument to map writable properties of a nested object:
+
+```ts
+import { defineStore, mapWritableState } from 'pinia'
+
+const useSurveyStore = defineStore('survey', {
+  state: () => ({
+    form: { address: { city: 'Suzhou', visits: 3 } },
+  }),
+})
+
+export default {
+  computed: {
+    ...mapWritableState(useSurveyStore, (store) => store.form.address, [
+      'city',
+      'visits',
+    ]),
+    // Alternatively, choose different computed property names:
+    ...mapWritableState(useSurveyStore, (store) => store.form.address, {
+      myCity: 'city',
+      visitCount: 'visits',
+    }),
+  },
+}
+```
+
+The selector receives the current component's store on every read and write. For example, assigning `this.myCity = 'Ningbo'` updates `store.form.address.city`. If you replace `store.form.address`, subsequent reads and writes use the new object. Select an existing object in the store and avoid side effects in the selector.
+
+TypeScript infers the selected object's writable keys and each mapped value's type. Readonly properties, unknown keys, and unhandled `null` or `undefined` targets are rejected. Handle a nullable target explicitly in the selector, for example by throwing when it is missing; the helper does not create missing objects or catch selector errors.
+
+Keys are always literal property names: `'geo.city'` selects a property named `'geo.city'`, without splitting it into a path. The existing two-argument form keeps this behavior too. In the three-argument form, number and symbol target keys can be mapped with string aliases. Alias names must be own enumerable strings and follow Vue's computed property naming rules; symbol alias names are ignored.
 
 :::tip
 You don't need `mapWritableState()` for collections like arrays unless you are replacing the whole array with `cartItems = []`, `mapState()` still allows you to call methods on your collections.

@@ -459,6 +459,86 @@ export type _MapWritableStateObjectReturn<
   }
 }
 
+/** Writable properties of a selected object, preserving readonly modifiers. */
+type _WritableKeys<T> = {
+  [K in keyof T]-?: (<U>() => U extends { [P in K]: T[P] } ? 1 : 2) extends <
+    U,
+  >() => U extends { -readonly [P in K]: T[P] } ? 1 : 2
+    ? K
+    : never
+}[keyof T]
+
+type _MapWritableTargetReturn<T, Keys extends keyof T> = {
+  [K in Keys]-?: {
+    get: () => T[K]
+    set: (value: T[K]) => void
+  }
+}
+
+type _MapWritableTargetObjectReturn<
+  T,
+  Mapper extends Record<string, PropertyKey>,
+> = {
+  [
+    K in keyof Mapper as K extends string | number ? `${K}` : never
+  ]-?: Mapper[K] extends keyof T
+    ? {
+        get: () => T[Mapper[K]]
+        set: (value: T[Mapper[K]]) => void
+      }
+    : never
+}
+
+type _WritableMappingKeys<Mapping> = Mapping extends readonly string[]
+  ? Mapping[number]
+  : Mapping extends Record<string, PropertyKey>
+    ? Mapping[Extract<keyof Mapping, string | number>]
+    : never
+
+/**
+ * Maps writable properties of an object selected from the current store to
+ * computed properties. The selector runs on every get and set, so replacing
+ * the selected object does not leave the mappings pointing to the old one.
+ * Alias names are own enumerable strings; target keys are indexed literally.
+ *
+ * @param useStore - store to map from
+ * @param selector - selects a non-null object from the store
+ * @param mapping - array of writable keys or object mapping computed names to keys
+ */
+export function mapWritableState<
+  UseStore extends StoreDefinition,
+  const Mapping extends readonly string[] | Record<string, PropertyKey>,
+  Target extends object & Record<_WritableMappingKeys<Mapping>, unknown>,
+>(
+  useStore: UseStore,
+  selector: (store: ReturnType<UseStore>) => Target,
+  mapping: Mapping &
+    (Mapping extends readonly string[]
+      ? readonly _WritableKeys<NoInfer<Target>>[]
+      : Record<string, _WritableKeys<NoInfer<Target>>>)
+): Mapping extends readonly (infer Key)[]
+  ? _MapWritableTargetReturn<Target, Extract<Key, keyof Target>>
+  : Mapping extends Record<string, PropertyKey>
+    ? _MapWritableTargetObjectReturn<Target, Mapping>
+    : never
+
+export function mapWritableState<
+  UseStore extends StoreDefinition,
+  const Mapping extends readonly string[] | Record<string, PropertyKey>,
+  Target extends object,
+>(
+  useStore: UseStore,
+  selector: (store: ReturnType<UseStore>) => Target,
+  mapping: Mapping &
+    (Mapping extends readonly string[]
+      ? readonly _WritableKeys<NoInfer<Target>>[]
+      : Record<string, _WritableKeys<NoInfer<Target>>>)
+): Mapping extends readonly (infer Key)[]
+  ? _MapWritableTargetReturn<Target, Extract<Key, keyof Target>>
+  : Mapping extends Record<string, PropertyKey>
+    ? _MapWritableTargetObjectReturn<Target, Mapping>
+    : never
+
 /**
  * Same as `mapState()` but creates computed setters as well so the state can be
  * modified. Differently from `mapState()`, only `state` properties can be
@@ -511,12 +591,45 @@ export function mapWritableState<
   Keys extends _MapWritableStateKeys<S, G>,
   KeyArr extends Keys[],
   KeyMapper extends Record<string, Keys>,
+  Target extends object,
 >(
   useStore: StoreDefinition<Id, S, G, A>,
-  keysOrMapper: KeyArr | KeyMapper
-):
-  | _MapWritableStateReturn<S, G, Keys>
-  | _MapWritableStateObjectReturn<S, G, KeyMapper> {
+  keysOrMapper: KeyArr | KeyMapper | ((store: Store<Id, S, G, A>) => Target),
+  targetKeysOrMapper?: readonly (keyof Target)[] | Record<string, keyof Target>
+): unknown {
+  if (typeof keysOrMapper === 'function' && targetKeysOrMapper !== undefined) {
+    const mappings = {}
+    const addMapping = <Key extends keyof Target>(
+      name: PropertyKey,
+      key: Key
+    ) => {
+      // Defining an own property also keeps names like "__proto__" literal.
+      Object.defineProperty(mappings, name, {
+        enumerable: true,
+        configurable: true,
+        writable: true,
+        value: {
+          get(this: ComponentPublicInstance) {
+            return keysOrMapper(useStore(this.$pinia))[key]
+          },
+          set(this: ComponentPublicInstance, value: Target[Key]) {
+            keysOrMapper(useStore(this.$pinia))[key] = value
+          },
+        },
+      })
+    }
+    if (Array.isArray(targetKeysOrMapper)) {
+      targetKeysOrMapper.forEach((key) => addMapping(key, key))
+    } else {
+      for (const [name, key] of Object.entries(targetKeysOrMapper)) {
+        addMapping(name, key)
+      }
+    }
+    return mappings
+  }
+
+  // A callable object can still be an alias mapper in the two-argument form.
+  const keyMapper = keysOrMapper as KeyMapper
   return Array.isArray(keysOrMapper)
     ? keysOrMapper.reduce(
         (reduced, key) => {
@@ -535,18 +648,18 @@ export function mapWritableState<
         },
         {} as _MapWritableStateReturn<S, G, Keys>
       )
-    : Object.keys(keysOrMapper).reduce(
+    : Object.keys(keyMapper).reduce(
         (reduced, key: keyof KeyMapper) => {
           reduced[key] = {
             get(this: ComponentPublicInstance) {
-              return useStore(this.$pinia)[keysOrMapper[key]] as (S &
+              return useStore(this.$pinia)[keyMapper[key]] as (S &
                 G)[KeyMapper[typeof key]]
             },
             set(
               this: ComponentPublicInstance,
               value: Store<Id, S, G, A>[KeyMapper[typeof key]]
             ) {
-              return (useStore(this.$pinia)[keysOrMapper[key]] = value)
+              return (useStore(this.$pinia)[keyMapper[key]] = value)
             },
           }
           return reduced
