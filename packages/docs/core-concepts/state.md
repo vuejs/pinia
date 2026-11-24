@@ -218,6 +218,10 @@ store.$patch({
 })
 ```
 
+:::tip
+When passing a patch object, `$patch` mutates nested plain objects in place by recursively merging their properties instead of replacing the entire object reference. This preserves existing properties that are not specified in the patch object and keeps the underlying object identity intact. If you want to replace an entire nested object, assign it directly (`store.user = { ... }`) or use the function syntax with `$patch`.
+:::
+
 However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the `$patch` method also accepts a function to group these kinds of mutations that are difficult to apply with a patch object:
 
 ```js

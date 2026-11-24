@@ -156,7 +156,7 @@ export default {
     ...mapState(useCounterStore, {
       myOwnName: 'count',
       // 你也可以写一个函数来获得对 store 的访问权
-      double: store => store.count * 2,
+      double: (store) => store.count * 2,
       // 它可以访问 `this`，但它没有标注类型...
       magicValue(store) {
         return store.someGetter + store.count + this.double
@@ -205,6 +205,10 @@ store.$patch({
   name: 'DIO',
 })
 ```
+
+:::tip
+当传递一个补丁对象时，`$patch` 会通过递归合并属性来就地修改嵌套的纯对象，而不是替换整个对象的引用。这保留了补丁对象中未指定的现有属性，并保持了底层对象引用的完整性。如果你想替换整个嵌套对象，可以直接赋值 (`store.user = { ... }`) 或在 `$patch` 中使用函数语法。
+:::
 
 不过，用这种语法的话，有些变更真的很难实现或者很耗时：任何集合的修改（例如，向数组中添加、移除一个元素或是做 `splice` 操作）都需要你创建一个新的集合。因此，`$patch` 方法也接受一个函数来组合这种难以用补丁对象实现的变更。
 
