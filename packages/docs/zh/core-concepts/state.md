@@ -156,7 +156,7 @@ export default {
     ...mapState(useCounterStore, {
       myOwnName: 'count',
       // 你也可以写一个函数来获得对 store 的访问权
-      double: store => store.count * 2,
+      double: (store) => store.count * 2,
       // 它可以访问 `this`，但它没有标注类型...
       magicValue(store) {
         return store.someGetter + store.count + this.double
@@ -206,12 +206,22 @@ store.$patch({
 })
 ```
 
+嵌套的纯对象不会被替换，而是会被合并，所以只有你传入的属性会改变。数组和其他值**会被替换**。如果要替换整个嵌套对象，请直接赋值，或使用下面介绍的函数语法：
+
+```js
+// 保留 store.user.age
+store.$patch({ user: { name: 'DIO' } })
+// 替换 store.user
+store.user = { name: 'DIO' }
+```
+
 不过，用这种语法的话，有些变更真的很难实现或者很耗时：任何集合的修改（例如，向数组中添加、移除一个元素或是做 `splice` 操作）都需要你创建一个新的集合。因此，`$patch` 方法也接受一个函数来组合这种难以用补丁对象实现的变更。
 
 ```js
 store.$patch((state) => {
   state.items.push({ name: 'shoes', quantity: 1 })
   state.hasChanged = true
+  state.user = { name: 'DIO' }
 })
 ```
 
