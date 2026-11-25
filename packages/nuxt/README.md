@@ -44,8 +44,9 @@ export default defineNuxtConfig({
      * Automatically add stores dirs to the auto imports. This is the same as
      * directly adding the dirs to the `imports.dirs` option. If you want to
      * also import nested stores, you can use the glob pattern `./stores/**`.
-     * Paths are relative to the `srcDir` of the app and of each layer (`app/`
-     * on Nuxt 4+), so don't include `app/` in them
+     * Paths are relative to the `srcDir` of the app and of each layer (which
+     * defaults to `app/` on Nuxt 4+), so don't include `app/` in them when
+     * using the default `app/` layout
      *
      * @default ['stores']
      */
