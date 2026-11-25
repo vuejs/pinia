@@ -1,0 +1,13 @@
+{
+    "name": "@pinia/eslint-plugin",
+    "version": "0.0.1",
+    "main": "src/index.js",
+    "type": "commonjs",
+    "peerDependencies": {
+      "eslint": "^8.0.0"
+    },
+    "scripts": {
+      "test": "eslint --rule 'pinia/no-missing-exports: error' tests/*.js && node tests/no-missing-exports.test.js"
+    }
+  }
+  
