@@ -218,9 +218,14 @@ store.$patch({
 })
 ```
 
-:::tip
-When passing a patch object, `$patch` mutates nested plain objects in place by recursively merging their properties instead of replacing the entire object reference. This preserves existing properties that are not specified in the patch object and keeps the underlying object identity intact. If you want to replace an entire nested object, assign it directly (`store.user = { ... }`) or use the function syntax with `$patch`.
-:::
+Nested plain objects aren't replaced, they get merged so only the properties you pass change. Arrays and other values **are replaced**. To replace a nested object, assign it directly or use the function syntax shown below:
+
+```js
+// keeps store.user.age
+store.$patch({ user: { name: 'DIO' } })
+// replaces store.user
+store.user = { name: 'DIO' }
+```
 
 However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the `$patch` method also accepts a function to group these kinds of mutations that are difficult to apply with a patch object:
 
@@ -228,6 +233,7 @@ However, some mutations are really hard or costly to apply with this syntax: any
 store.$patch((state) => {
   state.items.push({ name: 'shoes', quantity: 1 })
   state.hasChanged = true
+  state.user = { name: 'DIO' }
 })
 ```
 
