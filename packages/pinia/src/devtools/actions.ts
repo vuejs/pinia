@@ -123,6 +123,9 @@ function loadStoresState(pinia: Pinia, json: string) {
   const state: Record<string, unknown> = JSON.parse(json, (key, value) =>
     key === '__proto__' ? undefined : value
   )
+  if (!state || typeof state !== 'object' || Array.isArray(state)) {
+    throw new Error('Invalid state: expected an object.')
+  }
   for (const key in state) {
     const storeState =
       Object.hasOwn(pinia.state.value, key) && pinia.state.value[key]

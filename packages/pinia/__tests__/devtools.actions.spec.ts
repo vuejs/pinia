@@ -24,3 +24,18 @@ it('imports state without prototype pollution', async () => {
   expect(store.n).toBe(1)
   expect(pinia.state.value.constructor).toEqual({ polluted: 1 })
 })
+
+it.each(['null', '42', '"ab"', '[{}]'])(
+  'rejects a non-object root: %s',
+  async (json) => {
+    vi.spyOn(console, 'debug').mockImplementation(() => {})
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const pinia = createPinia()
+    vi.spyOn(navigator.clipboard, 'readText').mockResolvedValue(json)
+
+    await actionGlobalPasteState(pinia)
+
+    expect(pinia.state.value).toEqual({})
+    expect(error).toHaveBeenCalled()
+  }
+)
