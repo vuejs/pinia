@@ -1,5 +1,4 @@
 import { Pinia } from '../rootStore'
-import { isPlainObject } from '../types'
 import { saveAs } from './file-saver'
 import { toastMessage } from './utils'
 
@@ -48,7 +47,7 @@ export async function actionGlobalCopyState(pinia: Pinia) {
 export async function actionGlobalPasteState(pinia: Pinia) {
   if (checkClipboardAccess()) return
   try {
-    loadStoresState(pinia, JSON.parse(await navigator.clipboard.readText()))
+    loadStoresState(pinia, await navigator.clipboard.readText())
     toastMessage('Global state pasted from clipboard.')
   } catch (error) {
     if (checkNotFocusedError(error)) return
@@ -109,7 +108,7 @@ export async function actionGlobalOpenStateFile(pinia: Pinia) {
     const result = await open()
     if (!result) return
     const { text, file } = result
-    loadStoresState(pinia, JSON.parse(text))
+    loadStoresState(pinia, text)
     toastMessage(`Global state imported from "${file.name}".`)
   } catch (error) {
     toastMessage(
@@ -120,39 +119,19 @@ export async function actionGlobalOpenStateFile(pinia: Pinia) {
   }
 }
 
-/**
- * Validate the whole import before updating state without invoking inherited
- * __proto__ setters.
- */
-function loadStoresState(pinia: Pinia, state: unknown) {
-  if (!isPlainObject(state)) {
-    throw new Error('Invalid state: expected an object.')
-  }
-
-  const entries = Object.entries(state)
-  for (const [key, storeState] of entries) {
-    if (!isPlainObject(storeState)) {
-      throw new Error(`Invalid state for store "${key}": expected an object.`)
-    }
-  }
-
-  for (const [key, importedState] of entries) {
-    const hasState = Object.hasOwn(pinia.state.value, key)
-    // Do not read or invoke Object.prototype's __proto__ accessor.
-    if (key === '__proto__' && !hasState) continue
-
-    const storeState = pinia.state.value[key]
+function loadStoresState(pinia: Pinia, json: string) {
+  const state: Record<string, unknown> = JSON.parse(json, (key, value) =>
+    key === '__proto__' ? undefined : value
+  )
+  for (const key in state) {
+    const storeState =
+      Object.hasOwn(pinia.state.value, key) && pinia.state.value[key]
     // store is already instantiated, patch it
-    if (hasState && storeState) {
-      for (const [stateKey, value] of Object.entries(importedState)) {
-        if (stateKey === '__proto__' && !Object.hasOwn(storeState, stateKey)) {
-          continue
-        }
-        storeState[stateKey] = value
-      }
+    if (storeState) {
+      Object.assign(storeState, state[key])
     } else {
       // store is not instantiated, set the initial state
-      pinia.state.value[key] = importedState
+      pinia.state.value[key] = state[key] as any
     }
   }
 }
