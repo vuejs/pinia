@@ -47,7 +47,7 @@ export async function actionGlobalCopyState(pinia: Pinia) {
 export async function actionGlobalPasteState(pinia: Pinia) {
   if (checkClipboardAccess()) return
   try {
-    loadStoresState(pinia, JSON.parse(await navigator.clipboard.readText()))
+    loadStoresState(pinia, await navigator.clipboard.readText())
     toastMessage('Global state pasted from clipboard.')
   } catch (error) {
     if (checkNotFocusedError(error)) return
@@ -108,7 +108,7 @@ export async function actionGlobalOpenStateFile(pinia: Pinia) {
     const result = await open()
     if (!result) return
     const { text, file } = result
-    loadStoresState(pinia, JSON.parse(text))
+    loadStoresState(pinia, text)
     toastMessage(`Global state imported from "${file.name}".`)
   } catch (error) {
     toastMessage(
@@ -119,9 +119,16 @@ export async function actionGlobalOpenStateFile(pinia: Pinia) {
   }
 }
 
-function loadStoresState(pinia: Pinia, state: Record<string, unknown>) {
+function loadStoresState(pinia: Pinia, json: string) {
+  const state: Record<string, unknown> = JSON.parse(json, (key, value) =>
+    key === '__proto__' ? undefined : value
+  )
+  if (!state || typeof state !== 'object' || Array.isArray(state)) {
+    throw new Error('Invalid state: expected an object.')
+  }
   for (const key in state) {
-    const storeState = pinia.state.value[key]
+    const storeState =
+      Object.hasOwn(pinia.state.value, key) && pinia.state.value[key]
     // store is already instantiated, patch it
     if (storeState) {
       Object.assign(storeState, state[key])
