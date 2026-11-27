@@ -103,7 +103,7 @@ export default defineNuxtConfig({
 })
 ```
 
-Note the folders are relative to the root of your project. If you change the `srcDir` option, you need to adapt the paths accordingly.
+Note the folders are relative to the `srcDir` of your app and of each layer (which defaults to `app/` in Nuxt 4), so with the default `app/` layout `./stores/**` already points to `app/stores/**` and you shouldn't add `app/` yourself.
 
 ## Testing
 
