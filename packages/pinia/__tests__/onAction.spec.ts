@@ -1,3 +1,4 @@
+import { runInNewContext } from 'node:vm'
 import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, defineStore, setActivePinia } from '../src'
 import { mount } from '@vue/test-utils'
@@ -108,6 +109,72 @@ describe('Subscriptions', () => {
     await expect(store.asyncUpperName()).resolves.toBe('EDUARDO')
     expect(spy).toHaveBeenCalledTimes(1)
     expect(spy).toHaveBeenCalledWith('EDUARDO')
+  })
+
+  it('calls after with the resolved value of a promise from another realm', async () => {
+    const foreignPromise: Promise<string> = runInNewContext(
+      "Promise.resolve('EDUARDO')"
+    )
+    const foreignStore = defineStore('foreign', {
+      actions: {
+        upperName: () => foreignPromise,
+      },
+    })()
+    const afterSpy = vi.fn()
+    foreignStore.$onAction(({ after }) => after(afterSpy))
+
+    await expect(foreignStore.upperName()).resolves.toBe('EDUARDO')
+    expect(afterSpy).toHaveBeenCalledExactlyOnceWith('EDUARDO')
+  })
+
+  it('calls onError when a promise from another realm rejects', async () => {
+    const foreignStore = defineStore('foreign', {
+      actions: {
+        rejects: (): Promise<never> =>
+          runInNewContext("Promise.reject('fail')"),
+      },
+    })()
+    const afterSpy = vi.fn()
+    const errorSpy = vi.fn()
+    foreignStore.$onAction(({ after, onError }) => {
+      after(afterSpy)
+      onError(errorSpy)
+    })
+
+    await expect(foreignStore.rejects()).rejects.toBe('fail')
+    expect(errorSpy).toHaveBeenCalledExactlyOnceWith('fail')
+    expect(afterSpy).not.toHaveBeenCalled()
+  })
+
+  it('preserves the return type of an action returning a Promise subclass', async () => {
+    class ActionPromise extends Promise<string> {}
+    const subclassStore = defineStore('subclass', {
+      actions: {
+        upperName: () => ActionPromise.resolve('EDUARDO'),
+      },
+    })()
+    const spy = vi.fn()
+    subclassStore.$onAction(({ after }) => after(spy))
+
+    const result = subclassStore.upperName()
+    expect(result).toBeInstanceOf(ActionPromise)
+    await expect(result).resolves.toBe('EDUARDO')
+    expect(spy).toHaveBeenCalledExactlyOnceWith('EDUARDO')
+  })
+
+  it('keeps a tagged thenable as a synchronous action result', () => {
+    const taggedResult = { [Symbol.toStringTag]: 'Promise', then: vi.fn() }
+    const taggedStore = defineStore('tagged', {
+      actions: {
+        result: () => taggedResult,
+      },
+    })()
+    const spy = vi.fn()
+    taggedStore.$onAction(({ after }) => after(spy))
+
+    expect(taggedStore.result()).toBe(taggedResult)
+    expect(taggedResult.then).not.toHaveBeenCalled()
+    expect(spy).toHaveBeenCalledExactlyOnceWith(taggedResult)
   })
 
   it('calls onError when it throws', () => {
