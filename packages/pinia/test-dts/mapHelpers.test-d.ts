@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import {
   defineStore,
   mapStores,
@@ -111,6 +111,70 @@ describe('mapHelpers', () => {
   })
 
   describe('mapActions', () => {
+    it('only includes selected actions from options stores', () => {
+      const actions = mapActions(useOptionsStore, ['setToggle'])
+
+      expectTypeOf(actions).toEqualTypeOf<{
+        setToggle: (a: 'on' | 'off') => 'on' | 'off'
+      }>()
+      // @ts-expect-error: this action was not mapped
+      actions.toggleA()
+    })
+
+    it('only includes selected actions from setup stores', () => {
+      const actions = mapActions(useSetupStore, ['setToggle'])
+
+      expectTypeOf(actions).toEqualTypeOf<{
+        setToggle: (a: 'on' | 'off') => 'on' | 'off'
+      }>()
+      // @ts-expect-error: this action was not mapped
+      actions.toggleA()
+    })
+
+    it('does not expose actions when the selection is empty', () => {
+      const optionsActions = mapActions(useOptionsStore, [])
+      const setupActions = mapActions(useSetupStore, [])
+
+      expectTypeOf<keyof typeof optionsActions>().toBeNever()
+      expectTypeOf<keyof typeof setupActions>().toBeNever()
+    })
+
+    it('preserves all possible actions for a variable selection', () => {
+      const keys: Array<'setToggle' | 'toggleA'> = ['setToggle']
+
+      expectTypeOf(mapActions(useOptionsStore, keys)).toEqualTypeOf<{
+        setToggle: (a: 'on' | 'off') => 'on' | 'off'
+        toggleA: () => void
+      }>()
+    })
+
+    it('accepts existing explicit type arguments', () => {
+      const useStore = defineStore('explicit', {
+        actions: { increment: () => 1 },
+      })
+      const actions = mapActions<
+        'explicit',
+        {},
+        {},
+        { increment: () => number }
+      >(useStore, ['increment'])
+
+      expectTypeOf(actions.increment).toEqualTypeOf<() => number>()
+    })
+
+    it('does not expose unmapped actions on the component instance', () => {
+      defineComponent({
+        methods: {
+          ...mapActions(useOptionsStore, ['toggleA']),
+        },
+        created() {
+          this.toggleA()
+          // @ts-expect-error: this action is not a component method
+          this.setToggle('on')
+        },
+      })
+    })
+
     it('should map actions correctly', () => {
       expectTypeOf<{
         setToggle: (a: 'on' | 'off') => 'on' | 'off'

@@ -158,6 +158,22 @@ describe('Map Helpers', () => {
       },
     })
 
+    it('only adds selected actions to the component', () => {
+      const pinia = createPinia()
+      const Component = defineComponent({
+        template: '<p></p>',
+        methods: {
+          ...mapActions(useStore, ['increment']),
+        },
+      })
+
+      const wrapper = mount(Component, { global: { plugins: [pinia] } })
+
+      wrapper.vm.increment()
+      expect(useStore(pinia).n).toBe(1)
+      expect(wrapper.vm).not.toHaveProperty('setN')
+    })
+
     it('array', () => {
       const pinia = createPinia()
       const Component = defineComponent({
