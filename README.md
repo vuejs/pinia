@@ -78,12 +78,6 @@ Pinia is the most similar English pronunciation of the word _pineapple_ in Spani
       <img src="https://avatars.githubusercontent.com/u/8292810" height="26px" alt="RTVision" />
     </picture>
   </a>
-    <a href="https://storyblok.com" target="_blank" rel="noopener noreferrer">
-    <picture>
-      <source srcset="https://posva-sponsors.pages.dev/logos/storyblok.png" media="(prefers-color-scheme: dark)" height="26px" alt="Storyblok" />
-      <img src="https://posva-sponsors.pages.dev/logos/storyblok.png" height="26px" alt="Storyblok" />
-    </picture>
-  </a>
 </p>
 
 <!--sponsors end-->
