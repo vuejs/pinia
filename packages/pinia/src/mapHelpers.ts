@@ -28,7 +28,8 @@ export type _StoreObject<S> =
     infer Ids,
     infer State,
     infer Getters,
-    infer Actions
+    infer Actions,
+    infer Options
   >
     ? {
         [
@@ -49,7 +50,8 @@ export type _StoreObject<S> =
             : string,
           State,
           Getters,
-          Actions
+          Actions,
+          Options
         >
       }
     : {}
