@@ -52,14 +52,40 @@ interface TimelineEvent<TData = any, TMeta = any> {
  */
 const getStoreType = (id: string) => '🍍 ' + id
 
+type DevtoolsPluginAPI = Parameters<
+  Parameters<typeof setupDevtoolsPlugin>[1]
+>[0]
+
+// The pending devtools API of each Pinia instance. `setupDevtoolsPlugin`
+// queues its setup callback until the devtools client connects, which may
+// never happen, so the promise is cached right away: every store awaits this
+// exact registration instead of adding a new one. The cache is keyed by the
+// Pinia instance because the setup callback closes over it: two Pinia
+// instances installed on the same application must not share an API.
+const registeredPinias = new WeakMap<Pinia, Promise<DevtoolsPluginAPI>>()
+
 /**
- * Add the pinia plugin without any store. Allows displaying a Pinia plugin tab
- * as soon as it is added to the application.
+ * Register the Pinia devtools plugin, once per Pinia instance, and resolve
+ * with its API once the devtools client connects. Registering at install
+ * time, with the settings, lets devtools read them without waiting for the
+ * first store to be created (see #2818).
  *
  * @param app - Vue application
  * @param pinia - pinia instance
  */
-export function registerPiniaDevtools(app: App, pinia: Pinia) {
+export function registerPiniaDevtools(
+  app: App,
+  pinia: Pinia
+): Promise<DevtoolsPluginAPI> {
+  const cached = registeredPinias.get(pinia)
+  if (cached) return cached
+
+  let resolveApi!: (api: DevtoolsPluginAPI) => void
+  const apiPromise = new Promise<DevtoolsPluginAPI>((resolve) => {
+    resolveApi = resolve
+  })
+  registeredPinias.set(pinia, apiPromise)
+
   setupDevtoolsPlugin(
     {
       id: 'dev.esm.pinia',
@@ -69,6 +95,18 @@ export function registerPiniaDevtools(app: App, pinia: Pinia) {
       homepage: 'https://pinia.vuejs.org',
       componentStateTypes,
       app,
+      settings: {
+        logStoreChanges: {
+          label: 'Notify about new/deleted stores',
+          type: 'boolean',
+          defaultValue: true,
+        },
+        // useEmojis: {
+        //   label: 'Use emojis in messages ⚡️',
+        //   type: 'boolean',
+        //   defaultValue: true,
+        // },
+      },
     },
     (api) => {
       if (typeof api.now !== 'function') {
@@ -306,209 +344,192 @@ export function registerPiniaDevtools(app: App, pinia: Pinia) {
           isTimelineActive = true
         }
       })
+
+      resolveApi(api)
     }
   )
+
+  return apiPromise
 }
 
-function addStoreToDevtools(app: App, store: StoreGeneric) {
+async function addStoreToDevtools(app: App, store: StoreGeneric) {
   if (!componentStateTypes.includes(getStoreType(store.$id))) {
     componentStateTypes.push(getStoreType(store.$id))
   }
 
-  setupDevtoolsPlugin(
-    {
-      id: 'dev.esm.pinia',
-      label: 'Pinia 🍍',
-      logo: 'https://pinia.vuejs.org/logo.svg',
-      packageName: 'pinia',
-      homepage: 'https://pinia.vuejs.org',
-      componentStateTypes,
-      app,
-      settings: {
-        logStoreChanges: {
-          label: 'Notify about new/deleted stores',
-          type: 'boolean',
-          defaultValue: true,
+  // Reuse the plugin registered at install time. Each store only adds its own
+  // timeline and inspector hooks, once the shared API is available.
+  const api = await registerPiniaDevtools(app, store._p)
+
+  // gracefully handle errors
+  const now = typeof api.now === 'function' ? api.now.bind(api) : Date.now
+
+  store.$onAction(({ after, onError, name, args }) => {
+    const groupId = runningActionId++
+
+    api.addTimelineEvent({
+      layerId: MUTATIONS_LAYER_ID,
+      event: {
+        time: now(),
+        title: '🛫 ' + name,
+        subtitle: 'start',
+        data: {
+          store: formatDisplay(store.$id),
+          action: formatDisplay(name),
+          args,
         },
-        // useEmojis: {
-        //   label: 'Use emojis in messages ⚡️',
-        //   type: 'boolean',
-        //   defaultValue: true,
-        // },
+        groupId,
       },
-    },
-    (api) => {
-      // gracefully handle errors
-      const now = typeof api.now === 'function' ? api.now.bind(api) : Date.now
+    })
 
-      store.$onAction(({ after, onError, name, args }) => {
-        const groupId = runningActionId++
-
-        api.addTimelineEvent({
-          layerId: MUTATIONS_LAYER_ID,
-          event: {
-            time: now(),
-            title: '🛫 ' + name,
-            subtitle: 'start',
-            data: {
-              store: formatDisplay(store.$id),
-              action: formatDisplay(name),
-              args,
-            },
-            groupId,
+    after((result) => {
+      activeAction = undefined
+      api.addTimelineEvent({
+        layerId: MUTATIONS_LAYER_ID,
+        event: {
+          time: now(),
+          title: '🛬 ' + name,
+          subtitle: 'end',
+          data: {
+            store: formatDisplay(store.$id),
+            action: formatDisplay(name),
+            args,
+            result,
           },
-        })
-
-        after((result) => {
-          activeAction = undefined
-          api.addTimelineEvent({
-            layerId: MUTATIONS_LAYER_ID,
-            event: {
-              time: now(),
-              title: '🛬 ' + name,
-              subtitle: 'end',
-              data: {
-                store: formatDisplay(store.$id),
-                action: formatDisplay(name),
-                args,
-                result,
-              },
-              groupId,
-            },
-          })
-        })
-
-        onError((error) => {
-          activeAction = undefined
-          api.addTimelineEvent({
-            layerId: MUTATIONS_LAYER_ID,
-            event: {
-              time: now(),
-              logType: 'error',
-              title: '💥 ' + name,
-              subtitle: 'end',
-              data: {
-                store: formatDisplay(store.$id),
-                action: formatDisplay(name),
-                args,
-                error,
-              },
-              groupId,
-            },
-          })
-        })
-      }, true)
-
-      store._customProperties.forEach((name) => {
-        watch(
-          () => unref<unknown>(store[name]),
-          (newValue, oldValue) => {
-            api.notifyComponentUpdate()
-            api.sendInspectorState(INSPECTOR_ID)
-            if (isTimelineActive) {
-              api.addTimelineEvent({
-                layerId: MUTATIONS_LAYER_ID,
-                event: {
-                  time: now(),
-                  title: 'Change',
-                  subtitle: name,
-                  data: {
-                    newValue,
-                    oldValue,
-                  },
-                  groupId: activeAction,
-                },
-              })
-            }
-          },
-          { deep: true }
-        )
-      })
-
-      store.$subscribe(
-        ({ events, type }, state) => {
-          api.notifyComponentUpdate()
-          api.sendInspectorState(INSPECTOR_ID)
-
-          if (!isTimelineActive) return
-          // rootStore.state[store.id] = state
-
-          const eventData: TimelineEvent = {
-            time: now(),
-            title: formatMutationType(type),
-            data: assign(
-              { store: formatDisplay(store.$id) },
-              formatEventData(events)
-            ),
-            groupId: activeAction,
-          }
-
-          if (type === MutationType.patchFunction) {
-            eventData.subtitle = '⤵️'
-          } else if (type === MutationType.patchObject) {
-            eventData.subtitle = '🧩'
-          } else if (events && !Array.isArray(events)) {
-            eventData.subtitle = events.type
-          }
-
-          if (events) {
-            eventData.data['rawEvent(s)'] = {
-              _custom: {
-                display: 'DebuggerEvent',
-                type: 'object',
-                tooltip: 'raw DebuggerEvent[]',
-                value: events,
-              },
-            }
-          }
-
-          api.addTimelineEvent({
-            layerId: MUTATIONS_LAYER_ID,
-            event: eventData,
-          })
+          groupId,
         },
-        { detached: true, flush: 'sync' }
-      )
-
-      const hotUpdate = store._hotUpdate
-      store._hotUpdate = markRaw((newStore) => {
-        hotUpdate(newStore)
-        api.addTimelineEvent({
-          layerId: MUTATIONS_LAYER_ID,
-          event: {
-            time: now(),
-            title: '🔥 ' + store.$id,
-            subtitle: 'HMR update',
-            data: {
-              store: formatDisplay(store.$id),
-              info: formatDisplay(`HMR update`),
-            },
-          },
-        })
-        // update the devtools too
-        api.notifyComponentUpdate()
-        api.sendInspectorTree(INSPECTOR_ID)
-        api.sendInspectorState(INSPECTOR_ID)
       })
+    })
 
-      const { $dispose } = store
-      store.$dispose = () => {
-        $dispose()
+    onError((error) => {
+      activeAction = undefined
+      api.addTimelineEvent({
+        layerId: MUTATIONS_LAYER_ID,
+        event: {
+          time: now(),
+          logType: 'error',
+          title: '💥 ' + name,
+          subtitle: 'end',
+          data: {
+            store: formatDisplay(store.$id),
+            action: formatDisplay(name),
+            args,
+            error,
+          },
+          groupId,
+        },
+      })
+    })
+  }, true)
+
+  store._customProperties.forEach((name) => {
+    watch(
+      () => unref<unknown>(store[name]),
+      (newValue, oldValue) => {
         api.notifyComponentUpdate()
-        api.sendInspectorTree(INSPECTOR_ID)
         api.sendInspectorState(INSPECTOR_ID)
-        api.getSettings().logStoreChanges &&
-          toastMessage(`Disposed "${store.$id}" store 🗑`)
+        if (isTimelineActive) {
+          api.addTimelineEvent({
+            layerId: MUTATIONS_LAYER_ID,
+            event: {
+              time: now(),
+              title: 'Change',
+              subtitle: name,
+              data: {
+                newValue,
+                oldValue,
+              },
+              groupId: activeAction,
+            },
+          })
+        }
+      },
+      { deep: true }
+    )
+  })
+
+  store.$subscribe(
+    ({ events, type }, state) => {
+      api.notifyComponentUpdate()
+      api.sendInspectorState(INSPECTOR_ID)
+
+      if (!isTimelineActive) return
+      // rootStore.state[store.id] = state
+
+      const eventData: TimelineEvent = {
+        time: now(),
+        title: formatMutationType(type),
+        data: assign(
+          { store: formatDisplay(store.$id) },
+          formatEventData(events)
+        ),
+        groupId: activeAction,
       }
 
-      // trigger an update so it can display new registered stores
-      api.notifyComponentUpdate()
-      api.sendInspectorTree(INSPECTOR_ID)
-      api.sendInspectorState(INSPECTOR_ID)
-      api.getSettings().logStoreChanges &&
-        toastMessage(`"${store.$id}" store installed 🆕`)
-    }
+      if (type === MutationType.patchFunction) {
+        eventData.subtitle = '⤵️'
+      } else if (type === MutationType.patchObject) {
+        eventData.subtitle = '🧩'
+      } else if (events && !Array.isArray(events)) {
+        eventData.subtitle = events.type
+      }
+
+      if (events) {
+        eventData.data['rawEvent(s)'] = {
+          _custom: {
+            display: 'DebuggerEvent',
+            type: 'object',
+            tooltip: 'raw DebuggerEvent[]',
+            value: events,
+          },
+        }
+      }
+
+      api.addTimelineEvent({
+        layerId: MUTATIONS_LAYER_ID,
+        event: eventData,
+      })
+    },
+    { detached: true, flush: 'sync' }
   )
+
+  const hotUpdate = store._hotUpdate
+  store._hotUpdate = markRaw((newStore) => {
+    hotUpdate(newStore)
+    api.addTimelineEvent({
+      layerId: MUTATIONS_LAYER_ID,
+      event: {
+        time: now(),
+        title: '🔥 ' + store.$id,
+        subtitle: 'HMR update',
+        data: {
+          store: formatDisplay(store.$id),
+          info: formatDisplay(`HMR update`),
+        },
+      },
+    })
+    // update the devtools too
+    api.notifyComponentUpdate()
+    api.sendInspectorTree(INSPECTOR_ID)
+    api.sendInspectorState(INSPECTOR_ID)
+  })
+
+  const { $dispose } = store
+  store.$dispose = () => {
+    $dispose()
+    api.notifyComponentUpdate()
+    api.sendInspectorTree(INSPECTOR_ID)
+    api.sendInspectorState(INSPECTOR_ID)
+    api.getSettings().logStoreChanges &&
+      toastMessage(`Disposed "${store.$id}" store 🗑`)
+  }
+
+  // trigger an update so it can display new registered stores
+  api.notifyComponentUpdate()
+  api.sendInspectorTree(INSPECTOR_ID)
+  api.sendInspectorState(INSPECTOR_ID)
+  api.getSettings().logStoreChanges &&
+    toastMessage(`"${store.$id}" store installed 🆕`)
 }
 
 let runningActionId = 0
@@ -605,7 +626,9 @@ export function devtoolsPlugin<
     app,
     // FIXME: is there a way to allow the assignment from Store<Id, S, G, A> to StoreGeneric?
     store as StoreGeneric
-  )
+  ).catch(() => {
+    // devtools failures must never break the application
+  })
 }
 
 declare global {
