@@ -407,16 +407,32 @@ function createSetupStore<
         throw error
       }
 
+      const onFulfilled = (value: unknown) => {
+        triggerSubscriptions(afterCallbackSet, value)
+        return value
+      }
+      const onRejected = (error: unknown) => {
+        triggerSubscriptions(onErrorCallbackSet, error)
+        return Promise.reject(error)
+      }
+
       if (ret instanceof Promise) {
-        return ret
-          .then((value) => {
-            triggerSubscriptions(afterCallbackSet, value)
-            return value
-          })
-          .catch((error) => {
-            triggerSubscriptions(onErrorCallbackSet, error)
-            return Promise.reject(error)
-          })
+        return ret.then(onFulfilled).catch(onRejected)
+      }
+
+      if (ret !== null && typeof ret === 'object') {
+        let foreignPromise: Promise<unknown> | undefined
+        try {
+          if (Object.prototype.toString.call(ret) === '[object Promise]') {
+            // Native then checks the Promise brand even when the tag is spoofed.
+            foreignPromise = Promise.prototype.then.call(ret, onFulfilled)
+          }
+        } catch {
+          // A custom tag does not turn a synchronous action result into a promise.
+        }
+        if (foreignPromise) {
+          return foreignPromise.catch(onRejected)
+        }
       }
 
       // trigger after callbacks
