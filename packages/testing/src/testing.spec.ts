@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { createTestingPinia, TestingOptions } from './testing'
 import { createPinia, defineStore, setActivePinia, storeToRefs } from 'pinia'
 import { mount } from '@vue/test-utils'
-import { defineComponent, ref, computed } from 'vue'
+import { defineComponent, ref, computed, nextTick } from 'vue'
 
 describe('Testing', () => {
   const useCounter = defineStore('counter', {
@@ -328,6 +328,37 @@ describe('Testing', () => {
         expect(store.n).toBe(3)
         expect(store.double).toBe(6)
         expect(store.doublePlusOne).toBe(7)
+      })
+
+      it('restores overridden getters that are being rendered', async () => {
+        const wrapper = mount(
+          defineComponent({
+            setup() {
+              return { counter: useStore() }
+            },
+            template: `{{ counter.double }}`,
+          }),
+          { global: { plugins: [createTestingPinia()] } }
+        )
+        const store = useStore()
+
+        store.n++
+        await nextTick()
+        expect(wrapper.text()).toBe('2')
+
+        store.double = 3
+        await nextTick()
+        expect(wrapper.text()).toBe('3')
+
+        // @ts-expect-error
+        store.double = undefined
+        expect(store.double).toBe(2)
+        await nextTick()
+        expect(wrapper.text()).toBe('2')
+
+        store.n++
+        await nextTick()
+        expect(wrapper.text()).toBe('4')
       })
     })
 
