@@ -193,6 +193,35 @@ function mergeReactiveObjects<T extends StateTree>(
     if (!Object.hasOwn(patchToApply, key)) continue
     const subPatch = patchToApply[key]
     const targetValue = target[key]
+    // Setup store reactive collections are shared with the state tree, so
+    // replacing them would leave the store and `$state` out of sync. Mutate
+    // them in place instead, like store hydration does.
+    const rawTargetValue = toRaw(target)[key]
+    if (isReactive(targetValue) && !isRef(rawTargetValue)) {
+      const current = targetValue as any
+      const patch = subPatch as any
+      // A patch that is the same raw collection already has the desired
+      // contents; clearing it here would empty the source we read from.
+      if (toRaw(current) === toRaw(patch)) continue
+      if (current instanceof Map && patch instanceof Map) {
+        current.clear()
+        patch.forEach((value, mapKey) => current.set(mapKey, value))
+        continue
+      } else if (current instanceof Set && patch instanceof Set) {
+        current.clear()
+        patch.forEach((value) => current.add(value))
+        continue
+      } else if (Array.isArray(current) && Array.isArray(patch)) {
+        // Avoid spreading the patch into splice(): large fixtures exceed the
+        // engine's argument limit. Push would also compact sparse holes.
+        current.length = 0
+        current.length = patch.length
+        patch.forEach((value, index) => {
+          current[index] = value
+        })
+        continue
+      }
+    }
     if (
       isPlainObject(targetValue) &&
       isPlainObject(subPatch) &&

@@ -2,7 +2,15 @@ import { describe, it, expect } from 'vitest'
 import { createTestingPinia, TestingOptions } from './testing'
 import { defineStore } from 'pinia'
 import { mount } from '@vue/test-utils'
-import { computed, defineComponent, effect, ref, shallowRef } from 'vue'
+import {
+  computed,
+  defineComponent,
+  effect,
+  reactive,
+  ref,
+  shallowRef,
+  toRaw,
+} from 'vue'
 
 describe('Testing: initial state', () => {
   const useCounter = defineStore('counter', {
@@ -109,6 +117,98 @@ describe('Testing: initial state', () => {
     expect(store.replaced).toBe(replacement)
     expect(store.untouched.n).toBe(3)
     expect(observed).toEqual([3, 5, 10])
+  })
+
+  it('applies initial state to reactive collections in setup stores', () => {
+    const useStore = defineStore('reactive-collections', () => {
+      const list = reactive([1, 2])
+      const map = reactive(new Map([['a', 1]]))
+      const set = reactive(new Set(['a']))
+      return { list, map, set }
+    })
+
+    const store = useStore(
+      createTestingPinia({
+        initialState: {
+          'reactive-collections': {
+            list: [9],
+            map: new Map([['b', 2]]),
+            set: new Set(['b']),
+          },
+        },
+      })
+    )
+
+    expect(store.list).toEqual([9])
+    expect(store.map).toEqual(new Map([['b', 2]]))
+    expect(store.set).toEqual(new Set(['b']))
+    expect(store.$state.list).toEqual([9])
+    expect(store.$state.map).toEqual(new Map([['b', 2]]))
+    expect(store.$state.set).toEqual(new Set(['b']))
+    expect(store.list).toBe(store.$state.list)
+    expect(store.map).toBe(store.$state.map)
+    expect(store.set).toBe(store.$state.set)
+  })
+
+  it('preserves sparse array holes in initial state', () => {
+    const useStore = defineStore('sparse-array', () => ({
+      list: reactive([1, 2]),
+    }))
+
+    const sparse = [, 9]
+    const store = useStore(
+      createTestingPinia({
+        initialState: { 'sparse-array': { list: sparse } },
+      })
+    )
+
+    expect(store.list).toHaveLength(2)
+    expect(store.list[1]).toBe(9)
+    expect(0 in store.list).toBe(false)
+    expect(store.$state.list).toHaveLength(2)
+    expect(store.$state.list[1]).toBe(9)
+    expect(0 in store.$state.list).toBe(false)
+  })
+
+  it('keeps a collection shared with initialState when it is the same raw object', () => {
+    const rawMap = new Map([['a', 1]])
+    const rawSet = new Set(['a'])
+    const useStore = defineStore('shared-collections', () => ({
+      map: reactive(rawMap),
+      set: reactive(rawSet),
+    }))
+
+    const store = useStore(
+      createTestingPinia({
+        initialState: {
+          'shared-collections': { map: rawMap, set: rawSet },
+        },
+      })
+    )
+
+    expect(store.map).toEqual(new Map([['a', 1]]))
+    expect(store.set).toEqual(new Set(['a']))
+    expect(store.$state.map).toEqual(new Map([['a', 1]]))
+    expect(store.$state.set).toEqual(new Set(['a']))
+    expect(toRaw(store.map)).toBe(rawMap)
+    expect(toRaw(store.set)).toBe(rawSet)
+  })
+
+  it('applies a large initial array without exceeding the argument limit', () => {
+    const large = Array.from({ length: 200_000 }, (_, index) => index)
+    const useStore = defineStore('large-collection', () => ({
+      list: reactive([0]),
+    }))
+
+    const store = useStore(
+      createTestingPinia({
+        initialState: { 'large-collection': { list: large } },
+      })
+    )
+
+    expect(store.list).toHaveLength(200_000)
+    expect(store.list[199_999]).toBe(199_999)
+    expect(store.$state.list).toHaveLength(200_000)
   })
 
   it('can set an initial state with no app', () => {
